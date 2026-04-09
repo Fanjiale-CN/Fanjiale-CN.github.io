@@ -1,88 +1,334 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galok</title>
-<style>
-/* ===== Anti-save hardening (mobile/iOS) ===== */
-html, body, img, .image-wrap, .image-protect {
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  user-select: none !important;
-  -webkit-user-drag: none !important;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galok</title>
+  <style>
+    /* ===== Base ===== */
+    :root{
+      --bg:#f5f1eb;
+      --text:#5a1e2b;
+      --muted:#8b6570;
+      --card-bg:#fffaf5;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+    }
 
-.image-wrap{
-  position: relative;
-  overflow: hidden;
-}
+    *{box-sizing:border-box}
 
-.image-wrap::after{
-  content: "© Galok";
-  position: absolute;
-  right: 14px;
-  bottom: 12px;
-  color: rgba(255,255,255,.55);
-  font-size: 12px;
-  letter-spacing: .5px;
-  z-index: 3;
-  pointer-events: none;
-  text-shadow: 0 1px 2px rgba(0,0,0,.35);
-}
+    html, body, img, .card, .ios-lightbox, .ios-lightbox-img {
+      -webkit-touch-callout: none !important;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+      -webkit-user-drag: none !important;
+    }
 
-/* 覆盖层：让触摸命中遮罩���不是 img 本体 */
-.image-protect{
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: transparent;
-  touch-action: none;
-}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
 
-.image-wrap img{
-  display: block;
-  width: 100%;
-  height: auto;
-  pointer-events: none !important;
-}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue";background:#f5f1eb;color:#5a1e2b;-webkit-font-smoothing:antialiased}nav{position:fixed;top:0;width:100%;padding:18px 40px;background:rgba(245,241,235,0.75);backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;z-index:1000;border-bottom:1px solid rgba(0,0,0,0.03)}.logo{font-weight:500;letter-spacing:3px;font-size:15px}.menu a{margin-left:30px;text-decoration:none;color:#6e1f2d;font-size:13px;letter-spacing:1px;transition:.35s}.menu a:hover{opacity:.6}header{padding-top:140px;text-align:center}h1{font-size:36px;letter-spacing:8px;font-weight:300;margin:0}.subtitle{margin-top:12px;color:#8a5a64;letter-spacing:2px;font-size:13px}.gallery{max-width:1000px;margin:80px auto;padding:0 20px;display:grid;gap:90px}.card{opacity:0;transform:translateY(80px);transition:1.4s cubic-bezier(.22,.61,.36,1)}.card.show{opacity:1;transform:translateY(0)}.card img{width:100%;border-radius:8px;transition:1.2s ease;box-shadow:0 25px 60px rgba(0,0,0,0.05)}.card img:hover{transform:scale(1.02)}footer{text-align:center;padding:140px 0;color:#8a5a64;font-size:12px;letter-spacing:1px}@media(max-width:768px){.menu a{margin-left:16px;font-size:12px}h1{font-size:28px}.gallery{gap:60px}}
-</style>
+    /* ===== Nav ===== */
+    nav{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:20;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:16px 24px;
+      background:rgba(245,241,235,.7);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(90,30,43,.08);
+    }
+
+    .logo{
+      font-weight:700;
+      letter-spacing:.5px;
+    }
+
+    .menu{
+      display:flex;
+      gap:18px;
+      font-size:14px;
+    }
+
+    .menu a{
+      color:var(--text);
+      text-decoration:none;
+      opacity:.85;
+    }
+
+    .menu a:hover{opacity:1}
+
+    /* ===== Header ===== */
+    header{
+      padding:110px 20px 40px;
+      text-align:center;
+    }
+
+    header h1{
+      margin:0;
+      font-size:42px;
+      letter-spacing:3px;
+      font-weight:700;
+    }
+
+    .subtitle{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:14px;
+      letter-spacing:.8px;
+    }
+
+    /* ===== Gallery ===== */
+    .gallery{
+      max-width:1100px;
+      margin:0 auto;
+      padding:20px;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:26px;
+    }
+
+    .card{
+      position:relative;
+      background:var(--card-bg);
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      cursor:zoom-in;
+      -webkit-tap-highlight-color:transparent;
+
+      opacity:0;
+      transform:translateY(24px) scale(.99);
+      transition:opacity .55s ease, transform .55s ease;
+    }
+
+    .card.show{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+
+    .card img{
+      width:100%;
+      height:auto;
+      display:block;
+      pointer-events:none !important;
+      transition:transform .45s ease;
+    }
+
+    .card:hover img{
+      transform:scale(1.02);
+    }
+
+    .card::after{
+      content:"© Galok";
+      position:absolute;
+      right:12px;
+      bottom:10px;
+      color:rgba(255,255,255,.6);
+      font-size:12px;
+      letter-spacing:.5px;
+      z-index:2;
+      pointer-events:none;
+      text-shadow:0 1px 2px rgba(0,0,0,.35);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+      padding:36px 20px 42px;
+    }
+
+    @media (max-width:900px){
+      .gallery{grid-template-columns:1fr}
+      header h1{font-size:34px}
+      .menu{gap:12px;font-size:13px}
+    }
+
+    /* ===== iOS-like tap zoom preview ===== */
+    .ios-lightbox{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,0);
+      backdrop-filter:blur(0px);
+      transition:background .28s ease, backdrop-filter .28s ease;
+      overflow:hidden;
+    }
+
+    .ios-lightbox.show{
+      display:flex;
+      background:rgba(0,0,0,.72);
+      backdrop-filter:blur(6px);
+    }
+
+    .ios-lightbox-img{
+      max-width:92vw;
+      max-height:88vh;
+      border-radius:14px;
+      box-shadow:0 20px 50px rgba(0,0,0,.35);
+      transform:translate3d(0,20px,0) scale(.92);
+      opacity:0;
+      transition:transform .34s cubic-bezier(.22,.8,.24,1),opacity .24s ease;
+      will-change:transform,opacity;
+      pointer-events:none;
+    }
+
+    .ios-lightbox.show .ios-lightbox-img{
+      transform:translate3d(0,0,0) scale(1);
+      opacity:1;
+    }
+
+    .ios-lightbox-close{
+      position:absolute;
+      top:max(14px, env(safe-area-inset-top));
+      right:max(14px, env(safe-area-inset-right));
+      width:34px;
+      height:34px;
+      border:0;
+      border-radius:999px;
+      background:rgba(255,255,255,.16);
+      color:#fff;
+      font-size:22px;
+      line-height:34px;
+      text-align:center;
+      backdrop-filter:blur(8px);
+      cursor:pointer;
+    }
+  </style>
 </head>
 <body>
-<nav>
-<div class="logo">Galok</div>
-<div class="menu">
-<a href="index.html">Home</a>
-<a href="gallery-xiamen-v2.html">Xiamen</a>
-<a href="#">Xi'an</a>
-<a href="about.html">About</a>
-</div>
-</nav>
-<header>
-<h1>GALOK</h1>
-<div class="subtitle">Quiet · Light · Memory</div>
-</header>
-<section class="gallery">
-<div class="card"><img src="images/IMG_2442.jpeg"></div>
-<div class="card"><img src="images/IMG_2443.jpeg"></div>
-<div class="card"><img src="images/IMG_2464.jpeg"></div>
-<div class="card"><img src="images/IMG_2488.jpeg"></div>
-<div class="card"><img src="images/IMG_2489.jpeg"></div>
-</section>
-<footer>© Galok · Fan Jiale</footer>
-<script>
-const cards=document.querySelectorAll('.card');
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('show');
-}
-});
-},{threshold:0.15});
-cards.forEach(card=>{
-observer.observe(card);
-});
-</script>
+  <nav>
+    <div class="logo">Galok</div>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="gallery-xiamen-v2.html">Xiamen</a>
+      <a href="#">Xi'an</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+
+  <header>
+    <h1>GALOK</h1>
+    <div class="subtitle">Quiet · Light · Memory</div>
+  </header>
+
+  <section class="gallery">
+    <div class="card"><img src="images/IMG_2442.jpeg" alt="Xiamen 2442"></div>
+    <div class="card"><img src="images/IMG_2443.jpeg" alt="Xiamen 2443"></div>
+    <div class="card"><img src="images/IMG_2464.jpeg" alt="Xiamen 2464"></div>
+    <div class="card"><img src="images/IMG_2488.jpeg" alt="Xiamen 2488"></div>
+    <div class="card"><img src="images/IMG_2489.jpeg" alt="Xiamen 2489"></div>
+  </section>
+
+  <footer>© Galok · Fan Jiale</footer>
+
+  <!-- iOS-like lightbox -->
+  <div class="ios-lightbox" id="iosLightbox" aria-hidden="true">
+    <button class="ios-lightbox-close" id="iosLightboxClose" aria-label="Close">×</button>
+    <img class="ios-lightbox-img" id="iosLightboxImg" alt="preview" />
+  </div>
+
+  <script>
+    // 卡片入场动画
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    cards.forEach((card) => observer.observe(card));
+
+    // 全局防菜单/防选择/防拖拽/防手势菜单
+    (() => {
+      const prevent = (e) => e.preventDefault();
+      ['contextmenu', 'selectstart', 'dragstart', 'gesturestart'].forEach((evt) => {
+        document.addEventListener(evt, prevent, { passive: false, capture: true });
+      });
+
+      // 长按拦截（尽量抑制 iOS/Android 长按菜单）
+      let timer = null;
+      const start = (e) => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => e.preventDefault(), 280);
+      };
+      const end = () => {
+        if (timer) clearTimeout(timer);
+        timer = null;
+      };
+
+      document.addEventListener('touchstart', start, { passive: false, capture: true });
+      document.addEventListener('touchmove', (e) => {
+        end();
+        e.preventDefault();
+      }, { passive: false, capture: true });
+      document.addEventListener('touchend', end, { passive: false, capture: true });
+      document.addEventListener('touchcancel', end, { passive: false, capture: true });
+    })();
+
+    // iOS 风格点按放大预览
+    (() => {
+      const lightbox = document.getElementById('iosLightbox');
+      const lightboxImg = document.getElementById('iosLightboxImg');
+      const closeBtn = document.getElementById('iosLightboxClose');
+
+      const openPreview = (src, alt = '') => {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || 'preview';
+        lightbox.classList.add('show');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closePreview = () => {
+        lightbox.classList.remove('show');
+        lightbox.setAttribute('aria-hidden', 'true');
+        setTimeout(() => { lightboxImg.src = ''; }, 220);
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+      };
+
+      document.querySelectorAll('.card').forEach((card) => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const img = card.querySelector('img');
+          if (img && img.src) openPreview(img.src, img.alt || '');
+        }, { passive: false });
+      });
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closePreview();
+      });
+
+      closeBtn.addEventListener('click', closePreview);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('show')) closePreview();
+      });
+
+      // 预览层继续防长按菜单
+      ['contextmenu', 'selectstart', 'dragstart', 'gesturestart', 'touchstart', 'touchmove', 'touchend']
+        .forEach((evt) => {
+          lightbox.addEventListener(evt, (e) => e.preventDefault(), { passive: false, capture: true });
+        });
+    })();
+  </script>
 </body>
 </html>
