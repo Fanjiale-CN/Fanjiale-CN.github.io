@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Galok</title>
   <style>
+.ios-lightbox { pointer-events: auto; }
+.ios-lightbox-close { z-index: 10001; }
+.ios-lightbox-img { z-index: 10000; }
     /* ===== Base ===== */
     :root{
       --bg:#f5f1eb;
@@ -272,13 +275,9 @@
         timer = null;
       };
 
-      document.addEventListener('touchstart', start, { passive: false, capture: true });
-      document.addEventListener('touchmove', (e) => {
-        end();
-        e.preventDefault();
-      }, { passive: false, capture: true });
-      document.addEventListener('touchend', end, { passive: false, capture: true });
-      document.addEventListener('touchcancel', end, { passive: false, capture: true });
+      document.addEventListener('touchstart', start, { passive: true, capture: true });
+document.addEventListener('touchend', end, { passive: true, capture: true });
+document.addEventListener('touchcancel', end, { passive: true, capture: true });
     })();
 
     // iOS 风格点按放大预览
@@ -318,15 +317,26 @@
       });
 
       closeBtn.addEventListener('click', closePreview);
+// 用 pointerdown（更可靠），capture 抢在最前
+closeBtn.addEventListener('pointerdown', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  closePreview();
+}, { passive: false, capture: true });
 
+lightbox.addEventListener('pointerdown', (e) => {
+  if (e.target === lightbox) {
+    e.preventDefault();
+    closePreview();
+  }
+}, { passive: false, capture: true });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && lightbox.classList.contains('show')) closePreview();
       });
 
       // 预览层继续防长按菜单
-      ['contextmenu', 'selectstart', 'dragstart', 'gesturestart', 'touchstart', 'touchmove', 'touchend']
-        .forEach((evt) => {
-          lightbox.addEventListener(evt, (e) => e.preventDefault(), { passive: false, capture: true });
+['contextmenu','selectstart','dragstart','gesturestart']
+  .forEach(evt => lightbox.addEventListener(evt, e => e.preventDefault(), { passive:false, capture:true }));
         });
     })();
   </script>
