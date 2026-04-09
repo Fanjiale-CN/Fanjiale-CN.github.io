@@ -299,7 +299,7 @@
         document.body.style.touchAction = '';
       };
 
-      const openPreview = (src, alt) => {
+      const openPreview = (src, alt = '') => {
         lightboxImg.src = src;
         lightboxImg.alt = alt || 'preview';
         lightbox.classList.add('show');
