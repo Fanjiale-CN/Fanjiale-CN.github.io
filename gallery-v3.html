@@ -5,6 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Galok</title>
 <style>
+/* ===== Anti-save hardening (mobile/iOS) ===== */
+html, body, img, .image-wrap, .image-protect {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+}
+
+.image-wrap{
+  position: relative;
+  overflow: hidden;
+}
+
+.image-wrap::after{
+  content: "© Galok";
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  color: rgba(255,255,255,.55);
+  font-size: 12px;
+  letter-spacing: .5px;
+  z-index: 3;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
+}
+
+/* 覆盖层：让触摸命中遮罩���不是 img 本体 */
+.image-protect{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: transparent;
+  touch-action: none;
+}
+
+.image-wrap img{
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none !important;
+}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue";background:#f5f1eb;color:#5a1e2b;-webkit-font-smoothing:antialiased}nav{position:fixed;top:0;width:100%;padding:18px 40px;background:rgba(245,241,235,0.75);backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;z-index:1000;border-bottom:1px solid rgba(0,0,0,0.03)}.logo{font-weight:500;letter-spacing:3px;font-size:15px}.menu a{margin-left:30px;text-decoration:none;color:#6e1f2d;font-size:13px;letter-spacing:1px;transition:.35s}.menu a:hover{opacity:.6}header{padding-top:140px;text-align:center}h1{font-size:36px;letter-spacing:8px;font-weight:300;margin:0}.subtitle{margin-top:12px;color:#8a5a64;letter-spacing:2px;font-size:13px}.gallery{max-width:1000px;margin:80px auto;padding:0 20px;display:grid;gap:90px}.card{opacity:0;transform:translateY(80px);transition:1.4s cubic-bezier(.22,.61,.36,1)}.card.show{opacity:1;transform:translateY(0)}.card img{width:100%;border-radius:8px;transition:1.2s ease;box-shadow:0 25px 60px rgba(0,0,0,0.05)}.card img:hover{transform:scale(1.02)}footer{text-align:center;padding:140px 0;color:#8a5a64;font-size:12px;letter-spacing:1px}@media(max-width:768px){.menu a{margin-left:16px;font-size:12px}h1{font-size:28px}.gallery{gap:60px}}
 </style>
 </head>
