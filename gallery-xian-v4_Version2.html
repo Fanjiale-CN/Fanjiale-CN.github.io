@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galok — Xi'an</title>
+  <style>
+    :root{
+      /* Monet greys */
+      --bg: #f2f0ec;
+      --ink: #2a2a2a;
+      --muted:#6b6b6b;
+      --line: rgba(0,0,0,.08);
+
+      --g1:#d7d2cb; /* limestone */
+      --g2:#c7c2bb; /* sand */
+      --g3:#b7b2ac; /* mist */
+      --g4:#a9a39d; /* lead */
+      --g5:#ece8e2; /* cloud */
+
+      --shadow: 0 14px 40px rgba(0,0,0,.08);
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    /* ===== Anti-save hardening (mobile/iOS) ===== */
+    html, body, img, .tile, .ios-lightbox, .ios-lightbox-img {
+      -webkit-touch-callout: none !important;
+      -webkit-user-select: none !important;
+      user-select: none !important;
+      -webkit-user-drag: none !important;
+    }
+
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    /* ===== Top bar ===== */
+    .top{
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      padding: 14px 18px;
+      background: rgba(242,240,236,.72);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:baseline;
+      gap:10px;
+      letter-spacing:.6px;
+    }
+    .brand .name{ font-weight:700; }
+    .brand .place{ color:var(--muted); font-size:12px; }
+
+    .nav{
+      display:flex;
+      gap:14px;
+      font-size:13px;
+    }
+    .nav a{
+      color: var(--ink);
+      text-decoration:none;
+      opacity:.82;
+    }
+    .nav a:hover{ opacity:1; }
+
+    /* ===== Hero ===== */
+    .hero{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 34px 18px 14px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+    }
+
+    .heroCard{
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, var(--g5), var(--g1));
+      padding: 26px 22px;
+      position:relative;
+    }
+
+    .heroTitle{
+      margin:0;
+      font-size: 40px;
+      letter-spacing: 2px;
+    }
+
+    .heroSub{
+      margin-top:10px;
+      color: var(--muted);
+      line-height:1.8;
+      font-size: 14px;
+      max-width: 56ch;
+    }
+
+    .chips{
+      margin-top: 16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .chip{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.55);
+      color: var(--ink);
+    }
+
+    .heroPalette{
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 14px;
+    }
+    .swatches{
+      display:grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .swatch{
+      border-radius: 14px;
+      height: 66px;
+      border: 1px solid rgba(0,0,0,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .swatch span{
+      position:absolute;
+      bottom:8px;
+      left:10px;
+      font-size:11px;
+      color: rgba(0,0,0,.55);
+      letter-spacing:.2px;
+    }
+
+    /* ===== Grid ===== */
+    .wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 18px 42px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .tile{
+      position:relative;
+      border-radius: var(--radius);
+      overflow:hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      cursor: zoom-in;
+      -webkit-tap-highlight-color: transparent;
+      background: #fff;
+      min-height: 220px;
+    }
+
+    .tile img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      pointer-events:none !important;
+      transform: scale(1);
+      transition: transform .45s ease;
+    }
+    .tile:hover img{ transform: scale(1.02); }
+
+    .tile::after{
+      content:"© Galok";
+      position:absolute;
+      right:12px;
+      bottom:10px;
+      color: rgba(255,255,255,.62);
+      font-size:12px;
+      letter-spacing:.5px;
+      z-index: 2;
+      pointer-events:none;
+      text-shadow: 0 1px 2px rgba(0,0,0,.35);
+    }
+
+    .caption{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      padding: 14px 14px 12px;
+      background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.55));
+      color:#fff;
+      z-index:1;
+    }
+    .caption .t{
+      font-size:13px;
+      letter-spacing:.3px;
+      line-height:1.5;
+    }
+    .caption .m{
+      margin-top:6px;
+      font-size:12px;
+      opacity:.9;
+      color: rgba(255,255,255,.85);
+    }
+
+    /* Color-block tiles */
+    .block{
+      padding: 18px 18px 16px;
+      cursor: default;
+    }
+    .block::after{ content:""; } /* block 不显示水印 */
+    .blockTitle{
+      font-weight:700;
+      letter-spacing:.7px;
+      margin:0;
+      font-size:16px;
+    }
+    .blockText{
+      margin-top:10px;
+      color: rgba(0,0,0,.72);
+      font-size:13px;
+      line-height:1.85;
+      max-width: 60ch;
+    }
+    .blockMeta{
+      margin-top:14px;
+      font-size:12px;
+      color: rgba(0,0,0,.55);
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px; display:inline-block;
+      background: rgba(0,0,0,.25);
+      margin-right:6px;
+    }
+
+    /* Layout spans */
+    .span-12{ grid-column: span 12; }
+    .span-8{ grid-column: span 8; }
+    .span-7{ grid-column: span 7; }
+    .span-6{ grid-column: span 6; }
+    .span-5{ grid-column: span 5; }
+    .span-4{ grid-column: span 4; }
+
+    .h-320{ min-height: 320px; }
+    .h-360{ min-height: 360px; }
+    .h-420{ min-height: 420px; }
+
+    @media (max-width: 960px){
+      .hero{ grid-template-columns: 1fr; }
+      .span-8,.span-7,.span-6,.span-5,.span-4{ grid-column: span 12; }
+      .tile{ min-height: 260px; }
+    }
+
+    /* ===== iOS-like lightbox (same interaction spec) ===== */
+    .ios-lightbox{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,0);
+      backdrop-filter: blur(0px);
+      transition: background .28s ease, backdrop-filter .28s ease;
+      pointer-events:auto;
+    }
+    .ios-lightbox.show{
+      display:flex;
+      background:rgba(0,0,0,.72);
+      backdrop-filter: blur(6px);
+    }
+    .ios-lightbox-img{
+      max-width:92vw;
+      max-height:88vh;
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+      transform: translate3d(0,20px,0) scale(.92);
+      opacity: 0;
+      transition: transform .34s cubic-bezier(.22,.8,.24,1), opacity .24s ease;
+      will-change: transform, opacity;
+      pointer-events:none;
+      z-index: 10000;
+    }
+    .ios-lightbox.show .ios-lightbox-img{
+      transform: translate3d(0,0,0) scale(1);
+      opacity: 1;
+    }
+    .ios-lightbox-close{
+      position:absolute;
+      top:max(14px, env(safe-area-inset-top));
+      right:max(14px, env(safe-area-inset-right));
+      width: 34px;
+      height: 34px;
+      border:0;
+      border-radius:999px;
+      background:rgba(255,255,255,.16);
+      color:#fff;
+      font-size:22px;
+      line-height:34px;
+      text-align:center;
+      backdrop-filter: blur(8px);
+      cursor:pointer;
+      z-index: 10001;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top">
+    <div class="brand">
+      <div class="name">Galok</div>
+      <div class="place">Xi'an · Monet Greys</div>
+    </div>
+    <div class="nav">
+      <a href="index.html">Home</a>
+      <a href="gallery-xiamen-v2.html">Xiamen</a>
+      <a href="gallery-xian-v4.html">Xi'an</a>
+      <a href="about.html">About</a>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="heroCard">
+      <h1 class="heroTitle">XI'AN</h1>
+      <div class="heroSub">
+        城墙的风不是很大，却足够把声音磨得更慢。<br/>
+        我把这一组做成“莫奈灰”的层次：柔和、克制、带一点温度。
+      </div>
+      <div class="chips">
+        <div class="chip">Monet Greys</div>
+        <div class="chip">Muted Warmth</div>
+        <div class="chip">Stone & Wind</div>
+        <div class="chip">Quiet Memory</div>
+      </div>
+    </div>
+
+    <div class="heroPalette">
+      <div style="font-weight:700; letter-spacing:.6px; margin:4px 2px 10px;">Palette</div>
+      <div class="swatches">
+        <div class="swatch" style="background:var(--g5)"><span>Cloud</span></div>
+        <div class="swatch" style="background:var(--g1)"><span>Limestone</span></div>
+        <div class="swatch" style="background:var(--g2)"><span>Sand</span></div>
+        <div class="swatch" style="background:var(--g3)"><span>Mist</span></div>
+        <div class="swatch" style="background:var(--g4)"><span>Lead</span></div>
+      </div>
+      <div style="margin-top:12px; font-size:12px; color:rgba(0,0,0,.55); line-height:1.7;">
+        色块不是装饰，是“停顿”。<br/>
+        让每一张照片都有呼吸的空隙。
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section class="grid">
+      <!-- Text block -->
+      <article class="tile block span-5 h-320" style="background: linear-gradient(135deg, var(--g5), var(--g2));">
+        <h2 class="blockTitle">Stone, dust, and silence</h2>
+        <div class="blockText">
+          西安的灰不是单色：它被光线轻轻分层。<br/>
+          有时像粉尘，有时像石面。走得越慢，越能看见细节。
+        </div>
+        <div class="blockMeta">
+          <span><span class="dot"></span>Old streets</span>
+          <span><span class="dot"></span>Soft contrast</span>
+          <span><span class="dot"></span>Slow rhythm</span>
+        </div>
+      </article>
+
+      <figure class="tile span-7 h-320">
+        <img src="images/IMG_2718.jpeg" alt="灰色的路面延伸出去，像把一天拉得更长。" />
+        <figcaption class="caption">
+          <div class="t">灰色的路面延伸出去，像把一天拉得更长。</div>
+          <div class="m">IMG_2718 · Quiet light</div>
+        </figcaption>
+      </figure>
+
+      <figure class="tile span-6 h-360">
+        <img src="images/IMG_6181.jpeg" alt="风从城墙边穿过，留下不明显的方向。" />
+        <figcaption class="caption">
+          <div class="t">风从城墙边穿过，留下不明显的方向。</div>
+          <div class="m">IMG_6181 · Stone & wind</div>
+        </figcaption>
+      </figure>
+
+      <article class="tile block span-6 h-360" style="background: linear-gradient(135deg, var(--g3), var(--g1));">
+        <h2 class="blockTitle">A pause between frames</h2>
+        <div class="blockText">
+          有些画面不需要“惊艳”。<br/>
+          只要它能把某一刻的温度留下来：影子、纹理、与一段安静。
+        </div>
+        <div class="blockMeta">
+          <span><span class="dot"></span>Muted warmth</span>
+          <span><span class="dot"></span>Monet grey</span>
+          <span><span class="dot"></span>Soft mood</span>
+        </div>
+      </article>
+
+      <figure class="tile span-8 h-420">
+        <img src="images/IMG_7629.jpeg" alt="石阶的纹理很克制，却能让人记住很久。" />
+        <figcaption class="caption">
+          <div class="t">石阶的纹理很克制，却能让人记住很久。</div>
+          <div class="m">IMG_7629 · Gentle memory</div>
+        </figcaption>
+      </figure>
+
+      <figure class="tile span-4 h-420">
+        <img src="images/IMG_9293.jpeg" alt="灰里藏着暖色，像城市不说出口的温柔。" />
+        <figcaption class="caption">
+          <div class="t">灰里藏着暖色，像城市不说出口的温柔。</div>
+          <div class="m">IMG_9293 · Warm undertone</div>
+        </figcaption>
+      </figure>
+
+      <figure class="tile span-12 h-320">
+        <img src="images/IMG_9591.jpeg" alt="黄昏把边缘抹平，一切都变得更柔软。" />
+        <figcaption class="caption">
+          <div class="t">黄昏把边缘抹平，一切都变得更柔软。</div>
+          <div class="m">IMG_9591 · Dusk and calm</div>
+        </figcaption>
+      </figure>
+
+      <article class="tile block span-12 h-320" style="background: linear-gradient(90deg, var(--g2), var(--g5));">
+        <h2 class="blockTitle">Copyright note</h2>
+        <div class="blockText">
+          触控端已尽量抑制长按保存（网页无法 100% 阻止截图/抓包）。<br/>
+          商业使用请先联系作者获取授权。
+        </div>
+        <div class="blockMeta">
+          <span><span class="dot"></span>© Galok</span>
+          <span><span class="dot"></span>All rights reserved</span>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <!-- iOS-like lightbox -->
+  <div class="ios-lightbox" id="iosLightbox" aria-hidden="true">
+    <button class="ios-lightbox-close" id="iosLightboxClose" aria-label="Close">×</button>
+    <img class="ios-lightbox-img" id="iosLightboxImg" alt="preview" />
+  </div>
+
+  <script>
+    // 防菜单（不破坏滚动）
+    (() => {
+      const prevent = (e) => e.preventDefault();
+      ['contextmenu','selectstart','dragstart','gesturestart'].forEach((evt) => {
+        document.addEventListener(evt, prevent, { passive:false, capture:true });
+      });
+    })();
+
+    // Lightbox：同规格交互（可打开可关闭 + 锁滚动 + pointerdown 保障关闭）
+    (() => {
+      const lightbox = document.getElementById('iosLightbox');
+      const lightboxImg = document.getElementById('iosLightboxImg');
+      const closeBtn = document.getElementById('iosLightboxClose');
+      if (!lightbox || !lightboxImg || !closeBtn) return;
+
+      const lockScroll = () => {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
+      };
+      const unlockScroll = () => {
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        document.body.style.touchAction = '';
+      };
+
+      const openPreview = (src, alt='') => {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || 'preview';
+        lightbox.classList.add('show');
+        lightbox.setAttribute('aria-hidden','false');
+        lockScroll();
+      };
+
+      const closePreview = () => {
+        lightbox.classList.remove('show');
+        lightbox.setAttribute('aria-hidden','true');
+        unlockScroll();
+        setTimeout(() => { lightboxImg.src=''; }, 220);
+      };
+
+      // 点击图片 tile 打开（block 不参与）
+      document.querySelectorAll('.tile:not(.block)').forEach((tile) => {
+        tile.addEventListener('click', (e) => {
+          e.preventDefault();
+          const img = tile.querySelector('img');
+          if (img && img.src) openPreview(img.src, img.alt || '');
+        }, { passive:false });
+      });
+
+      // pointerdown 保障关闭
+      closeBtn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closePreview();
+      }, { passive:false, capture:true });
+
+      lightbox.addEventListener('pointerdown', (e) => {
+        if (e.target === lightbox) {
+          e.preventDefault();
+          closePreview();
+        }
+      }, { passive:false, capture:true });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('show')) closePreview();
+      });
+
+      // 预览层防菜单（不拦 touchmove）
+      ['contextmenu','selectstart','dragstart','gesturestart'].forEach((evt) => {
+        lightbox.addEventListener(evt, (e) => e.preventDefault(), { passive:false, capture:true });
+      });
+    })();
+  </script>
+</body>
+</html>
