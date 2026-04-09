@@ -262,12 +262,13 @@
       const prevent = (e) => e.preventDefault();
       ['contextmenu', 'selectstart', 'dragstart', 'gesturestart'].forEach((evt) => {
         document.addEventListener(evt, prevent, { passive: false, capture: true });
+      });
 
-      // 长按拦截（尽量抑制 iOS/Android 长按菜单）
+      // 长按拦截（尽量抑制 iOS/Android 长按菜单，不破坏滚动）
       let timer = null;
       const start = (e) => {
         if (timer) clearTimeout(timer);
-        timer = setTimeout(() => e.preventDefault(), 280);
+        timer = setTimeout(() => { timer = null; }, 280);
       };
       const end = () => {
         if (timer) clearTimeout(timer);
@@ -275,79 +276,77 @@
       };
 
       document.addEventListener('touchstart', start, { passive: true, capture: true });
-document.addEventListener('touchend', end, { passive: true, capture: true });
-document.addEventListener('touchcancel', end, { passive: true, capture: true });
+      document.addEventListener('touchend', end, { passive: true, capture: true });
+      document.addEventListener('touchcancel', end, { passive: true, capture: true });
     })();
 
-<script>
-  // iOS 风格点按放大预览（修复：可关闭、无语法错误、不影响滚动）
-  (() => {
-    const lightbox = document.getElementById('iosLightbox');
-    const lightboxImg = document.getElementById('iosLightboxImg');
-    const closeBtn = document.getElementById('iosLightboxClose');
-    if (!lightbox || !lightboxImg || !closeBtn) return;
+    // iOS 风格点按放大预览
+    (() => {
+      const lightbox = document.getElementById('iosLightbox');
+      const lightboxImg = document.getElementById('iosLightboxImg');
+      const closeBtn = document.getElementById('iosLightboxClose');
+      if (!lightbox || !lightboxImg || !closeBtn) return;
 
-    const lockScroll = () => {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-    };
+      const lockScroll = () => {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
+      };
 
-    const unlockScroll = () => {
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-    };
+      const unlockScroll = () => {
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        document.body.style.touchAction = '';
+      };
 
-    const openPreview = (src, alt = '') => {
-      lightboxImg.src = src;
-      lightboxImg.alt = alt || 'preview';
-      lightbox.classList.add('show');
-      lightbox.setAttribute('aria-hidden', 'false');
-      lockScroll();
-    };
+      const openPreview = (src, alt = '') => {
+        lightboxImg.src = src;
+        lightboxImg.alt = alt || 'preview';
+        lightbox.classList.add('show');
+        lightbox.setAttribute('aria-hidden', 'false');
+        lockScroll();
+      };
 
-    const closePreview = () => {
-      lightbox.classList.remove('show');
-      lightbox.setAttribute('aria-hidden', 'true');
-      unlockScroll();
-      setTimeout(() => { lightboxImg.src = ''; }, 220);
-    };
+      const closePreview = () => {
+        lightbox.classList.remove('show');
+        lightbox.setAttribute('aria-hidden', 'true');
+        unlockScroll();
+        setTimeout(() => { lightboxImg.src = ''; }, 220);
+      };
 
-    // 点击卡片打开（img pointer-events:none 也没关系）
-    document.querySelectorAll('.card').forEach((card) => {
-      card.addEventListener('click', (e) => {
+      // 点击卡片打开（img pointer-events:none 也没关系）
+      document.querySelectorAll('.card').forEach((card) => {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          const img = card.querySelector('img');
+          if (img && img.src) openPreview(img.src, img.alt || '');
+        }, { passive: false });
+      });
+
+      // 关闭：用 pointerdown + capture，保证优先级最高
+      closeBtn.addEventListener('pointerdown', (e) => {
         e.preventDefault();
-        const img = card.querySelector('img');
-        if (img && img.src) openPreview(img.src, img.alt || '');
-      }, { passive: false });
-    });
-
-    // 关闭：用 pointerdown + capture，保证优先级最高
-    closeBtn.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      closePreview();
-    }, { passive: false, capture: true });
-
-    lightbox.addEventListener('pointerdown', (e) => {
-      // 点到黑色背景才关闭
-      if (e.target === lightbox) {
-        e.preventDefault();
+        e.stopPropagation();
         closePreview();
-      }
-    }, { passive: false, capture: true });
+      }, { passive: false, capture: true });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightbox.classList.contains('show')) closePreview();
-    });
+      lightbox.addEventListener('pointerdown', (e) => {
+        // 点到黑色背景才关闭
+        if (e.target === lightbox) {
+          e.preventDefault();
+          closePreview();
+        }
+      }, { passive: false, capture: true });
 
-    // 预览层继续防菜单（不要拦 touchstart/move/end）
-    ['contextmenu', 'selectstart', 'dragstart', 'gesturestart'].forEach((evt) => {
-      lightbox.addEventListener(evt, (e) => e.preventDefault(), { passive: false, capture: true });
-    });
-  })();
-</script>
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('show')) closePreview();
+      });
+
+      // 预览层继续防菜单（不要拦 touchstart/move/end）
+      ['contextmenu', 'selectstart', 'dragstart', 'gesturestart'].forEach((evt) => {
+        lightbox.addEventListener(evt, (e) => e.preventDefault(), { passive: false, capture: true });
+      });
+    })();
   </script>
 </body>
 </html>

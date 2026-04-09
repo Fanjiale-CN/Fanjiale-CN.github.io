@@ -258,25 +258,21 @@ document.addEventListener('touchcancel', end, { passive: true, capture: true });
         }, { passive: false });
       });
 
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closePreview();
-      });
+      // 关闭：用 pointerdown + capture，保证优先级最高
+      closeBtn.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closePreview();
+      }, { passive: false, capture: true });
 
-      closeBtn.addEventListener('click', closePreview);
-// 用 pointerdown（比 click 更可靠），并 capture 抢到最前，保证一定能关闭
-closeBtn.addEventListener('pointerdown', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  closePreview();
-}, { passive: false, capture: true });
+      lightbox.addEventListener('pointerdown', (e) => {
+        // 点到黑色背景才关闭
+        if (e.target === lightbox) {
+          e.preventDefault();
+          closePreview();
+        }
+      }, { passive: false, capture: true });
 
-lightbox.addEventListener('pointerdown', (e) => {
-  // 点到黑色背景才关闭
-  if (e.target === lightbox) {
-    e.preventDefault();
-    closePreview();
-  }
-}, { passive: false, capture: true });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && lightbox.classList.contains('show')) {
           closePreview();
@@ -284,6 +280,10 @@ lightbox.addEventListener('pointerdown', (e) => {
       });
 
       // 预览层继续防长按菜单
-['contextmenu', 'selectstart', 'dragstart', 'gesturestart'].forEach((evt) => {
-  lightbox.addEventListener(evt, (e) => e.preventDefault(), { passive: false, capture: true });
-});
+      ['contextmenu', 'selectstart', 'dragstart', 'gesturestart'].forEach((evt) => {
+        lightbox.addEventListener(evt, (e) => e.preventDefault(), { passive: false, capture: true });
+      });
+    })();
+  </script>
+</body>
+</html>
