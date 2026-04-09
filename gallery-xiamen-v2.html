@@ -5,6 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Galok — Xiamen</title>
 <style>
+/* ===== Anti-save hardening (mobile/iOS) ===== */
+html, body, img, .image-wrap, .image-protect {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+}
+
+.image-wrap{
+  position: relative;
+  overflow: hidden;
+}
+
+.image-wrap::after{
+  content: "© Galok";
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  color: rgba(255,255,255,.55);
+  font-size: 12px;
+  letter-spacing: .5px;
+  z-index: 3;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
+}
+
+/* 覆盖层：让触摸命中遮罩���不是 img 本体 */
+.image-protect{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: transparent;
+  touch-action: none;
+}
+
+.image-wrap img{
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none !important;
+}
 body{
 background:#f5f3ef;
 font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue";
