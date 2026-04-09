@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galok - Photography</title>
+<style>
+body{margin:0;font-family:-apple-system;background:#f5f7fa;color:#333}
+header{padding:80px 20px 40px;text-align:center}
+h1{font-weight:300;letter-spacing:8px;font-size:34px}
+.subtitle{margin-top:8px;color:#8da0b3}
+.gallery{max-width:1100px;margin:40px auto;display:grid;grid-template-columns:1fr;gap:60px;padding:0 20px}
+.card{opacity:0;transform:translateY(40px);transition:all 1.2s ease}
+.card.show{opacity:1;transform:translateY(0)}
+.card img{width:100%;border-radius:6px;box-shadow:0 20px 40px rgba(0,0,0,0.08)}
+footer{text-align:center;padding:80px 0;color:#9aa7b4}
+</style>
+</head>
+<body>
+<header>
+<h1>GALOK</h1>
+<div class="subtitle">Monet Color · Personal Photography</div>
+</header>
+<section class="gallery">
+<div class="card"><img src="images/1.jpg"></div>
+<div class="card"><img src="images/2.jpg"></div>
+<div class="card"><img src="images/3.jpg"></div>
+<div class="card"><img src="images/4.jpg"></div>
+<div class="card"><img src="images/5.jpg"></div>
+<div class="card"><img src="images/6.jpg"></div>
+<div class="card"><img src="images/7.jpg"></div>
+</section>
+<footer>© Galok · Fan Jiale</footer>
+<script>
+const cards=document.querySelectorAll('.card');
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('show')}})});
+cards.forEach(card=>observer.observe(card));
+</script>
+</body>
+</html>
