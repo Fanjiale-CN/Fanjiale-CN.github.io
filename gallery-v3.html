@@ -3,112 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galok - Photography</title>
+<title>Galok</title>
 <style>
-
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue";
-background:#f2efe9;
-color:#4a4a4a;
-}
-
-header{
-padding:90px 20px 40px;
-text-align:center;
-}
-
-h1{
-font-weight:300;
-letter-spacing:10px;
-font-size:34px;
-color:#6b6b6b;
-}
-
-.subtitle{
-margin-top:10px;
-color:#9b9b9b;
-letter-spacing:2px;
-}
-
-.gallery{
-max-width:1000px;
-margin:60px auto;
-display:grid;
-grid-template-columns:1fr;
-gap:80px;
-padding:0 24px;
-}
-
-.card{
-opacity:0;
-transform:translateY(40px);
-transition:all 1.4s ease;
-}
-
-.card.show{
-opacity:1;
-transform:translateY(0);
-}
-
-.card img{
-width:100%;
-border-radius:4px;
-box-shadow:0 20px 40px rgba(120,110,100,0.08);
-transition:0.8s ease;
-}
-
-.card img:hover{
-transform:scale(1.02);
-}
-
-footer{
-text-align:center;
-padding:100px 0;
-color:#9c9c9c;
-font-size:13px;
-}
-
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue";background:#f5f1eb;color:#5a1e2b;-webkit-font-smoothing:antialiased}nav{position:fixed;top:0;width:100%;padding:18px 40px;background:rgba(245,241,235,0.75);backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;z-index:1000;border-bottom:1px solid rgba(0,0,0,0.03)}.logo{font-weight:500;letter-spacing:3px;font-size:15px}.menu a{margin-left:30px;text-decoration:none;color:#6e1f2d;font-size:13px;letter-spacing:1px;transition:.35s}.menu a:hover{opacity:.6}header{padding-top:140px;text-align:center}h1{font-size:36px;letter-spacing:8px;font-weight:300;margin:0}.subtitle{margin-top:12px;color:#8a5a64;letter-spacing:2px;font-size:13px}.gallery{max-width:1000px;margin:80px auto;padding:0 20px;display:grid;gap:90px}.card{opacity:0;transform:translateY(80px);transition:1.4s cubic-bezier(.22,.61,.36,1)}.card.show{opacity:1;transform:translateY(0)}.card img{width:100%;border-radius:8px;transition:1.2s ease;box-shadow:0 25px 60px rgba(0,0,0,0.05)}.card img:hover{transform:scale(1.02)}footer{text-align:center;padding:140px 0;color:#8a5a64;font-size:12px;letter-spacing:1px}@media(max-width:768px){.menu a{margin-left:16px;font-size:12px}h1{font-size:28px}.gallery{gap:60px}}
 </style>
 </head>
 <body>
-
+<nav>
+<div class="logo">Galok</div>
+<div class="menu">
+<a href="index.html">Home</a>
+<a href="gallery-xiamen-v2.html">Xiamen</a>
+<a href="#">Xi'an</a>
+<a href="about.html">About</a>
+</div>
+</nav>
 <header>
 <h1>GALOK</h1>
 <div class="subtitle">Quiet · Light · Memory</div>
 </header>
-
 <section class="gallery">
-
-<div class="card"><img src="images/1.jpg"></div>
-<div class="card"><img src="images/2.jpg"></div>
-<div class="card"><img src="images/3.jpg"></div>
-<div class="card"><img src="images/4.jpg"></div>
-<div class="card"><img src="images/5.jpg"></div>
-<div class="card"><img src="images/6.jpg"></div>
-<div class="card"><img src="images/7.jpg"></div>
-
+<div class="card"><img src="images/IMG_2442.jpeg"></div>
+<div class="card"><img src="images/IMG_2443.jpeg"></div>
+<div class="card"><img src="images/IMG_2464.jpeg"></div>
+<div class="card"><img src="images/IMG_2488.jpeg"></div>
+<div class="card"><img src="images/IMG_2489.jpeg"></div>
 </section>
-
-<footer>
-© Galok · Fan Jiale
-</footer>
-
+<footer>© Galok · Fan Jiale</footer>
 <script>
-
 const cards=document.querySelectorAll('.card');
-
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(entry=>{
 if(entry.isIntersecting){
 entry.target.classList.add('show');
 }
 });
+},{threshold:0.15});
+cards.forEach(card=>{
+observer.observe(card);
 });
-
-cards.forEach(card=>observer.observe(card));
-
 </script>
-
 </body>
 </html>
