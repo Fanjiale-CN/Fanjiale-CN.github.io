@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galok — Xiamen</title>
+<style>
+body{
+background:#f5f3ef;
+font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue";
+margin:0;
+color:#333;
+}
+
+.header{
+padding:80px 20px 40px;
+text-align:center;
+}
+
+.title{
+font-size:32px;
+letter-spacing:2px;
+margin-bottom:10px;
+}
+
+.subtitle{
+color:#888;
+font-size:14px;
+}
+
+.gallery{
+max-width:1100px;
+margin:auto;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:50px;
+padding:20px;
+}
+
+.card{
+opacity:0;
+transform:translateY(30px);
+animation:fade 1.2s forwards;
+}
+
+.card img{
+width:100%;
+border-radius:6px;
+transition:.6s ease;
+}
+
+.caption{
+margin-top:12px;
+color:#777;
+font-size:13px;
+line-height:1.6;
+}
+
+@keyframes fade{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@media(max-width:800px){
+.gallery{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+<div class="title">Xiamen</div>
+<div class="subtitle">Summer · Quiet Coast</div>
+</div>
+
+<div class="gallery">
+
+<div class="card">
+<img src="images/IMG_2442.jpeg">
+<div class="caption">港口与海风之间，时间变得缓慢。</div>
+</div>
+
+<div class="card">
+<img src="images/IMG_2443.jpeg">
+<div class="caption">山海之间，厦门有一种安静的节奏。</div>
+</div>
+
+<div class="card">
+<img src="images/IMG_2464.jpeg">
+<div class="caption">远处的城市线条，在夏日空气中变得柔和。</div>
+</div>
+
+<div class="card">
+<img src="images/IMG_2488.jpeg">
+<div class="caption">日落落在海面，像一层温柔的滤镜。</div>
+</div>
+
+<div class="card">
+<img src="images/IMG_2489.jpeg">
+<div class="caption">棕榈树与海岸，是厦门最安静的夏天。</div>
+</div>
+
+</div>
+
+</body>
+</html>
