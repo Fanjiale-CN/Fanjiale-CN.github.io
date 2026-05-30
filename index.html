@@ -1,60 +1,191 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galok</title>
-<style>
-body{
-font-family:-apple-system,BlinkMacSystemFont;
-background:#f5f1eb;
-color:#5a1e2b;
-margin:0;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.container{
-text-align:center;
-}
-
-.title{
-font-size:46px;
-letter-spacing:4px;
-margin-bottom:20px;
-}
-
-.subtitle{
-color:#8a5a64;
-margin-bottom:40px;
-}
-
-.btn{
-padding:14px 32px;
-background:#6e1f2d;
-color:white;
-border:none;
-border-radius:8px;
-font-size:14px;
-cursor:pointer;
-transition:.3s;
-}
-
-.btn:hover{
-background:#571622;
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Galok 的厦门摄影项目：海面、老街、植物园与鼓浪屿。">
+  <title>Galok - Xiamen Light Journal</title>
+  <link rel="stylesheet" href="styles.css?v=monet-xiamen">
 </head>
 <body>
-<div class="container">
-<div class="title">Galok</div>
-<div class="subtitle">
-Photography & City Memory
-</div>
-  <button class="btn" onclick="location.href='gallery-v3.html'">
-Enter
-</button>
-</div>
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <nav class="site-nav" aria-label="Primary navigation">
+    <a class="brand" href="index.html" aria-current="page">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>Galok</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="gallery-xiamen-v2.html">Xiamen</a>
+      <a href="cities.html">Cities</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+
+  <header class="hero" data-hero>
+    <div class="hero-media">
+      <img data-hero-image src="images/xiamen/gulangyu-05.webp" width="2200" height="1650" alt="厦门海面与白色大桥" fetchpriority="high">
+    </div>
+    <div class="hero-content" data-reveal>
+      <p class="kicker">Xiamen, 2025 - 2026</p>
+      <h1 class="hero-title">Galok</h1>
+      <p class="hero-copy">把厦门的海、老街、热带树影和岛屿午后，排成一组接近莫奈色温的城市相册。</p>
+      <div class="hero-actions">
+        <a class="button-link" href="gallery-xiamen-v2.html">Enter the Journal</a>
+        <a class="text-link" href="#selected">Selected Frames</a>
+      </div>
+    </div>
+    <div class="hero-switcher" aria-label="Hero scenes">
+      <button type="button" data-hero-src="images/xiamen/gulangyu-05.webp" data-hero-alt="厦门海面与白色大桥" aria-pressed="true">Sea</button>
+      <button type="button" data-hero-src="images/xiamen/old-street.webp" data-hero-alt="厦门老街灯笼小巷" aria-pressed="false">Street</button>
+      <button type="button" data-hero-src="images/xiamen/botanical-03.webp" data-hero-alt="厦门植物园树影与花" aria-pressed="false">Garden</button>
+      <button type="button" data-hero-src="images/xiamen/gulangyu-08.webp" data-hero-alt="鼓浪屿树影望向厦门城" aria-pressed="false">Island</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="mood-band" aria-label="Xiamen palette">
+      <span style="--tone:#d8e4e4">海雾</span>
+      <span style="--tone:#d6dfcf">树影</span>
+      <span style="--tone:#ddd5e4">鸢尾</span>
+      <span style="--tone:#ead7c8">午后</span>
+    </section>
+
+    <section class="section compact" data-reveal>
+      <div class="section-head">
+        <h2 class="section-title">一座海边城市的光谱</h2>
+        <p class="section-copy">这次改版把相册从简单陈列变成一段可滚动的影像叙事：先进入水面，再穿过街巷、校园与植物园，最后停在鼓浪屿的树影和远眺。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="story-grid" data-reveal>
+        <div class="feature-image">
+          <img src="images/xiamen/return-01.webp" width="1656" height="2200" alt="傍晚海面与远处城市天际线" loading="lazy">
+        </div>
+        <div class="story-copy">
+          <p class="eyebrow">Sea</p>
+          <h2>水面把城市放慢。</h2>
+          <p>厦门的蓝色不只在天空，也落在船舷、桥影和远处玻璃幕墙上。这里的画面用大留白和缓慢滚动，让水面成为整站的呼吸。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="story-grid reverse" data-reveal>
+        <div class="image-stack">
+          <img class="small" src="images/xiamen/cinema.webp" width="1656" height="2200" alt="思明电影院旧立面" loading="lazy">
+          <img class="large" src="images/xiamen/old-street.webp" width="1656" height="2200" alt="厦门老街灯笼小巷" loading="lazy">
+        </div>
+        <div class="story-copy">
+          <p class="eyebrow">Street</p>
+          <h2>旧招牌和窄巷保留了温度。</h2>
+          <p>城市切面被放进更克制的排版里：立面纹理、灯笼阴影、路面反光，像画布上相互叠加的几层薄色。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head" data-reveal>
+        <h2 class="section-title">植物园的深绿</h2>
+        <p class="section-copy">树冠、叶脉和逆光花影形成更浓的章节。横向影像带会跟随拖动，让这一段像从密林里慢慢掠过。</p>
+      </div>
+      <div class="filmstrip-wrap" data-reveal>
+        <div class="filmstrip" data-filmstrip>
+          <figure>
+            <img src="images/xiamen/botanical-01.webp" width="1650" height="2200" alt="植物园巨树与绿叶" loading="lazy">
+            <figcaption>巨树与光斑</figcaption>
+          </figure>
+          <figure>
+            <img src="images/xiamen/botanical-02.webp" width="1656" height="2200" alt="植物园树影中透出的阳光" loading="lazy">
+            <figcaption>逆光花影</figcaption>
+          </figure>
+          <figure>
+            <img src="images/xiamen/palms-01.webp" width="1650" height="2200" alt="椰子树下远望城市" loading="lazy">
+            <figcaption>树框里的远城</figcaption>
+          </figure>
+          <figure>
+            <img src="images/xiamen/palms-02.webp" width="1237" height="2200" alt="高处树影与厦门城市远景" loading="lazy">
+            <figcaption>山海之间</figcaption>
+          </figure>
+          <figure>
+            <img src="images/xiamen/gulangyu-08.webp" width="1656" height="2200" alt="鼓浪屿树影望向厦门城" loading="lazy">
+            <figcaption>岛上远眺</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="selected">
+      <div class="section-head" data-reveal>
+        <h2 class="section-title">Selected Frames</h2>
+        <p class="section-copy">精选照片以不规则网格排列，让海面留白、街巷纹理和植物暗部在同一个节奏里交替出现。</p>
+      </div>
+      <div class="photo-grid">
+        <figure class="photo-card wide" data-category="sea" data-reveal>
+          <button class="photo-trigger" type="button" data-lightbox-trigger data-full="images/xiamen/gulangyu-05.webp" data-title="白桥海面" data-caption="桥线横过海面，远处山体和港口都被晒成淡蓝。" aria-label="Open 白桥海面">
+            <img src="images/xiamen/gulangyu-05.webp" width="2200" height="1650" alt="厦门海面与白色大桥" loading="lazy">
+          </button>
+          <figcaption class="photo-caption"><strong>白桥海面</strong><span>Sea / Xiamen</span></figcaption>
+        </figure>
+        <figure class="photo-card" data-category="city" data-reveal>
+          <button class="photo-trigger" type="button" data-lightbox-trigger data-full="images/xiamen/nanputuo.webp" data-title="万福亭" data-caption="传统亭顶与现代高楼重叠，形成厦门很特别的城市层次。" aria-label="Open 万福亭">
+            <img src="images/xiamen/nanputuo.webp" width="1656" height="2200" alt="南普陀亭顶与远处双子塔" loading="lazy">
+          </button>
+          <figcaption class="photo-caption"><strong>万福亭</strong><span>City / Temple</span></figcaption>
+        </figure>
+        <figure class="photo-card" data-category="street city" data-reveal>
+          <button class="photo-trigger" type="button" data-lightbox-trigger data-full="images/xiamen/old-street.webp" data-title="老街灯笼" data-caption="藤蔓、竹篱与灯笼把窄巷压成一条安静的午后通道。" aria-label="Open 老街灯笼">
+            <img src="images/xiamen/old-street.webp" width="1656" height="2200" alt="厦门老街灯笼小巷" loading="lazy">
+          </button>
+          <figcaption class="photo-caption"><strong>老街灯笼</strong><span>Street / Shade</span></figcaption>
+        </figure>
+        <figure class="photo-card large" data-category="garden island" data-reveal>
+          <button class="photo-trigger" type="button" data-lightbox-trigger data-full="images/xiamen/gulangyu-08.webp" data-title="树框里的城市" data-caption="鼓浪屿的深绿像画框，厦门城被留在远处的亮面里。" aria-label="Open 树框里的城市">
+            <img src="images/xiamen/gulangyu-08.webp" width="1656" height="2200" alt="鼓浪屿树影望向厦门城" loading="lazy">
+          </button>
+          <figcaption class="photo-caption"><strong>树框里的城市</strong><span>Island / Garden</span></figcaption>
+        </figure>
+        <figure class="photo-card large" data-category="city sky" data-reveal>
+          <button class="photo-trigger" type="button" data-lightbox-trigger data-full="images/xiamen/city-road.webp" data-title="高架与云" data-caption="红色桥栏、蓝天和树荫，把城市道路切成明亮的曲线。" aria-label="Open 高架与云">
+            <img src="images/xiamen/city-road.webp" width="1656" height="2200" alt="厦门高架道路与白云" loading="lazy">
+          </button>
+          <figcaption class="photo-caption"><strong>高架与云</strong><span>City / Motion</span></figcaption>
+        </figure>
+        <figure class="photo-card" data-category="garden" data-reveal>
+          <button class="photo-trigger" type="button" data-lightbox-trigger data-full="images/xiamen/botanical-02.webp" data-title="逆光花影" data-caption="阳光穿过树冠，花束和枝干被压成一层深绿的剪影。" aria-label="Open 逆光花影">
+            <img src="images/xiamen/botanical-02.webp" width="1656" height="2200" alt="植物园树影中透出的阳光" loading="lazy">
+          </button>
+          <figcaption class="photo-caption"><strong>逆光花影</strong><span>Garden / Light</span></figcaption>
+        </figure>
+        <figure class="photo-card wide" data-category="sea city" data-reveal>
+          <button class="photo-trigger" type="button" data-lightbox-trigger data-full="images/xiamen/return-01.webp" data-title="回城暮色" data-caption="手指框住远处的城市，海面在傍晚变成更低饱和的银灰。" aria-label="Open 回城暮色">
+            <img src="images/xiamen/return-01.webp" width="1656" height="2200" alt="手指框住厦门远处城市天际线" loading="lazy">
+          </button>
+          <figcaption class="photo-caption"><strong>回城暮色</strong><span>Sea / Dusk</span></figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Galok Photography</span>
+    <a class="text-link" href="gallery-xiamen-v2.html">Full Xiamen Gallery</a>
+  </footer>
+
+  <dialog class="lightbox" data-lightbox>
+    <div class="lightbox-inner">
+      <img class="lightbox-image" data-lightbox-image alt="">
+      <div class="lightbox-panel">
+        <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close image">x</button>
+        <p class="eyebrow">Galok Xiamen</p>
+        <h2 class="lightbox-title" data-lightbox-title></h2>
+        <p class="lightbox-caption" data-lightbox-caption></p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="script.js?v=monet-xiamen"></script>
+</body>
+</html>

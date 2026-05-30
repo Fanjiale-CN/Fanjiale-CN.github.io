@@ -1,68 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galok</title>
-<style>
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont;
-background:#f5f3ef;
-color:#333;
-}
-
-.container{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-gap:30px;
-}
-
-.title{
-font-size:36px;
-letter-spacing:3px;
-}
-
-.link{
-padding:14px 28px;
-background:#e9e6df;
-border-radius:8px;
-text-decoration:none;
-color:#333;
-transition:.3s;
-}
-
-.link:hover{
-background:#dedad2;
-}
-
-.footer{
-position:fixed;
-bottom:20px;
-color:#aaa;
-font-size:12px;
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galok Navigation</title>
+  <link rel="stylesheet" href="styles.css?v=monet-xiamen">
 </head>
-
-<body>
-
-<div class="container">
-<div class="title">Galok</div>
-
-<a class="link" href="gallery-xiamen.html">Xiamen</a>
-<a class="link" href="gallery-v5.html">Photography</a>
-<a class="link" href="about.html">About</a>
-
-</div>
-
-<div class="footer">
-© Galok
-</div>
-
+<body class="redirect-body">
+  <main class="redirect-panel">
+    <h1>Galok</h1>
+    <p>Photography and city memory.</p>
+    <div class="hero-actions" style="justify-content:center">
+      <a class="button-link" href="index.html">Home</a>
+      <a class="text-link" href="gallery-xiamen-v2.html">Xiamen</a>
+      <a class="text-link" href="about.html">About</a>
+    </div>
+  </main>
 </body>
 </html>
