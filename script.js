@@ -1,185 +1,193 @@
 (function () {
-  const root = document.documentElement;
-  const progress = document.querySelector("#scroll-progress");
+  const content = window.GALOK_CONTENT || { essays: [], series: {} };
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let ticking = false;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const pinyinByGlyph = {
+    "\u89c6": "shi",
+    "\u6846": "kuang",
+    "\u5bdf": "cha"
+  };
 
-  function updateScrollState() {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-    if (progress) {
-      progress.style.width = `${pct}%`;
+  document.documentElement.classList.toggle("motion-ready", !reduceMotion);
+
+  function seriesFor(key) {
+    return content.series[key] || {};
+  }
+
+  function pinyinFor(value) {
+    return pinyinByGlyph[value] || "";
+  }
+
+  function glyph(value, className = "", pinyin = pinyinFor(value)) {
+    return `<span class="glyph-draw ${className}" data-glyph="${value}" data-pinyin="${pinyin}" aria-hidden="true">${value}</span>`;
+  }
+
+  function essayCard(essay) {
+    const series = seriesFor(essay.series);
+    return `
+      <a class="essay-card" href="${essay.url}" style="--accent:${series.color}" data-series="${essay.series}" data-reveal>
+        <div class="essay-meta">
+          <span>${glyph(series.glyph, "glyph-inline", series.pinyin)} ${series.en}</span>
+          <span>${essay.date}</span>
+          <span>${essay.readingTime}</span>
+        </div>
+        ${glyph(essay.anchor, "anchor")}
+        <div class="deck">${essay.deck}</div>
+        <h3>${essay.title}</h3>
+        <p>${essay.excerpt}</p>
+      </a>
+    `;
+  }
+
+  document.querySelectorAll("[data-essay-list]").forEach((mount) => {
+    const filter = mount.dataset.filter || "all";
+    const limit = Number(mount.dataset.limit || 0);
+    let essays = content.essays.filter((essay) => filter === "all" || essay.series === filter);
+    if (limit > 0) {
+      essays = essays.slice(0, limit);
     }
-    ticking = false;
-  }
-
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScrollState);
-        ticking = true;
-      }
-    },
-    { passive: true }
-  );
-  updateScrollState();
-
-  const revealItems = document.querySelectorAll("[data-reveal]");
-  if (revealItems.length && !reduceMotion) {
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.16, rootMargin: "0px 0px -40px" }
-    );
-    revealItems.forEach((item) => revealObserver.observe(item));
-  } else {
-    revealItems.forEach((item) => item.classList.add("is-visible"));
-  }
-
-  const hero = document.querySelector("[data-hero]");
-  const heroImage = document.querySelector("[data-hero-image]");
-  const heroButtons = document.querySelectorAll("[data-hero-src]");
-
-  if (hero && heroImage && !reduceMotion) {
-    hero.addEventListener("pointermove", (event) => {
-      const rect = hero.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 14;
-      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 10;
-      root.style.setProperty("--hero-x", `${x}px`);
-      root.style.setProperty("--hero-y", `${y}px`);
-    });
-
-    hero.addEventListener("pointerleave", () => {
-      root.style.setProperty("--hero-x", "0px");
-      root.style.setProperty("--hero-y", "0px");
-    });
-  }
-
-  heroButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      if (!heroImage || button.getAttribute("aria-pressed") === "true") return;
-      const nextSrc = button.dataset.heroSrc;
-      const nextAlt = button.dataset.heroAlt || "";
-      heroButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
-      button.setAttribute("aria-pressed", "true");
-      heroImage.classList.add("is-switching");
-      window.setTimeout(() => {
-        heroImage.src = nextSrc;
-        heroImage.alt = nextAlt;
-        heroImage.classList.remove("is-switching");
-      }, 180);
-    });
+    mount.innerHTML = essays.map(essayCard).join("");
   });
 
   const filterButtons = document.querySelectorAll("[data-filter]");
-  const photoCards = document.querySelectorAll("[data-category]");
-
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const filter = button.dataset.filter;
       filterButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
       button.setAttribute("aria-pressed", "true");
-      photoCards.forEach((card) => {
-        const categories = (card.dataset.category || "").split(" ");
-        const show = filter === "all" || categories.includes(filter);
-        card.classList.toggle("is-hidden", !show);
+      document.querySelectorAll(".essay-card[data-series]").forEach((card) => {
+        const visible = filter === "all" || card.dataset.series === filter;
+        card.hidden = !visible;
       });
     });
   });
 
-  const lightbox = document.querySelector("[data-lightbox]");
-  if (lightbox) {
-    const lightboxImage = lightbox.querySelector("[data-lightbox-image]");
-    const lightboxTitle = lightbox.querySelector("[data-lightbox-title]");
-    const lightboxCaption = lightbox.querySelector("[data-lightbox-caption]");
-    const closeButton = lightbox.querySelector("[data-lightbox-close]");
+  if (!reduceMotion && finePointer) {
+    const cursor = document.createElement("div");
+    cursor.className = "glyph-cursor";
+    cursor.setAttribute("aria-hidden", "true");
+    document.body.appendChild(cursor);
 
-    document.querySelectorAll("[data-lightbox-trigger]").forEach((trigger) => {
-      trigger.addEventListener("click", () => {
-        const image = trigger.querySelector("img");
-        if (!image || !lightboxImage) return;
-        lightboxImage.src = trigger.dataset.full || image.currentSrc || image.src;
-        lightboxImage.alt = image.alt;
-        if (lightboxTitle) {
-          lightboxTitle.textContent = trigger.dataset.title || "";
-        }
-        if (lightboxCaption) {
-          lightboxCaption.textContent = trigger.dataset.caption || "";
-        }
-        if (typeof lightbox.showModal === "function") {
-          lightbox.showModal();
-          document.body.classList.add("lightbox-open");
-        }
-      });
-    });
+    let activeGlyph = null;
+    let typeTimer = 0;
+    let finalTimer = 0;
 
-    function closeLightbox() {
-      if (lightbox.open) {
-        lightbox.close();
-      }
-      document.body.classList.remove("lightbox-open");
-      if (lightboxImage) {
-        lightboxImage.removeAttribute("src");
-      }
+    function moveCursor(event) {
+      cursor.style.transform = `translate3d(${event.clientX + 16}px, ${event.clientY + 18}px, 0) scale(1)`;
     }
 
-    closeButton?.addEventListener("click", closeLightbox);
-    lightbox.addEventListener("click", (event) => {
-      if (event.target === lightbox) {
-        closeLightbox();
+    function clearGlyphTimers() {
+      window.clearInterval(typeTimer);
+      window.clearTimeout(finalTimer);
+    }
+
+    function typeThenResolve(target) {
+      clearGlyphTimers();
+      const glyphValue = target.dataset.glyph || target.textContent.trim();
+      const pinyin = target.dataset.pinyin || pinyinFor(glyphValue);
+      cursor.classList.remove("is-final");
+      cursor.textContent = "";
+      let index = 0;
+      typeTimer = window.setInterval(() => {
+        index += 1;
+        cursor.textContent = pinyin.slice(0, index);
+        if (index >= pinyin.length) {
+          window.clearInterval(typeTimer);
+          finalTimer = window.setTimeout(() => {
+            cursor.textContent = glyphValue;
+            cursor.classList.add("is-final");
+          }, 240);
+        }
+      }, 58);
+    }
+
+    function showGlyphCue(target, event) {
+      if (!target || target === activeGlyph) {
+        if (event) moveCursor(event);
+        return;
       }
+      if (activeGlyph) activeGlyph.classList.remove("is-glyph-hovered");
+      activeGlyph = target;
+      activeGlyph.classList.add("is-glyph-hovered");
+      cursor.style.setProperty("--glyph-color", getComputedStyle(target).color);
+      moveCursor(event);
+      cursor.classList.add("is-visible");
+      typeThenResolve(target);
+    }
+
+    function hideGlyphCue() {
+      clearGlyphTimers();
+      if (activeGlyph) activeGlyph.classList.remove("is-glyph-hovered");
+      activeGlyph = null;
+      cursor.classList.remove("is-visible", "is-final");
+      cursor.textContent = "";
+    }
+
+    function glyphTargetFromEvent(event) {
+      if (!(event.target instanceof Element)) return null;
+      const direct = event.target.closest(".glyph-draw");
+      if (direct) return direct;
+      const scope = event.target.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .hero-system span");
+      return scope ? scope.querySelector(".glyph-draw") : null;
+    }
+
+    document.addEventListener("pointerover", (event) => {
+      const target = glyphTargetFromEvent(event);
+      if (target) showGlyphCue(target, event);
     });
-    lightbox.addEventListener("close", () => document.body.classList.remove("lightbox-open"));
+
+    document.addEventListener("mouseover", (event) => {
+      const target = glyphTargetFromEvent(event);
+      if (target) showGlyphCue(target, event);
+    });
+
+    document.addEventListener("pointermove", (event) => {
+      if (activeGlyph) moveCursor(event);
+    });
+
+    document.addEventListener("mousemove", (event) => {
+      if (activeGlyph) moveCursor(event);
+    });
+
+    document.addEventListener("pointerout", (event) => {
+      if (!activeGlyph) return;
+      const next = event.relatedTarget;
+      if (next instanceof Element && activeGlyph.contains(next)) return;
+      const current = glyphTargetFromEvent(event);
+      const nextGlyph = next instanceof Element ? (next.closest(".glyph-draw") || next.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .hero-system span")?.querySelector(".glyph-draw")) : null;
+      if (current === activeGlyph && nextGlyph !== activeGlyph) hideGlyphCue();
+    });
+
+    document.addEventListener("mouseout", (event) => {
+      if (!activeGlyph) return;
+      const next = event.relatedTarget;
+      if (next instanceof Element && activeGlyph.contains(next)) return;
+      const current = glyphTargetFromEvent(event);
+      const nextGlyph = next instanceof Element ? (next.closest(".glyph-draw") || next.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .hero-system span")?.querySelector(".glyph-draw")) : null;
+      if (current === activeGlyph && nextGlyph !== activeGlyph) hideGlyphCue();
+    });
   }
 
-  document.querySelectorAll("img").forEach((image) => {
-    image.setAttribute("draggable", "false");
-  });
+  const revealItems = () => document.querySelectorAll("[data-reveal]");
+  if (!reduceMotion) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px" }
+    );
+    revealItems().forEach((item) => observer.observe(item));
+    setTimeout(() => revealItems().forEach((item) => observer.observe(item)), 50);
+  } else {
+    revealItems().forEach((item) => item.classList.add("is-visible"));
+  }
 
-  ["contextmenu", "selectstart", "dragstart", "gesturestart"].forEach((eventName) => {
-    document.addEventListener(eventName, (event) => event.preventDefault(), {
-      capture: true,
-      passive: false,
-    });
-  });
-
-  document.querySelectorAll("[data-filmstrip]").forEach((strip) => {
-    let isDown = false;
-    let startX = 0;
-    let startScroll = 0;
-
-    strip.addEventListener("pointerdown", (event) => {
-      isDown = true;
-      strip.classList.add("is-dragging");
-      startX = event.clientX;
-      startScroll = strip.scrollLeft;
-      strip.setPointerCapture(event.pointerId);
-    });
-
-    strip.addEventListener("pointermove", (event) => {
-      if (!isDown) return;
-      const walk = event.clientX - startX;
-      strip.scrollLeft = startScroll - walk;
-    });
-
-    function release(event) {
-      if (!isDown) return;
-      isDown = false;
-      strip.classList.remove("is-dragging");
-      if (event.pointerId && strip.hasPointerCapture(event.pointerId)) {
-        strip.releasePointerCapture(event.pointerId);
-      }
-    }
-
-    strip.addEventListener("pointerup", release);
-    strip.addEventListener("pointercancel", release);
-    strip.addEventListener("pointerleave", release);
+  document.querySelectorAll("[data-current-year]").forEach((node) => {
+    node.textContent = String(new Date().getFullYear());
   });
 })();
