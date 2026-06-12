@@ -316,6 +316,215 @@ button {
   border-radius: 0;
 }
 
+.keyword-note {
+  --keyword-note-accent: var(--accent, var(--ink));
+  position: relative;
+  display: inline;
+  color: inherit;
+  border-bottom: 1px solid rgba(23, 23, 23, 0.24);
+  cursor: help;
+  text-decoration: none;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.keyword-note::after {
+  content: "";
+  display: inline-block;
+  width: 0.3em;
+  height: 0.3em;
+  margin-left: 0.14em;
+  border-radius: 50%;
+  background: var(--keyword-note-accent);
+  vertical-align: 0.42em;
+  opacity: 0;
+  transform: scale(0.72);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.keyword-note:hover,
+.keyword-note:focus-visible,
+.keyword-note.is-note-open {
+  color: var(--keyword-note-accent);
+  border-color: var(--keyword-note-accent);
+}
+
+.keyword-note:hover::after,
+.keyword-note:focus-visible::after,
+.keyword-note.is-note-open::after {
+  opacity: 0.72;
+  transform: scale(1);
+}
+
+.visual-note-popover {
+  --note-accent: var(--ink);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1200;
+  width: min(196px, calc(100vw - 32px));
+  min-height: 164px;
+  padding: 10px 11px 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background:
+    repeating-linear-gradient(0deg, rgba(158, 42, 43, 0.035) 0 1px, transparent 1px 24px),
+    rgba(255, 250, 242, 0.96);
+  box-shadow: 0 10px 24px rgba(23, 23, 23, 0.09);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(var(--note-x, 0), var(--note-y, 0), 0) translateY(6px);
+  animation: visualNoteIn 160ms ease forwards;
+}
+
+.visual-note-popover.is-leaving {
+  animation: visualNoteOut 260ms ease forwards;
+}
+
+.visual-note-popover svg {
+  display: block;
+  width: 100%;
+  height: 108px;
+}
+
+.visual-note-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 3px;
+  color: var(--note-accent);
+}
+
+.visual-note-logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.visual-note-logo::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 1px;
+  background: currentColor;
+  transform: rotate(-24deg) translateY(6px);
+  opacity: 0.5;
+}
+
+.visual-note-wordmark {
+  font-family: var(--font-ui);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.visual-note-label {
+  margin-top: 2px;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  line-height: 1.1;
+}
+
+.visual-note-line {
+  fill: none;
+  stroke: var(--note-accent);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: visualNoteDraw 720ms cubic-bezier(0.2, 0.72, 0.12, 1) var(--draw-delay, 0ms) forwards;
+}
+
+.visual-note-fill {
+  fill: var(--note-accent);
+  opacity: 0;
+  animation: visualNoteFill 260ms ease 820ms forwards;
+}
+
+.visual-note-fill-soft {
+  animation-delay: 960ms;
+}
+
+.visual-note-receipt {
+  stroke-width: 1.35;
+}
+
+.visual-note-dot {
+  fill: var(--note-accent);
+  opacity: 0;
+  transform-origin: center;
+  animation: visualNoteDot 240ms ease 1060ms forwards;
+}
+
+.visual-note-popover.is-static .visual-note-line {
+  stroke-dashoffset: 0;
+  animation: none;
+}
+
+.visual-note-popover.is-static .visual-note-fill {
+  opacity: 0.12;
+  animation: none;
+}
+
+.visual-note-popover.is-static .visual-note-dot {
+  opacity: 0.36;
+  animation: none;
+}
+
+@keyframes visualNoteIn {
+  to {
+    opacity: 1;
+    transform: translate3d(var(--note-x, 0), var(--note-y, 0), 0) translateY(0);
+  }
+}
+
+@keyframes visualNoteOut {
+  from {
+    opacity: 1;
+    transform: translate3d(var(--note-x, 0), var(--note-y, 0), 0) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(var(--note-x, 0), var(--note-y, 0), 0) translateY(-4px);
+  }
+}
+
+@keyframes visualNoteDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes visualNoteFill {
+  to {
+    opacity: 0.12;
+  }
+}
+
+@keyframes visualNoteDot {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 0.42;
+    transform: scale(1);
+  }
+}
+
 .hero-visual {
   position: relative;
   min-height: 610px;
