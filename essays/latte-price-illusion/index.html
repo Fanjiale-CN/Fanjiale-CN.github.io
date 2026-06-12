@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="What your latte tells you about China's price illusion, an essay by Galok.">
   <title>What your latte tells you about China's price illusion - Galok</title>
-  <link rel="stylesheet" href="/styles.css?v=keyword-notes-6">
+  <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
+  <link rel="stylesheet" href="/styles.css?v=homepage-story-1">
 </head>
 <body class="article-body">
   <nav class="site-nav" aria-label="Primary navigation">
@@ -47,16 +48,67 @@
 
         <h2>The anchor moved</h2>
         <p>Luckin reported 33,596 stores at the end of Q1 2026. Starbucks China, after the Boyu joint venture announcement, had about 8,000 stores as a current operating base and a long-term ambition of 20,000. Those numbers are not quality metrics. They show how density can rewrite expectation.</p>
-        <figure class="chart-figure">
-          <img src="/assets/consumption/charts/coffee-store-footprint.png" alt="China coffee store footprint comparing Starbucks and Luckin">
+        <figure class="chart-figure store-footprint-chart embedded-chart interactive-chart" data-chart="store-footprint" data-reveal aria-labelledby="coffee-footprint-title">
+          <div class="paper-chart-head">
+            <h3 id="coffee-footprint-title">China coffee: the price anchor moved with scale</h3>
+            <p>Luckin's store footprint is more than 4x Starbucks China's current base; Starbucks is resetting via a local JV.</p>
+          </div>
+          <div class="store-bars" aria-label="China coffee store footprint">
+            <button class="store-row" type="button" style="--value:24%;--tone:#9e2a2b;--delay:120ms" data-detail="Starbucks China has roughly 8,000 stores as the current operating base.">
+              <strong>Starbucks China, current store base</strong>
+              <span class="store-track"><span class="store-fill"></span></span>
+              <b>8,000</b>
+              <em>stores</em>
+            </button>
+            <button class="store-row" type="button" style="--value:60%;--tone:#c9a227;--delay:220ms" data-detail="The long-term ambition is 20,000 stores, a promise that must still compete with cheaper density.">
+              <strong>Starbucks China, long-term ambition</strong>
+              <span class="store-track"><span class="store-fill"></span></span>
+              <b>20,000</b>
+              <em>stores</em>
+            </button>
+            <button class="store-row is-active" type="button" style="--value:100%;--tone:#2f5d7c;--delay:320ms" data-detail="Luckin reported 33,596 stores at the end of Q1 2026, turning cheap coffee into convenient infrastructure.">
+              <strong>Luckin Coffee, Q1 2026 store count</strong>
+              <span class="store-track"><span class="store-fill"></span></span>
+              <b>33,596</b>
+              <em>stores</em>
+            </button>
+          </div>
+          <p class="chart-detail" aria-live="polite">Luckin reported 33,596 stores at the end of Q1 2026, turning cheap coffee into convenient infrastructure.</p>
           <figcaption>Store count is not taste. It is the infrastructure that makes a cheaper choice feel normal.</figcaption>
         </figure>
 
         <h2>What survives after RMB 9.9?</h2>
         <p>Starbucks can still sell a third place, service, comfort, consistency, an office-adjacent ritual and the feeling of not being rushed. But each line item has to be made visible again. A consumer may still choose the premium. The difference is that the premium now has to explain itself.</p>
         <p>The coffee war is therefore not only a price war. It is a cognitive war over what a cup is allowed to mean after the functional floor becomes cheap.</p>
-        <figure class="chart-figure">
-          <img src="/assets/consumption/charts/price-anchor-reset.png" alt="Price anchor reset chart showing RMB 9.9, Starbucks store count, long-term ambition and Luckin store count">
+        <figure class="chart-figure price-anchor-chart interactive-chart" data-chart="price-anchor" data-reveal aria-labelledby="article-price-anchor-title">
+          <div class="paper-chart-head">
+            <p class="chart-kicker">Consumption audit</p>
+            <h3 id="article-price-anchor-title">The Price Anchor Reset</h3>
+            <p>The audit is not simply about paying less. It asks whether the higher price still buys a durable advantage.</p>
+          </div>
+          <div class="anchor-scale" role="list" aria-label="Price anchor reset">
+            <button class="anchor-point is-active" type="button" style="--x:8%;--tone:#9e2a2b" data-detail="A 9.9 RMB anchor makes low-price coffee socially legible instead of merely cheap.">
+              <span class="anchor-value">9.9 RMB</span>
+              <span class="anchor-dot" aria-hidden="true"></span>
+              <span class="anchor-label">promotional low-price coffee anchor</span>
+            </button>
+            <button class="anchor-point" type="button" style="--x:34%;--tone:#1f5f9f" data-detail="The current Starbucks base becomes a comparison point, not an automatic premium defense.">
+              <span class="anchor-value">8,000+</span>
+              <span class="anchor-dot" aria-hidden="true"></span>
+              <span class="anchor-label">Starbucks China stores before JV</span>
+            </button>
+            <button class="anchor-point" type="button" style="--x:60%;--tone:#c99724" data-detail="Long-term ambition signals scale, but it does not answer what survives comparison.">
+              <span class="anchor-value">20,000</span>
+              <span class="anchor-dot" aria-hidden="true"></span>
+              <span class="anchor-label">Starbucks China long-term ambition</span>
+            </button>
+            <button class="anchor-point" type="button" style="--x:86%;--tone:#0f8075" data-detail="Luckin's footprint resets convenience expectations for everyone else.">
+              <span class="anchor-value">33,596</span>
+              <span class="anchor-dot" aria-hidden="true"></span>
+              <span class="anchor-label">Luckin stores at Q1 2026</span>
+            </button>
+          </div>
+          <p class="chart-detail" aria-live="polite">A 9.9 RMB anchor makes low-price coffee socially legible instead of merely cheap.</p>
           <figcaption>The price anchor reset: a premium brand has to defend the parts of value that survive comparison.</figcaption>
         </figure>
 
@@ -79,6 +131,6 @@
 
   <footer class="footer"><div class="footer-inner"><a class="text-link" href="/essays/">Back to Essays</a><a class="text-link" href="/essays/platforms-redesign-choice/">Next: Platform choice</a></div></footer>
   <script src="/content.js"></script>
-  <script src="/script.js?v=keyword-notes-6"></script>
+  <script src="/script.js?v=homepage-story-1"></script>
 </body>
 </html>

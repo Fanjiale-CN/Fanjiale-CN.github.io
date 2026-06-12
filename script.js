@@ -264,6 +264,59 @@
     });
   });
 
+  function initInteractiveCharts() {
+    document.querySelectorAll(".interactive-chart").forEach((chart) => {
+      const detail = chart.querySelector(".chart-detail");
+      const controls = chart.querySelectorAll("[data-detail]");
+
+      function activate(control) {
+        if (!control || !detail) return;
+        const group = control.closest(".interactive-chart");
+        group?.querySelectorAll("[data-detail].is-active").forEach((item) => item.classList.remove("is-active"));
+        control.classList.add("is-active");
+        detail.textContent = control.dataset.detail || "";
+      }
+
+      controls.forEach((control) => {
+        control.addEventListener("click", () => activate(control));
+        control.addEventListener("focus", () => activate(control));
+        control.addEventListener("pointerenter", () => {
+          if (finePointer) activate(control);
+        });
+      });
+
+      const loopCore = chart.querySelector(".loop-core");
+      if (loopCore) {
+        loopCore.addEventListener("click", () => {
+          chart.classList.remove("is-expanded");
+          chart.classList.add("is-collapsed");
+          window.requestAnimationFrame(() => {
+            void chart.offsetWidth;
+            chart.classList.remove("is-collapsed");
+            chart.classList.add("is-expanded");
+            if (detail) detail.textContent = "The feed creates desire, then turns that desire into public evidence.";
+          });
+        });
+        loopCore.addEventListener("focus", () => {
+          if (detail) detail.textContent = "Public receipt: the platform makes the story around a product visible.";
+        });
+      }
+    });
+  }
+
+  initInteractiveCharts();
+
+  document.querySelectorAll("[data-identity-toggle]").forEach((button) => {
+    const film = button.closest("[data-logo-reel]");
+    if (!film) return;
+
+    button.addEventListener("click", () => {
+      const paused = film.classList.toggle("is-paused");
+      button.setAttribute("aria-pressed", paused ? "true" : "false");
+      button.setAttribute("aria-label", paused ? "Play identity animation" : "Pause identity animation");
+    });
+  });
+
   if (!reduceMotion && finePointer) {
     const cursor = document.createElement("div");
     cursor.className = "glyph-cursor";

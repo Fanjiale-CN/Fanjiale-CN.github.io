@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="The ordinary life behind RMB 9.9 coffee, an essay by Galok.">
   <title>The ordinary life behind RMB 9.9 coffee - Galok</title>
-  <link rel="stylesheet" href="/styles.css?v=keyword-notes-6">
+  <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
+  <link rel="stylesheet" href="/styles.css?v=homepage-story-1">
 </head>
 <body class="article-body">
   <nav class="site-nav" aria-label="Primary navigation">
@@ -54,8 +55,36 @@
 
         <h2>Where it bites hardest</h2>
         <p>The audit is strongest when substitutes are visible and the emotional premium is contested. Coffee, milk tea, cosmetics, lifestyle retail, weak IP merchandise and influencer restaurants are exposed because they rely on both comparison and story.</p>
-        <figure class="chart-figure">
-          <img src="/assets/consumption/charts/category-fit-matrix.png" alt="Category fit matrix chart">
+        <figure class="chart-figure matrix-chart interactive-chart" data-chart="audit-matrix" data-reveal aria-labelledby="audit-matrix-title">
+          <div class="paper-chart-head">
+            <p class="chart-kicker">Consumption audit</p>
+            <h3 id="audit-matrix-title">Where the Audit Bites</h3>
+            <p>The concept is strongest when substitutes are visible and the emotional premium is contested.</p>
+          </div>
+          <div class="matrix-stage" aria-label="Consumption audit category matrix">
+            <span class="matrix-axis matrix-axis-y matrix-axis-high">High emotional premium</span>
+            <span class="matrix-axis matrix-axis-y matrix-axis-low">Low emotional premium</span>
+            <span class="matrix-axis matrix-axis-x matrix-axis-left">Low substitute visibility</span>
+            <span class="matrix-axis matrix-axis-x matrix-axis-right">High substitute visibility</span>
+            <button class="matrix-cell matrix-top-left" type="button" style="--tone:#4d7f20;--delay:120ms" data-detail="Defensible ritual: emotion is high, but substitutes remain less visible or less trusted.">
+              <strong>Defensible ritual</strong>
+              <span>luxury gifts / healthcare / education</span>
+            </button>
+            <button class="matrix-cell matrix-top-right is-active" type="button" style="--tone:#9e2a2b;--delay:220ms" data-detail="Audited hardest: the story is emotional, but substitutes are easy to compare and share.">
+              <em>Strongest audit</em>
+              <strong>Audited hardest</strong>
+              <span>coffee premium / milk tea spectacle / cosmetics</span>
+            </button>
+            <button class="matrix-cell matrix-bottom-left" type="button" style="--tone:#1f5f9f;--delay:320ms" data-detail="Utility purchase: low emotional premium makes the audit practical rather than symbolic.">
+              <strong>Utility purchase</strong>
+              <span>basic grocery / household staples</span>
+            </button>
+            <button class="matrix-cell matrix-bottom-right" type="button" style="--tone:#c21f24;--delay:420ms" data-detail="Commodified fast: when substitutes are visible and emotion is weak, premium decays quickly.">
+              <strong>Commodified fast</strong>
+              <span>generic upgrades / weak IP merch</span>
+            </button>
+          </div>
+          <p class="chart-detail" aria-live="polite">Audited hardest: the story is emotional, but substitutes are easy to compare and share.</p>
           <figcaption>Not every category is audited equally. Trust, safety and obligation can still protect premium value.</figcaption>
         </figure>
 
@@ -76,6 +105,6 @@
 
   <footer class="footer"><div class="footer-inner"><a class="text-link" href="/essays/">Back to Essays</a><a class="text-link" href="/visual-notes/">Visual Notes</a></div></footer>
   <script src="/content.js"></script>
-  <script src="/script.js?v=keyword-notes-6"></script>
+  <script src="/script.js?v=homepage-story-1"></script>
 </body>
 </html>

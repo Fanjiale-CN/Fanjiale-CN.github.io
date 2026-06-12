@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="How platforms quietly redesign consumer choice, an essay by Galok.">
   <title>How platforms quietly redesign consumer choice - Galok</title>
-  <link rel="stylesheet" href="/styles.css?v=keyword-notes-6">
+  <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
+  <link rel="stylesheet" href="/styles.css?v=homepage-story-1">
 </head>
 <body class="article-body">
   <nav class="site-nav" aria-label="Primary navigation">
@@ -47,8 +48,46 @@
 
         <h2>The loop is double-sided</h2>
         <p>At the beginning, the feed supplies language: aesthetic promise, limited drop, city check-in, cultural texture. Then the audience starts asking different questions. Was the queue worth it? Was the object useful? Did everyone buy the same symbol at the same time?</p>
-        <figure class="chart-figure">
-          <img src="/assets/consumption/charts/platform-audit-loop.png" alt="Platform audit loop diagram">
+        <figure class="chart-figure platform-loop-chart interactive-chart is-collapsed" data-chart="platform-loop" data-reveal aria-labelledby="platform-loop-title">
+          <div class="paper-chart-head">
+            <p class="chart-kicker">Consumption audit</p>
+            <h3 id="platform-loop-title">The Platform Audit Loop</h3>
+            <p>Social media no longer just sells the object. It audits the story around the object.</p>
+          </div>
+          <div class="loop-stage" aria-label="Platform audit loop">
+            <span class="loop-line loop-line-a" aria-hidden="true"></span>
+            <span class="loop-line loop-line-b" aria-hidden="true"></span>
+            <span class="loop-line loop-line-c" aria-hidden="true"></span>
+            <span class="loop-line loop-line-d" aria-hidden="true"></span>
+            <button class="loop-core" type="button" aria-label="Reveal platform audit loop">
+              <strong>Public receipt</strong>
+            </button>
+            <button class="loop-node loop-seed" type="button" style="--tone:#9e2a2b" data-detail="Seed: the feed gives the object an aesthetic promise.">
+              <strong>Seed</strong>
+              <span>Aesthetic promise</span>
+            </button>
+            <button class="loop-node loop-spectacle" type="button" style="--tone:#c99724" data-detail="Spectacle: the product becomes photo-friendly before it is useful.">
+              <strong>Spectacle</strong>
+              <span>Photo-friendly moment</span>
+            </button>
+            <button class="loop-node loop-imitation" type="button" style="--tone:#1f5f9f" data-detail="Imitation: public replication turns novelty into a pattern.">
+              <strong>Imitation</strong>
+              <span>Mass replication</span>
+            </button>
+            <button class="loop-node loop-exposure" type="button" style="--tone:#c21f24" data-detail="Exposure: the cost and gimmick become visible.">
+              <strong>Exposure</strong>
+              <span>Cost and gimmick decoded</span>
+            </button>
+            <button class="loop-node loop-audit" type="button" style="--tone:#0f8075" data-detail="Audit: the audience asks whether the value survives comparison.">
+              <strong>Audit</strong>
+              <span>Value questioned</span>
+            </button>
+            <button class="loop-node loop-retention" type="button" style="--tone:#4d7f20" data-detail="Retention: only value that keeps working stays in the routine.">
+              <strong>Retention</strong>
+              <span>Only durable value stays</span>
+            </button>
+          </div>
+          <p class="chart-detail" aria-live="polite">Click the public receipt and the loop becomes visible.</p>
           <figcaption>Social media creates desire, then gives the audience tools to demystify it.</figcaption>
         </figure>
 
@@ -58,8 +97,22 @@
 
         <h2>The seven checks</h2>
         <p>The consumption audit works because platforms make alternatives and criticism easy to access. Price, function, emotion, identity, alternatives, risk and time are no longer private doubts. They become shareable arguments.</p>
-        <figure class="chart-figure">
-          <img src="/assets/consumption/charts/seven-line-receipt.png" alt="Seven line receipt chart">
+        <figure class="chart-figure receipt-lines-chart interactive-chart" data-chart="receipt-lines" data-reveal aria-labelledby="receipt-lines-title">
+          <div class="paper-chart-head">
+            <p class="chart-kicker">Consumption audit</p>
+            <h3 id="receipt-lines-title">The Seven-Line Receipt</h3>
+            <p>A purchase now has to pass seven distinct questions before it feels worth it.</p>
+          </div>
+          <ol class="receipt-lines" aria-label="Seven audit questions">
+            <li><button type="button" style="--tone:#9e2a2b;--delay:80ms" data-detail="Price audit: could a credible alternative do this for less?"><b>1</b><strong>Price audit</strong><span>Could a credible alternative do this for less?</span></button></li>
+            <li><button type="button" style="--tone:#1f5f9f;--delay:150ms" data-detail="Function audit: what job does it actually perform?"><b>2</b><strong>Function audit</strong><span>What job does it actually perform?</span></button></li>
+            <li><button type="button" style="--tone:#c99724;--delay:220ms" data-detail="Emotion audit: is the feeling durable or just packaging?"><b>3</b><strong>Emotion audit</strong><span>Is the feeling durable or just packaging?</span></button></li>
+            <li><button type="button" style="--tone:#0f8075;--delay:290ms" data-detail="Identity audit: what signal am I buying, and who still reads it?"><b>4</b><strong>Identity audit</strong><span>What signal am I buying, and who still reads it?</span></button></li>
+            <li><button type="button" style="--tone:#4d7f20;--delay:360ms" data-detail="Alternative audit: what did apps, peers and feeds reveal as substitutes?"><b>5</b><strong>Alternative audit</strong><span>What did apps, peers and feeds reveal as substitutes?</span></button></li>
+            <li><button type="button" style="--tone:#c21f24;--delay:430ms" data-detail="Risk audit: will this age badly, backfire or become embarrassing?"><b>6</b><strong>Risk audit</strong><span>Will this age badly, backfire or become embarrassing?</span></button></li>
+            <li><button type="button" style="--tone:#4e5b6b;--delay:500ms" data-detail="Time audit: how long does the value last after the post or first sip?"><b>7</b><strong>Time audit</strong><span>How long does the value last after the post or first sip?</span></button></li>
+          </ol>
+          <p class="chart-detail" aria-live="polite">Price audit: could a credible alternative do this for less?</p>
           <figcaption>The audit stack turns the purchase into a set of accountable line items.</figcaption>
         </figure>
       </article>
@@ -77,6 +130,6 @@
 
   <footer class="footer"><div class="footer-inner"><a class="text-link" href="/essays/">Back to Essays</a><a class="text-link" href="/essays/rmb-9-9-coffee/">Next: RMB 9.9 coffee</a></div></footer>
   <script src="/content.js"></script>
-  <script src="/script.js?v=keyword-notes-6"></script>
+  <script src="/script.js?v=homepage-story-1"></script>
 </body>
 </html>
