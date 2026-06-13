@@ -32,9 +32,9 @@ window.GALOK_CONTENT = {
       deck: "The price anchor has moved.",
       title: "What your latte tells you about China's price illusion",
       date: "2026",
-      readingTime: "8 min",
+      readingTime: "10 min",
       url: "/essays/latte-price-illusion/",
-      excerpt: "RMB 9.9 did not merely discount coffee. It forced every premium to itemize what survives comparison."
+      excerpt: "RMB 9.9 did not merely discount coffee. It made every premium separate ritual, space, service and story into defensible line items."
     },
     {
       series: "frame",
@@ -42,9 +42,9 @@ window.GALOK_CONTENT = {
       deck: "The platform turns desire into evidence.",
       title: "How platforms quietly redesign consumer choice",
       date: "2026",
-      readingTime: "7 min",
+      readingTime: "8 min",
       url: "/essays/platforms-redesign-choice/",
-      excerpt: "The feed creates desire, exposes the mechanism, and turns consumption into a public receipt."
+      excerpt: "The feed creates desire, exposes the mechanism behind desire, and turns consumption into a public receipt."
     },
     {
       series: "scene",
@@ -52,9 +52,9 @@ window.GALOK_CONTENT = {
       deck: "Cheap coffee is a new social scene.",
       title: "The ordinary life behind RMB 9.9 coffee",
       date: "2026",
-      readingTime: "6 min",
+      readingTime: "7 min",
       url: "/essays/rmb-9-9-coffee/",
-      excerpt: "Cheap is not the opposite of desire. It is a new scene where convenience, proof and mood are renegotiated."
+      excerpt: "Cheap is not the opposite of desire. It becomes powerful when it feels competent, quick, repeatable and socially clean."
     }
   ]
 };

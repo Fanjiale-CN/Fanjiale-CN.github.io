@@ -64,18 +64,17 @@
         <span class="visual-note-wordmark">Galok field note</span>
       </div>
       <svg class="visual-note-svg" viewBox="0 0 184 126" aria-hidden="true" focusable="false">
-        <path class="visual-note-fill visual-note-fill-main" d="M52 58h67v24c0 17-13 29-30 29h-7c-17 0-30-12-30-29V58Z"></path>
-        <path class="visual-note-fill visual-note-fill-soft" d="M35 107c21 9 75 11 105 0 5-2 6 8-2 11-28 11-80 9-104 0-8-3-5-13 1-11Z"></path>
-        <path class="visual-note-line" style="--draw-delay:0ms" pathLength="1" d="M52 58h67v24c0 17-13 29-30 29h-7c-17 0-30-12-30-29V58Z"></path>
-        <path class="visual-note-line" style="--draw-delay:90ms" pathLength="1" d="M119 64h14c12 0 20 8 20 19s-9 20-22 20h-13"></path>
-        <path class="visual-note-line" style="--draw-delay:180ms" pathLength="1" d="M35 107c21 9 75 11 105 0"></path>
-        <path class="visual-note-line" style="--draw-delay:270ms" pathLength="1" d="M70 43c-8-9 8-14 0-24"></path>
-        <path class="visual-note-line" style="--draw-delay:360ms" pathLength="1" d="M88 43c-8-9 8-14 0-24"></path>
-        <path class="visual-note-line" style="--draw-delay:450ms" pathLength="1" d="M106 43c-8-9 8-14 0-24"></path>
-        <path class="visual-note-line visual-note-receipt" style="--draw-delay:540ms" pathLength="1" d="M137 24h29v48l-5-4-5 4-5-4-5 4-5-4-4 3V24Z"></path>
-        <path class="visual-note-line visual-note-receipt" style="--draw-delay:620ms" pathLength="1" d="M144 36h15M144 47h12M144 58h16"></path>
-        <circle class="visual-note-dot" cx="32" cy="31" r="3"></circle>
-        <circle class="visual-note-dot" cx="42" cy="25" r="2.5"></circle>
+        <path class="visual-note-fill visual-note-fill-main" d="M45 59h66v25c0 16-13 28-29 28h-8c-16 0-29-12-29-28V59Z"></path>
+        <path class="visual-note-fill visual-note-fill-soft" d="M32 108c24 9 82 9 106 0"></path>
+        <path class="visual-note-line" style="--draw-delay:0ms" pathLength="1" d="M45 59h66v25c0 16-13 28-29 28h-8c-16 0-29-12-29-28V59Z"></path>
+        <path class="visual-note-line" style="--draw-delay:90ms" pathLength="1" d="M111 66h12c12 0 20 8 20 18s-8 19-21 19h-11"></path>
+        <path class="visual-note-line" style="--draw-delay:180ms" pathLength="1" d="M32 108c24 9 82 9 106 0"></path>
+        <path class="visual-note-line" style="--draw-delay:270ms" pathLength="1" d="M66 43c-7-8 7-14 0-23"></path>
+        <path class="visual-note-line" style="--draw-delay:360ms" pathLength="1" d="M84 43c-7-8 7-14 0-23"></path>
+        <path class="visual-note-line visual-note-receipt" style="--draw-delay:450ms" pathLength="1" d="M135 24h30v49l-5-4-5 4-5-4-5 4-5-4-5 4V24Z"></path>
+        <path class="visual-note-line visual-note-receipt" style="--draw-delay:540ms" pathLength="1" d="M142 36h16M142 48h12M142 60h16"></path>
+        <circle class="visual-note-dot" cx="32" cy="32" r="3"></circle>
+        <circle class="visual-note-dot" cx="42" cy="26" r="2.5"></circle>
       </svg>
       <div class="visual-note-label">coffee as price evidence</div>
     `;
