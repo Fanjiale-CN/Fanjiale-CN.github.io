@@ -55,6 +55,16 @@ window.GALOK_CONTENT = {
       readingTime: "7 min",
       url: "/essays/rmb-9-9-coffee/",
       excerpt: "Cheap is not the opposite of desire. It becomes powerful when it feels competent, quick, repeatable and socially clean."
+    },
+    {
+      series: "scene",
+      anchor: "\u5bdf",
+      deck: "Viral desire enters the proof economy.",
+      title: "Under the cyber audit: after the influencer boom",
+      date: "2026",
+      readingTime: "9 min",
+      url: "/essays/cyber-audit-proof-economy/",
+      excerpt: "China's platform internet no longer only creates desire. It trains consumers, cities and brands to prove that desire can survive inspection."
     }
   ]
 };

@@ -84,7 +84,75 @@
     coffee: renderCoffeeIcon
   };
 
+  function visualNoteShell(label, svg) {
+    return `
+      <div class="visual-note-head">
+        <span class="visual-note-logo" aria-hidden="true">G</span>
+        <span class="visual-note-wordmark">Galok field note</span>
+      </div>
+      ${svg}
+      <div class="visual-note-label">${label}</div>
+    `;
+  }
+
+  function renderWinterIcon() {
+    return visualNoteShell("winter as proof spectacle", `
+      <svg class="visual-note-svg visual-note-svg-winter" viewBox="0 0 184 126" aria-hidden="true" focusable="false">
+        <path class="visual-note-fill visual-note-fill-main" d="M64 86h56l-12 18H76Z"></path>
+        <path class="visual-note-line" style="--draw-delay:0ms" pathLength="1" d="M48 104h88"></path>
+        <path class="visual-note-line" style="--draw-delay:90ms" pathLength="1" d="M64 86h56l-12 18H76Z"></path>
+        <path class="visual-note-line" style="--draw-delay:180ms" pathLength="1" d="M76 86c-2-18 4-34 18-47 14 13 20 29 18 47"></path>
+        <path class="visual-note-line" style="--draw-delay:270ms" pathLength="1" d="M70 64h48M77 50h34M86 38h16"></path>
+        <path class="visual-note-line" style="--draw-delay:360ms" pathLength="1" d="M38 32l10 10m0-10L38 42M44 27v20M34 37h20"></path>
+        <path class="visual-note-line" style="--draw-delay:450ms" pathLength="1" d="M136 43l8 8m0-8-8 8M140 38v18M131 47h18"></path>
+        <circle class="visual-note-dot" cx="58" cy="33" r="2.6"></circle>
+        <circle class="visual-note-dot" cx="126" cy="68" r="2.4"></circle>
+      </svg>
+    `);
+  }
+
+  function renderMalatangIcon() {
+    return visualNoteShell("malatang as food-driven traffic", `
+      <svg class="visual-note-svg visual-note-svg-malatang" viewBox="0 0 184 126" aria-hidden="true" focusable="false">
+        <path class="visual-note-fill visual-note-fill-main" d="M44 66h96l-9 32c-3 10-14 17-29 17H82c-15 0-26-7-29-17Z"></path>
+        <path class="visual-note-fill visual-note-fill-soft" d="M54 72c18 10 58 10 76 0"></path>
+        <path class="visual-note-line" style="--draw-delay:0ms" pathLength="1" d="M44 66h96l-9 32c-3 10-14 17-29 17H82c-15 0-26-7-29-17Z"></path>
+        <path class="visual-note-line" style="--draw-delay:80ms" pathLength="1" d="M54 72c18 10 58 10 76 0"></path>
+        <path class="visual-note-line" style="--draw-delay:160ms" pathLength="1" d="M67 53c-8-10 8-15 0-26M91 53c-8-10 8-15 0-26M115 53c-8-10 8-15 0-26"></path>
+        <path class="visual-note-line" style="--draw-delay:260ms" pathLength="1" d="M42 38l56 20M144 34 92 59"></path>
+        <circle class="visual-note-dot broth-dot" cx="75" cy="84" r="4"></circle>
+        <circle class="visual-note-dot broth-dot" cx="94" cy="88" r="3.4"></circle>
+        <circle class="visual-note-dot broth-dot" cx="113" cy="82" r="3.7"></circle>
+        <path class="visual-note-line" style="--draw-delay:520ms" pathLength="1" d="M62 105h60"></path>
+      </svg>
+    `);
+  }
+
+  function renderBarbecueIcon() {
+    return visualNoteShell("barbecue as city trust test", `
+      <svg class="visual-note-svg visual-note-svg-barbecue" viewBox="0 0 184 126" aria-hidden="true" focusable="false">
+        <path class="visual-note-fill visual-note-fill-main" d="M54 78h78v22H54Z"></path>
+        <path class="visual-note-line" style="--draw-delay:0ms" pathLength="1" d="M42 100h102M56 100l-8 15M130 100l8 15"></path>
+        <path class="visual-note-line" style="--draw-delay:90ms" pathLength="1" d="M54 78h78v22H54Z"></path>
+        <path class="visual-note-line" style="--draw-delay:170ms" pathLength="1" d="M61 86h64M61 94h64"></path>
+        <path class="visual-note-line" style="--draw-delay:250ms" pathLength="1" d="M45 43l92 36M49 31l92 36M55 19l92 36"></path>
+        <path class="visual-note-line visual-note-skewer" style="--draw-delay:340ms" pathLength="1" d="M72 49l12-5 9 9-12 5Z M96 58l12-5 9 9-12 5Z"></path>
+        <path class="visual-note-line visual-note-skewer" style="--draw-delay:430ms" pathLength="1" d="M70 36l11-5 9 9-11 5Z M94 45l11-5 9 9-11 5Z"></path>
+        <path class="visual-note-line visual-note-skewer" style="--draw-delay:520ms" pathLength="1" d="M76 25l10-5 8 8-10 5Z M100 34l10-5 8 8-10 5Z"></path>
+        <path class="visual-note-line visual-note-flame" style="--draw-delay:610ms" pathLength="1" d="M76 78c-7-10 7-12 1-23M93 78c-6-9 8-13 2-24M111 78c-6-8 7-12 2-22"></path>
+      </svg>
+    `);
+  }
+
+  Object.assign(visualNoteIcons, {
+    winter: renderWinterIcon,
+    malatang: renderMalatangIcon,
+    barbecue: renderBarbecueIcon
+  });
+
   function resolveKeywordAccent(element) {
+    if (element.dataset.accent) return element.dataset.accent;
+
     const explicitSeries = (element.dataset.series || "").toLowerCase();
     if (seriesAccent[explicitSeries]) return seriesAccent[explicitSeries];
 
@@ -186,7 +254,7 @@
 
     const accent = resolveKeywordAccent(element);
     const popover = document.createElement("div");
-    popover.className = "visual-note-popover";
+    popover.className = `visual-note-popover visual-note-popover-${visual}`;
     if (reduceMotion) popover.classList.add("is-static");
     popover.setAttribute("aria-hidden", "true");
     popover.style.setProperty("--note-accent", accent);

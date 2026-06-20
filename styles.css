@@ -408,6 +408,13 @@ button {
   animation: visualNoteIn 160ms ease forwards;
 }
 
+.visual-note-popover-winter,
+.visual-note-popover-malatang,
+.visual-note-popover-barbecue {
+  width: min(226px, calc(100vw - 32px));
+  min-height: 176px;
+}
+
 .visual-note-popover.is-leaving {
   animation: visualNoteOut 260ms ease forwards;
 }
@@ -416,6 +423,12 @@ button {
   display: block;
   width: 100%;
   height: 108px;
+}
+
+.visual-note-popover-winter svg,
+.visual-note-popover-malatang svg,
+.visual-note-popover-barbecue svg {
+  height: 118px;
 }
 
 .visual-note-head {
@@ -498,6 +511,19 @@ button {
   opacity: 0;
   transform-origin: center;
   animation: visualNoteDot 240ms ease 1060ms forwards;
+}
+
+.visual-note-svg-winter .visual-note-fill {
+  opacity: 0;
+}
+
+.visual-note-svg-malatang .broth-dot {
+  animation-delay: 980ms;
+}
+
+.visual-note-skewer,
+.visual-note-flame {
+  stroke-width: 1.45;
 }
 
 .visual-note-popover.is-static .visual-note-line {
@@ -2488,6 +2514,138 @@ button {
 .matrix-axis-left { left: 0; bottom: -34px; }
 .matrix-axis-right { right: 0; bottom: -34px; }
 
+.cyber-bars .store-row b {
+  min-width: 112px;
+}
+
+.city-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 34px 0 20px;
+}
+
+.city-proof-card {
+  min-height: 198px;
+  display: grid;
+  align-content: space-between;
+  gap: 12px;
+  padding: 20px;
+  color: #5f5851;
+  border: 1px solid var(--line-dark);
+  border-top: 6px solid var(--tone);
+  border-radius: var(--radius);
+  background: rgba(255, 250, 242, 0.48);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.city-proof-card span,
+.proof-step strong {
+  color: var(--tone);
+}
+
+.city-proof-card span {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.city-proof-card strong {
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(2.1rem, 4vw, 3.8rem);
+  line-height: 0.92;
+}
+
+.city-proof-card em,
+.city-proof-card b {
+  font-family: var(--font-ui);
+  line-height: 1.2;
+}
+
+.city-proof-card em {
+  color: #6d655d;
+  font-style: normal;
+}
+
+.city-proof-card b {
+  color: var(--tone);
+  font-size: 0.9rem;
+}
+
+.city-proof-card:hover,
+.city-proof-card:focus-visible,
+.city-proof-card.is-active,
+.proof-step:hover,
+.proof-step:focus-visible,
+.proof-step.is-active {
+  border-color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 8%, rgba(255, 250, 242, 0.66));
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--tone) 14%, transparent);
+  transform: translateY(-3px);
+}
+
+.proof-stack {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin: 34px 0 20px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(255, 250, 242, 0.48);
+}
+
+.proof-step {
+  min-height: 156px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px;
+  color: #6d655d;
+  border: 0;
+  border-right: 1px solid var(--line-dark);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.proof-step:last-child {
+  border-right: 0;
+}
+
+.proof-step b {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  color: var(--paper-2);
+  background: var(--tone);
+  border-radius: 50%;
+  font-family: var(--font-ui);
+  line-height: 1;
+}
+
+.proof-step strong {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.proof-step span {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
 .article-hero {
   padding: 74px 0 48px;
   border-bottom: 1px solid var(--line);
@@ -2705,7 +2863,9 @@ button {
 .motion-ready .anchor-value,
 .motion-ready .anchor-label,
 .motion-ready .receipt-lines button,
-.motion-ready .matrix-cell {
+.motion-ready .matrix-cell,
+.motion-ready .city-proof-card,
+.motion-ready .proof-step {
   opacity: 0;
   transform: translateY(12px);
 }
@@ -2719,7 +2879,9 @@ button {
 }
 
 .motion-ready .is-visible .receipt-lines button,
-.motion-ready .is-visible .matrix-cell {
+.motion-ready .is-visible .matrix-cell,
+.motion-ready .is-visible .city-proof-card,
+.motion-ready .is-visible .proof-step {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 360ms ease var(--delay, 0ms), transform 420ms cubic-bezier(0.2, 0.72, 0.12, 1) var(--delay, 0ms), box-shadow 180ms ease;
@@ -2729,6 +2891,15 @@ button {
 .motion-ready .is-visible .receipt-lines button:focus-visible,
 .motion-ready .is-visible .receipt-lines button.is-active {
   transform: translateX(4px);
+}
+
+.motion-ready .is-visible .city-proof-card:hover,
+.motion-ready .is-visible .city-proof-card:focus-visible,
+.motion-ready .is-visible .city-proof-card.is-active,
+.motion-ready .is-visible .proof-step:hover,
+.motion-ready .is-visible .proof-step:focus-visible,
+.motion-ready .is-visible .proof-step.is-active {
+  transform: translateY(-3px);
 }
 
 @keyframes barGlint {
@@ -2998,6 +3169,25 @@ button {
   .store-row em {
     grid-column: auto;
     margin-top: -4px;
+  }
+
+  .city-proof-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .proof-stack {
+    grid-template-columns: 1fr;
+    border: 0;
+    gap: 12px;
+    background: transparent;
+  }
+
+  .proof-step {
+    min-height: 112px;
+    border: 1px solid var(--line-dark);
+    border-left: 6px solid var(--tone);
+    border-radius: var(--radius);
+    background: rgba(255, 250, 242, 0.5);
   }
 
   .loop-stage {
@@ -3312,6 +3502,10 @@ button {
   .essay-grid,
   .note-grid,
   .audit-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .city-proof-grid {
     grid-template-columns: 1fr;
   }
 
