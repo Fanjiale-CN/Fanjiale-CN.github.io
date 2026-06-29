@@ -3644,3 +3644,2131 @@ button {
     display: none;
   }
 }
+
+/* Homepage living G mark: a single centered identity panel with six quiet material states. */
+.galok-identity-panel {
+  top: 45%;
+  width: min(1120px, 88vw);
+  height: min(580px, 58svh);
+  min-height: 430px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  perspective: none;
+}
+
+.identity-orbit,
+.identity-color-field,
+.g-mark-stage,
+.identity-lockup {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.identity-orbit {
+  --orbit-end: 5deg;
+  width: min(780px, 62vw);
+  height: min(250px, 24svh);
+  border: 1px solid rgba(191, 183, 170, 0.18);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(var(--orbit-rotate, -8deg));
+  animation: galokOrbitDrift 18s ease-in-out infinite;
+}
+
+.identity-orbit-b {
+  --orbit-rotate: 8deg;
+  --orbit-end: -4deg;
+  width: min(620px, 52vw);
+  height: min(200px, 20svh);
+  border-color: rgba(47, 93, 124, 0.12);
+  animation-delay: -6s;
+}
+
+.identity-orbit-c {
+  --orbit-rotate: 0deg;
+  --orbit-end: 3deg;
+  width: min(480px, 40vw);
+  height: min(160px, 16svh);
+  border-color: rgba(201, 162, 39, 0.1);
+  animation-delay: -11s;
+}
+
+.identity-color-field {
+  width: min(680px, 58vw);
+  height: min(310px, 31svh);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.identity-swatch {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(96px, 10vw, 172px);
+  height: clamp(126px, 14vw, 228px);
+  border: 1px solid color-mix(in srgb, var(--swatch-tone) 20%, rgba(191, 183, 170, 0.38));
+  border-radius: clamp(18px, 2vw, 30px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.06) 54%, rgba(23, 23, 23, 0.04)),
+    color-mix(in srgb, var(--swatch-tone) 42%, #fbfaf7);
+  box-shadow:
+    0 24px 56px rgba(23, 23, 23, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  opacity: 0.18;
+  transform-origin: 50% 88%;
+  animation: identitySwatchDrift 36s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+}
+
+.swatch-red {
+  --swatch-tone: #9e2a2b;
+  --swatch-x: -164px;
+  --swatch-y: 18px;
+  --swatch-r: -15deg;
+  animation-delay: 0s;
+}
+
+.swatch-blue {
+  --swatch-tone: #2f5d7c;
+  --swatch-x: -58px;
+  --swatch-y: -16px;
+  --swatch-r: -5deg;
+  animation-delay: -8s;
+}
+
+.swatch-gold {
+  --swatch-tone: #c9a227;
+  --swatch-x: 58px;
+  --swatch-y: -10px;
+  --swatch-r: 5deg;
+  animation-delay: -16s;
+}
+
+.swatch-green {
+  --swatch-tone: #0f8075;
+  --swatch-x: 164px;
+  --swatch-y: 18px;
+  --swatch-r: 15deg;
+  animation-delay: -24s;
+}
+
+.g-mark-stage {
+  width: clamp(240px, 25vw, 405px);
+  aspect-ratio: 1;
+  z-index: 4;
+  transform: translate(-50%, -55%);
+}
+
+.g-mark-stage::before {
+  content: "";
+  position: absolute;
+  inset: 15%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), rgba(247, 244, 239, 0.1) 68%, transparent 72%);
+  box-shadow: 0 34px 92px rgba(23, 23, 23, 0.1);
+  opacity: 0.8;
+}
+
+.g-state {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--state-tone, #171717);
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(8px) scale(0.982);
+  animation: galokStateCycle 36s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.g-state::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border-radius: 46% 54% 52% 48%;
+  border: 1px solid color-mix(in srgb, currentColor 13%, transparent);
+  opacity: 0;
+  transform: rotate(-8deg) scale(0.82);
+  animation: galokGhostCycle 36s ease infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.g-mark-svg {
+  position: relative;
+  z-index: 3;
+  width: 80%;
+  height: 80%;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  shape-rendering: geometricPrecision;
+}
+
+.g-mark-svg path,
+.g-mark-svg circle {
+  vector-effect: non-scaling-stroke;
+}
+
+.g-main,
+.g-brush,
+.g-guide,
+.g-ghost,
+.g-press-shadow {
+  stroke-dasharray: 760;
+  stroke-dashoffset: 760;
+  animation: galokStrokeCycle 36s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.g-main {
+  stroke-width: 12;
+}
+
+.g-cross {
+  stroke-width: 10;
+}
+
+.g-tail {
+  stroke-width: 10;
+}
+
+.g-ghost {
+  stroke-width: 22;
+  stroke: rgba(255, 255, 255, 0.75);
+}
+
+.g-paper {
+  --state-tone: #9e2a2b;
+}
+
+.g-paper-card {
+  position: relative;
+  width: 78%;
+  aspect-ratio: 0.76;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(191, 183, 170, 0.58);
+  border-radius: 24px;
+  background:
+    repeating-linear-gradient(0deg, rgba(158, 42, 43, 0.038) 0 1px, transparent 1px 22px),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.84), rgba(255, 250, 242, 0.72));
+  box-shadow:
+    0 32px 76px rgba(23, 23, 23, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.paper-rule {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  height: 1px;
+  background: rgba(158, 42, 43, 0.18);
+}
+
+.rule-one {
+  top: 18%;
+}
+
+.rule-two {
+  bottom: 18%;
+}
+
+.g-pane {
+  --state-tone: #2f5d7c;
+}
+
+.pane-stack {
+  position: absolute;
+  inset: 10%;
+  transform: rotate(-7deg);
+}
+
+.pane {
+  position: absolute;
+  inset: 10%;
+  border: 1px solid color-mix(in srgb, var(--frame) 30%, rgba(255, 255, 255, 0.7));
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.56);
+  backdrop-filter: blur(5px);
+}
+
+.pane-a {
+  transform: translate(-26px, 16px) rotate(-9deg);
+}
+
+.pane-b {
+  transform: translate(0, 0) rotate(2deg);
+}
+
+.pane-c {
+  transform: translate(28px, -16px) rotate(10deg);
+}
+
+.g-construction {
+  --state-tone: #2f5d7c;
+}
+
+.construct-line {
+  position: absolute;
+  z-index: 1;
+  background: color-mix(in srgb, currentColor 22%, transparent);
+  opacity: 0;
+  animation: galokGuideCycle 36s ease infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.construct-x {
+  left: 7%;
+  right: 7%;
+  top: 50%;
+  height: 1px;
+}
+
+.construct-y {
+  top: 7%;
+  bottom: 7%;
+  left: 50%;
+  width: 1px;
+}
+
+.construct-dot {
+  position: absolute;
+  z-index: 2;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  animation: galokDotCycle 36s ease infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.dot-a {
+  left: 23%;
+  top: 26%;
+}
+
+.dot-b {
+  right: 20%;
+  top: 48%;
+}
+
+.dot-c {
+  left: 46%;
+  bottom: 19%;
+}
+
+.g-guide {
+  stroke-width: 2.2;
+  opacity: 0.24;
+}
+
+.g-print {
+  --state-tone: #171717;
+}
+
+.g-print .g-mark-svg {
+  filter: contrast(1.06);
+}
+
+.g-print-fill {
+  fill: url(#printNoise);
+  stroke: none;
+  opacity: 0.18;
+}
+
+.g-print pattern circle {
+  fill: currentColor;
+}
+
+.g-print .g-main {
+  stroke-width: 14;
+  stroke-linecap: butt;
+}
+
+.g-letterpress {
+  --state-tone: #3d3933;
+}
+
+.press-plate {
+  position: absolute;
+  inset: 17%;
+  border-radius: 32px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.7), rgba(210, 203, 191, 0.2)),
+    #f5eee4;
+  box-shadow:
+    inset 10px 10px 22px rgba(177, 166, 150, 0.28),
+    inset -10px -10px 22px rgba(255, 255, 255, 0.9),
+    0 26px 58px rgba(23, 23, 23, 0.08);
+}
+
+.g-press-shadow {
+  stroke-width: 16;
+  stroke: rgba(255, 255, 255, 0.68);
+  transform: translate(-3px, -3px);
+}
+
+.g-letterpress .g-main {
+  stroke-width: 13;
+  filter: drop-shadow(4px 5px 0 rgba(134, 124, 109, 0.32));
+}
+
+.g-ink {
+  --state-tone: #171717;
+}
+
+.g-brush {
+  stroke-width: 18;
+  filter: drop-shadow(0 12px 22px rgba(23, 23, 23, 0.09));
+}
+
+.g-ink .g-cross,
+.g-ink .g-tail {
+  stroke-width: 15;
+}
+
+.ink-pool {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  animation: galokInkCycle 36s ease infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.ink-a {
+  width: 14px;
+  height: 14px;
+  left: 69%;
+  top: 43%;
+}
+
+.ink-b {
+  width: 8px;
+  height: 8px;
+  left: 38%;
+  top: 26%;
+}
+
+.identity-lockup {
+  z-index: 6;
+  top: calc(50% + clamp(150px, 17vw, 230px));
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  color: var(--ink);
+  transform: translateX(-50%);
+}
+
+.identity-lockup strong {
+  font-family: var(--font-ui);
+  font-size: clamp(1.04rem, 1.1vw, 1.32rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  line-height: 1;
+}
+
+.identity-lockup span {
+  color: rgba(119, 115, 107, 0.8);
+  font-family: var(--font-ui);
+  font-size: clamp(0.82rem, 0.92vw, 1rem);
+  letter-spacing: 0.04em;
+}
+
+.galok-identity-panel + .reel-caption {
+  bottom: clamp(24px, 3.6svh, 42px);
+  width: min(760px, 78vw);
+  text-align: center;
+}
+
+.identity-film.is-paused .g-state,
+.identity-film.is-paused .g-state::after,
+.identity-film.is-paused .g-main,
+.identity-film.is-paused .g-brush,
+.identity-film.is-paused .g-guide,
+.identity-film.is-paused .g-ghost,
+.identity-film.is-paused .g-press-shadow,
+.identity-film.is-paused .construct-line,
+.identity-film.is-paused .construct-dot,
+.identity-film.is-paused .identity-swatch,
+.identity-film.is-paused .identity-orbit,
+.identity-film.is-paused .ink-pool {
+  animation-play-state: paused;
+}
+
+@keyframes galokStateCycle {
+  0% {
+    opacity: 0;
+    filter: blur(9px);
+    transform: translateY(10px) scale(0.975);
+  }
+  3.6% {
+    opacity: 0.2;
+    filter: blur(5px);
+    transform: translateY(5px) scale(0.99);
+  }
+  6.4%,
+  12.8% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+  15.4% {
+    opacity: 0.18;
+    filter: blur(7px);
+    transform: translateY(-6px) scale(1.012);
+  }
+  16.8%,
+  100% {
+    opacity: 0;
+    filter: blur(9px);
+    transform: translateY(-10px) scale(1.02);
+  }
+}
+
+@keyframes galokStrokeCycle {
+  0%,
+  2.6% {
+    opacity: 0;
+    stroke-dashoffset: 760;
+  }
+  6% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  13.4% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  16.8%,
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -220;
+  }
+}
+
+@keyframes galokGhostCycle {
+  0%,
+  4.4% {
+    opacity: 0;
+    transform: rotate(-9deg) scale(0.82);
+  }
+  8.8% {
+    opacity: 0.28;
+    transform: rotate(-2deg) scale(1);
+  }
+  14.6% {
+    opacity: 0.08;
+    transform: rotate(6deg) scale(1.06);
+  }
+  16.8%,
+  100% {
+    opacity: 0;
+    transform: rotate(8deg) scale(1.1);
+  }
+}
+
+@keyframes galokGuideCycle {
+  0%,
+  4.2% {
+    opacity: 0;
+    transform: scaleX(0.72);
+  }
+  6.8%,
+  13.4% {
+    opacity: 0.42;
+    transform: scaleX(1);
+  }
+  16.8%,
+  100% {
+    opacity: 0;
+    transform: scaleX(1.08);
+  }
+}
+
+@keyframes galokDotCycle {
+  0%,
+  5.5% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  8%,
+  13.4% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  16.8%,
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes galokInkCycle {
+  0%,
+  8% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  10.4%,
+  13.6% {
+    opacity: 0.28;
+    transform: scale(1);
+  }
+  16.8%,
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes identitySwatchDrift {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: translate(-50%, -50%) translate(0, 24px) rotate(0deg) scale(0.92);
+  }
+  22%,
+  52% {
+    opacity: 0.22;
+    transform: translate(-50%, -50%) translate(var(--swatch-x), var(--swatch-y)) rotate(var(--swatch-r)) scale(1);
+  }
+  74% {
+    opacity: 0.16;
+    transform: translate(-50%, -50%) translate(0, 10px) rotate(0deg) scale(0.96);
+  }
+}
+
+@keyframes galokOrbitDrift {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: translate(-50%, -50%) rotate(var(--orbit-rotate)) scaleX(0.94);
+  }
+  50% {
+    opacity: 0.68;
+    transform: translate(-50%, -50%) rotate(var(--orbit-end)) scaleX(1.02);
+  }
+}
+
+@media (max-width: 1020px) {
+  .galok-identity-panel {
+    top: 45%;
+    width: min(760px, 92vw);
+    height: min(500px, 54svh);
+    min-height: 360px;
+  }
+
+  .identity-color-field {
+    width: min(560px, 82vw);
+    height: 250px;
+  }
+
+  .identity-swatch {
+    width: clamp(78px, 15vw, 132px);
+    height: clamp(106px, 20vw, 178px);
+  }
+
+  .g-mark-stage {
+    width: clamp(220px, 34vw, 330px);
+    transform: translate(-50%, -55%);
+  }
+
+  .identity-lockup {
+    top: calc(50% + clamp(126px, 20vw, 186px));
+  }
+
+  .galok-identity-panel + .reel-caption {
+    bottom: 26px;
+  }
+}
+
+@media (max-width: 720px) {
+  .galok-identity-panel {
+    top: 43%;
+    width: min(430px, 92vw);
+    height: 330px;
+    min-height: 320px;
+  }
+
+  .identity-orbit {
+    width: 340px;
+    height: 130px;
+  }
+
+  .identity-color-field {
+    width: 340px;
+    height: 190px;
+  }
+
+  .identity-swatch {
+    width: 74px;
+    height: 104px;
+    border-radius: 18px;
+  }
+
+  .swatch-red {
+    --swatch-x: -92px;
+    --swatch-y: 14px;
+  }
+
+  .swatch-blue {
+    --swatch-x: -32px;
+    --swatch-y: -10px;
+  }
+
+  .swatch-gold {
+    --swatch-x: 32px;
+    --swatch-y: -8px;
+  }
+
+  .swatch-green {
+    --swatch-x: 92px;
+    --swatch-y: 14px;
+  }
+
+  .g-mark-stage {
+    width: clamp(188px, 58vw, 240px);
+  }
+
+  .g-main {
+    stroke-width: 11;
+  }
+
+  .g-brush {
+    stroke-width: 16;
+  }
+
+  .identity-lockup {
+    top: calc(50% + 126px);
+  }
+
+  .galok-identity-panel + .reel-caption {
+    bottom: 20px;
+    width: min(300px, 82vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .g-state,
+  .g-state::after,
+  .g-main,
+  .g-brush,
+  .g-guide,
+  .g-ghost,
+  .g-press-shadow,
+  .construct-line,
+  .construct-dot,
+  .identity-swatch,
+  .identity-orbit,
+  .ink-pool {
+    animation: none !important;
+  }
+
+  .g-paper {
+    opacity: 1;
+    filter: none;
+    transform: translateY(0) scale(1);
+  }
+
+  .g-paper .g-main,
+  .g-paper .g-ghost {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Second pass: six designed Galok G marks that transform as a calm brand reel. */
+.g-logo-morph-stage {
+  width: clamp(284px, 27vw, 450px);
+  transform: translate(-50%, -55%);
+}
+
+.g-logo-morph-stage::before {
+  inset: 6%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.98), rgba(251, 250, 247, 0.54) 52%, transparent 72%),
+    radial-gradient(circle at 42% 38%, rgba(158, 42, 43, 0.055), transparent 34%),
+    radial-gradient(circle at 62% 58%, rgba(47, 93, 124, 0.06), transparent 38%);
+  box-shadow:
+    0 34px 96px rgba(23, 23, 23, 0.09),
+    inset 0 0 0 1px rgba(191, 183, 170, 0.12);
+}
+
+.logo-transition-wash {
+  position: absolute;
+  inset: 11%;
+  z-index: 12;
+  border-radius: 42% 58% 52% 48%;
+  background:
+    linear-gradient(104deg, transparent 0 28%, rgba(255, 255, 255, 0.62) 43%, rgba(255, 255, 255, 0.18) 52%, transparent 68%),
+    linear-gradient(90deg, rgba(158, 42, 43, 0.08), rgba(47, 93, 124, 0.08), rgba(201, 162, 39, 0.08));
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transform: translateX(-42%) rotate(-8deg) scale(0.86);
+  animation: logoTransitionWash 44.4s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+}
+
+.g-logo-state {
+  color: var(--ink);
+  filter: blur(12px);
+  opacity: 0;
+  transform: translateY(12px) scale(0.9) rotate(-1.5deg);
+  animation: logoVariantCycle 44.4s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+  animation-delay: var(--delay);
+}
+
+.g-logo-state::after {
+  display: none;
+}
+
+.art-g-logo {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  shape-rendering: geometricPrecision;
+  filter: drop-shadow(0 22px 36px rgba(23, 23, 23, 0.1));
+}
+
+.art-g-logo path,
+.art-g-logo circle,
+.art-g-logo rect,
+.art-g-logo ellipse {
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.logo-ring,
+.logo-bar,
+.cut-segment,
+.ink-ring,
+.ink-bar,
+.ink-tail,
+.press-ring,
+.press-bar,
+.glass-ring,
+.glass-bar,
+.grid-ring,
+.grid-bar {
+  stroke-dasharray: 920;
+  stroke-dashoffset: 920;
+  animation: logoStrokeReveal 44.4s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+  animation-delay: var(--delay);
+}
+
+.logo-shadow {
+  stroke: rgba(23, 23, 23, 0.08);
+  stroke-width: 50;
+  opacity: 0;
+  animation: logoSoftShadow 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.logo-botanical .botanical-ring {
+  stroke: #2f7d65;
+  stroke-width: 34;
+}
+
+.logo-botanical .botanical-bar {
+  stroke: #0f6f65;
+  stroke-width: 32;
+}
+
+.leaf-vein,
+.logo-sprout {
+  stroke: #123f37;
+  stroke-width: 3.2;
+  opacity: 0;
+  animation: logoDetailFade 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.logo-leaf,
+.paper-hole,
+.glass-pin,
+.pixel-row rect,
+.ink-drop {
+  opacity: 0;
+  transform: scale(0.72);
+  animation: logoPiecePop 44.4s cubic-bezier(0.22, 0.74, 0.18, 1) infinite;
+  animation-delay: var(--delay);
+}
+
+.logo-leaf {
+  fill: rgba(115, 195, 155, 0.72);
+  stroke: #123f37;
+  stroke-width: 1.8;
+}
+
+.logo-sprout {
+  fill: rgba(115, 195, 155, 0.24);
+  stroke-width: 3.2;
+}
+
+.cut-segment {
+  stroke-width: 39;
+}
+
+.cut-gold {
+  stroke: #c9a227;
+}
+
+.cut-rose {
+  stroke: #b98378;
+}
+
+.cut-blue {
+  stroke: #2f5d7c;
+}
+
+.cut-red {
+  stroke: #9e2a2b;
+  stroke-width: 34;
+}
+
+.cut-highlight {
+  stroke: #fff7e8;
+  stroke-width: 8;
+  opacity: 0;
+  animation: logoDetailFade 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.cut-stitch {
+  stroke: #10243a;
+  stroke-width: 5;
+  stroke-dasharray: 7 10;
+  opacity: 0;
+  animation: logoDetailFade 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.paper-hole {
+  fill: #fff7e8;
+  stroke: none;
+}
+
+.glass-pane {
+  fill: rgba(255, 255, 255, 0.26);
+  stroke: rgba(47, 93, 124, 0.22);
+  stroke-width: 2;
+  opacity: 0;
+  backdrop-filter: blur(5px);
+  animation: logoPaneSlide 44.4s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+  animation-delay: var(--delay);
+}
+
+.pane-one {
+  transform: translate(-16px, 8px) rotate(-8deg);
+}
+
+.pane-two {
+  transform: translate(18px, -7px) rotate(6deg);
+}
+
+.pane-three {
+  transform: translate(0, 4px) rotate(-1deg);
+}
+
+.glass-ring,
+.glass-bar {
+  stroke: rgba(47, 93, 124, 0.88);
+  stroke-width: 32;
+}
+
+.glass-pin {
+  fill: #2f5d7c;
+}
+
+.grid-ring,
+.grid-bar {
+  stroke: #9e2a2b;
+  stroke-width: 34;
+  stroke-linecap: square;
+}
+
+.grid-bar {
+  stroke: #2f5d7c;
+}
+
+.pixel-row rect {
+  fill: #f6d7d2;
+  stroke: #b32635;
+  stroke-width: 1;
+}
+
+.grid-lines {
+  stroke: rgba(255, 250, 242, 0.72);
+  stroke-width: 4;
+  opacity: 0;
+  animation: logoDetailFade 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.press-paper {
+  fill: #f3ebdf;
+  stroke: rgba(191, 183, 170, 0.6);
+  stroke-width: 1.5;
+  opacity: 0;
+  animation: logoPaperPress 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.press-shadow {
+  stroke: rgba(255, 255, 255, 0.86);
+  stroke-width: 51;
+  opacity: 0;
+  animation: logoSoftShadow 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.press-ring,
+.press-bar {
+  stroke: #2d2a25;
+  stroke-width: 32;
+  filter: drop-shadow(6px 7px 0 rgba(120, 108, 93, 0.28));
+}
+
+.paper-deboss {
+  stroke: rgba(134, 124, 109, 0.34);
+  stroke-width: 2;
+  opacity: 0;
+  animation: logoDetailFade 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.ink-ring,
+.ink-bar,
+.ink-tail {
+  stroke: #111111;
+  stroke-width: 38;
+  filter: drop-shadow(0 18px 28px rgba(23, 23, 23, 0.1));
+}
+
+.ink-bar,
+.ink-tail {
+  stroke-width: 32;
+}
+
+.ink-drop {
+  fill: #111111;
+  stroke: none;
+}
+
+.ink-splash {
+  stroke: #111111;
+  stroke-width: 8;
+  opacity: 0;
+  animation: logoDetailFade 44.4s ease infinite;
+  animation-delay: var(--delay);
+}
+
+.identity-film.is-paused .g-logo-state,
+.identity-film.is-paused .g-logo-state *,
+.identity-film.is-paused .logo-transition-wash {
+  animation-play-state: paused;
+}
+
+@keyframes logoVariantCycle {
+  0% {
+    opacity: 0;
+    filter: blur(13px);
+    transform: translateY(14px) scale(0.88) rotate(-1.4deg);
+  }
+  2.6% {
+    opacity: 0.28;
+    filter: blur(7px);
+  }
+  5.1%,
+  12.6% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  15.1% {
+    opacity: 0.24;
+    filter: blur(8px);
+    transform: translateY(-8px) scale(1.035) rotate(1.2deg);
+  }
+  16.66%,
+  100% {
+    opacity: 0;
+    filter: blur(13px);
+    transform: translateY(-14px) scale(1.055) rotate(1.4deg);
+  }
+}
+
+@keyframes logoStrokeReveal {
+  0%,
+  2.2% {
+    opacity: 0;
+    stroke-dashoffset: 920;
+  }
+  5.2% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  12.8% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  16.66%,
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -250;
+  }
+}
+
+@keyframes logoSoftShadow {
+  0%,
+  2.5% {
+    opacity: 0;
+    transform: translate(12px, 10px) scale(0.94);
+  }
+  5.6%,
+  12.6% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  16.66%,
+  100% {
+    opacity: 0;
+    transform: translate(-10px, -8px) scale(1.03);
+  }
+}
+
+@keyframes logoDetailFade {
+  0%,
+  5.4% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  7.2%,
+  12.6% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  16.66%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes logoPiecePop {
+  0%,
+  5.6% {
+    opacity: 0;
+    transform: scale(0.72);
+  }
+  7.6%,
+  12.7% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  16.66%,
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes logoPaneSlide {
+  0%,
+  4.6% {
+    opacity: 0;
+  }
+  6.6%,
+  12.7% {
+    opacity: 1;
+  }
+  16.66%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes logoPaperPress {
+  0%,
+  4.4% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  6.2%,
+  12.8% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  16.66%,
+  100% {
+    opacity: 0;
+    transform: scale(1.025);
+  }
+}
+
+@keyframes logoTransitionWash {
+  0%,
+  13.9%,
+  16.66%,
+  30.56%,
+  33.32%,
+  47.22%,
+  49.98%,
+  63.88%,
+  66.64%,
+  80.54%,
+  83.3%,
+  97.2%,
+  100% {
+    opacity: 0;
+    transform: translateX(-42%) rotate(-8deg) scale(0.86);
+  }
+  15.2%,
+  31.86%,
+  48.52%,
+  65.18%,
+  81.84%,
+  98.5% {
+    opacity: 0.8;
+    transform: translateX(42%) rotate(5deg) scale(1.08);
+  }
+}
+
+@media (max-width: 720px) {
+  .g-logo-morph-stage {
+    width: clamp(230px, 66vw, 285px);
+  }
+
+  .cut-segment,
+  .logo-ring,
+  .ink-ring {
+    stroke-width: 38;
+  }
+
+  .logo-bar,
+  .ink-bar,
+  .ink-tail {
+    stroke-width: 33;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .g-logo-state,
+  .g-logo-state *,
+  .logo-transition-wash {
+    animation: none !important;
+  }
+
+  .logo-botanical {
+    opacity: 1;
+    filter: none;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+
+  .logo-botanical .logo-ring,
+  .logo-botanical .logo-bar,
+  .logo-botanical .logo-shadow,
+  .logo-botanical .logo-leaf,
+  .logo-botanical .leaf-vein,
+  .logo-botanical .logo-sprout {
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: none;
+  }
+}
+
+/* Final GalokMotionHero: one stable serif G, many quiet editorial material states. */
+:root {
+  --galok-motion-cycle: 15s;
+  --galok-charcoal: #171615;
+  --galok-oxblood: #9e2a2b;
+  --galok-gold: #c2a24a;
+  --galok-parchment: #efe6d9;
+  --galok-sage: #b6c4b8;
+  --galok-rose: #cda198;
+  --galok-bluegray: #aebbc0;
+}
+
+.GalokMotionHero.galok-identity-panel {
+  top: 45%;
+  width: min(980px, 84vw);
+  height: min(560px, 56svh);
+  min-height: 440px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  perspective: none;
+}
+
+.GalokMotionHero .HeroCard,
+.GalokMotionHero .MotionStage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.GalokMotionHero .MotionStage::before {
+  content: "";
+  position: absolute;
+  width: min(720px, 68vw);
+  height: min(260px, 25svh);
+  border: 1px solid rgba(191, 183, 170, 0.18);
+  border-radius: 50%;
+  opacity: 0.72;
+  transform: rotate(-5deg);
+}
+
+.GalokMotionHero .MotionStage::after {
+  content: "";
+  position: absolute;
+  width: clamp(270px, 31vw, 430px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.98), rgba(251, 250, 247, 0.56) 58%, transparent 73%),
+    radial-gradient(circle at 42% 32%, rgba(158, 42, 43, 0.045), transparent 36%),
+    radial-gradient(circle at 62% 62%, rgba(194, 162, 74, 0.05), transparent 40%);
+  box-shadow: 0 32px 92px rgba(23, 23, 23, 0.08);
+}
+
+.GalokMotionHero .GMark {
+  position: relative;
+  z-index: 3;
+  width: clamp(300px, 38svh, 455px);
+  height: clamp(250px, 32svh, 380px);
+  overflow: visible;
+  color: var(--galok-charcoal);
+  shape-rendering: geometricPrecision;
+}
+
+.motion-paper-grain {
+  fill: transparent;
+  filter: url(#galokPaperGrain);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.motion-g-clip-text,
+.stable-serif-g {
+  font-family: var(--font-serif);
+  font-size: 350px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.motion-g-clip-text {
+  fill: #fff;
+}
+
+.stable-serif-g {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.motion-layer {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation-duration: var(--galok-motion-cycle);
+  animation-timing-function: cubic-bezier(0.42, 0, 0.18, 1);
+  animation-iteration-count: infinite;
+}
+
+.layer-classic-fill {
+  fill: var(--galok-charcoal);
+  animation-name: gClassicFill;
+}
+
+.layer-classic-text {
+  fill: var(--galok-charcoal);
+  animation-name: gClassicText;
+}
+
+.layer-letterpress-fill {
+  fill: var(--galok-parchment);
+  animation-name: gLetterpress;
+}
+
+.layer-letterpress-shadow {
+  fill: rgba(88, 76, 61, 0.26);
+  transform: translate(4px, 5px);
+  animation-name: gLetterpressShadow;
+}
+
+.layer-letterpress-highlight {
+  fill: rgba(255, 255, 255, 0.82);
+  transform: translate(-3px, -4px);
+  animation-name: gLetterpressHighlight;
+}
+
+.layer-pane-fill {
+  animation-name: gPane;
+}
+
+.pane-slab {
+  stroke: rgba(47, 93, 124, 0.18);
+  stroke-width: 1.2;
+  mix-blend-mode: multiply;
+}
+
+.pane-slab-a {
+  fill: rgba(239, 230, 217, 0.7);
+  transform: rotate(-7deg);
+  transform-origin: 50% 50%;
+}
+
+.pane-slab-b {
+  fill: rgba(182, 196, 184, 0.54);
+  transform: rotate(4deg);
+  transform-origin: 50% 50%;
+}
+
+.pane-slab-c {
+  fill: rgba(205, 161, 152, 0.4);
+  transform: rotate(10deg);
+  transform-origin: 50% 50%;
+}
+
+.layer-pane-outline {
+  fill: transparent;
+  stroke: rgba(47, 93, 124, 0.78);
+  stroke-width: 2.2;
+  paint-order: stroke;
+  animation-name: gPaneOutline;
+}
+
+.layer-construction {
+  animation-name: gConstruction;
+  fill: none;
+  stroke: rgba(47, 93, 124, 0.72);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.construction-g {
+  fill: transparent;
+  stroke: rgba(23, 22, 21, 0.8);
+  stroke-width: 1.2;
+  paint-order: stroke;
+}
+
+.viewfinder,
+.measure-line,
+.measure-tick {
+  fill: none;
+  stroke: rgba(47, 93, 124, 0.45);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.measure-line {
+  stroke-dasharray: 2 8;
+}
+
+.coordinate-dot {
+  fill: rgba(158, 42, 43, 0.56);
+  stroke: none;
+}
+
+.layer-archive-fill {
+  animation-name: gArchive;
+}
+
+.receipt-rule {
+  fill: none;
+  stroke: rgba(43, 41, 38, 0.34);
+  stroke-width: 2;
+}
+
+.archive-fragment {
+  fill: rgba(43, 41, 38, 0.34);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.layer-archive-outline {
+  fill: transparent;
+  stroke: rgba(43, 41, 38, 0.62);
+  stroke-width: 1.4;
+  paint-order: stroke;
+  animation-name: gArchiveOutline;
+}
+
+.layer-ink-fill {
+  fill: #0f0f0e;
+  filter: url(#galokInkEdge);
+  animation-name: gInkFill;
+}
+
+.layer-ink-text {
+  fill: #0f0f0e;
+  filter: url(#galokInkEdge);
+  animation-name: gInkText;
+}
+
+.ink-bleed {
+  fill: none;
+  stroke: rgba(15, 15, 14, 0.64);
+  stroke-width: 3;
+  stroke-linecap: round;
+  animation-name: gInkBleed;
+}
+
+.ink-bleed-b {
+  fill: rgba(15, 15, 14, 0.42);
+  stroke: none;
+}
+
+.motion-ghost-g {
+  display: none;
+}
+
+.GalokMotionHero .MetaCaption.identity-lockup {
+  top: calc(50% + clamp(142px, 15svh, 210px));
+}
+
+.GalokMotionHero + .reel-caption {
+  bottom: clamp(24px, 3.6svh, 42px);
+  width: min(620px, 76vw);
+  text-align: center;
+}
+
+.identity-film.is-paused .motion-layer,
+.identity-film.is-paused .motion-paper-grain {
+  animation-play-state: paused;
+}
+
+@keyframes gClassicFill {
+  0%, 9%, 94%, 100% { opacity: 1; filter: blur(0); }
+  14%, 89% { opacity: 0; filter: blur(5px); }
+}
+
+@keyframes gClassicText {
+  0%, 10%, 93%, 100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+  14%, 89% {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(1.006);
+  }
+}
+
+@keyframes gLetterpress {
+  0%, 10%, 29%, 100% { opacity: 0; filter: blur(5px); }
+  14%, 25% { opacity: 0.92; filter: blur(0); }
+}
+
+@keyframes gLetterpressShadow {
+  0%, 10%, 29%, 100% { opacity: 0; filter: blur(5px); }
+  15%, 25% { opacity: 1; filter: blur(0); }
+}
+
+@keyframes gLetterpressHighlight {
+  0%, 10%, 29%, 100% { opacity: 0; filter: blur(4px); }
+  15%, 25% { opacity: 0.8; filter: blur(0); }
+}
+
+@keyframes gPane {
+  0%, 26%, 44%, 100% {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.992);
+  }
+  31%, 40% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes gPaneOutline {
+  0%, 27%, 44%, 100% { opacity: 0; filter: blur(3px); }
+  31%, 40% { opacity: 1; filter: blur(0); }
+}
+
+@keyframes gConstruction {
+  0%, 41%, 60%, 100% {
+    opacity: 0;
+    filter: blur(4px);
+    transform: scale(0.99);
+  }
+  46%, 56% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes gArchive {
+  0%, 57%, 76%, 100% {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.994);
+  }
+  62%, 72% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes gArchiveOutline {
+  0%, 58%, 76%, 100% { opacity: 0; filter: blur(3px); }
+  63%, 72% { opacity: 0.72; filter: blur(0); }
+}
+
+@keyframes gInkFill {
+  0%, 73%, 92%, 100% {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.99);
+  }
+  78%, 88% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1.004);
+  }
+}
+
+@keyframes gInkText {
+  0%, 74%, 92%, 100% { opacity: 0; filter: blur(4px); }
+  79%, 88% { opacity: 0.92; filter: blur(0); }
+}
+
+@keyframes gInkBleed {
+  0%, 78%, 92%, 100% {
+    opacity: 0;
+    stroke-dasharray: 36;
+    stroke-dashoffset: 36;
+  }
+  82%, 88% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 1020px) {
+  .GalokMotionHero.galok-identity-panel {
+    height: min(500px, 54svh);
+    min-height: 370px;
+  }
+
+  .GalokMotionHero .GMark {
+    width: clamp(280px, 48svh, 390px);
+    height: clamp(230px, 39svh, 320px);
+  }
+
+  .GalokMotionHero .MetaCaption.identity-lockup {
+    top: calc(50% + clamp(124px, 17svh, 178px));
+  }
+}
+
+@media (max-width: 720px) {
+  .GalokMotionHero.galok-identity-panel {
+    top: 43%;
+    width: min(430px, 92vw);
+    height: 330px;
+    min-height: 320px;
+  }
+
+  .GalokMotionHero .MotionStage::before {
+    width: 350px;
+    height: 132px;
+  }
+
+  .GalokMotionHero .GMark {
+    width: clamp(245px, 70vw, 300px);
+    height: clamp(206px, 58vw, 250px);
+  }
+
+  .motion-g-clip-text,
+  .stable-serif-g {
+    font-size: 342px;
+  }
+
+  .GalokMotionHero .MetaCaption.identity-lockup {
+    top: calc(50% + 124px);
+  }
+
+  .GalokMotionHero + .reel-caption {
+    bottom: 20px;
+    width: min(300px, 82vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .GalokMotionHero .motion-layer,
+  .GalokMotionHero .motion-paper-grain {
+    animation: none !important;
+  }
+
+  .GalokMotionHero .layer-classic-fill,
+  .GalokMotionHero .layer-classic-text {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+/* GalokMotionHero final pass: one large editorial serif G with material states only. */
+:root {
+  --galok-motion-cycle: 15.6s;
+}
+
+.launch-hero .identity-visual {
+  min-height: clamp(600px, 70svh, 840px);
+}
+
+.launch-hero .identity-film {
+  min-height: clamp(600px, 70svh, 840px);
+}
+
+.GalokMotionHero.galok-identity-panel {
+  top: 45.5%;
+  width: min(1120px, 90vw);
+  height: clamp(500px, 58svh, 700px);
+  min-height: 500px;
+  pointer-events: none;
+}
+
+.GalokMotionHero .MotionStage::before {
+  width: min(840px, 72vw);
+  height: min(330px, 31svh);
+  border-color: rgba(191, 183, 170, 0.22);
+  opacity: 0.68;
+  transform: rotate(-4deg);
+}
+
+.GalokMotionHero .MotionStage::after {
+  width: clamp(390px, 40vw, 640px);
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.98), rgba(251, 250, 247, 0.58) 58%, transparent 74%),
+    radial-gradient(circle at 39% 31%, rgba(158, 42, 43, 0.052), transparent 36%),
+    radial-gradient(circle at 62% 64%, rgba(47, 93, 124, 0.045), transparent 42%);
+  box-shadow:
+    0 40px 120px rgba(23, 23, 23, 0.075),
+    inset 0 0 0 1px rgba(191, 183, 170, 0.08);
+}
+
+.GalokMotionHero .GMark {
+  width: clamp(480px, 42vw, 690px);
+  height: clamp(360px, 40svh, 520px);
+  max-width: calc(100% - 96px);
+  max-height: calc(100% - 130px);
+  overflow: visible;
+}
+
+.motion-g-clip-text,
+.stable-serif-g {
+  font-size: 455px;
+  font-weight: 700;
+  dominant-baseline: alphabetic;
+}
+
+.motion-layer {
+  animation-duration: var(--galok-motion-cycle);
+  animation-timing-function: cubic-bezier(0.48, 0, 0.18, 1);
+}
+
+.layer-classic-fill,
+.layer-classic-text {
+  fill: var(--galok-charcoal);
+}
+
+.layer-classic-fill {
+  animation-name: gClassicFill;
+}
+
+.layer-classic-text {
+  animation-name: gClassicText;
+}
+
+.layer-letterpress-fill {
+  fill: #ede4d7;
+  animation-name: gLetterpress;
+}
+
+.layer-letterpress-shadow {
+  fill: rgba(82, 72, 58, 0.28);
+  transform: translate(5px, 6px);
+  animation-name: gLetterpressShadow;
+}
+
+.layer-letterpress-highlight {
+  fill: rgba(255, 255, 255, 0.9);
+  transform: translate(-4px, -5px);
+  animation-name: gLetterpressHighlight;
+}
+
+.layer-pane-fill {
+  animation-name: gPane;
+}
+
+.pane-slab-a {
+  fill: rgba(239, 230, 217, 0.78);
+}
+
+.pane-slab-b {
+  fill: rgba(182, 196, 184, 0.6);
+}
+
+.pane-slab-c {
+  fill: rgba(205, 161, 152, 0.44);
+}
+
+.layer-pane-outline {
+  stroke: rgba(47, 93, 124, 0.62);
+  stroke-width: 1.7;
+  animation-name: gPaneOutline;
+}
+
+.layer-construction {
+  animation-name: gConstruction;
+}
+
+.construction-g {
+  stroke: rgba(23, 22, 21, 0.78);
+  stroke-width: 1.45;
+}
+
+.viewfinder,
+.measure-line,
+.measure-tick {
+  stroke: rgba(47, 93, 124, 0.48);
+  stroke-width: 1.25;
+}
+
+.coordinate-dot {
+  fill: rgba(158, 42, 43, 0.52);
+}
+
+.layer-archive-fill {
+  animation-name: gArchive;
+}
+
+.layer-archive-outline {
+  stroke: rgba(43, 41, 38, 0.58);
+  stroke-width: 1.3;
+  animation-name: gArchiveOutline;
+}
+
+.layer-ink-fill,
+.layer-ink-text {
+  fill: #10100f;
+  filter: url(#galokInkEdge);
+}
+
+.layer-ink-fill {
+  animation-name: gInkFill;
+}
+
+.layer-ink-text {
+  animation-name: gInkText;
+}
+
+.ink-bleed {
+  animation-name: gInkBleed;
+}
+
+.GalokMotionHero .MetaCaption.identity-lockup {
+  top: calc(50% + clamp(165px, 20svh, 255px));
+  gap: 8px;
+}
+
+.GalokMotionHero .MetaCaption.identity-lockup strong {
+  font-size: clamp(1.02rem, 1.5vw, 1.5rem);
+  letter-spacing: 0.18em;
+}
+
+.GalokMotionHero .MetaCaption.identity-lockup span {
+  font-size: clamp(0.92rem, 1.1vw, 1.12rem);
+}
+
+.GalokMotionHero + .reel-caption {
+  bottom: clamp(26px, 4.2svh, 56px);
+  color: rgba(119, 115, 107, 0.9);
+}
+
+@keyframes gClassicFill {
+  0%, 9%, 92%, 100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+  12%, 89% {
+    opacity: 0;
+    filter: blur(7px);
+    transform: scale(1.012);
+  }
+}
+
+@keyframes gClassicText {
+  0%, 9.5%, 92%, 100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+  12.5%, 89% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: scale(1.012);
+  }
+}
+
+@keyframes gLetterpress {
+  0%, 9%, 26%, 100% {
+    opacity: 0;
+    filter: blur(7px);
+    transform: scale(0.992);
+  }
+  13%, 23% {
+    opacity: 0.96;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes gLetterpressShadow {
+  0%, 9%, 26%, 100% {
+    opacity: 0;
+    filter: blur(7px);
+    transform: translate(8px, 9px) scale(0.99);
+  }
+  14%, 23% {
+    opacity: 0.84;
+    filter: blur(0.2px);
+    transform: translate(5px, 6px) scale(1);
+  }
+}
+
+@keyframes gLetterpressHighlight {
+  0%, 9%, 26%, 100% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translate(-8px, -9px) scale(0.99);
+  }
+  14%, 23% {
+    opacity: 0.72;
+    filter: blur(0.2px);
+    transform: translate(-4px, -5px) scale(1);
+  }
+}
+
+@keyframes gPane {
+  0%, 24%, 42%, 100% {
+    opacity: 0;
+    filter: blur(7px);
+    transform: scale(0.988);
+  }
+  29%, 38% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes gPaneOutline {
+  0%, 24.5%, 42%, 100% {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.992);
+  }
+  29%, 38% {
+    opacity: 0.86;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes gConstruction {
+  0%, 40%, 58%, 100% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: scale(0.99);
+  }
+  45%, 54% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes gArchive {
+  0%, 56%, 74%, 100% {
+    opacity: 0;
+    filter: blur(7px);
+    transform: scale(0.99);
+  }
+  61%, 70% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes gArchiveOutline {
+  0%, 56%, 74%, 100% {
+    opacity: 0;
+    filter: blur(5px);
+  }
+  61%, 70% {
+    opacity: 0.72;
+    filter: blur(0);
+  }
+}
+
+@keyframes gInkFill {
+  0%, 72%, 91%, 100% {
+    opacity: 0;
+    filter: url(#galokInkEdge) blur(7px);
+    transform: scale(0.986);
+  }
+  77%, 87% {
+    opacity: 1;
+    filter: url(#galokInkEdge) blur(0);
+    transform: scale(1.002);
+  }
+}
+
+@keyframes gInkText {
+  0%, 72.5%, 91%, 100% {
+    opacity: 0;
+    filter: url(#galokInkEdge) blur(6px);
+  }
+  78%, 87% {
+    opacity: 0.82;
+    filter: url(#galokInkEdge) blur(0);
+  }
+}
+
+@keyframes gInkBleed {
+  0%, 77%, 91%, 100% {
+    opacity: 0;
+    stroke-dasharray: 36;
+    stroke-dashoffset: 36;
+  }
+  81%, 87% {
+    opacity: 0.72;
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 1020px) {
+  .launch-hero .identity-visual,
+  .launch-hero .identity-film {
+    min-height: clamp(520px, 62svh, 660px);
+  }
+
+  .GalokMotionHero.galok-identity-panel {
+    width: min(820px, 92vw);
+    height: clamp(430px, 54svh, 560px);
+    min-height: 430px;
+  }
+
+  .GalokMotionHero .GMark {
+    width: clamp(390px, 62vw, 520px);
+    height: clamp(310px, 45svh, 410px);
+    max-width: calc(100% - 64px);
+    max-height: calc(100% - 112px);
+  }
+
+  .motion-g-clip-text,
+  .stable-serif-g {
+    font-size: 430px;
+  }
+
+  .GalokMotionHero .MetaCaption.identity-lockup {
+    top: calc(50% + clamp(145px, 18svh, 205px));
+  }
+}
+
+@media (max-width: 720px) {
+  .launch-hero .identity-visual,
+  .launch-hero .identity-film {
+    min-height: clamp(430px, 58svh, 560px);
+  }
+
+  .GalokMotionHero.galok-identity-panel {
+    top: 44%;
+    width: min(430px, 94vw);
+    height: clamp(330px, 51svh, 430px);
+    min-height: 330px;
+  }
+
+  .GalokMotionHero .MotionStage::before {
+    width: min(430px, 90vw);
+    height: 160px;
+  }
+
+  .GalokMotionHero .MotionStage::after {
+    width: clamp(270px, 72vw, 360px);
+  }
+
+  .GalokMotionHero .GMark {
+    width: clamp(300px, 78vw, 365px);
+    height: clamp(244px, 64vw, 304px);
+    max-width: calc(100% - 28px);
+    max-height: calc(100% - 88px);
+  }
+
+  .motion-g-clip-text,
+  .stable-serif-g {
+    font-size: 408px;
+  }
+
+  .GalokMotionHero .MetaCaption.identity-lockup {
+    top: calc(50% + clamp(112px, 20svh, 148px));
+  }
+
+  .GalokMotionHero + .reel-caption {
+    bottom: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .GalokMotionHero .motion-layer,
+  .GalokMotionHero .motion-paper-grain {
+    animation: none !important;
+  }
+
+  .GalokMotionHero .layer-letterpress-fill,
+  .GalokMotionHero .layer-letterpress-shadow,
+  .GalokMotionHero .layer-letterpress-highlight,
+  .GalokMotionHero .layer-pane-fill,
+  .GalokMotionHero .layer-pane-outline,
+  .GalokMotionHero .layer-construction,
+  .GalokMotionHero .layer-archive-fill,
+  .GalokMotionHero .layer-archive-outline,
+  .GalokMotionHero .layer-ink-fill,
+  .GalokMotionHero .layer-ink-text,
+  .GalokMotionHero .ink-bleed {
+    opacity: 0 !important;
+  }
+
+  .GalokMotionHero .layer-classic-fill,
+  .GalokMotionHero .layer-classic-text {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
