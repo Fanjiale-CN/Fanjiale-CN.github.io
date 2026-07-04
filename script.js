@@ -4,6 +4,7 @@
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const pinyinByGlyph = {
     "\u89c6": "shi",
+    "\u52bf": "shi",
     "\u6846": "kuang",
     "\u5bdf": "cha"
   };
@@ -144,10 +145,44 @@
     `);
   }
 
+  function renderGooseLegIcon() {
+    return visualNoteShell("goose-leg as narrative evidence", `
+      <svg class="visual-note-svg visual-note-svg-goose-leg" viewBox="0 0 184 126" aria-hidden="true" focusable="false">
+        <path class="visual-note-fill visual-note-fill-main" d="M61 65c7-23 30-36 54-29 17 5 30 18 34 34 4 17-6 30-22 33-16 3-30-5-40-18l-16 16c-5 5-13 5-18 0s-5-13 0-18Z"></path>
+        <path class="visual-note-line" style="--draw-delay:0ms" pathLength="1" d="M61 65c7-23 30-36 54-29 17 5 30 18 34 34 4 17-6 30-22 33-16 3-30-5-40-18"></path>
+        <path class="visual-note-line" style="--draw-delay:100ms" pathLength="1" d="M88 84 72 100c-5 5-13 5-18 0s-5-13 0-18l17-17"></path>
+        <path class="visual-note-line" style="--draw-delay:200ms" pathLength="1" d="M57 91c-7 0-12-5-12-11s5-11 12-11"></path>
+        <path class="visual-note-line" style="--draw-delay:300ms" pathLength="1" d="M73 99c0 7-5 12-11 12s-11-5-11-12"></path>
+        <path class="visual-note-line" style="--draw-delay:400ms" pathLength="1" d="M97 51c15-4 29 2 36 15M92 62c13-4 25 1 31 12M91 74c12-2 21 1 27 9"></path>
+        <path class="visual-note-line visual-note-label-line" style="--draw-delay:520ms" pathLength="1" d="M33 35h46M33 45h34M113 20h30M113 29h24"></path>
+        <circle class="visual-note-dot" cx="148" cy="71" r="3"></circle>
+        <circle class="visual-note-dot" cx="37" cy="80" r="2.8"></circle>
+      </svg>
+    `);
+  }
+
+  function renderChinaZunIcon() {
+    return visualNoteShell("China Zun as vertical evidence", `
+      <svg class="visual-note-svg visual-note-svg-china-zun" viewBox="0 0 184 126" aria-hidden="true" focusable="false">
+        <path class="visual-note-fill visual-note-fill-main" d="M74 112 84 20h18l10 92Z"></path>
+        <path class="visual-note-line" style="--draw-delay:0ms" pathLength="1" d="M74 112 84 20h18l10 92Z"></path>
+        <path class="visual-note-line" style="--draw-delay:90ms" pathLength="1" d="M86 20c5 8 14 8 20 0"></path>
+        <path class="visual-note-line" style="--draw-delay:180ms" pathLength="1" d="M82 42h24M80 58h28M78 74h32M76 90h36"></path>
+        <path class="visual-note-line" style="--draw-delay:300ms" pathLength="1" d="M92 23v88M100 23v88"></path>
+        <path class="visual-note-line visual-note-zun-cordon" style="--draw-delay:430ms" pathLength="1" d="M38 100h108M46 100l-8 16M138 100l8 16M54 100l20 16M86 100l20 16M118 100l20 16"></path>
+        <path class="visual-note-line visual-note-zun-signal" style="--draw-delay:560ms" pathLength="1" d="M124 34c10 6 16 14 18 24M132 25c16 10 26 24 30 42"></path>
+        <circle class="visual-note-dot" cx="96" cy="19" r="2.8"></circle>
+        <circle class="visual-note-dot" cx="144" cy="65" r="2.4"></circle>
+      </svg>
+    `);
+  }
+
   Object.assign(visualNoteIcons, {
     winter: renderWinterIcon,
     malatang: renderMalatangIcon,
-    barbecue: renderBarbecueIcon
+    barbecue: renderBarbecueIcon,
+    "goose-leg": renderGooseLegIcon,
+    "china-zun": renderChinaZunIcon
   });
 
   function resolveKeywordAccent(element) {
@@ -373,6 +408,53 @@
 
   initInteractiveCharts();
 
+  function initHomepageActionFlow() {
+    const seriesSection = document.querySelector("#series");
+    const seriesCards = Array.from(document.querySelectorAll("[data-series-key]"));
+    const seriesTriggers = Array.from(document.querySelectorAll("[data-series-jump]"));
+    if (!seriesSection || seriesTriggers.length === 0) return;
+
+    let clearTimer = 0;
+
+    function clearSeriesGuide() {
+      window.clearTimeout(clearTimer);
+      seriesTriggers.forEach((trigger) => trigger.classList.remove("is-active"));
+      seriesCards.forEach((card) => card.classList.remove("is-spotlit", "is-dimmed"));
+      seriesSection.querySelector(".series-grid")?.classList.remove("is-guided");
+    }
+
+    function guideSeries(key, trigger) {
+      clearSeriesGuide();
+      seriesSection.querySelector(".series-grid")?.classList.add("is-guided");
+      trigger?.classList.add("is-active");
+
+      const showAll = key === "all";
+      seriesCards.forEach((card) => {
+        const match = showAll || card.dataset.seriesKey === key;
+        card.classList.toggle("is-spotlit", match);
+        card.classList.toggle("is-dimmed", !match);
+      });
+
+      clearTimer = window.setTimeout(clearSeriesGuide, showAll ? 2400 : 3200);
+    }
+
+    seriesTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        const key = trigger.dataset.seriesJump || "all";
+        const localTarget = trigger.getAttribute("href")?.startsWith("#");
+        if (localTarget) {
+          event.preventDefault();
+          seriesSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+          window.setTimeout(() => guideSeries(key, trigger), reduceMotion ? 0 : 360);
+        } else {
+          guideSeries(key, trigger);
+        }
+      });
+    });
+  }
+
+  initHomepageActionFlow();
+
   document.querySelectorAll("[data-identity-toggle]").forEach((button) => {
     const film = button.closest("[data-logo-reel]");
     if (!film) return;
@@ -450,7 +532,7 @@
       if (event.target.closest(".keyword-note")) return null;
       const direct = event.target.closest(".glyph-draw");
       if (direct) return direct;
-      const scope = event.target.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .hero-system span");
+      const scope = event.target.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .series-pill, .hero-system span");
       return scope ? scope.querySelector(".glyph-draw") : null;
     }
 
@@ -477,7 +559,7 @@
       const next = event.relatedTarget;
       if (next instanceof Element && activeGlyph.contains(next)) return;
       const current = glyphTargetFromEvent(event);
-      const nextGlyph = next instanceof Element ? (next.closest(".glyph-draw") || next.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .hero-system span")?.querySelector(".glyph-draw")) : null;
+      const nextGlyph = next instanceof Element ? (next.closest(".glyph-draw") || next.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .series-pill, .hero-system span")?.querySelector(".glyph-draw")) : null;
       if (current === activeGlyph && nextGlyph !== activeGlyph) hideGlyphCue();
     });
 
@@ -486,7 +568,7 @@
       const next = event.relatedTarget;
       if (next instanceof Element && activeGlyph.contains(next)) return;
       const current = glyphTargetFromEvent(event);
-      const nextGlyph = next instanceof Element ? (next.closest(".glyph-draw") || next.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .hero-system span")?.querySelector(".glyph-draw")) : null;
+      const nextGlyph = next instanceof Element ? (next.closest(".glyph-draw") || next.closest(".essay-card, .series-card, .filter-button, .article-hero, .page-kicker, .series-pill, .hero-system span")?.querySelector(".glyph-draw")) : null;
       if (current === activeGlyph && nextGlyph !== activeGlyph) hideGlyphCue();
     });
   }

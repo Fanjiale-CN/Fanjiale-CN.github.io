@@ -29,6 +29,16 @@ window.GALOK_CONTENT = {
     {
       series: "macro",
       anchor: "\u89c6",
+      deck: "AI silence became infrastructure.",
+      title: "When AI goes silent: real-time censorship infrastructure",
+      date: "2026",
+      readingTime: "8 min",
+      url: "/essays/ai-goes-silent-censorship-infrastructure/",
+      excerpt: "A Beijing crash story shows how a model can retrieve information in the afternoon and refuse to speak by evening."
+    },
+    {
+      series: "macro",
+      anchor: "\u89c6",
       deck: "The price anchor has moved.",
       title: "What your latte tells you about China's price illusion",
       date: "2026",
@@ -45,6 +55,16 @@ window.GALOK_CONTENT = {
       readingTime: "8 min",
       url: "/essays/platforms-redesign-choice/",
       excerpt: "The feed creates desire, exposes the mechanism behind desire, and turns consumption into a public receipt."
+    },
+    {
+      series: "scene",
+      anchor: "\u5bdf",
+      deck: "A street-food myth loses its campus filter.",
+      title: "How a goose-leg story shook an official narrative",
+      date: "2026",
+      readingTime: "8 min",
+      url: "/essays/goose-leg-official-narrative/",
+      excerpt: "A Beijing vendor, elite campuses and one goose-flavored duck leg show how a beloved sincerity story can fail once ordinary evidence arrives."
     },
     {
       series: "scene",
