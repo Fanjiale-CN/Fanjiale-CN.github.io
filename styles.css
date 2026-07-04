@@ -2,6 +2,7 @@
   color-scheme: light;
   --font-serif: "Galok English", "EB Garamond", "Times New Roman", serif;
   --font-hk: "Galok HK Ming", "PMingLiU", "MingLiU", "Songti TC", "Noto Serif HK", serif;
+  --font-glyph: "Galok Glyph Display", "Galok HK Ming", "PMingLiU", "MingLiU", serif;
   --font-ui: "Galok English", "Times New Roman", serif;
   --paper: #f7f4ef;
   --paper-2: #fffaf2;
@@ -69,6 +70,14 @@
   font-family: "Galok HK Ming";
   src: url("/assets/fonts/noto-serif-hk-glyphs-900.ttf") format("truetype");
   font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galok Glyph Display";
+  src: url("/assets/fonts/yishanbeizhuanti.ttf") format("truetype");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -1845,8 +1854,8 @@ button {
   position: relative;
   display: inline-block;
   color: var(--glyph-color);
-  font-family: var(--font-hk);
-  font-weight: 900;
+  font-family: var(--font-glyph);
+  font-weight: 400;
   line-height: 1;
   cursor: default;
   font-feature-settings: "palt" 1;
@@ -3545,9 +3554,9 @@ button {
 .glyph-cursor.is-final {
   color: var(--glyph-color, var(--ink));
   border-color: var(--glyph-color, var(--line-dark));
-  font-family: var(--font-hk);
+  font-family: var(--font-glyph);
   font-size: 1.35rem;
-  font-weight: 900;
+  font-weight: 400;
 }
 
 .glyph-cursor::after {
