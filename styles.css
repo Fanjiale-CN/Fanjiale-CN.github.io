@@ -20,6 +20,11 @@
 
 /* Spatial editorial homepage hero — built from the selected Erhai field-note direction. */
 .home-body {
+  --paper: #f1f3f2;
+  --paper-2: #fafbf9;
+  --muted: #697173;
+  --line: #d0d6d5;
+  --line-dark: #b6c0c0;
   background: var(--paper);
 }
 
@@ -128,6 +133,7 @@
 }
 
 .spatial-backdrop,
+.spatial-backdrop picture,
 .spatial-backdrop img,
 .spatial-world {
   position: absolute;
@@ -347,21 +353,33 @@
 }
 
 @media (max-width: 900px) {
+  html {
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
   .home-body .site-shell > .section {
     width: min(100% - 32px, 1280px);
   }
 
   .spatial-hero {
-    height: max(680px, 100svh);
-    min-height: 680px;
-    max-height: 960px;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 941 / 1672;
     perspective: none;
+    background: #82acd2;
   }
 
   .spatial-backdrop img,
   .spatial-poster {
-    object-position: left center;
-    transform: scale(1.01);
+    object-fit: cover;
+    object-position: center;
+    transform: none;
+    transition: none;
   }
 
   .spatial-world {
@@ -374,22 +392,24 @@
 
   .spatial-nav .nav-inner {
     width: 100%;
-    padding: 14px 16px 0;
+    padding: calc(env(safe-area-inset-top, 0px) + 14px) 18px 0;
     align-items: center;
     flex-direction: row;
   }
 
   .spatial-nav .nav-links {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-between;
     flex-wrap: nowrap;
-    gap: clamp(10px, 3.8vw, 22px);
+    gap: 6px;
   }
 
   .spatial-nav .nav-links a {
-    min-height: 32px;
-    color: #211f1c;
-    font-size: clamp(0.69rem, 3vw, 0.82rem);
+    min-height: 34px;
+    padding-inline: 2px;
+    color: #15232c;
+    font-size: clamp(0.72rem, 3vw, 0.84rem);
+    text-shadow: 0 1px 14px rgba(255, 255, 255, 0.78);
   }
 
   .spatial-nav .nav-links a:hover,
@@ -397,85 +417,63 @@
     color: #7e2220;
   }
 
-  .story-plane {
-    right: 12px;
-    left: auto;
-    width: 118px;
-    height: 54px;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 9px;
-    align-content: center;
-    padding: 8px 10px;
-    color: #211f1c;
-    border: 1px solid rgba(86, 77, 68, 0.42);
-    background: rgba(247, 244, 239, 0.82);
-    box-shadow: 0 10px 30px rgba(18, 19, 19, 0.14);
-    backdrop-filter: blur(12px);
+  .spatial-hero .story-plane {
+    right: auto;
+    display: block;
+    padding: 0;
+    color: transparent !important;
+    border: 1px solid transparent;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
     transform: none;
   }
 
-  .story-plane > * {
-    opacity: 1;
-  }
-
-  .story-plane .chapter-number {
-    grid-row: 1 / 3;
-    align-self: center;
-    color: #7e2220;
-    font-size: 0.9rem;
-  }
-
-  .story-plane strong,
-  .story-plane small {
-    color: #211f1c;
-    font-family: var(--font-ui);
-    line-height: 1;
-    text-transform: uppercase;
-  }
-
-  .story-plane strong {
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-  }
-
-  .story-plane small {
-    color: #6f675f;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-  }
-
-  .story-plane .chapter-rule {
-    display: none;
+  .spatial-hero .story-plane > * {
+    visibility: hidden;
+    opacity: 0 !important;
   }
 
   .story-plane-frame {
-    top: auto;
-    bottom: 148px;
+    left: 45.5%;
+    top: 41.2%;
+    width: 25.5%;
+    height: 18.5%;
   }
 
   .story-plane-observe {
-    top: auto;
-    bottom: 84px;
+    left: 69.5%;
+    top: 53.6%;
+    width: 27.5%;
+    height: 18%;
   }
 
   .story-plane-view {
-    top: auto;
-    bottom: 20px;
+    left: 52.5%;
+    top: 68%;
+    width: 34.5%;
+    height: 17%;
+  }
+
+  .story-plane:active,
+  .story-plane:focus-visible,
+  .story-plane.is-active {
+    border-color: rgba(126, 34, 32, 0.58);
+    background: rgba(255, 255, 255, 0.045);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.32);
   }
 
   .spatial-copy {
-    inset: 0 auto 0 0;
-    width: min(78%, 430px);
+    inset: 0;
+    width: 100%;
     height: 100%;
   }
 
   .shore-cta {
-    left: 6%;
-    top: 66%;
-    width: 62%;
-    min-height: 7%;
+    left: 11.5%;
+    top: 60.4%;
+    width: 25.5%;
+    min-height: 5.4%;
   }
 
   .spatial-hint {
@@ -488,10 +486,6 @@
 }
 
 @media (max-width: 520px) {
-  .spatial-hero {
-    height: max(700px, 100svh);
-  }
-
   .spatial-nav .nav-links {
     justify-content: space-between;
     gap: 6px;
@@ -502,9 +496,6 @@
     font-size: 0.68rem;
   }
 
-  .story-plane {
-    width: 106px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

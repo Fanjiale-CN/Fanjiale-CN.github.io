@@ -483,6 +483,33 @@
       chapter.addEventListener("focus", () => setChapter(chapter));
       chapter.addEventListener("blur", () => setChapter(null));
     });
+
+    if (!reduceMotion && window.gsap) {
+      const motion = window.gsap.matchMedia();
+      motion.add("(max-width: 900px)", () => {
+        const timeline = window.gsap.timeline({
+          defaults: { duration: 0.48, ease: "power2.out" }
+        });
+
+        timeline.from(hero.querySelector(".spatial-backdrop"), {
+          autoAlpha: 0.28,
+          scale: 1.018,
+          duration: 0.92,
+          ease: "power3.out",
+          transformOrigin: "50% 50%"
+        }, 0.12);
+
+        timeline.from(".spatial-nav .nav-links a", {
+          autoAlpha: 0,
+          y: -10,
+          duration: 0.42,
+          stagger: 0.055,
+          ease: "power2.out"
+        }, 0.2);
+
+        return () => timeline.kill();
+      });
+    }
   }
 
   initSpatialHero();
