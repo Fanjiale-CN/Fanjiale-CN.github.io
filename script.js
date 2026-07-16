@@ -702,3 +702,313 @@
     node.textContent = String(new Date().getFullYear());
   });
 })();
+
+(function initFieldSystem() {
+  const content = window.GALOK_CONTENT || { essays: [], series: {} };
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const body = document.body;
+  const siteNav = document.querySelector(".site-nav");
+
+  function enhanceNavigation() {
+    if (!siteNav) return;
+
+    const navInner = siteNav.querySelector(".nav-inner");
+    const brand = siteNav.querySelector(".brand");
+    const links = siteNav.querySelector(".nav-links");
+    if (!navInner || !brand || !links) return;
+
+    if (!brand.querySelector(".brand-lockup")) {
+      brand.innerHTML = `
+        <span class="brand-seal glyph-draw" data-glyph="視" data-pinyin="shi" aria-hidden="true">視</span>
+        <span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span>
+      `;
+    }
+
+    let toggle = navInner.querySelector(".nav-menu-toggle");
+    if (!toggle) {
+      toggle = document.createElement("button");
+      toggle.className = "nav-menu-toggle";
+      toggle.type = "button";
+      toggle.textContent = "Menu";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "Open navigation");
+      navInner.appendChild(toggle);
+    }
+
+    function setMenu(open) {
+      body.classList.toggle("nav-open", open);
+      toggle.textContent = open ? "Close" : "Menu";
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    }
+
+    toggle.addEventListener("click", () => setMenu(!body.classList.contains("nav-open")));
+    links.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && body.classList.contains("nav-open")) setMenu(false);
+    });
+
+    const syncNavTone = () => siteNav.classList.toggle("is-scrolled", window.scrollY > 24);
+    syncNavTone();
+    window.addEventListener("scroll", syncNavTone, { passive: true });
+  }
+
+  function labelInteriorPage() {
+    const hero = document.querySelector(".page-hero");
+    if (!hero) return;
+    const path = window.location.pathname;
+    let index = "01";
+    if (path.includes("/series/")) index = "02";
+    if (path.includes("/visual-notes/")) index = "03";
+    if (path.includes("/about/")) index = "04";
+    hero.dataset.sectionIndex = index;
+  }
+
+  function initArticleProgress() {
+    const article = document.querySelector(".article-content");
+    if (!article) return;
+
+    const progress = document.createElement("div");
+    progress.className = "article-read-progress";
+    progress.setAttribute("aria-hidden", "true");
+    progress.innerHTML = "<span></span>";
+    body.appendChild(progress);
+    const bar = progress.querySelector("span");
+
+    function updateProgress() {
+      const rect = article.getBoundingClientRect();
+      const articleTop = window.scrollY + rect.top;
+      const readable = Math.max(1, article.offsetHeight - window.innerHeight * 0.55);
+      const read = Math.min(1, Math.max(0, (window.scrollY - articleTop + window.innerHeight * 0.28) / readable));
+      bar.style.width = `${(read * 100).toFixed(2)}%`;
+    }
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+  }
+
+  function initHomepageIndex() {
+    const carousel = document.querySelector("[data-field-carousel]");
+    const track = document.querySelector("[data-field-track]");
+    const count = document.querySelector("[data-field-count]");
+    const drawer = document.querySelector("[data-field-drawer]");
+    if (!carousel || !track || !count || !drawer) return;
+
+    const essayImages = [
+      "/assets/visual-notes/city-road.webp",
+      "/assets/visual-notes/ferry.webp",
+      "/assets/visual-notes/old-street.webp",
+      "/assets/visual-notes/botanical-02.webp",
+      "/assets/visual-notes/return-01.webp",
+      "/assets/visual-notes/gulangyu-08.webp"
+    ];
+
+    const essayItems = content.essays.map((essay, index) => ({
+      eyebrow: content.series?.[essay.series]?.en || "Essay",
+      title: essay.title,
+      excerpt: essay.excerpt,
+      href: essay.url,
+      image: essayImages[index % essayImages.length],
+      imageAlt: `Field image for ${essay.title}`,
+      action: "Read the essay"
+    }));
+
+    const seriesItems = [
+      {
+        eyebrow: "View / 01",
+        title: "Macro pressure becomes visible.",
+        excerpt: "Follow policy, balance sheets and price signals back into ordinary choices.",
+        href: "/series/macro/",
+        image: "/assets/visual-notes/return-01.webp",
+        imageAlt: "City and water at dusk",
+        action: "Open View"
+      },
+      {
+        eyebrow: "Frame / 02",
+        title: "Scattered facts become a usable lens.",
+        excerpt: "Maps, loops, receipts and concepts that keep working after the article ends.",
+        href: "/series/frame/",
+        image: "/assets/visual-notes/city-road.webp",
+        imageAlt: "Urban road and infrastructure",
+        action: "Open Frame"
+      },
+      {
+        eyebrow: "Observe / 03",
+        title: "A small scene carries the system.",
+        excerpt: "Street-level evidence from stores, platforms, cities and repeated routines.",
+        href: "/series/scene/",
+        image: "/assets/visual-notes/old-street.webp",
+        imageAlt: "Old street with lanterns",
+        action: "Open Observe"
+      }
+    ];
+
+    const noteItems = [
+      {
+        eyebrow: "Xiamen / 01",
+        title: "The old street edits itself for the camera.",
+        excerpt: "Lanterns, shade, storefronts and the tourist-facing texture of an alley.",
+        href: "/visual-notes/xiamen/",
+        image: "/assets/visual-notes/old-street.webp",
+        imageAlt: "Lanterns in an old Xiamen street",
+        action: "Open the note"
+      },
+      {
+        eyebrow: "Xiamen / 02",
+        title: "Infrastructure becomes the daily stage.",
+        excerpt: "A road curve holds movement, greenery, concrete and summer heat in one frame.",
+        href: "/visual-notes/xiamen/",
+        image: "/assets/visual-notes/city-road.webp",
+        imageAlt: "Road curving beneath a bridge",
+        action: "Open the note"
+      },
+      {
+        eyebrow: "Xiamen / 03",
+        title: "Water turns distance into composition.",
+        excerpt: "Ferry routes, skyline edges and the quiet infrastructure of arrival and return.",
+        href: "/visual-notes/xiamen/",
+        image: "/assets/visual-notes/ferry.webp",
+        imageAlt: "Ferry on blue water",
+        action: "Open the note"
+      }
+    ];
+
+    const collections = { essays: essayItems, series: seriesItems, notes: noteItems };
+    const labels = { essays: "ESSAYS", series: "SERIES", notes: "VISUAL NOTES" };
+    let activeKey = "essays";
+    let activeItems = collections[activeKey];
+    let activeIndex = 0;
+    let drawerIndex = 0;
+    let returnFocus = null;
+    let swipeStartX = null;
+    let closeTimer = 0;
+
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function renderCards() {
+      track.innerHTML = activeItems.map((item, index) => `
+        <article class="field-story-card" aria-label="${item.title}">
+          <div class="field-story-card-media">
+            <img src="${item.image}" alt="${item.imageAlt}" loading="${index === 0 ? "eager" : "lazy"}">
+          </div>
+          <div class="field-story-card-copy">
+            <div><span>${item.eyebrow}</span><span>${pad(index + 1)} / ${pad(activeItems.length)}</span></div>
+            <h3>${item.title}</h3>
+            <p>${item.excerpt}</p>
+            <div class="field-card-actions">
+              <a class="field-primary field-primary--light" href="${item.href}">${item.action}</a>
+              <button class="field-card-preview" type="button" data-story-preview="${index}">Preview</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+      activeIndex = 0;
+      syncCarousel();
+    }
+
+    function syncCarousel() {
+      track.style.transform = `translate3d(${-activeIndex * 100}%, 0, 0)`;
+      count.textContent = `${pad(activeIndex + 1)} / ${pad(activeItems.length)}`;
+    }
+
+    function moveCarousel(direction) {
+      activeIndex = (activeIndex + direction + activeItems.length) % activeItems.length;
+      syncCarousel();
+    }
+
+    function updateDrawer() {
+      const item = activeItems[drawerIndex];
+      if (!item) return;
+      drawer.querySelector("[data-drawer-meta]").textContent = `${pad(drawerIndex + 1)} / ${labels[activeKey]}`;
+      drawer.querySelector("[data-drawer-series]").textContent = item.eyebrow;
+      drawer.querySelector("[data-drawer-title]").textContent = item.title;
+      drawer.querySelector("[data-drawer-excerpt]").textContent = item.excerpt;
+      drawer.querySelector("[data-drawer-count]").textContent = `${pad(drawerIndex + 1)} / ${pad(activeItems.length)}`;
+      const image = drawer.querySelector("[data-drawer-image]");
+      image.src = item.image;
+      image.alt = item.imageAlt;
+      const link = drawer.querySelector("[data-drawer-link]");
+      link.href = item.href;
+      link.textContent = item.action;
+    }
+
+    function openDrawer(index, trigger) {
+      window.clearTimeout(closeTimer);
+      drawerIndex = Number.isFinite(index) ? index : activeIndex;
+      returnFocus = trigger || document.activeElement;
+      updateDrawer();
+      drawer.hidden = false;
+      body.classList.add("field-drawer-open");
+      requestAnimationFrame(() => {
+        drawer.classList.add("is-open");
+        drawer.querySelector("[data-story-close]")?.focus({ preventScroll: true });
+      });
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove("is-open");
+      body.classList.remove("field-drawer-open");
+      closeTimer = window.setTimeout(() => {
+        drawer.hidden = true;
+        if (returnFocus instanceof HTMLElement) returnFocus.focus({ preventScroll: true });
+      }, reduceMotion ? 0 : 420);
+    }
+
+    document.querySelectorAll("[data-field-tab]").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        activeKey = tab.dataset.fieldTab;
+        activeItems = collections[activeKey];
+        document.querySelectorAll("[data-field-tab]").forEach((item) => {
+          item.setAttribute("aria-selected", String(item === tab));
+        });
+        renderCards();
+      });
+    });
+
+    document.querySelector("[data-field-prev]")?.addEventListener("click", () => moveCarousel(-1));
+    document.querySelector("[data-field-next]")?.addEventListener("click", () => moveCarousel(1));
+
+    track.addEventListener("pointerdown", (event) => {
+      swipeStartX = event.clientX;
+    });
+    track.addEventListener("pointerup", (event) => {
+      if (swipeStartX === null) return;
+      const delta = event.clientX - swipeStartX;
+      swipeStartX = null;
+      if (Math.abs(delta) < 48) return;
+      moveCarousel(delta < 0 ? 1 : -1);
+    });
+    track.addEventListener("pointercancel", () => { swipeStartX = null; });
+
+    document.addEventListener("click", (event) => {
+      if (!(event.target instanceof Element)) return;
+      const preview = event.target.closest("[data-story-preview]");
+      if (preview) openDrawer(Number(preview.dataset.storyPreview), preview);
+      const heroOpen = event.target.closest("[data-story-open]");
+      if (heroOpen) openDrawer(Number(heroOpen.dataset.storyOpen), heroOpen);
+    });
+
+    drawer.querySelectorAll("[data-story-close]").forEach((button) => button.addEventListener("click", closeDrawer));
+    drawer.querySelector("[data-story-prev]")?.addEventListener("click", () => {
+      drawerIndex = (drawerIndex - 1 + activeItems.length) % activeItems.length;
+      updateDrawer();
+    });
+    drawer.querySelector("[data-story-next]")?.addEventListener("click", () => {
+      drawerIndex = (drawerIndex + 1) % activeItems.length;
+      updateDrawer();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !drawer.hidden) closeDrawer();
+    });
+
+    renderCards();
+  }
+
+  enhanceNavigation();
+  labelInteriorPage();
+  initArticleProgress();
+  initHomepageIndex();
+})();
