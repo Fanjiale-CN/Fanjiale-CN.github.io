@@ -719,7 +719,7 @@
 
     if (!brand.querySelector(".brand-lockup")) {
       brand.innerHTML = `
-        <span class="brand-seal glyph-draw" data-glyph="視" data-pinyin="shi" aria-hidden="true">視</span>
+        <span class="brand-seal glyph-draw" data-glyph="视" data-pinyin="shi" aria-hidden="true">视</span>
         <span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span>
       `;
     }
@@ -943,8 +943,10 @@
       drawer.hidden = false;
       body.classList.add("field-drawer-open");
       requestAnimationFrame(() => {
-        drawer.classList.add("is-open");
-        drawer.querySelector("[data-story-close]")?.focus({ preventScroll: true });
+        requestAnimationFrame(() => {
+          drawer.classList.add("is-open");
+          drawer.querySelector("header [data-story-close]")?.focus({ preventScroll: true });
+        });
       });
     }
 
@@ -954,7 +956,7 @@
       closeTimer = window.setTimeout(() => {
         drawer.hidden = true;
         if (returnFocus instanceof HTMLElement) returnFocus.focus({ preventScroll: true });
-      }, reduceMotion ? 0 : 420);
+      }, reduceMotion ? 0 : 640);
     }
 
     document.querySelectorAll("[data-field-tab]").forEach((tab) => {
