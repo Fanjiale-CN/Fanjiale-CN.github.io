@@ -719,7 +719,7 @@
 
     if (!brand.querySelector(".brand-lockup")) {
       brand.innerHTML = `
-        <span class="brand-seal glyph-draw" data-glyph="视" data-pinyin="shi" aria-hidden="true">视</span>
+        <img class="brand-mark" src="/assets/galok-mark.svg" alt="" aria-hidden="true">
         <span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span>
       `;
     }
@@ -786,6 +786,150 @@
     updateProgress();
     window.addEventListener("scroll", updateProgress, { passive: true });
     window.addEventListener("resize", updateProgress);
+  }
+
+  function initGlobalContactModule() {
+    document.querySelectorAll('a[href="https://x.com/galok"]').forEach((link) => {
+      link.href = "https://x.com/galokview";
+    });
+
+    const footer = document.querySelector("footer.footer");
+    if (!footer || document.querySelector(".site-contact")) return;
+
+    const contact = document.createElement("section");
+    contact.className = "site-contact";
+    contact.setAttribute("aria-label", "Contact Galok");
+    contact.innerHTML = `
+      <div class="site-contact-inner">
+        <p>CONTACT / GALOK</p>
+        <h2>Contact me with email:</h2>
+        <a href="mailto:galokview@outlook.com">galokview@outlook.com</a>
+      </div>
+    `;
+    footer.before(contact);
+  }
+
+  function initFieldHeroCarousel() {
+    const hero = document.querySelector("[data-field-hero]");
+    if (!hero) return;
+
+    const stage = hero.querySelector("[data-field-hero-stage]");
+    const slides = Array.from(hero.querySelectorAll("[data-field-hero-slide]"));
+    const dots = Array.from(hero.querySelectorAll("[data-field-hero-dot]"));
+    const progress = hero.querySelector("[data-field-hero-progress]");
+    const fields = {
+      note: hero.querySelector("[data-field-hero-note]"),
+      place: hero.querySelector("[data-field-hero-place]"),
+      coordinate: hero.querySelector("[data-field-hero-coordinate]"),
+      kicker: hero.querySelector("[data-field-hero-kicker]"),
+      titleOne: hero.querySelector("[data-field-hero-title-one]"),
+      titleTwo: hero.querySelector("[data-field-hero-title-two]"),
+      copy: hero.querySelector("[data-field-hero-copy]"),
+      number: hero.querySelector("[data-field-hero-number]"),
+      lens: hero.querySelector("[data-field-hero-lens]"),
+      subject: hero.querySelector("[data-field-hero-subject]")
+    };
+    if (!stage || slides.length < 2 || Object.values(fields).some((field) => !field)) return;
+
+    const interval = 7600;
+    let activeIndex = 0;
+    let autoplayTimer = 0;
+    let copyTimer = 0;
+    let swipeStartX = null;
+    let paused = false;
+
+    function syncCopy(slide) {
+      Object.entries(fields).forEach(([key, field]) => {
+        field.textContent = slide.dataset[key] || "";
+      });
+    }
+
+    function restartProgress() {
+      if (!progress) return;
+      progress.classList.remove("is-running");
+      void progress.offsetWidth;
+      if (!reduceMotion && !paused) progress.classList.add("is-running");
+    }
+
+    function scheduleAutoplay() {
+      window.clearTimeout(autoplayTimer);
+      if (reduceMotion || paused || document.hidden) return;
+      autoplayTimer = window.setTimeout(() => showSlide(activeIndex + 1), interval);
+    }
+
+    function showSlide(nextIndex, instant = false) {
+      const normalized = (nextIndex + slides.length) % slides.length;
+      const nextSlide = slides[normalized];
+      if (!nextSlide) return;
+
+      activeIndex = normalized;
+      slides.forEach((slide, index) => slide.classList.toggle("is-active", index === activeIndex));
+      dots.forEach((dot, index) => {
+        const active = index === activeIndex;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-pressed", String(active));
+      });
+
+      window.clearTimeout(copyTimer);
+      if (reduceMotion || instant) {
+        syncCopy(nextSlide);
+        hero.classList.remove("is-copy-changing");
+      } else {
+        hero.classList.add("is-copy-changing");
+        copyTimer = window.setTimeout(() => {
+          syncCopy(nextSlide);
+          hero.classList.remove("is-copy-changing");
+        }, 180);
+      }
+
+      restartProgress();
+      scheduleAutoplay();
+    }
+
+    function setPaused(value) {
+      paused = value;
+      if (paused) {
+        window.clearTimeout(autoplayTimer);
+        progress?.classList.remove("is-running");
+      } else {
+        restartProgress();
+        scheduleAutoplay();
+      }
+    }
+
+    dots.forEach((dot) => dot.addEventListener("click", () => showSlide(Number(dot.dataset.fieldHeroDot))));
+    hero.querySelector("[data-field-hero-prev]")?.addEventListener("click", () => showSlide(activeIndex - 1));
+    hero.querySelector("[data-field-hero-next]")?.addEventListener("click", () => showSlide(activeIndex + 1));
+
+    stage.addEventListener("pointerdown", (event) => {
+      swipeStartX = event.clientX;
+    });
+    stage.addEventListener("pointerup", (event) => {
+      if (swipeStartX === null) return;
+      const delta = event.clientX - swipeStartX;
+      swipeStartX = null;
+      if (Math.abs(delta) >= 48) showSlide(activeIndex + (delta < 0 ? 1 : -1));
+    });
+    stage.addEventListener("pointercancel", () => { swipeStartX = null; });
+
+    hero.addEventListener("mouseenter", () => setPaused(true));
+    hero.addEventListener("mouseleave", () => setPaused(false));
+    hero.addEventListener("focusin", () => setPaused(true));
+    hero.addEventListener("focusout", (event) => {
+      if (!hero.contains(event.relatedTarget)) setPaused(false);
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        window.clearTimeout(autoplayTimer);
+      } else {
+        restartProgress();
+        scheduleAutoplay();
+      }
+    });
+
+    syncCopy(slides[0]);
+    restartProgress();
+    scheduleAutoplay();
   }
 
   function initHomepageIndex() {
@@ -1010,7 +1154,9 @@
   }
 
   enhanceNavigation();
+  initGlobalContactModule();
   labelInteriorPage();
   initArticleProgress();
+  initFieldHeroCarousel();
   initHomepageIndex();
 })();
