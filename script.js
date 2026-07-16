@@ -815,8 +815,10 @@
 
     const stage = hero.querySelector("[data-field-hero-stage]");
     const slides = Array.from(hero.querySelectorAll("[data-field-hero-slide]"));
+    const videos = slides.map((slide) => slide.querySelector("[data-field-hero-video]"));
     const dots = Array.from(hero.querySelectorAll("[data-field-hero-dot]"));
     const progress = hero.querySelector("[data-field-hero-progress]");
+    const toggle = hero.querySelector("[data-field-hero-toggle]");
     const fields = {
       note: hero.querySelector("[data-field-hero-note]"),
       place: hero.querySelector("[data-field-hero-place]"),
@@ -829,14 +831,14 @@
       lens: hero.querySelector("[data-field-hero-lens]"),
       subject: hero.querySelector("[data-field-hero-subject]")
     };
-    if (!stage || slides.length < 2 || Object.values(fields).some((field) => !field)) return;
+    if (!stage || slides.length < 2 || videos.some((video) => !video) || Object.values(fields).some((field) => !field)) return;
 
-    const interval = 7600;
     let activeIndex = 0;
-    let autoplayTimer = 0;
     let copyTimer = 0;
+    let fallbackTimer = 0;
     let swipeStartX = null;
-    let paused = false;
+    let userPaused = reduceMotion;
+    let heroInView = true;
 
     function syncCopy(slide) {
       Object.entries(fields).forEach(([key, field]) => {
@@ -844,17 +846,62 @@
       });
     }
 
-    function restartProgress() {
-      if (!progress) return;
-      progress.classList.remove("is-running");
-      void progress.offsetWidth;
-      if (!reduceMotion && !paused) progress.classList.add("is-running");
+    function clearFallback() {
+      window.clearTimeout(fallbackTimer);
+      fallbackTimer = 0;
     }
 
-    function scheduleAutoplay() {
-      window.clearTimeout(autoplayTimer);
-      if (reduceMotion || paused || document.hidden) return;
-      autoplayTimer = window.setTimeout(() => showSlide(activeIndex + 1), interval);
+    function updateToggle() {
+      if (!toggle) return;
+      const video = videos[activeIndex];
+      const isPaused = userPaused || !video || video.paused;
+      toggle.textContent = isPaused ? "Play" : "Pause";
+      toggle.setAttribute("aria-label", isPaused ? "Play hero video" : "Pause hero video");
+      toggle.setAttribute("aria-pressed", String(isPaused));
+    }
+
+    function resetProgress() {
+      if (progress) progress.style.width = "0%";
+    }
+
+    function scheduleFallbackAdvance() {
+      clearFallback();
+      if (userPaused || document.hidden || !heroInView) return;
+      fallbackTimer = window.setTimeout(() => showSlide(activeIndex + 1), 6200);
+    }
+
+    function playActive({ restart = false } = {}) {
+      const activeVideo = videos[activeIndex];
+      videos.forEach((video, index) => {
+        if (index !== activeIndex) video.pause();
+      });
+      if (!activeVideo) return;
+
+      clearFallback();
+      activeVideo.muted = true;
+      if (restart) {
+        try {
+          activeVideo.currentTime = 0;
+        } catch (error) {
+          // The poster remains visible until metadata is ready.
+        }
+      }
+
+      if (userPaused || document.hidden || !heroInView) {
+        activeVideo.pause();
+        updateToggle();
+        return;
+      }
+
+      const playPromise = activeVideo.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise.then(updateToggle).catch(() => {
+          updateToggle();
+          scheduleFallbackAdvance();
+        });
+      } else {
+        updateToggle();
+      }
     }
 
     function showSlide(nextIndex, instant = false) {
@@ -863,7 +910,20 @@
       if (!nextSlide) return;
 
       activeIndex = normalized;
-      slides.forEach((slide, index) => slide.classList.toggle("is-active", index === activeIndex));
+      hero.dataset.heroActive = String(activeIndex + 1);
+      slides.forEach((slide, index) => {
+        const active = index === activeIndex;
+        slide.classList.toggle("is-active", active);
+        videos[index].preload = active ? "auto" : "metadata";
+        if (!active) {
+          videos[index].pause();
+          try {
+            videos[index].currentTime = 0;
+          } catch (error) {
+            // Metadata may not be available yet.
+          }
+        }
+      });
       dots.forEach((dot, index) => {
         const active = index === activeIndex;
         dot.classList.toggle("is-active", active);
@@ -879,27 +939,46 @@
         copyTimer = window.setTimeout(() => {
           syncCopy(nextSlide);
           hero.classList.remove("is-copy-changing");
-        }, 180);
+        }, 260);
       }
 
-      restartProgress();
-      scheduleAutoplay();
-    }
-
-    function setPaused(value) {
-      paused = value;
-      if (paused) {
-        window.clearTimeout(autoplayTimer);
-        progress?.classList.remove("is-running");
-      } else {
-        restartProgress();
-        scheduleAutoplay();
-      }
+      resetProgress();
+      playActive({ restart: true });
     }
 
     dots.forEach((dot) => dot.addEventListener("click", () => showSlide(Number(dot.dataset.fieldHeroDot))));
     hero.querySelector("[data-field-hero-prev]")?.addEventListener("click", () => showSlide(activeIndex - 1));
     hero.querySelector("[data-field-hero-next]")?.addEventListener("click", () => showSlide(activeIndex + 1));
+    toggle?.addEventListener("click", () => {
+      const activeVideo = videos[activeIndex];
+      if (!activeVideo) return;
+
+      if (userPaused || activeVideo.paused) {
+        userPaused = false;
+        playActive();
+      } else {
+        userPaused = true;
+        clearFallback();
+        activeVideo.pause();
+        updateToggle();
+      }
+    });
+
+    videos.forEach((video, index) => {
+      video.addEventListener("timeupdate", () => {
+        if (index !== activeIndex || !progress || !Number.isFinite(video.duration) || video.duration <= 0) return;
+        const completion = Math.min(100, Math.max(0, (video.currentTime / video.duration) * 100));
+        progress.style.width = `${completion.toFixed(2)}%`;
+      });
+      video.addEventListener("play", updateToggle);
+      video.addEventListener("pause", updateToggle);
+      video.addEventListener("ended", () => {
+        if (index === activeIndex && !userPaused) showSlide(activeIndex + 1);
+      });
+      video.addEventListener("error", () => {
+        if (index === activeIndex) scheduleFallbackAdvance();
+      });
+    });
 
     stage.addEventListener("pointerdown", (event) => {
       swipeStartX = event.clientX;
@@ -912,24 +991,29 @@
     });
     stage.addEventListener("pointercancel", () => { swipeStartX = null; });
 
-    hero.addEventListener("mouseenter", () => setPaused(true));
-    hero.addEventListener("mouseleave", () => setPaused(false));
-    hero.addEventListener("focusin", () => setPaused(true));
-    hero.addEventListener("focusout", (event) => {
-      if (!hero.contains(event.relatedTarget)) setPaused(false);
-    });
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        window.clearTimeout(autoplayTimer);
+        clearFallback();
+        videos[activeIndex]?.pause();
       } else {
-        restartProgress();
-        scheduleAutoplay();
+        playActive();
       }
     });
 
-    syncCopy(slides[0]);
-    restartProgress();
-    scheduleAutoplay();
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        heroInView = entries[0]?.isIntersecting ?? true;
+        if (heroInView) {
+          playActive();
+        } else {
+          clearFallback();
+          videos[activeIndex]?.pause();
+        }
+      }, { threshold: 0.12 });
+      observer.observe(hero);
+    }
+
+    showSlide(0, true);
   }
 
   function initHomepageIndex() {

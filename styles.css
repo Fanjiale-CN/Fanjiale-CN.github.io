@@ -10297,7 +10297,8 @@ body.article-body .site-shell {
 /* Field hero carousel, global contact, and article collision fixes */
 .field-hero-stage,
 .field-hero-slide,
-.field-hero-slide img {
+.field-hero-slide img,
+.field-hero-slide video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -10314,7 +10315,7 @@ body.article-body .site-shell {
   margin: 0;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 1100ms cubic-bezier(0.22, 1, 0.36, 1), visibility 1100ms;
+  transition: opacity 1400ms cubic-bezier(0.22, 1, 0.36, 1), visibility 1400ms;
 }
 
 .field-hero-slide.is-active {
@@ -10322,52 +10323,59 @@ body.article-body .site-shell {
   visibility: visible;
 }
 
-.field-hero-slide img {
+.field-hero-slide img,
+.field-hero-slide video {
   object-fit: cover;
   object-position: var(--hero-position, 50% 50%);
-  filter: saturate(0.98) contrast(1.02) brightness(0.91);
-  transform: scale(1.015);
-  transition: transform 9s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: saturate(0.9) contrast(1.04) brightness(0.88);
+  transform: scale(1.01);
+  transition: transform 5600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.field-hero-slide.is-active img {
-  transform: scale(1.055);
+.field-hero-slide.is-active img,
+.field-hero-slide.is-active video {
+  transform: scale(1.025);
 }
 
 .field-hero-topline,
 .field-hero-copy,
 .field-hero-index {
-  transition: opacity 220ms ease, transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 420ms ease, transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .field-hero.is-copy-changing .field-hero-topline,
 .field-hero.is-copy-changing .field-hero-copy,
 .field-hero.is-copy-changing .field-hero-index {
   opacity: 0;
-  transform: translate3d(0, 14px, 0);
+  transform: translate3d(0, 8px, 0);
+}
+
+.field-hero-grid {
+  padding-bottom: 126px;
+}
+
+.field-hero-progress {
+  position: absolute;
+  left: var(--home-gutter);
+  right: var(--home-gutter);
+  bottom: 24px;
+  z-index: 4;
+  width: auto;
 }
 
 .field-hero-progress span {
   width: 0;
-}
-
-.field-hero-progress span.is-running {
-  animation: field-hero-progress 7.6s linear forwards;
-}
-
-@keyframes field-hero-progress {
-  from { width: 0; }
-  to { width: 100%; }
+  transition: width 180ms linear;
 }
 
 .field-hero-controls {
   position: absolute;
   left: var(--home-gutter);
-  bottom: 52px;
+  bottom: 46px;
   z-index: 4;
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 20px;
 }
 
 .field-scroll-cue {
@@ -10375,7 +10383,7 @@ body.article-body .site-shell {
 }
 
 .field-hero-dots,
-.field-hero-arrows {
+.field-hero-actions {
   display: flex;
   align-items: center;
 }
@@ -10384,12 +10392,12 @@ body.article-body .site-shell {
   gap: 5px;
 }
 
-.field-hero-arrows {
-  gap: 1px;
+.field-hero-actions {
+  gap: 4px;
 }
 
 .field-hero-dots button,
-.field-hero-arrows button {
+.field-hero-actions button {
   min-width: 38px;
   min-height: 38px;
   display: inline-grid;
@@ -10411,18 +10419,18 @@ body.article-body .site-shell {
 .field-hero-dots button:hover,
 .field-hero-dots button:focus-visible,
 .field-hero-dots button.is-active,
-.field-hero-arrows button:hover,
-.field-hero-arrows button:focus-visible {
+.field-hero-actions button:hover,
+.field-hero-actions button:focus-visible {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.58);
-  background: rgba(5, 12, 18, 0.18);
+  background: rgba(5, 12, 18, 0.22);
 }
 
-.field-hero-arrows button {
+.field-hero-actions button {
   min-width: auto;
   padding-inline: 14px;
   border-color: rgba(255, 255, 255, 0.28);
-  border-radius: 0;
+  border-radius: 999px;
 }
 
 .site-contact {
@@ -10526,43 +10534,114 @@ body.article-body .site-shell {
     border-radius: 7px;
   }
 
-  .field-hero-slide img {
-    object-position: var(--hero-position, 50% 50%);
-    filter: saturate(0.98) contrast(1.02) brightness(0.88);
+  .field-hero,
+  .field-hero-grid {
+    min-height: max(740px, 100svh);
+  }
+
+  .field-hero-slide img,
+  .field-hero-slide video {
+    object-position: var(--hero-position-mobile, var(--hero-position, 50% 50%));
+    filter: saturate(0.9) contrast(1.04) brightness(0.84);
   }
 
   .field-hero-wash {
     background:
-      linear-gradient(180deg, rgba(4, 10, 15, 0.5) 0%, rgba(4, 10, 15, 0.12) 34%, rgba(4, 10, 15, 0.74) 100%),
-      linear-gradient(90deg, rgba(4, 10, 15, 0.3), transparent 78%);
+      linear-gradient(180deg, rgba(4, 10, 15, 0.48) 0%, rgba(4, 10, 15, 0.08) 34%, rgba(4, 10, 15, 0.78) 100%),
+      linear-gradient(90deg, rgba(4, 10, 15, 0.24), transparent 82%);
+  }
+
+  .field-hero-grid {
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 14px;
+    padding: 90px var(--home-gutter) 174px;
+  }
+
+  .field-hero-topline {
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .field-hero-topline span {
+    min-width: 0;
+  }
+
+  .field-hero-copy {
+    align-self: center;
+    min-width: 0;
+    padding: 26px 0 12px;
   }
 
   .field-hero-copy h1 {
-    font-size: clamp(3.15rem, 15.8vw, 4.75rem);
+    max-width: 100%;
+    font-size: clamp(2.95rem, 14.4vw, 4.45rem);
+    line-height: 0.9;
+  }
+
+  .field-hero-copy > p:last-of-type {
+    max-width: 31ch;
+    margin-top: 18px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .field-hero-copy .field-primary {
+    min-height: 50px;
+    margin-top: 22px;
+  }
+
+  .field-hero-index {
+    align-self: end;
+    padding-block: 10px 4px;
+  }
+
+  .field-hero-progress {
+    bottom: 66px;
   }
 
   .field-hero-controls {
     right: var(--home-gutter);
-    top: 174px;
-    bottom: auto;
+    top: auto;
+    bottom: 80px;
     justify-content: space-between;
+    gap: 10px;
   }
 
   .field-hero-dots {
-    width: 100%;
-    justify-content: space-between;
-    gap: 2px;
+    width: auto;
+    justify-content: flex-start;
+    gap: 4px;
   }
 
   .field-hero-dots button {
-    min-width: 34px;
-    min-height: 34px;
-    padding: 7px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px;
     font-size: 0.58rem;
   }
 
-  .field-hero-arrows {
-    display: none;
+  .field-hero-actions {
+    justify-content: flex-end;
+    gap: 3px;
+  }
+
+  .field-hero-actions button {
+    min-width: 48px;
+    min-height: 44px;
+    padding: 8px 10px;
+    font-size: 0.56rem;
+  }
+
+  .field-mobile-dock {
+    transition: opacity 260ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  body.nav-open .field-mobile-dock,
+  body.field-drawer-open .field-mobile-dock {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 100%, 0);
+    pointer-events: none;
   }
 
   .site-contact {
@@ -10592,6 +10671,7 @@ body.article-body .site-shell {
 @media (prefers-reduced-motion: reduce) {
   .field-hero-slide,
   .field-hero-slide img,
+  .field-hero-slide video,
   .field-hero-topline,
   .field-hero-copy,
   .field-hero-index,
