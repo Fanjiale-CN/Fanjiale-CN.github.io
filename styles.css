@@ -10554,7 +10554,7 @@ body.article-body .site-shell {
   .field-hero-grid {
     grid-template-rows: auto minmax(0, 1fr) auto;
     gap: 14px;
-    padding: 90px var(--home-gutter) 174px;
+    padding: 90px var(--home-gutter) 226px;
   }
 
   .field-hero-topline {
@@ -10603,30 +10603,65 @@ body.article-body .site-shell {
     right: var(--home-gutter);
     top: auto;
     bottom: 80px;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .field-hero-dots {
-    width: auto;
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
     gap: 4px;
   }
 
-  .field-hero-dots button {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 8px;
-    font-size: 0.58rem;
-  }
-
-  .field-hero-actions {
-    justify-content: flex-end;
+  .field-hero-dots {
+    width: 100%;
+    justify-content: space-between;
     gap: 3px;
   }
 
+  .field-hero-dots button {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0;
+    overflow: hidden;
+    color: transparent;
+    border-color: transparent;
+    border-radius: 0;
+    background: transparent;
+    font-size: 0;
+  }
+
+  .field-hero-dots button::after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    display: block;
+    background: rgba(255, 255, 255, 0.28);
+    transition: height 220ms ease, background 220ms ease;
+  }
+
+  .field-hero-dots button:hover,
+  .field-hero-dots button:focus-visible,
+  .field-hero-dots button.is-active {
+    color: transparent;
+    border-color: transparent;
+    background: transparent;
+  }
+
+  .field-hero-dots button:hover::after,
+  .field-hero-dots button:focus-visible::after,
+  .field-hero-dots button.is-active::after {
+    height: 4px;
+    background: #fff;
+  }
+
+  .field-hero-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
   .field-hero-actions button {
-    min-width: 48px;
+    flex: 1 1 0;
+    min-width: 0;
     min-height: 44px;
     padding: 8px 10px;
     font-size: 0.56rem;

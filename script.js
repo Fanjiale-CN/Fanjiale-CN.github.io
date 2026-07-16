@@ -910,11 +910,12 @@
       if (!nextSlide) return;
 
       activeIndex = normalized;
+      const preloadIndex = (activeIndex + 1) % slides.length;
       hero.dataset.heroActive = String(activeIndex + 1);
       slides.forEach((slide, index) => {
         const active = index === activeIndex;
         slide.classList.toggle("is-active", active);
-        videos[index].preload = active ? "auto" : "metadata";
+        videos[index].preload = active || index === preloadIndex ? "auto" : "metadata";
         if (!active) {
           videos[index].pause();
           try {
