@@ -10545,6 +10545,11 @@ body.article-body .site-shell {
     filter: saturate(0.9) contrast(1.04) brightness(0.84);
   }
 
+  .field-hero-slide video,
+  .field-hero-slide.is-active video {
+    transform: none;
+  }
+
   .field-hero-wash {
     background:
       linear-gradient(180deg, rgba(4, 10, 15, 0.48) 0%, rgba(4, 10, 15, 0.08) 34%, rgba(4, 10, 15, 0.78) 100%),
