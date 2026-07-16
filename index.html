@@ -6,10 +6,11 @@
   <meta name="description" content="Galok is a personal media project by Fan Jiale, writing about macro shifts, conceptual frames, and scenes of everyday consumption.">
   <meta property="og:title" content="Galok - Essays & Observations">
   <meta property="og:description" content="Essays on macro shifts, conceptual frames, and scenes of everyday consumption.">
-  <meta property="og:image" content="/assets/consumption/receipt-table.webp">
+  <meta property="og:image" content="/assets/hero/galok-spatial-poster.webp">
   <title>Galok - Essays & Observations</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
-  <link rel="stylesheet" href="/styles.css?v=glyph-font-1">
+  <link rel="preload" as="image" href="/assets/hero/galok-spatial-poster.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/styles.css?v=spatial-hero-5">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
 <script>
@@ -20,100 +21,67 @@
   gtag('config', 'G-2Y8N04VXYG');
 </script>
 </head>
-<body>
-  <nav class="site-nav" aria-label="Primary navigation">
+<body class="home-body">
+  <nav class="site-nav spatial-nav" aria-label="Primary navigation">
     <div class="nav-inner">
-      <a class="brand" href="/" aria-current="page">Galok <span>Essays & Observations</span></a>
+      <a class="brand spatial-brand" href="/" aria-current="page">Galok <span>Essays & Observations</span></a>
       <div class="nav-links">
         <a href="/essays/">Essays</a>
-        <a href="/series/macro/">View</a>
-        <a href="/series/frame/">Frame</a>
-        <a href="/series/scene/">Observe</a>
+        <a href="#series">Series</a>
         <a href="/visual-notes/">Visual Notes</a>
         <a href="/about/">About</a>
-        <a class="external-link" href="https://medium.com/@galokview" target="_blank" rel="noreferrer">Medium</a>
-        <a class="external-link" href="https://x.com/galok" target="_blank" rel="noreferrer">X</a>
       </div>
     </div>
   </nav>
 
   <main class="site-shell">
-    <section class="hero launch-hero">
-      <div class="hero-visual identity-visual" data-reveal aria-label="Animated Galok identity film">
-        <div class="identity-film" data-logo-reel>
-          <button class="identity-pause PauseButton" type="button" data-identity-toggle aria-pressed="false" aria-label="Pause identity animation">
-            <span></span>
-            <span></span>
-          </button>
-          <div class="logo-reel editorial-motion-panel" data-component="GalokMotionHero" aria-hidden="true">
-            <div class="motion-stage-card">
-              <div class="motion-grid" aria-hidden="true"></div>
-              <div class="motion-slab slab-paper"></div>
-              <div class="motion-slab slab-blue"></div>
-              <div class="motion-slab slab-red"></div>
-              <div class="motion-slab slab-gold"></div>
-              <div class="motion-receipt">
-                <span></span><span></span><span></span><span></span>
-              </div>
-              <div class="motion-chart">
-                <i></i><i></i><i></i><i></i>
-              </div>
-              <div class="motion-crossing">
-                <span></span><span></span><span></span><span></span><span></span>
-              </div>
-              <div class="motion-orbit orbit-a"></div>
-              <div class="motion-orbit orbit-b"></div>
-              <div class="motion-gmark">G</div>
-              <div class="motion-index">
-                <span>FIELD NOTE 01</span>
-                <span>PRICE / PLATFORM / STREET</span>
-              </div>
-              <div class="motion-caption">
-                <strong>GALOK</strong>
-                <span>animated evidence system</span>
-              </div>
-            </div>
-          </div>
-          <p class="reel-caption" aria-hidden="true">receipt, street, platform, price</p>
-        </div>
+    <section class="spatial-hero" data-spatial-hero aria-labelledby="spatial-hero-title">
+      <div class="spatial-backdrop" aria-hidden="true">
+        <img src="/assets/hero/galok-spatial-poster.webp" alt="" fetchpriority="high" decoding="sync">
       </div>
-      <div class="hero-info">
-        <div class="hero-copy" data-reveal>
-          <p class="eyebrow">Personal media project</p>
-          <h1 class="hero-title">Galok</h1>
-          <div class="hero-system" aria-label="Editorial system">
-            <a class="series-pill series-pill-view" href="#series" data-series-jump="macro">
-              <span class="glyph-draw glyph-inline" data-glyph="视" data-pinyin="shi" aria-hidden="true">视</span>
-              <span>View</span>
-              <small>Macro</small>
-            </a>
-            <a class="series-pill series-pill-frame" href="#series" data-series-jump="frame">
-              <span class="glyph-draw glyph-inline" data-glyph="框" data-pinyin="kuang" aria-hidden="true">框</span>
-              <span>Frame</span>
-              <small>Models</small>
-            </a>
-            <a class="series-pill series-pill-observe" href="#series" data-series-jump="scene">
-              <span class="glyph-draw glyph-inline" data-glyph="察" data-pinyin="cha" aria-hidden="true">察</span>
-              <span>Observe</span>
-              <small>Scenes</small>
-            </a>
-          </div>
-          <p class="hero-lede">A personal media project about how money, platforms, cities and desire quietly reorganize everyday life.</p>
-          <p class="hero-note">Galok reads ordinary evidence: a <span class="keyword-note" tabindex="0" data-visual="coffee" data-series="macro" data-note-id="home-coffee" aria-label="Visual note: coffee">coffee</span> receipt, a store count, a queue, a price tag, a crossing light, a city street. The writing stays in English; the Chinese glyphs work as visual markers for the editorial system.</p>
+
+      <div class="spatial-world" data-spatial-world>
+        <a class="story-plane story-plane-frame" href="/series/frame/" data-spatial-chapter="02" data-depth="1.35" aria-label="Explore Frame: structure and models">
+          <span class="chapter-number">02</span>
+          <strong>Frame</strong>
+          <span class="chapter-rule" aria-hidden="true"></span>
+          <small>Structure</small>
+        </a>
+
+        <a class="story-plane story-plane-observe" href="/series/scene/" data-spatial-chapter="03" data-depth="1.05" aria-label="Explore Observe: scenes and evidence">
+          <span class="chapter-number">03</span>
+          <strong>Observe</strong>
+          <span class="chapter-rule" aria-hidden="true"></span>
+          <small>Evidence</small>
+        </a>
+
+        <a class="story-plane story-plane-view" href="/series/macro/" data-spatial-chapter="01" data-depth="1.7" aria-label="Explore View: macro pressure">
+          <span class="chapter-number">01</span>
+          <strong>View</strong>
+          <span class="chapter-rule" aria-hidden="true"></span>
+          <small>Pressure</small>
+        </a>
+
+        <div class="spatial-wordmark" aria-hidden="true">Galok</div>
+
+        <div class="spatial-copy" data-depth="1.8">
+          <p class="spatial-kicker">An explorable field note</p>
+          <h1 id="spatial-hero-title">Ordinary evidence.<br>Hidden systems.</h1>
+          <p>Walk through the prices, platforms and city scenes that reorganize everyday life.</p>
+          <a class="shore-cta" href="#series" data-series-jump="all">Begin at the shore <span aria-hidden="true">→</span></a>
+          <span class="spatial-seal glyph-draw" data-glyph="視" data-pinyin="shi" aria-hidden="true">視</span>
         </div>
-        <div class="launch-actions" data-reveal aria-label="Homepage actions">
-          <a class="issue-chip" href="/essays/rmb-9-9-coffee/" aria-label="Open Issue 01: Consumption Audit">
-            <span>Issue 01</span>
-            <strong>Consumption Audit</strong>
-            <small>Start with the current argument</small>
-          </a>
-          <div class="action-row" aria-label="Primary links">
-            <a class="button-link primary-action" href="/essays/">Read Essays</a>
-            <a class="action-button" href="#series" data-series-jump="all">Explore Series</a>
-            <a class="action-button external-link" href="https://medium.com/@galokview" target="_blank" rel="noreferrer">Medium</a>
-          </div>
+
+        <p class="spatial-coordinate">Erhai, Dali&nbsp; / &nbsp;Field Note 01&nbsp; / &nbsp;25.68° N</p>
+        <div class="spatial-scene-ruler" aria-hidden="true">
+          <span data-scene-label>Scene 00 / 03</span>
         </div>
+        <p class="spatial-hint" aria-hidden="true">Move to shift the field</p>
       </div>
+
+      <noscript>
+        <img class="spatial-poster" src="/assets/hero/galok-spatial-poster.webp" alt="Galok spatial editorial field at Erhai, Dali">
+      </noscript>
     </section>
 
     <section class="section intro-section">
@@ -280,6 +248,6 @@
   </footer>
 
   <script src="/content.js?v=ai-series-view-1"></script>
-  <script src="/script.js?v=ai-silence-1"></script>
+  <script src="/script.js?v=spatial-hero-5"></script>
 </body>
 </html>

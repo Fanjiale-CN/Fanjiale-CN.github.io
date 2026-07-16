@@ -4,6 +4,7 @@
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const pinyinByGlyph = {
     "\u89c6": "shi",
+    "\u8996": "shi",
     "\u52bf": "shi",
     "\u6846": "kuang",
     "\u5bdf": "cha"
@@ -407,6 +408,84 @@
   }
 
   initInteractiveCharts();
+
+  function initSpatialHero() {
+    const hero = document.querySelector("[data-spatial-hero]");
+    if (!hero) return;
+
+    const depthLayers = Array.from(hero.querySelectorAll("[data-depth]"));
+    const chapters = Array.from(hero.querySelectorAll("[data-spatial-chapter]"));
+    const sceneRuler = hero.querySelector(".spatial-scene-ruler");
+    const sceneLabel = hero.querySelector("[data-scene-label]");
+    let frame = 0;
+    let lastPointer = null;
+    let leaveTimer = 0;
+
+    function resetField() {
+      window.clearTimeout(leaveTimer);
+      hero.classList.remove("is-interacting");
+      hero.style.setProperty("--tilt-x", "0deg");
+      hero.style.setProperty("--tilt-y", "0deg");
+      hero.style.setProperty("--backdrop-x", "0px");
+      hero.style.setProperty("--backdrop-y", "0px");
+      depthLayers.forEach((layer) => {
+        layer.style.setProperty("--shift-x", "0px");
+        layer.style.setProperty("--shift-y", "0px");
+        layer.style.setProperty("--shift-z", "0px");
+      });
+    }
+
+    function paintField() {
+      frame = 0;
+      if (!lastPointer) return;
+
+      const rect = hero.getBoundingClientRect();
+      const normalizedX = Math.max(-1, Math.min(1, ((lastPointer.clientX - rect.left) / rect.width - 0.5) * 2));
+      const normalizedY = Math.max(-1, Math.min(1, ((lastPointer.clientY - rect.top) / rect.height - 0.5) * 2));
+
+      hero.classList.add("is-interacting");
+      hero.style.setProperty("--tilt-x", `${(-normalizedY * 0.72).toFixed(3)}deg`);
+      hero.style.setProperty("--tilt-y", `${(normalizedX * 0.92).toFixed(3)}deg`);
+      hero.style.setProperty("--backdrop-x", `${(-normalizedX * 3.4).toFixed(2)}px`);
+      hero.style.setProperty("--backdrop-y", `${(-normalizedY * 2.6).toFixed(2)}px`);
+
+      depthLayers.forEach((layer) => {
+        const depth = Number(layer.dataset.depth || 1);
+        layer.style.setProperty("--shift-x", `${(-normalizedX * depth * 7.5).toFixed(2)}px`);
+        layer.style.setProperty("--shift-y", `${(-normalizedY * depth * 5.5).toFixed(2)}px`);
+        layer.style.setProperty("--shift-z", `${(depth * 5).toFixed(2)}px`);
+      });
+    }
+
+    if (!reduceMotion && finePointer) {
+      hero.addEventListener("pointermove", (event) => {
+        lastPointer = event;
+        if (!frame) frame = window.requestAnimationFrame(paintField);
+      });
+
+      hero.addEventListener("pointerleave", () => {
+        lastPointer = null;
+        if (frame) window.cancelAnimationFrame(frame);
+        frame = 0;
+        leaveTimer = window.setTimeout(resetField, 40);
+      });
+    }
+
+    function setChapter(chapter) {
+      chapters.forEach((item) => item.classList.toggle("is-active", item === chapter));
+      if (sceneLabel) sceneLabel.textContent = `Scene ${chapter?.dataset.spatialChapter || "00"} / 03`;
+      sceneRuler?.classList.toggle("is-active", Boolean(chapter));
+    }
+
+    chapters.forEach((chapter) => {
+      chapter.addEventListener("pointerenter", () => setChapter(chapter));
+      chapter.addEventListener("pointerleave", () => setChapter(null));
+      chapter.addEventListener("focus", () => setChapter(chapter));
+      chapter.addEventListener("blur", () => setChapter(null));
+    });
+  }
+
+  initSpatialHero();
 
   function initHomepageActionFlow() {
     const seriesSection = document.querySelector("#series");
