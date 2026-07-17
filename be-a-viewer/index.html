@@ -10,7 +10,7 @@
   <meta property="og:image" content="/assets/be-a-viewer/beijing-roof.jpg">
   <title>BE A VIEWER — Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
-  <link rel="stylesheet" href="/styles.css?v=be-a-viewer-video-2">
+  <link rel="stylesheet" href="/styles.css?v=be-a-viewer-departure-4">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -113,6 +113,97 @@
       </div>
     </section>
 
+    <section class="departure-module" id="departure" aria-labelledby="departure-title" data-departure-module>
+      <div class="departure-intro">
+        <p class="departure-kicker">01 / DEPARTURE</p>
+        <div class="departure-intro-grid">
+          <h2 id="departure-title">WHERE ARE YOU<br>WATCHING FROM?</h2>
+          <p>Choose a point of departure.<br>The route begins before the city appears.</p>
+        </div>
+      </div>
+
+      <div class="departure-selector" aria-label="Departure and destination">
+        <section class="departure-selector-panel departure-selector-panel--from" aria-labelledby="departure-from-label">
+          <p class="departure-selector-label" id="departure-from-label">FROM</p>
+          <p class="departure-country"><img class="departure-flag" src="/assets/be-a-viewer/flag-us.svg" alt="" aria-hidden="true"> UNITED STATES</p>
+          <p class="departure-city">NEW YORK</p>
+          <p class="departure-airport">JOHN F. KENNEDY / <b>JFK</b></p>
+        </section>
+
+        <section class="departure-selector-panel departure-selector-panel--view" aria-labelledby="departure-view-label">
+          <p class="departure-selector-label" id="departure-view-label">VIEW</p>
+          <p class="departure-country"><img class="departure-flag" src="/assets/be-a-viewer/flag-cn.svg" alt="" aria-hidden="true"> CHINA</p>
+          <div class="departure-destination-options" role="radiogroup" aria-label="Choose a destination in China" data-route-switcher>
+            <button class="is-active" type="button" role="radio" aria-checked="true" tabindex="0" data-route-option="shanghai">SHANGHAI</button>
+            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="xian">XI’AN</button>
+          </div>
+          <p class="departure-airport" data-destination-airport>PUDONG / <b>PVG</b></p>
+        </section>
+      </div>
+
+      <div class="departure-story-grid" id="departure-route" data-departure-stage>
+        <figure class="departure-map-card" aria-labelledby="departure-map-caption">
+          <div class="departure-map-rail" aria-hidden="true">
+            <span data-map-origin>NEW YORK / JFK</span>
+            <span data-map-status>DIRECT FLIGHT</span>
+            <span data-map-destination>SHANGHAI / PVG</span>
+          </div>
+          <div class="departure-map-viewport">
+            <svg class="departure-map" viewBox="0 0 1200 600" role="img" aria-labelledby="departure-map-title departure-map-description" data-route-map>
+              <title id="departure-map-title">Representative route from New York to China</title>
+              <desc id="departure-map-description" data-map-description>A representative direct flight route from John F. Kennedy International Airport to Shanghai Pudong International Airport.</desc>
+              <g class="departure-map-camera" data-map-camera>
+                <image href="/assets/be-a-viewer/world-map.svg" width="1200" height="600"></image>
+                <g data-route-layer></g>
+              </g>
+            </svg>
+            <div class="departure-transfer-chip" data-transfer-chip hidden>
+              <span>TRANSFER</span>
+              <b>SHANGHAI PUDONG</b>
+            </div>
+            <p class="departure-map-status" aria-live="polite" data-route-announcer>Route ready: New York to Shanghai.</p>
+          </div>
+          <figcaption id="departure-map-caption">Representative route study · not live flight tracking</figcaption>
+        </figure>
+
+        <article class="departure-route-card" aria-labelledby="departure-route-title" aria-live="polite" data-route-card>
+          <header class="departure-route-card-header">
+            <span data-route-number>01</span>
+            <span>REPRESENTATIVE ROUTE</span>
+          </header>
+          <h3 id="departure-route-title"><span>NEW YORK</span><i aria-hidden="true">→</i><span data-card-destination>SHANGHAI</span></h3>
+          <p class="departure-route-mode" data-route-mode>NONSTOP · JFK → PVG</p>
+          <div class="departure-route-facts" data-route-facts></div>
+
+          <section class="departure-entry-note" aria-labelledby="departure-entry-title">
+            <p id="departure-entry-title">ENTRY</p>
+            <strong>VISA REQUIRED</strong>
+            <span>US ordinary passport holders generally need a visa for an ordinary visit to China.</span>
+          </section>
+
+          <details class="departure-policy-note">
+            <summary>ABOUT VISA-FREE TRANSIT</summary>
+            <div>
+              <p>China’s 240-hour visa-free transit policy may apply to eligible travelers continuing to a third country or region.</p>
+              <p>A return journey between the United States and China alone does not automatically qualify as third-country transit.</p>
+              <p>Always confirm the latest conditions with China’s National Immigration Administration.</p>
+              <a href="https://en.nia.gov.cn/n147418/n147463/c183412/content.html" target="_blank" rel="noopener noreferrer">OFFICIAL ENTRY POLICY ↗</a>
+            </div>
+          </details>
+
+          <div class="departure-route-checked">
+            <span>ROUTE CHECKED</span>
+            <b>18 JUL 2026</b>
+          </div>
+          <p class="departure-schedule-note">Schedules change by date and season.<br>Check the airline before booking.</p>
+          <div class="departure-route-actions">
+            <button type="button" data-replay-route>REPLAY ROUTE</button>
+            <button type="button" data-arrive-route>ARRIVE IN SHANGHAI</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <section class="viewer-chapter" id="beijing" aria-labelledby="viewer-beijing-title">
       <div data-reveal>
         <p class="viewer-chapter-kicker">01 / THE ROUTE</p>
@@ -141,6 +232,6 @@
   </nav>
 
   <script src="/content.js?v=field-system-5"></script>
-  <script src="/script.js?v=be-a-viewer-video-2"></script>
+  <script src="/script.js?v=be-a-viewer-departure-4"></script>
 </body>
 </html>

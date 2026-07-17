@@ -16,6 +16,120 @@
     observe: "#c9a227",
     scene: "#c9a227"
   };
+  const departureAirports = {
+    jfk: {
+      id: "jfk",
+      city: "NEW YORK",
+      code: "JFK",
+      airport: "JOHN F. KENNEDY",
+      latitude: 40.6413,
+      longitude: -73.7781,
+      x: 396.99,
+      y: 158.86,
+      labelX: -24,
+      labelY: -24,
+      labelAnchor: "end"
+    },
+    pvg: {
+      id: "pvg",
+      city: "SHANGHAI",
+      code: "PVG",
+      airport: "PUDONG",
+      latitude: 31.1443,
+      longitude: 121.8083,
+      x: 947.57,
+      y: 191.85,
+      labelX: 24,
+      labelY: -25,
+      labelAnchor: "start"
+    },
+    xiy: {
+      id: "xiy",
+      city: "XI’AN",
+      code: "XIY",
+      airport: "XI’AN XIANYANG",
+      latitude: 34.4471,
+      longitude: 108.7516,
+      x: 906.84,
+      y: 180.34,
+      labelX: -23,
+      labelY: 40,
+      labelAnchor: "end"
+    }
+  };
+  const departureRoutes = {
+    shanghai: {
+      number: "01",
+      origin: departureAirports.jfk,
+      destination: departureAirports.pvg,
+      segments: [
+        {
+          from: departureAirports.jfk,
+          to: departureAirports.pvg,
+          path: "M396.99 158.86 C522 30 791 36 947.57 191.85",
+          duration: 5000,
+          drawDuration: 1800
+        }
+      ],
+      entry: {
+        status: "VISA REQUIRED",
+        body: "US ordinary passport holders generally need a visa for an ordinary visit to China."
+      },
+      summary: {
+        destinationAirport: "PUDONG",
+        mapStatus: "DIRECT FLIGHT",
+        mode: "NONSTOP · JFK → PVG",
+        arriveLabel: "ARRIVE IN SHANGHAI",
+        description: "A representative direct flight route from John F. Kennedy International Airport to Shanghai Pudong International Airport.",
+        facts: [
+          { label: "NONSTOP", value: "JFK → PVG" },
+          { label: "REPRESENTATIVE FLIGHT", value: "CHINA EASTERN MU588" },
+          { label: "FLIGHT TIME", value: "APPROX. 15 HOURS" },
+          { label: "DISTANCE", value: "APPROX. 11,900 KM" }
+        ]
+      }
+    },
+    xian: {
+      number: "02",
+      origin: departureAirports.jfk,
+      transfer: departureAirports.pvg,
+      destination: departureAirports.xiy,
+      segments: [
+        {
+          from: departureAirports.jfk,
+          to: departureAirports.pvg,
+          path: "M396.99 158.86 C522 30 791 36 947.57 191.85",
+          duration: 5000,
+          drawDuration: 1800
+        },
+        {
+          from: departureAirports.pvg,
+          to: departureAirports.xiy,
+          path: "M947.57 191.85 Q927 152 906.84 180.34",
+          duration: 2400,
+          drawDuration: 1250
+        }
+      ],
+      entry: {
+        status: "VISA REQUIRED",
+        body: "US ordinary passport holders generally need a visa for an ordinary visit to China."
+      },
+      summary: {
+        destinationAirport: "XI’AN XIANYANG",
+        mapStatus: "TRANSFER · SHANGHAI / PVG",
+        mode: "1 TRANSFER · SHANGHAI / PVG",
+        arriveLabel: "ARRIVE IN XI’AN",
+        description: "A representative connecting route from John F. Kennedy International Airport to Xi’an Xianyang International Airport via Shanghai Pudong International Airport.",
+        facts: [
+          { label: "1 TRANSFER", value: "SHANGHAI / PVG" },
+          { label: "FIRST LEG", value: "JFK → PVG", detail: "APPROX. 15 HOURS" },
+          { label: "SECOND LEG", value: "PVG → XIY", detail: "APPROX. 2 HOURS 30 MINUTES" },
+          { label: "TOTAL JOURNEY", value: "APPROX. 20–24 HOURS", detail: "DEPENDING ON CONNECTION" }
+        ]
+      }
+    }
+  };
+  window.GALOK_DEPARTURE_ROUTES = departureRoutes;
   let activeVisualNote = null;
 
   document.documentElement.classList.toggle("motion-ready", !reduceMotion);
@@ -790,6 +904,7 @@
 
 (function initFieldSystem() {
   const content = window.GALOK_CONTENT || { essays: [], series: {} };
+  const departureRoutes = window.GALOK_DEPARTURE_ROUTES || {};
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const body = document.body;
   const siteNav = document.querySelector(".site-nav");
@@ -1572,6 +1687,400 @@
     showSlide(0, true);
   }
 
+  function initDepartureRoutes() {
+    const module = document.querySelector("[data-departure-module]");
+    if (!module) return;
+
+    const stage = module.querySelector("[data-departure-stage]");
+    const routeLayer = module.querySelector("[data-route-layer]");
+    const routeMap = module.querySelector("[data-route-map]");
+    const routeCard = module.querySelector("[data-route-card]");
+    const factsMount = module.querySelector("[data-route-facts]");
+    const optionButtons = Array.from(module.querySelectorAll("[data-route-option]"));
+    const transferChip = module.querySelector("[data-transfer-chip]");
+    const announcer = module.querySelector("[data-route-announcer]");
+    const fields = {
+      destinationAirport: module.querySelector("[data-destination-airport]"),
+      mapOrigin: module.querySelector("[data-map-origin]"),
+      mapStatus: module.querySelector("[data-map-status]"),
+      mapDestination: module.querySelector("[data-map-destination]"),
+      mapDescription: module.querySelector("[data-map-description]"),
+      routeNumber: module.querySelector("[data-route-number]"),
+      cardDestination: module.querySelector("[data-card-destination]"),
+      routeMode: module.querySelector("[data-route-mode]"),
+      entryStatus: module.querySelector(".departure-entry-note strong"),
+      entryBody: module.querySelector(".departure-entry-note span"),
+      arriveButton: module.querySelector("[data-arrive-route]"),
+      replayButton: module.querySelector("[data-replay-route]")
+    };
+    if (!stage || !routeLayer || !routeMap || !routeCard || !factsMount || optionButtons.length !== 2 || Object.values(fields).some((field) => !field)) return;
+
+    const svgNamespace = "http://www.w3.org/2000/svg";
+    let activeKey = "shanghai";
+    let activeVisual = null;
+    let runToken = 0;
+    let stageInView = false;
+    let hasAutoplayed = false;
+    let isAnimating = false;
+    const pendingTimers = new Map();
+
+    function svgNode(tagName, attributes = {}) {
+      const node = document.createElementNS(svgNamespace, tagName);
+      Object.entries(attributes).forEach(([name, value]) => node.setAttribute(name, String(value)));
+      return node;
+    }
+
+    function cancelRouteAnimation() {
+      runToken += 1;
+      isAnimating = false;
+      pendingTimers.forEach((resolve, timer) => {
+        window.clearTimeout(timer);
+        resolve(false);
+      });
+      pendingTimers.clear();
+    }
+
+    function waitFor(ms, token) {
+      return new Promise((resolve) => {
+        const timer = window.setTimeout(() => {
+          pendingTimers.delete(timer);
+          resolve(token === runToken);
+        }, ms);
+        pendingTimers.set(timer, resolve);
+      });
+    }
+
+    function routeNodes(route) {
+      const nodes = [{ ...route.origin, kind: "origin" }];
+      if (route.transfer) nodes.push({ ...route.transfer, kind: "transfer" });
+      nodes.push({ ...route.destination, kind: "destination" });
+      return nodes;
+    }
+
+    function buildMap(route) {
+      routeLayer.replaceChildren();
+      const paths = [];
+      const nodes = new Map();
+
+      route.segments.forEach((segment, index) => {
+        const shadow = svgNode("path", {
+          class: "departure-route-line-shadow",
+          d: segment.path,
+          "data-route-segment-shadow": index,
+          "aria-hidden": "true"
+        });
+        const line = svgNode("path", {
+          class: "departure-route-line",
+          d: segment.path,
+          "data-route-segment": index,
+          "aria-hidden": "true"
+        });
+        routeLayer.append(shadow, line);
+        const length = line.getTotalLength();
+        [shadow, line].forEach((path) => {
+          path.style.strokeDasharray = `${length}`;
+          path.style.strokeDashoffset = `${length}`;
+        });
+        paths.push({ line, shadow, length, segment });
+      });
+
+      routeNodes(route).forEach((nodeData) => {
+        const group = svgNode("g", {
+          class: `departure-node departure-node--${nodeData.kind}`,
+          transform: `translate(${nodeData.x} ${nodeData.y})`,
+          "data-route-node": nodeData.id,
+          "aria-hidden": "true"
+        });
+        const halo = svgNode("circle", { class: "departure-node-halo", cx: 0, cy: 0, r: 29 });
+        const core = svgNode("circle", { class: "departure-node-core", cx: 0, cy: 0, r: 12 });
+        const label = svgNode("text", {
+          class: "departure-node-label",
+          x: nodeData.labelX,
+          y: nodeData.labelY,
+          "text-anchor": nodeData.labelAnchor
+        });
+        const code = svgNode("tspan", { x: nodeData.labelX });
+        code.textContent = nodeData.code;
+        const city = svgNode("tspan", { x: nodeData.labelX, dy: 27 });
+        city.textContent = nodeData.city;
+        label.append(code, city);
+        group.append(halo, core, label);
+        routeLayer.append(group);
+        nodes.set(nodeData.id, group);
+      });
+
+      const plane = svgNode("g", { class: "departure-plane", "data-route-plane": "", "aria-hidden": "true" });
+      const planeImage = svgNode("image", {
+        href: "/assets/be-a-viewer/plane.svg",
+        x: -28,
+        y: -25,
+        width: 56,
+        height: 50
+      });
+      plane.append(planeImage);
+      routeLayer.append(plane);
+      activeVisual = { paths, nodes, plane };
+    }
+
+    function renderFacts(route) {
+      const fragment = document.createDocumentFragment();
+      route.summary.facts.forEach((fact) => {
+        const row = document.createElement("dl");
+        row.className = "departure-route-fact";
+        const term = document.createElement("dt");
+        term.textContent = fact.label;
+        const value = document.createElement("dd");
+        value.textContent = fact.value;
+        if (fact.detail) {
+          const detail = document.createElement("span");
+          detail.textContent = fact.detail;
+          value.append(detail);
+        }
+        row.append(term, value);
+        fragment.append(row);
+      });
+      factsMount.replaceChildren(fragment);
+    }
+
+    function renderAirportLabel(route) {
+      fields.destinationAirport.replaceChildren();
+      fields.destinationAirport.append(`${route.summary.destinationAirport} / `);
+      const code = document.createElement("b");
+      code.textContent = route.destination.code;
+      fields.destinationAirport.append(code);
+    }
+
+    function syncRouteCopy(route) {
+      renderAirportLabel(route);
+      fields.mapOrigin.textContent = `${route.origin.city} / ${route.origin.code}`;
+      fields.mapStatus.textContent = route.summary.mapStatus;
+      fields.mapDestination.textContent = `${route.destination.city} / ${route.destination.code}`;
+      fields.mapDescription.textContent = route.summary.description;
+      fields.routeNumber.textContent = route.number;
+      fields.cardDestination.textContent = route.destination.city;
+      fields.routeMode.textContent = route.summary.mode;
+      fields.entryStatus.textContent = route.entry.status;
+      fields.entryBody.textContent = route.entry.body;
+      fields.arriveButton.textContent = route.summary.arriveLabel;
+      fields.arriveButton.setAttribute("aria-label", `${route.summary.arriveLabel}. Scroll to The Route.`);
+      renderFacts(route);
+      optionButtons.forEach((button) => {
+        const selected = button.dataset.routeOption === activeKey;
+        button.classList.toggle("is-active", selected);
+        button.setAttribute("aria-checked", String(selected));
+        button.tabIndex = selected ? 0 : -1;
+      });
+    }
+
+    function placePlane(pathInfo, progress) {
+      if (!activeVisual) return;
+      const length = pathInfo.length;
+      const position = Math.max(0, Math.min(length, length * progress));
+      const point = pathInfo.line.getPointAtLength(position);
+      const lookDistance = Math.max(3, length * 0.012);
+      const lookPosition = position >= length - lookDistance ? Math.max(0, position - lookDistance) : Math.min(length, position + lookDistance);
+      const lookPoint = pathInfo.line.getPointAtLength(lookPosition);
+      const angle = position >= length - lookDistance
+        ? Math.atan2(point.y - lookPoint.y, point.x - lookPoint.x) * (180 / Math.PI)
+        : Math.atan2(lookPoint.y - point.y, lookPoint.x - point.x) * (180 / Math.PI);
+      activeVisual.plane.setAttribute("transform", `translate(${point.x.toFixed(2)} ${point.y.toFixed(2)}) rotate(${angle.toFixed(2)})`);
+    }
+
+    function resetRouteVisual(route) {
+      if (!activeVisual) return;
+      module.classList.remove("is-playing", "is-card-visible", "is-arrived-shanghai", "is-arrived-xian");
+      module.dataset.routePhase = "ready";
+      delete module.dataset.transferVisited;
+      activeVisual.paths.forEach((pathInfo) => {
+        [pathInfo.shadow, pathInfo.line].forEach((path) => {
+          path.style.strokeDasharray = `${pathInfo.length}`;
+          path.style.strokeDashoffset = `${pathInfo.length}`;
+        });
+      });
+      activeVisual.nodes.forEach((node) => node.classList.remove("is-complete", "is-pulsing"));
+      activeVisual.nodes.get(route.origin.id)?.classList.add("is-complete");
+      activeVisual.plane.classList.remove("is-visible");
+      const firstPath = activeVisual.paths[0];
+      if (firstPath) placePlane(firstPath, 0);
+      if (transferChip) transferChip.hidden = true;
+      announcer.textContent = `Route ready: ${route.origin.city} to ${route.destination.city}.`;
+    }
+
+    function completeRoute(route, announce = true) {
+      if (!activeVisual) return;
+      activeVisual.paths.forEach((pathInfo) => {
+        pathInfo.shadow.style.strokeDashoffset = "0";
+        pathInfo.line.style.strokeDashoffset = "0";
+      });
+      activeVisual.nodes.forEach((node) => {
+        node.classList.remove("is-pulsing");
+        node.classList.add("is-complete");
+      });
+      const finalPath = activeVisual.paths[activeVisual.paths.length - 1];
+      if (finalPath) {
+        placePlane(finalPath, 1);
+        activeVisual.plane.classList.add("is-visible");
+      }
+      if (transferChip) transferChip.hidden = true;
+      module.classList.remove("is-playing", "is-arrived-shanghai", "is-arrived-xian");
+      module.classList.add("is-card-visible", `is-arrived-${activeKey}`);
+      module.dataset.routePhase = "arrived";
+      isAnimating = false;
+      if (announce) announcer.textContent = `Arrived in ${route.destination.city}. Route information is now available.`;
+    }
+
+    function animateSegment(pathInfo, token) {
+      return new Promise((resolve) => {
+        const start = performance.now();
+        activeVisual.plane.classList.add("is-visible");
+
+        function frame(now) {
+          if (token !== runToken || !stageInView) {
+            resolve(false);
+            return;
+          }
+          const elapsed = now - start;
+          const routeProgress = Math.min(1, elapsed / pathInfo.segment.duration);
+          const drawProgress = Math.min(1, elapsed / pathInfo.segment.drawDuration);
+          const easedRoute = routeProgress < 0.5
+            ? 4 * routeProgress * routeProgress * routeProgress
+            : 1 - Math.pow(-2 * routeProgress + 2, 3) / 2;
+          const easedDraw = 1 - Math.pow(1 - drawProgress, 3);
+          const offset = pathInfo.length * (1 - easedDraw);
+          pathInfo.shadow.style.strokeDashoffset = `${offset}`;
+          pathInfo.line.style.strokeDashoffset = `${offset}`;
+          placePlane(pathInfo, easedRoute);
+
+          if (routeProgress < 1) {
+            window.requestAnimationFrame(frame);
+          } else {
+            pathInfo.shadow.style.strokeDashoffset = "0";
+            pathInfo.line.style.strokeDashoffset = "0";
+            resolve(true);
+          }
+        }
+
+        window.requestAnimationFrame(frame);
+      });
+    }
+
+    async function playRoute() {
+      const route = departureRoutes[activeKey];
+      if (!route || !activeVisual) return;
+      cancelRouteAnimation();
+      const token = runToken;
+      resetRouteVisual(route);
+
+      if (reduceMotion || !stageInView) {
+        completeRoute(route, false);
+        return;
+      }
+
+      isAnimating = true;
+      module.classList.add("is-playing");
+      module.dataset.routePhase = "departing";
+      const originNode = activeVisual.nodes.get(route.origin.id);
+      originNode?.classList.add("is-pulsing");
+      announcer.textContent = `Departing ${route.origin.city}, ${route.origin.code}.`;
+      if (!(await waitFor(360, token))) return;
+
+      for (let index = 0; index < activeVisual.paths.length; index += 1) {
+        const pathInfo = activeVisual.paths[index];
+        const segment = route.segments[index];
+        module.dataset.routePhase = `leg-${index + 1}`;
+        announcer.textContent = `Flying from ${segment.from.city} to ${segment.to.city}.`;
+        const completed = await animateSegment(pathInfo, token);
+        if (!completed || token !== runToken) return;
+        activeVisual.nodes.get(segment.to.id)?.classList.add("is-complete");
+
+        if (route.transfer && segment.to.id === route.transfer.id) {
+          module.dataset.routePhase = "transfer";
+          module.dataset.transferVisited = "true";
+          if (transferChip) transferChip.hidden = false;
+          announcer.textContent = "Transfer at Shanghai Pudong.";
+          if (!(await waitFor(1200, token))) return;
+          if (transferChip) transferChip.hidden = true;
+        }
+      }
+
+      originNode?.classList.remove("is-pulsing");
+      completeRoute(route);
+    }
+
+    function renderRoute(nextKey, shouldPlay = false) {
+      const route = departureRoutes[nextKey];
+      if (!route) return;
+      cancelRouteAnimation();
+      activeKey = nextKey;
+      syncRouteCopy(route);
+      buildMap(route);
+      resetRouteVisual(route);
+      if (shouldPlay) playRoute();
+      else if (reduceMotion) completeRoute(route, false);
+    }
+
+    function selectRoute(nextKey) {
+      if (!departureRoutes[nextKey]) return;
+      hasAutoplayed = true;
+      renderRoute(nextKey, stageInView && !reduceMotion);
+      if (!stageInView || reduceMotion) completeRoute(departureRoutes[nextKey], false);
+    }
+
+    optionButtons.forEach((button, buttonIndex) => {
+      button.addEventListener("click", () => selectRoute(button.dataset.routeOption));
+      button.addEventListener("keydown", (event) => {
+        let nextIndex = buttonIndex;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (buttonIndex + 1) % optionButtons.length;
+        else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (buttonIndex - 1 + optionButtons.length) % optionButtons.length;
+        else if (event.key === "Home") nextIndex = 0;
+        else if (event.key === "End") nextIndex = optionButtons.length - 1;
+        else return;
+        event.preventDefault();
+        optionButtons[nextIndex].focus();
+        optionButtons[nextIndex].click();
+      });
+    });
+
+    fields.replayButton.addEventListener("click", () => {
+      const rect = stage.getBoundingClientRect();
+      stageInView = rect.bottom > 0 && rect.top < window.innerHeight;
+      if (stageInView && !reduceMotion) playRoute();
+      else completeRoute(departureRoutes[activeKey]);
+    });
+
+    fields.arriveButton.addEventListener("click", () => {
+      document.getElementById("beijing")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden || !isAnimating) return;
+      cancelRouteAnimation();
+      completeRoute(departureRoutes[activeKey], false);
+    });
+
+    module.classList.add("is-enhanced");
+    renderRoute(activeKey);
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries[0]?.isIntersecting ?? false;
+        stageInView = visible;
+        if (visible && !hasAutoplayed) {
+          hasAutoplayed = true;
+          playRoute();
+        } else if (!visible && isAnimating) {
+          cancelRouteAnimation();
+          completeRoute(departureRoutes[activeKey], false);
+        }
+      }, { threshold: 0.18 });
+      observer.observe(stage);
+    } else {
+      stageInView = true;
+      hasAutoplayed = true;
+      playRoute();
+    }
+  }
+
   function initBeAViewerDepth() {
     const cards = Array.from(document.querySelectorAll("[data-viewer-card]"));
     if (!cards.length || reduceMotion) return;
@@ -1669,5 +2178,6 @@
   initFieldHeroCarousel();
   initHomepageIndex();
   initViewerHeroCarousel();
+  initDepartureRoutes();
   initBeAViewerDepth();
 })();
