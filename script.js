@@ -1323,10 +1323,71 @@
     renderCards();
   }
 
+  function initBeAViewerDepth() {
+    const cards = Array.from(document.querySelectorAll("[data-viewer-card]"));
+    if (!cards.length || reduceMotion) return;
+
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    cards.forEach((card) => {
+      let pointerFrame = 0;
+
+      function resetCard() {
+        window.cancelAnimationFrame(pointerFrame);
+        card.classList.remove("is-interacting");
+        card.style.setProperty("--viewer-rx", "0deg");
+        card.style.setProperty("--viewer-ry", "0deg");
+        card.style.setProperty("--viewer-image-x", "0px");
+        card.style.setProperty("--viewer-image-y", "0px");
+      }
+
+      if (finePointer) {
+        card.addEventListener("pointerenter", () => card.classList.add("is-interacting"));
+        card.addEventListener("pointermove", (event) => {
+          window.cancelAnimationFrame(pointerFrame);
+          pointerFrame = window.requestAnimationFrame(() => {
+            const rect = card.getBoundingClientRect();
+            const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
+            const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
+            card.style.setProperty("--viewer-rx", `${(-y * 3.4).toFixed(2)}deg`);
+            card.style.setProperty("--viewer-ry", `${(x * 4.6).toFixed(2)}deg`);
+            card.style.setProperty("--viewer-image-x", `${(-x * 7).toFixed(2)}px`);
+            card.style.setProperty("--viewer-image-y", `${(-y * 5).toFixed(2)}px`);
+          });
+        });
+        card.addEventListener("pointerleave", resetCard);
+        card.addEventListener("pointercancel", resetCard);
+      }
+    });
+
+    let scrollFrame = 0;
+    function syncViewerScroll() {
+      scrollFrame = 0;
+      cards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+        const cardCenter = rect.top + rect.height / 2;
+        const viewportCenter = window.innerHeight / 2;
+        const progress = Math.max(-1, Math.min(1, (cardCenter - viewportCenter) / window.innerHeight));
+        card.style.setProperty("--viewer-scroll-y", `${(-progress * 9).toFixed(2)}px`);
+      });
+    }
+
+    function requestViewerScroll() {
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(syncViewerScroll);
+    }
+
+    syncViewerScroll();
+    window.addEventListener("scroll", requestViewerScroll, { passive: true });
+    window.addEventListener("resize", requestViewerScroll);
+  }
+
   enhanceNavigation();
   initGlobalContactModule();
   labelInteriorPage();
   initArticleProgress();
   initFieldHeroCarousel();
   initHomepageIndex();
+  initBeAViewerDepth();
 })();
