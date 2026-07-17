@@ -354,18 +354,103 @@
   window.addEventListener("resize", () => hideVisualNote({ immediate: true }));
   window.addEventListener("scroll", () => hideVisualNote({ immediate: true }), { passive: true });
 
-  const filterButtons = document.querySelectorAll("[data-filter]");
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const filter = button.dataset.filter;
-      filterButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
-      button.setAttribute("aria-pressed", "true");
-      document.querySelectorAll(".essay-card[data-series]").forEach((card) => {
-        const visible = filter === "all" || card.dataset.series === filter;
-        card.hidden = !visible;
+  const filterGroup = document.querySelector(".filters");
+  const essayList = document.querySelector("[data-essay-list]");
+  if (filterGroup && essayList) {
+    const filterButtons = Array.from(filterGroup.querySelectorAll(".filter-button[data-filter]"));
+    const essayCards = Array.from(essayList.querySelectorAll(".essay-card[data-series]"));
+    const filterStatus = document.querySelector("[data-filter-status]");
+    let activeFilter = essayList.dataset.filter || "all";
+    let filterRun = 0;
+    let commitTimer = 0;
+    let cleanupTimer = 0;
+
+    function clearFilterTimers() {
+      window.clearTimeout(commitTimer);
+      window.clearTimeout(cleanupTimer);
+    }
+
+    function finishFilterMotion(run) {
+      if (run !== filterRun) return;
+      essayCards.forEach((card) => {
+        card.classList.remove("is-filter-entering", "is-filter-leaving");
+        card.style.removeProperty("--filter-order");
       });
+      essayList.removeAttribute("aria-busy");
+    }
+
+    function announceFilter(filter, count) {
+      if (!filterStatus) return;
+      const selected = filterButtons.find((item) => item.dataset.filter === filter);
+      const label = selected ? selected.textContent.trim().replace(/^\S+\s+/, "") : "selected";
+      filterStatus.textContent = filter === "all"
+        ? `Showing all ${count} essays.`
+        : `Showing ${count} ${label} ${count === 1 ? "essay" : "essays"}.`;
+    }
+
+    function showFilterResults(filter, run, animate) {
+      if (run !== filterRun) return;
+      const matchingCards = [];
+
+      essayCards.forEach((card) => {
+        const matches = filter === "all" || card.dataset.series === filter;
+        card.classList.remove("is-filter-entering", "is-filter-leaving");
+        card.hidden = !matches;
+        if (matches) {
+          card.removeAttribute("aria-hidden");
+          card.classList.add("is-visible");
+          matchingCards.push(card);
+        } else {
+          card.setAttribute("aria-hidden", "true");
+        }
+      });
+
+      announceFilter(filter, matchingCards.length);
+
+      if (!animate || reduceMotion) {
+        finishFilterMotion(run);
+        return;
+      }
+
+      matchingCards.forEach((card, index) => {
+        card.style.setProperty("--filter-order", String(index));
+      });
+      void essayList.offsetWidth;
+      matchingCards.forEach((card) => card.classList.add("is-filter-entering"));
+
+      const stagger = Math.min(Math.max(0, matchingCards.length - 1), 5) * 55;
+      cleanupTimer = window.setTimeout(() => finishFilterMotion(run), 520 + stagger);
+    }
+
+    function applyFilter(filter, { animate = true } = {}) {
+      if (!filterButtons.some((item) => item.dataset.filter === filter)) return;
+      if (filter === activeFilter && !essayList.hasAttribute("aria-busy")) return;
+
+      activeFilter = filter;
+      essayList.dataset.filter = filter;
+      const run = ++filterRun;
+      clearFilterTimers();
+      essayCards.forEach((card) => card.classList.remove("is-filter-entering", "is-filter-leaving"));
+
+      filterButtons.forEach((item) => {
+        item.setAttribute("aria-pressed", String(item.dataset.filter === filter));
+      });
+
+      essayList.setAttribute("aria-busy", "true");
+      const visibleCards = essayCards.filter((card) => !card.hidden);
+
+      if (animate && !reduceMotion && visibleCards.length) {
+        visibleCards.forEach((card) => card.classList.add("is-filter-leaving"));
+        commitTimer = window.setTimeout(() => showFilterResults(filter, run, true), 150);
+      } else {
+        showFilterResults(filter, run, false);
+      }
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => applyFilter(button.dataset.filter || "all"));
     });
-  });
+  }
 
   function initInteractiveCharts() {
     document.querySelectorAll(".interactive-chart").forEach((chart) => {

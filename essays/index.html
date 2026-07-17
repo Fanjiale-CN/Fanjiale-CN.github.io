@@ -6,7 +6,7 @@
   <meta name="description" content="Essays by Galok on macro shifts, conceptual frames, platforms and scenes of everyday consumption.">
   <title>Essays - Galok</title>
   
-  <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg"><link rel="stylesheet" href="/styles.css?v=field-system-10">
+  <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg"><link rel="stylesheet" href="/styles.css?v=essay-filter-1">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
 <script>
@@ -63,12 +63,13 @@
         <p class="section-copy">Each piece can stand alone, but together they form the first Galok issue: how desire keeps working after price becomes public evidence.</p>
       </div>
       <div class="filters" aria-label="Essay filters" data-reveal>
-        <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All</button>
-        <button class="filter-button" type="button" data-filter="macro" aria-pressed="false"><span class="glyph-draw glyph-inline" data-glyph="视" data-pinyin="shi" aria-hidden="true">视</span> View</button>
-        <button class="filter-button" type="button" data-filter="frame" aria-pressed="false"><span class="glyph-draw glyph-inline" data-glyph="框" data-pinyin="kuang" aria-hidden="true">框</span> Frame</button>
-        <button class="filter-button" type="button" data-filter="scene" aria-pressed="false"><span class="glyph-draw glyph-inline" data-glyph="察" data-pinyin="cha" aria-hidden="true">察</span> Observe</button>
+        <button class="filter-button" type="button" data-filter="all" aria-controls="essay-list" aria-pressed="true">All</button>
+        <button class="filter-button" type="button" data-filter="macro" aria-controls="essay-list" aria-pressed="false"><span class="glyph-draw glyph-inline" data-glyph="视" data-pinyin="shi" aria-hidden="true">视</span> View</button>
+        <button class="filter-button" type="button" data-filter="frame" aria-controls="essay-list" aria-pressed="false"><span class="glyph-draw glyph-inline" data-glyph="框" data-pinyin="kuang" aria-hidden="true">框</span> Frame</button>
+        <button class="filter-button" type="button" data-filter="scene" aria-controls="essay-list" aria-pressed="false"><span class="glyph-draw glyph-inline" data-glyph="察" data-pinyin="cha" aria-hidden="true">察</span> Observe</button>
       </div>
-      <div class="essay-grid" data-essay-list data-filter="all"></div>
+      <p class="filter-status" data-filter-status aria-live="polite">Showing all essays.</p>
+      <div class="essay-grid" id="essay-list" data-essay-list data-filter="all"></div>
     </section>
   </main>
 
@@ -80,6 +81,6 @@
   </footer>
 
   <script src="/content.js?v=ai-series-view-1"></script>
-  <script src="/script.js?v=field-system-10"></script>
+  <script src="/script.js?v=essay-filter-1"></script>
 </body>
 </html>
