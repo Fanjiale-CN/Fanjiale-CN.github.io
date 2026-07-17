@@ -1323,6 +1323,255 @@
     renderCards();
   }
 
+  function initViewerHeroCarousel() {
+    const hero = document.querySelector("[data-viewer-hero]");
+    if (!hero) return;
+
+    const stage = hero.querySelector("[data-viewer-hero-stage]");
+    const slides = Array.from(hero.querySelectorAll("[data-viewer-slide]"));
+    const videos = slides.map((slide) => slide.querySelector("[data-viewer-video]"));
+    const dots = Array.from(hero.querySelectorAll("[data-viewer-dot]"));
+    const progress = hero.querySelector("[data-viewer-progress]");
+    const toggle = hero.querySelector("[data-viewer-toggle]");
+    const cityStops = Array.from(document.querySelectorAll(".viewer-city-list span"));
+    const fields = {
+      city: hero.querySelector("[data-viewer-city]"),
+      kicker: hero.querySelector("[data-viewer-kicker]"),
+      copy: hero.querySelector("[data-viewer-copy]"),
+      place: hero.querySelector("[data-viewer-place]"),
+      coordinate: hero.querySelector("[data-viewer-coordinate]"),
+      number: hero.querySelector("[data-viewer-number]"),
+      region: hero.querySelector("[data-viewer-region]"),
+      subject: hero.querySelector("[data-viewer-subject]")
+    };
+    if (!stage || slides.length < 2 || videos.some((video) => !video) || Object.values(fields).some((field) => !field)) return;
+
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    let activeIndex = 0;
+    let copyTimer = 0;
+    let fallbackTimer = 0;
+    let pointerFrame = 0;
+    let pointerStart = null;
+    let userPaused = reduceMotion;
+    let heroInView = true;
+
+    function syncCopy(slide) {
+      Object.entries(fields).forEach(([key, field]) => {
+        field.textContent = slide.dataset[key] || "";
+      });
+    }
+
+    function clearFallback() {
+      window.clearTimeout(fallbackTimer);
+      fallbackTimer = 0;
+    }
+
+    function updateToggle() {
+      if (!toggle) return;
+      const video = videos[activeIndex];
+      const paused = userPaused || !video || video.paused;
+      toggle.textContent = paused ? "Play" : "Pause";
+      toggle.setAttribute("aria-label", paused ? "Play travel video" : "Pause travel video");
+      toggle.setAttribute("aria-pressed", String(paused));
+    }
+
+    function scheduleFallback() {
+      clearFallback();
+      if (userPaused || document.hidden || !heroInView) return;
+      fallbackTimer = window.setTimeout(() => showSlide(activeIndex + 1), 5600);
+    }
+
+    function playActive({ restart = false } = {}) {
+      const activeVideo = videos[activeIndex];
+      videos.forEach((video, index) => {
+        if (index !== activeIndex) video.pause();
+      });
+      if (!activeVideo) return;
+
+      clearFallback();
+      activeVideo.muted = true;
+      if (restart) {
+        try {
+          activeVideo.currentTime = 0;
+        } catch (error) {
+          // The city poster remains visible while metadata loads.
+        }
+      }
+
+      if (userPaused || document.hidden || !heroInView) {
+        activeVideo.pause();
+        updateToggle();
+        return;
+      }
+
+      const promise = activeVideo.play();
+      if (promise && typeof promise.then === "function") {
+        promise.then(updateToggle).catch(() => {
+          updateToggle();
+          scheduleFallback();
+        });
+      } else {
+        updateToggle();
+      }
+    }
+
+    function showSlide(nextIndex, instant = false) {
+      const normalized = (nextIndex + slides.length) % slides.length;
+      const slide = slides[normalized];
+      if (!slide) return;
+
+      activeIndex = normalized;
+      const preloadIndex = (activeIndex + 1) % slides.length;
+      hero.dataset.viewerActive = String(activeIndex + 1);
+      slides.forEach((item, index) => {
+        const active = index === activeIndex;
+        item.classList.toggle("is-active", active);
+        videos[index].preload = active || index === preloadIndex ? "auto" : "metadata";
+        if (index === preloadIndex && videos[index].readyState === 0) videos[index].load();
+        if (!active) {
+          videos[index].pause();
+          try {
+            videos[index].currentTime = 0;
+          } catch (error) {
+            // Metadata may not be ready yet.
+          }
+        }
+      });
+      dots.forEach((dot, index) => {
+        const active = index === activeIndex;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-pressed", String(active));
+      });
+      cityStops.forEach((stop, index) => {
+        const active = index === activeIndex;
+        stop.classList.toggle("is-current", active);
+        if (active) stop.setAttribute("aria-current", "true");
+        else stop.removeAttribute("aria-current");
+      });
+
+      window.clearTimeout(copyTimer);
+      if (reduceMotion || instant) {
+        syncCopy(slide);
+        hero.classList.remove("is-copy-changing");
+      } else {
+        hero.classList.add("is-copy-changing");
+        copyTimer = window.setTimeout(() => {
+          syncCopy(slide);
+          hero.classList.remove("is-copy-changing");
+        }, 260);
+      }
+
+      if (progress) progress.style.width = "0%";
+      playActive({ restart: true });
+    }
+
+    function applyDepth(event, strength = 1) {
+      window.cancelAnimationFrame(pointerFrame);
+      pointerFrame = window.requestAnimationFrame(() => {
+        const rect = hero.getBoundingClientRect();
+        const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
+        const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
+        hero.style.setProperty("--viewer-stage-rx", `${(-y * 1.9 * strength).toFixed(2)}deg`);
+        hero.style.setProperty("--viewer-stage-ry", `${(x * 2.6 * strength).toFixed(2)}deg`);
+        hero.style.setProperty("--viewer-stage-x", `${(-x * 5 * strength).toFixed(2)}px`);
+        hero.style.setProperty("--viewer-stage-y", `${(-y * 4 * strength).toFixed(2)}px`);
+      });
+    }
+
+    function resetDepth() {
+      window.cancelAnimationFrame(pointerFrame);
+      hero.classList.remove("is-interacting", "is-pressing");
+      hero.style.setProperty("--viewer-stage-rx", "0deg");
+      hero.style.setProperty("--viewer-stage-ry", "0deg");
+      hero.style.setProperty("--viewer-stage-x", "0px");
+      hero.style.setProperty("--viewer-stage-y", "0px");
+    }
+
+    dots.forEach((dot) => dot.addEventListener("click", () => showSlide(Number(dot.dataset.viewerDot))));
+    hero.querySelector("[data-viewer-prev]")?.addEventListener("click", () => showSlide(activeIndex - 1));
+    hero.querySelector("[data-viewer-next]")?.addEventListener("click", () => showSlide(activeIndex + 1));
+    toggle?.addEventListener("click", () => {
+      const video = videos[activeIndex];
+      if (!video) return;
+      if (userPaused || video.paused) {
+        userPaused = false;
+        playActive();
+      } else {
+        userPaused = true;
+        clearFallback();
+        video.pause();
+        updateToggle();
+      }
+    });
+
+    videos.forEach((video, index) => {
+      video.addEventListener("timeupdate", () => {
+        if (index !== activeIndex || !progress || !Number.isFinite(video.duration) || video.duration <= 0) return;
+        progress.style.width = `${Math.min(100, Math.max(0, (video.currentTime / video.duration) * 100)).toFixed(2)}%`;
+      });
+      video.addEventListener("play", updateToggle);
+      video.addEventListener("pause", updateToggle);
+      video.addEventListener("ended", () => {
+        if (index === activeIndex && !userPaused) showSlide(activeIndex + 1);
+      });
+      video.addEventListener("error", () => {
+        if (index === activeIndex) scheduleFallback();
+      });
+    });
+
+    hero.addEventListener("pointerdown", (event) => {
+      if (event.target instanceof Element && event.target.closest("button, a")) return;
+      pointerStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
+      hero.classList.add("is-pressing");
+      applyDepth(event, finePointer ? 1 : 0.72);
+    });
+    hero.addEventListener("pointermove", (event) => {
+      if (pointerStart && pointerStart.id === event.pointerId) {
+        applyDepth(event, finePointer ? 1 : 0.72);
+      } else if (finePointer) {
+        hero.classList.add("is-interacting");
+        applyDepth(event, 1);
+      }
+    });
+    hero.addEventListener("pointerup", (event) => {
+      if (!pointerStart || pointerStart.id !== event.pointerId) return;
+      const deltaX = event.clientX - pointerStart.x;
+      pointerStart = null;
+      resetDepth();
+      if (Math.abs(deltaX) >= 48) showSlide(activeIndex + (deltaX < 0 ? 1 : -1));
+    });
+    hero.addEventListener("pointercancel", () => {
+      pointerStart = null;
+      resetDepth();
+    });
+    hero.addEventListener("pointerleave", () => {
+      if (!pointerStart) resetDepth();
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        clearFallback();
+        videos[activeIndex]?.pause();
+      } else {
+        playActive();
+      }
+    });
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        heroInView = entries[0]?.isIntersecting ?? true;
+        if (heroInView) playActive();
+        else {
+          clearFallback();
+          videos[activeIndex]?.pause();
+        }
+      }, { threshold: 0.12 });
+      observer.observe(hero);
+    }
+
+    showSlide(0, true);
+  }
+
   function initBeAViewerDepth() {
     const cards = Array.from(document.querySelectorAll("[data-viewer-card]"));
     if (!cards.length || reduceMotion) return;
@@ -1334,7 +1583,7 @@
 
       function resetCard() {
         window.cancelAnimationFrame(pointerFrame);
-        card.classList.remove("is-interacting");
+        card.classList.remove("is-interacting", "is-touching");
         card.style.setProperty("--viewer-rx", "0deg");
         card.style.setProperty("--viewer-ry", "0deg");
         card.style.setProperty("--viewer-image-x", "0px");
@@ -1357,6 +1606,36 @@
         });
         card.addEventListener("pointerleave", resetCard);
         card.addEventListener("pointercancel", resetCard);
+      } else {
+        let touching = false;
+        card.addEventListener("pointerdown", (event) => {
+          touching = true;
+          card.classList.add("is-touching");
+          const rect = card.getBoundingClientRect();
+          const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
+          const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
+          card.style.setProperty("--viewer-rx", `${(-y * 1.7).toFixed(2)}deg`);
+          card.style.setProperty("--viewer-ry", `${(x * 2.2).toFixed(2)}deg`);
+          card.style.setProperty("--viewer-image-x", `${(-x * 4).toFixed(2)}px`);
+          card.style.setProperty("--viewer-image-y", `${(-y * 3).toFixed(2)}px`);
+        });
+        card.addEventListener("pointermove", (event) => {
+          if (!touching) return;
+          const rect = card.getBoundingClientRect();
+          const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
+          const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
+          card.style.setProperty("--viewer-rx", `${(-y * 1.7).toFixed(2)}deg`);
+          card.style.setProperty("--viewer-ry", `${(x * 2.2).toFixed(2)}deg`);
+          card.style.setProperty("--viewer-image-x", `${(-x * 4).toFixed(2)}px`);
+          card.style.setProperty("--viewer-image-y", `${(-y * 3).toFixed(2)}px`);
+        });
+        const endTouch = () => {
+          touching = false;
+          resetCard();
+        };
+        card.addEventListener("pointerup", endTouch);
+        card.addEventListener("pointercancel", endTouch);
+        card.addEventListener("pointerleave", endTouch);
       }
     });
 
@@ -1389,5 +1668,6 @@
   initArticleProgress();
   initFieldHeroCarousel();
   initHomepageIndex();
+  initViewerHeroCarousel();
   initBeAViewerDepth();
 })();

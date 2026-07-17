@@ -10,8 +10,7 @@
   <meta property="og:image" content="/assets/be-a-viewer/beijing-roof.jpg">
   <title>BE A VIEWER — Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
-  <link rel="preload" as="image" href="/assets/be-a-viewer/beijing-roof.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="/styles.css?v=be-a-viewer-2">
+  <link rel="stylesheet" href="/styles.css?v=be-a-viewer-video-2">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -38,43 +37,91 @@
   </nav>
 
   <main class="viewer-page-main">
-    <section class="viewer-landing" aria-labelledby="viewer-page-title">
-      <header class="viewer-landing-header" data-reveal>
-        <p>04 / TRAVEL SERIES</p>
-        <h1 id="viewer-page-title">BE A VIEWER</h1>
-        <span>Travel through China with fewer instructions and more attention. Each city begins with one image worth staying inside.</span>
-      </header>
+    <section class="field-hero viewer-video-hero" aria-labelledby="viewer-page-title" data-viewer-hero>
+      <div class="field-hero-stage viewer-video-stage" data-viewer-hero-stage aria-hidden="true">
+        <figure class="field-hero-slide viewer-video-slide is-active" data-viewer-slide data-city="BEIJING" data-kicker="Ceremony in motion" data-copy="Old geometry still organizes the crowd, the sky and the pace of arrival." data-place="TEMPLE OF HEAVEN" data-coordinate="39.9042° N" data-number="01" data-region="CAPITAL" data-subject="RITUAL" style="--hero-position:50% 50%; --hero-position-mobile:50% 50%">
+          <video data-viewer-video autoplay muted playsinline preload="auto" poster="/assets/be-a-viewer/video/beijing-poster.webp">
+            <source src="/assets/be-a-viewer/video/beijing.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="SHANGHAI" data-kicker="The river as horizon" data-copy="Light, finance and evening traffic gather along one restless edge." data-place="THE BUND" data-coordinate="31.2304° N" data-number="02" data-region="EAST COAST" data-subject="MOMENTUM" style="--hero-position:50% 50%; --hero-position-mobile:53% 50%">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/shanghai-poster.webp">
+            <source src="/assets/be-a-viewer/video/shanghai.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="XI'AN" data-kicker="Memory at street level" data-copy="The wall keeps history close enough to walk, touch and circle." data-place="CITY WALL" data-coordinate="34.3416° N" data-number="03" data-region="NORTHWEST" data-subject="MEMORY" style="--hero-position:50% 50%; --hero-position-mobile:55% 50%">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/xian-poster.webp">
+            <source src="/assets/be-a-viewer/video/xian.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="ERHAI" data-kicker="Water holds the distance" data-copy="At Erhai, mountains become a horizon you can move beside." data-place="DALI, YUNNAN" data-coordinate="25.6065° N" data-number="04" data-region="SOUTHWEST" data-subject="STILLNESS" style="--hero-position:50% 50%; --hero-position-mobile:55% 50%">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/erhai-poster.webp">
+            <source src="/assets/be-a-viewer/video/erhai.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="TIBET" data-kicker="The frame opens" data-copy="Altitude clears the noise until land, weather and belief share one scale." data-place="TIBETAN PLATEAU" data-coordinate="29.6500° N" data-number="05" data-region="WEST" data-subject="ALTITUDE" style="--hero-position:50% 50%; --hero-position-mobile:58% 50%">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/tibet-poster.webp">
+            <source src="/assets/be-a-viewer/video/tibet.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="SHENZHEN" data-kicker="A city still arriving" data-copy="By the bay, speed becomes skyline, reflection and ordinary night." data-place="SHENZHEN BAY" data-coordinate="22.5431° N" data-number="06" data-region="SOUTH CHINA" data-subject="FUTURE" style="--hero-position:52% 50%; --hero-position-mobile:61% 50%">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/shenzhen-poster.webp">
+            <source src="/assets/be-a-viewer/video/shenzhen.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="XIAMEN" data-kicker="The coast as daily life" data-copy="Sea air, dense hills and neighborhood roofs keep the city close to the water." data-place="XIAMEN, FUJIAN" data-coordinate="24.4798° N" data-number="07" data-region="SOUTHEAST" data-subject="COAST" style="--hero-position:50% 50%; --hero-position-mobile:53% 50%">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/xiamen-poster.webp">
+            <source src="/assets/be-a-viewer/video/xiamen.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
 
-      <div class="viewer-stage-shell" data-reveal>
-        <a class="viewer-film viewer-film--page" href="#beijing" data-viewer-card aria-label="Begin BE A VIEWER with Beijing">
-          <div class="viewer-film-rail viewer-film-rail--top" aria-hidden="true">
-            <span>GALOK TRAVEL STUDY</span>
-            <span>BEIJING / CHAPTER 01</span>
-            <span>FRAME 04</span>
+      <div class="field-hero-wash viewer-video-wash" aria-hidden="true"></div>
+      <div class="field-hero-grid viewer-video-grid">
+        <div class="field-hero-topline viewer-video-topline">
+          <span>BE A VIEWER</span>
+          <span data-viewer-place>TEMPLE OF HEAVEN</span>
+          <span data-viewer-coordinate>39.9042° N</span>
+        </div>
+        <div class="field-hero-copy viewer-video-copy">
+          <p class="field-kicker" data-viewer-kicker>Ceremony in motion</p>
+          <h1 id="viewer-page-title" data-viewer-city>BEIJING</h1>
+          <p data-viewer-copy>Old geometry still organizes the crowd, the sky and the pace of arrival.</p>
+        </div>
+        <div class="field-hero-index viewer-video-index" aria-label="Current travel frame">
+          <span data-viewer-number>01</span>
+          <div><b data-viewer-region>CAPITAL</b><small data-viewer-subject>RITUAL</small></div>
+        </div>
+        <p class="viewer-touch-hint" aria-hidden="true">Press and swipe to explore</p>
+        <div class="field-hero-progress viewer-video-progress" aria-hidden="true"><span data-viewer-progress></span></div>
+        <div class="field-hero-controls viewer-video-controls" aria-label="Travel video controls">
+          <div class="field-hero-dots" role="group" aria-label="Choose a city">
+            <button class="is-active" type="button" data-viewer-dot="0" aria-label="Show Beijing" aria-pressed="true">01</button>
+            <button type="button" data-viewer-dot="1" aria-label="Show Shanghai" aria-pressed="false">02</button>
+            <button type="button" data-viewer-dot="2" aria-label="Show Xi'an" aria-pressed="false">03</button>
+            <button type="button" data-viewer-dot="3" aria-label="Show Erhai" aria-pressed="false">04</button>
+            <button type="button" data-viewer-dot="4" aria-label="Show Tibet" aria-pressed="false">05</button>
+            <button type="button" data-viewer-dot="5" aria-label="Show Shenzhen" aria-pressed="false">06</button>
+            <button type="button" data-viewer-dot="6" aria-label="Show Xiamen" aria-pressed="false">07</button>
           </div>
-          <div class="viewer-film-window">
-            <img src="/assets/be-a-viewer/beijing-roof.jpg" alt="Traditional Beijing roofline beneath a quiet evening sky" fetchpriority="high" decoding="async">
-            <span class="viewer-film-shade" aria-hidden="true"></span>
-            <div class="viewer-film-title" aria-hidden="true"><span>BE A</span><b>VIEWER</b></div>
-            <p class="viewer-film-location">BEIJING <span>39.9042° N / 116.4074° E</span></p>
-            <p class="viewer-film-enter">Begin in Beijing <span aria-hidden="true">↓</span></p>
+          <div class="field-hero-actions">
+            <button type="button" data-viewer-prev aria-label="Show previous city">Prev</button>
+            <button type="button" data-viewer-toggle aria-label="Pause travel video" aria-pressed="false">Pause</button>
+            <button type="button" data-viewer-next aria-label="Show next city">Next</button>
           </div>
-          <div class="viewer-film-rail viewer-film-rail--bottom" aria-hidden="true">
-            <span>BEIJING</span><span>SHANGHAI</span><span>XI'AN</span><span>CHONGQING</span>
-          </div>
-        </a>
+        </div>
       </div>
     </section>
 
     <section class="viewer-chapter" id="beijing" aria-labelledby="viewer-beijing-title">
       <div data-reveal>
-        <p class="viewer-chapter-kicker">01 / BEIJING</p>
-        <h2 id="viewer-beijing-title">Begin with the roofline.</h2>
+        <p class="viewer-chapter-kicker">01 / THE ROUTE</p>
+        <h2 id="viewer-beijing-title">Look before you arrive.</h2>
       </div>
       <div class="viewer-chapter-copy" data-reveal>
-        <p>Beijing is often introduced through scale. BE A VIEWER begins closer: green tile, last light and the way an old roof keeps its silhouette against a changing city. The first field chapter will move through the city one observed detail at a time.</p>
-        <div class="viewer-city-list" aria-label="Cities planned for BE A VIEWER">
-          <span>Shanghai</span><span>Xi'an</span><span>Chongqing</span>
+        <p>BE A VIEWER follows China through short moving views. Each stop stays close to one place, one atmosphere and the details a guidebook usually rushes past.</p>
+        <div class="viewer-city-list" aria-label="Cities in BE A VIEWER">
+          <span class="is-current">Beijing</span><span>Shanghai</span><span>Xi'an</span><span>Erhai</span><span>Tibet</span><span>Shenzhen</span><span>Xiamen</span>
         </div>
       </div>
     </section>
@@ -94,6 +141,6 @@
   </nav>
 
   <script src="/content.js?v=field-system-5"></script>
-  <script src="/script.js?v=be-a-viewer-1"></script>
+  <script src="/script.js?v=be-a-viewer-video-2"></script>
 </body>
 </html>
