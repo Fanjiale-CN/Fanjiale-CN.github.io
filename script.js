@@ -16,7 +16,12 @@
     observe: "#c9a227",
     scene: "#c9a227"
   };
-  const departureCountryCodes = "af ax al dz as ad ao ai aq ag ar am aw au at az bs bh bd bb by be bz bj bm bt bo bq ba bw bv br io bn bg bf bi cv kh cm ca ky cf td cl cn cx cc co km ck cr hr cu cw cy cz ci cd dk dj dm do ec eg sv gq er ee sz et fk fo fm fj fi fr gf pf tf ga gm ge de gh gi gr gl gd gp gu gt gg gn gw gy ht hm va hn hk hu is in id ir iq ie im il it jm jp je jo kz ke ki kw kg la lv lb ls lr ly li lt lu mo mg mw my mv ml mt mh mq mr mu yt mx md mc mn me ms ma mz mm na nr np nl nc nz ni ne ng nu nf kp mk mp no om pk pw pa pg py pe ph pn pl pt pr qa cg ro ru rw re bl sh kn lc mf pm vc ws sm st sa sn rs sc sl sg sx sk si sb so za gs kr ss es lk ps sd sr sj se ch sy tw tj tz th tl tg tk to tt tn tm tc tv tr ug ua ae gb um us uy uz vu ve vn vg vi wf eh ye zm zw".split(" ");
+  const departureFlagCodes = "af ax al dz as ad ao ai aq ag ar am aw au at az bs bh bd bb by be bz bj bm bt bo bq ba bw bv br io bn bg bf bi cv kh cm ca ky cf td cl cn cx cc co km ck cr hr cu cw cy cz ci cd dk dj dm do ec eg sv gq er ee sz et fk fo fm fj fi fr gf pf tf ga gm ge de gh gi gr gl gd gp gu gt gg gn gw gy ht hm va hn hk hu is in id ir iq ie im il it jm jp je jo kz ke ki kw kg la lv lb ls lr ly li lt lu mo mg mw my mv ml mt mh mq mr mu yt mx md mc mn me ms ma mz mm na nr np nl nc nz ni ne ng nu nf kp mk mp no om pk pw pa pg py pe ph pn pl pt pr qa cg ro ru rw re bl sh kn lc mf pm vc ws sm st sa sn rs sc sl sg sx sk si sb so za gs kr ss es lk ps sd sr sj se ch sy tw tj tz th tl tg tk to tt tn tm tc tv tr ug ua ae gb um us uy uz vu ve vn vg vi wf eh ye zm zw".split(" ");
+  const departureCountryCodes = [
+    "jp", "kr", "my", "sg", "th",
+    "gb", "fr", "dk", "no", "se", "de", "it", "ch", "es", "pt",
+    "ca", "us", "br", "ar", "au"
+  ];
   const departureAirports = {
     jfk: { id: "jfk", countryCode: "us", country: "UNITED STATES", city: "NEW YORK", code: "JFK", airport: "JOHN F. KENNEDY", latitude: 40.6413, longitude: -73.7781, x: 396.99, y: 158.86, labelX: -24, labelY: -24, labelAnchor: "end" },
     lax: { id: "lax", countryCode: "us", country: "UNITED STATES", city: "LOS ANGELES", code: "LAX", airport: "LOS ANGELES INTERNATIONAL", latitude: 33.9416, longitude: -118.4085, x: 265.31, y: 182.1, labelX: -24, labelY: 39, labelAnchor: "end" },
@@ -25,21 +30,67 @@
     icn: { id: "icn", countryCode: "kr", country: "SOUTH KOREA", city: "SEOUL", code: "ICN", airport: "INCHEON INTERNATIONAL", latitude: 37.4602, longitude: 126.4407, x: 952.66, y: 169.87, labelX: 24, labelY: -24, labelAnchor: "start" },
     kul: { id: "kul", countryCode: "my", country: "MALAYSIA", city: "KUALA LUMPUR", code: "KUL", airport: "KUALA LUMPUR INTERNATIONAL", latitude: 2.7456, longitude: 101.7072, x: 904.15, y: 290.5, labelX: -24, labelY: 40, labelAnchor: "end" },
     sin: { id: "sin", countryCode: "sg", country: "SINGAPORE", city: "SINGAPORE", code: "SIN", airport: "CHANGI", latitude: 1.3644, longitude: 103.9915, x: 911.06, y: 295.28, labelX: 24, labelY: 40, labelAnchor: "start" },
+    bkk: { id: "bkk", countryCode: "th", country: "THAILAND", city: "BANGKOK", code: "BKK", airport: "SUVARNABHUMI", latitude: 13.69, longitude: 100.7501, x: 898.77, y: 252.58, labelX: -24, labelY: 40, labelAnchor: "end" },
+    lhr: { id: "lhr", countryCode: "gb", country: "UNITED KINGDOM", city: "LONDON", code: "LHR", airport: "HEATHROW", latitude: 51.47, longitude: -0.4543, x: 598.82, y: 122.06, labelX: -24, labelY: 40, labelAnchor: "end" },
+    cdg: { id: "cdg", countryCode: "fr", country: "FRANCE", city: "PARIS", code: "CDG", airport: "CHARLES DE GAULLE", latitude: 49.0097, longitude: 2.5479, x: 606.72, y: 130.29, labelX: 24, labelY: -24, labelAnchor: "start" },
+    cph: { id: "cph", countryCode: "dk", country: "DENMARK", city: "COPENHAGEN", code: "CPH", airport: "COPENHAGEN", latitude: 55.6181, longitude: 12.656, x: 632, y: 108.41, labelX: -24, labelY: -24, labelAnchor: "end" },
+    osl: { id: "osl", countryCode: "no", country: "NORWAY", city: "OSLO", code: "OSL", airport: "OSLO GARDERMOEN", latitude: 60.1939, longitude: 11.1004, x: 627.15, y: 93.76, labelX: -24, labelY: -24, labelAnchor: "end" },
+    arn: { id: "arn", countryCode: "se", country: "SWEDEN", city: "STOCKHOLM", code: "ARN", airport: "ARLANDA", latitude: 59.6519, longitude: 17.9186, x: 644.01, y: 95.47, labelX: 24, labelY: -24, labelAnchor: "start" },
+    ber: { id: "ber", countryCode: "de", country: "GERMANY", city: "BERLIN", code: "BER", airport: "BERLIN BRANDENBURG", latitude: 52.3667, longitude: 13.5033, x: 634.88, y: 119.08, labelX: 24, labelY: 40, labelAnchor: "start" },
+    fco: { id: "fco", countryCode: "it", country: "ITALY", city: "ROME", code: "FCO", airport: "FIUMICINO", latitude: 41.8003, longitude: 12.2389, x: 633.5, y: 154.86, labelX: 24, labelY: 40, labelAnchor: "start" },
+    brn: { id: "brn", countryCode: "ch", country: "SWITZERLAND", city: "BERN", code: "BRN", airport: "BERN", latitude: 46.9141, longitude: 7.4972, x: 620, y: 137.37, labelX: -24, labelY: 40, labelAnchor: "end" },
+    mad: { id: "mad", countryCode: "es", country: "SPAIN", city: "MADRID", code: "MAD", airport: "ADOLFO SUAREZ MADRID-BARAJAS", latitude: 40.4983, longitude: -3.5676, x: 590.18, y: 159.35, labelX: -24, labelY: 40, labelAnchor: "end" },
+    lis: { id: "lis", countryCode: "pt", country: "PORTUGAL", city: "LISBON", code: "LIS", airport: "HUMBERTO DELGADO", latitude: 38.7742, longitude: -9.1342, x: 574.66, y: 165.32, labelX: -24, labelY: 40, labelAnchor: "end" },
+    yow: { id: "yow", countryCode: "ca", country: "CANADA", city: "OTTAWA", code: "YOW", airport: "OTTAWA INTERNATIONAL", latitude: 45.3225, longitude: -75.6692, x: 396.44, y: 142.79, labelX: -24, labelY: -24, labelAnchor: "end" },
+    bsb: { id: "bsb", countryCode: "br", country: "BRAZIL", city: "BRASILIA", code: "BSB", airport: "BRASILIA INTERNATIONAL", latitude: -15.8697, longitude: -47.9208, x: 458.33, y: 354.98, labelX: 24, labelY: 40, labelAnchor: "start" },
+    eze: { id: "eze", countryCode: "ar", country: "ARGENTINA", city: "BUENOS AIRES", code: "EZE", airport: "MINISTRO PISTARINI", latitude: -34.8222, longitude: -58.5358, x: 435.07, y: 420.96, labelX: -24, labelY: 40, labelAnchor: "end" },
+    cbr: { id: "cbr", countryCode: "au", country: "AUSTRALIA", city: "CANBERRA", code: "CBR", airport: "CANBERRA", latitude: -35.3069, longitude: 149.195, x: 1019.62, y: 422.65, labelX: 24, labelY: 40, labelAnchor: "start" },
     pek: { id: "pek", countryCode: "cn", country: "CHINA", city: "BEIJING", code: "PEK", airport: "BEIJING CAPITAL", latitude: 40.0799, longitude: 116.6031, x: 921.66, y: 160.8, labelX: -24, labelY: -24, labelAnchor: "end" },
     pvg: { id: "pvg", countryCode: "cn", country: "CHINA", city: "SHANGHAI", code: "PVG", airport: "PUDONG", latitude: 31.1443, longitude: 121.8083, x: 947.57, y: 191.85, labelX: 24, labelY: 40, labelAnchor: "start" },
-    xiy: { id: "xiy", countryCode: "cn", country: "CHINA", city: "XI’AN", code: "XIY", airport: "XI’AN XIANYANG", latitude: 34.4471, longitude: 108.7516, x: 906.84, y: 180.34, labelX: -24, labelY: 40, labelAnchor: "end" }
+    xiy: { id: "xiy", countryCode: "cn", country: "CHINA", city: "XI’AN", code: "XIY", airport: "XI’AN XIANYANG", latitude: 34.4471, longitude: 108.7516, x: 906.84, y: 180.34, labelX: -24, labelY: 40, labelAnchor: "end" },
+    szx: { id: "szx", countryCode: "cn", country: "CHINA", city: "SHENZHEN", code: "SZX", airport: "SHENZHEN BAO’AN", latitude: 22.6393, longitude: 113.8107, x: 932.27, y: 221.48, labelX: 24, labelY: 40, labelAnchor: "start" },
+    dlu: { id: "dlu", countryCode: "cn", country: "CHINA", city: "DALI", code: "DLU", airport: "DALI FENGYI", latitude: 25.6494, longitude: 100.3194, x: 890.8, y: 211, labelX: -24, labelY: 40, labelAnchor: "end" },
+    xmn: { id: "xmn", countryCode: "cn", country: "CHINA", city: "XIAMEN", code: "XMN", airport: "XIAMEN GAOQI", latitude: 24.544, longitude: 118.1277, x: 943.36, y: 214.85, labelX: 24, labelY: -24, labelAnchor: "start" }
   };
   const departureCountries = {
-    us: { code: "us", name: "UNITED STATES", cities: ["jfk", "lax", "iad"] },
-    jp: { code: "jp", name: "JAPAN", cities: ["nrt"] },
-    kr: { code: "kr", name: "SOUTH KOREA", cities: ["icn"] },
-    my: { code: "my", name: "MALAYSIA", cities: ["kul"] },
-    sg: { code: "sg", name: "SINGAPORE", cities: ["sin"] }
+    jp: { code: "jp", name: "JAPAN", region: "ASIA", cities: ["nrt"] },
+    kr: { code: "kr", name: "SOUTH KOREA", region: "ASIA", cities: ["icn"] },
+    my: { code: "my", name: "MALAYSIA", region: "ASIA", cities: ["kul"] },
+    sg: { code: "sg", name: "SINGAPORE", region: "ASIA", cities: ["sin"] },
+    th: { code: "th", name: "THAILAND", region: "ASIA", cities: ["bkk"] },
+    gb: { code: "gb", name: "UNITED KINGDOM", region: "EUROPE", cities: ["lhr"] },
+    fr: { code: "fr", name: "FRANCE", region: "EUROPE", cities: ["cdg"] },
+    dk: { code: "dk", name: "DENMARK", region: "EUROPE", cities: ["cph"] },
+    no: { code: "no", name: "NORWAY", region: "EUROPE", cities: ["osl"] },
+    se: { code: "se", name: "SWEDEN", region: "EUROPE", cities: ["arn"] },
+    de: { code: "de", name: "GERMANY", region: "EUROPE", cities: ["ber"] },
+    it: { code: "it", name: "ITALY", region: "EUROPE", cities: ["fco"] },
+    ch: { code: "ch", name: "SWITZERLAND", region: "EUROPE", cities: ["brn"] },
+    es: { code: "es", name: "SPAIN", region: "EUROPE", cities: ["mad"] },
+    pt: { code: "pt", name: "PORTUGAL", region: "EUROPE", cities: ["lis"] },
+    ca: { code: "ca", name: "CANADA", region: "NORTH AMERICA", cities: ["yow"] },
+    us: { code: "us", name: "UNITED STATES", region: "NORTH AMERICA", cities: ["iad", "jfk", "lax"] },
+    br: { code: "br", name: "BRAZIL", region: "SOUTH AMERICA", cities: ["bsb"] },
+    ar: { code: "ar", name: "ARGENTINA", region: "SOUTH AMERICA", cities: ["eze"] },
+    au: { code: "au", name: "AUSTRALIA", region: "OCEANIA", cities: ["cbr"] }
   };
   const departureDestinations = {
     beijing: departureAirports.pek,
     shanghai: departureAirports.pvg,
-    xian: departureAirports.xiy
+    xian: departureAirports.xiy,
+    shenzhen: departureAirports.szx,
+    dali: departureAirports.dlu,
+    xiamen: departureAirports.xmn
+  };
+  const standardVisaFreePolicy = {
+    status: "VISA-FREE VISIT",
+    body: "Ordinary passport holders may enter China visa-free for eligible stays of up to 30 days. Confirm current conditions before travel.",
+    link: "https://us.china-embassy.gov.cn/eng/lsfw/zj/notice/202412/t20241224_11516392.htm"
+  };
+  const mutualVisaFreePolicy = {
+    status: "VISA-FREE VISIT",
+    body: "Ordinary passport holders may enter China visa-free for eligible stays of up to 30 days under a mutual exemption agreement. Confirm current conditions before travel.",
+    link: "https://cs.mfa.gov.cn/gyls/lsgz/fwxx/202504/t20250414_11594222.shtml"
   };
   const departureEntryPolicies = {
     us: {
@@ -47,26 +98,29 @@
       body: "US ordinary passport holders generally need a visa for an ordinary visit to China. Entry rules depend on passport and purpose, not the departure city.",
       link: "http://us.china-embassy.gov.cn/eng/lsfw/zj/qz2021/"
     },
-    jp: {
-      status: "VISA-FREE VISIT",
-      body: "Japanese ordinary passport holders may enter visa-free for eligible stays of up to 30 days. Confirm current conditions before travel.",
-      link: "https://www.mfa.gov.cn/wjbzwfwpt/kzx/tzgg/202511/t20251110_11749824.html"
-    },
-    kr: {
-      status: "VISA-FREE VISIT",
-      body: "Republic of Korea ordinary passport holders may enter visa-free for eligible stays of up to 30 days. Confirm current conditions before travel.",
-      link: "https://www.mfa.gov.cn/wjbzwfwpt/kzx/tzgg/202511/t20251110_11749824.html"
-    },
+    jp: standardVisaFreePolicy,
+    kr: standardVisaFreePolicy,
+    gb: standardVisaFreePolicy,
+    fr: standardVisaFreePolicy,
+    dk: standardVisaFreePolicy,
+    no: standardVisaFreePolicy,
+    se: standardVisaFreePolicy,
+    de: standardVisaFreePolicy,
+    it: standardVisaFreePolicy,
+    ch: standardVisaFreePolicy,
+    es: standardVisaFreePolicy,
+    pt: standardVisaFreePolicy,
+    ca: standardVisaFreePolicy,
+    br: standardVisaFreePolicy,
+    ar: standardVisaFreePolicy,
+    au: standardVisaFreePolicy,
     my: {
       status: "VISA-FREE VISIT",
       body: "Malaysian ordinary passport holders may enter visa-free for eligible stays of up to 30 days under the mutual exemption agreement.",
       link: "https://my.china-embassy.gov.cn/eng/fwzc/lsyw/qz/202508/t20250801_11681401.htm"
     },
-    sg: {
-      status: "VISA-FREE VISIT",
-      body: "Singapore ordinary passport holders may enter visa-free for eligible stays of up to 30 days under the mutual exemption agreement.",
-      link: "https://cs.mfa.gov.cn/wgrlh/lhqz/lhqzjjs/202510/t20251023_11739051.shtml"
-    }
+    sg: mutualVisaFreePolicy,
+    th: mutualVisaFreePolicy
   };
   const departureFlightTimes = {
     jfk: { pek: "APPROX. 14H 10M", pvg: "APPROX. 15H", xiy: "APPROX. 20–24H" },
@@ -127,21 +181,41 @@
     };
   }
 
+  function departureFlightMinutes(from, to) {
+    const distance = departureDistance(from, to);
+    return Math.max(60, Math.round(((distance / 820) * 60 + 45) / 10) * 10);
+  }
+
+  function departureTimeLabel(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const remaining = minutes % 60;
+    return `APPROX. ${hours}H${remaining ? ` ${remaining}M` : ""}`;
+  }
+
+  function departureJourneyWindow(segments) {
+    const flightMinutes = segments.reduce((total, segment) => total + departureFlightMinutes(segment.from, segment.to), 0);
+    const low = Math.max(1, Math.floor((flightMinutes + 120) / 60));
+    const high = Math.max(low + 2, Math.ceil((flightMinutes + 360) / 60));
+    return `APPROX. ${low}–${high}H`;
+  }
+
   function buildDepartureRoute(origin, destinationKey) {
     const destination = departureDestinations[destinationKey];
-    const transferId = departureTransfers[`${origin.id}-${destination.id}`];
+    const transferId = departureTransfers[`${origin.id}-${destination.id}`]
+      || (["xian", "shenzhen", "dali", "xiamen"].includes(destinationKey) ? "pvg" : null);
     const transfer = transferId ? departureAirports[transferId] : null;
     const stops = transfer ? [origin, transfer, destination] : [origin, destination];
     const segments = stops.slice(0, -1).map((stop, index) => departureSegment(stop, stops[index + 1]));
     const distance = segments.reduce((total, segment) => total + departureDistance(segment.from, segment.to), 0);
-    const routeTime = departureFlightTimes[origin.id][destination.id];
-    const destinationNumber = { beijing: "01", shanghai: "02", xian: "03" }[destinationKey];
+    const routeTime = departureFlightTimes[origin.id]?.[destination.id]
+      || (transfer ? departureJourneyWindow(segments) : departureTimeLabel(departureFlightMinutes(origin, destination)));
+    const destinationNumber = { beijing: "01", shanghai: "02", xian: "03", shenzhen: "04", dali: "05", xiamen: "06" }[destinationKey];
     const routeLabel = `${origin.code} → ${destination.code}`;
     const transferLabel = transfer ? `${transfer.city} / ${transfer.code}` : null;
     const facts = transfer ? [
       { label: "1 TRANSFER", value: transferLabel },
-      { label: "FIRST LEG", value: `${origin.code} → ${transfer.code}`, detail: departureLegTimes[`${origin.id}-${transfer.id}`] || "SCHEDULE VARIES" },
-      { label: "SECOND LEG", value: `${transfer.code} → ${destination.code}`, detail: departureLegTimes[`${transfer.id}-${destination.id}`] || "SCHEDULE VARIES" },
+      { label: "FIRST LEG", value: `${origin.code} → ${transfer.code}`, detail: departureLegTimes[`${origin.id}-${transfer.id}`] || departureTimeLabel(departureFlightMinutes(origin, transfer)) },
+      { label: "SECOND LEG", value: `${transfer.code} → ${destination.code}`, detail: departureLegTimes[`${transfer.id}-${destination.id}`] || departureTimeLabel(departureFlightMinutes(transfer, destination)) },
       { label: "TOTAL JOURNEY", value: routeTime, detail: "DEPENDING ON CONNECTION" }
     ] : [
       { label: "NONSTOP", value: routeLabel },
@@ -185,6 +259,7 @@
     airports: departureAirports,
     countries: departureCountries,
     countryCodes: departureCountryCodes,
+    flagCodes: departureFlagCodes,
     destinations: departureDestinations
   };
   let activeVisualNote = null;
@@ -962,7 +1037,7 @@
 (function initFieldSystem() {
   const content = window.GALOK_CONTENT || { essays: [], series: {} };
   const departureRoutes = window.GALOK_DEPARTURE_ROUTES || {};
-  const departureData = window.GALOK_DEPARTURE_DATA || { airports: {}, countries: {}, countryCodes: [], destinations: {} };
+  const departureData = window.GALOK_DEPARTURE_DATA || { airports: {}, countries: {}, countryCodes: [], flagCodes: [], destinations: {} };
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const body = document.body;
   const siteNav = document.querySelector(".site-nav");
@@ -1767,6 +1842,9 @@
     const originCityPicker = module.querySelector("[data-origin-city-picker]");
     const originCityTitle = module.querySelector("[data-origin-city-title]");
     const originCityOptions = module.querySelector("[data-origin-city-options]");
+    const destinationTrigger = module.querySelector("[data-destination-trigger]");
+    const destinationBrowser = module.querySelector("[data-destination-browser]");
+    const destinationClose = module.querySelector("[data-destination-close]");
     const mapControls = {
       zoomIn: module.querySelector("[data-map-zoom-in]"),
       zoomOut: module.querySelector("[data-map-zoom-out]"),
@@ -1778,6 +1856,7 @@
       originCountry: module.querySelector("[data-origin-country]"),
       originCity: module.querySelector("[data-origin-city]"),
       originAirport: module.querySelector("[data-origin-airport]"),
+      destinationCity: module.querySelector("[data-destination-city]"),
       destinationAirport: module.querySelector("[data-destination-airport]"),
       mapOrigin: module.querySelector("[data-map-origin]"),
       mapStatus: module.querySelector("[data-map-status]"),
@@ -1799,10 +1878,10 @@
     const essentials = [
       stage, routeLayer, routeMap, mapViewport, routeCard, factsMount, transferChip, announcer,
       originTrigger, originBrowser, originClose, countrySearch, countryList, originFeedback,
-      originCityPicker, originCityTitle, originCityOptions,
+      originCityPicker, originCityTitle, originCityOptions, destinationTrigger, destinationBrowser, destinationClose,
       ...Object.values(mapControls), ...Object.values(fields)
     ];
-    if (essentials.some((field) => !field) || optionButtons.length !== 3 || !departureRoutes["jfk-shanghai"]) return;
+    if (essentials.some((field) => !field) || optionButtons.length !== 6 || !departureRoutes["iad-shanghai"]) return;
 
     const svgNamespace = "http://www.w3.org/2000/svg";
     const worldWidth = 1200;
@@ -1812,7 +1891,7 @@
     const countryDisplayNames = typeof Intl.DisplayNames === "function"
       ? new Intl.DisplayNames(["en"], { type: "region" })
       : null;
-    let activeOriginId = "jfk";
+    let activeOriginId = "iad";
     let activeDestinationKey = "shanghai";
     let activeKey = `${activeOriginId}-${activeDestinationKey}`;
     let activeVisual = null;
@@ -1821,6 +1900,7 @@
     let hasAutoplayed = false;
     let isAnimating = false;
     let browserCloseTimer = 0;
+    let destinationCloseTimer = 0;
     let cameraFrame = 0;
     let mapUserControlled = false;
     let mapView = { x: 0, y: 0, width: worldWidth, height: worldHeight };
@@ -1846,7 +1926,7 @@
     }
 
     function setFlagPosition(node, code) {
-      const index = departureData.countryCodes.indexOf(code);
+      const index = departureData.flagCodes.indexOf(code);
       if (!node || index < 0) return;
       const column = index % flagColumns;
       const row = Math.floor(index / flagColumns);
@@ -2115,6 +2195,7 @@
       const originCode = document.createElement("b");
       originCode.textContent = route.origin.code;
       fields.originAirport.append(originCode);
+      fields.destinationCity.textContent = route.destination.city;
       renderAirportLabel(route);
       fields.mapOrigin.textContent = `${route.origin.city} / ${route.origin.code}`;
       fields.mapStatus.textContent = route.summary.mapStatus;
@@ -2158,8 +2239,8 @@
 
     function resetRouteVisual(route) {
       if (!activeVisual) return;
-      module.classList.remove("is-playing", "is-card-visible", "is-arrived-shanghai", "is-arrived-xian");
-      module.classList.remove("is-arrived-beijing");
+      module.classList.remove("is-playing", "is-card-visible");
+      Object.keys(departureData.destinations).forEach((key) => module.classList.remove(`is-arrived-${key}`));
       module.dataset.routePhase = "ready";
       delete module.dataset.transferVisited;
       activeVisual.paths.forEach((pathInfo) => {
@@ -2194,7 +2275,8 @@
         activeVisual.plane.classList.add("is-visible", "is-arrived");
       }
       if (transferChip) transferChip.hidden = true;
-      module.classList.remove("is-playing", "is-arrived-beijing", "is-arrived-shanghai", "is-arrived-xian");
+      module.classList.remove("is-playing");
+      Object.keys(departureData.destinations).forEach((key) => module.classList.remove(`is-arrived-${key}`));
       module.classList.add("is-card-visible", `is-arrived-${route.destinationKey}`);
       module.dataset.routePhase = "arrived";
       isAnimating = false;
@@ -2305,7 +2387,10 @@
     }
 
     optionButtons.forEach((button, buttonIndex) => {
-      button.addEventListener("click", () => selectRoute(button.dataset.routeOption));
+      button.addEventListener("click", () => {
+        selectRoute(button.dataset.routeOption);
+        closeDestinationBrowser(true);
+      });
       button.addEventListener("keydown", (event) => {
         let nextIndex = buttonIndex;
         if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (buttonIndex + 1) % optionButtons.length;
@@ -2319,11 +2404,12 @@
       });
     });
 
-    function renderOriginCities(countryCode) {
+    function renderOriginCities(countryCode, anchorButton = null) {
       const country = departureData.countries[countryCode];
       if (!country) return;
       originCityTitle.textContent = `AVAILABLE FROM ${country.name}`;
       originCityPicker.hidden = false;
+      if (anchorButton) anchorButton.insertAdjacentElement("afterend", originCityPicker);
       const fragment = document.createDocumentFragment();
       country.cities.forEach((airportId) => {
         const airport = departureData.airports[airportId];
@@ -2359,43 +2445,46 @@
     }
 
     function renderCountryList() {
-      const countries = departureData.countryCodes.map((code) => ({
-        code,
-        name: countryName(code),
-        available: Boolean(departureData.countries[code])
-      })).sort((left, right) => {
-        if (left.available !== right.available) return left.available ? -1 : 1;
-        return left.name.localeCompare(right.name, "en");
-      });
+      const regionOrder = ["ASIA", "EUROPE", "NORTH AMERICA", "SOUTH AMERICA", "OCEANIA"];
+      const countries = departureData.countryCodes.map((code) => departureData.countries[code]).filter(Boolean);
       const fragment = document.createDocumentFragment();
-      countries.forEach((country) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = `departure-country-option ${country.available ? "is-available" : "is-coming"}`;
-        button.dataset.countryCode = country.code;
-        button.dataset.countryName = country.name;
-        button.setAttribute("aria-label", `${country.name}. ${country.available ? "Departure routes available." : "Route information coming soon."}`);
-        button.append(makeFlag(country.code));
-        const text = document.createElement("span");
-        const name = document.createElement("strong");
-        const status = document.createElement("small");
-        name.textContent = country.name;
-        status.textContent = country.available ? "ROUTES LIVE" : "COMING SOON";
-        text.append(name, status);
-        button.append(text);
-        button.addEventListener("click", () => {
-          countryList.querySelectorAll(".is-selected").forEach((item) => item.classList.remove("is-selected"));
-          button.classList.add("is-selected");
-          if (country.available) {
-            renderOriginCities(country.code);
+      regionOrder.forEach((regionName) => {
+        const regionCountries = countries.filter((country) => country.region === regionName);
+        if (!regionCountries.length) return;
+        const region = document.createElement("section");
+        region.className = "departure-country-region";
+        region.dataset.countryRegion = regionName;
+        const heading = document.createElement("p");
+        heading.textContent = regionName;
+        const grid = document.createElement("div");
+        grid.className = "departure-country-region-grid";
+
+        regionCountries.forEach((country) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "departure-country-option is-available";
+          button.dataset.countryCode = country.code;
+          button.dataset.countryName = country.name;
+          button.setAttribute("aria-label", `${country.name}. Choose a departure city.`);
+          button.append(makeFlag(country.code));
+          const text = document.createElement("span");
+          const name = document.createElement("strong");
+          const status = document.createElement("small");
+          name.textContent = country.name;
+          status.textContent = country.cities.length > 1 ? `${country.cities.length} DEPARTURE CITIES` : "CAPITAL DEPARTURE";
+          text.append(name, status);
+          button.append(text);
+          button.addEventListener("click", () => {
+            countryList.querySelectorAll(".is-selected").forEach((item) => item.classList.remove("is-selected"));
+            button.classList.add("is-selected");
+            renderOriginCities(country.code, button);
             originFeedback.textContent = `Choose a departure city in ${country.name}.`;
             originCityOptions.querySelector("button")?.focus();
-          } else {
-            originCityPicker.hidden = true;
-            originFeedback.textContent = `ROUTES FROM ${country.name} ARE COMING SOON.`;
-          }
+          });
+          grid.append(button);
         });
-        fragment.append(button);
+        region.append(heading, grid);
+        fragment.append(region);
       });
       countryList.replaceChildren(fragment);
     }
@@ -2408,27 +2497,61 @@
         button.hidden = !matches;
         if (matches) visible += 1;
       });
+      countryList.querySelectorAll("[data-country-region]").forEach((region) => {
+        region.hidden = !Array.from(region.querySelectorAll("[data-country-name]")).some((button) => !button.hidden);
+      });
+      const selectedCountry = countryList.querySelector(".departure-country-option.is-selected");
+      if (selectedCountry) originCityPicker.hidden = Boolean(query && selectedCountry.hidden);
       originFeedback.textContent = query
-        ? `${visible} COUNTRIES OR REGIONS MATCH “${query}”.`
-        : "Five departure countries are available now. More route information is coming soon.";
+        ? `${visible} DEPARTURE COUNTRIES MATCH “${query}”.`
+        : "Twenty departure countries are available across five regions.";
     }
 
     function openOriginBrowser() {
+      closeDestinationBrowser(false);
       window.clearTimeout(browserCloseTimer);
       originBrowser.hidden = false;
       originTrigger.setAttribute("aria-expanded", "true");
-      renderOriginCities(departureData.airports[activeOriginId].countryCode);
+      const activeCountryCode = departureData.airports[activeOriginId].countryCode;
+      const activeCountryButton = countryList.querySelector(`[data-country-code="${activeCountryCode}"]`);
+      countryList.querySelectorAll(".is-selected").forEach((item) => item.classList.remove("is-selected"));
+      activeCountryButton?.classList.add("is-selected");
+      renderOriginCities(activeCountryCode, activeCountryButton);
       window.requestAnimationFrame(() => originBrowser.classList.add("is-open"));
-      window.setTimeout(() => countrySearch.focus(), reduceMotion ? 0 : 260);
+      window.setTimeout(() => {
+        if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) countrySearch.focus();
+        else activeCountryButton?.focus();
+      }, reduceMotion ? 0 : 260);
     }
 
     function closeOriginBrowser(returnFocus = false) {
+      if (originBrowser.hidden) return;
       originBrowser.classList.remove("is-open");
       originTrigger.setAttribute("aria-expanded", "false");
       window.clearTimeout(browserCloseTimer);
       browserCloseTimer = window.setTimeout(() => {
         originBrowser.hidden = true;
         if (returnFocus) originTrigger.focus();
+      }, reduceMotion ? 0 : 280);
+    }
+
+    function openDestinationBrowser() {
+      closeOriginBrowser(false);
+      window.clearTimeout(destinationCloseTimer);
+      destinationBrowser.hidden = false;
+      destinationTrigger.setAttribute("aria-expanded", "true");
+      window.requestAnimationFrame(() => destinationBrowser.classList.add("is-open"));
+      window.setTimeout(() => optionButtons.find((button) => button.classList.contains("is-active"))?.focus(), reduceMotion ? 0 : 260);
+    }
+
+    function closeDestinationBrowser(returnFocus = false) {
+      if (destinationBrowser.hidden) return;
+      destinationBrowser.classList.remove("is-open");
+      destinationTrigger.setAttribute("aria-expanded", "false");
+      window.clearTimeout(destinationCloseTimer);
+      destinationCloseTimer = window.setTimeout(() => {
+        destinationBrowser.hidden = true;
+        if (returnFocus) destinationTrigger.focus();
       }, reduceMotion ? 0 : 280);
     }
 
@@ -2443,6 +2566,17 @@
       if (event.key === "Escape") {
         event.preventDefault();
         closeOriginBrowser(true);
+      }
+    });
+    destinationTrigger.addEventListener("click", () => {
+      if (destinationBrowser.hidden) openDestinationBrowser();
+      else closeDestinationBrowser(true);
+    });
+    destinationClose.addEventListener("click", () => closeDestinationBrowser(true));
+    destinationBrowser.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeDestinationBrowser(true);
       }
     });
 

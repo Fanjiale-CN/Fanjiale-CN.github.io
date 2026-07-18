@@ -127,21 +127,20 @@
           <button class="departure-choice-trigger" type="button" aria-expanded="false" aria-controls="departure-origin-browser" data-origin-trigger>
             <span class="departure-selector-label" id="departure-from-label">FROM</span>
             <span class="departure-country"><span class="departure-flag departure-flag-sprite" style="--flag-x:80%;--flag-y:93.3333%" aria-hidden="true" data-origin-flag></span> <span data-origin-country>UNITED STATES</span></span>
-            <strong class="departure-city" data-origin-city>NEW YORK</strong>
-            <span class="departure-airport" data-origin-airport>JOHN F. KENNEDY / <b>JFK</b></span>
+            <strong class="departure-city" data-origin-city>WASHINGTON</strong>
+            <span class="departure-airport" data-origin-airport>DULLES INTERNATIONAL / <b>IAD</b></span>
             <span class="departure-choice-action">CHANGE DEPARTURE</span>
           </button>
         </section>
 
         <section class="departure-selector-panel departure-selector-panel--view" aria-labelledby="departure-view-label">
-          <p class="departure-selector-label" id="departure-view-label">VIEW</p>
-          <p class="departure-country"><img class="departure-flag" src="/assets/be-a-viewer/flag-cn.svg" alt="" aria-hidden="true"> CHINA</p>
-          <div class="departure-destination-options" role="radiogroup" aria-label="Choose a destination in China" data-route-switcher>
-            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="beijing">BEIJING</button>
-            <button class="is-active" type="button" role="radio" aria-checked="true" tabindex="0" data-route-option="shanghai">SHANGHAI</button>
-            <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="xian">XI’AN</button>
-          </div>
-          <p class="departure-airport" data-destination-airport>PUDONG / <b>PVG</b></p>
+          <button class="departure-choice-trigger departure-choice-trigger--view" type="button" aria-expanded="false" aria-controls="departure-destination-browser" data-destination-trigger>
+            <span class="departure-selector-label" id="departure-view-label">VIEW</span>
+            <span class="departure-country"><img class="departure-flag" src="/assets/be-a-viewer/flag-cn.svg" alt="" aria-hidden="true"> CHINA</span>
+            <strong class="departure-city" data-destination-city>SHANGHAI</strong>
+            <span class="departure-airport" data-destination-airport>PUDONG / <b>PVG</b></span>
+            <span class="departure-choice-action departure-choice-action--view">CHANGE DESTINATION</span>
+          </button>
         </section>
       </div>
 
@@ -155,30 +154,53 @@
         </header>
         <div class="departure-origin-tools">
           <label>
-            <span>SEARCH COUNTRY OR REGION</span>
+            <span>SEARCH DEPARTURE COUNTRY</span>
             <input type="search" autocomplete="off" placeholder="START TYPING…" data-country-search>
           </label>
-          <p aria-live="polite" data-origin-feedback>Five departure countries are available now. More route information is coming soon.</p>
+          <p aria-live="polite" data-origin-feedback>Twenty departure countries are available across five regions.</p>
         </div>
+        <div class="departure-country-grid" data-country-list></div>
         <div class="departure-origin-city-picker" data-origin-city-picker hidden>
           <p data-origin-city-title>AVAILABLE FROM UNITED STATES</p>
           <div role="radiogroup" aria-label="Choose a departure city" data-origin-city-options></div>
         </div>
-        <div class="departure-country-grid" data-country-list></div>
         <p class="departure-flag-credit">FLAG ASSETS · FLAG ICONS 7.5.0 · MIT</p>
+      </section>
+
+      <section class="departure-origin-browser departure-destination-browser" id="departure-destination-browser" aria-labelledby="departure-destination-browser-title" data-destination-browser hidden>
+        <header class="departure-origin-browser-header">
+          <div>
+            <p>SELECT DESTINATION</p>
+            <h3 id="departure-destination-browser-title">CHINA / SIX CITIES</h3>
+          </div>
+          <button type="button" data-destination-close>CLOSE</button>
+        </header>
+        <div class="departure-destination-country" aria-hidden="true">
+          <img class="departure-flag" src="/assets/be-a-viewer/flag-cn.svg" alt="">
+          <strong>CHINA</strong>
+          <span>6 DESTINATIONS</span>
+        </div>
+        <div class="departure-destination-options" role="radiogroup" aria-label="Choose a destination in China" data-route-switcher>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="beijing">BEIJING <small>PEK</small></button>
+          <button class="is-active" type="button" role="radio" aria-checked="true" tabindex="0" data-route-option="shanghai">SHANGHAI <small>PVG</small></button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="xian">XI’AN <small>XIY</small></button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="shenzhen">SHENZHEN <small>SZX</small></button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="dali">DALI <small>DLU</small></button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="xiamen">XIAMEN <small>XMN</small></button>
+        </div>
       </section>
 
       <div class="departure-story-grid" id="departure-route" data-departure-stage>
         <figure class="departure-map-card" aria-labelledby="departure-map-caption">
           <div class="departure-map-rail" aria-hidden="true">
-            <span data-map-origin>NEW YORK / JFK</span>
-            <span data-map-status>DIRECT FLIGHT</span>
+            <span data-map-origin>WASHINGTON / IAD</span>
+            <span data-map-status>TRANSFER · BEIJING / PEK</span>
             <span data-map-destination>SHANGHAI / PVG</span>
           </div>
           <div class="departure-map-viewport" tabindex="0" aria-label="Interactive route map. Drag to move. Use the mouse wheel, pinch gesture, or map controls to zoom." data-map-viewport>
             <svg class="departure-map" viewBox="0 0 1200 600" role="img" aria-labelledby="departure-map-title departure-map-description" data-route-map>
-              <title id="departure-map-title">Representative route from New York to China</title>
-              <desc id="departure-map-description" data-map-description>A representative direct flight route from John F. Kennedy International Airport to Shanghai Pudong International Airport.</desc>
+              <title id="departure-map-title">Representative route from Washington to Shanghai</title>
+              <desc id="departure-map-description" data-map-description>A representative route from Dulles International Airport to Shanghai Pudong International Airport.</desc>
               <g class="departure-map-camera" data-map-camera>
                 <image href="/assets/be-a-viewer/world-map.svg" width="1200" height="600"></image>
                 <g data-route-layer></g>
@@ -186,7 +208,7 @@
             </svg>
             <div class="departure-transfer-chip" data-transfer-chip hidden>
               <span>TRANSFER</span>
-              <b data-transfer-label>SHANGHAI PUDONG</b>
+              <b data-transfer-label>BEIJING PEK</b>
             </div>
             <div class="departure-map-toolbar" aria-label="Map controls">
               <button type="button" data-map-zoom-in>IN</button>
@@ -195,18 +217,18 @@
               <button type="button" data-map-show-city>CITY</button>
             </div>
             <p class="departure-map-gesture" aria-hidden="true">DRAG TO MOVE · SCROLL OR PINCH TO ZOOM</p>
-            <p class="departure-map-status" aria-live="polite" data-route-announcer>Route ready: New York to Shanghai.</p>
+            <p class="departure-map-status" aria-live="polite" data-route-announcer>Route ready: Washington to Shanghai.</p>
           </div>
           <figcaption id="departure-map-caption">Representative route study · not live flight tracking</figcaption>
         </figure>
 
         <article class="departure-route-card" aria-labelledby="departure-route-title" aria-live="polite" data-route-card>
           <header class="departure-route-card-header">
-            <span data-route-number>01</span>
+            <span data-route-number>02</span>
             <span>REPRESENTATIVE ROUTE</span>
           </header>
-          <h3 id="departure-route-title"><span data-card-origin>NEW YORK</span><i aria-hidden="true">→</i><span data-card-destination>SHANGHAI</span></h3>
-          <p class="departure-route-mode" data-route-mode>NONSTOP · JFK → PVG</p>
+          <h3 id="departure-route-title"><span data-card-origin>WASHINGTON</span><i aria-hidden="true">→</i><span data-card-destination>SHANGHAI</span></h3>
+          <p class="departure-route-mode" data-route-mode>1 TRANSFER · BEIJING / PEK</p>
           <div class="departure-route-facts" data-route-facts></div>
 
           <section class="departure-entry-note" aria-labelledby="departure-entry-title">
