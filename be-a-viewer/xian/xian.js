@@ -165,9 +165,12 @@ function prepareModel(gltf) {
   model.position.z -= center.z;
   model.updateMatrixWorld(true);
 
-  const centeredBounds = new THREE.Box3().setFromObject(model);
+  initialRotation = -Math.PI / 2;
+  pivot.rotation.y = initialRotation;
+  pivot.updateMatrixWorld(true);
+
+  const centeredBounds = new THREE.Box3().setFromObject(pivot);
   modelSize = centeredBounds.getSize(new THREE.Vector3());
-  initialRotation = pivot.rotation.y;
 
   const groundSize = Math.max(modelSize.x, modelSize.z) * 8;
   ground = new THREE.Mesh(
