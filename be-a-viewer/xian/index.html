@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Explore Xi’an through its imperial history, the Terracotta Army, the ancient city wall and the modern city beyond them.">
+  <meta property="og:title" content="Xi’an — Terracotta Army and China’s Ancient Capital | GALOK">
+  <meta property="og:description" content="Explore Xi’an through its imperial history, the Terracotta Army, the ancient city wall and the modern city beyond them.">
+  <title>Xi’an — Terracotta Army and China’s Ancient Capital | GALOK</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
+  <link rel="preload" href="/assets/models/xian/terracotta-warrior.glb" as="fetch" type="model/gltf-binary" crossorigin="anonymous">
+  <link rel="modulepreload" href="/assets/vendor/three/three.module.min.js">
+  <link rel="modulepreload" href="/assets/vendor/three/three.core.min.js">
+  <link rel="modulepreload" href="/assets/vendor/three/loaders/GLTFLoader.js">
+  <link rel="modulepreload" href="/assets/vendor/three/controls/OrbitControls.js">
+  <link rel="stylesheet" href="/styles.css?v=field-system-10">
+  <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=1">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "/assets/vendor/three/three.module.min.js"
+      }
+    }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2Y8N04VXYG');
+  </script>
+</head>
+<body class="plain-body xian-page-body">
+  <nav class="site-nav xian-nav" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <img class="brand-mark" src="/assets/galok-mark.svg" alt="" aria-hidden="true">
+        <span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="/essays/">Essays</a>
+        <a href="/series/frame/">Series</a>
+        <a href="/visual-notes/">Visual Notes</a>
+        <a href="/be-a-viewer/" aria-current="page">Be a Viewer</a>
+        <a href="/about/">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="xian-page-main">
+    <section class="xian-hero" aria-labelledby="xian-title" data-xian-hero>
+      <div class="xian-model-stage" tabindex="0" aria-label="Interactive three-dimensional model of a Terracotta Army warrior. Drag to rotate and pinch or scroll to zoom." data-model-stage>
+        <div class="xian-model-status" role="status" aria-live="polite" data-model-status>
+          <span>LOADING SCULPTURE</span>
+          <b data-model-progress>0%</b>
+          <i aria-hidden="true"><span data-model-progress-bar></span></i>
+        </div>
+        <p class="xian-model-error" role="alert" data-model-error hidden>The 3D model could not be loaded.</p>
+        <noscript><p class="xian-model-error xian-model-error--noscript">The 3D model could not be loaded.</p></noscript>
+      </div>
+
+      <div class="xian-light-beam" aria-hidden="true"></div>
+
+      <div class="xian-hero-copy" data-hero-copy>
+        <p class="xian-hero-kicker">34.3416° N · 108.9398° E</p>
+        <h1 id="xian-title">XI’AN</h1>
+        <p class="xian-hero-deck">The city where China first became one.</p>
+        <div class="xian-object-meta">
+          <strong>Terracotta Army</strong>
+          <span>Qin Dynasty · 221–206 BCE</span>
+          <span>Shaanxi, China</span>
+        </div>
+      </div>
+
+      <p class="xian-model-hint" aria-hidden="true">DRAG TO ROTATE · PINCH OR SCROLL TO ZOOM</p>
+      <a class="xian-scroll-cue" href="#introduction">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
+    </section>
+
+    <div class="xian-story">
+      <section class="xian-section xian-introduction" id="introduction" aria-labelledby="xian-introduction-title" data-xian-reveal>
+        <header class="xian-section-heading">
+          <p>01 / INTRODUCTION</p>
+          <h2 id="xian-introduction-title">Introduction</h2>
+        </header>
+        <div class="xian-section-copy">
+          <p>Xi’an is one of the oldest continuously inhabited cities in China. Known in earlier periods as Chang’an, it served as the capital of several Chinese dynasties and became the eastern terminus of the ancient Silk Road.</p>
+          <span class="xian-section-mark" aria-hidden="true">CHANG’AN<br>XI’AN</span>
+        </div>
+      </section>
+
+      <section class="xian-section xian-first-capital" aria-labelledby="xian-capital-title" data-xian-reveal>
+        <div class="xian-section-monument" aria-hidden="true">
+          <span>221</span>
+          <small>BCE</small>
+        </div>
+        <div class="xian-section-copy">
+          <p class="xian-section-label">02 / IMPERIAL ORIGIN</p>
+          <h2 id="xian-capital-title">The First Capital</h2>
+          <p>Near modern Xi’an, Qin Shi Huang established the first unified imperial state in Chinese history in 221 BCE. The political institutions created during the Qin period shaped the structure of Chinese government for centuries.</p>
+        </div>
+      </section>
+
+      <section class="xian-section xian-army" aria-labelledby="xian-army-title" data-xian-reveal>
+        <header class="xian-section-heading">
+          <p>03 / ARCHAEOLOGY</p>
+          <h2 id="xian-army-title">Terracotta Army</h2>
+        </header>
+        <div class="xian-army-field" aria-hidden="true">
+          <span>1974</span>
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="xian-section-copy">
+          <p>Discovered in 1974 near the mausoleum of Qin Shi Huang, the Terracotta Army consists of thousands of life-sized soldiers, horses and chariots. Their faces, hairstyles, armour and postures vary, giving the army an extraordinary sense of individuality.</p>
+        </div>
+      </section>
+
+      <section class="xian-section xian-wall" aria-labelledby="xian-wall-title" data-xian-reveal>
+        <div class="xian-wall-frame" aria-hidden="true"><span>HISTORIC CENTRE</span></div>
+        <div class="xian-section-copy">
+          <p class="xian-section-label">04 / URBAN FORM</p>
+          <h2 id="xian-wall-title">City Wall</h2>
+          <p>Xi’an’s surviving city wall was constructed during the Ming dynasty. It forms a complete rectangular circuit around the historic centre and remains one of the best-preserved major city walls in China.</p>
+        </div>
+      </section>
+
+      <section class="xian-section xian-today" aria-labelledby="xian-today-title" data-xian-reveal>
+        <header class="xian-section-heading">
+          <p>05 / THE CITY NOW</p>
+          <h2 id="xian-today-title">Xi’an Today</h2>
+        </header>
+        <div class="xian-section-copy">
+          <p>Modern Xi’an is a major university, research, aerospace and technology centre. High-speed rail and an expanding metro system connect the historic capital with the rest of China, while its neighbourhoods continue to preserve strong local food and street-life traditions.</p>
+          <span class="xian-section-mark" aria-hidden="true">HISTORY<br>IN MOTION</span>
+        </div>
+      </section>
+    </div>
+
+    <aside class="xian-model-credit" aria-label="3D model credit">
+      <span>3D MODEL CREDIT</span>
+      <p><a href="https://sketchfab.com/3d-models/0b4c65434dae4e83bf119a169d9042e0" target="_blank" rel="noopener noreferrer">“兵马俑”</a> by <a href="https://sketchfab.com/stefanozhao97" target="_blank" rel="noopener noreferrer">stefanozhao97</a> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> · via Sketchfab</p>
+    </aside>
+  </main>
+
+  <footer class="footer field-footer">
+    <div class="footer-inner">
+      <div><span class="glyph-draw" data-glyph="视" data-pinyin="shi" aria-hidden="true">视</span><b>GALOK</b></div>
+      <div><span>Menu</span><a href="/essays/">Essays</a><a href="/visual-notes/">Visual Notes</a><a href="/be-a-viewer/">Be a Viewer</a><a href="/about/">About</a></div>
+      <div><span>Follow</span><a class="external-link" href="https://medium.com/@galokview" target="_blank" rel="noreferrer">Medium</a><a class="external-link" href="https://x.com/galokview" target="_blank" rel="noreferrer">X</a></div>
+      <p>© <span data-current-year></span> Galok<br>Independent field notes.</p>
+    </div>
+  </footer>
+
+  <nav class="field-mobile-dock" aria-label="Mobile quick navigation">
+    <a href="/essays/">Essays</a><a href="/series/frame/">Series</a><a href="/visual-notes/">Notes</a><a href="/be-a-viewer/" aria-current="page">Viewer</a>
+  </nav>
+
+  <script src="/content.js?v=field-system-5"></script>
+  <script src="/script.js?v=field-system-10"></script>
+  <script type="module" src="/be-a-viewer/xian/xian.js?v=1"></script>
+</body>
+</html>
