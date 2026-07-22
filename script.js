@@ -1845,6 +1845,11 @@
     const destinationTrigger = module.querySelector("[data-destination-trigger]");
     const destinationBrowser = module.querySelector("[data-destination-browser]");
     const destinationClose = module.querySelector("[data-destination-close]");
+    const arrivalExperience = document.querySelector("[data-arrival-experience]");
+    const arrivalLoading = arrivalExperience?.querySelector("[data-arrival-loading]");
+    const arrivalLoadingTitle = arrivalExperience?.querySelector("[data-arrival-loading-title]");
+    const arrivalLoadingCopy = arrivalExperience?.querySelector("[data-arrival-loading-copy]");
+    const arrivalMount = arrivalExperience?.querySelector("[data-arrival-mount]");
     const mapControls = {
       zoomIn: module.querySelector("[data-map-zoom-in]"),
       zoomOut: module.querySelector("[data-map-zoom-out]"),
@@ -1879,6 +1884,7 @@
       stage, routeLayer, routeMap, mapViewport, routeCard, factsMount, transferChip, announcer,
       originTrigger, originBrowser, originClose, countrySearch, countryList, originFeedback,
       originCityPicker, originCityTitle, originCityOptions, destinationTrigger, destinationBrowser, destinationClose,
+      arrivalExperience, arrivalLoading, arrivalLoadingTitle, arrivalLoadingCopy, arrivalMount,
       ...Object.values(mapControls), ...Object.values(fields)
     ];
     if (essentials.some((field) => !field) || optionButtons.length !== 6 || !departureRoutes["iad-shanghai"]) return;
@@ -1901,6 +1907,7 @@
     let isAnimating = false;
     let browserCloseTimer = 0;
     let destinationCloseTimer = 0;
+    let arrivalLoadPromise = null;
     let cameraFrame = 0;
     let mapUserControlled = false;
     let mapView = { x: 0, y: 0, width: worldWidth, height: worldHeight };
@@ -1966,6 +1973,84 @@
         }, ms);
         pendingTimers.set(timer, resolve);
       });
+    }
+
+    function scrollToArrival() {
+      window.requestAnimationFrame(() => {
+        arrivalExperience.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "start"
+        });
+      });
+    }
+
+    function closeArrivalExperience() {
+      if (arrivalExperience.hidden) return;
+      arrivalExperience.hidden = true;
+      module.classList.remove("has-arrival-open");
+      fields.arriveButton.setAttribute("aria-expanded", "false");
+    }
+
+    function showArrivalFailure(message = "The Xi’an city story could not be loaded.") {
+      arrivalExperience.dataset.state = "error";
+      arrivalLoading.hidden = false;
+      arrivalMount.hidden = true;
+      arrivalLoadingTitle.textContent = "CITY STORY UNAVAILABLE";
+      arrivalLoadingCopy.textContent = message;
+    }
+
+    async function loadXianArrival() {
+      if (arrivalExperience.dataset.state === "ready") return;
+      if (arrivalLoadPromise) return arrivalLoadPromise;
+
+      arrivalExperience.dataset.state = "loading";
+      arrivalLoading.hidden = false;
+      arrivalMount.hidden = true;
+      arrivalLoadingTitle.textContent = "PREPARING THE CITY STORY";
+      arrivalLoadingCopy.textContent = "The Terracotta Army is coming into view.";
+
+      arrivalLoadPromise = (async () => {
+        const response = await fetch("/be-a-viewer/xian/", { headers: { Accept: "text/html" } });
+        if (!response.ok) throw new Error(`Xi’an story request failed with ${response.status}`);
+
+        const source = new DOMParser().parseFromString(await response.text(), "text/html");
+        const sourceMain = source.querySelector(".xian-page-main");
+        if (!sourceMain) throw new Error("Xi’an story markup was not found");
+
+        const content = Array.from(sourceMain.children).map((node) => document.importNode(node, true));
+        arrivalMount.replaceChildren(...content);
+        arrivalLoading.hidden = true;
+        arrivalMount.hidden = false;
+        arrivalExperience.dataset.state = "ready";
+
+        await new Promise((resolve) => window.requestAnimationFrame(resolve));
+        try {
+          await import("/be-a-viewer/xian/xian.js?v=3");
+        } catch (error) {
+          console.error("Xi’an arrival experience failed to initialize:", error);
+          const modelError = arrivalMount.querySelector("[data-model-error]");
+          const modelStatus = arrivalMount.querySelector("[data-model-status]");
+          if (modelError) modelError.hidden = false;
+          if (modelStatus) modelStatus.setAttribute("aria-hidden", "true");
+        }
+      })();
+
+      try {
+        await arrivalLoadPromise;
+      } catch (error) {
+        console.error("Xi’an arrival story failed to load:", error);
+        showArrivalFailure();
+      } finally {
+        arrivalLoadPromise = null;
+      }
+    }
+
+    async function openXianArrival() {
+      arrivalExperience.hidden = false;
+      module.classList.add("has-arrival-open");
+      fields.arriveButton.setAttribute("aria-expanded", "true");
+      scrollToArrival();
+      await loadXianArrival();
     }
 
     function routeNodes(route) {
@@ -2213,7 +2298,15 @@
       fields.transitReturn.textContent = `A return journey between ${originCountryLabel} and China alone does not automatically qualify as third-country transit.`;
       fields.policyLink.href = route.entry.link;
       fields.arriveButton.textContent = route.summary.arriveLabel;
-      fields.arriveButton.setAttribute("aria-label", `${route.summary.arriveLabel}. Scroll to The Route.`);
+      const arrivalAvailable = route.destinationKey === "xian";
+      fields.arriveButton.dataset.arrivalAvailable = String(arrivalAvailable);
+      fields.arriveButton.setAttribute(
+        "aria-label",
+        arrivalAvailable
+          ? `${route.summary.arriveLabel}. Reveal the Xi’an city story below.`
+          : `${route.summary.arriveLabel}. City story coming soon.`
+      );
+      if (!arrivalAvailable) closeArrivalExperience();
       renderFacts(route);
       optionButtons.forEach((button) => {
         const selected = button.dataset.routeOption === route.destinationKey;
@@ -2684,7 +2777,13 @@
     });
 
     fields.arriveButton.addEventListener("click", () => {
-      document.getElementById("beijing")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      const route = departureRoutes[activeKey];
+      if (!route) return;
+      if (route.destinationKey !== "xian") {
+        announcer.textContent = `${route.destination.city} city story is coming soon.`;
+        return;
+      }
+      openXianArrival();
     });
 
     document.addEventListener("visibilitychange", () => {

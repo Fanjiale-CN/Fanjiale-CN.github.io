@@ -10,7 +10,8 @@
   <meta property="og:image" content="/assets/be-a-viewer/beijing-roof.jpg">
   <title>BE A VIEWER — Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
-  <link rel="stylesheet" href="/styles.css?v=be-a-viewer-hero-reset-1">
+  <link rel="stylesheet" href="/styles.css?v=be-a-viewer-arrival-1">
+  <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=4">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -255,23 +256,19 @@
           <p class="departure-schedule-note">Schedules change by date and season.<br>Check the airline before booking.</p>
           <div class="departure-route-actions">
             <button type="button" data-replay-route>REPLAY ROUTE</button>
-            <button type="button" data-arrive-route>ARRIVE IN SHANGHAI</button>
+            <button type="button" aria-controls="xian-arrival-experience" aria-expanded="false" data-arrive-route>ARRIVE IN SHANGHAI</button>
           </div>
         </article>
       </div>
     </section>
 
-    <section class="viewer-chapter" id="beijing" aria-labelledby="viewer-beijing-title">
-      <div data-reveal>
-        <p class="viewer-chapter-kicker">01 / THE ROUTE</p>
-        <h2 id="viewer-beijing-title">Look before you arrive.</h2>
+    <section class="arrival-experience xian-page-body" id="xian-arrival-experience" data-arrival-experience data-arrival-city="xian" aria-label="Xi’an city story" hidden>
+      <div class="arrival-experience-loading" role="status" aria-live="polite" data-arrival-loading>
+        <span>ARRIVAL / XI’AN</span>
+        <strong data-arrival-loading-title>PREPARING THE CITY STORY</strong>
+        <p data-arrival-loading-copy>The Terracotta Army is coming into view.</p>
       </div>
-      <div class="viewer-chapter-copy" data-reveal>
-        <p>BE A VIEWER follows China through short moving views. Each stop stays close to one place, one atmosphere and the details a guidebook usually rushes past.</p>
-        <div class="viewer-city-list" aria-label="Cities in BE A VIEWER">
-          <span class="is-current">Beijing</span><span>Shanghai</span><span>Xi'an</span><span>Dali</span><span>Tibet</span><span>Shenzhen</span><span>Xiamen</span>
-        </div>
-      </div>
+      <div class="xian-page-main" data-arrival-mount hidden></div>
     </section>
   </main>
 
@@ -289,6 +286,6 @@
   </nav>
 
   <script src="/content.js?v=field-system-5"></script>
-  <script src="/script.js?v=be-a-viewer-cloud-ticket-1"></script>
+  <script src="/script.js?v=be-a-viewer-arrival-1"></script>
 </body>
 </html>

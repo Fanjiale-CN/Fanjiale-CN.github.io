@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "/assets/vendor/three/three.module.min.js";
 import { GLTFLoader } from "/assets/vendor/three/loaders/GLTFLoader.js";
 import { OrbitControls } from "/assets/vendor/three/controls/OrbitControls.js";
 
@@ -6,13 +6,13 @@ const MODEL_URL = "/assets/models/xian/terracotta-warrior.glb";
 const MODEL_BYTES = 15867792;
 const SPIN_DURATION = 16000;
 
-const body = document.body;
 const hero = document.querySelector("[data-xian-hero]");
-const stage = document.querySelector("[data-model-stage]");
-const status = document.querySelector("[data-model-status]");
-const progressText = document.querySelector("[data-model-progress]");
-const progressBar = document.querySelector("[data-model-progress-bar]");
-const errorMessage = document.querySelector("[data-model-error]");
+const experienceRoot = hero?.closest(".xian-page-body") || document.body;
+const stage = hero?.querySelector("[data-model-stage]");
+const status = hero?.querySelector("[data-model-status]");
+const progressText = hero?.querySelector("[data-model-progress]");
+const progressBar = hero?.querySelector("[data-model-progress-bar]");
+const errorMessage = hero?.querySelector("[data-model-error]");
 const nav = document.querySelector(".xian-nav");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -356,17 +356,20 @@ if ("IntersectionObserver" in window) {
 }
 
 function updateNavigation() {
+  if (!nav) return;
   nav.classList.toggle("is-scrolled", window.scrollY > 18);
 }
 
-updateNavigation();
-window.addEventListener("scroll", updateNavigation, { passive: true });
+if (nav) {
+  updateNavigation();
+  window.addEventListener("scroll", updateNavigation, { passive: true });
+}
 
-const revealSections = [...document.querySelectorAll("[data-xian-reveal]")];
+const revealSections = [...experienceRoot.querySelectorAll("[data-xian-reveal]")];
 if (reducedMotion || !("IntersectionObserver" in window)) {
   revealSections.forEach((section) => section.classList.add("is-visible"));
 } else {
-  body.classList.add("is-reveal-ready");
+  experienceRoot.classList.add("is-reveal-ready");
   const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
