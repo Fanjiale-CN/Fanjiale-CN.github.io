@@ -379,3 +379,188 @@ if (reducedMotion || !("IntersectionObserver" in window)) {
   }, { rootMargin: "0px 0px -10%", threshold: 0.08 });
   revealSections.forEach((section) => revealObserver.observe(section));
 }
+
+const story = experienceRoot.querySelector(".xian-story");
+const storyNav = experienceRoot.querySelector("[data-xian-story-nav]");
+const storyProgress = storyNav?.querySelector("[data-xian-story-progress]");
+const storyLinks = [...(storyNav?.querySelectorAll("[data-xian-section-link]") || [])];
+const storySections = storyLinks
+  .map((link) => experienceRoot.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+
+function setActiveStoryLink(section) {
+  if (!section || !storyNav) return;
+  const activeHref = `#${section.id}`;
+  storyLinks.forEach((link) => {
+    const active = link.getAttribute("href") === activeHref;
+    link.classList.toggle("is-active", active);
+    if (active) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  });
+
+  const activeLink = storyLinks.find((link) => link.getAttribute("href") === activeHref);
+  if (activeLink && storyNav.scrollWidth > storyNav.clientWidth) {
+    const left = activeLink.offsetLeft - (storyNav.clientWidth - activeLink.offsetWidth) / 2;
+    storyNav.scrollTo({ left, behavior: reducedMotion ? "auto" : "smooth" });
+  }
+}
+
+function updateStoryNavigation() {
+  if (!story || !storyNav) return;
+
+  const rect = story.getBoundingClientRect();
+  const travel = Math.max(1, rect.height - window.innerHeight);
+  const progress = clamp(-rect.top / travel);
+  if (storyProgress) storyProgress.style.transform = `scaleX(${progress})`;
+
+  const readingLine = window.innerHeight * 0.38;
+  let activeSection = storySections[0];
+  storySections.forEach((section) => {
+    if (section.getBoundingClientRect().top <= readingLine) activeSection = section;
+  });
+  setActiveStoryLink(activeSection);
+}
+
+let storyNavigationFrame = 0;
+function requestStoryNavigationUpdate() {
+  if (storyNavigationFrame) return;
+  storyNavigationFrame = requestAnimationFrame(() => {
+    storyNavigationFrame = 0;
+    updateStoryNavigation();
+  });
+}
+
+if (storyNav) {
+  storyLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const target = experienceRoot.querySelector(link.getAttribute("href"));
+      if (!target) return;
+      event.preventDefault();
+      const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = "auto";
+      target.scrollIntoView({ behavior: "auto", block: "start" });
+      requestAnimationFrame(() => {
+        document.documentElement.style.scrollBehavior = previousScrollBehavior;
+      });
+      setActiveStoryLink(target);
+    });
+  });
+
+  updateStoryNavigation();
+  window.addEventListener("scroll", requestStoryNavigationUpdate, { passive: true });
+  window.addEventListener("resize", requestStoryNavigationUpdate, { passive: true });
+}
+
+const lightbox = experienceRoot.querySelector("[data-xian-lightbox]");
+const lightboxImage = lightbox?.querySelector("[data-xian-lightbox-image]");
+const lightboxKicker = lightbox?.querySelector("[data-xian-lightbox-kicker]");
+const lightboxCaption = lightbox?.querySelector("[data-xian-lightbox-caption]");
+const lightboxCount = lightbox?.querySelector("[data-xian-lightbox-count]");
+const lightboxClose = lightbox?.querySelector("[data-xian-lightbox-close]");
+const lightboxPrevious = lightbox?.querySelector("[data-xian-lightbox-previous]");
+const lightboxNext = lightbox?.querySelector("[data-xian-lightbox-next]");
+const lightboxFigures = [...experienceRoot.querySelectorAll(".xian-story .xian-figure")]
+  .filter((figure) => figure.querySelector("img"));
+let activeImageIndex = 0;
+let swipeStartX = null;
+let lightboxReturnFocus = null;
+
+function imageDataAt(index) {
+  const normalizedIndex = (index + lightboxFigures.length) % lightboxFigures.length;
+  const figure = lightboxFigures[normalizedIndex];
+  const image = figure.querySelector("img");
+  const kicker = figure.querySelector("figcaption span")?.textContent || "XI’AN";
+  const caption = figure.querySelector("figcaption b")?.textContent || image.alt;
+  return { normalizedIndex, image, kicker, caption };
+}
+
+function preloadAdjacentImages(index) {
+  [-1, 1].forEach((offset) => {
+    const adjacent = imageDataAt(index + offset);
+    const preloader = new Image();
+    preloader.src = adjacent.image.currentSrc || adjacent.image.src;
+  });
+}
+
+function showLightboxImage(index) {
+  if (!lightboxFigures.length || !lightboxImage) return;
+  const data = imageDataAt(index);
+  activeImageIndex = data.normalizedIndex;
+  lightboxImage.src = data.image.currentSrc || data.image.src;
+  lightboxImage.alt = data.image.alt;
+  lightboxKicker.textContent = data.kicker;
+  lightboxCaption.textContent = data.caption;
+  lightboxCount.textContent = `${String(activeImageIndex + 1).padStart(2, "0")} / ${String(lightboxFigures.length).padStart(2, "0")}`;
+  preloadAdjacentImages(activeImageIndex);
+}
+
+function openLightbox(index, trigger) {
+  if (!lightbox) return;
+  lightboxReturnFocus = trigger || document.activeElement;
+  showLightboxImage(index);
+  document.documentElement.classList.add("xian-lightbox-open");
+  if (typeof lightbox.showModal === "function") lightbox.showModal();
+  else lightbox.setAttribute("open", "");
+  lightboxClose?.focus({ preventScroll: true });
+}
+
+function closeLightbox() {
+  if (!lightbox) return;
+  document.documentElement.classList.remove("xian-lightbox-open");
+  if (typeof lightbox.close === "function" && lightbox.open) lightbox.close();
+  else lightbox.removeAttribute("open");
+}
+
+function finishLightboxClose() {
+  document.documentElement.classList.remove("xian-lightbox-open");
+  if (lightboxReturnFocus instanceof HTMLElement) {
+    lightboxReturnFocus.focus({ preventScroll: true });
+  }
+  lightboxReturnFocus = null;
+}
+
+if (lightbox) {
+  lightboxFigures.forEach((figure, index) => {
+    const image = figure.querySelector("img");
+    if (image.closest(".xian-zoom-trigger")) return;
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "xian-zoom-trigger";
+    trigger.setAttribute("aria-label", `View larger photograph: ${image.alt}`);
+    image.before(trigger);
+    trigger.append(image);
+    trigger.addEventListener("click", () => openLightbox(index, trigger));
+  });
+
+  lightboxClose?.addEventListener("click", closeLightbox);
+  lightboxPrevious?.addEventListener("click", () => showLightboxImage(activeImageIndex - 1));
+  lightboxNext?.addEventListener("click", () => showLightboxImage(activeImageIndex + 1));
+  lightbox.addEventListener("close", finishLightboxClose);
+  lightbox.addEventListener("cancel", () => document.documentElement.classList.remove("xian-lightbox-open"));
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  lightbox.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      showLightboxImage(activeImageIndex - 1);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      showLightboxImage(activeImageIndex + 1);
+    }
+  });
+
+  const lightboxFigure = lightbox.querySelector("figure");
+  lightboxFigure?.addEventListener("pointerdown", (event) => {
+    if (!event.isPrimary) return;
+    swipeStartX = event.clientX;
+  }, { passive: true });
+  lightboxFigure?.addEventListener("pointerup", (event) => {
+    if (swipeStartX === null || !event.isPrimary) return;
+    const distance = event.clientX - swipeStartX;
+    swipeStartX = null;
+    if (Math.abs(distance) < 56) return;
+    showLightboxImage(activeImageIndex + (distance < 0 ? 1 : -1));
+  }, { passive: true });
+}

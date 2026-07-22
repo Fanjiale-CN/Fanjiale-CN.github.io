@@ -13,6 +13,10 @@
   overscroll-behavior-x: none;
 }
 
+html.xian-lightbox-open {
+  overflow: hidden;
+}
+
 .xian-page-body .xian-nav {
   position: fixed;
   inset: 0 0 auto;
@@ -49,7 +53,7 @@
 
 .xian-page-main {
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   background: var(--xian-black);
 }
 
@@ -310,6 +314,85 @@
   font-size: 0.9rem;
 }
 
+.xian-story-nav {
+  position: sticky;
+  z-index: 70;
+  top: 78px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  color: var(--xian-ink);
+  border-top: 1px solid rgba(18, 20, 22, 0.14);
+  border-bottom: 1px solid rgba(18, 20, 22, 0.18);
+  background: rgba(247, 246, 242, 0.94);
+  backdrop-filter: blur(16px);
+}
+
+.xian-story-nav a {
+  min-width: 0;
+  min-height: 66px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 0 clamp(16px, 2.4vw, 38px);
+  color: rgba(18, 20, 22, 0.48);
+  border-right: 1px solid rgba(18, 20, 22, 0.14);
+  text-decoration: none;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.xian-story-nav a:last-of-type {
+  border-right: 0;
+}
+
+.xian-story-nav a:hover,
+.xian-story-nav a:focus-visible,
+.xian-story-nav a.is-active {
+  color: var(--xian-ink);
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.xian-story-nav a:focus-visible {
+  outline: 2px solid var(--xian-ink);
+  outline-offset: -4px;
+}
+
+.xian-story-nav a span {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.xian-story-nav a b {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.xian-story-progress {
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.xian-story-progress i {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #ba3b32;
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+
 .xian-story {
   color: var(--xian-ink);
   background: var(--xian-paper);
@@ -321,8 +404,7 @@
   align-items: center;
   gap: clamp(42px, 6vw, 96px);
   padding: clamp(104px, 11vw, 176px) clamp(24px, 6vw, 92px);
-  content-visibility: auto;
-  contain-intrinsic-size: 1200px;
+  scroll-margin-top: 156px;
 }
 
 .xian-page-body.is-reveal-ready [data-xian-reveal] > * {
@@ -394,6 +476,57 @@
   background: #d8d8d3;
 }
 
+.xian-zoom-trigger {
+  position: relative;
+  width: 100%;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  color: inherit;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  line-height: 0;
+}
+
+.xian-zoom-trigger::after {
+  content: "VIEW LARGE";
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 8px 10px;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  background: rgba(5, 5, 5, 0.58);
+  backdrop-filter: blur(8px);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.xian-zoom-trigger:hover::after,
+.xian-zoom-trigger:focus-visible::after {
+  opacity: 1;
+  transform: none;
+}
+
+.xian-zoom-trigger:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.xian-zoom-trigger img {
+  height: auto;
+  transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.xian-zoom-trigger:hover img {
+  transform: scale(1.012);
+}
+
 .xian-figure figcaption {
   display: flex;
   justify-content: space-between;
@@ -439,6 +572,48 @@
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
   gap: clamp(28px, 5vw, 76px);
   align-items: stretch;
+}
+
+.xian-intro-arrival {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(220px, 0.52fr) minmax(0, 1.2fr) minmax(240px, 0.48fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: end;
+  padding-top: clamp(24px, 4vw, 54px);
+  border-top: 1px solid rgba(18, 20, 22, 0.2);
+}
+
+.xian-intro-arrival-copy {
+  align-self: start;
+}
+
+.xian-intro-arrival-copy span,
+.xian-conservation-note span {
+  display: block;
+  margin-bottom: 22px;
+  color: rgba(18, 20, 22, 0.5);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+}
+
+.xian-intro-arrival-copy p,
+.xian-conservation-note p {
+  margin: 0;
+  font-size: clamp(1rem, 1.35vw, 1.28rem);
+  letter-spacing: -0.02em;
+  line-height: 1.52;
+}
+
+.xian-intro-station img {
+  aspect-ratio: 16 / 9;
+  object-position: 50% 52%;
+}
+
+.xian-intro-eaves img {
+  aspect-ratio: 2 / 3;
 }
 
 .xian-figure--roof img {
@@ -554,11 +729,26 @@
   color: rgba(255, 255, 255, 0.48);
 }
 
+.xian-capital-gallery {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: end;
+  padding-top: clamp(16px, 3vw, 42px);
+}
+
+.xian-capital-pagoda img,
+.xian-capital-courtyard img {
+  aspect-ratio: 3 / 2;
+}
+
 .xian-army {
   grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.64fr);
   grid-template-areas:
     "heading portrait"
-    "copy portrait";
+    "copy portrait"
+    "gallery gallery";
   color: #f7f5f0;
   background: #5e5752;
 }
@@ -566,6 +756,7 @@
 .xian-army .xian-section-heading { grid-area: heading; }
 .xian-army .xian-section-copy { grid-area: copy; align-self: end; }
 .xian-army .xian-army-portrait { grid-area: portrait; }
+.xian-army .xian-army-gallery { grid-area: gallery; }
 
 .xian-army .xian-section-heading p,
 .xian-army .xian-section-copy > p {
@@ -606,6 +797,53 @@
   font-weight: 700;
   letter-spacing: 0.13em;
   line-height: 1.55;
+}
+
+.xian-army-gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.55fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: end;
+  padding-top: clamp(12px, 2vw, 28px);
+}
+
+.xian-army-formation img {
+  aspect-ratio: 16 / 9;
+  object-position: 50% 48%;
+}
+
+.xian-army-detail img {
+  aspect-ratio: 4 / 5;
+  object-position: 47% 46%;
+  filter: grayscale(1) contrast(1.04);
+}
+
+.xian-army-conservation {
+  grid-column: 1 / -1;
+  padding-top: clamp(16px, 3vw, 42px);
+}
+
+.xian-army-conservation img {
+  aspect-ratio: 16 / 8.7;
+  object-position: 50% 52%;
+}
+
+.xian-conservation-note {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.35fr) minmax(0, 1fr);
+  gap: clamp(30px, 7vw, 110px);
+  padding-top: clamp(24px, 4vw, 54px);
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.xian-conservation-note span {
+  color: rgba(255, 255, 255, 0.54);
+}
+
+.xian-conservation-note p {
+  max-width: 760px;
+  color: rgba(255, 255, 255, 0.76);
 }
 
 .xian-wall {
@@ -659,6 +897,27 @@
   aspect-ratio: 2 / 3;
 }
 
+.xian-wall-extra {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
+
+.xian-wall-extra img {
+  aspect-ratio: 3 / 2;
+}
+
+.xian-wall-festival {
+  grid-column: 1 / -1;
+  padding-top: clamp(16px, 3vw, 42px);
+}
+
+.xian-wall-festival img {
+  aspect-ratio: 16 / 8;
+  object-position: 50% 55%;
+}
+
 .xian-today {
   grid-template-columns: minmax(0, 0.9fr) minmax(340px, 0.62fr);
   color: #f7f7f4;
@@ -671,6 +930,8 @@
 }
 
 .xian-today-gallery,
+.xian-today-night-pair,
+.xian-today-green,
 .xian-closing-note {
   grid-column: 1 / -1;
 }
@@ -689,6 +950,44 @@
 .xian-today-street img,
 .xian-today-pagoda img {
   aspect-ratio: 2 / 3;
+}
+
+.xian-today-night-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1.1fr) minmax(230px, 0.62fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: end;
+}
+
+.xian-today-blue-hour img {
+  aspect-ratio: 16 / 10;
+  object-position: 50% 54%;
+}
+
+.xian-today-market img {
+  aspect-ratio: 3 / 2;
+  object-position: 50% 56%;
+}
+
+.xian-today-bell-night img {
+  aspect-ratio: 4 / 5;
+  object-position: 50% 48%;
+}
+
+.xian-today-green {
+  display: grid;
+  grid-template-columns: minmax(0, 1.42fr) minmax(280px, 0.58fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: end;
+}
+
+.xian-today-forest img {
+  aspect-ratio: 4 / 3;
+}
+
+.xian-today-water img {
+  aspect-ratio: 3 / 4;
+  object-position: 50% 54%;
 }
 
 .xian-closing-note {
@@ -751,6 +1050,117 @@
   text-underline-offset: 3px;
 }
 
+.xian-lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100svh;
+  max-height: none;
+  margin: 0;
+  padding: clamp(54px, 7vw, 96px) clamp(20px, 6vw, 90px) clamp(28px, 4vw, 54px);
+  overflow: hidden;
+  color: #fff;
+  border: 0;
+  background: rgba(5, 5, 5, 0.97);
+}
+
+.xian-lightbox::backdrop {
+  background: rgba(5, 5, 5, 0.94);
+  backdrop-filter: blur(12px);
+}
+
+.xian-lightbox[open] {
+  display: grid;
+  grid-template-columns: minmax(52px, 0.12fr) minmax(0, 1fr) minmax(52px, 0.12fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+}
+
+.xian-lightbox figure {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  margin: 0;
+}
+
+.xian-lightbox figure img {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100svh - 170px);
+  display: block;
+  object-fit: contain;
+}
+
+.xian-lightbox figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 14px;
+  color: rgba(255, 255, 255, 0.72);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+}
+
+.xian-lightbox figcaption b {
+  color: #fff;
+  text-align: right;
+}
+
+.xian-lightbox-close,
+.xian-lightbox-step {
+  min-width: 48px;
+  min-height: 48px;
+  color: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.xian-lightbox-close:hover,
+.xian-lightbox-close:focus-visible,
+.xian-lightbox-step:hover,
+.xian-lightbox-step:focus-visible {
+  color: #050505;
+  background: #fff;
+  outline: none;
+}
+
+.xian-lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: clamp(20px, 3vw, 46px);
+  padding-inline: 16px;
+}
+
+.xian-lightbox-step--previous {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.xian-lightbox-step--next {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.xian-lightbox-count {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+
 .xian-page-body .field-footer {
   color: #fff;
   background: #08090a;
@@ -782,9 +1192,56 @@
   .xian-today-gallery {
     grid-template-columns: minmax(0, 1.1fr) minmax(190px, 0.5fr) minmax(190px, 0.5fr);
   }
+
+  .xian-story-nav a b {
+    font-size: 0.56rem;
+  }
+
+  .xian-intro-arrival {
+    grid-template-columns: minmax(190px, 0.45fr) minmax(0, 1fr) minmax(190px, 0.42fr);
+  }
+
+  .xian-today-night-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .xian-today-blue-hour {
+    grid-column: 1 / -1;
+  }
+
+  .xian-today-market {
+    grid-column: 1;
+  }
+
+  .xian-today-bell-night {
+    grid-column: 2;
+  }
 }
 
 @media (max-width: 760px) {
+  .xian-story-nav {
+    top: 68px;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(132px, 42vw);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .xian-story-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .xian-story-nav a {
+    min-height: 58px;
+    padding-inline: 16px;
+  }
+
+  .xian-section {
+    scroll-margin-top: 136px;
+  }
+
   .xian-page-body .xian-nav .nav-inner {
     padding-inline: 0;
   }
@@ -885,6 +1342,8 @@
   }
 
   .xian-intro-detail,
+  .xian-intro-arrival,
+  .xian-capital-gallery,
   .xian-wall-heading {
     grid-template-columns: 1fr;
   }
@@ -930,6 +1389,15 @@
     min-height: 112vw;
   }
 
+  .xian-intro-arrival-copy {
+    padding-bottom: 4px;
+  }
+
+  .xian-intro-eaves img {
+    aspect-ratio: 4 / 5;
+    object-position: 50% 55%;
+  }
+
   .xian-first-capital .xian-section-monument {
     order: 2;
   }
@@ -940,13 +1408,15 @@
 
   .xian-army .xian-section-heading,
   .xian-army .xian-section-copy,
-  .xian-army .xian-army-portrait {
+  .xian-army .xian-army-portrait,
+  .xian-army .xian-army-gallery {
     grid-area: auto;
   }
 
   .xian-army .xian-section-heading { order: 1; }
   .xian-army .xian-army-portrait { order: 2; }
   .xian-army .xian-section-copy { order: 3; }
+  .xian-army .xian-army-gallery { order: 4; }
 
   .xian-army-portrait img {
     min-height: 0;
@@ -957,6 +1427,43 @@
   .xian-discovery-note {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .xian-army-gallery,
+  .xian-wall-extra,
+  .xian-today-night-pair,
+  .xian-today-green {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .xian-army-detail img {
+    aspect-ratio: 4 / 3;
+    object-position: 50% 42%;
+  }
+
+  .xian-army-conservation img,
+  .xian-wall-festival img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .xian-conservation-note {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .xian-today-bell-night {
+    grid-column: auto;
+  }
+
+  .xian-today-blue-hour,
+  .xian-today-market {
+    grid-column: auto;
+  }
+
+  .xian-today-bell-night img,
+  .xian-today-water img {
+    aspect-ratio: 4 / 5;
   }
 
   .xian-wall-heading .xian-section-label,
@@ -1012,6 +1519,43 @@
     gap: 12px;
     padding: 26px 20px 84px;
   }
+
+  .xian-lightbox {
+    padding: 66px 16px 18px;
+  }
+
+  .xian-lightbox[open] {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    gap: 12px;
+  }
+
+  .xian-lightbox figure {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .xian-lightbox figure img {
+    max-height: calc(100svh - 200px);
+  }
+
+  .xian-lightbox figcaption {
+    gap: 12px;
+    font-size: 0.5rem;
+  }
+
+  .xian-lightbox-step--previous,
+  .xian-lightbox-step--next {
+    grid-row: 2;
+  }
+
+  .xian-lightbox-step--previous { grid-column: 1; }
+  .xian-lightbox-step--next { grid-column: 2; }
+
+  .xian-lightbox-count {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
 }
 
 @media (max-width: 430px) {
@@ -1055,7 +1599,9 @@
   .xian-hero-copy,
   .xian-model-stage canvas,
   .xian-model-status,
-  .xian-page-body.is-reveal-ready [data-xian-reveal] > * {
+  .xian-page-body.is-reveal-ready [data-xian-reveal] > *,
+  .xian-zoom-trigger img,
+  .xian-zoom-trigger::after {
     opacity: 1;
     transform: none;
     transition: none;

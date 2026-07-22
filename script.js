@@ -2025,7 +2025,7 @@
 
         await new Promise((resolve) => window.requestAnimationFrame(resolve));
         try {
-          await import("/be-a-viewer/xian/xian.js?v=3");
+          await import("/be-a-viewer/xian/xian.js?v=6");
         } catch (error) {
           console.error("Xi’an arrival experience failed to initialize:", error);
           const modelError = arrivalMount.querySelector("[data-model-error]");
