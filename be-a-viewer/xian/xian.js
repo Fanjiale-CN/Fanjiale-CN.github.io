@@ -28,6 +28,8 @@ if (!reducedMotion) {
     ".xian-changan-copy",
     ".xian-wall-copy",
     ".xian-night-copy",
+    ".xian-army-copy header > *",
+    ".xian-army-steps > *",
     ".xian-editorial-section > .xian-photo",
     ".xian-treasure-chapter > *",
     ".xian-city-beyond > *",

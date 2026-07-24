@@ -12,7 +12,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
   <link rel="preload" href="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" as="image">
   <link rel="stylesheet" href="/styles.css?v=nav-system-11">
-  <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=19">
+  <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=20">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -102,7 +102,7 @@
       </figure>
     </section>
 
-    <section class="xian-army-scroll" id="terracotta-army" aria-labelledby="army-title" data-army-scroll data-xian-section>
+    <section class="xian-army-scroll" id="terracotta-army" aria-labelledby="army-title" data-xian-section>
       <div class="xian-army-sticky">
         <figure>
           <img src="/assets/be-a-viewer/xian/terracotta-portrait.jpeg" width="1536" height="1152" loading="lazy" decoding="async" alt="Portrait of a Terracotta Army warrior against a pale background">
@@ -113,21 +113,19 @@
             <h2 id="army-title">TERRACOTTA<br>ARMY</h2>
           </header>
           <div class="xian-army-steps" aria-live="off">
-            <p class="is-active" data-army-step>Discovered in 1974 near the mausoleum of Qin Shi Huang, the Terracotta Army contains thousands of soldiers, horses and chariots created for the First Emperor’s afterlife.</p>
-            <p data-army-step>Their faces, hairstyles, armour and posture vary. Repetition creates scale, while small differences preserve the suggestion of individual lives.</p>
-            <p data-army-step>The pits are also an archive of military organisation, craft and imperial order. An empire translated into clay, arranged at the scale of an army.</p>
+            <p>Discovered in 1974 near Qin Shi Huang’s mausoleum, thousands of clay soldiers, horses and chariots guard the First Emperor’s afterlife.</p>
+            <p>No two faces are identical. Armour, posture and detail turn imperial scale back into individual craft.</p>
           </div>
-          <div class="xian-army-meter" aria-hidden="true"><span data-army-meter></span></div>
         </div>
       </div>
     </section>
 
-    <section class="xian-model-scroll" id="warrior" aria-labelledby="warrior-title" data-model-scroll data-xian-section>
+    <section class="xian-model-scroll" id="warrior" aria-labelledby="warrior-title" data-xian-section>
       <div class="xian-model-sticky">
         <div class="xian-model-copy">
           <p>04 / OBJECT STUDY</p>
           <h2 id="warrior-title">ONE<br>WARRIOR</h2>
-          <span>Scroll to turn the figure through a complete circle.</span>
+          <span>Drag to rotate. Pinch or scroll to zoom.</span>
         </div>
         <div class="xian-model-stage" data-model-stage aria-label="Three-dimensional model of a Terracotta Army warrior">
           <img class="xian-model-poster" src="/assets/be-a-viewer/xian/terracotta-portrait.jpeg" width="1536" height="1152" alt="Close portrait of a Terracotta Army warrior" data-model-poster>
@@ -137,11 +135,13 @@
             <i><span data-model-progress-bar></span></i>
           </div>
           <p class="xian-model-error" role="alert" data-model-error hidden>The 3D model could not be loaded.</p>
-          <button class="xian-model-enable" type="button" data-model-enable>ROTATE THE WARRIOR</button>
-          <button class="xian-model-done" type="button" data-model-done hidden>DONE</button>
-        </div>
-        <div class="xian-model-index" aria-hidden="true">
-          <span>FRONT</span><span>PROFILE</span><span>BACK</span><span>FRONT</span>
+          <div class="xian-model-controls" data-model-controls>
+            <button class="xian-model-enable" type="button" data-model-enable aria-pressed="false" disabled>EXPLORE 3D</button>
+            <button type="button" data-model-zoom-out aria-label="Zoom out" hidden>−</button>
+            <button type="button" data-model-reset hidden>RESET</button>
+            <button type="button" data-model-zoom-in aria-label="Zoom in" hidden>+</button>
+            <button class="xian-model-done" type="button" data-model-done hidden>DONE</button>
+          </div>
         </div>
       </div>
     </section>
@@ -326,8 +326,8 @@
   </footer>
 
   <script src="/script.js?v=nav-system-12"></script>
-  <script type="module" src="/be-a-viewer/xian/xian.js?v=15"></script>
-  <script type="module" src="/be-a-viewer/xian/xian-scroll.js?v=5"></script>
-  <script type="module" src="/be-a-viewer/xian/xian-model.js?v=4"></script>
+  <script type="module" src="/be-a-viewer/xian/xian.js?v=16"></script>
+  <script type="module" src="/be-a-viewer/xian/xian-scroll.js?v=6"></script>
+  <script type="module" src="/be-a-viewer/xian/xian-model.js?v=5"></script>
 </body>
 </html>

@@ -457,49 +457,61 @@ html {
 }
 
 .xian-army-scroll {
-  height: 320svh;
-  background: #fefefe;
+  min-height: max(54rem, 108svh);
+  color: #5d5f5a;
+  background: #efefeb;
 }
 
 .xian-army-sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
+  position: relative;
+  min-height: max(54rem, 108svh);
   display: grid;
-  grid-template-columns: minmax(0, 56%) minmax(22rem, 44%);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   overflow: hidden;
 }
 
 .xian-army-sticky > figure {
   position: relative;
+  grid-column: 1 / 10;
+  grid-row: 1;
   margin: 0;
   overflow: hidden;
-  background: #fefefe;
+  background: #dddeda;
 }
 
 .xian-army-sticky > figure::after {
-  content: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(92,94,89,.12) 0%, rgba(92,94,89,.04) 58%, rgba(92,94,89,.24) 100%),
+    linear-gradient(180deg, rgba(86,88,84,.08), transparent 40%, rgba(86,88,84,.16));
+  pointer-events: none;
 }
 
 .xian-army-sticky > figure img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 18% 50%;
-  transform: scale(var(--army-image-scale, 1.04)) translateX(var(--army-image-x, 0%));
+  object-position: 28% 50%;
+  filter: grayscale(1) contrast(1.02);
+  transform: scale(1.012);
 }
 
 .xian-army-copy {
   position: relative;
-  padding: clamp(6.5rem, 9vw, 9rem) clamp(2rem, 5vw, 5rem) 3rem;
+  z-index: 2;
+  grid-column: 7 / 13;
+  grid-row: 1;
+  padding: clamp(6.5rem, 9vw, 9rem) clamp(2rem, 5vw, 5rem) clamp(4rem, 7vw, 7rem);
   display: flex;
   flex-direction: column;
-  background: #fefefe;
+  background: linear-gradient(90deg, rgba(239,239,235,.08), rgba(239,239,235,.88) 22%, #efefeb 58%);
 }
 
 .xian-army-copy header p {
   margin: 0 0 1.2rem;
-  color: var(--xian-red);
+  color: #71736e;
   font-size: .68rem;
   font-weight: 750;
   letter-spacing: .17em;
@@ -507,6 +519,7 @@ html {
 
 .xian-army-copy h2 {
   margin: 0;
+  color: #565853;
   font-size: clamp(3.4rem, 5.8vw, 7.2rem);
   font-weight: 520;
   line-height: .79;
@@ -514,53 +527,30 @@ html {
 }
 
 .xian-army-steps {
-  position: relative;
-  flex: 1;
-  min-height: 18rem;
-  margin-top: 4rem;
+  max-width: 34rem;
+  display: grid;
+  gap: clamp(1.2rem, 2.4vw, 2.4rem);
+  margin-top: auto;
 }
 
 .xian-army-steps p {
-  position: absolute;
-  inset: 0;
-  max-width: 33rem;
   margin: 0;
-  display: flex;
-  align-items: center;
-  opacity: var(--army-step-opacity, 0);
-  transform: translateY(calc((1 - var(--army-step-opacity, 0)) * 1.5rem));
-  font-size: clamp(1.2rem, 2vw, 1.85rem);
-  line-height: 1.52;
-  pointer-events: none;
-}
-
-.xian-army-meter {
-  height: 2px;
-  background: rgba(17,21,22,.16);
-}
-
-.xian-army-meter span {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: var(--xian-red);
-  transform: scaleX(0);
-  transform-origin: left;
+  color: #656762;
+  font-size: clamp(1.08rem, 1.65vw, 1.55rem);
+  line-height: 1.5;
 }
 
 .xian-model-scroll {
-  height: 300svh;
+  min-height: max(48rem, 100svh);
   color: #fff;
   background: var(--xian-black);
 }
 
 .xian-model-sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
+  position: relative;
+  min-height: max(48rem, 100svh);
   display: grid;
   grid-template-columns: minmax(18rem, .55fr) minmax(0, 1.45fr);
-  grid-template-rows: 1fr auto;
   overflow: hidden;
 }
 
@@ -600,7 +590,7 @@ html {
 .xian-model-stage {
   position: relative;
   grid-column: 2;
-  grid-row: 1;
+  min-height: max(48rem, 100svh);
   min-width: 0;
   overflow: hidden;
   background: #050505;
@@ -680,15 +670,19 @@ html {
   color: #fff;
 }
 
-.xian-model-enable,
-.xian-model-done {
+.xian-model-controls {
   position: absolute;
   z-index: 5;
   right: 1rem;
   bottom: 1rem;
+  display: flex;
+  gap: .45rem;
+  align-items: center;
+}
+
+.xian-model-controls button {
   min-height: 3.2rem;
   padding: 0 1.2rem;
-  display: none;
   color: #fff;
   background: rgba(5,5,5,.82);
   border: 1px solid rgba(255,255,255,.5);
@@ -698,22 +692,18 @@ html {
   letter-spacing: .13em;
 }
 
-.xian-model-index {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  height: 3.3rem;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid rgba(255,255,255,.2);
+.xian-model-controls button:not(.xian-model-enable):not(.xian-model-done) {
+  min-width: 3.2rem;
+  padding-inline: .8rem;
 }
 
-.xian-model-index span {
-  display: grid;
-  place-items: center;
-  color: rgba(255,255,255,.48);
-  border-right: 1px solid rgba(255,255,255,.2);
-  font-size: .57rem;
-  letter-spacing: .14em;
+.xian-model-controls button:disabled {
+  opacity: .45;
+  cursor: progress;
+}
+
+.xian-model-controls button[hidden] {
+  display: none;
 }
 
 .xian-treasures {
@@ -1199,8 +1189,8 @@ html {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .xian-army-sticky {
-    grid-template-columns: 52% 48%;
+  .xian-army-copy {
+    grid-column: 6 / 13;
   }
 
   .xian-model-sticky {
@@ -1358,70 +1348,69 @@ html {
     aspect-ratio: .72;
   }
 
-  .xian-army-scroll {
-    height: 300svh;
+  .xian-army-scroll,
+  .xian-army-sticky {
+    min-height: auto;
   }
 
   .xian-army-sticky {
-    height: 100svh;
-    display: grid;
+    display: block;
     grid-template-columns: 1fr;
-    grid-template-rows: 42svh 1fr;
+    overflow: visible;
   }
 
   .xian-army-sticky > figure {
-    grid-row: 1;
+    height: 68svh;
+    min-height: 31rem;
   }
 
   .xian-army-sticky > figure img {
-    object-position: 28% 38%;
+    object-position: 34% 42%;
   }
 
   .xian-army-sticky > figure::after {
-    border-right: 0;
-    border-bottom: 1px solid rgba(17,21,22,.16);
+    background:
+      linear-gradient(180deg, rgba(92,94,89,.08), rgba(92,94,89,.04) 58%, rgba(92,94,89,.25)),
+      linear-gradient(90deg, rgba(92,94,89,.08), transparent 58%, rgba(92,94,89,.16));
   }
 
   .xian-army-copy {
-    grid-row: 2;
-    min-height: 0;
-    padding: 1.4rem 1.15rem calc(1.2rem + env(safe-area-inset-bottom));
+    margin-top: -5rem;
+    padding: 2rem 1.15rem calc(5rem + env(safe-area-inset-bottom));
+    color: #5d5f5a;
+    background: linear-gradient(180deg, rgba(239,239,235,.72), #efefeb 4.5rem);
   }
 
   .xian-army-copy header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: end;
-    gap: 1rem;
+    display: block;
   }
 
   .xian-army-copy header p {
-    align-self: start;
+    margin-bottom: .8rem;
   }
 
   .xian-army-copy h2 {
-    font-size: clamp(2.8rem, 14vw, 4.5rem);
+    font-size: clamp(3.5rem, 18vw, 5.7rem);
   }
 
   .xian-army-steps {
-    min-height: 0;
-    margin-top: 1rem;
+    gap: 1rem;
+    margin-top: 2.4rem;
   }
 
   .xian-army-steps p {
-    align-items: flex-start;
-    padding-top: .5rem;
     font-size: clamp(1rem, 4.8vw, 1.25rem);
     line-height: 1.48;
   }
 
-  .xian-model-scroll {
-    height: 260svh;
+  .xian-model-scroll,
+  .xian-model-sticky {
+    min-height: auto;
   }
 
   .xian-model-sticky {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr 3rem;
+    grid-template-rows: auto minmax(32rem, 70svh);
   }
 
   .xian-model-copy {
@@ -1437,19 +1426,24 @@ html {
   .xian-model-stage {
     grid-column: 1;
     grid-row: 2;
+    min-height: 32rem;
   }
 
-  .xian-model-index {
-    grid-row: 3;
+  .xian-model-controls {
+    right: .75rem;
+    bottom: .75rem;
+    left: .75rem;
+    justify-content: flex-end;
   }
 
-  .xian-model-enable,
-  .xian-model-done {
-    display: block;
+  .xian-model-controls button {
+    min-height: 2.85rem;
+    padding-inline: .85rem;
+    font-size: .56rem;
   }
 
-  .xian-model-done[hidden] {
-    display: none;
+  .xian-model-controls .xian-model-enable {
+    margin-left: auto;
   }
 
   .xian-treasure-chapter,
@@ -1562,14 +1556,6 @@ html {
     scroll-behavior: auto;
   }
 
-  .xian-army-scroll {
-    height: 300svh;
-  }
-
-  .xian-model-scroll {
-    height: 280svh;
-  }
-
   .xian-site-nav.is-scrolled,
   .xian-story-nav {
     -webkit-backdrop-filter: none;
@@ -1581,17 +1567,12 @@ html {
   }
 
   .xian-arrival img,
-  .xian-army-sticky > figure img,
   .xian-light-transition img {
     will-change: auto;
   }
 
   .xian-arrival img {
     transform: scale(1.035);
-  }
-
-  .xian-army-sticky > figure img {
-    transform: scale(1.02);
   }
 
   .xian-light-transition img {
@@ -1605,17 +1586,12 @@ html {
 }
 
 .xian-touch .xian-arrival img,
-.xian-touch .xian-army-sticky > figure img,
 .xian-touch .xian-light-transition img {
   will-change: auto;
 }
 
 .xian-touch .xian-arrival img {
   transform: scale(1.035);
-}
-
-.xian-touch .xian-army-sticky > figure img {
-  transform: scale(1.02);
 }
 
 .xian-touch .xian-light-transition img {
@@ -1643,29 +1619,6 @@ html {
 
   .xian-light-transition p {
     opacity: 1;
-  }
-
-  .xian-army-scroll,
-  .xian-model-scroll {
-    height: auto;
-  }
-
-  .xian-army-sticky,
-  .xian-model-sticky {
-    position: relative;
-    height: auto;
-    min-height: 100svh;
-  }
-
-  .xian-army-steps {
-    display: grid;
-    gap: 1.4rem;
-  }
-
-  .xian-army-steps p {
-    position: relative;
-    opacity: 1;
-    transform: none;
   }
 
   .xian-light-transition {

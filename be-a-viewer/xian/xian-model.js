@@ -1,15 +1,16 @@
 const MODEL_URL = "/assets/models/xian/terracotta-warrior.glb";
 const MODEL_BYTES = 15867792;
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const section = document.querySelector("[data-model-scroll]");
+const section = document.querySelector("#warrior");
 const stage = section?.querySelector("[data-model-stage]");
-const poster = section?.querySelector("[data-model-poster]");
 const status = section?.querySelector("[data-model-status]");
 const progressText = section?.querySelector("[data-model-progress]");
 const progressBar = section?.querySelector("[data-model-progress-bar]");
 const errorMessage = section?.querySelector("[data-model-error]");
 const enableButton = section?.querySelector("[data-model-enable]");
 const doneButton = section?.querySelector("[data-model-done]");
+const zoomInButton = section?.querySelector("[data-model-zoom-in]");
+const zoomOutButton = section?.querySelector("[data-model-zoom-out]");
+const resetButton = section?.querySelector("[data-model-reset]");
 const mobile = window.matchMedia("(max-width: 700px)");
 const touchDevice = window.matchMedia("(hover: none) and (pointer: coarse)");
 const touchCapable = navigator.maxTouchPoints > 0 || touchDevice.matches;
@@ -22,18 +23,13 @@ let scene;
 let camera;
 let pivot;
 let controls;
-let keyLight;
-let fillLight;
-let rimLight;
 let modelSize;
 let baseDistance = 1;
 let baseTargetY = .5;
-let scrollProgress = 0;
-let displayedProgress = 0;
 let loaded = false;
 let loading = false;
 let visible = false;
-let manual = false;
+let interacting = false;
 let renderFrame = 0;
 
 function clamp(value, min = 0, max = 1) {
@@ -50,6 +46,7 @@ function fail() {
   loading = false;
   if (status) status.hidden = true;
   if (errorMessage) errorMessage.hidden = false;
+  if (enableButton) enableButton.disabled = true;
 }
 
 function supportsWebGL() {
@@ -59,6 +56,14 @@ function supportsWebGL() {
     testCanvas.getContext("webgl2", { failIfMajorPerformanceCaveat: true }) ||
     testCanvas.getContext("webgl", { failIfMajorPerformanceCaveat: true })
   );
+}
+
+function scheduleRender() {
+  if (!renderer || !scene || !camera || renderFrame || (!visible && loaded)) return;
+  renderFrame = requestAnimationFrame(() => {
+    renderFrame = 0;
+    renderer.render(scene, camera);
+  });
 }
 
 function setSize() {
@@ -72,14 +77,14 @@ function setSize() {
   camera.updateProjectionMatrix();
 }
 
-function fitCamera() {
+function resetView() {
   if (!modelSize || !camera) return;
   setSize();
   const verticalFov = THREE.MathUtils.degToRad(camera.fov);
   const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
   const heightDistance = modelSize.y / (2 * Math.tan(verticalFov / 2));
   const widthDistance = modelSize.x / (2 * Math.tan(horizontalFov / 2));
-  baseDistance = Math.max(heightDistance, widthDistance) * (mobile.matches ? 1.3 : 1.15) + modelSize.z * .52;
+  baseDistance = Math.max(heightDistance, widthDistance) * (mobile.matches ? 1.28 : 1.14) + modelSize.z * .52;
   baseTargetY = modelSize.y * (mobile.matches ? .53 : .49);
   camera.position.set(0, modelSize.y * .51, baseDistance);
   camera.near = Math.max(.001, baseDistance / 100);
@@ -88,46 +93,43 @@ function fitCamera() {
   camera.updateProjectionMatrix();
   if (controls) {
     controls.target.set(0, baseTargetY, 0);
-    controls.minDistance = baseDistance * .62;
-    controls.maxDistance = baseDistance * 1.45;
+    controls.minDistance = baseDistance * .52;
+    controls.maxDistance = baseDistance * 1.6;
     controls.update();
   }
+  if (pivot) pivot.rotation.y = -Math.PI / 2;
+  scheduleRender();
 }
 
-function scheduleRender() {
-  if (!renderer || !scene || !camera || renderFrame || (!visible && loaded)) return;
-  renderFrame = requestAnimationFrame(() => {
-    renderFrame = 0;
-    if (!manual) {
-      const distance = scrollProgress - displayedProgress;
-      const easing = touchCapable ? .16 : .28;
-      displayedProgress = Math.abs(distance) < .0005
-        ? scrollProgress
-        : displayedProgress + distance * easing;
-      renderScrollPose(displayedProgress);
-    }
-    controls?.update();
-    renderer.render(scene, camera);
-    if ((manual || Math.abs(scrollProgress - displayedProgress) >= .0005) && visible) scheduleRender();
+function zoomCamera(scale) {
+  if (!loaded || !controls || !camera) return;
+  const offset = camera.position.clone().sub(controls.target);
+  const distance = clamp(offset.length() * scale, controls.minDistance, controls.maxDistance);
+  offset.setLength(distance);
+  camera.position.copy(controls.target).add(offset);
+  camera.lookAt(controls.target);
+  controls.update();
+  scheduleRender();
+}
+
+function syncInteractionButtons() {
+  if (enableButton) {
+    enableButton.hidden = interacting;
+    enableButton.setAttribute("aria-pressed", String(interacting));
+  }
+  [doneButton, zoomInButton, zoomOutButton, resetButton].forEach((button) => {
+    if (button) button.hidden = !interacting;
   });
 }
 
-function renderScrollPose(progress) {
-  if (!loaded || !pivot || manual) return;
-  pivot.rotation.y = -Math.PI / 2 + Math.PI * 2 * progress;
-  const push = Math.sin(Math.PI * progress) * .085;
-  camera.position.z = baseDistance * (1 - push);
-  camera.position.y = modelSize.y * (.51 + Math.sin(Math.PI * 2 * progress) * .012);
-  camera.lookAt(0, baseTargetY, 0);
-  keyLight.intensity = 50 + Math.sin(Math.PI * 2 * progress) * 6;
-  fillLight.intensity = .55 + Math.cos(Math.PI * 2 * progress) * .08;
-  rimLight.intensity = .7 + Math.sin(Math.PI * 2 * progress) * .08;
-}
-
-function applyScrollProgress(progress) {
-  scrollProgress = Math.round(clamp(progress) * 2000) / 2000;
-  if (!loaded || !pivot || manual) return;
+function setInteraction(enabled) {
+  if (!loaded || !controls || !stage) return;
+  interacting = enabled;
+  controls.enabled = enabled;
+  stage.classList.toggle("is-manual", enabled);
+  syncInteractionButtons();
   scheduleRender();
+  if (!enabled) enableButton?.focus({ preventScroll: true });
 }
 
 function prepareModel(gltf) {
@@ -155,22 +157,27 @@ function prepareModel(gltf) {
 
   pivot = new THREE.Group();
   pivot.add(model);
-  pivot.rotation.y = -Math.PI / 2;
   scene.add(pivot);
-
-  const centeredBounds = new THREE.Box3().setFromObject(pivot);
-  modelSize = centeredBounds.getSize(new THREE.Vector3());
+  modelSize = new THREE.Box3().setFromObject(pivot).getSize(new THREE.Vector3());
 
   const target = new THREE.Object3D();
   target.position.set(0, modelSize.y * .48, 0);
   scene.add(target);
+
+  const ambient = new THREE.AmbientLight(0xb8c1c5, .24);
+  const keyLight = new THREE.SpotLight(0xfff1df, 50, 0, Math.PI / 5.8, .68, 1.4);
+  const fillLight = new THREE.DirectionalLight(0xc8d8df, .55);
+  const rimLight = new THREE.DirectionalLight(0xaec2cf, .7);
   keyLight.position.set(-modelSize.x * 1.6, modelSize.y * 2, modelSize.z * 1.5);
   keyLight.target = target;
   keyLight.distance = modelSize.y * 5;
+  keyLight.castShadow = true;
+  keyLight.shadow.mapSize.set(touchCapable ? 512 : 1024, touchCapable ? 512 : 1024);
   fillLight.position.set(modelSize.x * 1.25, modelSize.y * 1.1, modelSize.z * 1.4);
   fillLight.target = target;
   rimLight.position.set(modelSize.x * 1.15, modelSize.y * 1.35, -modelSize.z * 1.8);
   rimLight.target = target;
+  scene.add(ambient, keyLight, fillLight, rimLight);
 
   const groundSize = Math.max(modelSize.x, modelSize.z) * 7;
   const ground = new THREE.Mesh(
@@ -183,23 +190,22 @@ function prepareModel(gltf) {
   scene.add(ground);
 
   controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = .075;
+  controls.enableDamping = false;
   controls.enablePan = false;
+  controls.enableRotate = true;
   controls.enableZoom = true;
   controls.rotateSpeed = .42;
   controls.zoomSpeed = .55;
   controls.enabled = false;
   controls.addEventListener("change", scheduleRender);
-  fitCamera();
 
   loaded = true;
   loading = false;
-  displayedProgress = reducedMotion ? 0 : scrollProgress;
   updateLoadProgress(100);
   stage.classList.add("is-loaded");
-  renderScrollPose(displayedProgress);
-  scheduleRender();
+  if (enableButton) enableButton.disabled = false;
+  resetView();
+  syncInteractionButtons();
 }
 
 async function loadModel() {
@@ -230,15 +236,6 @@ async function loadModel() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.domElement.setAttribute("aria-hidden", "true");
     stage.prepend(renderer.domElement);
-
-    const ambient = new THREE.AmbientLight(0xb8c1c5, .22);
-    keyLight = new THREE.SpotLight(0xfff1df, 50, 0, Math.PI / 5.8, .68, 1.4);
-    fillLight = new THREE.DirectionalLight(0xc8d8df, .55);
-    rimLight = new THREE.DirectionalLight(0xaec2cf, .7);
-    keyLight.castShadow = true;
-    const shadowSize = mobile.matches || touchCapable ? 512 : 1024;
-    keyLight.shadow.mapSize.set(shadowSize, shadowSize);
-    scene.add(ambient, keyLight, fillLight, rimLight);
     setSize();
 
     new GLTFLoader().load(
@@ -252,27 +249,13 @@ async function loadModel() {
   }
 }
 
-function setManual(enabled) {
-  if (!loaded || !controls) return;
-  manual = enabled;
-  controls.enabled = enabled;
-  stage.classList.toggle("is-manual", enabled);
-  if (enableButton) enableButton.hidden = enabled;
-  if (doneButton) doneButton.hidden = !enabled;
-  if (enabled) {
-    enableButton?.setAttribute("aria-pressed", "true");
-    scheduleRender();
-  } else {
-    enableButton?.setAttribute("aria-pressed", "false");
-    applyScrollProgress(scrollProgress);
-    enableButton?.focus({ preventScroll: true });
-  }
-}
-
-enableButton?.addEventListener("click", () => setManual(true));
-doneButton?.addEventListener("click", () => setManual(false));
+enableButton?.addEventListener("click", () => setInteraction(true));
+doneButton?.addEventListener("click", () => setInteraction(false));
+zoomInButton?.addEventListener("click", () => zoomCamera(.84));
+zoomOutButton?.addEventListener("click", () => zoomCamera(1.18));
+resetButton?.addEventListener("click", resetView);
 stage?.addEventListener("contextmenu", (event) => event.preventDefault());
-window.addEventListener("xian-model-progress", (event) => applyScrollProgress(event.detail?.progress || 0));
+
 let resizeFrame = 0;
 let stageWidth = 0;
 let stageHeight = 0;
@@ -284,9 +267,7 @@ function requestStageResize(width, height) {
   stageHeight = height;
   resizeFrame = requestAnimationFrame(() => {
     resizeFrame = 0;
-    fitCamera();
-    renderScrollPose(displayedProgress);
-    scheduleRender();
+    resetView();
   });
 }
 
@@ -296,10 +277,6 @@ if (stage && "ResizeObserver" in window) {
     requestStageResize(width, height);
   });
   stageObserver.observe(stage);
-} else {
-  window.addEventListener("orientationchange", () => {
-    requestStageResize(stage?.clientWidth || 0, stage?.clientHeight || 0);
-  }, { passive: true });
 }
 
 if (section && "IntersectionObserver" in window) {
