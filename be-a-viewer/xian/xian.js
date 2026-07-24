@@ -1,4 +1,5 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const pageBody = document.body;
 const siteNav = document.querySelector(".xian-site-nav");
 const storyNav = document.querySelector("[data-xian-story-nav]");
 const storyLinks = [...(storyNav?.querySelectorAll("[data-xian-section-link]") || [])];
@@ -6,6 +7,45 @@ const storySections = storyLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter(Boolean);
 const storyProgress = storyNav?.querySelector("[data-xian-story-progress]");
+
+if (!reducedMotion) {
+  pageBody.classList.add("xian-motion");
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => pageBody.classList.add("is-motion-ready"));
+  });
+
+  const revealSelectors = [
+    ".xian-arrival-copy > *",
+    ".xian-editorial-section .xian-section-header > *",
+    ".xian-first-empire-copy",
+    ".xian-changan-copy",
+    ".xian-wall-copy",
+    ".xian-night-copy",
+    ".xian-editorial-section > .xian-photo",
+    ".xian-treasure-chapter > *",
+    ".xian-city-beyond > *",
+    ".xian-model-copy > *",
+    ".xian-next-city > *"
+  ];
+  const revealItems = [...new Set(revealSelectors.flatMap((selector) => [...document.querySelectorAll(selector)]))];
+  revealItems.forEach((item, index) => {
+    item.classList.add("xian-reveal");
+    item.dataset.xianRevealDelay = String(index % 3);
+  });
+
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -9%", threshold: .08 });
+    revealItems.forEach((item) => revealObserver.observe(item));
+  } else {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+  }
+}
 
 function updateSiteNav() {
   siteNav?.classList.toggle("is-scrolled", window.scrollY > window.innerHeight * .68);

@@ -3,6 +3,7 @@
   const hero = document.querySelector("[data-viewer-hero]");
 
   if (hero) {
+    const stage = hero.querySelector("[data-viewer-hero-stage]");
     const slides = [...hero.querySelectorAll("[data-viewer-slide]")];
     const videos = slides.map((slide) => slide.querySelector("[data-viewer-video]"));
     const dots = [...hero.querySelectorAll("[data-viewer-dot]")];
@@ -22,6 +23,9 @@
     let pausedByUser = false;
     let heroVisible = true;
     let progressFrame = 0;
+    let copyTimer = 0;
+    let fallbackTimer = 0;
+    let swipeStartX = null;
 
     const pauseAll = () => videos.forEach((video) => video?.pause());
 
@@ -40,31 +44,80 @@
       if (!video.paused && heroVisible) progressFrame = requestAnimationFrame(updateProgress);
     }
 
+    function updateToggle() {
+      if (!toggle) return;
+      const video = videos[activeIndex];
+      const paused = pausedByUser || !video || video.paused;
+      toggle.textContent = paused ? "PLAY" : "PAUSE";
+      toggle.setAttribute("aria-label", paused ? "Play travel video" : "Pause travel video");
+      toggle.setAttribute("aria-pressed", String(paused));
+    }
+
+    function clearFallback() {
+      window.clearTimeout(fallbackTimer);
+      fallbackTimer = 0;
+    }
+
+    function scheduleFallback() {
+      clearFallback();
+      if (pausedByUser || document.hidden || !heroVisible) return;
+      fallbackTimer = window.setTimeout(() => showSlide(activeIndex + 1), 6200);
+    }
+
     async function playActive() {
       const video = videos[activeIndex];
-      if (!video || pausedByUser || !heroVisible) return;
+      pauseAll();
+      clearFallback();
+      if (!video || pausedByUser || !heroVisible || document.hidden) {
+        updateToggle();
+        return;
+      }
       try {
+        video.muted = true;
         await video.play();
       } catch {
-        pausedByUser = true;
-        toggle.textContent = "PLAY";
-        toggle.setAttribute("aria-pressed", "true");
+        scheduleFallback();
       }
+      updateToggle();
       if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
     }
 
-    function showSlide(index, autoplay = true) {
+    function showSlide(index, autoplay = true, instant = false) {
       activeIndex = (index + slides.length) % slides.length;
       pauseAll();
-      slides.forEach((slide, slideIndex) => slide.classList.toggle("is-active", slideIndex === activeIndex));
+      const preloadIndex = (activeIndex + 1) % slides.length;
+      slides.forEach((slide, slideIndex) => {
+        const active = slideIndex === activeIndex;
+        slide.classList.toggle("is-active", active);
+        const video = videos[slideIndex];
+        if (!video) return;
+        video.preload = active || slideIndex === preloadIndex ? "auto" : "metadata";
+        if (!active) {
+          try { video.currentTime = 0; } catch {}
+        }
+      });
       dots.forEach((dot, dotIndex) => {
         const selected = dotIndex === activeIndex;
         dot.classList.toggle("is-active", selected);
         dot.setAttribute("aria-pressed", String(selected));
       });
-      syncCopy(slides[activeIndex]);
+
+      window.clearTimeout(copyTimer);
+      if (reducedMotion || instant) {
+        syncCopy(slides[activeIndex]);
+        hero.classList.remove("is-copy-changing");
+      } else {
+        hero.classList.add("is-copy-changing");
+        copyTimer = window.setTimeout(() => {
+          syncCopy(slides[activeIndex]);
+          hero.classList.remove("is-copy-changing");
+        }, 260);
+      }
+
+      try { videos[activeIndex].currentTime = 0; } catch {}
       if (progress) progress.style.transform = "scaleX(0)";
       if (autoplay) playActive();
+      else updateToggle();
     }
 
     videos.forEach((video, index) => {
@@ -81,17 +134,35 @@
     hero.querySelector("[data-viewer-next]")?.addEventListener("click", () => showSlide(activeIndex + 1));
     toggle?.addEventListener("click", () => {
       pausedByUser = !pausedByUser;
-      toggle.textContent = pausedByUser ? "PLAY" : "PAUSE";
-      toggle.setAttribute("aria-pressed", String(pausedByUser));
-      if (pausedByUser) pauseAll();
+      if (pausedByUser) {
+        clearFallback();
+        pauseAll();
+        updateToggle();
+      }
       else playActive();
     });
+
+    stage?.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      swipeStartX = event.clientX;
+    }, { passive: true });
+    stage?.addEventListener("pointerup", (event) => {
+      if (swipeStartX === null) return;
+      const distance = event.clientX - swipeStartX;
+      swipeStartX = null;
+      if (Math.abs(distance) < 52) return;
+      showSlide(activeIndex + (distance < 0 ? 1 : -1));
+    }, { passive: true });
 
     if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver(([entry]) => {
         heroVisible = entry.isIntersecting;
         if (heroVisible) playActive();
-        else pauseAll();
+        else {
+          clearFallback();
+          pauseAll();
+          updateToggle();
+        }
       }, { threshold: 0.05 });
       observer.observe(hero);
     }
@@ -101,7 +172,7 @@
       else playActive();
     });
 
-    showSlide(0, !reducedMotion);
+    showSlide(0, !reducedMotion, true);
     if (reducedMotion) pauseAll();
   }
 

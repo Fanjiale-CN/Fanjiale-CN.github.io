@@ -5,6 +5,9 @@ const armyMeter = army?.querySelector("[data-army-meter]");
 const armyImage = army?.querySelector("figure img");
 const modelSection = document.querySelector("[data-model-scroll]");
 const lightTransition = document.querySelector("[data-light-transition]");
+const arrival = document.querySelector(".xian-arrival");
+const arrivalImage = arrival?.querySelector("img");
+const arrivalCopy = arrival?.querySelector(".xian-arrival-copy");
 
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const smoothstep = (value) => {
@@ -28,7 +31,7 @@ function stepOpacity(progress, start, end) {
 function updateArmy() {
   if (!army || reducedMotion) return;
   const progress = sectionProgress(army);
-  const windows = [[0, .34], [.30, .67], [.63, .96]];
+  const windows = [[-.06, .34], [.30, .67], [.63, .96]];
   armySteps.forEach((step, index) => {
     step.style.setProperty("--army-step-opacity", stepOpacity(progress, ...windows[index]).toFixed(3));
   });
@@ -37,6 +40,21 @@ function updateArmy() {
     const exit = smoothstep((progress - .82) / .18);
     armyImage.style.setProperty("--army-image-scale", (1.045 - progress * .035).toFixed(4));
     armyImage.style.setProperty("--army-image-x", `${(-exit * 7).toFixed(2)}%`);
+  }
+}
+
+function updateArrival() {
+  if (!arrival || reducedMotion) return;
+  const rect = arrival.getBoundingClientRect();
+  const progress = clamp((window.innerHeight - rect.top) / Math.max(1, window.innerHeight + rect.height));
+  if (arrivalImage) {
+    arrivalImage.style.setProperty("--arrival-image-scale", (1.065 - progress * .045).toFixed(4));
+    arrivalImage.style.setProperty("--arrival-image-y", `${((progress - .5) * 3.5).toFixed(2)}%`);
+  }
+  if (arrivalCopy) {
+    const exit = smoothstep((progress - .72) / .28);
+    arrivalCopy.style.opacity = String(1 - exit * .72);
+    arrivalCopy.style.transform = `translate3d(0,${(-exit * 24).toFixed(2)}px,0)`;
   }
 }
 
@@ -60,6 +78,7 @@ function updateLight() {
 let frame = 0;
 function update() {
   frame = 0;
+  updateArrival();
   updateArmy();
   updateModel();
   updateLight();
