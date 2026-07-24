@@ -11,7 +11,8 @@ html {
   scroll-behavior: smooth;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .xian-page-body {
@@ -19,7 +20,8 @@ html {
   max-width: 100%;
   color: var(--xian-ink);
   background: var(--xian-paper);
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .xian-site-nav {
@@ -46,7 +48,8 @@ html {
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .xian-hero {
@@ -454,7 +457,7 @@ html {
 }
 
 .xian-army-scroll {
-  height: 360vh;
+  height: 320svh;
   background: #fefefe;
 }
 
@@ -547,7 +550,7 @@ html {
 }
 
 .xian-model-scroll {
-  height: 360vh;
+  height: 300svh;
   color: #fff;
   background: var(--xian-black);
 }
@@ -721,6 +724,17 @@ html {
 
 .xian-treasures .xian-section-header > span {
   color: rgba(255,255,255,.55);
+}
+
+.xian-treasures-header {
+  grid-template-columns: minmax(13rem, .5fr) minmax(0, 1.55fr) minmax(17rem, .5fr);
+  column-gap: clamp(2rem, 4vw, 5rem);
+}
+
+.xian-treasures-header h2 {
+  font-size: clamp(3.8rem, 7.25vw, 8.8rem);
+  line-height: .84;
+  letter-spacing: -.045em;
 }
 
 .xian-treasure-chapter {
@@ -1290,6 +1304,12 @@ html {
     font-size: clamp(3.8rem, 19vw, 6rem);
   }
 
+  .xian-treasures-header h2 {
+    font-size: clamp(3.35rem, 16vw, 5.6rem);
+    line-height: .86;
+    letter-spacing: -.035em;
+  }
+
   .xian-first-empire,
   .xian-changan,
   .xian-wall,
@@ -1340,7 +1360,7 @@ html {
   }
 
   .xian-army-scroll {
-    height: 420vh;
+    height: 300svh;
   }
 
   .xian-army-sticky {
@@ -1397,7 +1417,7 @@ html {
   }
 
   .xian-model-scroll {
-    height: 320vh;
+    height: 260svh;
   }
 
   .xian-model-sticky {
@@ -1541,6 +1561,14 @@ html {
 @media (hover: none), (pointer: coarse) {
   html {
     scroll-behavior: auto;
+  }
+
+  .xian-army-scroll {
+    height: 300svh;
+  }
+
+  .xian-model-scroll {
+    height: 280svh;
   }
 
   .xian-site-nav.is-scrolled,
