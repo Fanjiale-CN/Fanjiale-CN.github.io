@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#080B0D">
-  <meta name="description" content="BE A VIEWER is Galok's immersive travel series about seeing China through images, motion and close observation.">
-  <meta property="og:title" content="BE A VIEWER — Galok">
-  <meta property="og:description" content="Enter China as a viewer. The first frame begins in Beijing.">
-  <meta property="og:image" content="/assets/be-a-viewer/beijing-roof.jpg">
-  <title>BE A VIEWER — Galok</title>
+  <meta name="theme-color" content="#080b0d">
+  <meta name="description" content="BE A VIEWER enters Chinese cities through moving images, close observation and independent visual stories.">
+  <meta property="og:title" content="BE A VIEWER — GALOK">
+  <meta property="og:description" content="Choose a city and enter its story.">
+  <meta property="og:image" content="/assets/be-a-viewer/video/xian-poster.webp">
+  <title>BE A VIEWER — GALOK</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
-  <link rel="stylesheet" href="/styles.css?v=be-a-viewer-arrival-1">
-  <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=9">
+  <link rel="stylesheet" href="/styles.css?v=field-system-10">
+  <link rel="stylesheet" href="/be-a-viewer/viewer.css?v=2">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -21,7 +21,7 @@
   </script>
 </head>
 <body class="plain-body viewer-page-body">
-  <nav class="site-nav" aria-label="Primary navigation">
+  <nav class="site-nav viewer-site-nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="/">
         <img class="brand-mark" src="/assets/galok-mark.svg" alt="" aria-hidden="true">
@@ -37,238 +37,131 @@
     </div>
   </nav>
 
-  <main class="viewer-page-main">
-    <section class="field-hero viewer-video-hero" aria-labelledby="viewer-page-title" data-viewer-hero>
-      <div class="field-hero-stage viewer-video-stage" data-viewer-hero-stage aria-hidden="true">
-        <figure class="field-hero-slide viewer-video-slide is-active" data-viewer-slide data-city="BEIJING" data-kicker="Ceremony in motion" data-copy="Old geometry still organizes the crowd, the sky and the pace of arrival." data-place="TEMPLE OF HEAVEN" data-coordinate="39.9042° N" data-number="01" data-region="CAPITAL" data-subject="RITUAL" style="--hero-position:50% 50%; --hero-position-mobile:50% 50%">
-          <video data-viewer-video autoplay muted playsinline preload="auto" poster="/assets/be-a-viewer/video/beijing-poster.webp">
-            <source src="/assets/be-a-viewer/video/beijing.mp4" type="video/mp4">
-          </video>
+  <main>
+    <section class="viewer-hero" aria-labelledby="viewer-page-title" data-viewer-hero>
+      <div class="viewer-hero-stage" data-viewer-hero-stage aria-hidden="true">
+        <figure class="viewer-hero-slide is-active" data-viewer-slide data-city="BEIJING" data-kicker="Ceremony in motion" data-copy="Old geometry still organises the crowd, the sky and the pace of arrival." data-place="TEMPLE OF HEAVEN" data-coordinate="39.9042° N" data-number="01" data-region="CAPITAL" data-subject="RITUAL">
+          <video data-viewer-video autoplay muted playsinline preload="auto" poster="/assets/be-a-viewer/video/beijing-poster.webp"><source src="/assets/be-a-viewer/video/beijing.mp4" type="video/mp4"></video>
         </figure>
-        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="SHANGHAI" data-kicker="The river as horizon" data-copy="Light, finance and evening traffic gather along one restless edge." data-place="THE BUND" data-coordinate="31.2304° N" data-number="02" data-region="EAST COAST" data-subject="MOMENTUM" style="--hero-position:50% 50%; --hero-position-mobile:53% 50%">
-          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/shanghai-poster.webp">
-            <source src="/assets/be-a-viewer/video/shanghai.mp4" type="video/mp4">
-          </video>
+        <figure class="viewer-hero-slide" data-viewer-slide data-city="SHANGHAI" data-kicker="The river as horizon" data-copy="Light, finance and evening traffic gather along one restless edge." data-place="THE BUND" data-coordinate="31.2304° N" data-number="02" data-region="EAST COAST" data-subject="MOMENTUM">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/shanghai-poster.webp"><source src="/assets/be-a-viewer/video/shanghai.mp4" type="video/mp4"></video>
         </figure>
-        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="XI'AN" data-kicker="Memory at street level" data-copy="The wall keeps history close enough to walk, touch and circle." data-place="CITY WALL" data-coordinate="34.3416° N" data-number="03" data-region="NORTHWEST" data-subject="MEMORY" style="--hero-position:50% 50%; --hero-position-mobile:55% 50%">
-          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/xian-poster.webp">
-            <source src="/assets/be-a-viewer/video/xian.mp4" type="video/mp4">
-          </video>
+        <figure class="viewer-hero-slide" data-viewer-slide data-city="XI’AN" data-kicker="Memory at street level" data-copy="The wall keeps history close enough to walk, touch and circle." data-place="CITY WALL" data-coordinate="34.3416° N" data-number="03" data-region="NORTHWEST" data-subject="MEMORY">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/xian-poster.webp"><source src="/assets/be-a-viewer/video/xian.mp4" type="video/mp4"></video>
         </figure>
-        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="DALI" data-kicker="Water holds the distance" data-copy="At Erhai, mountains become a horizon you can move beside." data-place="ERHAI, YUNNAN" data-coordinate="25.6065° N" data-number="04" data-region="SOUTHWEST" data-subject="STILLNESS" style="--hero-position:50% 50%; --hero-position-mobile:55% 50%">
-          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/dali-poster.png">
-            <source src="/assets/be-a-viewer/video/dali.mp4" type="video/mp4">
-          </video>
+        <figure class="viewer-hero-slide" data-viewer-slide data-city="DALI" data-kicker="Water holds the distance" data-copy="At Erhai, mountains become a horizon you can move beside." data-place="ERHAI, YUNNAN" data-coordinate="25.6065° N" data-number="04" data-region="SOUTHWEST" data-subject="STILLNESS">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/dali-poster.png"><source src="/assets/be-a-viewer/video/dali.mp4" type="video/mp4"></video>
         </figure>
-        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="TIBET" data-kicker="The frame opens" data-copy="Altitude clears the noise until land, weather and belief share one scale." data-place="TIBETAN PLATEAU" data-coordinate="29.6500° N" data-number="05" data-region="WEST" data-subject="ALTITUDE" style="--hero-position:50% 50%; --hero-position-mobile:58% 50%">
-          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/tibet-plateau-poster.png">
-            <source src="/assets/be-a-viewer/video/tibet-plateau.mp4" type="video/mp4">
-          </video>
+        <figure class="viewer-hero-slide" data-viewer-slide data-city="TIBET" data-kicker="The frame opens" data-copy="Altitude clears the noise until land, weather and belief share one scale." data-place="TIBETAN PLATEAU" data-coordinate="29.6500° N" data-number="05" data-region="WEST" data-subject="ALTITUDE">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/tibet-plateau-poster.png"><source src="/assets/be-a-viewer/video/tibet-plateau.mp4" type="video/mp4"></video>
         </figure>
-        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="SHENZHEN" data-kicker="A city still arriving" data-copy="By the bay, speed becomes skyline, reflection and ordinary night." data-place="SHENZHEN BAY" data-coordinate="22.5431° N" data-number="06" data-region="SOUTH CHINA" data-subject="FUTURE" style="--hero-position:52% 50%; --hero-position-mobile:61% 50%">
-          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/shenzhen-poster.webp">
-            <source src="/assets/be-a-viewer/video/shenzhen.mp4" type="video/mp4">
-          </video>
+        <figure class="viewer-hero-slide" data-viewer-slide data-city="SHENZHEN" data-kicker="A city still arriving" data-copy="By the bay, speed becomes skyline, reflection and ordinary night." data-place="SHENZHEN BAY" data-coordinate="22.5431° N" data-number="06" data-region="SOUTH CHINA" data-subject="FUTURE">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/shenzhen-poster.webp"><source src="/assets/be-a-viewer/video/shenzhen.mp4" type="video/mp4"></video>
         </figure>
-        <figure class="field-hero-slide viewer-video-slide" data-viewer-slide data-city="XIAMEN" data-kicker="The coast as daily life" data-copy="Sea air, dense hills and neighborhood roofs keep the city close to the water." data-place="XIAMEN, FUJIAN" data-coordinate="24.4798° N" data-number="07" data-region="SOUTHEAST" data-subject="COAST" style="--hero-position:50% 50%; --hero-position-mobile:53% 50%">
-          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/xiamen-poster.webp">
-            <source src="/assets/be-a-viewer/video/xiamen.mp4" type="video/mp4">
-          </video>
+        <figure class="viewer-hero-slide" data-viewer-slide data-city="XIAMEN" data-kicker="The coast as daily life" data-copy="Sea air, dense hills and neighbourhood roofs keep the city close to the water." data-place="XIAMEN, FUJIAN" data-coordinate="24.4798° N" data-number="07" data-region="SOUTHEAST" data-subject="COAST">
+          <video data-viewer-video muted playsinline preload="metadata" poster="/assets/be-a-viewer/video/xiamen-poster.webp"><source src="/assets/be-a-viewer/video/xiamen.mp4" type="video/mp4"></video>
         </figure>
       </div>
 
-      <div class="field-hero-wash viewer-video-wash" aria-hidden="true"></div>
-      <div class="field-hero-grid viewer-video-grid">
-        <div class="field-hero-topline viewer-video-topline">
+      <div class="viewer-hero-shade" aria-hidden="true"></div>
+      <div class="viewer-hero-grid">
+        <div class="viewer-hero-topline">
           <span>BE A VIEWER</span>
           <span data-viewer-place>TEMPLE OF HEAVEN</span>
           <span data-viewer-coordinate>39.9042° N</span>
         </div>
-        <div class="field-hero-copy viewer-video-copy">
-          <p class="field-kicker" data-viewer-kicker>Ceremony in motion</p>
+        <div class="viewer-hero-copy">
+          <p data-viewer-kicker>Ceremony in motion</p>
           <h1 id="viewer-page-title" data-viewer-city>BEIJING</h1>
-          <p data-viewer-copy>Old geometry still organizes the crowd, the sky and the pace of arrival.</p>
+          <div><span data-viewer-number>01</span><b data-viewer-region>CAPITAL</b><small data-viewer-subject>RITUAL</small></div>
+          <p data-viewer-copy>Old geometry still organises the crowd, the sky and the pace of arrival.</p>
         </div>
-        <div class="field-hero-index viewer-video-index" aria-label="Current travel frame">
-          <span data-viewer-number>01</span>
-          <div><b data-viewer-region>CAPITAL</b><small data-viewer-subject>RITUAL</small></div>
-        </div>
-        <p class="viewer-touch-hint" aria-hidden="true">Press and swipe to explore</p>
-        <div class="field-hero-progress viewer-video-progress" aria-hidden="true"><span data-viewer-progress></span></div>
-        <div class="field-hero-controls viewer-video-controls" aria-label="Travel video controls">
-          <div class="field-hero-dots" role="group" aria-label="Choose a city">
+        <div class="viewer-hero-progress" aria-hidden="true"><span data-viewer-progress></span></div>
+        <div class="viewer-hero-controls" aria-label="Travel video controls">
+          <div class="viewer-hero-dots" role="group" aria-label="Choose a city">
             <button class="is-active" type="button" data-viewer-dot="0" aria-label="Show Beijing" aria-pressed="true">01</button>
             <button type="button" data-viewer-dot="1" aria-label="Show Shanghai" aria-pressed="false">02</button>
-            <button type="button" data-viewer-dot="2" aria-label="Show Xi'an" aria-pressed="false">03</button>
+            <button type="button" data-viewer-dot="2" aria-label="Show Xi’an" aria-pressed="false">03</button>
             <button type="button" data-viewer-dot="3" aria-label="Show Dali" aria-pressed="false">04</button>
             <button type="button" data-viewer-dot="4" aria-label="Show Tibet" aria-pressed="false">05</button>
             <button type="button" data-viewer-dot="5" aria-label="Show Shenzhen" aria-pressed="false">06</button>
             <button type="button" data-viewer-dot="6" aria-label="Show Xiamen" aria-pressed="false">07</button>
           </div>
-          <div class="field-hero-actions">
-            <button type="button" data-viewer-prev aria-label="Show previous city">Prev</button>
-            <button type="button" data-viewer-toggle aria-label="Pause travel video" aria-pressed="false">Pause</button>
-            <button type="button" data-viewer-next aria-label="Show next city">Next</button>
+          <div class="viewer-hero-actions">
+            <button type="button" data-viewer-prev>PREV</button>
+            <button type="button" data-viewer-toggle aria-label="Pause travel video" aria-pressed="false">PAUSE</button>
+            <button type="button" data-viewer-next>NEXT</button>
           </div>
         </div>
+        <a class="viewer-hero-cue" href="#choose-city">CHOOSE A CITY <span aria-hidden="true">↓</span></a>
       </div>
     </section>
 
-    <section class="departure-module" id="departure" aria-labelledby="departure-title" data-departure-module>
-      <div class="departure-intro">
-        <p class="departure-kicker">01 / DEPARTURE</p>
-        <div class="departure-intro-grid">
-          <h2 id="departure-title">WHERE ARE YOU<br>WATCHING FROM?</h2>
-          <p>Choose a point of departure.<br>The route begins before the city appears.</p>
-        </div>
-      </div>
+    <section class="city-selector" id="choose-city" aria-labelledby="city-selector-title" data-city-selector>
+      <header class="city-selector-heading">
+        <p>01 / CITY INDEX</p>
+        <h2 id="city-selector-title">WHERE DO YOU<br>WANT TO VIEW?</h2>
+        <span>Choose a city and enter its story.</span>
+      </header>
 
-      <div class="departure-selector" aria-label="Departure and destination">
-        <section class="departure-selector-panel departure-selector-panel--from" aria-labelledby="departure-from-label">
-          <button class="departure-choice-trigger" type="button" aria-expanded="false" aria-controls="departure-origin-browser" data-origin-trigger>
-            <span class="departure-selector-label" id="departure-from-label">FROM</span>
-            <span class="departure-country"><span class="departure-flag departure-flag-sprite" style="--flag-x:80%;--flag-y:93.3333%" aria-hidden="true" data-origin-flag></span> <span data-origin-country>UNITED STATES</span></span>
-            <strong class="departure-city" data-origin-city>WASHINGTON</strong>
-            <span class="departure-airport" data-origin-airport>DULLES INTERNATIONAL / <b>IAD</b></span>
-            <span class="departure-choice-action">CHANGE DEPARTURE</span>
+      <div class="city-selector-desktop">
+        <div class="city-selector-list" aria-label="Choose a city">
+          <button type="button" data-city-choice="beijing" data-status="coming">
+            <span>01</span><strong>BEIJING</strong><small>COMING SOON</small>
           </button>
-        </section>
-
-        <section class="departure-selector-panel departure-selector-panel--view" aria-labelledby="departure-view-label">
-          <button class="departure-choice-trigger departure-choice-trigger--view" type="button" aria-expanded="false" aria-controls="departure-destination-browser" data-destination-trigger>
-            <span class="departure-selector-label" id="departure-view-label">VIEW</span>
-            <span class="departure-country"><img class="departure-flag" src="/assets/be-a-viewer/flag-cn.svg" alt="" aria-hidden="true"> CHINA</span>
-            <strong class="departure-city" data-destination-city>SHANGHAI</strong>
-            <span class="departure-airport" data-destination-airport>PUDONG / <b>PVG</b></span>
-            <span class="departure-choice-action departure-choice-action--view">CHANGE DESTINATION</span>
+          <button type="button" data-city-choice="shanghai" data-status="coming">
+            <span>02</span><strong>SHANGHAI</strong><small>COMING SOON</small>
           </button>
-        </section>
+          <a class="is-active" href="/be-a-viewer/xian/" data-city-choice="xian" data-status="available">
+            <span>03</span><strong>XI’AN</strong><small>AVAILABLE</small>
+          </a>
+          <button type="button" data-city-choice="dali" data-status="coming">
+            <span>04</span><strong>DALI</strong><small>COMING SOON</small>
+          </button>
+          <button type="button" data-city-choice="shenzhen" data-status="coming">
+            <span>05</span><strong>SHENZHEN</strong><small>COMING SOON</small>
+          </button>
+          <button type="button" data-city-choice="xiamen" data-status="coming">
+            <span>06</span><strong>XIAMEN</strong><small>COMING SOON</small>
+          </button>
+          <button type="button" data-city-choice="tibet" data-status="coming">
+            <span>07</span><strong>TIBET</strong><small>COMING SOON</small>
+          </button>
+        </div>
+
+        <div class="city-selector-visual" aria-live="polite">
+          <figure class="is-active" data-city-visual="xian"><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" width="1536" height="864"></figure>
+          <figure data-city-visual="beijing"><img src="/assets/be-a-viewer/video/beijing-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
+          <figure data-city-visual="shanghai"><img src="/assets/be-a-viewer/video/shanghai-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
+          <figure data-city-visual="dali"><img src="/assets/be-a-viewer/video/dali-poster.png" alt="" width="1920" height="1080" loading="lazy"></figure>
+          <figure data-city-visual="shenzhen"><img src="/assets/be-a-viewer/video/shenzhen-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
+          <figure data-city-visual="xiamen"><img src="/assets/be-a-viewer/video/xiamen-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
+          <figure data-city-visual="tibet"><img src="/assets/be-a-viewer/video/tibet-plateau-poster.png" alt="" width="1920" height="1080" loading="lazy"></figure>
+          <div class="city-selector-caption">
+            <p data-city-index>03 / NORTHWEST CHINA</p>
+            <strong data-city-name>XI’AN</strong>
+            <span data-city-description>Empire, memory and life inside the wall.</span>
+            <b data-city-status>AVAILABLE · ENTER THE STORY ↗</b>
+          </div>
+        </div>
       </div>
 
-      <section class="departure-origin-browser" id="departure-origin-browser" aria-labelledby="departure-origin-browser-title" data-origin-browser hidden>
-        <header class="departure-origin-browser-header">
-          <div>
-            <p>SELECT DEPARTURE</p>
-            <h3 id="departure-origin-browser-title">CHOOSE A COUNTRY</h3>
-          </div>
-          <button type="button" data-origin-close>CLOSE</button>
-        </header>
-        <div class="departure-origin-tools">
-          <label>
-            <span>SEARCH DEPARTURE COUNTRY</span>
-            <input type="search" autocomplete="off" placeholder="START TYPING…" data-country-search>
-          </label>
-          <p aria-live="polite" data-origin-feedback>Twenty departure countries are available across five regions.</p>
-        </div>
-        <div class="departure-country-grid" data-country-list></div>
-        <div class="departure-origin-city-picker" data-origin-city-picker hidden>
-          <p data-origin-city-title>AVAILABLE FROM UNITED STATES</p>
-          <div role="radiogroup" aria-label="Choose a departure city" data-origin-city-options></div>
-        </div>
-        <p class="departure-flag-credit">FLAG ASSETS · FLAG ICONS 7.5.0 · MIT</p>
-      </section>
-
-      <section class="departure-origin-browser departure-destination-browser" id="departure-destination-browser" aria-labelledby="departure-destination-browser-title" data-destination-browser hidden>
-        <header class="departure-origin-browser-header">
-          <div>
-            <p>SELECT DESTINATION</p>
-            <h3 id="departure-destination-browser-title">CHINA / SIX CITIES</h3>
-          </div>
-          <button type="button" data-destination-close>CLOSE</button>
-        </header>
-        <div class="departure-destination-country" aria-hidden="true">
-          <img class="departure-flag" src="/assets/be-a-viewer/flag-cn.svg" alt="">
-          <strong>CHINA</strong>
-          <span>6 DESTINATIONS</span>
-        </div>
-        <div class="departure-destination-options" role="radiogroup" aria-label="Choose a destination in China" data-route-switcher>
-          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="beijing">BEIJING <small>PEK</small></button>
-          <button class="is-active" type="button" role="radio" aria-checked="true" tabindex="0" data-route-option="shanghai">SHANGHAI <small>PVG</small></button>
-          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="xian">XI’AN <small>XIY</small></button>
-          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="shenzhen">SHENZHEN <small>SZX</small></button>
-          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="dali">DALI <small>DLU</small></button>
-          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-route-option="xiamen">XIAMEN <small>XMN</small></button>
-        </div>
-      </section>
-
-      <div class="departure-story-grid" id="departure-route" data-departure-stage>
-        <figure class="departure-map-card" aria-labelledby="departure-map-caption">
-          <div class="departure-map-rail" aria-hidden="true">
-            <span data-map-origin>WASHINGTON / IAD</span>
-            <span data-map-status>TRANSFER · BEIJING / PEK</span>
-            <span data-map-destination>SHANGHAI / PVG</span>
-          </div>
-          <div class="departure-map-viewport" tabindex="0" aria-label="Interactive route map. Drag to move. Use the mouse wheel, pinch gesture, or map controls to zoom." data-map-viewport>
-            <svg class="departure-map" viewBox="0 0 1200 600" role="img" aria-labelledby="departure-map-title departure-map-description" data-route-map>
-              <title id="departure-map-title">Representative route from Washington to Shanghai</title>
-              <desc id="departure-map-description" data-map-description>A representative route from Dulles International Airport to Shanghai Pudong International Airport.</desc>
-              <g class="departure-map-camera" data-map-camera>
-                <image href="/assets/be-a-viewer/world-map.svg" width="1200" height="600"></image>
-                <g data-route-layer></g>
-              </g>
-            </svg>
-            <div class="departure-transfer-chip" data-transfer-chip hidden>
-              <span>TRANSFER</span>
-              <b data-transfer-label>BEIJING PEK</b>
-            </div>
-            <div class="departure-map-toolbar" aria-label="Map controls">
-              <button type="button" data-map-zoom-in>IN</button>
-              <button type="button" data-map-zoom-out>OUT</button>
-              <button type="button" data-map-show-route>ROUTE</button>
-              <button type="button" data-map-show-city>CITY</button>
-            </div>
-            <p class="departure-map-gesture" aria-hidden="true">DRAG TO MOVE · SCROLL OR PINCH TO ZOOM</p>
-            <p class="departure-map-status" aria-live="polite" data-route-announcer>Route ready: Washington to Shanghai.</p>
-          </div>
-          <figcaption id="departure-map-caption">Representative route study · not live flight tracking</figcaption>
-        </figure>
-
-        <article class="departure-route-card" aria-labelledby="departure-route-title" aria-live="polite" data-route-card>
-          <header class="departure-route-card-header">
-            <span data-route-number>02</span>
-            <span>FIELD TICKET / VIEW ONLY</span>
-            <span>GALOK / 2026</span>
-          </header>
-          <h3 id="departure-route-title"><span data-card-origin>WASHINGTON</span><i aria-hidden="true">→</i><span data-card-destination>SHANGHAI</span></h3>
-          <p class="departure-route-mode" data-route-mode>1 TRANSFER · BEIJING / PEK</p>
-          <div class="departure-route-facts" data-route-facts></div>
-
-          <section class="departure-entry-note" aria-labelledby="departure-entry-title">
-            <p id="departure-entry-title">ENTRY</p>
-            <strong>VISA REQUIRED</strong>
-            <span>US ordinary passport holders generally need a visa for an ordinary visit to China.</span>
-          </section>
-
-          <details class="departure-policy-note">
-            <summary>ABOUT VISA-FREE TRANSIT</summary>
-            <div>
-              <p>China’s 240-hour visa-free transit policy may apply to eligible travelers continuing to a third country or region.</p>
-              <p data-transit-return>A return journey between the United States and China alone does not automatically qualify as third-country transit.</p>
-              <p>Always confirm the latest conditions with China’s National Immigration Administration.</p>
-              <a href="https://en.nia.gov.cn/n147418/n147463/c183412/content.html" target="_blank" rel="noopener noreferrer" data-entry-policy-link>OFFICIAL ENTRY POLICY ↗</a>
-            </div>
-          </details>
-
-          <div class="departure-route-checked">
-            <span>ROUTE CHECKED</span>
-            <b>18 JUL 2026</b>
-          </div>
-          <p class="departure-schedule-note">Schedules change by date and season.<br>Check the airline before booking.</p>
-          <div class="departure-route-actions">
-            <button type="button" data-replay-route>REPLAY ROUTE</button>
-            <button type="button" aria-controls="xian-arrival-experience" aria-expanded="false" data-arrive-route>ARRIVE IN SHANGHAI</button>
-          </div>
-        </article>
+      <div class="city-selector-mobile" aria-label="Choose a city">
+        <button type="button" data-city-card="beijing"><img src="/assets/be-a-viewer/video/beijing-poster.webp" alt="" loading="lazy"><span>01 / COMING SOON</span><strong>BEIJING</strong><p>Power, ceremony and everyday movement.</p></button>
+        <button type="button" data-city-card="shanghai"><img src="/assets/be-a-viewer/video/shanghai-poster.webp" alt="" loading="lazy"><span>02 / COMING SOON</span><strong>SHANGHAI</strong><p>Ambition reflected in glass and water.</p></button>
+        <a href="/be-a-viewer/xian/" data-city-card="xian"><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" width="1536" height="864" loading="lazy"><span>03 / AVAILABLE</span><strong>XI’AN</strong><p>Empire, memory and life inside the wall.</p><b>ENTER THE STORY ↗</b></a>
+        <button type="button" data-city-card="dali"><img src="/assets/be-a-viewer/video/dali-poster.png" alt="" loading="lazy"><span>04 / COMING SOON</span><strong>DALI</strong><p>Mountains, water and a slower rhythm.</p></button>
+        <button type="button" data-city-card="shenzhen"><img src="/assets/be-a-viewer/video/shenzhen-poster.webp" alt="" loading="lazy"><span>05 / COMING SOON</span><strong>SHENZHEN</strong><p>A city built at the speed of possibility.</p></button>
+        <button type="button" data-city-card="xiamen"><img src="/assets/be-a-viewer/video/xiamen-poster.webp" alt="" loading="lazy"><span>06 / COMING SOON</span><strong>XIAMEN</strong><p>A coastal city read through light and edges.</p></button>
+        <button type="button" data-city-card="tibet"><img src="/assets/be-a-viewer/video/tibet-plateau-poster.png" alt="" loading="lazy"><span>07 / COMING SOON</span><strong>TIBET</strong><p>Altitude, belief and a landscape beyond scale.</p></button>
       </div>
-    </section>
 
-    <section class="arrival-experience xian-page-body" id="xian-arrival-experience" data-arrival-experience data-arrival-city="xian" aria-label="Xi’an city story" hidden>
-      <div class="arrival-experience-loading" role="status" aria-live="polite" data-arrival-loading>
-        <span>ARRIVAL / XI’AN</span>
-        <strong data-arrival-loading-title>PREPARING THE CITY STORY</strong>
-        <p data-arrival-loading-copy>The Terracotta Army is coming into view.</p>
+      <div class="city-coming-soon" role="status" aria-live="polite" data-city-feedback hidden>
+        <span data-city-feedback-index>01 / CITY STORY</span>
+        <strong data-city-feedback-name>BEIJING</strong>
+        <p data-city-feedback-copy>This city story is coming soon.</p>
+        <button type="button" data-city-feedback-close>CLOSE</button>
       </div>
-      <div class="xian-page-main" data-arrival-mount hidden></div>
     </section>
   </main>
 
@@ -285,7 +178,6 @@
     <a href="/essays/">Essays</a><a href="/series/frame/">Series</a><a href="/visual-notes/">Notes</a><a href="/be-a-viewer/" aria-current="page">Viewer</a>
   </nav>
 
-  <script src="/content.js?v=field-system-5"></script>
-  <script src="/script.js?v=be-a-viewer-arrival-4"></script>
+  <script src="/be-a-viewer/viewer.js?v=2"></script>
 </body>
 </html>

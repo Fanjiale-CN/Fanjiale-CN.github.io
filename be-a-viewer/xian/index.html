@@ -6,16 +6,13 @@
   <meta name="theme-color" content="#050505">
   <meta name="description" content="Explore Xi’an through its imperial history, the Terracotta Army, the ancient city wall and the modern city beyond them.">
   <meta property="og:title" content="Xi’an — Terracotta Army and China’s Ancient Capital | GALOK">
-  <meta property="og:description" content="Explore Xi’an through its imperial history, the Terracotta Army, the ancient city wall and the modern city beyond them.">
+  <meta property="og:description" content="A visual story of Xi’an, from the first empire to life inside the wall.">
+  <meta property="og:image" content="/assets/be-a-viewer/xian/city-wall-sunset.jpeg">
   <title>Xi’an — Terracotta Army and China’s Ancient Capital | GALOK</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
-  <link rel="preload" href="/assets/models/xian/terracotta-warrior.glb" as="fetch" type="model/gltf-binary" crossorigin="anonymous">
-  <link rel="modulepreload" href="/assets/vendor/three/three.module.min.js">
-  <link rel="modulepreload" href="/assets/vendor/three/three.core.min.js">
-  <link rel="modulepreload" href="/assets/vendor/three/loaders/GLTFLoader.js">
-  <link rel="modulepreload" href="/assets/vendor/three/controls/OrbitControls.js">
+  <link rel="preload" href="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" as="image">
   <link rel="stylesheet" href="/styles.css?v=field-system-10">
-  <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=9">
+  <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=11">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -25,7 +22,7 @@
   </script>
 </head>
 <body class="plain-body xian-page-body">
-  <nav class="site-nav xian-nav" aria-label="Primary navigation">
+  <nav class="site-nav xian-site-nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="/">
         <img class="brand-mark" src="/assets/galok-mark.svg" alt="" aria-hidden="true">
@@ -42,262 +39,275 @@
   </nav>
 
   <main class="xian-page-main">
-    <section class="xian-hero" aria-labelledby="xian-title" data-xian-hero>
-      <div class="xian-model-stage" tabindex="0" aria-label="Interactive three-dimensional model of a Terracotta Army warrior. Drag to rotate and pinch or scroll to zoom." data-model-stage>
-        <div class="xian-model-status" role="status" aria-live="polite" data-model-status>
-          <span>LOADING SCULPTURE</span>
-          <b data-model-progress>0%</b>
-          <i aria-hidden="true"><span data-model-progress-bar></span></i>
-        </div>
-        <p class="xian-model-error" role="alert" data-model-error hidden>The 3D model could not be loaded.</p>
-        <noscript><p class="xian-model-error xian-model-error--noscript">The 3D model could not be loaded.</p></noscript>
+    <section class="xian-hero" id="xian" aria-labelledby="xian-title">
+      <img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" width="1536" height="864" alt="Xi’an city wall and moat beneath a dramatic evening sky">
+      <div class="xian-hero-shade" aria-hidden="true"></div>
+      <div class="xian-hero-topline">
+        <span>BE A VIEWER / CITY 03</span>
+        <span>34.34° N / 108.94° E</span>
       </div>
-
-      <div class="xian-light-beam" aria-hidden="true"></div>
-
-      <div class="xian-hero-copy" data-hero-copy>
-        <p class="xian-hero-kicker">34.3416° N · 108.9398° E</p>
+      <div class="xian-hero-copy">
+        <p>SHAANXI / CHINA</p>
         <h1 id="xian-title">XI’AN</h1>
-        <p class="xian-hero-deck">The city where China first became one.</p>
-        <div class="xian-object-meta">
-          <strong>Terracotta Army</strong>
-          <span>Qin Dynasty · 221–206 BCE</span>
-          <span>Shaanxi, China</span>
-        </div>
+        <strong>The city where China first became one.</strong>
+        <span>Empire, memory and life inside the wall.</span>
       </div>
-
-      <p class="xian-model-hint" aria-hidden="true">DRAG TO ROTATE · PINCH OR SCROLL TO ZOOM</p>
-      <a class="xian-scroll-cue" href="#introduction">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a>
+      <a href="#arrival">BEGIN THE STORY <span aria-hidden="true">↓</span></a>
     </section>
 
     <nav class="xian-story-nav" aria-label="Xi’an story chapters" data-xian-story-nav>
-      <span class="xian-story-progress" aria-hidden="true"><i data-xian-story-progress></i></span>
-      <a href="#introduction" data-xian-section-link><span>01</span><b>Introduction</b></a>
-      <a href="#first-capital" data-xian-section-link><span>02</span><b>First Capital</b></a>
-      <a href="#terracotta-army" data-xian-section-link><span>03</span><b>Terracotta Army</b></a>
-      <a href="#city-wall" data-xian-section-link><span>04</span><b>City Wall</b></a>
-      <a href="#xian-today" data-xian-section-link><span>05</span><b>Xi’an Today</b></a>
+      <i aria-hidden="true"><span data-xian-story-progress></span></i>
+      <a href="#arrival" data-xian-section-link><b>01</b><span>Arrival</span></a>
+      <a href="#first-empire" data-xian-section-link><b>02</b><span>First Empire</span></a>
+      <a href="#terracotta-army" data-xian-section-link><b>03</b><span>Terracotta Army</span></a>
+      <a href="#warrior" data-xian-section-link><b>04</b><span>3D Warrior</span></a>
+      <a href="#treasures" data-xian-section-link><b>05</b><span>Treasures</span></a>
+      <a href="#changan" data-xian-section-link><b>06</b><span>Chang’an</span></a>
+      <a href="#inside-wall" data-xian-section-link><b>07</b><span>Inside the Wall</span></a>
+      <a href="#after-dark" data-xian-section-link><b>08</b><span>After Dark</span></a>
     </nav>
 
-    <div class="xian-story">
-      <section class="xian-section xian-introduction" id="introduction" aria-labelledby="xian-introduction-title" data-xian-reveal>
-        <header class="xian-section-heading">
-          <p>01 / INTRODUCTION</p>
-          <h2 id="xian-introduction-title">Introduction</h2>
-        </header>
-        <div class="xian-section-copy xian-section-copy--lead">
-          <p>Xi’an is one of the oldest continuously inhabited cities in China. Known in earlier periods as Chang’an, it served as the capital of several Chinese dynasties and stood at the eastern end of the ancient Silk Roads.</p>
-          <p>Its history is not contained in one monument. Palace sites, temple precincts, city gates and working streets overlap across the modern city, making Xi’an feel less like a preserved stage set than a place built in visible layers.</p>
-        </div>
+    <section class="xian-arrival" id="arrival" aria-labelledby="arrival-title" data-xian-section>
+      <figure>
+        <picture>
+          <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xian/original/xian-arrival-threshold-mobile.webp">
+          <img src="/assets/be-a-viewer/xian/original/xian-arrival-threshold.webp" width="1536" height="830" alt="Xi’an railway station sign and clock rising behind the historic city wall">
+        </picture>
+      </figure>
+      <div class="xian-arrival-copy">
+        <p>YOU HAVE ARRIVED</p>
+        <h2 id="arrival-title">XI’AN</h2>
+        <span>34.34° N / 108.94° E</span>
+        <strong>A modern arrival into an ancient city.</strong>
+      </div>
+    </section>
 
-        <figure class="xian-figure xian-figure--intro-wide">
-          <img src="/assets/be-a-viewer/xian/imperial-gate.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A monumental gate and open plaza beneath a blue sky in Xi’an">
-          <figcaption><span>IMPERIAL SCALE</span><b>GATE AND AXIS / XI’AN</b></figcaption>
+    <section class="xian-first-empire xian-editorial-section" id="first-empire" aria-labelledby="empire-title" data-xian-section>
+      <header class="xian-section-header">
+        <p>02 / IMPERIAL ORIGIN</p>
+        <h2 id="empire-title">FIRST<br>EMPIRE</h2>
+        <span>221 BCE</span>
+      </header>
+      <div class="xian-first-empire-copy">
+        <p>Near modern Xi’an, Qin Shi Huang created the first unified imperial state in Chinese history. Administrative systems established during the Qin shaped government for centuries.</p>
+        <p>Later dynasties returned to the Wei River plain. Under the Han and Tang, Chang’an became an imperial metropolis and the eastern threshold of the Silk Roads.</p>
+      </div>
+      <figure class="xian-first-empire-main xian-photo">
+        <img src="/assets/be-a-viewer/xian/imperial-gate.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A monumental gate and open plaza in Xi’an">
+        <figcaption>AXIS / GATE / IMPERIAL SCALE</figcaption>
+      </figure>
+      <figure class="xian-first-empire-detail xian-photo">
+        <img src="/assets/be-a-viewer/xian/red-eaves.jpeg" width="1024" height="1536" loading="lazy" decoding="async" alt="Red-painted traditional eaves framing a pale sky">
+        <figcaption>LOOKING UP / PAINTED EAVES</figcaption>
+      </figure>
+    </section>
+
+    <section class="xian-army-scroll" id="terracotta-army" aria-labelledby="army-title" data-army-scroll data-xian-section>
+      <div class="xian-army-sticky">
+        <figure>
+          <img src="/assets/be-a-viewer/xian/terracotta-formation.jpeg" width="1536" height="873" loading="lazy" decoding="async" alt="Rows of Terracotta Army soldiers standing in an excavated pit">
         </figure>
-
-        <div class="xian-intro-detail">
-          <figure class="xian-figure xian-figure--roof">
-            <img src="/assets/be-a-viewer/xian/roof-guardians.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="Traditional roof guardians set against a grey brick wall in Xi’an">
-            <figcaption><span>ARCHITECTURAL DETAIL</span><b>ROOF GUARDIANS</b></figcaption>
-          </figure>
-          <div class="xian-fact-strip" aria-label="Key dates and distances">
-            <div><strong>221</strong><span>BCE / QIN UNIFICATION</span></div>
-            <div><strong>1974</strong><span>TERRACOTTA ARMY DISCOVERED</span></div>
-            <div><strong>13.74</strong><span>KM / CITY WALL CIRCUIT</span></div>
+        <div class="xian-army-copy">
+          <header>
+            <p>03 / ARCHAEOLOGY</p>
+            <h2 id="army-title">TERRACOTTA<br>ARMY</h2>
+          </header>
+          <div class="xian-army-steps" aria-live="off">
+            <p class="is-active" data-army-step>Discovered in 1974 near the mausoleum of Qin Shi Huang, the Terracotta Army contains thousands of soldiers, horses and chariots created for the First Emperor’s afterlife.</p>
+            <p data-army-step>Their faces, hairstyles, armour and posture vary. Repetition creates scale, while small differences preserve the suggestion of individual lives.</p>
+            <p data-army-step>The pits are also an archive of military organisation, craft and imperial order. An empire translated into clay, arranged at the scale of an army.</p>
           </div>
+          <div class="xian-army-meter" aria-hidden="true"><span data-army-meter></span></div>
         </div>
+      </div>
+    </section>
 
-        <div class="xian-intro-arrival">
-          <div class="xian-intro-arrival-copy">
-            <span>ARRIVAL / THRESHOLDS</span>
-            <p>Xi’an announces itself through edges: a station roof behind the wall, the underside of painted eaves, and narrow transitions from bright streets into shaded interiors. The monumental and the intimate are never far apart.</p>
+    <section class="xian-model-scroll" id="warrior" aria-labelledby="warrior-title" data-model-scroll data-xian-section>
+      <div class="xian-model-sticky">
+        <div class="xian-model-copy">
+          <p>04 / OBJECT STUDY</p>
+          <h2 id="warrior-title">ONE<br>WARRIOR</h2>
+          <span>Scroll to turn the figure through a complete circle.</span>
+        </div>
+        <div class="xian-model-stage" data-model-stage aria-label="Three-dimensional model of a Terracotta Army warrior">
+          <img class="xian-model-poster" src="/assets/be-a-viewer/xian/terracotta-portrait.jpeg" width="1536" height="1152" alt="Close portrait of a Terracotta Army warrior" data-model-poster>
+          <div class="xian-model-status" role="status" aria-live="polite" data-model-status>
+            <span>PREPARING 3D OBJECT</span>
+            <b data-model-progress>0%</b>
+            <i><span data-model-progress-bar></span></i>
           </div>
-          <figure class="xian-figure xian-intro-station">
-            <img src="/assets/be-a-viewer/xian/xian-station.jpeg" width="1536" height="830" loading="lazy" decoding="async" alt="The Xi’an railway station sign rising above the city wall and station clock">
-            <figcaption><span>ARRIVAL</span><b>XI’AN STATION / CITY WALL</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-intro-eaves">
-            <img src="/assets/be-a-viewer/xian/red-eaves.jpeg" width="1024" height="1536" loading="lazy" decoding="async" alt="Red-painted traditional eaves framing a pale sky in Xi’an">
-            <figcaption><span>LOOKING UP</span><b>PAINTED EAVES</b></figcaption>
-          </figure>
+          <p class="xian-model-error" role="alert" data-model-error hidden>The 3D model could not be loaded.</p>
+          <button class="xian-model-enable" type="button" data-model-enable>ROTATE THE WARRIOR</button>
+          <button class="xian-model-done" type="button" data-model-done hidden>DONE</button>
         </div>
-      </section>
+        <div class="xian-model-index" aria-hidden="true">
+          <span>FRONT</span><span>PROFILE</span><span>BACK</span><span>FRONT</span>
+        </div>
+      </div>
+    </section>
 
-      <section class="xian-section xian-first-capital" id="first-capital" aria-labelledby="xian-capital-title" data-xian-reveal>
-        <div class="xian-section-monument" aria-hidden="true">
-          <span>221</span>
-          <small>BCE</small>
-        </div>
-        <div class="xian-section-copy">
-          <p class="xian-section-label">02 / IMPERIAL ORIGIN</p>
-          <h2 id="xian-capital-title">The First Capital</h2>
-          <p>Near modern Xi’an, Qin Shi Huang established the first unified imperial state in Chinese history in 221 BCE. The political institutions created during the Qin period shaped the structure of Chinese government for centuries.</p>
-          <p>Later dynasties returned to the Wei River plain. Under the Han and Tang, Chang’an became an imperial metropolis connected through the Silk Roads to Central Asia and beyond. Goods travelled with beliefs, languages, music and technologies, turning the capital into a meeting place for distant worlds.</p>
-          <p>Tang Chang’an was organised as a gridded capital of walled wards and broad avenues. Much of that fabric lies beneath the present city, while surviving pagodas and temple sites keep parts of its intellectual and religious geography visible.</p>
-          <dl class="xian-era-list">
-            <div><dt>QIN</dt><dd>221–206 BCE</dd></div>
-            <div><dt>HAN</dt><dd>206 BCE–220 CE</dd></div>
-            <div><dt>TANG</dt><dd>618–907 CE</dd></div>
-          </dl>
-        </div>
-        <div class="xian-capital-gallery">
-          <figure class="xian-figure xian-capital-pagoda">
-            <img src="/assets/be-a-viewer/xian/wild-goose-pagoda-day.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="The brick tiers of the Big Wild Goose Pagoda rising above temple roofs and trees">
-            <figcaption><span>TANG LEGACY</span><b>BIG WILD GOOSE PAGODA</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-capital-courtyard">
-            <img src="/assets/be-a-viewer/xian/courtyard-lanterns.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A traditional Xi’an courtyard lined with dark timber screens, calligraphy and red lanterns">
-            <figcaption><span>LIVING HERITAGE</span><b>COURTYARD AND LANTERNS</b></figcaption>
-          </figure>
-        </div>
-      </section>
+    <section class="xian-treasures xian-editorial-section" id="treasures" aria-labelledby="treasures-title" data-xian-section>
+      <header class="xian-section-header xian-treasures-header">
+        <p>05 / SHAANXI HISTORY MUSEUM</p>
+        <h2 id="treasures-title">TREASURES<br>OF SHAANXI</h2>
+        <span>Three thousand years held inside one museum.</span>
+      </header>
 
-      <section class="xian-section xian-army" id="terracotta-army" aria-labelledby="xian-army-title" data-xian-reveal>
-        <header class="xian-section-heading">
-          <p>03 / ARCHAEOLOGY</p>
-          <h2 id="xian-army-title">Terracotta Army</h2>
-        </header>
-        <figure class="xian-figure xian-army-portrait">
-          <img src="/assets/be-a-viewer/xian/terracotta-portrait.jpeg" width="1536" height="1152" loading="lazy" decoding="async" alt="Close portrait of a Terracotta Army warrior with a tied topknot">
-          <figcaption><span>QIN DYNASTY</span><b>A FACE WITHIN THE FORMATION</b></figcaption>
+      <article class="xian-treasure-chapter xian-treasure-court">
+        <div>
+          <p>01 / COURT AND CEREMONY</p>
+          <h3>Procession as a portrait of order.</h3>
+          <span>Painted figures preserve rank, dress and the choreography of court life in miniature.</span>
+        </div>
+        <figure class="xian-photo">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xian/original/shaanxi-painted-procession-mobile.webp">
+            <img src="/assets/be-a-viewer/xian/original/shaanxi-painted-procession.webp" width="1240" height="2200" loading="lazy" decoding="async" alt="A dense procession of painted court figures displayed at the Shaanxi History Museum">
+          </picture>
         </figure>
-        <div class="xian-section-copy">
-          <p>Discovered in 1974 near the mausoleum of Qin Shi Huang, the Terracotta Army consists of thousands of life-sized soldiers, horses and chariots. Their faces, hairstyles, armour and postures vary, giving the army an extraordinary sense of individuality.</p>
-          <p>The pits are also an archive of Qin military organisation and technical craft. Uniforms, weapons, chariot fittings and the arrangement of the figures preserve evidence of how the first empire represented order—at the scale of an army.</p>
-          <div class="xian-discovery-note"><strong>1974</strong><span>FARMERS DIGGING A WELL NEAR LINTONG ENCOUNTERED FRAGMENTS OF THE BURIED ARMY.</span></div>
-        </div>
-        <div class="xian-army-gallery">
-          <figure class="xian-figure xian-army-formation">
-            <img src="/assets/be-a-viewer/xian/terracotta-formation.jpeg" width="1536" height="873" loading="lazy" decoding="async" alt="Rows of life-sized Terracotta Army soldiers standing within the excavated pits near Xi’an">
-            <figcaption><span>PIT FORMATION</span><b>AN ARMY AT SCALE</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-army-detail">
-            <img src="/assets/be-a-viewer/xian/terracotta-archer-detail.jpeg" width="1536" height="1025" loading="lazy" decoding="async" alt="Sculpted face and armour details on a Terracotta Army figure">
-            <figcaption><span>SCULPTED DETAIL</span><b>RANK AND PRESENCE</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-army-conservation">
-            <img src="/assets/be-a-viewer/xian/terracotta-conservation.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="Excavation and conservation work in a Terracotta Army pit, with fragments secured for study">
-            <figcaption><span>ONGOING WORK</span><b>EXCAVATION AND CONSERVATION</b></figcaption>
-          </figure>
-          <div class="xian-conservation-note">
-            <span>THE ARMY IS STILL BEING READ.</span>
-            <p>Excavation is only the beginning. Fragments are mapped, stabilised and reassembled, while pigments and surfaces are protected from sudden environmental change. What visitors see is both an archaeological site and an active conservation project.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="xian-section xian-wall" id="city-wall" aria-labelledby="xian-wall-title" data-xian-reveal>
-        <div class="xian-wall-heading">
-          <p class="xian-section-label">04 / URBAN FORM</p>
-          <h2 id="xian-wall-title">City Wall</h2>
-          <div class="xian-section-copy">
-            <p>Xi’an’s surviving city wall was expanded during the early Ming dynasty on older imperial foundations. Its complete 13.74-kilometre circuit still encloses the historic centre and remains one of China’s best-preserved major city walls.</p>
-            <p>From the rampart, defensive geometry meets apartment towers, traffic and trees. The wall is both boundary and viewpoint: a continuous line from which the old and new city can be read together.</p>
-            <p>Around the old centre, festival installations and lantern displays turn gates, avenues and the wall into a second nocturnal city—temporary light set against permanent masonry.</p>
-          </div>
-        </div>
-
-        <figure class="xian-figure xian-wall-panorama">
-          <img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" width="1536" height="864" loading="lazy" decoding="async" alt="Xi’an city wall and moat beneath a dramatic sunset">
-          <figcaption><span>EVENING</span><b>CITY WALL AND MOAT</b></figcaption>
+        <figure class="xian-photo">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xian/original/qin-chariot-horses-mobile.webp">
+            <img src="/assets/be-a-viewer/xian/original/qin-chariot-horses.webp" width="2200" height="1650" loading="lazy" decoding="async" alt="A bronze chariot drawn by four horses under focused museum light">
+          </picture>
         </figure>
+      </article>
 
-        <div class="xian-wall-gallery">
-          <figure class="xian-figure xian-wall-skyline">
-            <img src="/assets/be-a-viewer/xian/city-wall-skyline.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="Traditional towers on Xi’an city wall with a modern skyline behind them">
-            <figcaption><span>THE RAMPART</span><b>OLD AND NEW SKYLINES</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-wall-vertical">
-            <img src="/assets/be-a-viewer/xian/city-wall-rampart.jpeg" width="1017" height="1536" loading="lazy" decoding="async" alt="A long view along Xi’an city wall toward a traditional watchtower">
-            <figcaption><span>13.74 KM</span><b>A COMPLETE CIRCUIT</b></figcaption>
-          </figure>
-        </div>
-
-        <div class="xian-wall-extra">
-          <figure class="xian-figure xian-wall-lanterns">
-            <img src="/assets/be-a-viewer/xian/city-wall-lanterns.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="Xi’an city wall, watchtowers and red lanterns framed through a masonry opening">
-            <figcaption><span>FORTIFIED LINE</span><b>LANTERNS ON THE WALL</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-wall-gate-dusk">
-            <img src="/assets/be-a-viewer/xian/imperial-gate-dusk.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="An illuminated monumental gate in Xi’an beneath the last light of sunset">
-            <figcaption><span>MONUMENTAL GATE</span><b>LAST LIGHT</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-wall-festival">
-            <img src="/assets/be-a-viewer/xian/dragon-lantern-night.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A large illuminated dragon lantern surrounded by moving traffic in Xi’an at night">
-            <figcaption><span>FESTIVAL NIGHT</span><b>DRAGON LANTERN / THE CITY IN LIGHT</b></figcaption>
-          </figure>
-        </div>
+      <section class="xian-light-transition" aria-label="Transition through light" data-light-transition>
+        <picture>
+          <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xian/original/museum-curtain-light-mobile.webp">
+          <img src="/assets/be-a-viewer/xian/original/museum-curtain-light.webp" width="1650" height="2200" loading="lazy" decoding="async" alt="A narrow line of sunlight passing through a museum curtain">
+        </picture>
+        <p>BEFORE THE OBJECT,<br>THERE IS LIGHT.</p>
       </section>
 
-      <section class="xian-section xian-today" id="xian-today" aria-labelledby="xian-today-title" data-xian-reveal>
-        <header class="xian-section-heading">
-          <p>05 / THE CITY NOW</p>
-          <h2 id="xian-today-title">Xi’an Today</h2>
-        </header>
-        <div class="xian-section-copy xian-section-copy--lead">
-          <p>Modern Xi’an is a major university, research, aerospace and technology centre. High-speed rail and an expanding metro system connect the historic capital with the rest of China, while its neighbourhoods retain strong food and street-life traditions.</p>
-          <p>At the centre, the Bell and Drum Towers still organise movement through the city. Farther south, the Big Wild Goose Pagoda recalls the Buddhist texts and ideas that travelled into Chang’an. These monuments are not isolated from daily life; they remain anchors within it.</p>
-          <p>Beyond the old walls, parks, waterways and new neighbourhoods have widened the city’s public landscape. Contemporary Xi’an is read as much through evening walks and green corridors as through its imperial monuments.</p>
+      <article class="xian-treasure-chapter xian-treasure-faith">
+        <div>
+          <p>02 / FAITH</p>
+          <h3>Ideas travelled with objects.</h3>
+          <span>Buddhist sculpture records exchange across routes that connected Chang’an with Central and South Asia.</span>
         </div>
+        <figure class="xian-photo xian-treasure-faith-main">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xian/original/shaanxi-buddhist-shrine-mobile.webp">
+            <img src="/assets/be-a-viewer/xian/original/shaanxi-buddhist-shrine.webp" width="2200" height="1237" loading="lazy" decoding="async" alt="A Buddhist shrine ensemble with a central seated figure and attendant sculptures">
+          </picture>
+        </figure>
+        <figure class="xian-photo">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xian/original/shaanxi-standing-buddha-mobile.webp">
+            <img src="/assets/be-a-viewer/xian/original/shaanxi-standing-buddha.webp" width="1237" height="2200" loading="lazy" decoding="async" alt="A standing Buddha sculpture displayed under focused museum light">
+          </picture>
+        </figure>
+      </article>
 
-        <div class="xian-today-gallery">
-          <figure class="xian-figure xian-today-city">
-            <img src="/assets/be-a-viewer/xian/bell-tower-city.jpeg" width="1536" height="1004" loading="lazy" decoding="async" alt="Xi’an Bell Tower framed by a busy city avenue and modern buildings">
-            <figcaption><span>CENTRAL XI’AN</span><b>BELL TOWER / CITY TRAFFIC</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-today-street">
-            <img src="/assets/be-a-viewer/xian/drum-tower-street.jpeg" width="864" height="1536" loading="lazy" decoding="async" alt="An active pedestrian street leading toward a traditional tower in Xi’an">
-            <figcaption><span>AFTER DARK</span><b>DRUM TOWER DISTRICT</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-today-pagoda">
-            <img src="/assets/be-a-viewer/xian/wild-goose-pagoda-night.jpeg" width="1024" height="1536" loading="lazy" decoding="async" alt="A stone Buddha with the illuminated Big Wild Goose Pagoda behind it at night">
-            <figcaption><span>TANG LEGACY</span><b>BIG WILD GOOSE PAGODA</b></figcaption>
-          </figure>
+      <article class="xian-treasure-chapter xian-treasure-detail">
+        <div>
+          <p>03 / EMPIRE IN DETAIL</p>
+          <h3>Pattern, armour, wheel and hand.</h3>
+          <span>Close observation turns imperial scale back into evidence of individual craft.</span>
         </div>
+        <figure class="xian-photo">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xian/original/qin-cloud-pattern-tile-mobile.webp">
+            <img src="/assets/be-a-viewer/xian/original/qin-cloud-pattern-tile.webp" width="1237" height="2200" loading="lazy" decoding="async" alt="A circular Qin dynasty tile end decorated with a cloud pattern">
+          </picture>
+        </figure>
+        <figure class="xian-photo">
+          <img src="/assets/be-a-viewer/xian/terracotta-archer-detail.jpeg" width="1536" height="1025" loading="lazy" decoding="async" alt="Close view of a Terracotta Army archer’s face and armour">
+        </figure>
+        <figure class="xian-photo">
+          <img src="/assets/be-a-viewer/xian/terracotta-conservation.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="Fragments being mapped and conserved in a Terracotta Army excavation pit">
+        </figure>
+      </article>
+    </section>
 
-        <div class="xian-today-night-pair">
-          <figure class="xian-figure xian-today-blue-hour">
-            <img src="/assets/be-a-viewer/xian/bell-tower-blue-hour.jpeg" width="1536" height="930" loading="lazy" decoding="async" alt="Xi’an Bell Tower illuminated at blue hour as traffic passes in long streaks of light">
-            <figcaption><span>BLUE HOUR</span><b>BELL TOWER</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-today-market">
-            <img src="/assets/be-a-viewer/xian/night-market.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A crowded night market street in central Xi’an filled with illuminated food signs">
-            <figcaption><span>NIGHT MARKET</span><b>CENTRAL XI’AN</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-today-bell-night">
-            <img src="/assets/be-a-viewer/xian/bell-tower-night.jpeg" width="1536" height="1323" loading="lazy" decoding="async" alt="The illuminated Bell Tower in Xi’an at night, framed by red lanterns">
-            <figcaption><span>NIGHT LANDMARK</span><b>BELL TOWER / AFTER DARK</b></figcaption>
-          </figure>
-        </div>
+    <section class="xian-changan xian-editorial-section" id="changan" aria-labelledby="changan-title" data-xian-section>
+      <header class="xian-section-header">
+        <p>06 / HAN · TANG · SILK ROADS</p>
+        <h2 id="changan-title">CHANG’AN</h2>
+        <span>A capital built to receive distant worlds.</span>
+      </header>
+      <div class="xian-changan-copy">
+        <p>Tang Chang’an was organised as a gridded capital of walled wards and broad avenues. Merchants, envoys, translators, monks and musicians made the city an international centre.</p>
+        <p>The Big Wild Goose Pagoda recalls the translation of Buddhist texts brought from India by Xuanzang. Religious art gives material form to that movement of ideas.</p>
+      </div>
+      <figure class="xian-photo xian-changan-main">
+        <img src="/assets/be-a-viewer/xian/wild-goose-pagoda-day.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="The Big Wild Goose Pagoda rising above temple roofs and trees">
+      </figure>
+      <figure class="xian-photo xian-changan-night">
+        <img src="/assets/be-a-viewer/xian/wild-goose-pagoda-night.jpeg" width="1024" height="1536" loading="lazy" decoding="async" alt="A stone Buddha with the illuminated Big Wild Goose Pagoda behind it at night">
+      </figure>
+      <figure class="xian-photo xian-changan-courtyard">
+        <img src="/assets/be-a-viewer/xian/courtyard-lanterns.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A timber courtyard lined with calligraphy and red lanterns">
+      </figure>
+    </section>
 
-        <div class="xian-today-green">
-          <figure class="xian-figure xian-today-forest">
-            <img src="/assets/be-a-viewer/xian/urban-forest.jpeg" width="1536" height="1152" loading="lazy" decoding="async" alt="A raised pedestrian path winding through a dense urban woodland in Xi’an">
-            <figcaption><span>GREEN CORRIDOR</span><b>THE CITY BENEATH THE TREES</b></figcaption>
-          </figure>
-          <figure class="xian-figure xian-today-water">
-            <img src="/assets/be-a-viewer/xian/lakeside-pavilion.jpeg" width="1074" height="1536" loading="lazy" decoding="async" alt="A contemporary Tang-style pavilion beside a lake and residential skyline in Xi’an">
-            <figcaption><span>SOUTH XI’AN</span><b>PARK, WATER AND NEW SKYLINE</b></figcaption>
-          </figure>
-        </div>
+    <section class="xian-wall xian-editorial-section" id="inside-wall" aria-labelledby="wall-title" data-xian-section>
+      <header class="xian-section-header xian-wall-header">
+        <p>07 / URBAN FORM</p>
+        <h2 id="wall-title">INSIDE<br>THE WALL</h2>
+        <span>13.74 km / a complete circuit</span>
+      </header>
+      <div class="xian-wall-copy">
+        <p>Expanded during the early Ming dynasty on older foundations, Xi’an’s wall still encloses the historic centre. From the rampart, defensive geometry meets apartment towers, traffic and trees.</p>
+      </div>
+      <figure class="xian-photo xian-wall-panorama">
+        <img src="/assets/be-a-viewer/xian/city-wall-skyline.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="Traditional towers on Xi’an city wall with modern apartment buildings behind">
+      </figure>
+      <figure class="xian-photo xian-wall-line">
+        <img src="/assets/be-a-viewer/xian/city-wall-rampart.jpeg" width="1017" height="1536" loading="lazy" decoding="async" alt="A long view along the Xi’an city wall toward a watchtower">
+      </figure>
+      <figure class="xian-photo xian-wall-lanterns">
+        <img src="/assets/be-a-viewer/xian/city-wall-lanterns.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="The Xi’an city wall and watchtowers framed through a masonry opening">
+      </figure>
+    </section>
 
-        <div class="xian-closing-note">
-          <p>XI’AN IS NOT ONE PERIOD PRESERVED IN PLACE.</p>
-          <strong>It is a city where each era remains close enough to interrupt the next.</strong>
-          <span>THE WALL · THE TOWERS · THE STREET · THE CITY BEYOND</span>
+    <section class="xian-night xian-editorial-section" id="after-dark" aria-labelledby="night-title" data-xian-section>
+      <header class="xian-section-header">
+        <p>08 / THE CITY NOW</p>
+        <h2 id="night-title">XI’AN<br>AFTER DARK</h2>
+        <span>The old centre becomes a city of light, food and movement.</span>
+      </header>
+      <figure class="xian-photo xian-night-market">
+        <img src="/assets/be-a-viewer/xian/night-market.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A crowded Xi’an night market filled with illuminated food signs">
+      </figure>
+      <div class="xian-night-copy">
+        <p>The Bell and Drum Towers still organise movement through the city. After dark, markets, lanterns and traffic create a temporary architecture around the permanent monuments.</p>
+      </div>
+      <figure class="xian-photo xian-night-bell">
+        <img src="/assets/be-a-viewer/xian/bell-tower-night.jpeg" width="1536" height="1323" loading="lazy" decoding="async" alt="The illuminated Bell Tower in Xi’an at night">
+      </figure>
+      <figure class="xian-photo xian-night-dragon">
+        <img src="/assets/be-a-viewer/xian/dragon-lantern-night.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A large illuminated dragon lantern surrounded by moving traffic">
+      </figure>
+      <div class="xian-city-beyond">
+        <figure class="xian-photo">
+          <img src="/assets/be-a-viewer/xian/urban-forest.jpeg" width="1536" height="1152" loading="lazy" decoding="async" alt="A raised pedestrian path winding through an urban woodland in Xi’an">
+        </figure>
+        <figure class="xian-photo">
+          <img src="/assets/be-a-viewer/xian/lakeside-pavilion.jpeg" width="1074" height="1536" loading="lazy" decoding="async" alt="A Tang-style pavilion beside a lake and modern residential skyline">
+        </figure>
+        <div>
+          <p>THE CITY BEYOND</p>
+          <strong>Xi’an is not one period preserved in place.</strong>
+          <span>It is a city where each era remains close enough to interrupt the next.</span>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <section class="xian-next-city" aria-labelledby="next-city-title">
+      <p>VIEW ANOTHER CITY</p>
+      <h2 id="next-city-title">WHERE NEXT?</h2>
+      <a href="/be-a-viewer/#choose-city">RETURN TO THE CITY INDEX <span aria-hidden="true">↗</span></a>
+    </section>
 
     <dialog class="xian-lightbox" aria-label="Expanded photograph" data-xian-lightbox>
-      <button class="xian-lightbox-close" type="button" aria-label="Close expanded photograph" data-xian-lightbox-close>CLOSE</button>
-      <button class="xian-lightbox-step xian-lightbox-step--previous" type="button" aria-label="View previous photograph" data-xian-lightbox-previous>PREV</button>
-      <figure>
-        <img src="" alt="" data-xian-lightbox-image>
-        <figcaption><span data-xian-lightbox-kicker></span><b data-xian-lightbox-caption></b></figcaption>
-      </figure>
-      <button class="xian-lightbox-step xian-lightbox-step--next" type="button" aria-label="View next photograph" data-xian-lightbox-next>NEXT</button>
-      <p class="xian-lightbox-count" aria-live="polite" data-xian-lightbox-count></p>
+      <button type="button" data-xian-lightbox-close>CLOSE</button>
+      <button type="button" aria-label="View previous photograph" data-xian-lightbox-previous>PREV</button>
+      <figure><img src="" alt="" data-xian-lightbox-image><figcaption data-xian-lightbox-caption></figcaption></figure>
+      <button type="button" aria-label="View next photograph" data-xian-lightbox-next>NEXT</button>
+      <p data-xian-lightbox-count></p>
     </dialog>
 
     <aside class="xian-model-credit" aria-label="3D model credit">
@@ -319,8 +329,8 @@
     <a href="/essays/">Essays</a><a href="/series/frame/">Series</a><a href="/visual-notes/">Notes</a><a href="/be-a-viewer/" aria-current="page">Viewer</a>
   </nav>
 
-  <script src="/content.js?v=field-system-5"></script>
-  <script src="/script.js?v=field-system-10"></script>
-  <script type="module" src="/be-a-viewer/xian/xian.js?v=6"></script>
+  <script type="module" src="/be-a-viewer/xian/xian.js?v=11"></script>
+  <script type="module" src="/be-a-viewer/xian/xian-scroll.js?v=2"></script>
+  <script type="module" src="/be-a-viewer/xian/xian-model.js?v=2"></script>
 </body>
 </html>
