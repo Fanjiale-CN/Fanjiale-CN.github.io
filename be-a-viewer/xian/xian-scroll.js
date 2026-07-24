@@ -66,13 +66,18 @@ function updateModel() {
 
 function updateLight() {
   if (!lightTransition || reducedMotion) return;
-  const progress = sectionProgress(lightTransition);
+  const rect = lightTransition.getBoundingClientRect();
+  const viewportHeight = window.innerHeight;
+  const entry = smoothstep((viewportHeight - rect.top) / Math.max(1, viewportHeight * .72));
+  const progress = clamp(-rect.top / Math.max(1, rect.height));
   const image = lightTransition.querySelector("img");
   const copy = lightTransition.querySelector("p");
-  image?.style.setProperty("--light-scale", (1.02 + progress * .04).toFixed(3));
-  image?.style.setProperty("--light-clip", `${(10 - progress * 10).toFixed(2)}%`);
-  const copyOpacity = stepOpacity(progress, .2, .82);
+  const baseScale = Number.parseFloat(getComputedStyle(lightTransition).getPropertyValue("--light-base-scale")) || 1;
+  image?.style.setProperty("--light-scale", (baseScale + progress * .045).toFixed(3));
+  const exit = smoothstep((progress - .86) / .14);
+  const copyOpacity = entry * (1 - exit * .45);
   copy?.style.setProperty("--light-copy-opacity", copyOpacity.toFixed(3));
+  copy?.style.setProperty("--light-copy-y", `${((1 - entry) * 22).toFixed(2)}px`);
 }
 
 let frame = 0;

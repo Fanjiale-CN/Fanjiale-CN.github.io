@@ -9,19 +9,24 @@
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .xian-page-body {
+  width: 100%;
+  max-width: 100%;
   color: var(--xian-ink);
   background: var(--xian-paper);
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 .xian-site-nav {
   color: #fff;
   background: rgba(5,5,5,.18);
   border-bottom-color: rgba(255,255,255,.16);
-  transition: color 250ms ease, background-color 250ms ease, border-color 250ms ease;
+  transition: color 250ms ease, background-color 250ms ease, border-color 250ms ease, transform 420ms cubic-bezier(.16,1,.3,1);
 }
 
 .xian-site-nav .brand,
@@ -38,10 +43,17 @@ html {
 
 .xian-page-main {
   position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .xian-hero {
   position: relative;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   min-height: 100svh;
   padding: clamp(7rem, 10vw, 9rem) clamp(1.25rem, 4vw, 4rem) clamp(2rem, 4vw, 4rem);
   display: grid;
@@ -180,6 +192,15 @@ html {
   border-bottom: 1px solid var(--xian-line);
   scrollbar-width: none;
   backdrop-filter: blur(12px);
+  transform: translate3d(0,0,0);
+  transition: transform 420ms cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+  overscroll-behavior-inline: contain;
+}
+
+.xian-page-body.site-chrome-hidden:not(.nav-open) .xian-story-nav {
+  transform: translate3d(0, calc(-100% - var(--nav-height, 76px)), 0);
+  pointer-events: none;
 }
 
 .xian-story-nav::-webkit-scrollbar {
@@ -747,38 +768,65 @@ html {
 }
 
 .xian-light-transition {
+  --light-base-scale: 1.62;
   position: relative;
-  height: 150vh;
+  height: min(100svh, 64rem);
+  min-height: 42rem;
   margin: 0 calc(clamp(1.25rem, 4vw, 4rem) * -1) clamp(8rem, 14vw, 15rem);
   overflow: hidden;
   background: #050505;
+  isolation: isolate;
 }
 
-.xian-light-transition picture,
+.xian-light-transition picture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
 .xian-light-transition img {
   width: 100%;
   height: 100%;
   display: block;
+  object-fit: cover;
+  object-position: 100% 50%;
+  transform: scale(var(--light-scale, var(--light-base-scale)));
+  transform-origin: 100% 50%;
+  will-change: transform;
 }
 
-.xian-light-transition img {
-  object-fit: cover;
-  object-position: 50% 50%;
-  transform: scale(var(--light-scale, 1.02));
-  clip-path: inset(0 var(--light-clip, 10%) 0 0);
+.xian-light-transition::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 42%, rgba(5,5,5,.7) 100%);
 }
 
 .xian-light-transition p {
   position: absolute;
+  z-index: 2;
   right: 4vw;
   bottom: 4vw;
+  left: 4vw;
   margin: 0;
-  opacity: var(--light-copy-opacity, 0);
+  max-width: none;
+  margin-left: auto;
+  color: #fff;
+  opacity: var(--light-copy-opacity, 1);
+  transform: translate3d(0,var(--light-copy-y,0),0);
   font-size: clamp(2.4rem, 6vw, 7rem);
   font-weight: 520;
   line-height: .86;
   letter-spacing: -.06em;
   text-align: right;
+  text-shadow: 0 3px 28px rgba(0,0,0,.48);
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .xian-treasure-faith > figure:nth-of-type(1) {
@@ -1173,6 +1221,7 @@ html {
   .xian-hero {
     padding: 6.8rem 1.15rem calc(1.5rem + env(safe-area-inset-bottom));
     grid-template-columns: 1fr;
+    min-height: 100svh;
   }
 
   .xian-hero > img {
@@ -1184,7 +1233,8 @@ html {
   }
 
   .xian-hero-copy h1 {
-    font-size: clamp(6rem, 30vw, 9rem);
+    max-width: 100%;
+    font-size: clamp(5.2rem, 27vw, 7.6rem);
   }
 
   .xian-hero-copy strong {
@@ -1414,7 +1464,9 @@ html {
   }
 
   .xian-light-transition {
-    height: 130vh;
+    --light-base-scale: 1.08;
+    height: 100svh;
+    min-height: 36rem;
     margin-right: -1rem;
     margin-left: -1rem;
   }
@@ -1422,7 +1474,10 @@ html {
   .xian-light-transition p {
     right: 1rem;
     bottom: 2rem;
+    left: 1rem;
+    max-width: 12ch;
     font-size: 2.8rem;
+    white-space: normal;
   }
 
   .xian-city-beyond {
@@ -1510,8 +1565,7 @@ html {
   }
 
   .xian-light-transition img {
-    transform: none;
-    clip-path: none;
+    transform: scale(var(--light-base-scale));
   }
 
   .xian-light-transition p {

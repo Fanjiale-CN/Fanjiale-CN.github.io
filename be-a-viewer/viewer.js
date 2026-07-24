@@ -243,6 +243,13 @@
       if (choice.dataset.status === "coming") choice.addEventListener("click", () => showComingSoon(city));
     });
 
+    fields.status?.addEventListener("click", (event) => {
+      const href = fields.status.getAttribute("href");
+      if (!href || fields.status.getAttribute("aria-disabled") === "true") return;
+      event.preventDefault();
+      window.location.assign(href);
+    });
+
     selector.querySelectorAll("[data-city-card]").forEach((card) => {
       if (card.tagName === "BUTTON") card.addEventListener("click", () => showComingSoon(card.dataset.cityCard));
     });

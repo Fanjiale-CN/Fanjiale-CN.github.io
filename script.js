@@ -802,6 +802,22 @@
     const links = siteNav.querySelector(".nav-links");
     if (!navInner || !brand || !links) return;
 
+    const primaryLinks = [
+      { href: "/essays/", label: "Essays", match: "/essays/" },
+      { href: "/series/frame/", label: "Series", match: "/series/" },
+      { href: "/visual-notes/", label: "Visual Notes", match: "/visual-notes/" },
+      { href: "/be-a-viewer/", label: "Be a Viewer", match: "/be-a-viewer/" },
+      { href: "/about/", label: "About", match: "/about/" }
+    ];
+    const currentPath = window.location.pathname;
+    links.replaceChildren(...primaryLinks.map((item) => {
+      const link = document.createElement("a");
+      link.href = item.href;
+      link.textContent = item.label;
+      if (currentPath.startsWith(item.match)) link.setAttribute("aria-current", "page");
+      return link;
+    }));
+
     if (!brand.querySelector(".brand-lockup")) {
       brand.innerHTML = `
         <img class="brand-mark" src="/assets/galok-mark.svg" alt="" aria-hidden="true">
@@ -822,6 +838,7 @@
 
     function setMenu(open) {
       body.classList.toggle("nav-open", open);
+      if (open) body.classList.remove("site-chrome-hidden");
       toggle.textContent = open ? "Close" : "Menu";
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
@@ -833,9 +850,43 @@
       if (event.key === "Escape" && body.classList.contains("nav-open")) setMenu(false);
     });
 
-    const syncNavTone = () => siteNav.classList.toggle("is-scrolled", window.scrollY > 24);
-    syncNavTone();
-    window.addEventListener("scroll", syncNavTone, { passive: true });
+    let previousY = Math.max(0, window.scrollY);
+    let direction = 0;
+    let directionDistance = 0;
+    let navigationFrame = 0;
+
+    function syncNavigation() {
+      navigationFrame = 0;
+      const nextY = Math.max(0, window.scrollY);
+      const delta = nextY - previousY;
+      const nextDirection = delta > 0 ? 1 : delta < 0 ? -1 : 0;
+
+      siteNav.classList.toggle("is-scrolled", nextY > 24);
+
+      if (nextY < 32 || body.classList.contains("nav-open")) {
+        body.classList.remove("site-chrome-hidden");
+        directionDistance = 0;
+      } else if (nextDirection) {
+        if (nextDirection !== direction) directionDistance = 0;
+        directionDistance += Math.abs(delta);
+        if (directionDistance >= 18) {
+          body.classList.toggle("site-chrome-hidden", nextDirection > 0);
+          directionDistance = 0;
+        }
+        direction = nextDirection;
+      }
+
+      previousY = nextY;
+    }
+
+    function requestNavigationSync() {
+      if (!navigationFrame) navigationFrame = requestAnimationFrame(syncNavigation);
+    }
+
+    siteNav.addEventListener("focusin", () => body.classList.remove("site-chrome-hidden"));
+    syncNavigation();
+    window.addEventListener("scroll", requestNavigationSync, { passive: true });
+    window.addEventListener("resize", requestNavigationSync, { passive: true });
   }
 
   function labelInteriorPage() {
