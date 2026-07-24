@@ -11,6 +11,7 @@ const errorMessage = section?.querySelector("[data-model-error]");
 const enableButton = section?.querySelector("[data-model-enable]");
 const doneButton = section?.querySelector("[data-model-done]");
 const mobile = window.matchMedia("(max-width: 700px)");
+const touchDevice = window.matchMedia("(hover: none) and (pointer: coarse)");
 
 let THREE;
 let OrbitControls;
@@ -62,7 +63,8 @@ function setSize() {
   if (!renderer || !camera || !stage) return;
   const width = Math.max(1, stage.clientWidth);
   const height = Math.max(1, stage.clientHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile.matches ? 1.25 : 1.75));
+  const constrainedGPU = mobile.matches || touchDevice.matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, constrainedGPU ? 1.25 : 1.75));
   renderer.setSize(width, height, false);
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
@@ -219,7 +221,8 @@ async function loadModel() {
     fillLight = new THREE.DirectionalLight(0xc8d8df, .55);
     rimLight = new THREE.DirectionalLight(0xaec2cf, .7);
     keyLight.castShadow = true;
-    keyLight.shadow.mapSize.set(mobile.matches ? 512 : 1024, mobile.matches ? 512 : 1024);
+    const shadowSize = mobile.matches || touchDevice.matches ? 512 : 1024;
+    keyLight.shadow.mapSize.set(shadowSize, shadowSize);
     scene.add(ambient, keyLight, fillLight, rimLight);
     setSize();
 
@@ -255,11 +258,15 @@ enableButton?.addEventListener("click", () => setManual(true));
 doneButton?.addEventListener("click", () => setManual(false));
 stage?.addEventListener("contextmenu", (event) => event.preventDefault());
 window.addEventListener("xian-model-progress", (event) => applyScrollProgress(event.detail?.progress || 0));
+let resizeFrame = 0;
 window.addEventListener("resize", () => {
-  if (!loaded) return;
-  fitCamera();
-  applyScrollProgress(scrollProgress);
-});
+  if (!loaded || resizeFrame) return;
+  resizeFrame = requestAnimationFrame(() => {
+    resizeFrame = 0;
+    fitCamera();
+    applyScrollProgress(scrollProgress);
+  });
+}, { passive: true });
 
 if (section && "IntersectionObserver" in window) {
   const nearObserver = new IntersectionObserver(([entry], observer) => {

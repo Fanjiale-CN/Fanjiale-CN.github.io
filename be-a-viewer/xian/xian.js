@@ -1,4 +1,5 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const touchNavigation = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 const pageBody = document.body;
 const siteNav = document.querySelector(".xian-site-nav");
 const storyNav = document.querySelector("[data-xian-story-nav]");
@@ -7,6 +8,7 @@ const storySections = storyLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter(Boolean);
 const storyProgress = storyNav?.querySelector("[data-xian-story-progress]");
+let activeStoryHref = "";
 
 if (!reducedMotion) {
   pageBody.classList.add("xian-motion");
@@ -54,6 +56,8 @@ function updateSiteNav() {
 function setActiveSection(section) {
   if (!section) return;
   const href = `#${section.id}`;
+  if (href === activeStoryHref) return;
+  activeStoryHref = href;
   storyLinks.forEach((link) => {
     const active = link.getAttribute("href") === href;
     link.classList.toggle("is-active", active);
@@ -62,7 +66,12 @@ function setActiveSection(section) {
   });
   const activeLink = storyLinks.find((link) => link.getAttribute("href") === href);
   if (activeLink && storyNav.scrollWidth > storyNav.clientWidth) {
-    activeLink.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", inline: "center", block: "nearest" });
+    const targetLeft = activeLink.offsetLeft - (storyNav.clientWidth - activeLink.offsetWidth) / 2;
+    const maxLeft = Math.max(0, storyNav.scrollWidth - storyNav.clientWidth);
+    storyNav.scrollTo({
+      left: Math.min(maxLeft, Math.max(0, targetLeft)),
+      behavior: reducedMotion || touchNavigation ? "auto" : "smooth"
+    });
   }
 }
 

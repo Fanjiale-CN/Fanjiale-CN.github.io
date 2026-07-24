@@ -179,7 +179,7 @@
   const cityData = {
     beijing: { index: "01 / NORTH CHINA", name: "BEIJING", description: "Power, ceremony and everyday movement.", status: "COMING SOON" },
     shanghai: { index: "02 / EAST CHINA", name: "SHANGHAI", description: "Ambition reflected in glass and water.", status: "COMING SOON" },
-    xian: { index: "03 / NORTHWEST CHINA", name: "XI’AN", description: "Empire, memory and life inside the wall.", status: "AVAILABLE · ENTER THE STORY ↗" },
+    xian: { index: "03 / NORTHWEST CHINA", name: "XI’AN", description: "Empire, memory and life inside the wall.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xian/" },
     dali: { index: "04 / SOUTHWEST CHINA", name: "DALI", description: "Mountains, water and a slower rhythm.", status: "COMING SOON" },
     shenzhen: { index: "05 / SOUTH CHINA", name: "SHENZHEN", description: "A city built at the speed of possibility.", status: "COMING SOON" },
     xiamen: { index: "06 / SOUTHEAST CHINA", name: "XIAMEN", description: "A coastal city read through light and edges.", status: "COMING SOON" },
@@ -207,6 +207,17 @@
       Object.entries(fields).forEach(([key, node]) => {
         if (node) node.textContent = data[key];
       });
+      if (fields.status) {
+        if (data.href) {
+          fields.status.setAttribute("href", data.href);
+          fields.status.removeAttribute("aria-disabled");
+          fields.status.removeAttribute("tabindex");
+        } else {
+          fields.status.removeAttribute("href");
+          fields.status.setAttribute("aria-disabled", "true");
+          fields.status.setAttribute("tabindex", "-1");
+        }
+      }
     }
 
     function showComingSoon(city) {

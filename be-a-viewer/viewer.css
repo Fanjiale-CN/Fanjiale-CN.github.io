@@ -461,6 +461,27 @@
   color: #fff;
 }
 
+.city-selector-caption b a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.city-selector-caption b a[href] {
+  cursor: pointer;
+}
+
+.city-selector-caption b a[href]:hover,
+.city-selector-caption b a[href]:focus-visible {
+  color: #ff7b72;
+}
+
+.city-selector-caption b a[aria-disabled="true"] {
+  cursor: default;
+}
+
 .city-selector-mobile {
   display: none;
 }

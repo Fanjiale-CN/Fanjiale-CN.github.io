@@ -1483,6 +1483,22 @@ html {
   }
 }
 
+@media (hover: none), (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .xian-site-nav.is-scrolled,
+  .xian-story-nav {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .xian-story-nav {
+    background: rgba(241,241,237,.99);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
