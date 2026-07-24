@@ -487,7 +487,6 @@ html {
   object-fit: cover;
   object-position: 18% 50%;
   transform: scale(var(--army-image-scale, 1.04)) translateX(var(--army-image-x, 0%));
-  transition: transform 80ms linear;
 }
 
 .xian-army-copy {
@@ -1580,6 +1579,52 @@ html {
   .xian-story-nav {
     background: rgba(241,241,237,.99);
   }
+
+  .xian-arrival img,
+  .xian-army-sticky > figure img,
+  .xian-light-transition img {
+    will-change: auto;
+  }
+
+  .xian-arrival img {
+    transform: scale(1.035);
+  }
+
+  .xian-army-sticky > figure img {
+    transform: scale(1.02);
+  }
+
+  .xian-light-transition img {
+    transform: scale(var(--light-base-scale));
+  }
+
+  .xian-arrival-copy,
+  .xian-light-transition p {
+    transform: none;
+  }
+}
+
+.xian-touch .xian-arrival img,
+.xian-touch .xian-army-sticky > figure img,
+.xian-touch .xian-light-transition img {
+  will-change: auto;
+}
+
+.xian-touch .xian-arrival img {
+  transform: scale(1.035);
+}
+
+.xian-touch .xian-army-sticky > figure img {
+  transform: scale(1.02);
+}
+
+.xian-touch .xian-light-transition img {
+  transform: scale(var(--light-base-scale));
+}
+
+.xian-touch .xian-arrival-copy,
+.xian-touch .xian-light-transition p {
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

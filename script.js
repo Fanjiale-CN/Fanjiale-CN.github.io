@@ -850,27 +850,38 @@
       if (event.key === "Escape" && body.classList.contains("nav-open")) setMenu(false);
     });
 
-    let previousY = Math.max(0, window.scrollY);
+    const touchNavigation = navigator.maxTouchPoints > 0 ||
+      window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    const xianMotionClock = body.classList.contains("xian-page-body");
+    const noiseFloor = touchNavigation ? 2.5 : .75;
+    const hideDistance = touchNavigation ? 34 : 22;
+    const showDistance = touchNavigation ? 24 : 14;
+    const scrollRoot = document.scrollingElement || document.documentElement;
+    let previousY = Math.max(0, Math.min(window.scrollY, scrollRoot.scrollHeight - window.innerHeight));
     let direction = 0;
     let directionDistance = 0;
     let navigationFrame = 0;
 
-    function syncNavigation() {
+    function syncNavigation(position = null) {
       navigationFrame = 0;
-      const nextY = Math.max(0, window.scrollY);
+      const maximum = Math.max(0, scrollRoot.scrollHeight - window.innerHeight);
+      const nextY = Math.max(0, Math.min(position ?? window.scrollY, maximum));
       const delta = nextY - previousY;
-      const nextDirection = delta > 0 ? 1 : delta < 0 ? -1 : 0;
+      const nextDirection = Math.abs(delta) >= noiseFloor ? (delta > 0 ? 1 : -1) : 0;
 
-      siteNav.classList.toggle("is-scrolled", nextY > 24);
+      if (!xianMotionClock) siteNav.classList.toggle("is-scrolled", nextY > 24);
 
       if (nextY < 32 || body.classList.contains("nav-open")) {
         body.classList.remove("site-chrome-hidden");
         directionDistance = 0;
+        direction = 0;
       } else if (nextDirection) {
-        if (nextDirection !== direction) directionDistance = 0;
-        directionDistance += Math.abs(delta);
-        if (directionDistance >= 18) {
-          body.classList.toggle("site-chrome-hidden", nextDirection > 0);
+        if (nextDirection !== direction) directionDistance = Math.abs(delta);
+        else directionDistance += Math.abs(delta);
+        const threshold = nextDirection > 0 ? hideDistance : showDistance;
+        if (directionDistance >= threshold) {
+          if (nextDirection > 0) body.classList.add("site-chrome-hidden");
+          else body.classList.remove("site-chrome-hidden");
           directionDistance = 0;
         }
         direction = nextDirection;
@@ -880,13 +891,17 @@
     }
 
     function requestNavigationSync() {
-      if (!navigationFrame) navigationFrame = requestAnimationFrame(syncNavigation);
+      if (!navigationFrame) navigationFrame = requestAnimationFrame(() => syncNavigation());
     }
 
     siteNav.addEventListener("focusin", () => body.classList.remove("site-chrome-hidden"));
     syncNavigation();
-    window.addEventListener("scroll", requestNavigationSync, { passive: true });
-    window.addEventListener("resize", requestNavigationSync, { passive: true });
+    if (xianMotionClock) {
+      window.addEventListener("xian:motion-frame", (event) => syncNavigation(event.detail?.scrollY));
+    } else {
+      window.addEventListener("scroll", requestNavigationSync, { passive: true });
+      window.addEventListener("resize", requestNavigationSync, { passive: true });
+    }
   }
 
   function labelInteriorPage() {

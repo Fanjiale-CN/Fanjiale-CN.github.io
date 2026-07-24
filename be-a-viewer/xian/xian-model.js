@@ -12,6 +12,7 @@ const enableButton = section?.querySelector("[data-model-enable]");
 const doneButton = section?.querySelector("[data-model-done]");
 const mobile = window.matchMedia("(max-width: 700px)");
 const touchDevice = window.matchMedia("(hover: none) and (pointer: coarse)");
+const touchCapable = navigator.maxTouchPoints > 0 || touchDevice.matches;
 
 let THREE;
 let OrbitControls;
@@ -28,6 +29,7 @@ let modelSize;
 let baseDistance = 1;
 let baseTargetY = .5;
 let scrollProgress = 0;
+let displayedProgress = 0;
 let loaded = false;
 let loading = false;
 let visible = false;
@@ -63,7 +65,7 @@ function setSize() {
   if (!renderer || !camera || !stage) return;
   const width = Math.max(1, stage.clientWidth);
   const height = Math.max(1, stage.clientHeight);
-  const constrainedGPU = mobile.matches || touchDevice.matches;
+  const constrainedGPU = mobile.matches || touchCapable;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, constrainedGPU ? 1.25 : 1.75));
   renderer.setSize(width, height, false);
   camera.aspect = width / height;
@@ -96,23 +98,35 @@ function scheduleRender() {
   if (!renderer || !scene || !camera || renderFrame || (!visible && loaded)) return;
   renderFrame = requestAnimationFrame(() => {
     renderFrame = 0;
+    if (!manual) {
+      const distance = scrollProgress - displayedProgress;
+      const easing = touchCapable ? .16 : .28;
+      displayedProgress = Math.abs(distance) < .0005
+        ? scrollProgress
+        : displayedProgress + distance * easing;
+      renderScrollPose(displayedProgress);
+    }
     controls?.update();
     renderer.render(scene, camera);
-    if (manual && visible) scheduleRender();
+    if ((manual || Math.abs(scrollProgress - displayedProgress) >= .0005) && visible) scheduleRender();
   });
 }
 
-function applyScrollProgress(progress) {
-  scrollProgress = clamp(progress);
+function renderScrollPose(progress) {
   if (!loaded || !pivot || manual) return;
-  pivot.rotation.y = -Math.PI / 2 + Math.PI * 2 * scrollProgress;
-  const push = Math.sin(Math.PI * scrollProgress) * .085;
+  pivot.rotation.y = -Math.PI / 2 + Math.PI * 2 * progress;
+  const push = Math.sin(Math.PI * progress) * .085;
   camera.position.z = baseDistance * (1 - push);
-  camera.position.y = modelSize.y * (.51 + Math.sin(Math.PI * 2 * scrollProgress) * .012);
+  camera.position.y = modelSize.y * (.51 + Math.sin(Math.PI * 2 * progress) * .012);
   camera.lookAt(0, baseTargetY, 0);
-  keyLight.intensity = 50 + Math.sin(Math.PI * 2 * scrollProgress) * 6;
-  fillLight.intensity = .55 + Math.cos(Math.PI * 2 * scrollProgress) * .08;
-  rimLight.intensity = .7 + Math.sin(Math.PI * 2 * scrollProgress) * .08;
+  keyLight.intensity = 50 + Math.sin(Math.PI * 2 * progress) * 6;
+  fillLight.intensity = .55 + Math.cos(Math.PI * 2 * progress) * .08;
+  rimLight.intensity = .7 + Math.sin(Math.PI * 2 * progress) * .08;
+}
+
+function applyScrollProgress(progress) {
+  scrollProgress = Math.round(clamp(progress) * 2000) / 2000;
+  if (!loaded || !pivot || manual) return;
   scheduleRender();
 }
 
@@ -181,9 +195,10 @@ function prepareModel(gltf) {
 
   loaded = true;
   loading = false;
+  displayedProgress = reducedMotion ? 0 : scrollProgress;
   updateLoadProgress(100);
   stage.classList.add("is-loaded");
-  applyScrollProgress(reducedMotion ? 0 : scrollProgress);
+  renderScrollPose(displayedProgress);
   scheduleRender();
 }
 
@@ -221,7 +236,7 @@ async function loadModel() {
     fillLight = new THREE.DirectionalLight(0xc8d8df, .55);
     rimLight = new THREE.DirectionalLight(0xaec2cf, .7);
     keyLight.castShadow = true;
-    const shadowSize = mobile.matches || touchDevice.matches ? 512 : 1024;
+    const shadowSize = mobile.matches || touchCapable ? 512 : 1024;
     keyLight.shadow.mapSize.set(shadowSize, shadowSize);
     scene.add(ambient, keyLight, fillLight, rimLight);
     setSize();
@@ -259,14 +274,33 @@ doneButton?.addEventListener("click", () => setManual(false));
 stage?.addEventListener("contextmenu", (event) => event.preventDefault());
 window.addEventListener("xian-model-progress", (event) => applyScrollProgress(event.detail?.progress || 0));
 let resizeFrame = 0;
-window.addEventListener("resize", () => {
+let stageWidth = 0;
+let stageHeight = 0;
+
+function requestStageResize(width, height) {
   if (!loaded || resizeFrame) return;
+  if (Math.abs(width - stageWidth) <= 1 && Math.abs(height - stageHeight) <= 1) return;
+  stageWidth = width;
+  stageHeight = height;
   resizeFrame = requestAnimationFrame(() => {
     resizeFrame = 0;
     fitCamera();
-    applyScrollProgress(scrollProgress);
+    renderScrollPose(displayedProgress);
+    scheduleRender();
   });
-}, { passive: true });
+}
+
+if (stage && "ResizeObserver" in window) {
+  const stageObserver = new ResizeObserver(([entry]) => {
+    const { width, height } = entry.contentRect;
+    requestStageResize(width, height);
+  });
+  stageObserver.observe(stage);
+} else {
+  window.addEventListener("orientationchange", () => {
+    requestStageResize(stage?.clientWidth || 0, stage?.clientHeight || 0);
+  }, { passive: true });
+}
 
 if (section && "IntersectionObserver" in window) {
   const nearObserver = new IntersectionObserver(([entry], observer) => {

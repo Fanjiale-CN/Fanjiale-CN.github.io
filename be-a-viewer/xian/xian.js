@@ -1,14 +1,19 @@
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const touchNavigation = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+import { getMotionState, subscribeToMotion } from "/be-a-viewer/xian/xian-motion.js?v=1";
+
+const { reducedMotion, touchNavigation } = getMotionState();
 const pageBody = document.body;
 const siteNav = document.querySelector(".xian-site-nav");
 const storyNav = document.querySelector("[data-xian-story-nav]");
+const hero = document.querySelector(".xian-hero");
 const storyLinks = [...(storyNav?.querySelectorAll("[data-xian-section-link]") || [])];
 const storySections = storyLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter(Boolean);
 const storyProgress = storyNav?.querySelector("[data-xian-story-progress]");
 let activeStoryHref = "";
+let measuredRevision = -1;
+let heroThreshold = 1;
+let storyMetrics = [];
 
 if (!reducedMotion) {
   pageBody.classList.add("xian-motion");
@@ -49,11 +54,21 @@ if (!reducedMotion) {
   }
 }
 
-function updateSiteNav() {
-  siteNav?.classList.toggle("is-scrolled", window.scrollY > window.innerHeight * .68);
+function measureStory(revision) {
+  measuredRevision = revision;
+  heroThreshold = Math.max(1, (hero?.offsetHeight || 1) * .68);
+  storyMetrics = storySections.map((section) => ({
+    section,
+    top: section.offsetTop,
+    bottom: section.offsetTop + section.offsetHeight
+  }));
 }
 
-function setActiveSection(section) {
+function updateSiteNav(scrollY) {
+  siteNav?.classList.toggle("is-scrolled", scrollY > heroThreshold);
+}
+
+function setActiveSection(section, touchInput = touchNavigation) {
   if (!section) return;
   const href = `#${section.id}`;
   if (href === activeStoryHref) return;
@@ -70,34 +85,23 @@ function setActiveSection(section) {
     const maxLeft = Math.max(0, storyNav.scrollWidth - storyNav.clientWidth);
     storyNav.scrollTo({
       left: Math.min(maxLeft, Math.max(0, targetLeft)),
-      behavior: reducedMotion || touchNavigation ? "auto" : "smooth"
+      behavior: reducedMotion || touchInput ? "auto" : "smooth"
     });
   }
 }
 
-function updateStoryNav() {
-  if (!storyNav || !storySections.length) return;
-  const start = storySections[0].offsetTop;
-  const endSection = storySections.at(-1);
-  const end = endSection.offsetTop + endSection.offsetHeight - window.innerHeight;
-  const progress = Math.min(1, Math.max(0, (window.scrollY - start) / Math.max(1, end - start)));
+function updateStoryNav(scrollY, viewportHeight) {
+  if (!storyNav || !storyMetrics.length) return;
+  const start = storyMetrics[0].top;
+  const end = storyMetrics.at(-1).bottom - viewportHeight;
+  const progress = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, end - start)));
   if (storyProgress) storyProgress.style.transform = `scaleX(${progress})`;
-  const readingLine = window.innerHeight * .42;
-  let active = storySections[0];
-  storySections.forEach((section) => {
-    if (section.getBoundingClientRect().top <= readingLine) active = section;
+  const readingLine = scrollY + viewportHeight * .42;
+  let active = storyMetrics[0].section;
+  storyMetrics.forEach((metric) => {
+    if (metric.top <= readingLine) active = metric.section;
   });
   setActiveSection(active);
-}
-
-let scrollFrame = 0;
-function requestGlobalUpdate() {
-  if (scrollFrame) return;
-  scrollFrame = requestAnimationFrame(() => {
-    scrollFrame = 0;
-    updateSiteNav();
-    updateStoryNav();
-  });
 }
 
 storyLinks.forEach((link) => {
@@ -110,10 +114,18 @@ storyLinks.forEach((link) => {
   });
 });
 
-window.addEventListener("scroll", requestGlobalUpdate, { passive: true });
-window.addEventListener("resize", requestGlobalUpdate, { passive: true });
-updateSiteNav();
-updateStoryNav();
+subscribeToMotion(({ scrollY, viewportHeight, revision }) => {
+  if (revision !== measuredRevision) measureStory(revision);
+  updateSiteNav(scrollY);
+  updateStoryNav(scrollY, viewportHeight);
+});
+
+window.addEventListener("load", () => {
+  const state = getMotionState();
+  measureStory(state.revision);
+  updateSiteNav(state.scrollY);
+  updateStoryNav(state.scrollY, state.viewportHeight);
+}, { once: true });
 
 const lightbox = document.querySelector("[data-xian-lightbox]");
 const lightboxImage = lightbox?.querySelector("[data-xian-lightbox-image]");

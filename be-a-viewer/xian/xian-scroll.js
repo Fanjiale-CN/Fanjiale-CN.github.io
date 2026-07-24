@@ -1,4 +1,6 @@
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+import { getMotionState, subscribeToMotion } from "/be-a-viewer/xian/xian-motion.js?v=1";
+
+const { reducedMotion, touchNavigation } = getMotionState();
 const army = document.querySelector("[data-army-scroll]");
 const armySteps = [...(army?.querySelectorAll("[data-army-step]") || [])];
 const armyMeter = army?.querySelector("[data-army-meter]");
@@ -15,10 +17,10 @@ const smoothstep = (value) => {
   return n * n * (3 - 2 * n);
 };
 
-function sectionProgress(section) {
+function sectionProgress(section, viewportHeight) {
   if (!section) return 0;
   const rect = section.getBoundingClientRect();
-  return clamp(-rect.top / Math.max(1, rect.height - window.innerHeight));
+  return clamp(-rect.top / Math.max(1, rect.height - viewportHeight));
 }
 
 function stepOpacity(progress, start, end) {
@@ -28,25 +30,25 @@ function stepOpacity(progress, start, end) {
   return clamp(Math.min(fadeIn, fadeOut));
 }
 
-function updateArmy() {
+function updateArmy(viewportHeight) {
   if (!army || reducedMotion) return;
-  const progress = sectionProgress(army);
+  const progress = sectionProgress(army, viewportHeight);
   const windows = [[-.06, .34], [.30, .67], [.63, .96]];
   armySteps.forEach((step, index) => {
     step.style.setProperty("--army-step-opacity", stepOpacity(progress, ...windows[index]).toFixed(3));
   });
   if (armyMeter) armyMeter.style.transform = `scaleX(${progress})`;
-  if (armyImage) {
+  if (armyImage && !touchNavigation) {
     const exit = smoothstep((progress - .82) / .18);
     armyImage.style.setProperty("--army-image-scale", (1.045 - progress * .035).toFixed(4));
     armyImage.style.setProperty("--army-image-x", `${(-exit * 7).toFixed(2)}%`);
   }
 }
 
-function updateArrival() {
-  if (!arrival || reducedMotion) return;
+function updateArrival(viewportHeight) {
+  if (!arrival || reducedMotion || touchNavigation) return;
   const rect = arrival.getBoundingClientRect();
-  const progress = clamp((window.innerHeight - rect.top) / Math.max(1, window.innerHeight + rect.height));
+  const progress = clamp((viewportHeight - rect.top) / Math.max(1, viewportHeight + rect.height));
   if (arrivalImage) {
     arrivalImage.style.setProperty("--arrival-image-scale", (1.065 - progress * .045).toFixed(4));
     arrivalImage.style.setProperty("--arrival-image-y", `${((progress - .5) * 3.5).toFixed(2)}%`);
@@ -58,16 +60,15 @@ function updateArrival() {
   }
 }
 
-function updateModel() {
+function updateModel(viewportHeight) {
   if (!modelSection) return;
-  const progress = reducedMotion ? 0 : sectionProgress(modelSection);
+  const progress = reducedMotion ? 0 : sectionProgress(modelSection, viewportHeight);
   window.dispatchEvent(new CustomEvent("xian-model-progress", { detail: { progress } }));
 }
 
-function updateLight() {
-  if (!lightTransition || reducedMotion) return;
+function updateLight(viewportHeight) {
+  if (!lightTransition || reducedMotion || touchNavigation) return;
   const rect = lightTransition.getBoundingClientRect();
-  const viewportHeight = window.innerHeight;
   const entry = smoothstep((viewportHeight - rect.top) / Math.max(1, viewportHeight * .72));
   const progress = clamp(-rect.top / Math.max(1, rect.height));
   const image = lightTransition.querySelector("img");
@@ -80,19 +81,9 @@ function updateLight() {
   copy?.style.setProperty("--light-copy-y", `${((1 - entry) * 22).toFixed(2)}px`);
 }
 
-let frame = 0;
-function update() {
-  frame = 0;
-  updateArrival();
-  updateArmy();
-  updateModel();
-  updateLight();
-}
-
-function requestUpdate() {
-  if (!frame) frame = requestAnimationFrame(update);
-}
-
-window.addEventListener("scroll", requestUpdate, { passive: true });
-window.addEventListener("resize", requestUpdate, { passive: true });
-update();
+subscribeToMotion(({ viewportHeight }) => {
+  updateArrival(viewportHeight);
+  updateArmy(viewportHeight);
+  updateModel(viewportHeight);
+  updateLight(viewportHeight);
+});
