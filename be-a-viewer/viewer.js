@@ -178,7 +178,7 @@
 
   const cityData = {
     beijing: { index: "01 / NORTH CHINA", name: "BEIJING", description: "Power, ceremony and everyday movement.", status: "COMING SOON" },
-    shanghai: { index: "02 / EAST CHINA", name: "SHANGHAI", description: "Ambition reflected in glass and water.", status: "COMING SOON" },
+    shanghai: { index: "02 / EAST CHINA", name: "SHANGHAI", description: "River, streets and a vertical city.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/shanghai/" },
     xian: { index: "03 / NORTHWEST CHINA", name: "XI’AN", description: "Empire, memory and life inside the wall.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xian/" },
     dali: { index: "04 / SOUTHWEST CHINA", name: "DALI", description: "Mountains, water and a slower rhythm.", status: "COMING SOON" },
     shenzhen: { index: "05 / SOUTH CHINA", name: "SHENZHEN", description: "A city built at the speed of possibility.", status: "COMING SOON" },
