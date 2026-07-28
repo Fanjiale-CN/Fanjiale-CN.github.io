@@ -1,11 +1,18 @@
 (() => {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
   const body = document.body;
   const siteNav = document.querySelector(".shanghai-site-nav");
   const hero = document.querySelector(".shanghai-hero");
   const heroVideo = document.querySelector("[data-shanghai-hero-video]");
   const portraitMedia = window.matchMedia("(orientation: portrait)");
   const videoToggle = document.querySelector("[data-shanghai-video-toggle]");
+  const temple = document.querySelector("[data-shanghai-temple]");
+  const templeVideo = document.querySelector("[data-shanghai-temple-video]");
+  const templeToggle = document.querySelector("[data-shanghai-temple-toggle]");
+  const templeBeats = [...document.querySelectorAll("[data-shanghai-temple-beat]")];
+  const templeIndex = document.querySelector("[data-shanghai-temple-index]");
+  const templeProgress = document.querySelector("[data-shanghai-temple-progress]");
   const storyNav = document.querySelector("[data-shanghai-story-nav]");
   const storyLinks = [...document.querySelectorAll("[data-shanghai-section-link]")];
   const storySections = storyLinks
@@ -14,6 +21,11 @@
   const storyProgress = document.querySelector("[data-shanghai-story-progress]");
   let pausedByUser = reducedMotion;
   let heroVisible = true;
+  let templeVisible = false;
+  let templePausedByUser = reducedMotion;
+  let templeTimelineActive = false;
+  let templeFrameHandle = 0;
+  let activeTempleBeat = 0;
   let ticking = false;
   let sectionMetrics = [];
   let heroThreshold = 1;
@@ -26,6 +38,16 @@
       : heroVideo.dataset.posterLandscape;
     if (poster && heroVideo.getAttribute("poster") !== poster) {
       heroVideo.setAttribute("poster", poster);
+    }
+  }
+
+  function syncTemplePoster() {
+    if (!templeVideo) return;
+    const poster = portraitMedia.matches
+      ? templeVideo.dataset.posterPortrait
+      : templeVideo.dataset.posterLandscape;
+    if (poster && templeVideo.getAttribute("poster") !== poster) {
+      templeVideo.setAttribute("poster", poster);
     }
   }
 
@@ -51,9 +73,89 @@
     updateVideoButton();
   }
 
+  function setTempleBeat(index) {
+    const nextIndex = Math.max(0, Math.min(templeBeats.length - 1, index));
+    if (nextIndex === activeTempleBeat && templeBeats[nextIndex]?.classList.contains("is-active")) return;
+    activeTempleBeat = nextIndex;
+    templeBeats.forEach((beat, beatIndex) => {
+      beat.classList.toggle("is-active", beatIndex === activeTempleBeat);
+      beat.setAttribute("aria-hidden", String(beatIndex !== activeTempleBeat));
+    });
+    if (templeIndex) {
+      templeIndex.textContent = `${String(activeTempleBeat + 1).padStart(2, "0")} / ${String(templeBeats.length).padStart(2, "0")}`;
+    }
+  }
+
+  function renderTempleTimeline() {
+    if (!templeVideo) return;
+    const duration = Number.isFinite(templeVideo.duration) && templeVideo.duration > 0
+      ? templeVideo.duration
+      : 10.36;
+    const progress = Math.min(1, Math.max(0, templeVideo.currentTime / duration));
+    if (templeProgress) templeProgress.style.transform = `scaleX(${progress})`;
+    setTempleBeat(Math.min(templeBeats.length - 1, Math.floor(progress * templeBeats.length)));
+  }
+
+  function scheduleTempleTimeline() {
+    if (!templeTimelineActive || !templeVideo) return;
+    renderTempleTimeline();
+    if ("requestVideoFrameCallback" in HTMLVideoElement.prototype) {
+      templeFrameHandle = templeVideo.requestVideoFrameCallback(scheduleTempleTimeline);
+    } else {
+      templeFrameHandle = requestAnimationFrame(scheduleTempleTimeline);
+    }
+  }
+
+  function startTempleTimeline() {
+    if (templeTimelineActive || !templeVideo) return;
+    templeTimelineActive = true;
+    scheduleTempleTimeline();
+  }
+
+  function stopTempleTimeline() {
+    if (!templeTimelineActive || !templeVideo) return;
+    templeTimelineActive = false;
+    if ("cancelVideoFrameCallback" in HTMLVideoElement.prototype) {
+      templeVideo.cancelVideoFrameCallback(templeFrameHandle);
+    } else {
+      cancelAnimationFrame(templeFrameHandle);
+    }
+    templeFrameHandle = 0;
+    renderTempleTimeline();
+  }
+
+  function updateTempleButton() {
+    if (!templeToggle) return;
+    const paused = !templeVideo || templeVideo.paused;
+    templeToggle.textContent = paused ? "PLAY" : "PAUSE";
+    templeToggle.setAttribute("aria-label", paused ? "Play Jing’an Temple video" : "Pause Jing’an Temple video");
+    templeToggle.setAttribute("aria-pressed", String(paused));
+  }
+
+  async function syncTempleVideo() {
+    if (!templeVideo) return;
+    if (templePausedByUser || !templeVisible || document.hidden) {
+      templeVideo.pause();
+      stopTempleTimeline();
+      updateTempleButton();
+      return;
+    }
+    try {
+      templeVideo.muted = true;
+      await templeVideo.play();
+      startTempleTimeline();
+    } catch {}
+    updateTempleButton();
+  }
+
   videoToggle?.addEventListener("click", () => {
     pausedByUser = !pausedByUser;
     syncHeroVideo();
+  });
+
+  templeToggle?.addEventListener("click", () => {
+    templePausedByUser = !templePausedByUser;
+    syncTempleVideo();
   });
 
   if ("IntersectionObserver" in window && heroVideo) {
@@ -64,11 +166,38 @@
     videoObserver.observe(hero);
   }
 
-  document.addEventListener("visibilitychange", syncHeroVideo);
-  portraitMedia.addEventListener?.("change", syncHeroPoster);
+  if ("IntersectionObserver" in window && templeVideo && temple) {
+    const templeObserver = new IntersectionObserver(([entry]) => {
+      templeVisible = entry.isIntersecting;
+      syncTempleVideo();
+    }, { threshold: .08 });
+    templeObserver.observe(temple);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    syncHeroVideo();
+    syncTempleVideo();
+  });
+  portraitMedia.addEventListener?.("change", () => {
+    syncHeroPoster();
+    syncTemplePoster();
+  });
   syncHeroPoster();
+  syncTemplePoster();
   if (reducedMotion) heroVideo?.pause();
+  if (reducedMotion) templeVideo?.pause();
   updateVideoButton();
+  updateTempleButton();
+  setTempleBeat(0);
+  templeVideo?.addEventListener("loadedmetadata", renderTempleTimeline);
+  templeVideo?.addEventListener("play", () => {
+    updateTempleButton();
+    startTempleTimeline();
+  });
+  templeVideo?.addEventListener("pause", () => {
+    updateTempleButton();
+    stopTempleTimeline();
+  });
 
   function measure() {
     heroThreshold = Math.max(1, (hero?.offsetHeight || 1) * .72);
@@ -125,19 +254,28 @@
     requestAnimationFrame(renderScrollState);
   }
 
+  function scrollToSection(target, behavior = "auto") {
+    if (!target) return;
+    body.classList.add("site-chrome-hidden");
+    window.scrollTo({
+      top: target.offsetTop,
+      behavior
+    });
+  }
+
   storyLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
       const target = document.querySelector(link.getAttribute("href"));
       if (!target) return;
       event.preventDefault();
-      target.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+      scrollToSection(target, reducedMotion || coarsePointer ? "auto" : "smooth");
       history.replaceState(null, "", link.getAttribute("href"));
     });
   });
 
-  const revealItems = [
-    ...document.querySelectorAll(".shanghai-section-head > *, .shanghai-section > div, .shanghai-section > .shanghai-photo, .shanghai-closing > *")
-  ];
+  const revealItems = [...new Set([
+    ...document.querySelectorAll(".shanghai-section-head > *, .shanghai-section > div, .shanghai-section > .shanghai-photo, .shanghai-closing > *, [data-shanghai-reveal]")
+  ])];
 
   if (!reducedMotion && "IntersectionObserver" in window) {
     revealItems.forEach((item) => item.classList.add("shanghai-reveal"));
@@ -149,6 +287,29 @@
       });
     }, { rootMargin: "0px 0px -8%", threshold: .06 });
     revealItems.forEach((item) => revealObserver.observe(item));
+  }
+
+  const frameGroups = [
+    ...document.querySelectorAll(".shanghai-motion-sequence > div, .shanghai-qipao-story")
+  ];
+  if (!reducedMotion && "IntersectionObserver" in window) {
+    frameGroups.forEach((group) => {
+      const frames = [...group.querySelectorAll(".shanghai-photo")];
+      frames.forEach((frame, index) => {
+        frame.classList.add("shanghai-frame-reveal");
+        frame.style.setProperty("--shanghai-frame-delay", `${Math.min(index * 90, 360)}ms`);
+      });
+    });
+    const frameObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.querySelectorAll(".shanghai-frame-reveal").forEach((frame) => {
+          frame.classList.add("is-frame-visible");
+        });
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -10%", threshold: .08 });
+    frameGroups.forEach((group) => frameObserver.observe(group));
   }
 
   const applePhoto = document.querySelector("[data-shanghai-photo-reveal]");
@@ -220,8 +381,11 @@
   }, { passive: true });
   window.addEventListener("load", () => {
     measure();
+    const hashTarget = storySections.find((section) => `#${section.id}` === window.location.hash);
+    if (hashTarget) scrollToSection(hashTarget);
     renderScrollState();
     syncHeroVideo();
+    syncTempleVideo();
   }, { once: true });
   measure();
   renderScrollState();
