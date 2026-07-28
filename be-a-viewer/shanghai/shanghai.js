@@ -4,6 +4,7 @@
   const siteNav = document.querySelector(".shanghai-site-nav");
   const hero = document.querySelector(".shanghai-hero");
   const heroVideo = document.querySelector("[data-shanghai-hero-video]");
+  const portraitMedia = window.matchMedia("(orientation: portrait)");
   const videoToggle = document.querySelector("[data-shanghai-video-toggle]");
   const storyNav = document.querySelector("[data-shanghai-story-nav]");
   const storyLinks = [...document.querySelectorAll("[data-shanghai-section-link]")];
@@ -17,6 +18,16 @@
   let sectionMetrics = [];
   let heroThreshold = 1;
   let activeHref = "";
+
+  function syncHeroPoster() {
+    if (!heroVideo) return;
+    const poster = portraitMedia.matches
+      ? heroVideo.dataset.posterPortrait
+      : heroVideo.dataset.posterLandscape;
+    if (poster && heroVideo.getAttribute("poster") !== poster) {
+      heroVideo.setAttribute("poster", poster);
+    }
+  }
 
   function updateVideoButton() {
     if (!videoToggle) return;
@@ -54,6 +65,8 @@
   }
 
   document.addEventListener("visibilitychange", syncHeroVideo);
+  portraitMedia.addEventListener?.("change", syncHeroPoster);
+  syncHeroPoster();
   if (reducedMotion) heroVideo?.pause();
   updateVideoButton();
 
