@@ -12,7 +12,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
   <link rel="preload" href="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg" as="image">
   <link rel="stylesheet" href="/styles.css?v=nav-system-12">
-  <link rel="stylesheet" href="/be-a-viewer/shanghai/shanghai.css?v=4">
+  <link rel="stylesheet" href="/be-a-viewer/shanghai/shanghai.css?v=6">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -104,14 +104,18 @@
         <img src="/assets/be-a-viewer/shanghai/shanghai-fog.webp" width="1920" height="1280" loading="lazy" decoding="async" alt="Shanghai World Financial Center rising through low cloud in Pudong">
         <figcaption>GLASS / WEATHER / DISTANCE</figcaption>
       </figure>
-      <header class="shanghai-vertical-title">
-        <p>02 / PUDONG</p>
-        <h2 id="vertical-title">VERTICAL<br>CITY</h2>
-        <span>A skyline built as a declaration.</span>
-      </header>
-      <div class="shanghai-vertical-copy">
-        <strong>Weather becomes architecture.</strong>
-        <p>In Pudong, a cloud line can redraw the scale of the entire street.</p>
+      <div class="shanghai-vertical-editorial">
+        <header class="shanghai-vertical-title">
+          <p>02 / PUDONG</p>
+          <h2 id="vertical-title" class="shanghai-type-title" aria-label="Vertical City" data-shanghai-type-title>
+            <span data-shanghai-type-line="VERTICAL" aria-hidden="true">VERTICAL</span>
+            <span data-shanghai-type-line="CITY" aria-hidden="true">CITY</span>
+          </h2>
+        </header>
+        <div class="shanghai-vertical-copy">
+          <strong>Weather becomes architecture.</strong>
+          <p>In Pudong, a cloud line can redraw the scale of the entire street.</p>
+        </div>
       </div>
       <aside class="shanghai-tower-callout" aria-label="Shanghai World Financial Center building information">
         <i aria-hidden="true"></i>
@@ -166,24 +170,25 @@
         <figcaption>ART SPACE / OPEN FRAME</figcaption>
       </figure>
       <section class="shanghai-apple-directory" aria-labelledby="apple-directory-title">
-        <figure class="shanghai-photo shanghai-apple-jingan">
+        <figure class="shanghai-photo shanghai-apple-jingan" data-shanghai-photo-reveal>
           <img src="/assets/be-a-viewer/shanghai/apple-jingan.jpeg" width="1152" height="1536" loading="lazy" decoding="async" alt="The Apple logo at Apple Jing’an in Shanghai">
-          <figcaption>APPLE 静安 / JING’AN</figcaption>
+          <figcaption>APPLE JING’AN / SHANGHAI</figcaption>
         </figure>
         <div class="shanghai-apple-directory-copy">
           <p>APPLE RETAIL / SHANGHAI</p>
-          <h3 id="apple-directory-title">EIGHT<br>ADDRESSES.</h3>
-          <span>Across Shanghai, each store becomes a public room for the city.</span>
-          <ol>
-            <li><b>01</b><span>Apple 环球港</span><small>普陀</small></li>
-            <li><b>02</b><span>Apple 香港广场</span><small>黄浦</small></li>
-            <li><b>03</b><span>Apple 五角场</span><small>杨浦</small></li>
-            <li><b>04</b><span>Apple 上海环贸 iapm</span><small>徐汇</small></li>
-            <li><b>05</b><span>Apple 浦东</span><small>浦东</small></li>
-            <li><b>06</b><span>Apple 静安</span><small>静安</small></li>
-            <li><b>07</b><span>Apple 南京东路</span><small>黄浦</small></li>
-            <li><b>08</b><span>Apple 七宝</span><small>闵行</small></li>
+          <h3 id="apple-directory-title">EIGHT<br>STORES.</h3>
+          <span>Opening order across Shanghai — eight public rooms for a changing city.</span>
+          <ol aria-label="Apple Store Shanghai opening order">
+            <li><b>01</b><span>APPLE PUDONG</span><time datetime="2010-07-10">10 JUL 2010</time></li>
+            <li><b>02</b><span>APPLE HONG KONG PLAZA</span><time datetime="2010-09-25">25 SEP 2010</time></li>
+            <li><b>03</b><span>APPLE NANJING EAST</span><time datetime="2011-09-23">23 SEP 2011</time></li>
+            <li><b>04</b><span>APPLE SHANGHAI IAPM</span><time datetime="2013-10-26">26 OCT 2013</time></li>
+            <li><b>05</b><span>APPLE GLOBAL HARBOR</span><time datetime="2016-05-28">28 MAY 2016</time></li>
+            <li><b>06</b><span>APPLE WUJIAOCHANG</span><time datetime="2016-06-18">18 JUN 2016</time></li>
+            <li><b>07</b><span>APPLE QIBAO</span><time datetime="2016-12-10">10 DEC 2016</time></li>
+            <li><b>08</b><span>APPLE JING’AN</span><time datetime="2024-03-21">21 MAR 2024</time></li>
           </ol>
+          <a class="shanghai-apple-find-store" href="https://www.apple.com/retail/" target="_blank" rel="noreferrer">FIND A STORE <span aria-hidden="true">↗</span></a>
         </div>
       </section>
     </section>
@@ -259,6 +264,6 @@
   </footer>
 
   <script src="/script.js?v=nav-system-12"></script>
-  <script src="/be-a-viewer/shanghai/shanghai.js?v=2"></script>
+  <script src="/be-a-viewer/shanghai/shanghai.js?v=3"></script>
 </body>
 </html>

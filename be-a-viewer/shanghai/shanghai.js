@@ -151,6 +151,68 @@
     revealItems.forEach((item) => revealObserver.observe(item));
   }
 
+  const applePhoto = document.querySelector("[data-shanghai-photo-reveal]");
+  if (!reducedMotion && applePhoto && "IntersectionObserver" in window) {
+    const photoObserver = new IntersectionObserver(([entry], observer) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-shot");
+      observer.unobserve(entry.target);
+    }, { rootMargin: "0px 0px -12%", threshold: .18 });
+    photoObserver.observe(applePhoto);
+    applePhoto.querySelector("img")?.addEventListener("animationend", () => {
+      applePhoto.classList.add("is-shot-complete");
+    }, { once: true });
+  }
+
+  function typeVerticalTitle(title) {
+    const lines = [...title.querySelectorAll("[data-shanghai-type-line]")];
+    if (!lines.length) return;
+    const values = lines.map((line) => line.dataset.shanghaiTypeLine || line.textContent.trim());
+    const characterDelay = 58;
+    let lineIndex = 0;
+    let characterIndex = 0;
+    let previousTime = 0;
+
+    lines.forEach((line) => { line.textContent = ""; });
+    title.classList.add("is-typing");
+
+    function tick(timestamp) {
+      if (!previousTime) previousTime = timestamp;
+      if (timestamp - previousTime < characterDelay) {
+        requestAnimationFrame(tick);
+        return;
+      }
+      previousTime = timestamp;
+      const value = values[lineIndex];
+      characterIndex += 1;
+      lines[lineIndex].textContent = value.slice(0, characterIndex);
+      if (characterIndex < value.length) {
+        requestAnimationFrame(tick);
+        return;
+      }
+      lineIndex += 1;
+      characterIndex = 0;
+      if (lineIndex < values.length) {
+        requestAnimationFrame(tick);
+        return;
+      }
+      title.classList.remove("is-typing");
+      title.classList.add("is-typed");
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  const typeTitle = document.querySelector("[data-shanghai-type-title]");
+  if (!reducedMotion && typeTitle && "IntersectionObserver" in window) {
+    const titleObserver = new IntersectionObserver(([entry], observer) => {
+      if (!entry.isIntersecting) return;
+      typeVerticalTitle(entry.target);
+      observer.unobserve(entry.target);
+    }, { rootMargin: "0px 0px -18%", threshold: .38 });
+    titleObserver.observe(typeTitle);
+  }
+
   window.addEventListener("scroll", requestScrollRender, { passive: true });
   window.addEventListener("resize", () => {
     measure();

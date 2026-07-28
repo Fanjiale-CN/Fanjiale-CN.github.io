@@ -370,7 +370,7 @@ html {
 .shanghai-vertical-tower {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   width: 100%;
   height: 100%;
   cursor: zoom-in;
@@ -383,21 +383,27 @@ html {
 .shanghai-vertical::after {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   background: linear-gradient(90deg, rgba(232, 242, 242, .3), transparent 52%);
   content: "";
   pointer-events: none;
 }
 
+.shanghai-vertical-editorial {
+  position: absolute;
+  z-index: 2;
+  top: clamp(7rem, 15vh, 12rem);
+  left: clamp(1.25rem, 4vw, 4rem);
+  width: min(34rem, 47vw);
+  display: grid;
+  gap: clamp(2.4rem, 5vw, 5rem);
+}
+
 .shanghai-vertical-title {
-  position: relative;
-  z-index: 1;
-  max-width: min(32rem, 48vw);
-  padding: clamp(8rem, 15vw, 12rem) clamp(1.25rem, 4vw, 4rem) 0;
+  min-width: 0;
 }
 
 .shanghai-vertical-title p,
-.shanghai-vertical-title span,
 .shanghai-tower-callout strong,
 .shanghai-tower-callout p {
   margin: 0;
@@ -412,8 +418,7 @@ html {
 }
 
 .shanghai-vertical-title h2 {
-  max-width: 8ch;
-  margin: 1.15rem 0 1.3rem;
+  margin: 1.15rem 0 0;
   color: #38555b;
   font-size: clamp(4.5rem, 9.5vw, 10.5rem);
   font-weight: 500;
@@ -421,26 +426,19 @@ html {
   letter-spacing: -.075em;
 }
 
-.shanghai-vertical-title span {
+.shanghai-type-title span {
   display: block;
-  max-width: 15rem;
-  color: #7b999d;
-  line-height: 1.65;
 }
 
 .shanghai-vertical-copy {
-  position: absolute;
-  z-index: 1;
-  bottom: clamp(3rem, 7vw, 7rem);
-  left: clamp(1.25rem, 4vw, 4rem);
-  width: min(24rem, 34vw);
+  max-width: min(24rem, 100%);
 }
 
 .shanghai-vertical-copy strong,
 .shanghai-memory-copy strong {
   display: block;
-  margin-bottom: 1.6rem;
-  font-size: clamp(2.4rem, 4.5vw, 5.6rem);
+  margin-bottom: 1.35rem;
+  font-size: clamp(2.35rem, 3.8vw, 4.8rem);
   font-weight: 500;
   line-height: .94;
   letter-spacing: -.055em;
@@ -452,27 +450,27 @@ html {
 
 .shanghai-tower-callout {
   position: absolute;
-  z-index: 1;
-  top: 41.5%;
-  left: 61.8%;
+  z-index: 2;
+  top: 41%;
+  right: clamp(1.5rem, 5vw, 5rem);
+  left: auto;
   width: min(19rem, 24vw);
   color: #3c5a60;
 }
 
 .shanghai-tower-callout > i {
   position: absolute;
+  top: .65rem;
   right: calc(100% + 1rem);
-  bottom: .45rem;
-  width: min(17vw, 16rem);
-  height: clamp(2.5rem, 6vw, 5rem);
+  width: min(16vw, 16rem);
+  height: 0;
   border-top: 1px solid rgba(53, 82, 87, .72);
-  border-right: 1px solid rgba(53, 82, 87, .72);
 }
 
 .shanghai-tower-callout > i::after {
   position: absolute;
   top: -3px;
-  right: -3px;
+  left: -3px;
   width: 5px;
   height: 5px;
   background: #3c5a60;
@@ -593,11 +591,57 @@ html {
   height: min(70rem, 76vw);
   min-height: 0;
   aspect-ratio: auto;
+  background: #202223 url("/assets/be-a-viewer/shanghai/apple-jingan.jpeg") center / cover no-repeat;
   cursor: zoom-in;
 }
 
 .shanghai-apple-jingan img {
   object-position: center;
+}
+
+.shanghai-apple-jingan::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: rgba(242, 241, 236, .62);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+}
+
+.shanghai-apple-jingan.is-shot img {
+  animation: shanghai-photo-exposure 1.2s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.shanghai-apple-jingan.is-shot:not(.is-shot-complete) img {
+  will-change: transform, filter, opacity;
+}
+
+.shanghai-apple-jingan.is-shot::before {
+  animation: shanghai-camera-flash .72s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes shanghai-photo-exposure {
+  0% {
+    opacity: 0;
+    filter: grayscale(1) contrast(1.18) brightness(1.24);
+    transform: scale(1.075);
+  }
+  42% {
+    opacity: 1;
+    filter: grayscale(.22) contrast(1.05) brightness(1.04);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+    transform: scale(1);
+  }
+}
+
+@keyframes shanghai-camera-flash {
+  0% { opacity: .24; }
+  30% { opacity: .1; }
+  100% { opacity: 0; }
 }
 
 .shanghai-apple-directory-copy {
@@ -659,14 +703,35 @@ html {
 }
 
 .shanghai-apple-directory-copy li b,
-.shanghai-apple-directory-copy li small {
+.shanghai-apple-directory-copy li time {
   color: rgba(242, 241, 236, .42);
   font: inherit;
   font-size: .56rem;
 }
 
-.shanghai-apple-directory-copy li small {
+.shanghai-apple-directory-copy li time {
   letter-spacing: .11em;
+  white-space: nowrap;
+}
+
+.shanghai-apple-find-store {
+  align-self: flex-start;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-bottom: .35rem;
+  color: var(--sh-paper);
+  border-bottom: 1px solid rgba(242, 241, 236, .46);
+  font-size: .64rem;
+  font-weight: 750;
+  letter-spacing: .16em;
+  text-decoration: none;
+  transition: color 240ms ease, border-color 240ms ease, transform 240ms ease;
+}
+
+.shanghai-apple-find-store:hover,
+.shanghai-apple-find-store:focus-visible {
+  color: var(--sh-red);
+  border-bottom-color: var(--sh-red);
+  transform: translateX(.25rem);
 }
 
 .shanghai-memory {
@@ -862,6 +927,10 @@ html {
   .shanghai-apple-directory {
     grid-template-columns: minmax(0, 1fr) minmax(18rem, .78fr);
   }
+
+  .shanghai-vertical-editorial {
+    width: min(31rem, 50vw);
+  }
 }
 
 @media (max-width: 700px) {
@@ -1014,9 +1083,15 @@ html {
     min-height: max(44rem, 100svh);
   }
 
+  .shanghai-vertical-editorial {
+    top: calc(4.5rem + env(safe-area-inset-top));
+    left: 1rem;
+    width: min(22rem, 78vw);
+    gap: 2.4rem;
+  }
+
   .shanghai-vertical-title {
-    max-width: min(22rem, 78vw);
-    padding: calc(4.5rem + env(safe-area-inset-top)) 1rem 0;
+    max-width: 100%;
   }
 
   .shanghai-vertical-title h2 {
@@ -1025,8 +1100,6 @@ html {
   }
 
   .shanghai-vertical-copy {
-    bottom: 2rem;
-    left: 1rem;
     width: min(18rem, 70vw);
   }
 
@@ -1040,15 +1113,16 @@ html {
   }
 
   .shanghai-tower-callout {
-    top: 42%;
-    left: 55%;
-    width: min(11rem, 42vw);
+    top: max(25rem, 58%);
+    right: 1rem;
+    left: auto;
+    width: min(11rem, 44vw);
   }
 
   .shanghai-tower-callout > i {
     right: calc(100% + .6rem);
-    width: min(20vw, 6rem);
-    height: 2.8rem;
+    width: min(18vw, 6rem);
+    height: 0;
   }
 
   .shanghai-tower-callout strong,
@@ -1091,6 +1165,11 @@ html {
     gap: .45rem;
     font-size: .57rem;
     letter-spacing: .1em;
+  }
+
+  .shanghai-apple-directory-copy li time {
+    font-size: .5rem;
+    letter-spacing: .08em;
   }
 
   .shanghai-memory-main {
@@ -1136,12 +1215,18 @@ html {
   .shanghai-photo img,
   .shanghai-reveal,
   .shanghai-story-nav,
-  .shanghai-site-nav {
+  .shanghai-site-nav,
+  .shanghai-apple-find-store {
     transition: none;
   }
 
   .shanghai-reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .shanghai-apple-jingan.is-shot img,
+  .shanghai-apple-jingan.is-shot::before {
+    animation: none;
   }
 }
