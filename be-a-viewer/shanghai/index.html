@@ -12,7 +12,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
   <link rel="preload" href="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg" as="image">
   <link rel="stylesheet" href="/styles.css?v=nav-system-12">
-  <link rel="stylesheet" href="/be-a-viewer/shanghai/shanghai.css?v=2">
+  <link rel="stylesheet" href="/be-a-viewer/shanghai/shanghai.css?v=4">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -99,24 +99,27 @@
       </figure>
     </section>
 
-    <section class="shanghai-vertical shanghai-section" id="vertical-city" aria-labelledby="vertical-title" data-shanghai-section>
-      <header class="shanghai-section-head shanghai-section-head-dark">
+    <section class="shanghai-vertical" id="vertical-city" aria-labelledby="vertical-title" data-shanghai-section>
+      <figure class="shanghai-photo shanghai-vertical-tower">
+        <img src="/assets/be-a-viewer/shanghai/shanghai-fog.webp" width="1920" height="1280" loading="lazy" decoding="async" alt="Shanghai World Financial Center rising through low cloud in Pudong">
+        <figcaption>GLASS / WEATHER / DISTANCE</figcaption>
+      </figure>
+      <header class="shanghai-vertical-title">
         <p>02 / PUDONG</p>
         <h2 id="vertical-title">VERTICAL<br>CITY</h2>
         <span>A skyline built as a declaration.</span>
       </header>
-      <figure class="shanghai-photo shanghai-vertical-tower">
-        <img src="/assets/be-a-viewer/shanghai/jinmao-fog.webp" width="1350" height="2400" loading="lazy" decoding="async" alt="Jin Mao Tower disappearing into low cloud">
-        <figcaption>JIN MAO / CLOUD LINE</figcaption>
-      </figure>
       <div class="shanghai-vertical-copy">
-        <strong>The city does not hide its ambition.</strong>
-        <p>In Pudong, towers become instruments for measuring weather. Their crowns vanish, return and rearrange the scale of the street below.</p>
+        <strong>Weather becomes architecture.</strong>
+        <p>In Pudong, a cloud line can redraw the scale of the entire street.</p>
       </div>
-      <figure class="shanghai-photo shanghai-vertical-fog">
-        <img src="/assets/be-a-viewer/shanghai/shanghai-fog.webp" width="1920" height="1280" loading="lazy" decoding="async" alt="Shanghai’s skyline reduced to silhouettes in fog">
-        <figcaption>GLASS / WEATHER / DISTANCE</figcaption>
-      </figure>
+      <aside class="shanghai-tower-callout" aria-label="Shanghai World Financial Center building information">
+        <i aria-hidden="true"></i>
+        <div>
+          <strong>SHANGHAI WORLD<br>FINANCIAL CENTER</strong>
+          <p><b>492 M / 101 FLOORS</b><span>OFFICES · PARK HYATT · RETAIL</span></p>
+        </div>
+      </aside>
     </section>
 
     <section class="shanghai-motion shanghai-section" id="city-in-motion" aria-labelledby="motion-title" data-shanghai-section>
@@ -131,6 +134,10 @@
       </figure>
       <div class="shanghai-motion-copy">
         <p>Shanghai is read at two speeds: the long view from the river and the quick cut of a crossing. Between them, the city is constantly edited by commuters, deliveries, bicycles and light.</p>
+      </div>
+      <div class="shanghai-motion-street-copy">
+        <p class="shanghai-motion-kicker">EAST NANJING ROAD / 31.2352° N</p>
+        <p>A street does not wait to be composed. Faces, storefronts and crossings remake the view every few seconds—one dense frame, always arriving.</p>
       </div>
       <figure class="shanghai-photo shanghai-motion-tall">
         <img src="/assets/be-a-viewer/shanghai/east-nanjing-road.webp" width="1800" height="2400" loading="lazy" decoding="async" alt="Pedestrians beneath signs on East Nanjing Road">
@@ -158,10 +165,27 @@
         <img src="/assets/be-a-viewer/shanghai/shanghai-art.webp" width="2400" height="1600" loading="lazy" decoding="async" alt="A contemporary art and architecture space in Shanghai">
         <figcaption>ART SPACE / OPEN FRAME</figcaption>
       </figure>
-      <figure class="shanghai-photo shanghai-forms-circle">
-        <img src="/assets/be-a-viewer/shanghai/apple-store.webp" width="2200" height="1467" loading="lazy" decoding="async" alt="The circular glass entrance of the Apple Store in Shanghai">
-        <figcaption>PUBLIC CIRCLE / BELOW GRADE</figcaption>
-      </figure>
+      <section class="shanghai-apple-directory" aria-labelledby="apple-directory-title">
+        <figure class="shanghai-photo shanghai-apple-jingan">
+          <img src="/assets/be-a-viewer/shanghai/apple-jingan.jpeg" width="1152" height="1536" loading="lazy" decoding="async" alt="The Apple logo at Apple Jing’an in Shanghai">
+          <figcaption>APPLE 静安 / JING’AN</figcaption>
+        </figure>
+        <div class="shanghai-apple-directory-copy">
+          <p>APPLE RETAIL / SHANGHAI</p>
+          <h3 id="apple-directory-title">EIGHT<br>ADDRESSES.</h3>
+          <span>Across Shanghai, each store becomes a public room for the city.</span>
+          <ol>
+            <li><b>01</b><span>Apple 环球港</span><small>普陀</small></li>
+            <li><b>02</b><span>Apple 香港广场</span><small>黄浦</small></li>
+            <li><b>03</b><span>Apple 五角场</span><small>杨浦</small></li>
+            <li><b>04</b><span>Apple 上海环贸 iapm</span><small>徐汇</small></li>
+            <li><b>05</b><span>Apple 浦东</span><small>浦东</small></li>
+            <li><b>06</b><span>Apple 静安</span><small>静安</small></li>
+            <li><b>07</b><span>Apple 南京东路</span><small>黄浦</small></li>
+            <li><b>08</b><span>Apple 七宝</span><small>闵行</small></li>
+          </ol>
+        </div>
+      </section>
     </section>
 
     <section class="shanghai-memory shanghai-section" id="streets-remember" aria-labelledby="memory-title" data-shanghai-section>
