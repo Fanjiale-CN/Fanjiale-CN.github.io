@@ -635,7 +635,8 @@
         const localTarget = trigger.getAttribute("href")?.startsWith("#");
         if (localTarget) {
           event.preventDefault();
-          seriesSection.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+          const top = window.scrollY + seriesSection.getBoundingClientRect().top;
+          window.scrollTo({ top, behavior: reduceMotion ? "auto" : "smooth" });
           window.setTimeout(() => guideSeries(key, trigger), reduceMotion ? 0 : 360);
         } else {
           guideSeries(key, trigger);
@@ -794,6 +795,20 @@
   const body = document.body;
   const siteNav = document.querySelector(".site-nav");
 
+  function enhanceAccessibilityShell() {
+    const main = document.querySelector("main");
+    if (!main) return;
+
+    if (!main.id) main.id = "main-content";
+    if (!document.querySelector(".skip-link")) {
+      const skipLink = document.createElement("a");
+      skipLink.className = "skip-link";
+      skipLink.href = `#${main.id}`;
+      skipLink.textContent = "Skip to content";
+      body.prepend(skipLink);
+    }
+  }
+
   function enhanceNavigation() {
     if (!siteNav) return;
 
@@ -817,6 +832,7 @@
       if (currentPath.startsWith(item.match)) link.setAttribute("aria-current", "page");
       return link;
     }));
+    links.id = "primary-navigation-links";
 
     if (!brand.querySelector(".brand-lockup")) {
       brand.innerHTML = `
@@ -835,27 +851,52 @@
       toggle.setAttribute("aria-label", "Open navigation");
       navInner.appendChild(toggle);
     }
+    toggle.setAttribute("aria-controls", links.id);
 
-    function setMenu(open) {
+    let menuReturnFocus = null;
+
+    function setMenu(open, restoreFocus = true) {
+      if (open === body.classList.contains("nav-open")) return;
+      if (open) menuReturnFocus = document.activeElement;
       body.classList.toggle("nav-open", open);
       if (open) body.classList.remove("site-chrome-hidden");
       toggle.textContent = open ? "Close" : "Menu";
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+      if (open) {
+        window.requestAnimationFrame(() => links.querySelector("a")?.focus({ preventScroll: true }));
+      } else if (restoreFocus && menuReturnFocus instanceof HTMLElement) {
+        menuReturnFocus.focus({ preventScroll: true });
+      }
     }
 
     toggle.addEventListener("click", () => setMenu(!body.classList.contains("nav-open")));
-    links.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+    links.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false, false)));
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && body.classList.contains("nav-open")) setMenu(false);
+      if (event.key !== "Tab" || !body.classList.contains("nav-open")) return;
+
+      const focusable = [brand, ...links.querySelectorAll("a"), toggle].filter((element) => !element.hidden);
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
     });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 760 && body.classList.contains("nav-open")) setMenu(false, false);
+    }, { passive: true });
 
     const touchNavigation = navigator.maxTouchPoints > 0 ||
       window.matchMedia("(hover: none), (pointer: coarse)").matches;
     const xianMotionClock = body.classList.contains("xian-page-body");
-    const noiseFloor = touchNavigation ? 2.5 : .75;
-    const hideDistance = touchNavigation ? 34 : 22;
-    const showDistance = touchNavigation ? 24 : 14;
+    const noiseFloor = touchNavigation ? 6 : 1.5;
+    const hideDistance = touchNavigation ? 78 : 32;
+    const showDistance = touchNavigation ? 46 : 22;
     const scrollRoot = document.scrollingElement || document.documentElement;
     let previousY = Math.max(0, Math.min(window.scrollY, scrollRoot.scrollHeight - window.innerHeight));
     let direction = 0;
@@ -902,6 +943,50 @@
       window.addEventListener("scroll", requestNavigationSync, { passive: true });
       window.addEventListener("resize", requestNavigationSync, { passive: true });
     }
+  }
+
+  function enhanceFooter() {
+    const footer = document.querySelector("footer.footer:not(.field-footer)");
+    if (!footer || footer.dataset.enhanced === "true") return;
+
+    const pageLinks = Array.from(footer.querySelectorAll("a")).map((link) => ({
+      href: link.getAttribute("href") || "/",
+      label: link.textContent.trim()
+    })).filter((link, index, list) => link.label &&
+      list.findIndex((candidate) => candidate.href === link.href && candidate.label === link.label) === index);
+    const pageLabel = document.title.replace(/\s*-\s*Galok$/i, "").replace(/\s*\|\s*Galok$/i, "") || "Field notes";
+    const pageLinkMarkup = pageLinks.length
+      ? pageLinks.map((link) => `<a href="${link.href}">${link.label}</a>`).join("")
+      : '<a href="/">Home</a>';
+
+    footer.dataset.enhanced = "true";
+    footer.innerHTML = `
+      <div class="footer-inner footer-directory">
+        <a class="footer-brand" href="/" aria-label="Galok home">
+          <img src="/assets/galok-mark.svg" alt="" aria-hidden="true">
+          <span><b>GALOK</b><small>Field notes</small></span>
+        </a>
+        <div class="footer-column">
+          <span>Explore</span>
+          <a href="/essays/">Essays</a>
+          <a href="/series/frame/">Series</a>
+          <a href="/visual-notes/">Visual Notes</a>
+          <a href="/be-a-viewer/">Be a Viewer</a>
+          <a href="/about/">About</a>
+        </div>
+        <div class="footer-column">
+          <span>${pageLabel}</span>
+          ${pageLinkMarkup}
+        </div>
+        <div class="footer-column">
+          <span>Follow</span>
+          <a href="https://medium.com/@galokview" target="_blank" rel="noreferrer">Medium</a>
+          <a href="https://x.com/galokview" target="_blank" rel="noreferrer">X</a>
+          <a href="mailto:galokview@outlook.com">Email</a>
+        </div>
+        <p>© <span data-current-year>${new Date().getFullYear()}</span> Galok<br>Independent field notes.</p>
+      </div>
+    `;
   }
 
   function labelInteriorPage() {
@@ -953,7 +1038,7 @@
     contact.innerHTML = `
       <div class="site-contact-inner">
         <p>CONTACT / GALOK</p>
-        <h2>Contact me with email:</h2>
+        <h2>Write to Galok.</h2>
         <a href="mailto:galokview@outlook.com">galokview@outlook.com</a>
       </div>
     `;
@@ -1389,7 +1474,9 @@
     renderCards();
   }
 
+  enhanceAccessibilityShell();
   enhanceNavigation();
+  enhanceFooter();
   initGlobalContactModule();
   labelInteriorPage();
   initArticleProgress();

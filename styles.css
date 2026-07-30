@@ -11019,3 +11019,426 @@ body.article-body .site-shell {
     animation: none !important;
   }
 }
+
+/* 2026 design audit: shared hierarchy, interaction and accessibility */
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 12px;
+  z-index: 1000;
+  padding: 11px 15px;
+  color: var(--field-white);
+  background: var(--field-black);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translateY(-160%);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skip-link:focus {
+  outline-color: var(--field-red);
+  transform: translateY(0);
+}
+
+main {
+  scroll-margin-top: 76px;
+}
+
+:where(h1, h2, h3, p, li, dd) {
+  text-wrap: pretty;
+}
+
+.site-nav {
+  contain: layout style;
+}
+
+.site-nav.is-scrolled:not(.field-nav) {
+  background: rgba(248, 249, 247, 0.96);
+  box-shadow: 0 1px 0 rgba(16, 18, 20, 0.06);
+}
+
+.nav-menu-toggle {
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.nav-menu-toggle:hover,
+.nav-menu-toggle:focus-visible {
+  color: var(--field-white);
+  border-color: var(--field-black);
+  background: var(--field-black);
+}
+
+.field-nav .nav-menu-toggle:hover,
+.field-nav .nav-menu-toggle:focus-visible,
+body.nav-open .nav-menu-toggle:hover,
+body.nav-open .nav-menu-toggle:focus-visible {
+  color: var(--field-black);
+  border-color: var(--field-white);
+  background: var(--field-white);
+}
+
+/* One selector and one transport control: numbered chapters choose, pause controls time. */
+.field-hero-actions button {
+  min-width: 72px;
+}
+
+.field-hero-dots button,
+.field-hero-actions button {
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.field-hero-dots button:hover,
+.field-hero-actions button:hover {
+  transform: translateY(-2px);
+}
+
+/* Interior pages enter the argument sooner while retaining the indexed editorial signature. */
+@media (min-width: 761px) {
+  .page-hero {
+    min-height: clamp(520px, 64svh, 610px);
+    justify-content: flex-end;
+    padding: clamp(92px, 9vw, 132px) 0 54px;
+  }
+
+  .page-hero::before {
+    top: 34px;
+    color: #b9bdbe;
+    font-size: clamp(4.5rem, 8vw, 8.2rem);
+    opacity: 0.72;
+  }
+
+  .page-title {
+    max-width: 980px;
+    font-size: clamp(3.8rem, 6.8vw, 7.45rem);
+  }
+
+  .page-copy {
+    max-width: 720px;
+    margin-top: 26px;
+  }
+
+  .section {
+    padding-block: clamp(68px, 7.2vw, 106px);
+  }
+
+  .section.compact {
+    padding-block: 64px;
+  }
+}
+
+.series-card,
+.essay-card,
+.note-card {
+  position: relative;
+  transition:
+    color 220ms ease,
+    background 220ms ease,
+    transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.series-card::after,
+.essay-card::after,
+a.note-card::after {
+  content: "↗";
+  position: absolute;
+  right: 22px;
+  bottom: 20px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  border: 1px solid var(--line-dark);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translate3d(-6px, 6px, 0);
+  transition:
+    opacity 180ms ease,
+    transform 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.series-card:hover::after,
+.series-card:focus-visible::after,
+.essay-card:hover::after,
+.essay-card:focus-visible::after,
+a.note-card:hover::after,
+a.note-card:focus-visible::after {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .series-card:hover,
+  .essay-card:hover,
+  a.note-card:hover {
+    z-index: 1;
+    transform: translateY(-4px);
+  }
+}
+
+.note-card:not(a):hover {
+  background: #fff;
+  transform: none;
+}
+
+/* About: editorial roles replace decorative, unsupported percentages. */
+.editorial-roles {
+  margin: 34px 0 0;
+  border-top: 1px solid var(--line-dark);
+}
+
+.editorial-roles > div {
+  display: grid;
+  grid-template-columns: minmax(90px, 0.28fr) minmax(0, 0.72fr);
+  gap: 22px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.editorial-roles dt {
+  color: var(--field-red);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.editorial-roles dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+/* Shared directory footer. Contextual links stay intact, global routes stop changing by page. */
+.footer:not(.field-footer) .footer-inner.footer-directory {
+  width: min(1280px, calc(100% - 64px));
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(220px, 1.45fr) repeat(3, minmax(130px, 0.7fr));
+  gap: clamp(34px, 5vw, 74px);
+  align-items: start;
+  padding: clamp(62px, 8vw, 104px) 0 48px;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  color: #fff;
+}
+
+.footer-brand img {
+  width: 46px;
+  height: 46px;
+}
+
+.footer-brand span {
+  display: grid;
+  line-height: 1;
+}
+
+.footer-brand b {
+  font-size: 1.08rem;
+  letter-spacing: 0.14em;
+}
+
+.footer-brand small {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.footer-column {
+  display: grid;
+  align-content: start;
+}
+
+.footer-column > span {
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.64rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.footer-column a {
+  width: fit-content;
+  padding: 5px 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.84rem;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.footer-column a:hover,
+.footer-column a:focus-visible {
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.footer-directory > p {
+  grid-column: 1 / -1;
+  margin: 30px 0 0;
+  padding-top: 22px;
+  color: rgba(255, 255, 255, 0.46);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.site-contact-inner {
+  grid-template-columns: minmax(160px, 0.22fr) minmax(0, 0.78fr);
+}
+
+.site-contact h2 {
+  max-width: 800px;
+}
+
+@media (max-width: 760px) {
+  main {
+    scroll-margin-top: 68px;
+  }
+
+  .nav-links,
+  .spatial-nav .nav-links {
+    justify-content: flex-end;
+    padding-top: calc(118px + env(safe-area-inset-top));
+  }
+
+  .nav-links::before,
+  .spatial-nav .nav-links::before {
+    content: "Explore Galok";
+    margin-bottom: auto;
+    color: rgba(255, 255, 255, 0.46);
+    font-size: 0.66rem;
+    font-weight: 750;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .nav-links a,
+  .spatial-nav .nav-links a {
+    min-height: 62px;
+  }
+
+  .nav-links a[aria-current="page"]::after,
+  .spatial-nav .nav-links a[aria-current="page"]::after {
+    content: "Current";
+    display: block;
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .field-hero-grid {
+    padding-bottom: 176px;
+  }
+
+  .field-hero-controls {
+    bottom: 72px;
+  }
+
+  .field-hero-progress {
+    bottom: 54px;
+  }
+
+  .field-hero-actions {
+    justify-content: flex-end;
+  }
+
+  .field-hero-actions button {
+    flex: 0 0 auto;
+    min-width: 84px;
+  }
+
+  .page-hero {
+    min-height: auto;
+    padding: 100px 0 48px;
+  }
+
+  .page-hero::before {
+    top: 26px;
+    font-size: 4.6rem;
+    opacity: 0.6;
+  }
+
+  .section {
+    padding-block: 66px;
+  }
+
+  .editorial-roles > div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .footer:not(.field-footer) .footer-inner.footer-directory {
+    width: calc(100% - 40px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 42px 24px;
+    padding: 64px 0 42px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-column:nth-of-type(3) {
+    grid-column: 1 / -1;
+  }
+
+  .footer-directory > p {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+
+  .site-contact-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .site-nav,
+  .skip-link,
+  .series-card,
+  .essay-card,
+  .note-card,
+  .series-card::after,
+  .essay-card::after,
+  a.note-card::after,
+  .footer-column a,
+  .field-hero-dots button,
+  .field-hero-actions button {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .series-card:hover,
+  .essay-card:hover,
+  a.note-card:hover,
+  .footer-column a:hover,
+  .field-hero-dots button:hover,
+  .field-hero-actions button:hover {
+    transform: none !important;
+  }
+}
