@@ -12,7 +12,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
   <link rel="preload" href="/assets/be-a-viewer/beijing/beijing-hero-poster.jpg" as="image">
   <link rel="stylesheet" href="/styles.css?v=site-audit-14">
-  <link rel="stylesheet" href="/be-a-viewer/beijing/beijing.css?v=1">
+  <link rel="stylesheet" href="/be-a-viewer/beijing/beijing.css?v=2">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -58,7 +58,6 @@
         </video>
       </div>
       <div class="beijing-hero-shade" aria-hidden="true"></div>
-      <i class="beijing-hero-axis" aria-hidden="true"></i>
 
       <header class="beijing-hero-meta">
         <span>BE A VIEWER / CITY 01</span>
@@ -90,7 +89,8 @@
       <a href="#side-streets"><b>02</b><span>Side Streets</span></a>
       <a href="#street-heat"><b>03</b><span>Street Heat</span></a>
       <a href="#new-city"><b>04</b><span>New City</span></a>
-      <a href="#northern-edge"><b>05</b><span>Northern Edge</span></a>
+      <a href="#frame-the-city"><b>05</b><span>Frame the City</span></a>
+      <a href="#northern-edge"><b>06</b><span>Northern Edge</span></a>
     </nav>
 
     <section class="beijing-prologue" id="central-axis" aria-labelledby="axis-title">
@@ -244,6 +244,11 @@
         <h2 id="weather-title">THE CITY<br>CHANGES TONE.</h2>
         <span>Rain lowers the horizon. Winter edits the colour.</span>
       </header>
+      <div class="beijing-weather-copy" data-beijing-reveal>
+        <span>TWO EXPOSURES / ONE CAPITAL</span>
+        <p>Rain compresses Beijing. Reflections pull signs, buses and tree trunks down to the curb, turning a familiar street into a second city.</p>
+        <p>Snow works in reverse. It removes detail, softens distance and leaves every muted red more visible than before.</p>
+      </div>
       <figure class="beijing-photo beijing-rain" data-beijing-reveal>
         <img src="/assets/be-a-viewer/beijing/rain-curb.webp" width="1600" height="1066" loading="lazy" decoding="async" alt="A Beijing street reflected in rainwater beside a passing bus">
         <figcaption>RAIN / CURB / REFLECTION</figcaption>
@@ -252,15 +257,154 @@
         <img src="/assets/be-a-viewer/beijing/winter-street.webp" width="1600" height="900" loading="lazy" decoding="async" alt="A snowy Beijing avenue lined with bare trees and red lanterns">
         <figcaption>WINTER AVENUE / MUTED RED</figcaption>
       </figure>
+      <blockquote class="beijing-weather-quote" data-beijing-reveal>
+        <p>Weather does not hide the city. It chooses what the eye notices next.</p>
+      </blockquote>
+    </section>
+
+    <section class="beijing-frame-city" id="frame-the-city" aria-labelledby="frame-city-title" data-frame-city>
+      <header class="beijing-frame-intro" data-beijing-reveal>
+        <div>
+          <p>05 / FRAME THE CITY <span lang="zh-Hans">城市取景器</span></p>
+          <h2 id="frame-city-title">KEEP ONE<br>BEIJING.</h2>
+        </div>
+        <div class="beijing-frame-intro-copy">
+          <p>Beijing rarely offers one image at a time. Choose what to keep, move the border, then add the small facts that place the frame in time.</p>
+          <button type="button" class="beijing-camera-launch" data-frame-launch aria-expanded="false" aria-controls="beijing-camera">
+            <span data-frame-launch-label>OPEN VIRTUAL CAMERA</span>
+            <b aria-hidden="true">↗</b>
+          </button>
+        </div>
+      </header>
+
+      <div class="beijing-camera" id="beijing-camera" data-frame-app hidden>
+        <div class="beijing-camera-viewport">
+          <div class="beijing-camera-status" aria-hidden="true">
+            <span>GALOK FIELD CAMERA / LIVE</span>
+            <span data-frame-ratio-label>LANDSCAPE 8:5</span>
+          </div>
+          <div class="beijing-frame-stage" data-frame-stage>
+            <img
+              src="/assets/be-a-viewer/beijing/rain-curb.webp"
+              width="1600"
+              height="1066"
+              alt="Rain reflected on a Beijing street"
+              data-frame-source
+              decoding="async"
+            >
+            <div class="beijing-frame-vignette" aria-hidden="true"></div>
+            <div
+              class="beijing-viewfinder"
+              data-frame-window
+              role="group"
+              tabindex="0"
+              aria-label="Movable camera frame. Drag it or use the arrow keys to reframe the photograph."
+            >
+              <div class="beijing-viewfinder-copy is-bottom-left" data-frame-copy>
+                <strong data-frame-city-preview>BEIJING</strong>
+                <span data-frame-date-preview>30 JUL 2026</span>
+                <small data-frame-coordinates-preview>39.9042° N / 116.4074° E</small>
+              </div>
+            </div>
+            <div class="beijing-camera-flash" data-frame-flash aria-hidden="true"></div>
+          </div>
+          <p class="beijing-camera-hint" data-frame-hint>DRAG THE FRAME TO CHOOSE WHAT REMAINS.</p>
+        </div>
+
+        <aside class="beijing-camera-controls" aria-label="Postcard controls">
+          <fieldset>
+            <legend>FRAME</legend>
+            <div class="beijing-control-row" data-frame-aspects>
+              <button type="button" class="is-active" data-frame-aspect="landscape" aria-pressed="true">LANDSCAPE</button>
+              <button type="button" data-frame-aspect="square" aria-pressed="false">SQUARE</button>
+              <button type="button" data-frame-aspect="portrait" aria-pressed="false">PORTRAIT</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>TEXT POSITION</legend>
+            <div class="beijing-control-row beijing-position-controls" data-frame-positions>
+              <button type="button" data-frame-position="top-left" aria-pressed="false">TOP LEFT</button>
+              <button type="button" data-frame-position="top-right" aria-pressed="false">TOP RIGHT</button>
+              <button type="button" class="is-active" data-frame-position="bottom-left" aria-pressed="true">BOTTOM LEFT</button>
+              <button type="button" data-frame-position="bottom-right" aria-pressed="false">BOTTOM RIGHT</button>
+            </div>
+          </fieldset>
+
+          <fieldset class="beijing-scene-controls">
+            <legend>EXPOSURE</legend>
+            <div class="beijing-scene-list" data-frame-scenes>
+              <button type="button" class="is-active" data-frame-scene="/assets/be-a-viewer/beijing/rain-curb.webp" data-frame-alt="Rain reflected on a Beijing street" aria-pressed="true">
+                <img src="/assets/be-a-viewer/beijing/rain-curb.webp" width="1600" height="1066" alt="">
+                <span>RAIN / BEICHIZI</span>
+              </button>
+              <button type="button" data-frame-scene="/assets/be-a-viewer/beijing/winter-street.webp" data-frame-alt="Snow falling along a Beijing avenue" aria-pressed="false">
+                <img src="/assets/be-a-viewer/beijing/winter-street.webp" width="1600" height="900" alt="" loading="lazy">
+                <span>WINTER / AVENUE</span>
+              </button>
+              <button type="button" data-frame-scene="/assets/be-a-viewer/beijing/palace-sunset.webp" data-frame-alt="Palace roofs in the last light" aria-pressed="false">
+                <img src="/assets/be-a-viewer/beijing/palace-sunset.webp" width="1800" height="1200" alt="" loading="lazy">
+                <span>PALACE / LAST LIGHT</span>
+              </button>
+              <button type="button" data-frame-scene="/assets/be-a-viewer/beijing/great-wall.webp" data-frame-alt="The Great Wall following a northern ridge" aria-pressed="false">
+                <img src="/assets/be-a-viewer/beijing/great-wall.webp" width="1800" height="1012" alt="" loading="lazy">
+                <span>RIDGE / NORTH</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <div class="beijing-camera-fields">
+            <label>
+              <span>CITY</span>
+              <input type="text" value="BEIJING" maxlength="24" autocomplete="off" data-frame-city-input>
+            </label>
+            <label>
+              <span>DATE</span>
+              <input type="date" data-frame-date-input>
+            </label>
+            <label>
+              <span>COORDINATES</span>
+              <input type="text" value="39.9042° N / 116.4074° E" maxlength="42" autocomplete="off" data-frame-coordinates-input>
+            </label>
+          </div>
+
+          <button type="button" class="beijing-camera-generate" data-frame-generate>
+            <span>MAKE DIGITAL POSTCARD</span>
+            <b aria-hidden="true">01</b>
+          </button>
+          <p class="beijing-camera-live-status" role="status" aria-live="polite" data-frame-status>Camera ready.</p>
+        </aside>
+      </div>
+
+      <dialog class="beijing-postcard-dialog" data-frame-dialog aria-labelledby="postcard-dialog-title">
+        <div>
+          <header>
+            <div>
+              <p>FRAME SAVED / 01</p>
+              <h2 id="postcard-dialog-title">YOUR BEIJING.</h2>
+            </div>
+            <button type="button" data-frame-dialog-close aria-label="Close postcard preview">CLOSE</button>
+          </header>
+          <img alt="Generated Beijing digital postcard preview" data-frame-output>
+          <footer>
+            <p>The frame is rendered locally in your browser. Nothing is uploaded.</p>
+            <a download="galok-beijing-postcard.png" data-frame-download>DOWNLOAD PNG <span aria-hidden="true">↓</span></a>
+          </footer>
+        </div>
+      </dialog>
     </section>
 
     <section class="beijing-edge" id="northern-edge" aria-labelledby="edge-title">
       <img src="/assets/be-a-viewer/beijing/great-wall.webp" width="1800" height="1012" loading="lazy" decoding="async" alt="The Great Wall following a mountain ridge north of Beijing">
       <div class="beijing-edge-shade" aria-hidden="true"></div>
       <header data-beijing-reveal>
-        <p>05 / NORTHERN EDGE</p>
+        <p>06 / NORTHERN EDGE</p>
         <h2 id="edge-title">THE LINE<br>BECOMES LAND.</h2>
         <span>At the city’s far edge, geometry gives way to terrain.</span>
+        <div class="beijing-edge-note">
+          <b>NORTH OF THE DENSE CITY</b>
+          <p>The Wall converts built intention into topography. It climbs because the ridge does, turning a boundary into a way of reading distance.</p>
+        </div>
       </header>
       <div class="beijing-edge-links">
         <a href="/be-a-viewer/">RETURN TO CITY INDEX <span aria-hidden="true">↗</span></a>
@@ -279,6 +423,6 @@
   </footer>
 
   <script src="/script.js?v=site-audit-14"></script>
-  <script src="/be-a-viewer/beijing/beijing.js?v=1"></script>
+  <script src="/be-a-viewer/beijing/beijing.js?v=2"></script>
 </body>
 </html>
