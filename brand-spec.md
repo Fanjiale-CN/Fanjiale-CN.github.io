@@ -42,3 +42,9 @@
 - Fabricated metrics, percentages or trust signals.
 - Continuous scroll-scrubbing on touch devices.
 - Gradient decoration, rounded-card grids or motion that does not communicate hierarchy or feedback.
+
+## BE A VIEWER city systems
+
+- Shanghai: cinematic architectural journal; river haze, street velocity and blue-green glass.
+- Beijing: city-axis editorial film; palace vermilion, warm stone, winter jade and directly manipulated chapter states.
+- Each city may have one signature interaction. Document scroll stays native across every city story.

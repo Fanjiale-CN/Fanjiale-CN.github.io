@@ -1,0 +1,1432 @@
+:root {
+  --bj-ink: #111413;
+  --bj-stone: #e8e3d8;
+  --bj-paper: #f4f1e9;
+  --bj-red: #982f28;
+  --bj-jade: #71817f;
+  --bj-mist: #aeb7b2;
+  --bj-line: rgba(17, 20, 19, .2);
+  --bj-gutter: clamp(22px, 4.2vw, 72px);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+html {
+  width: 100%;
+  max-width: 100%;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+.beijing-page-body {
+  width: 100%;
+  max-width: 100%;
+  color: var(--bj-ink);
+  background: var(--bj-stone);
+  overflow-x: clip;
+}
+
+.beijing-page-main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.beijing-site-nav {
+  position: fixed;
+  inset: 0 0 auto;
+  color: var(--bj-paper);
+  border-bottom-color: rgba(244, 241, 233, .22);
+  background: rgba(17, 20, 19, .12);
+  backdrop-filter: none;
+  transition:
+    color 220ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 420ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.beijing-site-nav .brand,
+.beijing-site-nav .nav-links a {
+  color: inherit;
+}
+
+.beijing-site-nav.is-scrolled,
+body.nav-open .beijing-site-nav {
+  color: var(--bj-ink);
+  border-bottom-color: var(--bj-line);
+  background: rgba(244, 241, 233, .95);
+  backdrop-filter: blur(16px) saturate(118%);
+}
+
+.beijing-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 620px;
+  color: var(--bj-paper);
+  background: var(--bj-ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.beijing-hero-media,
+.beijing-hero-shade {
+  position: absolute;
+  inset: 0;
+}
+
+.beijing-hero-media {
+  z-index: -3;
+  background: var(--bj-ink) url("/assets/be-a-viewer/beijing/beijing-hero-poster.jpg") center / cover no-repeat;
+}
+
+.beijing-hero-media video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 52%;
+}
+
+.beijing-hero-shade {
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(12, 15, 14, .52) 0%, rgba(12, 15, 14, .08) 31%, rgba(12, 15, 14, .12) 53%, rgba(12, 15, 14, .82) 100%),
+    linear-gradient(90deg, rgba(12, 15, 14, .48), rgba(12, 15, 14, 0) 58%);
+  pointer-events: none;
+}
+
+.beijing-hero-axis {
+  position: absolute;
+  inset: 0 auto 0 50%;
+  width: 1px;
+  z-index: -1;
+  display: block;
+  background: rgba(244, 241, 233, .32);
+}
+
+.beijing-hero-axis::before,
+.beijing-hero-axis::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid rgba(244, 241, 233, .72);
+  background: var(--bj-red);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.beijing-hero-axis::before {
+  top: 18%;
+}
+
+.beijing-hero-axis::after {
+  bottom: 18%;
+}
+
+.beijing-hero-meta {
+  position: absolute;
+  top: clamp(102px, 14vh, 152px);
+  left: var(--bj-gutter);
+  right: var(--bj-gutter);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(244, 241, 233, .42);
+  font-size: clamp(.68rem, .75vw, .8rem);
+  font-weight: 750;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.beijing-hero-beats {
+  position: absolute;
+  left: var(--bj-gutter);
+  right: var(--bj-gutter);
+  bottom: clamp(116px, 16vh, 172px);
+  min-height: clamp(144px, 25vw, 340px);
+}
+
+.beijing-hero-beats p {
+  position: absolute;
+  inset: auto auto 0 0;
+  max-width: 10ch;
+  margin: 0;
+  color: var(--bj-paper);
+  font-size: clamp(3.6rem, 9.1vw, 9.8rem);
+  font-weight: 650;
+  letter-spacing: -.072em;
+  line-height: .78;
+  opacity: 0;
+  filter: blur(16px);
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity 420ms ease,
+    filter 720ms cubic-bezier(.16, 1, .3, 1),
+    transform 720ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.beijing-hero-beats p.is-active {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+}
+
+.beijing-hero-beats span {
+  display: block;
+  margin-bottom: clamp(14px, 2.3vh, 26px);
+  color: #d4d9d5;
+  font-size: clamp(.68rem, .8vw, .84rem);
+  font-weight: 750;
+  letter-spacing: .18em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.beijing-hero-footer {
+  position: absolute;
+  left: var(--bj-gutter);
+  right: var(--bj-gutter);
+  bottom: max(24px, env(safe-area-inset-bottom));
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: auto minmax(120px, 1fr) auto auto;
+  align-items: center;
+  gap: clamp(16px, 2.6vw, 38px);
+  font-size: .7rem;
+  font-weight: 750;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.beijing-hero-progress {
+  height: 1px;
+  overflow: hidden;
+  background: rgba(244, 241, 233, .32);
+}
+
+.beijing-hero-progress i {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--bj-paper);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.beijing-hero-footer button,
+.beijing-hero-footer a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  color: inherit;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.beijing-hero-footer a {
+  gap: 9px;
+  border-bottom: 1px solid rgba(244, 241, 233, .62);
+}
+
+.beijing-hero-footer button:hover,
+.beijing-hero-footer button:focus-visible,
+.beijing-hero-footer a:hover,
+.beijing-hero-footer a:focus-visible {
+  color: #fff;
+}
+
+.beijing-chapters {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  color: var(--bj-ink);
+  background: var(--bj-paper);
+  border-bottom: 1px solid var(--bj-line);
+}
+
+.beijing-chapters a {
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 clamp(18px, 2.2vw, 36px);
+  color: inherit;
+  border-right: 1px solid var(--bj-line);
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.beijing-chapters a:last-child {
+  border-right: 0;
+}
+
+.beijing-chapters b {
+  color: var(--bj-red);
+  font-size: .7rem;
+  letter-spacing: .13em;
+}
+
+.beijing-chapters span {
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.beijing-chapters a:hover,
+.beijing-chapters a:focus-visible {
+  color: var(--bj-paper);
+  background: var(--bj-red);
+}
+
+.beijing-chapters a:hover b,
+.beijing-chapters a:focus-visible b {
+  color: inherit;
+}
+
+.beijing-photo {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: #c9c5bc;
+}
+
+.beijing-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 760ms cubic-bezier(.16, 1, .3, 1), filter 360ms ease;
+}
+
+.beijing-photo figcaption {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+  z-index: 2;
+  color: var(--bj-paper);
+  font-size: clamp(.61rem, .7vw, .73rem);
+  font-weight: 800;
+  letter-spacing: .18em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  text-shadow: 0 1px 16px rgba(17, 20, 19, .8);
+}
+
+.beijing-prologue {
+  position: relative;
+  min-height: 118svh;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-content: start;
+  gap: 0 24px;
+  padding: clamp(88px, 11vw, 172px) var(--bj-gutter) clamp(90px, 12vw, 180px);
+  color: var(--bj-ink);
+  background: var(--bj-stone);
+  overflow: hidden;
+}
+
+.beijing-prologue::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: rgba(17, 20, 19, .12);
+  pointer-events: none;
+}
+
+.beijing-prologue header {
+  grid-column: 1 / 8;
+  position: relative;
+  z-index: 2;
+}
+
+.beijing-prologue header > p,
+.beijing-section-head > p,
+.beijing-axis-heading > p,
+.beijing-street-heat > header > p,
+.beijing-new-city-copy > p:first-child,
+.beijing-edge header > p {
+  margin: 0 0 24px;
+  color: var(--bj-red);
+  font-size: clamp(.68rem, .78vw, .8rem);
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.beijing-prologue h2,
+.beijing-section-head h2,
+.beijing-street-heat h2,
+.beijing-edge h2 {
+  margin: 0;
+  font-size: clamp(4.3rem, 9.7vw, 10rem);
+  font-weight: 620;
+  letter-spacing: -.075em;
+  line-height: .77;
+}
+
+.beijing-prologue header > span,
+.beijing-section-head > span,
+.beijing-street-heat > header > span,
+.beijing-edge header > span {
+  display: block;
+  max-width: 42ch;
+  margin-top: 30px;
+  color: #59615e;
+  font-size: clamp(.88rem, 1.1vw, 1.04rem);
+  line-height: 1.55;
+}
+
+.beijing-prologue-copy {
+  grid-column: 9 / 13;
+  align-self: end;
+  z-index: 2;
+  margin-top: clamp(64px, 16vw, 240px);
+}
+
+.beijing-prologue-copy p {
+  margin: 0 0 20px;
+  font-size: clamp(1.1rem, 1.65vw, 1.58rem);
+  letter-spacing: -.025em;
+  line-height: 1.35;
+}
+
+.beijing-prologue-photo {
+  grid-column: 3 / 13;
+  height: min(62vw, 790px);
+  z-index: 2;
+  margin-top: clamp(62px, 8vw, 118px);
+}
+
+.beijing-prologue-photo img {
+  object-position: center 48%;
+}
+
+.beijing-prologue-word {
+  position: absolute;
+  left: -.04em;
+  bottom: -.13em;
+  color: rgba(152, 47, 40, .1);
+  font-size: clamp(9rem, 28vw, 29rem);
+  font-weight: 750;
+  letter-spacing: -.09em;
+  line-height: .74;
+  user-select: none;
+  pointer-events: none;
+}
+
+.beijing-axis-explorer {
+  position: relative;
+  color: var(--bj-paper);
+  background: var(--bj-ink);
+  overflow: hidden;
+}
+
+.beijing-axis-heading {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  align-items: end;
+  gap: 24px;
+  padding: clamp(80px, 8vw, 132px) var(--bj-gutter) clamp(50px, 6vw, 82px);
+}
+
+.beijing-axis-heading p {
+  align-self: start;
+  color: #c2c9c4;
+}
+
+.beijing-axis-heading h2 {
+  margin: 0;
+  color: var(--bj-paper);
+  font-size: clamp(5rem, 12vw, 12.6rem);
+  font-weight: 650;
+  letter-spacing: -.08em;
+  line-height: .72;
+}
+
+.beijing-axis-heading > span {
+  max-width: 28ch;
+  color: var(--bj-mist);
+  font-size: clamp(.9rem, 1.1vw, 1.08rem);
+  line-height: 1.55;
+}
+
+.beijing-axis-stage {
+  position: relative;
+  min-height: min(76svh, 920px);
+  display: grid;
+  overflow: hidden;
+}
+
+.beijing-axis-panel {
+  position: relative;
+  grid-area: 1 / 1;
+  min-width: 0;
+  min-height: inherit;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  isolation: isolate;
+  transition: opacity 480ms ease, visibility 0s linear 480ms;
+}
+
+.beijing-axis-panel.is-active {
+  z-index: 2;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 620ms ease, visibility 0s linear 0s;
+}
+
+.beijing-axis-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(8, 11, 10, .82) 0%, rgba(8, 11, 10, .22) 55%, rgba(8, 11, 10, .08) 100%),
+    linear-gradient(180deg, rgba(8, 11, 10, .04) 46%, rgba(8, 11, 10, .72) 100%);
+}
+
+.beijing-axis-panel > img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(.82) contrast(1.03);
+  transform: scale(1.025);
+  transition: transform 1100ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.beijing-axis-panel.is-active > img {
+  transform: scale(1);
+}
+
+.beijing-axis-panel[data-axis-panel="0"] > img {
+  object-position: center 34%;
+}
+
+.beijing-axis-panel[data-axis-panel="1"] > img {
+  object-position: center 48%;
+}
+
+.beijing-axis-panel[data-axis-panel="2"] > img {
+  object-position: center;
+}
+
+.beijing-axis-panel > div {
+  position: absolute;
+  left: var(--bj-gutter);
+  bottom: clamp(46px, 6vw, 86px);
+  width: min(620px, calc(100% - var(--bj-gutter) * 2));
+  opacity: 0;
+  transform: translate3d(-22px, 0, 0);
+  transition:
+    opacity 320ms ease,
+    transform 620ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.beijing-axis-panel.is-active > div {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: 180ms;
+}
+
+.beijing-axis-panel p {
+  margin: 0 0 18px;
+  color: #d4dad5;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.beijing-axis-panel h3 {
+  max-width: 12ch;
+  margin: 0 0 24px;
+  font-size: clamp(2.9rem, 6vw, 6.7rem);
+  font-weight: 620;
+  letter-spacing: -.065em;
+  line-height: .83;
+}
+
+.beijing-axis-panel div > span {
+  max-width: 46ch;
+  display: block;
+  color: #d1d5d1;
+  font-size: clamp(.96rem, 1.2vw, 1.12rem);
+  line-height: 1.55;
+}
+
+.beijing-axis-controls {
+  --axis-position: 0%;
+  position: relative;
+  z-index: 3;
+  padding: 30px var(--bj-gutter) 42px;
+  color: var(--bj-paper);
+  background: var(--bj-ink);
+  border-top: 1px solid rgba(244, 241, 233, .18);
+}
+
+.beijing-axis-direction {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  color: #959e99;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+
+.beijing-axis-track {
+  position: relative;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  touch-action: none;
+  cursor: ew-resize;
+}
+
+.beijing-axis-track::before,
+.beijing-axis-track > i {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  display: block;
+  background: rgba(244, 241, 233, .25);
+}
+
+.beijing-axis-track > i {
+  right: auto;
+  width: var(--axis-position);
+  background: var(--bj-red);
+  transform-origin: left center;
+}
+
+.beijing-axis-track > b {
+  position: absolute;
+  left: var(--axis-position);
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  display: block;
+  border: 1px solid var(--bj-paper);
+  border-radius: 50%;
+  background: var(--bj-red);
+  box-shadow: 0 0 0 5px rgba(152, 47, 40, .2);
+  transform: translate(-50%, -50%);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.beijing-axis-track:hover > b,
+.beijing-axis-track:focus-within > b,
+.beijing-axis-controls.is-dragging .beijing-axis-track > b {
+  box-shadow: 0 0 0 9px rgba(152, 47, 40, .24);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.beijing-axis-controls:not(.is-dragging) .beijing-axis-track > i,
+.beijing-axis-controls:not(.is-dragging) .beijing-axis-track > b {
+  transition:
+    left 440ms cubic-bezier(.18, .88, .24, 1.08),
+    width 440ms cubic-bezier(.18, .88, .24, 1.08),
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.beijing-axis-stops {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 10px;
+}
+
+.beijing-axis-stops button {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  color: #8f9893;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.beijing-axis-stops button:nth-child(2) {
+  justify-content: center;
+}
+
+.beijing-axis-stops button:last-child {
+  justify-content: flex-end;
+}
+
+.beijing-axis-stops button.is-active {
+  color: var(--bj-paper);
+}
+
+.beijing-axis-stops b,
+.beijing-axis-stops span {
+  font-size: .66rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.beijing-axis-stops b {
+  color: var(--bj-red);
+}
+
+.beijing-side-streets {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(22px, 3vw, 46px);
+  padding: clamp(92px, 11vw, 168px) var(--bj-gutter);
+  color: var(--bj-ink);
+  background: var(--bj-paper);
+}
+
+.beijing-section-head {
+  grid-column: 1 / 9;
+}
+
+.beijing-side-intro {
+  grid-column: 9 / 13;
+  align-self: end;
+  padding-bottom: 12px;
+}
+
+.beijing-side-intro p,
+.beijing-conversation-block > p {
+  margin: 0;
+  font-size: clamp(1.1rem, 1.8vw, 1.7rem);
+  letter-spacing: -.025em;
+  line-height: 1.38;
+}
+
+.beijing-hutong-wide {
+  grid-column: 1 / 9;
+  height: clamp(360px, 47vw, 720px);
+  margin-top: clamp(54px, 8vw, 112px);
+}
+
+.beijing-hutong-door {
+  grid-column: 9 / 13;
+  height: clamp(360px, 41vw, 620px);
+  margin-top: clamp(140px, 17vw, 260px);
+}
+
+.beijing-street-motion {
+  grid-column: 2 / 8;
+  height: clamp(330px, 39vw, 590px);
+  margin-top: clamp(70px, 11vw, 168px);
+}
+
+.beijing-conversation-block {
+  grid-column: 8 / 13;
+  align-self: end;
+  margin-top: clamp(120px, 18vw, 280px);
+}
+
+.beijing-conversation-block figure {
+  height: clamp(320px, 38vw, 570px);
+}
+
+.beijing-conversation-block > p {
+  max-width: 34ch;
+  margin-top: 28px;
+}
+
+.beijing-street-heat {
+  padding: clamp(92px, 11vw, 160px) var(--bj-gutter);
+  color: var(--bj-paper);
+  background: var(--bj-red);
+}
+
+.beijing-street-heat > header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: end;
+  gap: 26px;
+  margin-bottom: clamp(62px, 8vw, 118px);
+}
+
+.beijing-street-heat > header > p {
+  align-self: start;
+  color: var(--bj-paper);
+}
+
+.beijing-street-heat h2 {
+  grid-column: 2;
+  color: var(--bj-paper);
+}
+
+.beijing-street-heat > header > span {
+  grid-column: 3;
+  color: #efdcd7;
+}
+
+.beijing-food-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1.6fr .9fr;
+  align-items: end;
+  gap: clamp(18px, 2.2vw, 34px);
+}
+
+.beijing-food-tall {
+  height: min(63vw, 760px);
+}
+
+.beijing-food-wide {
+  height: min(44vw, 570px);
+  margin-bottom: 9vw;
+}
+
+.beijing-food-note {
+  align-self: end;
+  padding: 28px 0 8px;
+  border-top: 1px solid rgba(244, 241, 233, .48);
+}
+
+.beijing-food-note span {
+  font-size: .67rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+
+.beijing-food-note p {
+  margin: 24px 0 0;
+  color: #efdcd7;
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  line-height: 1.48;
+}
+
+.beijing-new-city {
+  display: grid;
+  grid-template-columns: 1.16fr .84fr;
+  min-height: 130svh;
+  color: var(--bj-ink);
+  background: var(--bj-stone);
+}
+
+.beijing-new-city-media {
+  position: relative;
+  min-height: 130svh;
+  padding: clamp(74px, 8vw, 122px) clamp(24px, 4vw, 68px);
+  background: var(--bj-ink);
+}
+
+.beijing-modern-main {
+  height: min(54vw, 760px);
+}
+
+.beijing-modern-detail {
+  width: 42%;
+  height: min(46vw, 650px);
+  margin: clamp(40px, 6vw, 86px) 0 0 auto;
+}
+
+.beijing-new-city-copy {
+  position: relative;
+  padding: clamp(90px, 10vw, 150px) clamp(28px, 4.2vw, 72px);
+}
+
+.beijing-type-title {
+  min-height: 3.1em;
+  margin: 16vh 0 clamp(40px, 6vw, 84px);
+  font-size: clamp(3.6rem, 7.4vw, 8rem);
+  font-weight: 650;
+  letter-spacing: -.075em;
+  line-height: .78;
+}
+
+.beijing-type-title::after {
+  content: "";
+  width: .08em;
+  height: .8em;
+  display: inline-block;
+  margin-left: .08em;
+  vertical-align: -.05em;
+  background: var(--bj-red);
+  animation: beijing-caret 820ms steps(1) infinite;
+}
+
+@keyframes beijing-caret {
+  50% { opacity: 0; }
+}
+
+.beijing-new-city-copy > p:not(:first-child) {
+  max-width: 38ch;
+  margin: 0 0 clamp(70px, 9vw, 130px);
+  color: #4f5754;
+  font-size: clamp(1.1rem, 1.55vw, 1.5rem);
+  letter-spacing: -.02em;
+  line-height: 1.46;
+}
+
+.beijing-modern-skyline {
+  height: min(40vw, 540px);
+}
+
+.beijing-weather {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(22px, 3vw, 44px);
+  padding: clamp(92px, 11vw, 164px) var(--bj-gutter);
+  color: var(--bj-ink);
+  background: var(--bj-paper);
+}
+
+.beijing-weather > header {
+  grid-column: 1 / 8;
+}
+
+.beijing-rain {
+  grid-column: 7 / 13;
+  height: min(46vw, 660px);
+  margin-top: clamp(100px, 14vw, 220px);
+}
+
+.beijing-winter {
+  grid-column: 1 / 9;
+  height: min(47vw, 680px);
+  margin-top: clamp(70px, 8vw, 120px);
+}
+
+.beijing-edge {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(112px, 13vh, 158px) var(--bj-gutter) max(30px, env(safe-area-inset-bottom));
+  color: var(--bj-paper);
+  background: var(--bj-ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.beijing-edge > img,
+.beijing-edge-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.beijing-edge > img {
+  z-index: -3;
+  object-fit: cover;
+  object-position: center;
+}
+
+.beijing-edge-shade {
+  z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(8, 11, 10, .55), rgba(8, 11, 10, .08) 48%, rgba(8, 11, 10, .74)),
+    linear-gradient(90deg, rgba(8, 11, 10, .58), rgba(8, 11, 10, 0) 66%);
+}
+
+.beijing-edge header {
+  max-width: 1000px;
+}
+
+.beijing-edge header > p {
+  color: #d7dcd8;
+}
+
+.beijing-edge header > span {
+  color: #d7dcd8;
+}
+
+.beijing-edge-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(244, 241, 233, .5);
+}
+
+.beijing-edge-links a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.beijing-motion-ready [data-beijing-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+}
+
+.beijing-motion-ready [data-beijing-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity 640ms ease,
+    transform 760ms cubic-bezier(.16, 1, .3, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .beijing-photo:hover img {
+    transform: scale(1.025);
+  }
+
+  .beijing-food-tall:hover img,
+  .beijing-modern-detail:hover img {
+    transform: scale(1.018) translate3d(0, -5px, 0);
+  }
+}
+
+@media (max-width: 980px) {
+  .beijing-axis-heading {
+    grid-template-columns: 1fr 1.3fr;
+  }
+
+  .beijing-axis-heading h2 {
+    grid-row: span 2;
+  }
+
+  .beijing-axis-heading > span {
+    grid-column: 1;
+  }
+
+  .beijing-prologue-copy {
+    grid-column: 8 / 13;
+  }
+
+  .beijing-street-heat > header {
+    grid-template-columns: .8fr 2.2fr;
+  }
+
+  .beijing-street-heat > header > span {
+    grid-column: 2;
+  }
+
+  .beijing-food-grid {
+    grid-template-columns: .9fr 1.3fr;
+  }
+
+  .beijing-food-note {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --bj-gutter: 22px;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .beijing-site-nav {
+    background: rgba(17, 20, 19, .2);
+  }
+
+  .beijing-site-nav .nav-inner {
+    width: calc(100% - 32px);
+  }
+
+  .beijing-hero {
+    min-height: 620px;
+  }
+
+  .beijing-hero-media {
+    background-image: url("/assets/be-a-viewer/beijing/beijing-hero-mobile-poster.jpg");
+  }
+
+  .beijing-hero-media video {
+    object-position: center 50%;
+  }
+
+  .beijing-hero-shade {
+    background:
+      linear-gradient(180deg, rgba(12, 15, 14, .5) 0%, rgba(12, 15, 14, .08) 32%, rgba(12, 15, 14, .24) 57%, rgba(12, 15, 14, .86) 100%),
+      linear-gradient(90deg, rgba(12, 15, 14, .34), rgba(12, 15, 14, 0));
+  }
+
+  .beijing-hero-axis {
+    left: 72%;
+  }
+
+  .beijing-hero-meta {
+    top: 104px;
+    flex-direction: column;
+    gap: 7px;
+    padding-bottom: 10px;
+  }
+
+  .beijing-hero-beats {
+    bottom: 126px;
+    min-height: 154px;
+  }
+
+  .beijing-hero-beats p {
+    max-width: 9.5ch;
+    font-size: clamp(3.35rem, 15.5vw, 5.8rem);
+    line-height: .81;
+  }
+
+  .beijing-hero-footer {
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+  }
+
+  .beijing-hero-footer a {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    border-top: 1px solid rgba(244, 241, 233, .38);
+    border-bottom: 0;
+  }
+
+  .beijing-chapters {
+    grid-template-columns: repeat(5, minmax(132px, 1fr));
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+  }
+
+  .beijing-chapters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .beijing-chapters a {
+    min-height: 70px;
+    padding: 0 18px;
+  }
+
+  .beijing-prologue {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding-top: 86px;
+    padding-bottom: 100px;
+  }
+
+  .beijing-prologue::after {
+    left: 72%;
+  }
+
+  .beijing-prologue header,
+  .beijing-prologue-copy,
+  .beijing-prologue-photo {
+    grid-column: 1;
+  }
+
+  .beijing-prologue h2,
+  .beijing-section-head h2,
+  .beijing-street-heat h2,
+  .beijing-edge h2 {
+    font-size: clamp(3.8rem, 18vw, 6.5rem);
+    line-height: .79;
+  }
+
+  .beijing-prologue-copy {
+    max-width: 34ch;
+    margin-top: 6px;
+  }
+
+  .beijing-prologue-photo {
+    height: 68svh;
+    min-height: 470px;
+    margin-top: 28px;
+  }
+
+  .beijing-prologue-photo img {
+    object-position: 58% center;
+  }
+
+  .beijing-prologue-word {
+    bottom: -.05em;
+    font-size: 35vw;
+  }
+
+  .beijing-axis-heading {
+    grid-template-columns: 1fr;
+    padding-top: 82px;
+    padding-bottom: 48px;
+  }
+
+  .beijing-axis-heading h2 {
+    grid-row: auto;
+    font-size: clamp(5rem, 26vw, 8.6rem);
+  }
+
+  .beijing-axis-heading > span {
+    grid-column: 1;
+  }
+
+  .beijing-axis-stage {
+    min-height: 82svh;
+  }
+
+  .beijing-axis-panel::after {
+    background:
+      linear-gradient(180deg, rgba(8, 11, 10, .1) 28%, rgba(8, 11, 10, .88) 100%);
+  }
+
+  .beijing-axis-panel[data-axis-panel] > img {
+    object-position: center;
+  }
+
+  .beijing-axis-panel[data-axis-panel="0"] > img {
+    object-position: 62% center;
+  }
+
+  .beijing-axis-panel > div {
+    bottom: 34px;
+  }
+
+  .beijing-axis-panel h3 {
+    font-size: clamp(2.9rem, 13vw, 4.7rem);
+  }
+
+  .beijing-axis-controls {
+    padding: 24px 22px 30px;
+  }
+
+  .beijing-axis-stops span {
+    display: none;
+  }
+
+  .beijing-axis-stops button {
+    min-height: 48px;
+  }
+
+  .beijing-side-streets {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding-top: 88px;
+    padding-bottom: 100px;
+  }
+
+  .beijing-section-head,
+  .beijing-side-intro,
+  .beijing-hutong-wide,
+  .beijing-hutong-door,
+  .beijing-street-motion,
+  .beijing-conversation-block {
+    grid-column: 1;
+  }
+
+  .beijing-side-intro {
+    max-width: 34ch;
+    margin-top: 8px;
+  }
+
+  .beijing-hutong-wide {
+    height: 66svh;
+    min-height: 450px;
+    margin-top: 34px;
+  }
+
+  .beijing-hutong-door {
+    width: 82%;
+    height: 58svh;
+    min-height: 390px;
+    margin: 26px 0 0 auto;
+  }
+
+  .beijing-street-motion {
+    height: 55svh;
+    min-height: 380px;
+    margin-top: 64px;
+  }
+
+  .beijing-conversation-block {
+    margin-top: 34px;
+  }
+
+  .beijing-conversation-block figure {
+    height: 54svh;
+    min-height: 370px;
+  }
+
+  .beijing-street-heat {
+    padding-top: 86px;
+    padding-bottom: 96px;
+  }
+
+  .beijing-street-heat > header {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-bottom: 52px;
+  }
+
+  .beijing-street-heat h2,
+  .beijing-street-heat > header > span {
+    grid-column: 1;
+  }
+
+  .beijing-food-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .beijing-food-tall {
+    width: 78%;
+    height: 58svh;
+    min-height: 400px;
+  }
+
+  .beijing-food-wide {
+    height: 54svh;
+    min-height: 360px;
+    margin: 16px 0 0;
+  }
+
+  .beijing-food-note {
+    grid-column: 1;
+    max-width: 36ch;
+    margin-left: auto;
+  }
+
+  .beijing-new-city {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .beijing-new-city-media {
+    min-height: 0;
+    padding: 70px 22px 86px;
+  }
+
+  .beijing-modern-main {
+    height: 66svh;
+    min-height: 440px;
+  }
+
+  .beijing-modern-detail {
+    width: 58%;
+    height: 58svh;
+    min-height: 390px;
+    margin-top: 32px;
+  }
+
+  .beijing-new-city-copy {
+    padding: 86px 22px 100px;
+  }
+
+  .beijing-type-title {
+    min-height: 3.3em;
+    margin: 12vh 0 42px;
+    font-size: clamp(3.4rem, 17vw, 6rem);
+  }
+
+  .beijing-new-city-copy > p:not(:first-child) {
+    margin-bottom: 70px;
+  }
+
+  .beijing-modern-skyline {
+    height: 56svh;
+    min-height: 390px;
+  }
+
+  .beijing-weather {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-top: 88px;
+    padding-bottom: 104px;
+  }
+
+  .beijing-weather > header,
+  .beijing-rain,
+  .beijing-winter {
+    grid-column: 1;
+  }
+
+  .beijing-rain {
+    height: 60svh;
+    min-height: 420px;
+    margin-top: 42px;
+  }
+
+  .beijing-winter {
+    width: 88%;
+    height: 58svh;
+    min-height: 390px;
+    margin: 20px 0 0 auto;
+  }
+
+  .beijing-edge {
+    min-height: 92svh;
+    padding-top: 112px;
+  }
+
+  .beijing-edge > img {
+    object-position: 58% center;
+  }
+
+  .beijing-edge-links {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .beijing-edge-links a {
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(244, 241, 233, .24);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .beijing-hero-beats p,
+  .beijing-photo img,
+  .beijing-axis-panel,
+  .beijing-axis-panel > img,
+  .beijing-axis-panel > div,
+  .beijing-axis-controls .beijing-axis-track > i,
+  .beijing-axis-controls .beijing-axis-track > b,
+  .beijing-motion-ready [data-beijing-reveal] {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .beijing-motion-ready [data-beijing-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .beijing-type-title::after {
+    display: none;
+  }
+}
