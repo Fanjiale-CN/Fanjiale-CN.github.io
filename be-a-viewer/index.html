@@ -109,13 +109,13 @@
 
       <div class="city-selector-desktop">
         <div class="city-selector-list" aria-label="Choose a city">
-          <a class="is-active" href="/be-a-viewer/beijing/" data-city-choice="beijing" data-status="available">
-            <span>01</span><strong>BEIJING</strong><small>AVAILABLE</small>
-          </a>
+          <button type="button" data-city-choice="beijing" data-status="coming">
+            <span>01</span><strong>BEIJING</strong><small>COMING SOON</small>
+          </button>
           <a href="/be-a-viewer/shanghai/" data-city-choice="shanghai" data-status="available">
             <span>02</span><strong>SHANGHAI</strong><small>AVAILABLE</small>
           </a>
-          <a href="/be-a-viewer/xian/" data-city-choice="xian" data-status="available">
+          <a class="is-active" href="/be-a-viewer/xian/" data-city-choice="xian" data-status="available">
             <span>03</span><strong>XI’AN</strong><small>AVAILABLE</small>
           </a>
           <button type="button" data-city-choice="dali" data-status="coming">
@@ -133,24 +133,24 @@
         </div>
 
         <div class="city-selector-visual" aria-live="polite">
-          <figure data-city-visual="xian"><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" width="1536" height="864"></figure>
-          <figure class="is-active" data-city-visual="beijing"><img src="/assets/be-a-viewer/beijing/beijing-hero-poster.jpg" alt="" width="1600" height="900" loading="lazy"></figure>
+          <figure class="is-active" data-city-visual="xian"><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" width="1536" height="864"></figure>
+          <figure data-city-visual="beijing"><img src="/assets/be-a-viewer/video/beijing-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="shanghai"><img src="/assets/be-a-viewer/video/shanghai-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="dali"><img src="/assets/be-a-viewer/video/dali-poster.png" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="shenzhen"><img src="/assets/be-a-viewer/video/shenzhen-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="xiamen"><img src="/assets/be-a-viewer/video/xiamen-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="tibet"><img src="/assets/be-a-viewer/video/tibet-plateau-poster.png" alt="" width="1920" height="1080" loading="lazy"></figure>
           <div class="city-selector-caption">
-            <p data-city-index>01 / NORTH CHINA</p>
-            <strong data-city-name>BEIJING</strong>
-            <span data-city-description>Power, ceremony and everyday movement.</span>
-            <b><a href="/be-a-viewer/beijing/" data-city-status>AVAILABLE · ENTER THE STORY ↗</a></b>
+            <p data-city-index>03 / NORTHWEST CHINA</p>
+            <strong data-city-name>XI’AN</strong>
+            <span data-city-description>Empire, memory and life inside the wall.</span>
+            <b><a href="/be-a-viewer/xian/" data-city-status>AVAILABLE · ENTER THE STORY ↗</a></b>
           </div>
         </div>
       </div>
 
       <div class="city-selector-mobile" aria-label="Choose a city">
-        <a href="/be-a-viewer/beijing/" data-city-card="beijing"><img src="/assets/be-a-viewer/beijing/beijing-hero-poster.jpg" alt="" loading="lazy"><span>01 / AVAILABLE</span><strong>BEIJING</strong><p>Power, ceremony and everyday movement.</p><b>ENTER THE STORY ↗</b></a>
+        <button type="button" data-city-card="beijing"><img src="/assets/be-a-viewer/video/beijing-poster.webp" alt="" loading="lazy"><span>01 / COMING SOON</span><strong>BEIJING</strong><p>Power, ceremony and everyday movement.</p></button>
         <a href="/be-a-viewer/shanghai/" data-city-card="shanghai"><img src="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg" alt="" loading="lazy"><span>02 / AVAILABLE</span><strong>SHANGHAI</strong><p>River, streets and a vertical city.</p><b>ENTER THE STORY ↗</b></a>
         <a href="/be-a-viewer/xian/" data-city-card="xian"><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" width="1536" height="864" loading="lazy"><span>03 / AVAILABLE</span><strong>XI’AN</strong><p>Empire, memory and life inside the wall.</p><b>ENTER THE STORY ↗</b></a>
         <button type="button" data-city-card="dali"><img src="/assets/be-a-viewer/video/dali-poster.png" alt="" loading="lazy"><span>04 / COMING SOON</span><strong>DALI</strong><p>Mountains, water and a slower rhythm.</p></button>
@@ -177,7 +177,7 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=site-audit-14"></script>
-  <script src="/be-a-viewer/viewer.js?v=7"></script>
+  <script src="/script.js?v=views-unified-1"></script>
+  <script src="/be-a-viewer/viewer.js?v=6"></script>
 </body>
 </html>
