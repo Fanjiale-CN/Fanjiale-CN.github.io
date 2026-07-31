@@ -34,6 +34,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/the-water-is-rising/",
+      image: "/assets/hero/video/tidal-edge-poster.webp",
+      imageAlt: "Water moving across a tidal edge",
       excerpt: "Inside China's quiet AI purge: automation, silent layoffs and the organizational fear spreading through the technology workforce."
     },
     {
@@ -44,6 +46,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/peoples-republic-of-ai/",
+      image: "/assets/hero/video/code-systems-poster.webp",
+      imageAlt: "Digital systems in dark blue light",
       excerpt: "How China turned a new AI cooperation organization into commercial reach — and built a second race around infrastructure and standards."
     },
     {
@@ -54,6 +58,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/honor-phone-case-lawsuit/",
+      image: "/assets/consumption/receipt-table.webp",
+      imageAlt: "A receipt and table used as evidence",
       excerpt: "More than 400 small vendors were sued for using Honor's name to tell customers which phone their cases fit."
     },
     {
@@ -64,6 +70,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/xiaohongshu-world-cup/",
+      image: "/assets/hero/video/market-signals-poster.webp",
+      imageAlt: "Market signals in a dark field",
       excerpt: "Xiaohongshu wants the World Cup to grow daily users and attract more men. Its own platform history shows why the bet is difficult."
     },
     {
@@ -74,6 +82,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/tourism-assembly-line/",
+      image: "/assets/visual-notes/ferry.webp",
+      imageAlt: "A ferry route across blue water",
       excerpt: "How platform economics turned travel into a production schedule of filters, queues, exposure and amplification."
     },
     {
@@ -84,6 +94,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/ai-goes-silent-censorship-infrastructure/",
+      image: "/assets/hero/video/code-systems-poster.webp",
+      imageAlt: "Code and systems in dark light",
       excerpt: "A Beijing crash story shows how a model can retrieve information in the afternoon and refuse to speak by evening."
     },
     {
@@ -94,6 +106,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/latte-price-illusion/",
+      image: "/assets/hero/video/latte-ritual-poster.webp",
+      imageAlt: "A coffee ritual seen close up",
       excerpt: "RMB 9.9 did not merely discount coffee. It made every premium separate ritual, space, service and story into defensible line items."
     },
     {
@@ -104,6 +118,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/platforms-redesign-choice/",
+      image: "/assets/hero/video/market-signals-poster.webp",
+      imageAlt: "A market signal in an abstract field",
       excerpt: "The feed creates desire, exposes the mechanism behind desire, and turns consumption into a public receipt."
     },
     {
@@ -114,6 +130,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/goose-leg-official-narrative/",
+      image: "/assets/visual-notes/old-street.webp",
+      imageAlt: "An old street seen in close detail",
       excerpt: "A Beijing vendor, elite campuses and one goose-flavored duck leg show how a beloved sincerity story can fail once ordinary evidence arrives."
     },
     {
@@ -124,6 +142,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "7 min",
       url: "/essays/rmb-9-9-coffee/",
+      image: "/assets/hero/video/money-closeup-poster.webp",
+      imageAlt: "A close study of money",
       excerpt: "Cheap is not the opposite of desire. It becomes powerful when it feels competent, quick, repeatable and socially clean."
     },
     {
@@ -134,6 +154,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "9 min",
       url: "/essays/cyber-audit-proof-economy/",
+      image: "/assets/visual-notes/city-road.webp",
+      imageAlt: "A city road under urban infrastructure",
       excerpt: "China's platform internet no longer only creates desire. It trains consumers, cities and brands to prove that desire can survive inspection."
     }
   ]
