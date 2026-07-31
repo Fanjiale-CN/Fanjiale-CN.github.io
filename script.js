@@ -460,9 +460,18 @@
       function activate(control) {
         if (!control || !detail) return;
         const group = control.closest(".interactive-chart");
-        group?.querySelectorAll("[data-detail].is-active").forEach((item) => item.classList.remove("is-active"));
+        group?.querySelectorAll("[data-detail]").forEach((item) => {
+          item.classList.remove("is-active");
+          if (item instanceof HTMLButtonElement) item.setAttribute("aria-pressed", "false");
+        });
         control.classList.add("is-active");
+        if (control instanceof HTMLButtonElement) control.setAttribute("aria-pressed", "true");
         detail.textContent = control.dataset.detail || "";
+        const composition = group?.querySelector(".batch-composition");
+        const compositionValue = Number(control.dataset.composition);
+        if (composition && Number.isFinite(compositionValue)) {
+          composition.style.setProperty("--batch-composition-primary", `${compositionValue}%`);
+        }
       }
 
       controls.forEach((control) => {
@@ -493,6 +502,50 @@
   }
 
   initInteractiveCharts();
+
+  function initBatchChapterNavigation() {
+    const desktop = document.querySelector(".batch-chapter-nav");
+    const mobile = document.querySelector(".batch-chapter-menu");
+    if (!desktop && !mobile) return;
+
+    const links = Array.from(document.querySelectorAll(".batch-chapter-nav a[href^='#'], .batch-chapter-menu a[href^='#']"));
+    const sections = Array.from(new Set(links
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter((section) => section instanceof HTMLElement)));
+    const chapterLabel = mobile?.querySelector("[data-chapter-label]");
+    const mobileSummary = mobile?.querySelector("summary");
+
+    function setCurrent(section) {
+      if (!section?.id) return;
+      const currentHref = `#${section.id}`;
+      links.forEach((link) => {
+        if (link.getAttribute("href") === currentHref) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+      const currentLink = links.find((link) => link.getAttribute("href") === currentHref);
+      if (chapterLabel && currentLink) chapterLabel.textContent = currentLink.textContent.trim().replace(/\s+/g, " ");
+    }
+
+    links.forEach((link) => link.addEventListener("click", () => {
+      const section = document.querySelector(link.getAttribute("href"));
+      if (section instanceof HTMLElement) setCurrent(section);
+      if (mobile?.open) {
+        mobile.open = false;
+        window.requestAnimationFrame(() => mobileSummary?.focus({ preventScroll: true }));
+      }
+    }));
+
+    if (!("IntersectionObserver" in window) || !sections.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible?.target instanceof HTMLElement) setCurrent(visible.target);
+    }, { rootMargin: "-28% 0px -58% 0px", threshold: [0, 0.05, 0.2] });
+    sections.forEach((section) => observer.observe(section));
+  }
+
+  initBatchChapterNavigation();
 
   function initSpatialHero() {
     const hero = document.querySelector("[data-spatial-hero]");
@@ -894,6 +947,7 @@
     const touchNavigation = navigator.maxTouchPoints > 0 ||
       window.matchMedia("(hover: none), (pointer: coarse)").matches;
     const xianMotionClock = body.classList.contains("xian-page-body");
+    const stableArticleChrome = body.classList.contains("batch-article-body");
     const noiseFloor = touchNavigation ? 6 : 1.5;
     const hideDistance = touchNavigation ? 78 : 32;
     const showDistance = touchNavigation ? 46 : 22;
@@ -911,6 +965,14 @@
       const nextDirection = Math.abs(delta) >= noiseFloor ? (delta > 0 ? 1 : -1) : 0;
 
       if (!xianMotionClock) siteNav.classList.toggle("is-scrolled", nextY > 24);
+
+      if (stableArticleChrome) {
+        body.classList.remove("site-chrome-hidden");
+        previousY = nextY;
+        directionDistance = 0;
+        direction = 0;
+        return;
+      }
 
       if (nextY < 32 || body.classList.contains("nav-open")) {
         body.classList.remove("site-chrome-hidden");
@@ -937,7 +999,9 @@
 
     siteNav.addEventListener("focusin", () => body.classList.remove("site-chrome-hidden"));
     syncNavigation();
-    if (xianMotionClock) {
+    if (stableArticleChrome) {
+      window.addEventListener("resize", requestNavigationSync, { passive: true });
+    } else if (xianMotionClock) {
       window.addEventListener("xian:motion-frame", (event) => syncNavigation(event.detail?.scrollY));
     } else {
       window.addEventListener("scroll", requestNavigationSync, { passive: true });
