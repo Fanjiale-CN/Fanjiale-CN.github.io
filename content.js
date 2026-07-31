@@ -29,6 +29,56 @@ window.GALOK_CONTENT = {
     {
       series: "macro",
       anchor: "\u89c6",
+      deck: "The meetings are private. The pattern is not.",
+      title: "The Water Is Rising, and Nobody Will Tell You Why",
+      date: "2026",
+      readingTime: "11 min",
+      url: "/essays/the-water-is-rising/",
+      excerpt: "Inside China's quiet AI purge: automation, silent layoffs and the organizational fear spreading through the technology workforce."
+    },
+    {
+      series: "macro",
+      anchor: "\u89c6",
+      deck: "The contract came before the conference.",
+      title: "The People’s Republic of AI",
+      date: "2026",
+      readingTime: "10 min",
+      url: "/essays/peoples-republic-of-ai/",
+      excerpt: "How China turned a new AI cooperation organization into commercial reach — and built a second race around infrastructure and standards."
+    },
+    {
+      series: "frame",
+      anchor: "\u6846",
+      deck: "A compatibility label becomes a court summons.",
+      title: "“Fits Honor” Is Now a Lawsuit Waiting to Happen",
+      date: "2026",
+      readingTime: "10 min",
+      url: "/essays/honor-phone-case-lawsuit/",
+      excerpt: "More than 400 small vendors were sued for using Honor's name to tell customers which phone their cases fit."
+    },
+    {
+      series: "frame",
+      anchor: "\u6846",
+      deck: "A lifestyle platform buys the loudest tournament on earth.",
+      title: "China’s Instagram Meets the World Cup",
+      date: "2026",
+      readingTime: "11 min",
+      url: "/essays/xiaohongshu-world-cup/",
+      excerpt: "Xiaohongshu wants the World Cup to grow daily users and attract more men. Its own platform history shows why the bet is difficult."
+    },
+    {
+      series: "scene",
+      anchor: "\u5bdf",
+      deck: "A queue forms at every station.",
+      title: "China’s Tourism Assembly Line",
+      date: "2026",
+      readingTime: "11 min",
+      url: "/essays/tourism-assembly-line/",
+      excerpt: "How platform economics turned travel into a production schedule of filters, queues, exposure and amplification."
+    },
+    {
+      series: "macro",
+      anchor: "\u89c6",
       deck: "AI silence became infrastructure.",
       title: "When AI goes silent: real-time censorship infrastructure",
       date: "2026",
