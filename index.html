@@ -11,7 +11,7 @@
   <title>Galok / Field Notes</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
   <link rel="preload" as="image" href="/assets/hero/video/latte-ritual-poster.webp" fetchpriority="high">
-  <link rel="stylesheet" href="/styles.css?v=site-audit-14">
+  <link rel="stylesheet" href="/styles.css?v=views-unified-1">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -28,8 +28,7 @@
         <span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span>
       </a>
       <div class="nav-links">
-        <a href="/essays/">Essays</a>
-        <a href="/series/frame/">Series</a>
+        <a href="/essays/">Views</a>
         <a href="/visual-notes/">Visual Notes</a>
         <a href="/be-a-viewer/">Be a Viewer</a>
         <a href="/about/">About</a>
@@ -113,7 +112,9 @@
             <button type="button" data-field-hero-dot="7" aria-label="Show field note 8" aria-pressed="false">08</button>
           </div>
           <div class="field-hero-actions">
+            <button type="button" class="field-hero-step" data-field-hero-prev aria-label="Previous field note">Previous</button>
             <button type="button" data-field-hero-toggle aria-label="Pause hero video" aria-pressed="false">Pause</button>
+            <button type="button" class="field-hero-step" data-field-hero-next aria-label="Next field note">Next</button>
           </div>
         </div>
         <a class="field-scroll-cue" href="#field-index">Scroll to index</a>
@@ -124,18 +125,17 @@
       <div class="field-section-heading" data-reveal>
         <p>01 / INDEX</p>
         <h2 id="field-index-title">Look closer.</h2>
-        <span>Six essays, three lenses and an expanding archive of field evidence.</span>
+        <span>Eleven essays, three reading lenses and an expanding archive of field evidence.</span>
       </div>
 
       <div class="field-tabs" role="tablist" aria-label="Explore Galok content" data-reveal>
-        <button type="button" role="tab" aria-selected="true" data-field-tab="essays">Essays</button>
-        <button type="button" role="tab" aria-selected="false" data-field-tab="series">Series</button>
+        <button type="button" role="tab" aria-selected="true" data-field-tab="views">Views</button>
         <button type="button" role="tab" aria-selected="false" data-field-tab="notes">Visual Notes</button>
       </div>
 
       <div class="field-metrics" aria-label="Galok archive counts" data-reveal>
-        <div><b>06</b><span>Essays</span><small>Ideas and observations</small></div>
-        <div><b>03</b><span>Series</span><small>Ongoing investigations</small></div>
+        <div><b>11</b><span>Views</span><small>Essays through three lenses</small></div>
+        <div><b>03</b><span>Lenses</span><small>View, Frame and Observe</small></div>
         <div><b>12</b><span>Visual notes</span><small>Captured in the field</small></div>
       </div>
 
@@ -157,23 +157,23 @@
         <h2 id="field-lenses-title">One world.<br>Three ways in.</h2>
       </header>
       <div class="field-lens-list">
-        <a class="field-lens--view" href="/series/macro/" data-reveal>
+        <a class="field-lens--view" href="/essays/?view=macro" data-reveal>
           <span class="glyph-draw" data-glyph="视" data-pinyin="shi" aria-hidden="true">视</span>
           <b>01</b>
           <div><h3>View</h3><p>Macro pressure translated into visible behavior.</p></div>
-          <small>Open series</small>
+          <small>Open lens</small>
         </a>
-        <a class="field-lens--frame" href="/series/frame/" data-reveal>
+        <a class="field-lens--frame" href="/essays/?view=frame" data-reveal>
           <span class="glyph-draw" data-glyph="框" data-pinyin="kuang" aria-hidden="true">框</span>
           <b>02</b>
           <div><h3>Frame</h3><p>Models and questions that make scattered facts readable.</p></div>
-          <small>Open series</small>
+          <small>Open lens</small>
         </a>
-        <a class="field-lens--observe" href="/series/scene/" data-reveal>
+        <a class="field-lens--observe" href="/essays/?view=scene" data-reveal>
           <span class="glyph-draw" data-glyph="察" data-pinyin="cha" aria-hidden="true">察</span>
           <b>03</b>
           <div><h3>Observe</h3><p>Street-level evidence from cities, platforms and routines.</p></div>
-          <small>Open series</small>
+          <small>Open lens</small>
         </a>
       </div>
     </section>
@@ -186,21 +186,23 @@
       </div>
 
       <div class="viewer-stage-shell" data-reveal>
-        <a class="viewer-film" href="/be-a-viewer/" data-viewer-card aria-label="Enter Be a Viewer">
+        <a class="viewer-film" href="/be-a-viewer/" data-viewer-card aria-label="Enter Be a Viewer — Beijing">
           <div class="viewer-film-media" aria-hidden="true">
             <img src="/assets/be-a-viewer/beijing-roof.jpg" alt="" loading="lazy" decoding="async">
             <span class="viewer-film-shade"></span>
           </div>
+          <span class="viewer-film-ridge viewer-film-ridge--primary" aria-hidden="true"></span>
+          <span class="viewer-film-ridge viewer-film-ridge--secondary" aria-hidden="true"></span>
           <div class="viewer-film-topline" aria-hidden="true">
             <span>GALOK TRAVEL STUDY</span>
             <span>BEIJING / CHAPTER 01</span>
           </div>
-          <div class="viewer-film-copy">
+          <div class="viewer-film-copy" data-viewer-parallax="copy">
             <p>01 / BE A VIEWER</p>
             <h3><span>BE A</span>VIEWER</h3>
             <span class="viewer-film-summary">Images, motion and close observation.</span>
           </div>
-          <div class="viewer-film-footer" aria-hidden="true">
+          <div class="viewer-film-footer" aria-hidden="true" data-viewer-parallax="footer">
             <span>BEIJING <b>39.9042° N / 116.4074° E</b></span>
             <span>Enter the series <b>↗</b></span>
           </div>
@@ -246,7 +248,7 @@
   <footer class="footer field-footer">
     <div class="footer-inner">
       <div><span class="glyph-draw" data-glyph="视" data-pinyin="shi" aria-hidden="true">视</span><b>GALOK</b></div>
-      <div><span>Menu</span><a href="/essays/">Essays</a><a href="/series/frame/">Series</a><a href="/visual-notes/">Visual Notes</a><a href="/be-a-viewer/">Be a Viewer</a><a href="/about/">About</a></div>
+      <div><span>Menu</span><a href="/essays/">Views</a><a href="/visual-notes/">Visual Notes</a><a href="/be-a-viewer/">Be a Viewer</a><a href="/about/">About</a></div>
       <div><span>Follow</span><a class="external-link" href="https://medium.com/@galokview" target="_blank" rel="noreferrer">Medium</a><a class="external-link" href="https://x.com/galokview" target="_blank" rel="noreferrer">X</a></div>
       <p>© <span data-current-year></span> Galok<br>Independent field notes.</p>
     </div>
@@ -256,7 +258,7 @@
     <button class="field-drawer-backdrop" type="button" data-story-close aria-label="Close story"></button>
     <section class="field-drawer-sheet" role="dialog" aria-modal="true" aria-labelledby="field-drawer-title">
       <div class="field-drawer-handle" aria-hidden="true"></div>
-      <header><span data-drawer-meta>01 / ESSAYS</span><button type="button" data-story-close>Close</button></header>
+      <header><span data-drawer-meta>01 / VIEWS</span><button type="button" data-story-close>Close</button></header>
       <img data-drawer-image src="/assets/visual-notes/city-road.webp" alt="">
       <div class="field-drawer-copy">
         <p data-drawer-series>VIEW</p>
@@ -268,7 +270,7 @@
     </section>
   </div>
 
-  <script src="/content.js?v=field-system-5"></script>
-  <script src="/script.js?v=site-audit-14"></script>
+  <script src="/content.js?v=views-unified-1"></script>
+  <script src="/script.js?v=views-unified-1"></script>
 </body>
 </html>
