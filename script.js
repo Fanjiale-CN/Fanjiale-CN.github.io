@@ -34,8 +34,11 @@
 
   function essayCard(essay) {
     const series = seriesFor(essay.series);
+    const image = essay.image || "/assets/visual-notes/city-road.webp";
+    const imageAlt = essay.imageAlt || `Field image for ${essay.title}`;
     return `
       <a class="essay-card" href="${essay.url}" style="--accent:${series.color}" data-series="${essay.series}" data-reveal>
+        <span class="essay-card-media"><img src="${image}" alt="${imageAlt}" loading="lazy" decoding="async"></span>
         <div class="essay-meta">
           <span>${glyph(series.glyph, "glyph-inline", series.pinyin)} ${series.en}</span>
           <span>${essay.date}</span>
@@ -360,7 +363,10 @@
     const filterButtons = Array.from(filterGroup.querySelectorAll(".filter-button[data-filter]"));
     const essayCards = Array.from(essayList.querySelectorAll(".essay-card[data-series]"));
     const filterStatus = document.querySelector("[data-filter-status]");
-    let activeFilter = essayList.dataset.filter || "all";
+    const requestedFilter = new URLSearchParams(window.location.search).get("view");
+    let activeFilter = filterButtons.some((button) => button.dataset.filter === requestedFilter)
+      ? requestedFilter
+      : (essayList.dataset.filter || "all");
     let filterRun = 0;
     let commitTimer = 0;
     let cleanupTimer = 0;
@@ -448,8 +454,24 @@
     }
 
     filterButtons.forEach((button) => {
-      button.addEventListener("click", () => applyFilter(button.dataset.filter || "all"));
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter || "all";
+        const url = new URL(window.location.href);
+        if (filter === "all") url.searchParams.delete("view");
+        else url.searchParams.set("view", filter);
+        window.history.replaceState({}, "", url);
+        applyFilter(filter);
+      });
     });
+
+    if (activeFilter !== "all") {
+      const initialFilter = activeFilter;
+      activeFilter = "all";
+      essayList.dataset.filter = "all";
+      applyFilter(initialFilter, { animate: false });
+    } else {
+      announceFilter("all", essayCards.length);
+    }
   }
 
   function initInteractiveCharts() {
@@ -871,8 +893,7 @@
     if (!navInner || !brand || !links) return;
 
     const primaryLinks = [
-      { href: "/essays/", label: "Essays", match: "/essays/" },
-      { href: "/series/frame/", label: "Series", match: "/series/" },
+      { href: "/essays/", label: "Views", match: "/essays/" },
       { href: "/visual-notes/", label: "Visual Notes", match: "/visual-notes/" },
       { href: "/be-a-viewer/", label: "Be a Viewer", match: "/be-a-viewer/" },
       { href: "/about/", label: "About", match: "/about/" }
@@ -1032,8 +1053,7 @@
         </a>
         <div class="footer-column">
           <span>Explore</span>
-          <a href="/essays/">Essays</a>
-          <a href="/series/frame/">Series</a>
+          <a href="/essays/">Views</a>
           <a href="/visual-notes/">Visual Notes</a>
           <a href="/be-a-viewer/">Be a Viewer</a>
           <a href="/about/">About</a>
@@ -1058,7 +1078,7 @@
     if (!hero) return;
     const path = window.location.pathname;
     let index = "01";
-    if (path.includes("/series/")) index = "02";
+    if (path.includes("/series/")) index = "01";
     if (path.includes("/visual-notes/")) index = "03";
     if (path.includes("/about/")) index = "04";
     hero.dataset.sectionIndex = index;
@@ -1317,6 +1337,115 @@
     showSlide(0, true);
   }
 
+  function initViewerParallax() {
+    const card = document.querySelector("[data-viewer-card]");
+    if (!card || reduceMotion || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    const copy = card.querySelector('[data-viewer-parallax="copy"]');
+    const footer = card.querySelector('[data-viewer-parallax="footer"]');
+    let frame = 0;
+    let x = 0;
+    let y = 0;
+
+    function render() {
+      frame = 0;
+      card.style.setProperty("--viewer-pointer-x", `${x.toFixed(3)}px`);
+      card.style.setProperty("--viewer-pointer-y", `${y.toFixed(3)}px`);
+      copy?.style.setProperty("transform", `translate3d(${(x * 1.15).toFixed(2)}px, ${(y * 1.15).toFixed(2)}px, 0)`);
+      footer?.style.setProperty("transform", `translate3d(${(x * -0.35).toFixed(2)}px, ${(y * -0.35).toFixed(2)}px, 0)`);
+    }
+
+    card.addEventListener("pointermove", (event) => {
+      const rect = card.getBoundingClientRect();
+      x = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
+      y = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
+      if (!frame) frame = requestAnimationFrame(render);
+    });
+    card.addEventListener("pointerleave", () => {
+      x = 0;
+      y = 0;
+      if (!frame) frame = requestAnimationFrame(render);
+    });
+  }
+
+  function initLegacyArticleShell() {
+    const legacy = {
+      "/essays/ai-goes-silent-censorship-infrastructure/": {
+        lens: "View", kicker: "Silence / infrastructure", title: "When a system learns to disappear.",
+        image: "/assets/hero/video/code-systems-poster.webp", alt: "Abstract system code in low light", time: "8 min"
+      },
+      "/essays/latte-price-illusion/": {
+        lens: "View", kicker: "Price / ritual", title: "The cost of an ordinary cup.",
+        image: "/assets/hero/video/latte-ritual-poster.webp", alt: "Coffee ritual seen close up", time: "10 min"
+      },
+      "/essays/platforms-redesign-choice/": {
+        lens: "Frame", kicker: "Platform / choice", title: "A feed is never only a feed.",
+        image: "/assets/hero/video/market-signals-poster.webp", alt: "Market signals on a screen", time: "8 min"
+      },
+      "/essays/goose-leg-official-narrative/": {
+        lens: "Observe", kicker: "Street / proof", title: "One small order changes the story.",
+        image: "/assets/visual-notes/old-street.webp", alt: "A city street viewed from the field", time: "8 min"
+      },
+      "/essays/rmb-9-9-coffee/": {
+        lens: "Observe", kicker: "Coffee / routine", title: "Cheap can still feel complete.",
+        image: "/assets/hero/video/money-closeup-poster.webp", alt: "Close study of money", time: "7 min"
+      },
+      "/essays/cyber-audit-proof-economy/": {
+        lens: "Observe", kicker: "Proof / platform", title: "A platform economy learns to be checked.",
+        image: "/assets/visual-notes/city-road.webp", alt: "Road beneath urban infrastructure", time: "9 min"
+      }
+    };
+    const meta = legacy[window.location.pathname];
+    const main = document.querySelector("main.site-shell");
+    const hero = main?.querySelector(".article-hero");
+    const article = main?.querySelector(".article-content");
+    if (!meta || !main || !hero || !article || main.querySelector(".legacy-batch-cover")) return;
+
+    body.classList.add("batch-article-body", "legacy-batch-article");
+    const seriesClass = meta.lens === "View" ? "article-macro" : meta.lens === "Frame" ? "article-frame" : "article-scene";
+    body.classList.add(seriesClass);
+
+    const cover = document.createElement("section");
+    cover.className = "batch-cover legacy-batch-cover";
+    cover.setAttribute("aria-label", `${meta.lens} article opening card`);
+    cover.innerHTML = `
+      <div class="batch-cover-page legacy-cover-page">
+        <img class="legacy-cover-image" src="${meta.image}" alt="${meta.alt}" loading="eager" decoding="async">
+        <div class="legacy-cover-scrim" aria-hidden="true"></div>
+        <div class="batch-cover-topline"><span>GALOK / VIEWS</span><span>${meta.lens.toUpperCase()}</span></div>
+        <div class="batch-cover-copy"><p>${meta.kicker}</p><h1 class="batch-cover-question">${meta.title}</h1></div>
+        <div class="water-cover-evidence"><div class="water-cover-scale"><span>READING TIME</span><div class="water-cover-track is-current"><b>${meta.time}</b><em>Field note</em><i style="--evidence-start:0%;--evidence-end:68%"></i></div></div><div class="water-cover-headcount"><span>ENTRY</span><strong>01</strong><small>Open the reading</small><i></i></div></div>
+        <p class="batch-cover-note">Scroll to enter the article. Navigation and reading progress remain fixed.</p>
+      </div>`;
+    main.insertBefore(cover, hero);
+
+    hero.classList.add("batch-article-hero");
+    main.querySelector(".article-layout")?.classList.add("batch-article-layout");
+    article.classList.add("batch-article-content");
+    const headings = Array.from(article.querySelectorAll("h2")).slice(0, 5);
+    if (!headings.length) return;
+
+    headings.forEach((heading, index) => {
+      const id = `legacy-${meta.lens.toLowerCase()}-${index + 1}`;
+      heading.id = id;
+      const section = heading.closest("section") || heading.parentElement;
+      section?.classList.add("batch-prose-section");
+      if (section && !section.querySelector(":scope > .batch-section-index")) {
+        const indexLabel = document.createElement("p");
+        indexLabel.className = "batch-section-index";
+        indexLabel.textContent = `${String(index + 1).padStart(2, "0")} / ${meta.lens.toUpperCase()}`;
+        section.insertBefore(indexLabel, heading);
+      }
+    });
+
+    const nav = document.createElement("nav");
+    nav.className = "batch-chapter-nav legacy-chapter-nav";
+    nav.style.setProperty("--batch-nav-columns", String(Math.min(headings.length, 5)));
+    nav.setAttribute("aria-label", "Article chapters");
+    nav.innerHTML = headings.map((heading, index) => `<a href="#${heading.id}"><span>${String(index + 1).padStart(2, "0")}</span>${heading.textContent.trim()}</a>`).join("");
+    hero.after(nav);
+  }
+
   function initHomepageIndex() {
     const carousel = document.querySelector("[data-field-carousel]");
     const track = document.querySelector("[data-field-track]");
@@ -1338,40 +1467,10 @@
       title: essay.title,
       excerpt: essay.excerpt,
       href: essay.url,
-      image: essayImages[index % essayImages.length],
+      image: essay.image || essayImages[index % essayImages.length],
       imageAlt: `Field image for ${essay.title}`,
       action: "Read the essay"
     }));
-
-    const seriesItems = [
-      {
-        eyebrow: "View / 01",
-        title: "Macro pressure becomes visible.",
-        excerpt: "Follow policy, balance sheets and price signals back into ordinary choices.",
-        href: "/series/macro/",
-        image: "/assets/visual-notes/return-01.webp",
-        imageAlt: "City and water at dusk",
-        action: "Open View"
-      },
-      {
-        eyebrow: "Frame / 02",
-        title: "Scattered facts become a usable lens.",
-        excerpt: "Maps, loops, receipts and concepts that keep working after the article ends.",
-        href: "/series/frame/",
-        image: "/assets/visual-notes/city-road.webp",
-        imageAlt: "Urban road and infrastructure",
-        action: "Open Frame"
-      },
-      {
-        eyebrow: "Observe / 03",
-        title: "A small scene carries the system.",
-        excerpt: "Street-level evidence from stores, platforms, cities and repeated routines.",
-        href: "/series/scene/",
-        image: "/assets/visual-notes/old-street.webp",
-        imageAlt: "Old street with lanterns",
-        action: "Open Observe"
-      }
-    ];
 
     const noteItems = [
       {
@@ -1403,9 +1502,9 @@
       }
     ];
 
-    const collections = { essays: essayItems, series: seriesItems, notes: noteItems };
-    const labels = { essays: "ESSAYS", series: "SERIES", notes: "VISUAL NOTES" };
-    let activeKey = "essays";
+    const collections = { views: essayItems, notes: noteItems };
+    const labels = { views: "VIEWS", notes: "VISUAL NOTES" };
+    let activeKey = "views";
     let activeItems = collections[activeKey];
     let activeIndex = 0;
     let drawerIndex = 0;
@@ -1539,11 +1638,13 @@
   }
 
   enhanceAccessibilityShell();
+  initLegacyArticleShell();
   enhanceNavigation();
   enhanceFooter();
   initGlobalContactModule();
   labelInteriorPage();
   initArticleProgress();
   initFieldHeroCarousel();
+  initViewerParallax();
   initHomepageIndex();
 })();
