@@ -866,6 +866,12 @@ body.nav-open .beijing-site-nav {
   height: min(40vw, 540px);
 }
 
+/* The source frame carries a saturated green lower edge; crop it out so the CBD study keeps the page palette. */
+.beijing-modern-skyline img {
+  scale: 1.12;
+  transform-origin: center top;
+}
+
 .beijing-weather {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
