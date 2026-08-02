@@ -28,17 +28,24 @@
     return pinyinByGlyph[value] || "";
   }
 
+  function articleCover(essay) {
+    const cover = essay.cover || {};
+    return {
+      src: cover.src || essay.image || "/assets/visual-notes/city-road.webp",
+      alt: cover.alt || essay.imageAlt || `Field image for ${essay.title}`
+    };
+  }
+
   function glyph(value, className = "", pinyin = pinyinFor(value)) {
     return `<span class="glyph-draw ${className}" data-glyph="${value}" data-pinyin="${pinyin}" aria-hidden="true">${value}</span>`;
   }
 
   function essayCard(essay) {
     const series = seriesFor(essay.series);
-    const image = essay.image || "/assets/visual-notes/city-road.webp";
-    const imageAlt = essay.imageAlt || `Field image for ${essay.title}`;
+    const cover = articleCover(essay);
     return `
       <a class="essay-card" href="${essay.url}" style="--accent:${series.color}" data-series="${essay.series}" data-reveal>
-        <span class="essay-card-media"><img src="${image}" alt="${imageAlt}" loading="lazy" decoding="async"></span>
+        <span class="essay-card-media"><img src="${cover.src}" alt="${cover.alt}" loading="lazy" decoding="async"></span>
         <div class="essay-meta">
           <span>${glyph(series.glyph, "glyph-inline", series.pinyin)} ${series.en}</span>
           <span>${essay.date}</span>
@@ -1454,24 +1461,26 @@
     const drawer = document.querySelector("[data-field-drawer]");
     if (!carousel || !track || !count || !drawer) return;
 
-    const essayImages = [
-      "/assets/visual-notes/city-road.webp",
-      "/assets/visual-notes/ferry.webp",
-      "/assets/visual-notes/old-street.webp",
-      "/assets/visual-notes/botanical-02.webp",
-      "/assets/visual-notes/return-01.webp",
-      "/assets/visual-notes/gulangyu-08.webp"
-    ];
+    function articleCover(essay) {
+      const cover = essay.cover || {};
+      return {
+        src: cover.src || essay.image || "/assets/visual-notes/city-road.webp",
+        alt: cover.alt || essay.imageAlt || `Field image for ${essay.title}`
+      };
+    }
 
-    const essayItems = content.essays.map((essay, index) => ({
-      eyebrow: content.series?.[essay.series]?.en || "Essay",
-      title: essay.title,
-      excerpt: essay.excerpt,
-      href: essay.url,
-      image: essay.image || essayImages[index % essayImages.length],
-      imageAlt: `Field image for ${essay.title}`,
-      action: "Read the essay"
-    }));
+    const essayItems = content.essays.map((essay) => {
+      const cover = articleCover(essay);
+      return {
+        eyebrow: content.series?.[essay.series]?.en || "Essay",
+        title: essay.title,
+        excerpt: essay.excerpt,
+        href: essay.url,
+        image: cover.src,
+        imageAlt: cover.alt,
+        action: "Read the essay"
+      };
+    });
 
     const noteItems = [
       {

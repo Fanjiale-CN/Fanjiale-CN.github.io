@@ -34,8 +34,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/the-water-is-rising/",
-      image: "/assets/views/articles/water-rising.webp",
-      imageAlt: "Clear water rippling across a dark shoreline",
+      cover: {
+        src: "/assets/views/articles/water-rising.webp",
+        alt: "Clear water rippling across a dark shoreline"
+      },
       excerpt: "Inside China's quiet AI purge: automation, silent layoffs and the organizational fear spreading through the technology workforce."
     },
     {
@@ -46,8 +48,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/peoples-republic-of-ai/",
-      image: "/assets/views/articles/peoples-republic-of-ai.webp",
-      imageAlt: "A Chinese flag above a traditional tiled roof",
+      cover: {
+        src: "/assets/views/articles/peoples-republic-of-ai.webp",
+        alt: "A Chinese flag above a traditional tiled roof"
+      },
       excerpt: "How China turned a new AI cooperation organization into commercial reach — and built a second race around infrastructure and standards."
     },
     {
@@ -58,8 +62,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/honor-phone-case-lawsuit/",
-      image: "/assets/views/articles/honor-phone-cases.webp",
-      imageAlt: "An Honor phone photographed from its camera side",
+      cover: {
+        src: "/assets/views/articles/honor-phone-cases.webp",
+        alt: "An Honor phone photographed from its camera side"
+      },
       excerpt: "More than 400 small vendors were sued for using Honor's name to tell customers which phone their cases fit."
     },
     {
@@ -70,8 +76,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/xiaohongshu-world-cup/",
-      image: "/assets/views/articles/xiaohongshu-world-cup.webp",
-      imageAlt: "People standing before a colourful FIFA World Cup mural",
+      cover: {
+        src: "/assets/views/articles/xiaohongshu-world-cup.webp",
+        alt: "People standing before a colourful FIFA World Cup mural"
+      },
       excerpt: "Xiaohongshu wants the World Cup to grow daily users and attract more men. Its own platform history shows why the bet is difficult."
     },
     {
@@ -82,8 +90,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/tourism-assembly-line/",
-      image: "/assets/views/articles/tourism-assembly-line.webp",
-      imageAlt: "Crowds moving through a historic Chinese shopping street",
+      cover: {
+        src: "/assets/views/articles/tourism-assembly-line.webp",
+        alt: "Crowds moving through a historic Chinese shopping street"
+      },
       excerpt: "How platform economics turned travel into a production schedule of filters, queues, exposure and amplification."
     },
     {
@@ -94,8 +104,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/ai-goes-silent-censorship-infrastructure/",
-      image: "/assets/views/articles/ai-goes-silent-china-zun.webp",
-      imageAlt: "A broken window in the glass facade of China Zun in Beijing",
+      cover: {
+        src: "/assets/views/articles/ai-goes-silent-china-zun.webp",
+        alt: "A broken window in the glass facade of China Zun in Beijing"
+      },
       excerpt: "A Beijing crash story shows how a model can retrieve information in the afternoon and refuse to speak by evening."
     },
     {
@@ -106,8 +118,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/latte-price-illusion/",
-      image: "/assets/hero/video/latte-ritual-poster.webp",
-      imageAlt: "A coffee ritual seen close up",
+      cover: {
+        src: "/assets/hero/video/latte-ritual-poster.webp",
+        alt: "A coffee ritual seen close up"
+      },
       excerpt: "RMB 9.9 did not merely discount coffee. It made every premium separate ritual, space, service and story into defensible line items."
     },
     {
@@ -118,8 +132,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/platforms-redesign-choice/",
-      image: "/assets/views/articles/platform-influencer-boom.webp",
-      imageAlt: "A creator filming beneath a monumental modern building",
+      cover: {
+        src: "/assets/views/articles/platform-influencer-boom.webp",
+        alt: "A creator filming beneath a monumental modern building"
+      },
       excerpt: "The feed creates desire, exposes the mechanism behind desire, and turns consumption into a public receipt."
     },
     {
@@ -130,8 +146,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/goose-leg-official-narrative/",
-      image: "/assets/views/articles/goose-leg.webp",
-      imageAlt: "Tsinghua University west gate seen from the street",
+      cover: {
+        src: "/assets/views/articles/goose-leg.webp",
+        alt: "Tsinghua University west gate seen from the street"
+      },
       excerpt: "A Beijing vendor, elite campuses and one goose-flavored duck leg show how a beloved sincerity story can fail once ordinary evidence arrives."
     },
     {
@@ -142,8 +160,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "7 min",
       url: "/essays/rmb-9-9-coffee/",
-      image: "/assets/hero/video/money-closeup-poster.webp",
-      imageAlt: "A close study of money",
+      cover: {
+        src: "/assets/hero/video/money-closeup-poster.webp",
+        alt: "A close study of money"
+      },
       excerpt: "Cheap is not the opposite of desire. It becomes powerful when it feels competent, quick, repeatable and socially clean."
     },
     {
@@ -154,8 +174,10 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "9 min",
       url: "/essays/cyber-audit-proof-economy/",
-      image: "/assets/views/articles/cyber-audit.webp",
-      imageAlt: "A narrow courtyard lane framed by concrete and yellow flowers",
+      cover: {
+        src: "/assets/views/articles/cyber-audit.webp",
+        alt: "A narrow courtyard lane framed by concrete and yellow flowers"
+      },
       excerpt: "China's platform internet no longer only creates desire. It trains consumers, cities and brands to prove that desire can survive inspection."
     }
   ]
