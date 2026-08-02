@@ -893,7 +893,7 @@
     if (!navInner || !brand || !links) return;
 
     const primaryLinks = [
-      { href: "/essays/", label: "Views", match: "/essays/" },
+      { href: "/views/", label: "Views", matches: ["/views/", "/essays/"] },
       { href: "/visual-notes/", label: "Visual Notes", match: "/visual-notes/" },
       { href: "/be-a-viewer/", label: "Be a Viewer", match: "/be-a-viewer/" },
       { href: "/about/", label: "About", match: "/about/" }
@@ -903,7 +903,8 @@
       const link = document.createElement("a");
       link.href = item.href;
       link.textContent = item.label;
-      if (currentPath.startsWith(item.match)) link.setAttribute("aria-current", "page");
+      const matches = item.matches || [item.match];
+      if (matches.some((match) => currentPath.startsWith(match))) link.setAttribute("aria-current", "page");
       return link;
     }));
     links.id = "primary-navigation-links";
@@ -1053,7 +1054,7 @@
         </a>
         <div class="footer-column">
           <span>Explore</span>
-          <a href="/essays/">Views</a>
+          <a href="/views/">Views</a>
           <a href="/visual-notes/">Visual Notes</a>
           <a href="/be-a-viewer/">Be a Viewer</a>
           <a href="/about/">About</a>
@@ -1372,7 +1373,7 @@
     const legacy = {
       "/essays/ai-goes-silent-censorship-infrastructure/": {
         lens: "View", kicker: "Silence / infrastructure", title: "When a system learns to disappear.",
-        image: "/assets/hero/video/code-systems-poster.webp", alt: "Abstract system code in low light", time: "8 min"
+        image: "/assets/views/articles/ai-goes-silent-china-zun.webp", alt: "A broken window in the glass facade of China Zun in Beijing", time: "8 min"
       },
       "/essays/latte-price-illusion/": {
         lens: "View", kicker: "Price / ritual", title: "The cost of an ordinary cup.",
@@ -1380,11 +1381,11 @@
       },
       "/essays/platforms-redesign-choice/": {
         lens: "Frame", kicker: "Platform / choice", title: "A feed is never only a feed.",
-        image: "/assets/hero/video/market-signals-poster.webp", alt: "Market signals on a screen", time: "8 min"
+        image: "/assets/views/articles/platform-influencer-boom.webp", alt: "A creator filming beneath a monumental modern building", time: "8 min"
       },
       "/essays/goose-leg-official-narrative/": {
         lens: "Observe", kicker: "Street / proof", title: "One small order changes the story.",
-        image: "/assets/visual-notes/old-street.webp", alt: "A city street viewed from the field", time: "8 min"
+        image: "/assets/views/articles/goose-leg.webp", alt: "Tsinghua University west gate seen from the street", time: "8 min"
       },
       "/essays/rmb-9-9-coffee/": {
         lens: "Observe", kicker: "Coffee / routine", title: "Cheap can still feel complete.",
@@ -1392,7 +1393,7 @@
       },
       "/essays/cyber-audit-proof-economy/": {
         lens: "Observe", kicker: "Proof / platform", title: "A platform economy learns to be checked.",
-        image: "/assets/visual-notes/city-road.webp", alt: "Road beneath urban infrastructure", time: "9 min"
+        image: "/assets/views/articles/cyber-audit.webp", alt: "A narrow courtyard lane framed by concrete and yellow flowers", time: "9 min"
       }
     };
     const meta = legacy[window.location.pathname];

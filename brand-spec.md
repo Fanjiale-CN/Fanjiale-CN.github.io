@@ -5,7 +5,7 @@
 - Logo: `/assets/galok-mark.svg`
 - Wordmark: `GALOK / Field notes`
 - Voice: observant, direct, editorial, specific
-- Primary routes: `/essays/`, `/series/frame/`, `/visual-notes/`, `/be-a-viewer/`, `/about/`
+- Primary routes: `/views/`, `/visual-notes/`, `/be-a-viewer/`, `/about/`; `/essays/` is retained only as a compatibility redirect while article permalinks remain under `/essays/{slug}/`.
 
 ## Visual system
 
@@ -42,9 +42,3 @@
 - Fabricated metrics, percentages or trust signals.
 - Continuous scroll-scrubbing on touch devices.
 - Gradient decoration, rounded-card grids or motion that does not communicate hierarchy or feedback.
-
-## BE A VIEWER city systems
-
-- Shanghai: cinematic architectural journal; river haze, street velocity and blue-green glass.
-- Beijing: city-axis editorial film; palace vermilion, warm stone, winter jade and directly manipulated chapter states.
-- Each city may have one signature interaction. Document scroll stays native across every city story.

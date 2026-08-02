@@ -10710,30 +10710,32 @@ body.article-body .site-shell {
   background: linear-gradient(180deg, rgba(7, 9, 10, 0.12), rgba(7, 9, 10, 0.9) 78%);
 }
 
-.views-lens-card--view {
-  --pack-rotation: -4deg;
-  background: #8b2e31 url("/assets/hero/video/tidal-edge-poster.webp") center / cover;
-}
-
-.views-lens-card--frame {
-  --pack-rotation: 2deg;
-  margin-bottom: clamp(12px, 3vw, 48px);
-  background: #345d74 url("/assets/consumption/receipt-table.webp") center / cover;
-}
-
-.views-lens-card--observe {
-  --pack-rotation: 5deg;
-  background: #7b765f;
-}
-
-.views-lens-card--observe img {
+.views-lens-card-media {
   position: absolute;
   inset: 0;
   z-index: -2;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  object-position: center;
+  transform: scale(1.015);
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1), filter 420ms ease;
+}
+
+.views-lens-card--view {
+  --pack-rotation: -4deg;
+  background: #8b2e31;
+}
+
+.views-lens-card--frame {
+  --pack-rotation: 2deg;
+  margin-bottom: clamp(12px, 3vw, 48px);
+  background: #345d74;
+}
+
+.views-lens-card--observe {
+  --pack-rotation: 5deg;
+  background: #7b765f;
 }
 
 .views-lens-card strong {
@@ -10764,9 +10766,10 @@ body.article-body .site-shell {
   transform: translate3d(0, -28px, 0) rotate(0deg) scale(1.02);
 }
 
-.views-lens-card:hover img,
-.views-lens-card:focus-visible img {
+.views-lens-card:hover .views-lens-card-media,
+.views-lens-card:focus-visible .views-lens-card-media {
   transform: scale(1.08);
+  filter: saturate(1.04) contrast(1.03);
 }
 
 .views-lens-card:focus-visible,
@@ -10922,7 +10925,7 @@ body.article-body .site-shell {
   .viewer-film-copy,
   .viewer-film-footer,
   .views-lens-card,
-  .views-lens-card--observe img,
+  .views-lens-card-media,
   .essay-card-media img {
     transition: none !important;
   }
@@ -11070,6 +11073,8 @@ body.article-body .site-shell {
 }
 
 .batch-cover-page {
+  position: relative;
+  isolation: isolate;
   width: min(100%, 48rem, calc((100svh - 8rem) * 0.75));
   aspect-ratio: 3 / 4;
   display: grid;
@@ -11079,6 +11084,34 @@ body.article-body .site-shell {
   color: var(--ra-color-cover-fg);
   background: var(--ra-color-cover-bg);
   border-radius: var(--ra-radius-none);
+}
+
+.batch-cover-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(5, 8, 10, 0.42) 0%, rgba(5, 8, 10, 0.76) 54%, rgba(5, 8, 10, 0.94) 100%),
+    linear-gradient(90deg, rgba(5, 8, 10, 0.42), transparent 58%);
+  pointer-events: none;
+}
+
+.batch-cover-source-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.72) contrast(1.08) brightness(0.72);
+  transform: scale(1.025);
+  animation: batch-cover-settle 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes batch-cover-settle {
+  from { opacity: 0; transform: scale(1.065); }
+  to { opacity: 1; transform: scale(1.025); }
 }
 
 .batch-cover-topline,
@@ -12026,7 +12059,8 @@ body.article-body .site-shell {
   .batch-wave-control::before,
   .batch-stat-control,
   .batch-cycle-control,
-  .batch-composition-primary {
+  .batch-composition-primary,
+  .batch-cover-source-image {
     transition: none !important;
     animation: none !important;
     transform: none !important;

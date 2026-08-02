@@ -34,8 +34,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/the-water-is-rising/",
-      image: "/assets/hero/video/tidal-edge-poster.webp",
-      imageAlt: "Water moving across a tidal edge",
+      image: "/assets/views/articles/water-rising.webp",
+      imageAlt: "Clear water rippling across a dark shoreline",
       excerpt: "Inside China's quiet AI purge: automation, silent layoffs and the organizational fear spreading through the technology workforce."
     },
     {
@@ -46,8 +46,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/peoples-republic-of-ai/",
-      image: "/assets/hero/video/code-systems-poster.webp",
-      imageAlt: "Digital systems in dark blue light",
+      image: "/assets/views/articles/peoples-republic-of-ai.webp",
+      imageAlt: "A Chinese flag above a traditional tiled roof",
       excerpt: "How China turned a new AI cooperation organization into commercial reach — and built a second race around infrastructure and standards."
     },
     {
@@ -58,8 +58,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/honor-phone-case-lawsuit/",
-      image: "/assets/consumption/receipt-table.webp",
-      imageAlt: "A receipt and table used as evidence",
+      image: "/assets/views/articles/honor-phone-cases.webp",
+      imageAlt: "An Honor phone photographed from its camera side",
       excerpt: "More than 400 small vendors were sued for using Honor's name to tell customers which phone their cases fit."
     },
     {
@@ -70,8 +70,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/xiaohongshu-world-cup/",
-      image: "/assets/hero/video/market-signals-poster.webp",
-      imageAlt: "Market signals in a dark field",
+      image: "/assets/views/articles/xiaohongshu-world-cup.webp",
+      imageAlt: "People standing before a colourful FIFA World Cup mural",
       excerpt: "Xiaohongshu wants the World Cup to grow daily users and attract more men. Its own platform history shows why the bet is difficult."
     },
     {
@@ -82,8 +82,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/tourism-assembly-line/",
-      image: "/assets/visual-notes/ferry.webp",
-      imageAlt: "A ferry route across blue water",
+      image: "/assets/views/articles/tourism-assembly-line.webp",
+      imageAlt: "Crowds moving through a historic Chinese shopping street",
       excerpt: "How platform economics turned travel into a production schedule of filters, queues, exposure and amplification."
     },
     {
@@ -94,8 +94,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/ai-goes-silent-censorship-infrastructure/",
-      image: "/assets/hero/video/code-systems-poster.webp",
-      imageAlt: "Code and systems in dark light",
+      image: "/assets/views/articles/ai-goes-silent-china-zun.webp",
+      imageAlt: "A broken window in the glass facade of China Zun in Beijing",
       excerpt: "A Beijing crash story shows how a model can retrieve information in the afternoon and refuse to speak by evening."
     },
     {
@@ -118,8 +118,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/platforms-redesign-choice/",
-      image: "/assets/hero/video/market-signals-poster.webp",
-      imageAlt: "A market signal in an abstract field",
+      image: "/assets/views/articles/platform-influencer-boom.webp",
+      imageAlt: "A creator filming beneath a monumental modern building",
       excerpt: "The feed creates desire, exposes the mechanism behind desire, and turns consumption into a public receipt."
     },
     {
@@ -130,8 +130,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/goose-leg-official-narrative/",
-      image: "/assets/visual-notes/old-street.webp",
-      imageAlt: "An old street seen in close detail",
+      image: "/assets/views/articles/goose-leg.webp",
+      imageAlt: "Tsinghua University west gate seen from the street",
       excerpt: "A Beijing vendor, elite campuses and one goose-flavored duck leg show how a beloved sincerity story can fail once ordinary evidence arrives."
     },
     {
@@ -154,8 +154,8 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "9 min",
       url: "/essays/cyber-audit-proof-economy/",
-      image: "/assets/visual-notes/city-road.webp",
-      imageAlt: "A city road under urban infrastructure",
+      image: "/assets/views/articles/cyber-audit.webp",
+      imageAlt: "A narrow courtyard lane framed by concrete and yellow flowers",
       excerpt: "China's platform internet no longer only creates desire. It trains consumers, cities and brands to prove that desire can survive inspection."
     }
   ]
