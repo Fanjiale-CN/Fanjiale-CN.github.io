@@ -182,7 +182,7 @@
     xian: { index: "03 / NORTHWEST CHINA", name: "XI’AN", description: "Empire, memory and life inside the wall.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xian/" },
     dali: { index: "04 / SOUTHWEST CHINA", name: "DALI", description: "Mountains, water and a slower rhythm.", status: "COMING SOON" },
     shenzhen: { index: "05 / SOUTH CHINA", name: "SHENZHEN", description: "A city built at the speed of possibility.", status: "COMING SOON" },
-    xiamen: { index: "06 / SOUTHEAST CHINA", name: "XIAMEN", description: "A coastal city read through light and edges.", status: "COMING SOON" },
+    xiamen: { index: "06 / SOUTHEAST CHINA", name: "XIAMEN", description: "Sea light, Minnan rooflines and a city moving with the tide.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xiamen/" },
     tibet: { index: "07 / WEST CHINA", name: "TIBET", description: "Altitude, belief and a landscape beyond scale.", status: "COMING SOON" }
   };
 
