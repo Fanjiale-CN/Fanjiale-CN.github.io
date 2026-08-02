@@ -147,24 +147,65 @@
     const indexNode = tidePlayer.querySelector("[data-xm-tide-index]");
     const titleNode = tidePlayer.querySelector("[data-xm-tide-title]");
     const copyNode = tidePlayer.querySelector("[data-xm-tide-copy]");
+    const copyStack = tidePlayer.querySelector("[data-xm-tide-copy-stack]");
+    let activeTide = 0;
+    let transitionTimer;
+    let copyTimer;
+    let inputTimer;
 
-    function setTide(index) {
-      const next = Math.max(0, Math.min(tideData.length - 1, Number(index)));
-      frames.forEach((frame) => frame.classList.toggle("is-active", Number(frame.dataset.xmTideFrame) === next));
+    function setTide(index, { syncRange = true } = {}) {
+      const next = Math.max(0, Math.min(tideData.length - 1, Math.round(Number(index))));
+      if (next === activeTide) return;
+      const previous = frames[activeTide];
+      const incoming = frames[next];
+
+      window.clearTimeout(transitionTimer);
+      window.clearTimeout(copyTimer);
+      frames.forEach((frame) => {
+        if (frame !== previous && frame !== incoming) frame.classList.remove("is-leaving");
+      });
+      previous?.classList.remove("is-active");
+      previous?.classList.add("is-leaving");
+      incoming?.classList.remove("is-leaving");
+      incoming?.classList.add("is-active");
+      tidePlayer.classList.add("is-transitioning");
       buttons.forEach((button) => {
         const active = Number(button.dataset.xmTideButton) === next;
         button.classList.toggle("is-active", active);
         button.setAttribute("aria-pressed", String(active));
       });
-      if (range) range.value = String(next);
-      if (indexNode) indexNode.textContent = tideData[next].index;
-      if (titleNode) titleNode.textContent = tideData[next].title;
-      if (copyNode) copyNode.textContent = tideData[next].copy;
+      if (range && syncRange) range.value = String(next);
+      tidePlayer.style.setProperty("--tide-position", `${((syncRange ? next : Number(range?.value || next)) / (tideData.length - 1)) * 100}%`);
+
+      copyStack?.classList.add("is-changing");
+      copyTimer = window.setTimeout(() => {
+        if (indexNode) indexNode.textContent = tideData[next].index;
+        if (titleNode) titleNode.textContent = tideData[next].title;
+        if (copyNode) copyNode.textContent = tideData[next].copy;
+        requestAnimationFrame(() => copyStack?.classList.remove("is-changing"));
+      }, reducedMotion ? 0 : 130);
+
+      transitionTimer = window.setTimeout(() => {
+        frames.forEach((frame) => frame.classList.remove("is-leaving"));
+        tidePlayer.classList.remove("is-transitioning");
+      }, reducedMotion ? 0 : 860);
+      activeTide = next;
     }
 
-    range?.addEventListener("input", (event) => setTide(event.currentTarget.value));
+    range?.addEventListener("input", (event) => {
+      const value = Number(event.currentTarget.value);
+      tidePlayer.style.setProperty("--tide-position", `${(value / (tideData.length - 1)) * 100}%`);
+      const next = Math.round(value);
+      window.clearTimeout(inputTimer);
+      if (next !== activeTide) inputTimer = window.setTimeout(() => setTide(next, { syncRange: false }), 90);
+    });
+    range?.addEventListener("change", (event) => {
+      window.clearTimeout(inputTimer);
+      setTide(event.currentTarget.value, { syncRange: false });
+    });
     buttons.forEach((button) => button.addEventListener("click", () => setTide(button.dataset.xmTideButton)));
-    setTide(0);
+    buttons.forEach((button, index) => button.setAttribute("aria-pressed", String(index === 0)));
+    tidePlayer.style.setProperty("--tide-position", "0%");
   }
 
   const roofNotes = [
