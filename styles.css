@@ -1955,54 +1955,6 @@ button {
   }
 }
 
-@keyframes symbolDraw {
-  0%,
-  0.8% {
-    stroke-dashoffset: 1;
-  }
-  2.4%,
-  17% {
-    stroke-dashoffset: 0;
-  }
-  18.6% {
-    stroke-dashoffset: 0.08;
-  }
-  20%,
-  100% {
-    stroke-dashoffset: 1;
-  }
-}
-
-@keyframes symbolSoftFill {
-  0%,
-  2.8% {
-    opacity: 0;
-  }
-  4.2%,
-  16.8% {
-    opacity: 0.9;
-  }
-  19.4%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes symbolSolidFill {
-  0%,
-  2.2% {
-    opacity: 0;
-  }
-  3.8%,
-  16.8% {
-    opacity: 1;
-  }
-  19.4%,
-  100% {
-    opacity: 0;
-  }
-}
-
 @keyframes symbolLetterFill {
   0%,
   4.8% {
@@ -2030,39 +1982,6 @@ button {
   19.2%,
   100% {
     transform: translate(10px, -8px) scale(0.96);
-  }
-}
-
-@keyframes symbolPartMove {
-  0%,
-  0.8% {
-    transform: translate(var(--part-x), var(--part-y)) rotate(var(--part-r)) scale(0.88);
-  }
-  3.1%,
-  17% {
-    transform: translate(0, 0) rotate(0) scale(1);
-  }
-  18.9%,
-  100% {
-    transform: translate(var(--part-out-x), var(--part-out-y)) rotate(var(--part-out-r)) scale(0.9);
-  }
-}
-
-@keyframes morphLabel {
-  0%,
-  3.6% {
-    opacity: 0;
-    transform: translateY(7px);
-  }
-  5%,
-  16.4% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  19.2%,
-  100% {
-    opacity: 0;
-    transform: translateY(-5px);
   }
 }
 
@@ -6470,10 +6389,6 @@ button {
   animation-name: gLetterpressHighlight;
 }
 
-.layer-pane-fill {
-  animation-name: gPane;
-}
-
 .pane-slab {
   stroke: rgba(47, 93, 124, 0.18);
   stroke-width: 1.2;
@@ -6537,10 +6452,6 @@ button {
 .coordinate-dot {
   fill: rgba(158, 42, 43, 0.56);
   stroke: none;
-}
-
-.layer-archive-fill {
-  animation-name: gArchive;
 }
 
 .receipt-rule {
@@ -6609,118 +6520,6 @@ button {
   animation-play-state: paused;
 }
 
-@keyframes gClassicFill {
-  0%, 9%, 94%, 100% { opacity: 1; filter: blur(0); }
-  14%, 89% { opacity: 0; filter: blur(5px); }
-}
-
-@keyframes gClassicText {
-  0%, 10%, 93%, 100% {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1);
-  }
-  14%, 89% {
-    opacity: 0;
-    filter: blur(5px);
-    transform: scale(1.006);
-  }
-}
-
-@keyframes gLetterpress {
-  0%, 10%, 29%, 100% { opacity: 0; filter: blur(5px); }
-  14%, 25% { opacity: 0.92; filter: blur(0); }
-}
-
-@keyframes gLetterpressShadow {
-  0%, 10%, 29%, 100% { opacity: 0; filter: blur(5px); }
-  15%, 25% { opacity: 1; filter: blur(0); }
-}
-
-@keyframes gLetterpressHighlight {
-  0%, 10%, 29%, 100% { opacity: 0; filter: blur(4px); }
-  15%, 25% { opacity: 0.8; filter: blur(0); }
-}
-
-@keyframes gPane {
-  0%, 26%, 44%, 100% {
-    opacity: 0;
-    filter: blur(5px);
-    transform: scale(0.992);
-  }
-  31%, 40% {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1);
-  }
-}
-
-@keyframes gPaneOutline {
-  0%, 27%, 44%, 100% { opacity: 0; filter: blur(3px); }
-  31%, 40% { opacity: 1; filter: blur(0); }
-}
-
-@keyframes gConstruction {
-  0%, 41%, 60%, 100% {
-    opacity: 0;
-    filter: blur(4px);
-    transform: scale(0.99);
-  }
-  46%, 56% {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1);
-  }
-}
-
-@keyframes gArchive {
-  0%, 57%, 76%, 100% {
-    opacity: 0;
-    filter: blur(5px);
-    transform: scale(0.994);
-  }
-  62%, 72% {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1);
-  }
-}
-
-@keyframes gArchiveOutline {
-  0%, 58%, 76%, 100% { opacity: 0; filter: blur(3px); }
-  63%, 72% { opacity: 0.72; filter: blur(0); }
-}
-
-@keyframes gInkFill {
-  0%, 73%, 92%, 100% {
-    opacity: 0;
-    filter: blur(5px);
-    transform: scale(0.99);
-  }
-  78%, 88% {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1.004);
-  }
-}
-
-@keyframes gInkText {
-  0%, 74%, 92%, 100% { opacity: 0; filter: blur(4px); }
-  79%, 88% { opacity: 0.92; filter: blur(0); }
-}
-
-@keyframes gInkBleed {
-  0%, 78%, 92%, 100% {
-    opacity: 0;
-    stroke-dasharray: 36;
-    stroke-dashoffset: 36;
-  }
-  82%, 88% {
-    opacity: 1;
-    stroke-dashoffset: 0;
-  }
-}
-
 @media (max-width: 1020px) {
   .GalokMotionHero.galok-identity-panel {
     height: min(500px, 54svh);
@@ -6771,11 +6570,6 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .GalokMotionHero .motion-layer,
-  .GalokMotionHero .motion-paper-grain {
-    animation: none !important;
-  }
-
   .GalokMotionHero .layer-classic-fill,
   .GalokMotionHero .layer-classic-text {
     opacity: 1;
@@ -10882,10 +10676,6 @@ body.article-body .site-shell {
 }
 
 @media (max-width: 760px) {
-  .field-hero-actions {
-    gap: 4px;
-  }
-
   .field-hero-step {
     padding-inline: 8px !important;
     font-size: 0.62rem !important;
