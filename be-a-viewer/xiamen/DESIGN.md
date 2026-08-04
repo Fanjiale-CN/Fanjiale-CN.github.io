@@ -17,7 +17,10 @@ An editorial coastal field note shaped by Xiamen's sea light and Minnan roof cul
 - Hero footage crossfades through three fixed-size scenes: water, stone and city.
 - Copy enters after the image with a short vertical reveal.
 - The tide table, roof notes and street seam respond directly to user input.
-- Mobile scroll never drives image transforms, pinning or frame-by-frame video.
+- Coast Time uses one continuous sticky photographic sequence to move from afternoon to night.
+- Crossing converts vertical travel into a restrained horizontal ferry route and resolves on Gulangyu.
+- Gulangyu, Street Current and City / Water reuse the same slow scroll grammar: opacity, clipping and low-amplitude translation.
+- Mobile keeps the time, crossing and water narratives with lower parallax; Street Current becomes native horizontal touch scroll.
 - Respect `prefers-reduced-motion`; videos pause and reveals become immediate.
 
 ## Interaction rules
@@ -31,5 +34,5 @@ An editorial coastal field note shaped by Xiamen's sea light and Minnan roof cul
 
 - Generic cyan gradients.
 - Decorative motion without an editorial purpose.
-- Long pinned sections or scroll-jacked timelines.
+- Competing pinned effects or any pinned section without a clear spatial or time-based narrative.
 - Floating text that ignores the photographed architecture.

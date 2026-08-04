@@ -267,6 +267,122 @@
     streetReveal.style.setProperty("--split", `${event.currentTarget.value}%`);
   });
 
+  const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
+  const ease = (value) => {
+    const amount = clamp(value);
+    return 1 - Math.pow(1 - amount, 3);
+  };
+
+  const tideSection = document.querySelector(".xm-tide");
+  const coastTime = document.querySelector("[data-xm-coast-time]");
+  const coastFrames = [...document.querySelectorAll("[data-xm-time-frame]")];
+  const coastProgress = document.querySelector("[data-xm-time-progress]");
+  const crossing = document.querySelector("[data-xm-crossing]");
+  const gulangyuEntry = document.querySelector("[data-xm-gulangyu-entry]");
+  const streetFlow = document.querySelector("[data-xm-street-flow]");
+  const streetFragments = document.querySelector("[data-xm-street-fragments]");
+  const streetProgress = document.querySelector("[data-xm-street-progress]");
+  const cityWater = document.querySelector("[data-xm-city-water]");
+  const cityLayers = [...document.querySelectorAll("[data-xm-city-layer]")];
+  const cityProgress = document.querySelector("[data-xm-city-progress]");
+  let narrativeMetrics = {};
+  let streetTravel = 0;
+
+  function metricFor(element) {
+    if (!element) return null;
+    return { top: element.offsetTop, height: element.offsetHeight };
+  }
+
+  function measureNarratives() {
+    narrativeMetrics = {
+      tide: metricFor(tideSection),
+      coast: metricFor(coastTime),
+      crossing: metricFor(crossing),
+      gulangyu: metricFor(gulangyuEntry),
+      street: metricFor(streetFlow),
+      city: metricFor(cityWater)
+    };
+    streetTravel = streetFragments ? Math.max(0, streetFragments.scrollWidth - window.innerWidth) : 0;
+  }
+
+  function sectionProgress(metric, scrollY, viewport) {
+    if (!metric) return 0;
+    return clamp((scrollY - metric.top) / Math.max(1, metric.height - viewport));
+  }
+
+  function tideClip(reveal) {
+    const edge = 100 - clamp(reveal) * 100;
+    const wave = Math.min(1.6, clamp(reveal) * 2.2);
+    return `polygon(0 ${clamp(edge, 0, 100)}%, 18% ${clamp(edge - wave, 0, 100)}%, 38% ${clamp(edge + wave * .55, 0, 100)}%, 62% ${clamp(edge - wave * .7, 0, 100)}%, 82% ${clamp(edge + wave * .4, 0, 100)}%, 100% ${clamp(edge, 0, 100)}%, 100% 100%, 0 100%)`;
+  }
+
+  function renderNarratives(scrollY, viewport) {
+    if (tideSection && narrativeMetrics.tide) {
+      const metric = narrativeMetrics.tide;
+      const entry = clamp((scrollY + viewport - metric.top) / Math.max(1, viewport + metric.height));
+      tideSection.style.setProperty("--tide-lift", `${(entry - .5) * 18}px`);
+    }
+
+    if (coastTime && coastFrames.length && narrativeMetrics.coast) {
+      const progress = sectionProgress(narrativeMetrics.coast, scrollY, viewport);
+      const position = progress * (coastFrames.length - 1);
+      const active = Math.min(coastFrames.length - 1, Math.round(position));
+      coastFrames.forEach((frame, index) => {
+        const distance = Math.abs(position - index);
+        const visibility = clamp(1 - distance);
+        frame.classList.toggle("is-active", index === active);
+        frame.style.setProperty("--time-opacity", visibility.toFixed(4));
+        frame.style.setProperty("--time-scale", (1.012 + clamp(distance) * .038).toFixed(4));
+        frame.style.setProperty("--time-x", `${clamp(index - position, -1, 1) * 1.4}%`);
+        frame.style.setProperty("--time-clip", `${clamp(distance) * 6}%`);
+      });
+      if (coastProgress) coastProgress.style.transform = `scaleX(${progress})`;
+    }
+
+    if (crossing && narrativeMetrics.crossing) {
+      const progress = sectionProgress(narrativeMetrics.crossing, scrollY, viewport);
+      crossing.style.setProperty("--crossing-progress", progress.toFixed(5));
+      crossing.style.setProperty("--crossing-x", `${progress * -75}%`);
+      crossing.style.setProperty("--crossing-boat", `${progress * 100}%`);
+      crossing.style.setProperty("--crossing-parallax", `${progress * -2.4}vw`);
+    }
+
+    if (gulangyuEntry && narrativeMetrics.gulangyu) {
+      const progress = sectionProgress(narrativeMetrics.gulangyu, scrollY, viewport);
+      const reveal = ease((progress - .16) / .52);
+      gulangyuEntry.style.setProperty("--g-sign-opacity", (1 - ease((progress - .08) / .3)).toFixed(4));
+      gulangyuEntry.style.setProperty("--g-building-opacity", ease((progress - .17) / .24).toFixed(4));
+      gulangyuEntry.style.setProperty("--g-inset", `${46 * (1 - reveal)}%`);
+      gulangyuEntry.style.setProperty("--g-line", `${ease((progress - .06) / .36) * 100}%`);
+      gulangyuEntry.style.setProperty("--g-sign-x", `${-34 * ease((progress - .1) / .32)}vw`);
+      gulangyuEntry.style.setProperty("--g-background-y", `${-8 * progress}px`);
+      gulangyuEntry.style.setProperty("--g-foreground-y", `${-22 * progress}px`);
+      gulangyuEntry.style.setProperty("--g-word-opacity", ease((progress - .58) / .18).toFixed(4));
+    }
+
+    if (streetFlow && streetFragments && narrativeMetrics.street && window.innerWidth > 700 && !reducedMotion) {
+      const progress = sectionProgress(narrativeMetrics.street, scrollY, viewport);
+      streetFlow.style.setProperty("--street-x", `${-streetTravel * progress}px`);
+      streetFlow.style.setProperty("--street-progress", progress.toFixed(5));
+      if (streetProgress) streetProgress.style.transform = `scaleX(${progress})`;
+    }
+
+    if (cityWater && narrativeMetrics.city) {
+      const progress = sectionProgress(narrativeMetrics.city, scrollY, viewport);
+      const reveals = [
+        ease((progress - .08) / .28),
+        ease((progress - .36) / .28),
+        ease((progress - .66) / .3)
+      ];
+      cityLayers.forEach((layer, index) => {
+        layer.style.clipPath = tideClip(reveals[index] || 0);
+      });
+      cityWater.style.setProperty("--city-progress", progress.toFixed(5));
+      cityWater.style.setProperty("--city-y", `${progress * -1.2}vh`);
+      if (cityProgress) cityProgress.style.transform = `scaleY(${progress})`;
+    }
+  }
+
   const storyNav = document.querySelector("[data-xm-story-nav]");
   const storyLinks = [...document.querySelectorAll("[data-xm-section-link]")];
   const storySections = storyLinks.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
@@ -281,6 +397,7 @@
       top: section.offsetTop,
       bottom: section.offsetTop + section.offsetHeight
     }));
+    measureNarratives();
   }
 
   function setActiveSection(section) {
@@ -313,6 +430,7 @@
     let active = sectionMetrics[0].section;
     sectionMetrics.forEach((metric) => { if (metric.top <= readingLine) active = metric.section; });
     setActiveSection(active);
+    if (!reducedMotion) renderNarratives(scrollY, viewport);
   }
 
   function requestScrollRender() {

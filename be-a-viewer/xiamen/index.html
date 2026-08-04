@@ -12,7 +12,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-mark.svg">
   <link rel="preload" href="/assets/be-a-viewer/xiamen/hero-water-hd-poster.jpg" as="image">
   <link rel="stylesheet" href="/styles.css?v=views-unified-1">
-  <link rel="stylesheet" href="/be-a-viewer/xiamen/xiamen.css?v=1">
+  <link rel="stylesheet" href="/be-a-viewer/xiamen/xiamen.css?v=2">
 </head>
 <body class="plain-body xiamen-page-body">
   <nav class="site-nav xiamen-site-nav" aria-label="Primary navigation">
@@ -83,10 +83,13 @@
     <nav class="xm-story-nav" aria-label="Xiamen story chapters" data-xm-story-nav>
       <i aria-hidden="true"><span data-xm-story-progress></span></i>
       <a href="#tide-table" data-xm-section-link><b>01</b><span>Tide Table</span></a>
-      <a href="#minnan-roofline" data-xm-section-link><b>02</b><span>Minnan Roofline</span></a>
-      <a href="#island-loop" data-xm-section-link><b>03</b><span>Island Loop</span></a>
-      <a href="#street-current" data-xm-section-link><b>04</b><span>Street Current</span></a>
-      <a href="#coastal-table" data-xm-section-link><b>05</b><span>Coastal Table</span></a>
+      <a href="#coast-time" data-xm-section-link><b>02</b><span>Coast Time</span></a>
+      <a href="#minnan-roofline" data-xm-section-link><b>03</b><span>Minnan Roofline</span></a>
+      <a href="#crossing" data-xm-section-link><b>04</b><span>Crossing</span></a>
+      <a href="#island-loop" data-xm-section-link><b>05</b><span>Gulangyu</span></a>
+      <a href="#street-current" data-xm-section-link><b>06</b><span>Street Current</span></a>
+      <a href="#coastal-table" data-xm-section-link><b>07</b><span>Coastal Table</span></a>
+      <a href="#city-water" data-xm-section-link><b>08</b><span>City / Water</span></a>
     </nav>
 
     <section class="xm-tide xm-section" id="tide-table" aria-labelledby="tide-title" data-xm-section>
@@ -124,11 +127,56 @@
       </div>
     </section>
 
+    <section class="xm-coast-time" id="coast-time" aria-label="Xiamen coast from afternoon to night" data-xm-section data-xm-coast-time>
+      <div class="xm-coast-time-stage">
+        <div class="xm-coast-time-frames">
+          <figure class="is-active" data-xm-time-frame>
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/adrian2019-xiamen-4622472_1920-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/adrian2019-xiamen-4622472_1920-desktop.webp" width="1920" height="1200" loading="lazy" decoding="async" alt="A broad sandy Xiamen beach facing the afternoon sea">
+            </picture>
+            <figcaption><time datetime="16:42">16:42</time><span>SHORE / XIAMEN</span></figcaption>
+          </figure>
+          <figure data-xm-time-frame>
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-158520687-10753852-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-158520687-10753852-desktop.webp" width="2400" height="1350" loading="lazy" decoding="async" alt="A ferry crossing Xiamen Bay in warm evening light">
+            </picture>
+            <figcaption><time datetime="18:07">18:07</time><span>FERRY LIGHT</span></figcaption>
+          </figure>
+          <figure data-xm-time-frame>
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-158520687-14520168-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-158520687-14520168-desktop.webp" width="2400" height="1348" loading="lazy" decoding="async" alt="Xiamen coastline beneath a dramatic sunset sky">
+            </picture>
+            <figcaption><time datetime="18:49">18:49</time><span>LAST ORANGE</span></figcaption>
+          </figure>
+          <figure data-xm-time-frame>
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/fatdada-xiamen-1585095_1920-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/fatdada-xiamen-1585095_1920-desktop.webp" width="1920" height="1272" loading="lazy" decoding="async" alt="The Xiamen waterfront and twin towers after nightfall">
+            </picture>
+            <figcaption><time datetime="19:31">19:31</time><span>BLUE HOUR</span></figcaption>
+          </figure>
+          <figure data-xm-time-frame>
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-toter-yau-5305300-37714844-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-toter-yau-5305300-37714844-desktop.webp" width="2400" height="1800" loading="lazy" decoding="async" alt="Xiamen city lights spreading around the bay at night">
+            </picture>
+            <figcaption><time datetime="20:16">20:16</time><span>CITY TIDE</span></figcaption>
+          </figure>
+        </div>
+        <div class="xm-coast-time-index" aria-hidden="true">
+          <span>AFTERNOON</span><i><b data-xm-time-progress></b></i><span>NIGHT</span>
+        </div>
+      </div>
+    </section>
+
     <section class="xm-roof" id="minnan-roofline" aria-labelledby="roof-title" data-xm-section>
       <img src="/assets/be-a-viewer/xiamen/temple-sky.webp" width="1600" height="2400" loading="lazy" decoding="async" alt="A Minnan temple roof beneath an aircraft crossing the blue sky">
       <div class="xm-roof-wash" aria-hidden="true"></div>
       <header>
-        <p>02 / MINNAN ROOFLINE</p>
+        <p>03 / MINNAN ROOFLINE</p>
         <h2 id="roof-title">THE ROOF<br>REFUSES SILENCE.</h2>
         <span>Colour, clay and carved figures turn protection into theatre.</span>
       </header>
@@ -143,9 +191,71 @@
       </div>
     </section>
 
-    <section class="xm-island xm-section" id="island-loop" aria-labelledby="island-title" data-xm-section>
+    <section class="xm-crossing" id="crossing" aria-label="Crossing from Xiamen Island to Gulangyu" data-xm-section data-xm-crossing>
+      <div class="xm-crossing-stage">
+        <div class="xm-crossing-track" data-xm-crossing-track>
+          <figure class="xm-crossing-panel">
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-aqin-19334569-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-aqin-19334569-desktop.webp" width="2400" height="1350" loading="lazy" decoding="async" alt="A ferry moving in front of Xiamen's waterfront skyline">
+            </picture>
+            <figcaption>XIAMEN ISLAND</figcaption>
+          </figure>
+          <figure class="xm-crossing-panel">
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-158520687-10753852-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-158520687-10753852-desktop.webp" width="2400" height="1350" loading="lazy" decoding="async" alt="A working boat crossing the open water of Xiamen Bay">
+            </picture>
+            <figcaption>OPEN WATER</figcaption>
+          </figure>
+          <figure class="xm-crossing-panel">
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-chunry-5392389-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-chunry-5392389-desktop.webp" width="2400" height="1600" loading="lazy" decoding="async" alt="Traditional fishing boats resting on the water near Xiamen">
+            </picture>
+            <figcaption>FISHING LINE</figcaption>
+          </figure>
+          <figure class="xm-crossing-panel">
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-peter-xie-371876898-35157085-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-peter-xie-371876898-35157085-desktop.webp" width="2400" height="1600" loading="lazy" decoding="async" alt="Directional signs on a historic Gulangyu street">
+            </picture>
+            <figcaption>GULANGYU / ARRIVAL</figcaption>
+          </figure>
+        </div>
+        <div class="xm-crossing-route" aria-hidden="true"><i></i><span class="xm-crossing-boat"><b></b></span></div>
+        <div class="xm-crossing-label" aria-hidden="true"><span>CROSSING</span><b>XIAMEN</b><i>—</i><b>GULANGYU</b></div>
+      </div>
+    </section>
+
+    <section class="xm-island" id="island-loop" aria-labelledby="island-title" data-xm-section>
+      <div class="xm-gulangyu-entry" data-xm-gulangyu-entry>
+        <div class="xm-gulangyu-stage">
+          <figure class="xm-gulangyu-sign">
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-peter-xie-371876898-35157085-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-peter-xie-371876898-35157085-desktop.webp" width="2400" height="1600" loading="lazy" decoding="async" alt="Gulangyu direction signs pointing through the island's historic streets">
+            </picture>
+          </figure>
+          <figure class="xm-gulangyu-building">
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-zhicheng-zhang-312594413-20200335-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-zhicheng-zhang-312594413-20200335-desktop.webp" width="2400" height="1601" loading="lazy" decoding="async" alt="Historic Gulangyu architecture with modern Xiamen across the water">
+            </picture>
+          </figure>
+          <figure class="xm-gulangyu-foreground" aria-hidden="true">
+            <picture>
+              <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-zhicheng-zhang-312594413-20200335-mobile.webp">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-zhicheng-zhang-312594413-20200335-desktop.webp" width="2400" height="1601" loading="lazy" decoding="async" alt="">
+            </picture>
+          </figure>
+          <div class="xm-gulangyu-line" aria-hidden="true"><i></i></div>
+          <div class="xm-gulangyu-word" aria-hidden="true"><span>GULANGYU</span><b>AMOY</b></div>
+        </div>
+      </div>
+      <div class="xm-island-body xm-section">
       <header class="xm-section-head xm-section-head-dark">
-        <p>03 / GULANGYU</p>
+        <p>05 / GULANGYU</p>
         <h2 id="island-title">AN ISLAND<br>AT WALKING SPEED.</h2>
         <span>No cars. Every turn is measured by shade, steps and sea air.</span>
       </header>
@@ -158,14 +268,41 @@
         <figure><img src="/assets/be-a-viewer/xiamen/coastal-skyline.webp" width="1920" height="1280" loading="lazy" decoding="async" alt="Xiamen skyline through coastal haze"><figcaption><b>03</b> THE CITY ANSWERS BACK</figcaption></figure>
       </div>
       <div class="xm-island-hint" aria-hidden="true"><span>DRAG TO WALK</span><i></i></div>
+      </div>
     </section>
 
-    <section class="xm-street xm-section" id="street-current" aria-labelledby="street-title" data-xm-section>
+    <section class="xm-street" id="street-current" aria-labelledby="street-title" data-xm-section>
+      <div class="xm-street-heading xm-section">
       <header class="xm-section-head">
-        <p>04 / STREET CURRENT</p>
+        <p>06 / STREET CURRENT</p>
         <h2 id="street-title">OLD DOORS.<br>NEW WEATHER.</h2>
         <span>The coast continues inland as colour, shade and movement.</span>
       </header>
+      </div>
+      <div class="xm-street-flow" data-xm-street-flow>
+        <div class="xm-street-flow-stage">
+          <div class="xm-street-fragments" data-xm-street-fragments tabindex="0" aria-label="Fragments of Xiamen streets. Swipe horizontally on touch screens.">
+            <figure class="xm-street-fragment xm-street-fragment-wall">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-norriexf-20453481-9359225-desktop.webp" width="2400" height="1600" loading="lazy" decoding="async" alt="Painted lettering, shutters and worn plaster on an old Xiamen wall">
+              <figcaption>OLD WALL / COLOUR STAYS</figcaption>
+            </figure>
+            <figure class="xm-street-fragment xm-street-fragment-sign">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-zhicheng-zhang-312594413-20361316-desktop.webp" width="2400" height="1601" loading="lazy" decoding="async" alt="A playful Xiamen sign and yellow seats beside the sea">
+              <figcaption>XIAMEN / A SMALL JOKE BY THE WATER</figcaption>
+            </figure>
+            <figure class="xm-street-fragment xm-street-fragment-anchor">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-zhicheng-zhang-312594413-21134732-desktop.webp" width="2400" height="1601" loading="lazy" decoding="async" alt="The large Chinese characters for Xiamen painted across a street wall">
+              <figcaption>厦门 / THE CITY WRITES ITS NAME</figcaption>
+            </figure>
+            <figure class="xm-street-fragment xm-street-fragment-shade">
+              <img src="/assets/be-a-viewer/xiamen/editorial/pexels-toter-yau-5305300-17985042-desktop.webp" width="1440" height="1800" loading="lazy" decoding="async" alt="A tree-lined Xiamen street descending through warm evening light">
+              <figcaption>SHADE / DOWNHILL TO THE SEA</figcaption>
+            </figure>
+          </div>
+          <div class="xm-street-flow-meter" aria-hidden="true"><span>WALK</span><i><b data-xm-street-progress></b></i><span>REMEMBER</span></div>
+        </div>
+      </div>
+      <div class="xm-street-existing xm-section">
       <div class="xm-street-reveal" data-xm-reveal>
         <figure class="xm-street-base"><img src="/assets/be-a-viewer/xiamen/zhongshan-road.webp" width="2200" height="1467" loading="lazy" decoding="async" alt="Fujian Road on Gulangyu, Xiamen"><figcaption>GULANGYU / FUJIAN ROAD</figcaption></figure>
         <figure class="xm-street-top"><img src="/assets/be-a-viewer/xiamen/blue-hour-road.webp" width="2200" height="1467" loading="lazy" decoding="async" alt="An elevated road in Xiamen at blue hour"><figcaption>THE CITY / ONE LEVEL ABOVE</figcaption></figure>
@@ -181,12 +318,13 @@
         <img src="/assets/be-a-viewer/xiamen/xiamen-university.webp" width="2200" height="1467" loading="lazy" decoding="async" alt="The gate sign of Xiamen University">
         <figcaption><b>1921</b><span>XIAMEN UNIVERSITY<br>A CAMPUS FACING THE SEA</span></figcaption>
       </figure>
+      </div>
     </section>
 
     <section class="xm-table" id="coastal-table" aria-labelledby="table-title" data-xm-section>
       <figure><img src="/assets/be-a-viewer/xiamen/oyster-omelette.webp" width="1920" height="1440" loading="lazy" decoding="async" alt="A plate of Minnan oyster omelette"></figure>
       <header>
-        <p>05 / COASTAL TABLE</p>
+        <p>07 / COASTAL TABLE</p>
         <h2 id="table-title">THE TIDE<br>ENTERS THE KITCHEN.</h2>
         <span>Oyster, egg and sweet potato starch: a shoreline translated into texture.</span>
       </header>
@@ -197,10 +335,44 @@
       </div>
     </section>
 
+    <section class="xm-city-water" id="city-water" aria-label="The sea entering and leaving Xiamen city" data-xm-section data-xm-city-water>
+      <div class="xm-city-water-stage">
+        <figure class="xm-city-water-layer is-base">
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-toter-yau-5305300-17737729-mobile.webp">
+            <img src="/assets/be-a-viewer/xiamen/editorial/pexels-toter-yau-5305300-17737729-desktop.webp" width="2400" height="1797" loading="lazy" decoding="async" alt="A marina where Xiamen's dense city meets the water">
+          </picture>
+        </figure>
+        <figure class="xm-city-water-layer" data-xm-city-layer>
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-toter-yau-5305300-17737860-mobile.webp">
+            <img src="/assets/be-a-viewer/xiamen/editorial/pexels-toter-yau-5305300-17737860-desktop.webp" width="2400" height="1798" loading="lazy" decoding="async" alt="Bridges and tightly packed Xiamen neighbourhoods beside the bay">
+          </picture>
+        </figure>
+        <figure class="xm-city-water-layer" data-xm-city-layer>
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-thomas-lin-2951901-15360513-mobile.webp">
+            <img src="/assets/be-a-viewer/xiamen/editorial/pexels-thomas-lin-2951901-15360513-desktop.webp" width="2400" height="1555" loading="lazy" decoding="async" alt="A bridge carrying the modern city across Xiamen's coastal water">
+          </picture>
+        </figure>
+        <figure class="xm-city-water-layer" data-xm-city-layer>
+          <picture>
+            <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/pexels-158520687-14520168-mobile.webp">
+            <img src="/assets/be-a-viewer/xiamen/editorial/pexels-158520687-14520168-desktop.webp" width="2400" height="1348" loading="lazy" decoding="async" alt="The Xiamen coastline opening back toward the sea at sunset">
+          </picture>
+        </figure>
+        <div class="xm-city-water-title" aria-hidden="true"><span>08 / CITY / WATER</span><b>SEA</b><i>→</i><b>CITY</b><i>→</i><b>SEA</b></div>
+        <div class="xm-city-water-depth" aria-hidden="true"><i><b data-xm-city-progress></b></i></div>
+      </div>
+    </section>
+
     <section class="xm-closing" aria-labelledby="closing-title">
-      <img src="/assets/be-a-viewer/xiamen/island-coast.webp" width="2200" height="1650" loading="lazy" decoding="async" alt="Islands and boats off the Xiamen coast">
+      <picture>
+        <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xiamen/editorial/adrian2019-xiamen-4622472_1920-mobile.webp">
+        <img src="/assets/be-a-viewer/xiamen/editorial/adrian2019-xiamen-4622472_1920-desktop.webp" width="1920" height="1200" loading="lazy" decoding="async" alt="A wide, quiet Xiamen beach facing the open sea">
+      </picture>
       <div>
-        <p>06 / LEAVING THE FRAME</p>
+        <p>09 / LEAVING THE FRAME</p>
         <h2 id="closing-title">THE SEA<br>KEEPS THE LAST WORD.</h2>
         <span>Every departure still faces the coast.</span>
       </div>
@@ -218,6 +390,6 @@
   </footer>
 
   <script src="/script.js?v=views-unified-1"></script>
-  <script src="/be-a-viewer/xiamen/xiamen.js?v=1"></script>
+  <script src="/be-a-viewer/xiamen/xiamen.js?v=2"></script>
 </body>
 </html>

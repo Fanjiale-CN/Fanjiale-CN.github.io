@@ -383,7 +383,27 @@ html {
   text-transform: none;
 }
 
-.xm-tide { background: var(--xm-paper); }
+.xm-tide {
+  --tide-lift: 0px;
+  background: var(--xm-paper);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.xm-tide::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -5rem;
+  right: 0;
+  left: 0;
+  height: min(38rem, 58svh);
+  background: url("/assets/be-a-viewer/xiamen/editorial/adrian2019-xiamen-4622472_1920-desktop.webp") center 58% / cover no-repeat;
+  opacity: .075;
+  filter: saturate(.65) contrast(.9);
+  transform: translate3d(0, var(--tide-lift), 0) scale(1.02);
+  pointer-events: none;
+}
 
 .xm-tide-copy {
   grid-column: 7 / -1;
@@ -727,6 +747,7 @@ html {
 .xm-roof-notes button.is-active { color: var(--xm-shell); background: rgba(5, 35, 42, .42); }
 
 .xm-island { color: var(--xm-shell); background: var(--xm-ink); }
+.xm-island-body { color: var(--xm-shell); background: var(--xm-ink); }
 .xm-section-head-dark { border-color: rgba(240, 234, 220, .22); }
 .xm-section-head-dark p { color: #d56b5c; }
 .xm-section-head-dark > span { color: rgba(240, 234, 220, .62); }
@@ -805,7 +826,9 @@ html {
 
 .xm-island-hint i { width: min(24rem, 50vw); height: 1px; background: currentColor; }
 
-.xm-street { background: var(--xm-shell); }
+.xm-street { color: var(--xm-ink); background: var(--xm-shell); }
+.xm-street-heading,
+.xm-street-existing { background: var(--xm-shell); }
 
 .xm-street-reveal {
   --split: 52%;
@@ -1027,12 +1050,18 @@ html {
   isolation: isolate;
 }
 
-.xm-closing > img {
+.xm-closing > picture,
+.xm-closing > picture img {
   position: absolute;
-  z-index: -2;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.xm-closing > picture { z-index: -2; }
+
+.xm-closing > picture img {
+  display: block;
   object-fit: cover;
 }
 
@@ -1072,6 +1101,583 @@ html {
 
 .xm-closing footer a { color: inherit; text-decoration: none; }
 
+/* Coast time */
+.xm-coast-time {
+  position: relative;
+  height: 520svh;
+  color: var(--xm-shell);
+  background: #061f26;
+}
+
+.xm-coast-time-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 38rem;
+  overflow: hidden;
+  isolation: isolate;
+  contain: layout paint;
+}
+
+.xm-coast-time-frames,
+.xm-coast-time-frames figure,
+.xm-coast-time-frames picture,
+.xm-coast-time-frames img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.xm-coast-time-frames figure {
+  --time-opacity: 0;
+  --time-scale: 1.055;
+  --time-x: 0%;
+  --time-clip: 7%;
+  margin: 0;
+  opacity: var(--time-opacity);
+  clip-path: inset(var(--time-clip) 0 0);
+  transform: scale(var(--time-scale)) translate3d(var(--time-x), 0, 0);
+  transform-origin: center center;
+  will-change: transform, opacity, clip-path;
+}
+
+.xm-coast-time-frames figure.is-active {
+  --time-opacity: 1;
+  --time-scale: 1.015;
+  --time-clip: 0%;
+}
+
+.xm-coast-time-frames picture,
+.xm-coast-time-frames img { display: block; }
+
+.xm-coast-time-frames img {
+  object-fit: cover;
+  filter: saturate(.92) contrast(1.02);
+}
+
+.xm-coast-time-frames figure:nth-child(1) img { object-position: center 58%; }
+.xm-coast-time-frames figure:nth-child(2) img { object-position: center 56%; }
+.xm-coast-time-frames figure:nth-child(3) img { object-position: center 54%; }
+.xm-coast-time-frames figure:nth-child(4) img { object-position: 62% 56%; }
+.xm-coast-time-frames figure:nth-child(5) img { object-position: center 56%; }
+
+.xm-coast-time-frames figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2, 18, 23, .12), transparent 38%, rgba(2, 18, 23, .5));
+  pointer-events: none;
+}
+
+.xm-coast-time-frames figcaption {
+  position: absolute;
+  z-index: 2;
+  right: clamp(1.25rem, 5vw, 5rem);
+  bottom: clamp(5.5rem, 10vh, 8rem);
+  left: clamp(1.25rem, 5vw, 5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  padding-top: 1rem;
+  color: rgba(240, 234, 220, .84);
+  border-top: 1px solid rgba(240, 234, 220, .48);
+  font-size: .66rem;
+  font-weight: 760;
+  letter-spacing: .17em;
+}
+
+.xm-coast-time-frames time {
+  color: var(--xm-shell);
+  font-size: clamp(2.8rem, 7vw, 7.2rem);
+  font-weight: 500;
+  line-height: .82;
+  letter-spacing: -.065em;
+}
+
+.xm-coast-time-index {
+  position: absolute;
+  z-index: 4;
+  right: clamp(1.25rem, 5vw, 5rem);
+  bottom: 1.4rem;
+  left: clamp(1.25rem, 5vw, 5rem);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  font-size: .58rem;
+  font-weight: 760;
+  letter-spacing: .16em;
+}
+
+.xm-coast-time-index i {
+  height: 1px;
+  background: rgba(240, 234, 220, .3);
+  overflow: hidden;
+}
+
+.xm-coast-time-index b {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--xm-shell);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+/* Crossing */
+.xm-crossing {
+  --crossing-progress: 0;
+  --crossing-x: 0%;
+  --crossing-boat: 0%;
+  --crossing-parallax: 0vw;
+  position: relative;
+  height: 430svh;
+  color: #fff;
+  background: var(--xm-ink);
+}
+
+.xm-crossing-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 38rem;
+  overflow: hidden;
+  isolation: isolate;
+  contain: layout paint;
+}
+
+.xm-crossing-track {
+  position: absolute;
+  inset: 0;
+  width: 400vw;
+  height: 100%;
+  display: flex;
+  transform: translate3d(var(--crossing-x), 0, 0);
+  will-change: transform;
+}
+
+.xm-crossing-panel {
+  position: relative;
+  width: 100vw;
+  height: 100%;
+  flex: 0 0 100vw;
+  margin: 0;
+  overflow: hidden;
+}
+
+.xm-crossing-panel picture,
+.xm-crossing-panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.xm-crossing-panel img {
+  object-fit: cover;
+  transform: translate3d(var(--crossing-parallax), 0, 0) scale(1.045);
+  filter: saturate(.9) contrast(1.02);
+  will-change: transform;
+}
+
+.xm-crossing-panel:nth-child(1) img { object-position: center 54%; }
+.xm-crossing-panel:nth-child(2) img { object-position: center 56%; }
+.xm-crossing-panel:nth-child(3) img { object-position: center 54%; }
+.xm-crossing-panel:nth-child(4) img { object-position: center 48%; }
+
+.xm-crossing-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2, 18, 23, .24), transparent 38%, rgba(2, 18, 23, .64));
+}
+
+.xm-crossing-panel figcaption {
+  position: absolute;
+  z-index: 2;
+  right: clamp(1.25rem, 5vw, 5rem);
+  bottom: 2rem;
+  left: clamp(1.25rem, 5vw, 5rem);
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, .5);
+  font-size: .62rem;
+  font-weight: 760;
+  letter-spacing: .17em;
+}
+
+.xm-crossing-route {
+  position: absolute;
+  z-index: 4;
+  top: 54%;
+  right: 8vw;
+  left: 8vw;
+  height: 1px;
+}
+
+.xm-crossing-route > i {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, .72);
+  transform: scaleX(var(--crossing-progress));
+  transform-origin: left;
+}
+
+.xm-crossing-boat {
+  position: absolute;
+  left: var(--crossing-boat);
+  top: -.42rem;
+  width: 1.8rem;
+  height: .85rem;
+  transform: translateX(-50%);
+}
+
+.xm-crossing-boat::before {
+  content: "";
+  position: absolute;
+  left: .1rem;
+  bottom: 0;
+  width: 1.6rem;
+  height: .32rem;
+  background: var(--xm-shell);
+  clip-path: polygon(0 0, 100% 0, 82% 100%, 18% 100%);
+}
+
+.xm-crossing-boat b {
+  position: absolute;
+  left: .62rem;
+  bottom: .28rem;
+  width: .72rem;
+  height: .42rem;
+  border: 1px solid var(--xm-shell);
+  border-bottom: 0;
+}
+
+.xm-crossing-label {
+  position: absolute;
+  z-index: 4;
+  top: clamp(7rem, 14vh, 10rem);
+  right: clamp(1.25rem, 5vw, 5rem);
+  left: clamp(1.25rem, 5vw, 5rem);
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  font-size: .62rem;
+  letter-spacing: .17em;
+}
+
+.xm-crossing-label span { margin-right: auto; color: rgba(255, 255, 255, .64); }
+.xm-crossing-label b { font-weight: 760; }
+.xm-crossing-label i { font-style: normal; color: rgba(255, 255, 255, .46); }
+
+/* Gulangyu entry */
+.xm-gulangyu-entry {
+  --g-inset: 46%;
+  --g-sign-opacity: 1;
+  --g-building-opacity: 0;
+  --g-line: 0%;
+  --g-sign-x: 0vw;
+  --g-background-y: 0px;
+  --g-foreground-y: 0px;
+  --g-word-opacity: 0;
+  position: relative;
+  height: 330svh;
+  background: var(--xm-ink);
+}
+
+.xm-gulangyu-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 38rem;
+  overflow: hidden;
+  isolation: isolate;
+  contain: layout paint;
+}
+
+.xm-gulangyu-stage figure,
+.xm-gulangyu-stage picture,
+.xm-gulangyu-stage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0;
+}
+
+.xm-gulangyu-stage img { object-fit: cover; }
+
+.xm-gulangyu-sign {
+  z-index: 3;
+  opacity: var(--g-sign-opacity);
+  transform: translate3d(var(--g-sign-x), 0, 0) scale(1.025);
+  will-change: transform, opacity;
+}
+
+.xm-gulangyu-sign img { object-position: center 48%; }
+
+.xm-gulangyu-building {
+  z-index: 1;
+  opacity: var(--g-building-opacity);
+  clip-path: inset(7% var(--g-inset));
+  transform: translate3d(0, var(--g-background-y), 0) scale(1.045);
+  will-change: transform, opacity, clip-path;
+}
+
+.xm-gulangyu-building img,
+.xm-gulangyu-foreground img { object-position: center 52%; }
+
+.xm-gulangyu-foreground {
+  z-index: 2;
+  opacity: var(--g-building-opacity);
+  transform: translate3d(0, var(--g-foreground-y), 0) scale(1.048);
+  -webkit-mask-image: linear-gradient(112deg, #000 0 48%, rgba(0, 0, 0, .92) 57%, transparent 73%);
+  mask-image: linear-gradient(112deg, #000 0 48%, rgba(0, 0, 0, .92) 57%, transparent 73%);
+  will-change: transform, opacity;
+}
+
+.xm-gulangyu-stage::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2, 18, 23, .18), transparent 42%, rgba(2, 18, 23, .56));
+  pointer-events: none;
+}
+
+.xm-gulangyu-line {
+  position: absolute;
+  z-index: 5;
+  top: 52%;
+  left: 8vw;
+  width: min(72vw, 76rem);
+  height: 1px;
+  overflow: hidden;
+}
+
+.xm-gulangyu-line i {
+  display: block;
+  width: var(--g-line);
+  height: 100%;
+  background: rgba(240, 234, 220, .8);
+}
+
+.xm-gulangyu-word {
+  position: absolute;
+  z-index: 5;
+  right: clamp(1.25rem, 5vw, 5rem);
+  bottom: clamp(2rem, 5vw, 5rem);
+  left: clamp(1.25rem, 5vw, 5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  opacity: var(--g-word-opacity);
+  color: var(--xm-shell);
+}
+
+.xm-gulangyu-word span {
+  font-size: clamp(4rem, 11vw, 12rem);
+  font-weight: 500;
+  line-height: .76;
+  letter-spacing: -.075em;
+}
+
+.xm-gulangyu-word b {
+  font-size: .62rem;
+  letter-spacing: .18em;
+}
+
+/* Street fragments */
+.xm-street-flow {
+  --street-x: 0px;
+  --street-progress: 0;
+  position: relative;
+  height: 360svh;
+  background: var(--xm-shell);
+}
+
+.xm-street-flow-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 38rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+.xm-street-fragments {
+  width: max-content;
+  min-width: max-content;
+  padding: 0 14vw;
+  display: flex;
+  align-items: center;
+  gap: 12vw;
+  transform: translate3d(var(--street-x), 0, 0);
+  will-change: transform;
+}
+
+.xm-street-fragments:focus-visible { outline: 2px solid var(--xm-red); outline-offset: -4px; }
+
+.xm-street-fragment {
+  position: relative;
+  flex: 0 0 auto;
+  margin: 0;
+  overflow: hidden;
+  background: var(--xm-ink);
+}
+
+.xm-street-fragment-wall { width: 42vw; height: 62svh; transform: translateY(-6svh); }
+.xm-street-fragment-sign { width: 38vw; height: 44svh; transform: translateY(12svh); }
+.xm-street-fragment-anchor { width: 74vw; height: 66svh; }
+.xm-street-fragment-shade { width: 28vw; height: 70svh; transform: translateY(-5svh); }
+
+.xm-street-fragment img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 900ms var(--xm-ease);
+}
+
+.xm-street-fragment-sign img { object-position: center 58%; }
+.xm-street-fragment-anchor img { object-position: center; }
+.xm-street-fragment-shade img { object-position: center; }
+
+@media (hover: hover) and (pointer: fine) {
+  .xm-street-fragment:hover img { transform: scale(1.018) translate3d(0, -.25rem, 0); }
+}
+
+.xm-street-fragment figcaption {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  padding-top: .8rem;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, .52);
+  font-size: .59rem;
+  font-weight: 760;
+  letter-spacing: .15em;
+}
+
+.xm-street-flow-meter {
+  position: absolute;
+  right: clamp(1.25rem, 5vw, 5rem);
+  bottom: 1.5rem;
+  left: clamp(1.25rem, 5vw, 5rem);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  font-size: .58rem;
+  font-weight: 760;
+  letter-spacing: .16em;
+}
+
+.xm-street-flow-meter i {
+  height: 1px;
+  background: rgba(9, 43, 50, .25);
+  overflow: hidden;
+}
+
+.xm-street-flow-meter b {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--xm-red);
+  transform: scaleX(var(--street-progress));
+  transform-origin: left;
+}
+
+/* City / water */
+.xm-city-water {
+  --city-progress: 0;
+  --city-y: 0vh;
+  position: relative;
+  height: 420svh;
+  color: #fff;
+  background: var(--xm-ink);
+}
+
+.xm-city-water-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 38rem;
+  overflow: hidden;
+  isolation: isolate;
+  contain: layout paint;
+}
+
+.xm-city-water-layer,
+.xm-city-water-layer picture,
+.xm-city-water-layer img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0;
+}
+
+.xm-city-water-layer { clip-path: inset(100% 0 0); will-change: clip-path, transform; }
+.xm-city-water-layer.is-base { clip-path: none; }
+.xm-city-water-layer img {
+  object-fit: cover;
+  object-position: center 54%;
+  transform: scale(1.035) translate3d(0, var(--city-y), 0);
+}
+
+.xm-city-water-layer:nth-child(2) img { object-position: center 54%; }
+.xm-city-water-layer:nth-child(3) img { object-position: center 52%; }
+.xm-city-water-layer:nth-child(4) img { object-position: center 52%; }
+
+.xm-city-water-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2, 18, 23, .18), transparent 45%, rgba(2, 18, 23, .5));
+}
+
+.xm-city-water-title {
+  position: absolute;
+  z-index: 8;
+  top: clamp(7rem, 14vh, 10rem);
+  right: clamp(1.25rem, 5vw, 5rem);
+  left: clamp(1.25rem, 5vw, 5rem);
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
+  font-size: .61rem;
+  letter-spacing: .16em;
+}
+
+.xm-city-water-title span { margin-right: auto; }
+.xm-city-water-title b { font-weight: 760; }
+.xm-city-water-title i { font-style: normal; opacity: .56; }
+
+.xm-city-water-depth {
+  position: absolute;
+  z-index: 8;
+  top: 22%;
+  right: clamp(1.25rem, 3vw, 3rem);
+  bottom: 8%;
+  width: 1px;
+  background: rgba(255, 255, 255, .28);
+  overflow: hidden;
+}
+
+.xm-city-water-depth i,
+.xm-city-water-depth b { display: block; width: 100%; height: 100%; }
+.xm-city-water-depth b { background: #fff; transform: scaleY(var(--city-progress)); transform-origin: top; }
+
 [data-xm-reveal-on-scroll] {
   opacity: 0;
   transform: translateY(1.5rem);
@@ -1101,6 +1707,14 @@ html {
   .xm-street-copy { grid-column: 9 / -1; }
 
   .xm-table { grid-template-columns: 1fr 1fr; }
+
+  .xm-crossing-label,
+  .xm-city-water-title { top: 8rem; }
+
+  .xm-street-fragment-wall { width: 54vw; }
+  .xm-street-fragment-sign { width: 46vw; }
+  .xm-street-fragment-anchor { width: 82vw; }
+  .xm-street-fragment-shade { width: 38vw; }
 }
 
 @media (max-width: 700px) {
@@ -1215,8 +1829,85 @@ html {
   .xm-table header h2 { font-size: clamp(3.8rem, 17vw, 5.6rem); }
   .xm-table-ingredients { padding: 1rem 1rem 4rem; }
 
+  .xm-coast-time { height: 420svh; }
+  .xm-coast-time-stage { min-height: 40rem; }
+  .xm-coast-time-frames figure:nth-child(1) img { object-position: center 56%; }
+  .xm-coast-time-frames figure:nth-child(2) img { object-position: center 56%; }
+  .xm-coast-time-frames figure:nth-child(3) img { object-position: center 52%; }
+  .xm-coast-time-frames figure:nth-child(4) img { object-position: center 54%; }
+  .xm-coast-time-frames figure:nth-child(5) img { object-position: center 54%; }
+  .xm-coast-time-frames figcaption { right: 1rem; bottom: 5rem; left: 1rem; }
+  .xm-coast-time-frames time { font-size: clamp(3.4rem, 18vw, 5.6rem); }
+  .xm-coast-time-index { right: 1rem; bottom: max(1rem, env(safe-area-inset-bottom)); left: 1rem; }
+
+  .xm-crossing { height: 340svh; }
+  .xm-crossing-stage { min-height: 40rem; }
+  .xm-crossing-panel:nth-child(1) img,
+  .xm-crossing-panel:nth-child(2) img,
+  .xm-crossing-panel:nth-child(3) img { object-position: center; }
+  .xm-crossing-panel:nth-child(4) img { object-position: center 46%; }
+  .xm-crossing-label { top: 7.5rem; right: 1rem; left: 1rem; }
+  .xm-crossing-label span { display: none; }
+  .xm-crossing-route { right: 1.25rem; left: 1.25rem; }
+  .xm-crossing-panel figcaption { right: 1rem; bottom: 1rem; left: 1rem; }
+
+  .xm-gulangyu-entry { height: 270svh; }
+  .xm-gulangyu-stage { min-height: 40rem; }
+  .xm-gulangyu-foreground { display: none; }
+  .xm-gulangyu-sign img { object-position: center; }
+  .xm-gulangyu-building img { object-position: center; }
+  .xm-gulangyu-line { left: 1rem; width: calc(100% - 2rem); }
+  .xm-gulangyu-word { right: 1rem; bottom: 2rem; left: 1rem; }
+  .xm-gulangyu-word span { font-size: clamp(3.8rem, 17vw, 6rem); }
+
+  .xm-street-flow {
+    height: auto;
+    padding: 1.5rem 0 5rem;
+    overflow: hidden;
+  }
+
+  .xm-street-flow-stage {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    display: block;
+    overflow: visible;
+    contain: none;
+  }
+
+  .xm-street-fragments {
+    width: 100%;
+    min-width: 0;
+    padding: 0 1rem 1rem;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+    transform: none !important;
+  }
+
+  .xm-street-fragments::-webkit-scrollbar { display: none; }
+  .xm-street-fragment { scroll-snap-align: start; transform: none; }
+  .xm-street-fragment-wall { width: 82vw; height: 58svh; }
+  .xm-street-fragment-sign { width: 76vw; height: 50svh; }
+  .xm-street-fragment-anchor { width: 94vw; height: 58svh; }
+  .xm-street-fragment-shade { width: 72vw; height: 64svh; }
+  .xm-street-fragment-wall img,
+  .xm-street-fragment-sign img,
+  .xm-street-fragment-anchor img { object-position: center; }
+  .xm-street-flow-meter { display: none; }
+
+  .xm-city-water { height: 310svh; }
+  .xm-city-water-stage { min-height: 40rem; }
+  .xm-city-water-layer img { object-position: center; transform: scale(1.025); }
+  .xm-city-water-title { top: 7.5rem; right: 1rem; left: 1rem; }
+  .xm-city-water-title span { display: none; }
+  .xm-city-water-depth { top: 24%; right: 1rem; bottom: 7%; }
+
   .xm-closing { min-height: 44rem; }
-  .xm-closing > img { object-position: 60% center; }
+  .xm-closing > picture img { object-position: center; }
   .xm-closing > div { padding: 8rem 1rem; }
   .xm-closing h2 { font-size: clamp(3.8rem, 17vw, 5.8rem); }
   .xm-closing footer { right: 1rem; bottom: 1.25rem; left: 1rem; display: grid; gap: 1.2rem; }
@@ -1237,4 +1928,62 @@ html {
   }
 
   [data-xm-reveal-on-scroll] { opacity: 1; transform: none; }
+
+  .xm-coast-time,
+  .xm-crossing,
+  .xm-gulangyu-entry,
+  .xm-street-flow,
+  .xm-city-water { height: auto; }
+
+  .xm-coast-time-stage,
+  .xm-crossing-stage,
+  .xm-gulangyu-stage,
+  .xm-street-flow-stage,
+  .xm-city-water-stage {
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    contain: none;
+    overflow: visible;
+  }
+
+  .xm-coast-time-frames,
+  .xm-crossing-track,
+  .xm-gulangyu-stage,
+  .xm-city-water-stage { position: relative; display: grid; width: 100%; height: auto; transform: none !important; }
+
+  .xm-coast-time-frames figure,
+  .xm-crossing-panel,
+  .xm-gulangyu-stage figure,
+  .xm-city-water-layer {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: min(78svh, 48rem);
+    min-height: 32rem;
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+
+  .xm-coast-time-frames picture,
+  .xm-coast-time-frames img,
+  .xm-crossing-panel picture,
+  .xm-crossing-panel img,
+  .xm-gulangyu-stage picture,
+  .xm-gulangyu-stage img,
+  .xm-city-water-layer picture,
+  .xm-city-water-layer img { transform: none !important; }
+
+  .xm-coast-time-index,
+  .xm-crossing-route,
+  .xm-crossing-label,
+  .xm-gulangyu-foreground,
+  .xm-gulangyu-line,
+  .xm-gulangyu-word,
+  .xm-city-water-title,
+  .xm-city-water-depth { display: none; }
+
+  .xm-street-fragments { transform: none !important; }
 }
