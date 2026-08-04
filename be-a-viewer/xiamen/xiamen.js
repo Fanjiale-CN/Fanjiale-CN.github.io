@@ -288,6 +288,20 @@
   let narrativeMetrics = {};
   let streetTravel = 0;
 
+  const narrativeSections = [coastTime, crossing, gulangyuEntry, streetFlow, cityWater].filter(Boolean);
+  if ("IntersectionObserver" in window) {
+    const imageWarmup = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.querySelectorAll('img[loading="lazy"]').forEach((image) => {
+          image.loading = "eager";
+        });
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "80% 0px" });
+    narrativeSections.forEach((section) => imageWarmup.observe(section));
+  }
+
   function metricFor(element) {
     if (!element) return null;
     return { top: element.offsetTop, height: element.offsetHeight };
