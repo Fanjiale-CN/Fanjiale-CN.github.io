@@ -288,7 +288,7 @@
   let narrativeMetrics = {};
   let streetTravel = 0;
 
-  const narrativeSections = [coastTime, crossing, gulangyuEntry, streetFlow, cityWater].filter(Boolean);
+  const narrativeSections = [tidePlayer, coastTime, crossing, gulangyuEntry, islandTrack, streetFlow, cityWater].filter(Boolean);
   if ("IntersectionObserver" in window) {
     const imageWarmup = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
