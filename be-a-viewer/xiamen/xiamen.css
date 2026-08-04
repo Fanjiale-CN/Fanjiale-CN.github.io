@@ -1985,5 +1985,30 @@ html {
   .xm-city-water-title,
   .xm-city-water-depth { display: none; }
 
-  .xm-street-fragments { transform: none !important; }
+  .xm-street-flow-stage { display: block; overflow: visible; }
+
+  .xm-street-fragments {
+    width: 100%;
+    min-width: 0;
+    padding: clamp(3rem, 7vw, 7rem) clamp(1rem, 5vw, 5rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    gap: clamp(1rem, 3vw, 2.5rem);
+    overflow: visible;
+    transform: none !important;
+  }
+
+  .xm-street-fragment,
+  .xm-street-fragment-wall,
+  .xm-street-fragment-sign,
+  .xm-street-fragment-anchor,
+  .xm-street-fragment-shade {
+    width: 100%;
+    height: auto;
+    min-height: 32rem;
+    aspect-ratio: 4 / 3;
+    transform: none;
+  }
+
+  .xm-street-flow-meter { display: none; }
 }
