@@ -2,7 +2,8 @@
 
 ## Identity
 
-- Logo: `/assets/galok-mark.svg`
+- Logo: `/assets/galok-symbol.svg`
+- Logo colors: `#E5392D`, `#111111`
 - Wordmark: `GALOK / Field notes`
 - Voice: observant, direct, editorial, specific
 - Primary routes: `/views/`, `/visual-notes/`, `/be-a-viewer/`, `/about/`; `/essays/` is retained only as a compatibility redirect while article permalinks remain under `/essays/{slug}/`.
@@ -31,7 +32,7 @@
 ## Protected contracts
 
 - Preserve routes, slugs, primary navigation labels and article URLs.
-- Preserve the logo and documentary image treatment.
+- Preserve the current logo asset and documentary image treatment.
 - Preserve keyboard focus, semantic headings, menu escape behavior and article reading progress.
 - Do not reintroduce a fixed bottom navigation on mobile.
 

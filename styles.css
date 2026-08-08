@@ -9024,6 +9024,14 @@ body.site-chrome-hidden:not(.nav-open) .site-nav {
   font-size: 5rem;
 }
 
+.field-footer .footer-brand-mark {
+  width: 76px;
+  height: 76px;
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
 .field-footer .footer-inner > div:first-child b {
   font-size: clamp(2.8rem, 5vw, 5.8rem);
   font-weight: 500;
@@ -10137,6 +10145,11 @@ body.article-body .site-shell {
 
   .field-footer .footer-inner > div:first-child .glyph-draw {
     font-size: 4rem;
+  }
+
+  .field-footer .footer-brand-mark {
+    width: 64px;
+    height: 64px;
   }
 
   .field-footer .footer-inner > div:first-child b {

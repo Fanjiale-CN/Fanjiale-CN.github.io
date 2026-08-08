@@ -918,7 +918,7 @@
 
     if (!brand.querySelector(".brand-lockup")) {
       brand.innerHTML = `
-        <img class="brand-mark" src="/assets/galok-mark.svg" alt="" aria-hidden="true">
+        <img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true">
         <span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span>
       `;
     }
@@ -1056,7 +1056,7 @@
     footer.innerHTML = `
       <div class="footer-inner footer-directory">
         <a class="footer-brand" href="/" aria-label="Galok home">
-          <img src="/assets/galok-mark.svg" alt="" aria-hidden="true">
+          <img src="/assets/galok-symbol.svg" alt="" aria-hidden="true">
           <span><b>GALOK</b><small>Field notes</small></span>
         </a>
         <div class="footer-column">
