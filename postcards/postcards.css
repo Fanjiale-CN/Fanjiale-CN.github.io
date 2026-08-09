@@ -120,10 +120,10 @@
 
 .postcard-hero-stack {
   position: absolute;
-  top: 16%;
+  top: 14%;
   right: clamp(30px, 6vw, 104px);
   width: clamp(260px, 31vw, 480px);
-  height: clamp(330px, 43vw, 610px);
+  height: clamp(300px, 36vw, 520px);
   z-index: 1;
   pointer-events: none;
 }
