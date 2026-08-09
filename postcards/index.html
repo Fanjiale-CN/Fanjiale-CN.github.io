@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e9e4d8">
+  <meta name="description" content="Collect, write, download and share editorial city postcards from the Galok visual archive.">
+  <meta property="og:title" content="City Postcards — GALOK">
+  <meta property="og:description" content="Sixteen collectible city postcards made from real photographs of Xiamen, Xi’an, Beijing and Shanghai.">
+  <meta property="og:image" content="/assets/editorial/xiamen/poster/arrival-lines.webp">
+  <title>City Postcards — GALOK</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
+  <link rel="stylesheet" href="/styles.css?v=postcards-1">
+  <link rel="stylesheet" href="/postcards/postcards.css?v=1">
+</head>
+<body class="postcard-page">
+  <nav class="site-nav postcard-site-nav" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a class="brand" href="/">
+        <img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true">
+        <span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="/views/">Views</a>
+        <a href="/visual-notes/">Visual Notes</a>
+        <a href="/be-a-viewer/">Be a Viewer</a>
+        <a href="/postcards/" aria-current="page">Postcards</a>
+        <a href="/about/">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="postcard-main">
+    <header class="postcard-hero" aria-labelledby="postcard-title">
+      <div class="postcard-hero-index" aria-hidden="true">
+        <span>GALOK / CITY POSTCARD ARCHIVE</span>
+        <span>EDITION 2026</span>
+      </div>
+      <div class="postcard-hero-copy">
+        <p>BE A VIEWER / COLLECT THE FRAME</p>
+        <h1 id="postcard-title"><span>Send a city.</span><span>Keep the frame.</span></h1>
+      </div>
+      <div class="postcard-hero-note">
+        <p>Sixteen collectible postcards built from Galok’s real city photography and editorial archive.</p>
+        <a href="#postcard-studio">Open the postcard desk</a>
+      </div>
+      <div class="postcard-hero-stack" aria-hidden="true">
+        <figure><img src="/assets/editorial/xiamen/poster/thumb/arrival-lines.webp" alt=""></figure>
+        <figure><img src="/assets/editorial/xian/poster/thumb/wall-as-horizon.webp" alt=""></figure>
+        <figure><img src="/assets/editorial/beijing/poster/thumb/measured-courtyard.webp" alt=""></figure>
+        <figure><img src="/assets/editorial/shanghai/poster/thumb/river-in-fog.webp" alt=""></figure>
+      </div>
+      <div class="postcard-hero-rule" aria-hidden="true"><span></span></div>
+    </header>
+
+    <section class="postcard-studio" id="postcard-studio" aria-labelledby="postcard-studio-title" data-postcard-studio>
+      <header class="postcard-section-head">
+        <div>
+          <p>01 / POSTCARD DESK</p>
+          <h2 id="postcard-studio-title">Choose a city. Write the back.</h2>
+        </div>
+        <p data-postcard-status aria-live="polite">Xiamen / Arrival Lines / 01 of 16</p>
+      </header>
+
+      <div class="postcard-city-tabs" role="tablist" aria-label="Filter postcards by city">
+        <button type="button" role="tab" aria-selected="true" data-postcard-filter="all">All / 16</button>
+        <button type="button" role="tab" aria-selected="false" data-postcard-filter="xiamen">Xiamen / 04</button>
+        <button type="button" role="tab" aria-selected="false" data-postcard-filter="xian">Xi’an / 04</button>
+        <button type="button" role="tab" aria-selected="false" data-postcard-filter="beijing">Beijing / 04</button>
+        <button type="button" role="tab" aria-selected="false" data-postcard-filter="shanghai">Shanghai / 04</button>
+      </div>
+
+      <div class="postcard-workspace">
+        <div class="postcard-stage-wrap">
+          <div class="postcard-stage" data-postcard-stage>
+            <div class="postcard-object" data-postcard-object>
+              <button class="postcard-face postcard-face-front" type="button" data-postcard-flip-front aria-label="Turn postcard over to write a message">
+                <span class="postcard-front-image"><img data-postcard-image src="/assets/editorial/xiamen/poster/arrival-lines.webp" alt="Arrival Lines editorial poster from Xiamen"></span>
+                <span class="postcard-front-copy">
+                  <span data-postcard-edition>01 / 16</span>
+                  <strong data-postcard-city>XIAMEN</strong>
+                  <small data-postcard-coordinates>24.4798° N / 118.0894° E</small>
+                  <b data-postcard-title>ARRIVAL LINES</b>
+                </span>
+                <span class="postcard-front-mark">GALOK.ME / BE A VIEWER</span>
+              </button>
+
+              <div class="postcard-face postcard-face-back" aria-label="Write the back of the postcard">
+                <div class="postcard-back-left">
+                  <div class="postcard-back-heading"><span data-postcard-back-city>XIAMEN</span><small>CITY POSTCARD / 2026</small></div>
+                  <label for="postcard-message">Message</label>
+                  <textarea id="postcard-message" data-postcard-message maxlength="280" placeholder="A note from the city…"></textarea>
+                  <div class="postcard-back-signature">
+                    <label for="postcard-sender">From</label>
+                    <input id="postcard-sender" data-postcard-sender maxlength="42" autocomplete="name" placeholder="Your name">
+                  </div>
+                </div>
+                <div class="postcard-back-right">
+                  <div class="postcard-stamp" aria-hidden="true">
+                    <img src="/assets/galok-symbol.svg" alt="">
+                    <span data-postcard-stamp-city>XM</span>
+                    <small>2026</small>
+                  </div>
+                  <label for="postcard-recipient">To</label>
+                  <input id="postcard-recipient" data-postcard-recipient maxlength="52" autocomplete="name" placeholder="Recipient">
+                  <div class="postcard-address-lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                  <p><span data-postcard-back-coordinates>24.4798° N / 118.0894° E</span><br>GALOK CITY VISUAL ARCHIVE</p>
+                  <button type="button" data-postcard-flip-back>Return to front</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="postcard-transport" aria-label="Postcard controls">
+            <button type="button" data-postcard-previous aria-label="Previous postcard">Previous</button>
+            <p><span data-postcard-current>01</span><i></i><span data-postcard-total>16</span></p>
+            <button type="button" data-postcard-next aria-label="Next postcard">Next</button>
+          </div>
+        </div>
+
+        <aside class="postcard-tools" aria-label="Postcard tools">
+          <div class="postcard-tools-meta">
+            <p>ACTIVE EDITION</p>
+            <h3 data-postcard-tool-title>Arrival Lines</h3>
+            <span data-postcard-tool-detail>Xiamen / Photo Abstract Editorial</span>
+          </div>
+          <div class="postcard-tools-actions">
+            <button type="button" data-postcard-flip><span>Turn over</span><small>Write the back</small></button>
+            <button type="button" data-postcard-sound aria-pressed="false"><span>Sound off</span><small>Paper and stamp cues</small></button>
+            <button type="button" data-postcard-download><span>Download set</span><small>Front + written back PNG</small></button>
+            <button type="button" data-postcard-share><span>Share postcard</span><small>Send the selected edition</small></button>
+          </div>
+          <p class="postcard-privacy">Your message stays inside this browser. Shared links contain the selected edition only.</p>
+        </aside>
+      </div>
+
+      <div class="postcard-strip-shell">
+        <div class="postcard-strip" data-postcard-strip aria-label="Sixteen city postcards"></div>
+      </div>
+    </section>
+
+    <section class="postcard-archive-note" aria-labelledby="postcard-archive-note-title">
+      <header>
+        <p>02 / MADE FROM THE ARCHIVE</p>
+        <h2 id="postcard-archive-note-title">Photography remains the evidence.</h2>
+      </header>
+      <div>
+        <p>Each front preserves a real city photograph. Photo Abstract Editorial translates observed structure into a restrained memory panel. Minimal Zine editions keep one photographic fragment inside generous paper space.</p>
+        <a href="/be-a-viewer/">Enter the city archive</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div><img class="footer-brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><b>GALOK</b></div>
+      <div><span>Menu</span><a href="/views/">Views</a><a href="/visual-notes/">Visual Notes</a><a href="/be-a-viewer/">Be a Viewer</a><a href="/postcards/">Postcards</a><a href="/about/">About</a></div>
+      <div><span>Follow</span><a href="https://medium.com/@galokview" target="_blank" rel="noreferrer">Medium</a><a href="https://x.com/galokview" target="_blank" rel="noreferrer">X</a></div>
+      <p>© <span data-current-year></span> Galok<br>Independent field notes.</p>
+    </div>
+  </footer>
+
+  <div class="postcard-toast" role="status" aria-live="polite" data-postcard-toast></div>
+  <audio data-postcard-audio="turn" preload="metadata" src="/assets/audio/postcard-paper-turn.wav"></audio>
+  <audio data-postcard-audio="select" preload="metadata" src="/assets/audio/postcard-select.wav"></audio>
+  <audio data-postcard-audio="stamp" preload="metadata" src="/assets/audio/postcard-stamp.wav"></audio>
+
+  <script src="/script.js?v=postcards-1"></script>
+  <script src="/postcards/postcards.js?v=1"></script>
+</body>
+</html>

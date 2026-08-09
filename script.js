@@ -903,6 +903,7 @@
       { href: "/views/", label: "Views", matches: ["/views/", "/essays/"] },
       { href: "/visual-notes/", label: "Visual Notes", match: "/visual-notes/" },
       { href: "/be-a-viewer/", label: "Be a Viewer", match: "/be-a-viewer/" },
+      { href: "/postcards/", label: "Postcards", match: "/postcards/" },
       { href: "/about/", label: "About", match: "/about/" }
     ];
     const currentPath = window.location.pathname;
@@ -1064,6 +1065,7 @@
           <a href="/views/">Views</a>
           <a href="/visual-notes/">Visual Notes</a>
           <a href="/be-a-viewer/">Be a Viewer</a>
+          <a href="/postcards/">Postcards</a>
           <a href="/about/">About</a>
         </div>
         <div class="footer-column">
@@ -1088,7 +1090,8 @@
     let index = "01";
     if (path.includes("/series/")) index = "01";
     if (path.includes("/visual-notes/")) index = "03";
-    if (path.includes("/about/")) index = "04";
+    if (path.includes("/postcards/")) index = "04";
+    if (path.includes("/about/")) index = "05";
     hero.dataset.sectionIndex = index;
   }
 

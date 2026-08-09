@@ -3,8 +3,25 @@
   const archiveReels = [...document.querySelectorAll("[data-city-archive-reel]")];
   if (!archiveRoots.length && !archiveReels.length) return;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const postcardByCity = {
+    xiamen: "xiamen-arrival-lines",
+    xian: "xian-wall-as-horizon",
+    beijing: "beijing-measured-courtyard",
+    shanghai: "shanghai-river-in-fog"
+  };
 
   archiveRoots.forEach((root) => {
+    const city = root.dataset.city;
+    const postcardId = postcardByCity[city];
+    const header = root.querySelector(".city-archive-header");
+    if (postcardId && header && !header.querySelector(".city-archive-postcard-link")) {
+      const postcardLink = document.createElement("a");
+      postcardLink.className = "city-archive-postcard-link";
+      postcardLink.href = `/postcards/?card=${postcardId}`;
+      postcardLink.innerHTML = "<span>Make a postcard</span><b>↗</b>";
+      header.appendChild(postcardLink);
+    }
+
     const dialog = root.querySelector("[data-archive-lightbox]");
     if (!dialog) return;
 
