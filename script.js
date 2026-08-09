@@ -879,6 +879,14 @@
   const body = document.body;
   const siteNav = document.querySelector(".site-nav");
 
+  function loadArchiveSystemStyles() {
+    if (document.querySelector('link[href^="/archive-system.css"]')) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/archive-system.css?v=archive-spine-20260809";
+    document.head.appendChild(link);
+  }
+
   function enhanceAccessibilityShell() {
     const main = document.querySelector("main");
     if (!main) return;
@@ -902,10 +910,10 @@
     if (!navInner || !brand || !links) return;
 
     const primaryLinks = [
-      { href: "/views/", label: "Views", matches: ["/views/", "/essays/"] },
-      { href: "/visual-notes/", label: "Visual Notes", match: "/visual-notes/" },
       { href: "/be-a-viewer/", label: "Be a Viewer", match: "/be-a-viewer/" },
-      { href: "/postcards/", label: "Postcards", match: "/postcards/" },
+      { href: "/works/", label: "Works", match: "/works/" },
+      { href: "/notes/", label: "Notes", matches: ["/notes/", "/views/", "/essays/", "/visual-notes/"] },
+      { href: "/archive/", label: "Archive", matches: ["/archive/", "/postcards/"] },
       { href: "/about/", label: "About", match: "/about/" }
     ];
     const currentPath = window.location.pathname;
@@ -1064,10 +1072,10 @@
         </a>
         <div class="footer-column">
           <span>Explore</span>
-          <a href="/views/">Views</a>
-          <a href="/visual-notes/">Visual Notes</a>
           <a href="/be-a-viewer/">Be a Viewer</a>
-          <a href="/postcards/">Postcards</a>
+          <a href="/works/">Works</a>
+          <a href="/notes/">Notes</a>
+          <a href="/archive/">Archive</a>
           <a href="/about/">About</a>
         </div>
         <div class="footer-column">
@@ -1083,6 +1091,57 @@
         <p>© <span data-current-year>${new Date().getFullYear()}</span> Galok<br>Independent field notes.</p>
       </div>
     `;
+  }
+
+  function normalizeFieldFooter() {
+    const footer = document.querySelector("footer.field-footer");
+    const menu = footer?.querySelector(".footer-inner > div:nth-child(2)");
+    if (!menu) return;
+    menu.innerHTML = `
+      <span>Explore</span>
+      <a href="/be-a-viewer/">Be a Viewer</a>
+      <a href="/works/">Works</a>
+      <a href="/notes/">Notes</a>
+      <a href="/archive/">Archive</a>
+      <a href="/about/">About</a>
+    `;
+  }
+
+  function initCityCollectionRail() {
+    const cityByBody = [
+      ["beijing-page-body", { current: "BEIJING", next: "SHANGHAI", href: "/be-a-viewer/shanghai/" }],
+      ["shanghai-page-body", { current: "SHANGHAI", next: "XI’AN", href: "/be-a-viewer/xian/" }],
+      ["xian-page-body", { current: "XI’AN", next: "XIAMEN", href: "/be-a-viewer/xiamen/" }],
+      ["xiamen-page-body", { current: "XIAMEN", next: "BEIJING", href: "/be-a-viewer/beijing/" }]
+    ];
+    const match = cityByBody.find(([className]) => body.classList.contains(className));
+    if (!match || document.querySelector(".city-collection-rail")) return;
+    const data = match[1];
+    const main = document.querySelector("main");
+    if (!main) return;
+    const rail = document.createElement("section");
+    rail.className = "city-collection-rail";
+    rail.setAttribute("aria-label", "Continue through the city collection");
+    rail.innerHTML = `
+      <div class="city-collection-rail-inner">
+        <span>${data.current} / CITY STORY</span>
+        <h2>Keep viewing.</h2>
+        <div class="city-collection-links">
+          <a href="/be-a-viewer/">All cities</a>
+          <a href="${data.href}">Next / ${data.next} →</a>
+        </div>
+      </div>
+    `;
+    main.after(rail);
+  }
+
+  function initMediaFallbacks() {
+    document.querySelectorAll("img").forEach((image) => {
+      image.addEventListener("error", () => {
+        image.closest("figure, .work-card-media, .city-atlas-grid > *, .note-card")?.classList.add("media-failed");
+        image.hidden = true;
+      }, { once: true });
+    });
   }
 
   function labelInteriorPage() {
@@ -1652,10 +1711,14 @@
     renderCards();
   }
 
+  loadArchiveSystemStyles();
   enhanceAccessibilityShell();
   initLegacyArticleShell();
   enhanceNavigation();
   enhanceFooter();
+  normalizeFieldFooter();
+  initCityCollectionRail();
+  initMediaFallbacks();
   initGlobalContactModule();
   labelInteriorPage();
   initArticleProgress();

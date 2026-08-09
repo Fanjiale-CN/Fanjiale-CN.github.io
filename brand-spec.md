@@ -6,16 +6,16 @@
 - Logo colors: `#E5392D`, `#111111`
 - Wordmark: `GALOK / Field notes`
 - Voice: observant, direct, editorial, specific
-- Primary routes: `/views/`, `/visual-notes/`, `/be-a-viewer/`, `/about/`; `/essays/` is retained only as a compatibility redirect while article permalinks remain under `/essays/{slug}/`.
+- Primary routes: `/be-a-viewer/`, `/works/`, `/notes/`, `/archive/`, `/about/`. Existing `/views/`, `/visual-notes/`, `/postcards/` and `/essays/{slug}/` routes remain public archive destinations.
 
 ## Visual system
 
-- Paper: `#f4f5f3`
-- White: `#f8f9f7`
+- Paper: `#f2efe5`
+- White: `#fbfaf5`
 - Ink: `#101214`
 - Muted: `#62676b`
-- Red index accent: `#a32424`
-- Frame blue: `#355f7d`
+- Red index accent: `#c74637`
+- Frame blue: `#173f53`
 - Dark field: `#0d1115`
 - Typography: Helvetica Neue / Arial Nova / Arial for display, body and utility copy; Noto Serif HK assets are reserved for Chinese glyphs.
 - Layout: sharp editorial rules, oversized statements, restrained asymmetry, real documentary imagery.
@@ -31,7 +31,7 @@
 
 ## Protected contracts
 
-- Preserve routes, slugs, primary navigation labels and article URLs.
+- Preserve routes, slugs, the current archive navigation vocabulary and article URLs.
 - Preserve the current logo asset and documentary image treatment.
 - Preserve keyboard focus, semantic headings, menu escape behavior and article reading progress.
 - Do not reintroduce a fixed bottom navigation on mobile.

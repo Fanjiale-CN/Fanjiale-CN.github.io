@@ -9,10 +9,12 @@
   <meta property="og:description" content="Choose a city and enter its story.">
   <meta property="og:image" content="/assets/be-a-viewer/video/xian-poster.webp">
   <title>BE A VIEWER — GALOK</title>
+  <link rel="canonical" href="https://galok.me/be-a-viewer/">
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=field-nav-motion-20260809">
   <link rel="stylesheet" href="/be-a-viewer/viewer.css?v=5">
   <link rel="stylesheet" href="/be-a-viewer/city-archive.css?v=3">
+  <link rel="stylesheet" href="/archive-system.css?v=archive-spine-20260809">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -168,9 +170,57 @@
       </div>
     </section>
 
+    <section class="city-atlas" aria-labelledby="city-atlas-title" data-city-atlas>
+      <header class="city-atlas-head">
+        <p>02 / ROUTES &amp; THEMES</p>
+        <div>
+          <h2 id="city-atlas-title">BROWSE BY<br>WHAT YOU NOTICE.</h2>
+          <span>Move through the archive by region, atmosphere or the kind of evidence a city holds.</span>
+        </div>
+      </header>
+      <div class="city-atlas-filters" role="group" aria-label="Filter city archive">
+        <button type="button" data-city-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-city-filter="north" aria-pressed="false">North</button>
+        <button type="button" data-city-filter="coast" aria-pressed="false">Coast</button>
+        <button type="button" data-city-filter="old-city" aria-pressed="false">Old city</button>
+        <button type="button" data-city-filter="night" aria-pressed="false">Night</button>
+      </div>
+      <p class="city-atlas-status" data-city-filter-status aria-live="polite">7 cities / 4 open now</p>
+      <div class="city-atlas-grid">
+        <a href="/be-a-viewer/beijing/" data-city-atlas-card data-themes="north old-city night">
+          <img src="/assets/be-a-viewer/video/beijing-poster.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Beijing civic square at dusk">
+          <span>01 / OPEN</span><strong>BEIJING</strong><small>Axis · ceremony · street heat</small>
+        </a>
+        <a href="/be-a-viewer/shanghai/" data-city-atlas-card data-themes="coast night">
+          <img src="/assets/be-a-viewer/shanghai/night-street.webp" width="1600" height="1067" loading="lazy" decoding="async" alt="Shanghai street after dark">
+          <span>02 / OPEN</span><strong>SHANGHAI</strong><small>River · vertical city · night</small>
+        </a>
+        <a href="/be-a-viewer/xian/" data-city-atlas-card data-themes="north old-city night">
+          <img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" width="1536" height="864" loading="lazy" decoding="async" alt="Xi’an city wall at sunset">
+          <span>03 / OPEN</span><strong>XI’AN</strong><small>Empire · wall · memory</small>
+        </a>
+        <article data-city-atlas-card data-themes="old-city coast" aria-label="Dali, coming soon">
+          <img src="/assets/be-a-viewer/video/dali-poster.png" width="1920" height="1080" loading="lazy" decoding="async" alt="Dali landscape">
+          <span>04 / COMING SOON</span><strong>DALI</strong><small>Mountain · water · slow time</small>
+        </article>
+        <article data-city-atlas-card data-themes="coast night" aria-label="Shenzhen, coming soon">
+          <img src="/assets/be-a-viewer/video/shenzhen-poster.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Shenzhen city view">
+          <span>05 / COMING SOON</span><strong>SHENZHEN</strong><small>Speed · glass · new city</small>
+        </article>
+        <a href="/be-a-viewer/xiamen/" data-city-atlas-card data-themes="coast old-city night">
+          <img src="/assets/be-a-viewer/xiamen/hero-water-poster.jpg" width="1920" height="1080" loading="lazy" decoding="async" alt="Xiamen shoreline and open water">
+          <span>06 / OPEN</span><strong>XIAMEN</strong><small>Tide · roofline · island</small>
+        </a>
+        <article data-city-atlas-card data-themes="north" aria-label="Tibet, coming soon">
+          <img src="/assets/be-a-viewer/video/tibet-plateau-poster.png" width="1920" height="1080" loading="lazy" decoding="async" alt="Tibetan plateau landscape">
+          <span>07 / COMING SOON</span><strong>TIBET</strong><small>Altitude · belief · scale</small>
+        </article>
+      </div>
+    </section>
+
     <section class="city-archive-preview" id="visual-archive-preview" aria-labelledby="visual-archive-preview-title">
       <header class="city-archive-header">
-        <p>02 / CITY VISUAL ARCHIVE</p>
+        <p>03 / CITY VISUAL ARCHIVE</p>
         <div>
           <h2 id="visual-archive-preview-title">COLLECT<br>THE CITY.</h2>
           <span>Four cities. Sixteen visual editions. Enter a city to open its full archive.</span>
@@ -241,5 +291,6 @@
   <script src="/script.js?v=field-nav-motion-20260809"></script>
   <script src="/be-a-viewer/viewer.js?v=6"></script>
   <script src="/be-a-viewer/city-archive.js?v=3"></script>
+  <script src="/archive-system.js?v=archive-spine-20260809"></script>
 </body>
 </html>
