@@ -13,6 +13,7 @@
   <link rel="preload" href="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" as="image">
   <link rel="stylesheet" href="/styles.css?v=logo-20260808">
   <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=21">
+  <link rel="stylesheet" href="/be-a-viewer/city-archive.css?v=1">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -296,6 +297,52 @@
       </div>
     </section>
 
+    <section class="city-visual-archive city-archive-section" id="visual-archive" aria-labelledby="xian-archive-title" data-city-archive data-city="xian">
+      <header class="city-archive-header">
+        <p>09 / CITY VISUAL ARCHIVE</p>
+        <div>
+          <h2 id="xian-archive-title">XI’AN</h2>
+          <span>34.3416° N / 108.9398° E</span>
+        </div>
+        <p>A visual interpretation of the city.<br>XI’AN / 2026</p>
+      </header>
+      <div class="city-archive-layout">
+        <button class="city-archive-poster" type="button" data-archive-item data-archive-src="/assets/editorial/xian/poster/wall-after-rain.webp" data-archive-alt="Photo Abstract Editorial poster built from a Xi’an city wall photograph at dusk" data-archive-caption="WALL AFTER RAIN / EDITORIAL POSTER">
+          <img src="/assets/editorial/xian/poster/wall-after-rain.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Photo Abstract Editorial poster built from a Xi’an city wall photograph at dusk">
+          <span class="city-archive-poster-meta"><b>EDITORIAL POSTER</b><span>01 / 2026</span></span>
+        </button>
+        <div class="city-archive-stickers" aria-label="Xi’an city stickers and collection cards">
+          <button class="city-archive-sticker is-ticket" type="button" data-archive-item data-archive-src="/assets/be-a-viewer/xian/red-eaves.jpeg" data-archive-alt="Red painted eaves against a pale Xi’an sky" data-archive-caption="PAINTED EAVES / LOOKING UP">
+            <img src="/assets/be-a-viewer/xian/red-eaves.jpeg" width="1024" height="1536" loading="lazy" decoding="async" alt="Red painted eaves against a pale Xi’an sky">
+            <span class="city-archive-sticker-copy"><strong>EAVES</strong><span>LOOKING<br>UP</span></span>
+            <small class="city-archive-sticker-meta">BE A VIEWER / XI’AN</small>
+          </button>
+          <button class="city-archive-sticker is-circle" type="button" data-archive-item data-archive-src="/assets/be-a-viewer/xian/bell-tower-blue-hour.jpeg" data-archive-alt="Xi’an Bell Tower at blue hour between city blocks" data-archive-caption="BELL TOWER / BLUE HOUR">
+            <img src="/assets/be-a-viewer/xian/bell-tower-blue-hour.jpeg" width="1536" height="930" loading="lazy" decoding="async" alt="Xi’an Bell Tower at blue hour between city blocks">
+            <span class="city-archive-sticker-copy"><strong>BLUE HOUR</strong><span>34.34<br>N</span></span>
+            <small class="city-archive-sticker-meta">URBAN AXIS</small>
+          </button>
+          <button class="city-archive-sticker is-strip" type="button" data-archive-item data-archive-src="/assets/be-a-viewer/xian/night-market.jpeg" data-archive-alt="A crowded Xi’an night market filled with illuminated signs" data-archive-caption="NIGHT MARKET / TEMPORARY ARCHITECTURE">
+            <img src="/assets/be-a-viewer/xian/night-market.jpeg" width="1536" height="1024" loading="lazy" decoding="async" alt="A crowded Xi’an night market filled with illuminated signs">
+            <span class="city-archive-sticker-copy"><strong>NIGHT MARKET</strong><span>LIGHT<br>IN MOTION</span></span>
+            <small class="city-archive-sticker-meta">AFTER DARK / 03</small>
+          </button>
+          <button class="city-archive-sticker is-fragment" type="button" data-archive-item data-archive-src="/assets/be-a-viewer/xian/terracotta-archer-detail.jpeg" data-archive-alt="Close view of a Terracotta Army archer’s face and armour" data-archive-caption="ONE WARRIOR / OBJECT STUDY">
+            <img src="/assets/be-a-viewer/xian/terracotta-archer-detail.jpeg" width="1536" height="1025" loading="lazy" decoding="async" alt="Close view of a Terracotta Army archer’s face and armour">
+            <span class="city-archive-sticker-copy"><strong>ONE WARRIOR</strong><span>OBJECT<br>STUDY</span></span>
+            <small class="city-archive-sticker-meta">CRAFT / SCALE</small>
+          </button>
+        </div>
+      </div>
+      <dialog class="city-archive-lightbox" aria-label="Expanded Xi’an visual archive" data-archive-lightbox>
+        <button type="button" data-archive-close>CLOSE</button>
+        <button type="button" aria-label="View previous archive image" data-archive-previous>PREV</button>
+        <figure><img src="/assets/editorial/xian/poster/wall-after-rain.webp" alt="" data-archive-image><figcaption data-archive-caption></figcaption></figure>
+        <button type="button" aria-label="View next archive image" data-archive-next>NEXT</button>
+        <p data-archive-count></p>
+      </dialog>
+    </section>
+
     <section class="xian-next-city" aria-labelledby="next-city-title">
       <p>VIEW ANOTHER CITY</p>
       <h2 id="next-city-title">WHERE NEXT?</h2>
@@ -305,7 +352,7 @@
     <dialog class="xian-lightbox" aria-label="Expanded photograph" data-xian-lightbox>
       <button type="button" data-xian-lightbox-close>CLOSE</button>
       <button type="button" aria-label="View previous photograph" data-xian-lightbox-previous>PREV</button>
-      <figure><img src="" alt="" data-xian-lightbox-image><figcaption data-xian-lightbox-caption></figcaption></figure>
+      <figure><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" data-xian-lightbox-image><figcaption data-xian-lightbox-caption></figcaption></figure>
       <button type="button" aria-label="View next photograph" data-xian-lightbox-next>NEXT</button>
       <p data-xian-lightbox-count></p>
     </dialog>
@@ -329,5 +376,6 @@
   <script type="module" src="/be-a-viewer/xian/xian.js?v=16"></script>
   <script type="module" src="/be-a-viewer/xian/xian-scroll.js?v=6"></script>
   <script type="module" src="/be-a-viewer/xian/xian-model.js?v=5"></script>
+  <script src="/be-a-viewer/city-archive.js?v=1"></script>
 </body>
 </html>
