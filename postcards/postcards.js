@@ -2,7 +2,7 @@
   const root = document.querySelector("[data-postcard-studio]");
   if (!root) return;
 
-  const cards = [
+  const fallbackCards = [
     { id: "xiamen-arrival-lines", city: "xiamen", cityLabel: "Xiamen", cityDisplay: "XIAMEN", code: "XM", coordinates: "24.4798° N / 118.0894° E", title: "Arrival Lines", technique: "Photo Abstract Editorial", image: "/assets/editorial/xiamen/poster/arrival-lines.webp", thumb: "/assets/editorial/xiamen/poster/thumb/arrival-lines.webp", color: "#c8a16e" },
     { id: "xiamen-island-city", city: "xiamen", cityLabel: "Xiamen", cityDisplay: "XIAMEN", code: "XM", coordinates: "24.4798° N / 118.0894° E", title: "Island / City", technique: "Photo Abstract Editorial", image: "/assets/editorial/xiamen/poster/island-city.webp", thumb: "/assets/editorial/xiamen/poster/thumb/island-city.webp", color: "#3d5550" },
     { id: "xiamen-wall-still-speaks", city: "xiamen", cityLabel: "Xiamen", cityDisplay: "XIAMEN", code: "XM", coordinates: "24.4798° N / 118.0894° E", title: "Wall Still Speaks", technique: "Minimal Zine Edition", image: "/assets/editorial/xiamen/poster/wall-still-speaks.webp", thumb: "/assets/editorial/xiamen/poster/thumb/wall-still-speaks.webp", color: "#a45c50" },
@@ -32,6 +32,9 @@
     { id: "shanghai-door-stays-gold", city: "shanghai", cityLabel: "Shanghai", cityDisplay: "SHANGHAI", code: "SH", coordinates: "31.2304° N / 121.4737° E", title: "The Door Stays Gold", technique: "Minimal Zine Edition", image: "/assets/editorial/shanghai/poster/door-stays-gold.webp", thumb: "/assets/editorial/shanghai/poster/thumb/door-stays-gold.webp", color: "#b48a2b" },
     { id: "shanghai-city-worn-close", city: "shanghai", cityLabel: "Shanghai", cityDisplay: "SHANGHAI", code: "SH", coordinates: "31.2304° N / 121.4737° E", title: "The City, Worn Close", technique: "Photo Abstract Editorial", image: "/assets/editorial/shanghai/poster/city-worn-close.webp", thumb: "/assets/editorial/shanghai/poster/thumb/city-worn-close.webp", color: "#5c5948" }
   ];
+  const cards = Array.isArray(window.GALOK_POSTCARDS) && window.GALOK_POSTCARDS.length
+    ? [...window.GALOK_POSTCARDS]
+    : fallbackCards;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const object = root.querySelector("[data-postcard-object]");
@@ -120,8 +123,16 @@
   }
 
   function renderStrip() {
+    const cityLabels = { all: "All", xiamen: "Xiamen", xian: "Xi’an", beijing: "Beijing", shanghai: "Shanghai" };
+    root.querySelectorAll("[data-postcard-filter]").forEach((button) => {
+      const filter = button.dataset.postcardFilter || "all";
+      const count = filter === "all" ? cards.length : cards.filter((card) => card.city === filter).length;
+      button.textContent = `${cityLabels[filter] || filter} / ${pad(count)}`;
+      button.setAttribute("aria-label", `Show ${count} ${cityLabels[filter] || filter} postcards`);
+    });
+    strip.setAttribute("aria-label", `${cards.length} city postcards`);
     strip.innerHTML = cards.map((card, index) => `
-      <button class="postcard-thumb" type="button" data-postcard-select="${index}" data-city="${card.city}" aria-label="Open ${card.title}, ${card.cityLabel}">
+      <button class="postcard-thumb" type="button" data-postcard-select="${index}" data-city="${card.city}" aria-label="Open ${card.title}, ${card.cityLabel}" aria-setsize="${cards.length}" aria-posinset="${index + 1}">
         <span class="postcard-thumb-image"><img src="${card.thumb}" alt="${card.title} postcard from ${card.cityLabel}" loading="lazy" decoding="async" width="480" height="720"></span>
         <span><b>${pad(index + 1)}</b><small>${card.cityDisplay}<br>${card.title.toUpperCase()}</small></span>
       </button>
@@ -131,6 +142,23 @@
   function visiblePosition(index) {
     const position = filteredIndexes.indexOf(index);
     return position >= 0 ? position : 0;
+  }
+
+  function keepSelectedThumbVisible() {
+    const selected = strip.querySelector(`[data-postcard-select="${activeIndex}"]`);
+    if (!selected) return;
+    const horizontal = strip.scrollWidth > strip.clientWidth && window.getComputedStyle(strip).overflowX !== "hidden";
+    if (horizontal) {
+      const target = selected.offsetLeft - (strip.clientWidth - selected.offsetWidth) / 2;
+      strip.scrollTo({ left: Math.max(0, target), behavior: reduceMotion ? "auto" : "smooth" });
+      return;
+    }
+    const top = selected.offsetTop;
+    const bottom = top + selected.offsetHeight;
+    if (top < strip.scrollTop) strip.scrollTo({ top, behavior: reduceMotion ? "auto" : "smooth" });
+    else if (bottom > strip.scrollTop + strip.clientHeight) {
+      strip.scrollTo({ top: bottom - strip.clientHeight, behavior: reduceMotion ? "auto" : "smooth" });
+    }
   }
 
   function syncCard() {
@@ -162,9 +190,7 @@
       if (selected) button.setAttribute("aria-current", "true");
       else button.removeAttribute("aria-current");
     });
-    if (initialized) {
-      strip.querySelector(`[data-postcard-select="${activeIndex}"]`)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest", inline: "center" });
-    }
+    if (initialized) window.requestAnimationFrame(keepSelectedThumbVisible);
 
     const url = new URL(window.location.href);
     url.searchParams.set("card", card.id);

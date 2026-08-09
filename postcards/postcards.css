@@ -239,12 +239,16 @@
 
 .postcard-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.31fr);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.34fr);
+  grid-template-areas:
+    "stage selection"
+    "tools tools";
   gap: clamp(28px, 4vw, 62px);
   align-items: start;
 }
 
 .postcard-stage-wrap {
+  grid-area: stage;
   min-width: 0;
 }
 
@@ -354,11 +358,12 @@ button.postcard-face-front {
 .postcard-front-copy > strong {
   margin-top: auto;
   font-family: var(--font-sans);
-  font-size: clamp(2.4rem, 6.2vw, 6.8rem);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
   font-weight: 770;
   line-height: 0.86;
   letter-spacing: -0.06em;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  white-space: nowrap;
 }
 
 .postcard-front-copy > small {
@@ -584,8 +589,11 @@ button.postcard-face-front {
 }
 
 .postcard-tools {
-  position: sticky;
-  top: 100px;
+  grid-area: tools;
+  display: grid;
+  grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+  column-gap: clamp(34px, 5vw, 78px);
+  align-items: start;
   border-top: 1px solid rgba(236, 233, 223, 0.26);
 }
 
@@ -621,6 +629,7 @@ button.postcard-face-front {
 
 .postcard-tools-actions {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .postcard-tools-actions button {
@@ -637,6 +646,11 @@ button.postcard-face-front {
   text-align: left;
   cursor: pointer;
   transition: color 180ms ease, padding 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.postcard-tools-actions button:nth-child(odd) {
+  border-right: 1px solid rgba(236, 233, 223, 0.22);
+  padding-right: 18px;
 }
 
 .postcard-tools-actions button::after {
@@ -677,35 +691,73 @@ button.postcard-face-front {
 }
 
 .postcard-privacy {
+  grid-column: 1 / -1;
   margin-top: 22px;
   line-height: 1.6;
   letter-spacing: 0.06em;
   text-transform: none;
 }
 
+.postcard-selection {
+  grid-area: selection;
+  min-width: 0;
+  border-top: 1px solid rgba(236, 233, 223, 0.26);
+}
+
+.postcard-selection-head {
+  min-height: 112px;
+  padding: 22px 0 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid rgba(236, 233, 223, 0.18);
+}
+
+.postcard-selection-head p,
+.postcard-selection-head > span {
+  margin: 0;
+  color: rgba(236, 233, 223, 0.48);
+  font-size: 0.57rem;
+  font-weight: 720;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.postcard-selection-head h3 {
+  margin: 28px 0 0;
+  max-width: 12ch;
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.04;
+}
+
 .postcard-strip-shell {
-  margin-top: clamp(64px, 8vw, 110px);
-  border-top: 1px solid rgba(236, 233, 223, 0.22);
+  min-width: 0;
 }
 
 .postcard-strip {
-  display: flex;
-  gap: clamp(18px, 2.2vw, 34px);
-  padding: 30px 0 12px;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  scrollbar-width: none;
+  max-height: clamp(390px, 42vw, 650px);
+  padding: 20px 8px 12px 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px 16px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(236, 233, 223, 0.3) transparent;
 }
 
 .postcard-thumb {
-  width: clamp(136px, 14vw, 204px);
-  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
   padding: 0;
   color: inherit;
   border: 0;
   background: transparent;
   text-align: left;
-  scroll-snap-align: start;
   cursor: pointer;
 }
 
@@ -851,10 +903,13 @@ button.postcard-face-front {
 
   .postcard-workspace {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "stage"
+      "selection"
+      "tools";
   }
 
   .postcard-tools {
-    position: static;
     display: grid;
     grid-template-columns: minmax(190px, 0.35fr) minmax(0, 1fr);
     gap: 30px;
@@ -871,6 +926,32 @@ button.postcard-face-front {
 
   .postcard-privacy {
     grid-column: 1 / -1;
+  }
+
+  .postcard-selection-head {
+    min-height: 96px;
+  }
+
+  .postcard-selection-head h3 {
+    max-width: none;
+    margin-top: 22px;
+  }
+
+  .postcard-strip {
+    max-height: none;
+    padding: 22px 0 10px;
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .postcard-thumb {
+    width: clamp(136px, 21vw, 182px);
+    flex: 0 0 auto;
+    scroll-snap-align: start;
   }
 }
 
@@ -959,7 +1040,7 @@ button.postcard-face-front {
   }
 
   .postcard-front-copy > strong {
-    font-size: clamp(2rem, 9.5vw, 3.2rem);
+    font-size: clamp(1.7rem, 6.6vw, 2.35rem);
   }
 
   .postcard-front-copy > small {
@@ -1052,6 +1133,34 @@ button.postcard-face-front {
   .postcard-tools {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+
+  .postcard-selection {
+    margin-top: 6px;
+  }
+
+  .postcard-selection-head {
+    min-height: 86px;
+    padding-top: 18px;
+  }
+
+  .postcard-selection-head h3 {
+    margin-top: 18px;
+    font-size: 1.18rem;
+  }
+
+  .postcard-selection-head > span {
+    align-self: flex-start;
+  }
+
+  .postcard-strip {
+    margin-inline: -20px;
+    padding-inline: 20px;
+    scroll-padding-inline: 20px;
+  }
+
+  .postcard-thumb {
+    width: 124px;
   }
 
   .postcard-tools-meta {
