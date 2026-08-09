@@ -858,7 +858,9 @@
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px" }
+      // Start the reveal before a section enters the viewport so fast scrolls
+      // never expose a full-screen gap while content is still transparent.
+      { threshold: 0.01, rootMargin: "0px 0px 18% 0px" }
     );
     revealItems().forEach((item) => observer.observe(item));
     setTimeout(() => revealItems().forEach((item) => observer.observe(item)), 50);
