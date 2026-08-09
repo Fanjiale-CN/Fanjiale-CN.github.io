@@ -12,7 +12,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=logo-20260808">
   <link rel="stylesheet" href="/be-a-viewer/viewer.css?v=5">
-  <link rel="stylesheet" href="/be-a-viewer/city-archive.css?v=1">
+  <link rel="stylesheet" href="/be-a-viewer/city-archive.css?v=2">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -173,24 +173,53 @@
         <p>02 / CITY VISUAL ARCHIVE</p>
         <div>
           <h2 id="visual-archive-preview-title">COLLECT<br>THE CITY.</h2>
-          <span>Three visual notes from the archive. Enter a city to view the full edition.</span>
+          <span>Four cities. Sixteen visual editions. Enter a city to open its full archive.</span>
         </div>
         <p>A visual interpretation of the city.<br>BE A VIEWER / 2026</p>
       </header>
+      <div class="city-archive-reel" data-city-archive-reel aria-label="Animated preview of four city visual archives">
+        <a class="city-archive-reel-scene is-active" href="/be-a-viewer/xiamen/#visual-archive" data-archive-reel-scene data-city="xiamen" aria-hidden="false">
+          <span class="city-archive-reel-copy"><span>01 / COASTLINE</span><strong>XIAMEN</strong><small>24.4798° N / 118.0894° E</small></span>
+          <img class="city-archive-reel-art" src="/assets/editorial/xiamen/poster/thumb/arrival-lines.webp" width="480" height="720" loading="lazy" decoding="async" alt="Arrival Lines, an editorial poster from Xiamen">
+        </a>
+        <a class="city-archive-reel-scene" href="/be-a-viewer/xian/#visual-archive" data-archive-reel-scene data-city="xian" aria-hidden="true">
+          <span class="city-archive-reel-copy"><span>02 / INSIDE THE WALL</span><strong>XI’AN</strong><small>34.3416° N / 108.9398° E</small></span>
+          <img class="city-archive-reel-art" src="/assets/editorial/xian/poster/thumb/wall-as-horizon.webp" width="479" height="720" loading="lazy" decoding="async" alt="Wall as Horizon, an editorial poster from Xi’an">
+        </a>
+        <a class="city-archive-reel-scene" href="/be-a-viewer/beijing/#visual-archive" data-archive-reel-scene data-city="beijing" aria-hidden="true">
+          <span class="city-archive-reel-copy"><span>03 / CENTRAL AXIS</span><strong>BEIJING</strong><small>39.9042° N / 116.4074° E</small></span>
+          <img class="city-archive-reel-art" src="/assets/editorial/beijing/poster/thumb/measured-courtyard.webp" width="480" height="720" loading="lazy" decoding="async" alt="Measured Courtyard, an editorial poster from Beijing">
+        </a>
+        <a class="city-archive-reel-scene" href="/be-a-viewer/shanghai/#visual-archive" data-archive-reel-scene data-city="shanghai" aria-hidden="true">
+          <span class="city-archive-reel-copy"><span>04 / RIVER HAZE</span><strong>SHANGHAI</strong><small>31.2304° N / 121.4737° E</small></span>
+          <img class="city-archive-reel-art" src="/assets/editorial/shanghai/poster/thumb/river-in-fog.webp" width="480" height="600" loading="lazy" decoding="async" alt="River in Fog, an editorial poster from Shanghai">
+        </a>
+        <div class="city-archive-reel-nav" aria-label="Select a city archive preview">
+          <button type="button" data-archive-reel-control aria-label="Show Xiamen archive" aria-current="true">01</button>
+          <button type="button" data-archive-reel-control aria-label="Show Xi’an archive" aria-current="false">02</button>
+          <button type="button" data-archive-reel-control aria-label="Show Beijing archive" aria-current="false">03</button>
+          <button type="button" data-archive-reel-control aria-label="Show Shanghai archive" aria-current="false">04</button>
+        </div>
+      </div>
       <div class="city-archive-preview-track-wrap">
         <div class="city-archive-preview-track" aria-label="Featured city visual archives">
-          <a class="city-archive-preview-card" href="/be-a-viewer/xian/#visual-archive">
-            <img src="/assets/editorial/xian/poster/wall-after-rain.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Photo Abstract Editorial poster of Xi’an city wall at dusk">
-            <span>XI’AN / 34.3416° N</span>
-            <strong>WALL AFTER RAIN</strong>
-          </a>
           <a class="city-archive-preview-card" href="/be-a-viewer/xiamen/#visual-archive">
-            <img src="/assets/editorial/xiamen/poster/wall-of-xiamen.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Photo Abstract Editorial poster of a Xiamen street wall with red Chinese characters">
+            <img src="/assets/editorial/xiamen/poster/thumb/arrival-lines.webp" width="480" height="720" loading="lazy" decoding="async" alt="Xiamen editorial poster titled Arrival Lines">
             <span>XIAMEN / 24.4798° N</span>
-            <strong>WALL OF XIAMEN</strong>
+            <strong>ARRIVAL LINES</strong>
+          </a>
+          <a class="city-archive-preview-card" href="/be-a-viewer/xian/#visual-archive">
+            <img src="/assets/editorial/xian/poster/thumb/wall-as-horizon.webp" width="479" height="720" loading="lazy" decoding="async" alt="Xi’an editorial poster titled Wall as Horizon">
+            <span>XI’AN / 34.3416° N</span>
+            <strong>WALL AS HORIZON</strong>
+          </a>
+          <a class="city-archive-preview-card" href="/be-a-viewer/beijing/#visual-archive">
+            <img src="/assets/editorial/beijing/poster/thumb/measured-courtyard.webp" width="480" height="720" loading="lazy" decoding="async" alt="Beijing editorial poster titled Measured Courtyard">
+            <span>BEIJING / 39.9042° N</span>
+            <strong>MEASURED COURTYARD</strong>
           </a>
           <a class="city-archive-preview-card" href="/be-a-viewer/shanghai/#visual-archive">
-            <img src="/assets/editorial/shanghai/poster/river-in-fog.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Photo Abstract Editorial poster of Shanghai towers across a foggy river">
+            <img src="/assets/editorial/shanghai/poster/thumb/river-in-fog.webp" width="480" height="600" loading="lazy" decoding="async" alt="Shanghai editorial poster titled River in Fog">
             <span>SHANGHAI / 31.2304° N</span>
             <strong>RIVER IN FOG</strong>
           </a>
@@ -210,6 +239,6 @@
 
   <script src="/script.js?v=logo-20260808"></script>
   <script src="/be-a-viewer/viewer.js?v=6"></script>
-  <script src="/be-a-viewer/city-archive.js?v=1"></script>
+  <script src="/be-a-viewer/city-archive.js?v=2"></script>
 </body>
 </html>

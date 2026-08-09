@@ -1,7 +1,7 @@
 (() => {
   const archiveRoots = [...document.querySelectorAll("[data-city-archive]")];
-  if (!archiveRoots.length) return;
-
+  const archiveReels = [...document.querySelectorAll("[data-city-archive-reel]")];
+  if (!archiveRoots.length && !archiveReels.length) return;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   archiveRoots.forEach((root) => {
@@ -92,5 +92,72 @@
     }, { passive: true });
 
     if (reduceMotion) root.classList.add("is-reduced-motion");
+  });
+
+  archiveReels.forEach((reel) => {
+    const scenes = [...reel.querySelectorAll("[data-archive-reel-scene]")];
+    const controls = [...reel.querySelectorAll("[data-archive-reel-control]")];
+    if (!scenes.length) return;
+
+    let activeIndex = Math.max(0, scenes.findIndex((scene) => scene.classList.contains("is-active")));
+    let cycleTimer = null;
+    let inView = false;
+
+    function setScene(index) {
+      activeIndex = (index + scenes.length) % scenes.length;
+      scenes.forEach((scene, sceneIndex) => {
+        const isActive = sceneIndex === activeIndex;
+        scene.classList.toggle("is-active", isActive);
+        scene.setAttribute("aria-hidden", String(!isActive));
+        scene.tabIndex = isActive ? 0 : -1;
+      });
+      controls.forEach((control, controlIndex) => {
+        control.setAttribute("aria-current", String(controlIndex === activeIndex));
+      });
+    }
+
+    function stopCycle() {
+      if (cycleTimer !== null) window.clearInterval(cycleTimer);
+      cycleTimer = null;
+    }
+
+    function startCycle() {
+      if (reduceMotion || !inView || document.hidden || cycleTimer !== null) return;
+      cycleTimer = window.setInterval(() => setScene(activeIndex + 1), 4800);
+    }
+
+    controls.forEach((control, controlIndex) => {
+      control.addEventListener("click", () => {
+        stopCycle();
+        setScene(controlIndex);
+        startCycle();
+      });
+    });
+
+    reel.addEventListener("pointerenter", stopCycle);
+    reel.addEventListener("pointerleave", startCycle);
+    reel.addEventListener("focusin", stopCycle);
+    reel.addEventListener("focusout", (event) => {
+      if (!reel.contains(event.relatedTarget)) startCycle();
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopCycle();
+      else startCycle();
+    });
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        inView = entries.some((entry) => entry.isIntersecting);
+        if (inView) startCycle();
+        else stopCycle();
+      }, { threshold: .25 });
+      observer.observe(reel);
+    } else {
+      inView = true;
+      startCycle();
+    }
+
+    setScene(activeIndex);
   });
 })();

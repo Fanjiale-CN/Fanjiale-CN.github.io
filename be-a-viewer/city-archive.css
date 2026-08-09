@@ -37,6 +37,13 @@
   --archive-muted: rgba(42, 47, 50, .58);
 }
 
+.city-archive-section[data-city="beijing"] {
+  --archive-paper: #f4f1e9;
+  --archive-accent: #982f28;
+  --archive-secondary: #71817f;
+  --archive-muted: rgba(54, 56, 52, .62);
+}
+
 .city-archive-section {
   padding: clamp(6.5rem, 11vw, 12rem) clamp(1.25rem, 5vw, 6rem);
 }
@@ -94,6 +101,95 @@
   gap: clamp(2rem, 7vw, 8rem);
   width: min(100%, 88rem);
   margin: 0 auto;
+}
+
+.city-archive-layout-series {
+  display: block;
+  width: min(100%, 94rem);
+}
+
+.city-archive-editions {
+  display: grid;
+  grid-template-columns: 1.24fr repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(1.1rem, 2.8vw, 3rem);
+}
+
+.city-archive-edition {
+  position: relative;
+  display: block;
+  min-width: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.city-archive-edition:nth-child(2) {
+  margin-top: clamp(2.5rem, 7vw, 7.5rem);
+}
+
+.city-archive-edition:nth-child(3) {
+  margin-top: clamp(.6rem, 2.4vw, 2.4rem);
+}
+
+.city-archive-edition:nth-child(4) {
+  margin-top: clamp(4rem, 10vw, 10rem);
+}
+
+.city-archive-edition img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #e9e5dc;
+  transition: transform 700ms cubic-bezier(.16, 1, .3, 1), filter 500ms ease;
+  will-change: transform;
+}
+
+.city-archive-edition:hover img,
+.city-archive-edition:focus-visible img {
+  transform: translate3d(0, -.42rem, 0) scale(1.012);
+  filter: contrast(1.015);
+}
+
+.city-archive-edition:focus-visible {
+  outline: 1px solid var(--archive-accent);
+  outline-offset: .55rem;
+}
+
+.city-archive-edition-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: .65rem;
+  margin-top: .9rem;
+  color: var(--archive-muted);
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .13em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.city-archive-edition-meta b {
+  color: var(--archive-accent);
+  font-weight: 700;
+}
+
+.city-archive-edition-meta span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.city-archive-layout-series .city-archive-stickers {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(7rem, 13vw, 14rem);
+  padding-inline: clamp(.25rem, 4vw, 4rem);
 }
 
 .city-archive-poster,
@@ -394,7 +490,7 @@
   width: min(100%, 88rem);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(1rem, 3vw, 3.5rem);
 }
 
@@ -411,6 +507,130 @@
 
 .city-archive-preview-card:nth-child(3) {
   margin-top: clamp(.75rem, 3vw, 3rem);
+}
+
+.city-archive-preview-card:nth-child(4) {
+  margin-top: clamp(3.5rem, 9vw, 9rem);
+}
+
+.city-archive-reel {
+  position: relative;
+  width: min(100%, 88rem);
+  aspect-ratio: 16 / 8.4;
+  margin: 0 auto clamp(4rem, 8vw, 8rem);
+  overflow: hidden;
+  color: #f3f0e8;
+  background: #0b1011;
+  border: 1px solid rgba(17, 23, 25, .25);
+}
+
+.city-archive-reel-scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, .64fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 6rem);
+  padding: clamp(2rem, 5vw, 5.5rem);
+  color: inherit;
+  text-decoration: none;
+  opacity: 0;
+  filter: blur(18px);
+  transform: scale(.985);
+  pointer-events: none;
+  transition: opacity 720ms cubic-bezier(.4, 0, .2, 1), filter 900ms cubic-bezier(.4, 0, .2, 1), transform 1.2s cubic-bezier(.16, 1, .3, 1);
+}
+
+.city-archive-reel-scene[data-city="xiamen"] { background: #143236; }
+.city-archive-reel-scene[data-city="xian"] { background: #2f2a24; }
+.city-archive-reel-scene[data-city="beijing"] { background: #2b211f; }
+.city-archive-reel-scene[data-city="shanghai"] { background: #172226; }
+
+.city-archive-reel-scene.is-active {
+  z-index: 2;
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.city-archive-reel-copy {
+  align-self: end;
+  padding-bottom: clamp(.5rem, 3vw, 3rem);
+}
+
+.city-archive-reel-copy > span,
+.city-archive-reel-copy > small {
+  display: block;
+  font-size: clamp(.6rem, .8vw, .76rem);
+  font-weight: 700;
+  letter-spacing: .16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.city-archive-reel-copy > span {
+  margin-bottom: clamp(1rem, 2vw, 2rem);
+  color: rgba(243, 240, 232, .6);
+}
+
+.city-archive-reel-copy strong {
+  display: block;
+  max-width: 7ch;
+  font-size: clamp(4rem, 10vw, 10rem);
+  font-weight: 500;
+  letter-spacing: -.085em;
+  line-height: .75;
+}
+
+.city-archive-reel-copy > small {
+  margin-top: clamp(1.5rem, 3vw, 3rem);
+  color: rgba(243, 240, 232, .72);
+}
+
+.city-archive-reel-art {
+  display: block;
+  width: min(100%, 29rem);
+  height: auto;
+  justify-self: center;
+  transform: translate3d(0, 1.2rem, 0) scale(1.025);
+  transition: transform 3.6s cubic-bezier(.22, 1, .36, 1);
+}
+
+.city-archive-reel-scene.is-active .city-archive-reel-art {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.city-archive-reel-nav {
+  position: absolute;
+  z-index: 4;
+  right: clamp(1rem, 2.4vw, 2.5rem);
+  bottom: clamp(1rem, 2.2vw, 2.25rem);
+  display: flex;
+  gap: .55rem;
+}
+
+.city-archive-reel-nav button {
+  width: 2.65rem;
+  min-height: 2.65rem;
+  padding: 0;
+  color: rgba(243, 240, 232, .62);
+  background: transparent;
+  border: 1px solid rgba(243, 240, 232, .35);
+  border-radius: 50%;
+  font: inherit;
+  font-size: .56rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+
+.city-archive-reel-nav button[aria-current="true"],
+.city-archive-reel-nav button:hover,
+.city-archive-reel-nav button:focus-visible {
+  color: #111716;
+  background: #f3f0e8;
+  border-color: #f3f0e8;
 }
 
 .city-archive-preview-card img {
@@ -470,6 +690,37 @@
     gap: 4.5rem;
   }
 
+  .city-archive-layout-series {
+    width: 100%;
+  }
+
+  .city-archive-editions {
+    display: flex;
+    gap: 1rem;
+    width: auto;
+    margin-inline: -1.15rem;
+    padding: .5rem 1.15rem 1.25rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+  }
+
+  .city-archive-edition,
+  .city-archive-edition:nth-child(2),
+  .city-archive-edition:nth-child(3),
+  .city-archive-edition:nth-child(4) {
+    flex: 0 0 min(72vw, 19rem);
+    margin-top: 0;
+    scroll-snap-align: start;
+  }
+
+  .city-archive-layout-series .city-archive-stickers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 5.5rem;
+    padding-inline: .5rem;
+  }
+
   .city-archive-poster {
     width: min(86vw, 31rem);
   }
@@ -523,10 +774,49 @@
 
   .city-archive-preview-card,
   .city-archive-preview-card:nth-child(2),
-  .city-archive-preview-card:nth-child(3) {
+  .city-archive-preview-card:nth-child(3),
+  .city-archive-preview-card:nth-child(4) {
     width: min(67vw, 18rem);
     flex: 0 0 auto;
     margin-top: 0;
+  }
+
+  .city-archive-reel {
+    aspect-ratio: 4 / 5.4;
+    margin-bottom: 4rem;
+  }
+
+  .city-archive-reel-scene {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 1.3rem;
+    padding: 1.35rem 1.35rem 4.8rem;
+  }
+
+  .city-archive-reel-copy {
+    align-self: start;
+    padding-bottom: 0;
+  }
+
+  .city-archive-reel-copy > span {
+    margin-bottom: .8rem;
+  }
+
+  .city-archive-reel-copy strong {
+    font-size: clamp(3.3rem, 17vw, 5.6rem);
+    line-height: .78;
+  }
+
+  .city-archive-reel-copy > small {
+    margin-top: 1rem;
+  }
+
+  .city-archive-reel-art {
+    width: min(62vw, 16rem);
+    max-height: 60%;
+    object-fit: contain;
+    align-self: end;
   }
 
   .city-archive-lightbox {
@@ -564,6 +854,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .city-archive-poster img,
+  .city-archive-edition img,
+  .city-archive-reel-scene,
+  .city-archive-reel-art,
   .city-archive-sticker,
   .city-archive-sticker img,
   .city-archive-preview-card img {
@@ -577,7 +870,11 @@
   .city-archive-sticker:hover img,
   .city-archive-sticker:focus-visible img,
   .city-archive-preview-card:hover img,
-  .city-archive-preview-card:focus-visible img {
+  .city-archive-preview-card:focus-visible img,
+  .city-archive-edition:hover img,
+  .city-archive-edition:focus-visible img,
+  .city-archive-reel-scene,
+  .city-archive-reel-art {
     transform: none;
     filter: none;
   }

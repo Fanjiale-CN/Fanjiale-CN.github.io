@@ -13,7 +13,7 @@
   <link rel="preload" href="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" as="image">
   <link rel="stylesheet" href="/styles.css?v=logo-20260808">
   <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=21">
-  <link rel="stylesheet" href="/be-a-viewer/city-archive.css?v=1">
+  <link rel="stylesheet" href="/be-a-viewer/city-archive.css?v=2">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -304,13 +304,27 @@
           <h2 id="xian-archive-title">XI’AN</h2>
           <span>34.3416° N / 108.9398° E</span>
         </div>
-        <p>A visual interpretation of the city.<br>XI’AN / 2026</p>
+        <p>Four visual editions inside the wall.<br>XI’AN / 2026</p>
       </header>
-      <div class="city-archive-layout">
-        <button class="city-archive-poster" type="button" data-archive-item data-archive-src="/assets/editorial/xian/poster/wall-after-rain.webp" data-archive-alt="Photo Abstract Editorial poster built from a Xi’an city wall photograph at dusk" data-archive-caption="WALL AFTER RAIN / EDITORIAL POSTER">
-          <img src="/assets/editorial/xian/poster/wall-after-rain.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Photo Abstract Editorial poster built from a Xi’an city wall photograph at dusk">
-          <span class="city-archive-poster-meta"><b>EDITORIAL POSTER</b><span>01 / 2026</span></span>
-        </button>
+      <div class="city-archive-layout city-archive-layout-series">
+        <div class="city-archive-editions" aria-label="Xi’an editorial poster series">
+          <button class="city-archive-edition" type="button" data-archive-item data-archive-src="/assets/editorial/xian/poster/wall-as-horizon.webp" data-archive-alt="Xi’an editorial poster pairing the city wall rampart with an abstract horizon study" data-archive-caption="WALL AS HORIZON / PHOTO ABSTRACT EDITORIAL">
+            <img src="/assets/editorial/xian/poster/thumb/wall-as-horizon.webp" width="479" height="720" loading="lazy" decoding="async" alt="Xi’an editorial poster titled Wall as Horizon">
+            <span class="city-archive-edition-meta"><b>01</b><span>WALL AS HORIZON</span></span>
+          </button>
+          <button class="city-archive-edition" type="button" data-archive-item data-archive-src="/assets/editorial/xian/poster/bell-after-blue.webp" data-archive-alt="Minimal zine poster using a real Xi’an Bell Tower blue-hour photograph" data-archive-caption="BELL AFTER BLUE / MINIMAL ZINE EDITION">
+            <img src="/assets/editorial/xian/poster/thumb/bell-after-blue.webp" width="432" height="720" loading="lazy" decoding="async" alt="Xi’an minimal zine poster titled Bell After Blue">
+            <span class="city-archive-edition-meta"><b>02</b><span>BELL AFTER BLUE</span></span>
+          </button>
+          <button class="city-archive-edition" type="button" data-archive-item data-archive-src="/assets/editorial/xian/poster/earth-keeps-ranks.webp" data-archive-alt="Xi’an editorial poster pairing the Terracotta Army formation with abstract earth ranks" data-archive-caption="EARTH KEEPS RANKS / PHOTO ABSTRACT EDITORIAL">
+            <img src="/assets/editorial/xian/poster/thumb/earth-keeps-ranks.webp" width="480" height="720" loading="lazy" decoding="async" alt="Xi’an editorial poster titled Earth Keeps Ranks">
+            <span class="city-archive-edition-meta"><b>03</b><span>EARTH KEEPS RANKS</span></span>
+          </button>
+          <button class="city-archive-edition" type="button" data-archive-item data-archive-src="/assets/editorial/xian/poster/painted-sky.webp" data-archive-alt="Minimal zine poster using a real Xi’an painted-eaves photograph" data-archive-caption="PAINTED SKY / MINIMAL ZINE EDITION">
+            <img src="/assets/editorial/xian/poster/thumb/painted-sky.webp" width="432" height="720" loading="lazy" decoding="async" alt="Xi’an minimal zine poster titled Painted Sky">
+            <span class="city-archive-edition-meta"><b>04</b><span>PAINTED SKY</span></span>
+          </button>
+        </div>
         <div class="city-archive-stickers" aria-label="Xi’an city stickers and collection cards">
           <button class="city-archive-sticker is-ticket" type="button" data-archive-item data-archive-src="/assets/be-a-viewer/xian/red-eaves.jpeg" data-archive-alt="Red painted eaves against a pale Xi’an sky" data-archive-caption="PAINTED EAVES / LOOKING UP">
             <img src="/assets/be-a-viewer/xian/red-eaves.jpeg" width="1024" height="1536" loading="lazy" decoding="async" alt="Red painted eaves against a pale Xi’an sky">
@@ -337,7 +351,7 @@
       <dialog class="city-archive-lightbox" aria-label="Expanded Xi’an visual archive" data-archive-lightbox>
         <button type="button" data-archive-close>CLOSE</button>
         <button type="button" aria-label="View previous archive image" data-archive-previous>PREV</button>
-        <figure><img src="/assets/editorial/xian/poster/wall-after-rain.webp" alt="" data-archive-image><figcaption data-archive-caption></figcaption></figure>
+        <figure><img src="/assets/editorial/xian/poster/wall-as-horizon.webp" alt="" data-archive-image><figcaption data-archive-caption></figcaption></figure>
         <button type="button" aria-label="View next archive image" data-archive-next>NEXT</button>
         <p data-archive-count></p>
       </dialog>
@@ -376,6 +390,6 @@
   <script type="module" src="/be-a-viewer/xian/xian.js?v=16"></script>
   <script type="module" src="/be-a-viewer/xian/xian-scroll.js?v=6"></script>
   <script type="module" src="/be-a-viewer/xian/xian-model.js?v=5"></script>
-  <script src="/be-a-viewer/city-archive.js?v=1"></script>
+  <script src="/be-a-viewer/city-archive.js?v=2"></script>
 </body>
 </html>
