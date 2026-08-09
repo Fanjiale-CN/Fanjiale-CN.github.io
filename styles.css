@@ -13003,31 +13003,30 @@ a.note-card:focus-visible::after {
   .field-postcard-entry:focus-visible .field-postcard-stack img:nth-child(4) { transform: rotate(13deg); }
 }
 
-
 /* Home: three clear ways in */
 .field-routing {
   display: grid;
-  gap: clamp(44px, 6vw, 88px);
-  padding: clamp(76px, 10vw, 144px) var(--home-gutter);
+  gap: clamp(46px, 6vw, 76px);
+  padding: clamp(72px, 8vw, 118px) var(--home-gutter) clamp(88px, 10vw, 138px);
   color: #14191d;
   background: #f3f0e8;
   border-top: 1px solid rgba(20, 25, 29, 0.18);
 }
 
 .field-routing-top {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(210px, 280px);
-  gap: clamp(36px, 9vw, 150px);
-  align-items: end;
+  display: block;
 }
 
 .field-routing-intro {
-  max-width: 900px;
+  display: grid;
+  grid-template-columns: minmax(150px, 0.28fr) minmax(0, 0.72fr);
+  column-gap: clamp(28px, 6vw, 98px);
+  align-items: start;
 }
 
 .field-routing-intro > p,
 .field-route-kicker {
-  margin: 0;
+  margin: 8px 0 0;
   color: #a63c2e;
   font-size: 0.67rem;
   font-weight: 760;
@@ -13036,10 +13035,11 @@ a.note-card:focus-visible::after {
 }
 
 .field-routing-intro h2 {
-  max-width: 780px;
-  margin: 24px 0 28px;
+  grid-column: 2;
+  max-width: 820px;
+  margin: 0;
   font-family: var(--font-sans);
-  font-size: clamp(4rem, 9vw, 9rem);
+  font-size: clamp(4rem, 8.4vw, 8.4rem);
   font-weight: 500;
   letter-spacing: -0.075em;
   line-height: 0.84;
@@ -13047,42 +13047,13 @@ a.note-card:focus-visible::after {
 }
 
 .field-routing-intro > span {
+  grid-column: 2;
   display: block;
-  max-width: 510px;
+  max-width: 560px;
+  margin-top: 30px;
   color: rgba(20, 25, 29, 0.68);
   font-size: clamp(1rem, 1.45vw, 1.18rem);
   line-height: 1.45;
-}
-
-.field-routing-poster {
-  width: min(100%, 280px);
-  margin: 0;
-  justify-self: end;
-  transform: rotate(2.2deg);
-  transform-origin: 70% 90%;
-  transition: transform 720ms cubic-bezier(0.2, 0.7, 0.1, 1);
-}
-
-.field-routing-poster:hover {
-  transform: rotate(-1deg) translateY(-8px);
-}
-
-.field-routing-poster img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 5;
-  object-fit: cover;
-  border: 1px solid rgba(20, 25, 29, 0.14);
-  box-shadow: 10px 14px 0 rgba(20, 25, 29, 0.08);
-}
-
-.field-routing-poster figcaption {
-  margin-top: 13px;
-  color: rgba(20, 25, 29, 0.58);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .field-route-grid {
@@ -13093,8 +13064,9 @@ a.note-card:focus-visible::after {
 }
 
 .field-route {
+  --route-seal-color: rgba(20, 25, 29, 0.2);
   position: relative;
-  min-height: 310px;
+  min-height: clamp(330px, 29vw, 430px);
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -13103,55 +13075,80 @@ a.note-card:focus-visible::after {
   color: #14191d;
   border-right: 1px solid rgba(20, 25, 29, 0.7);
   border-bottom: 1px solid rgba(20, 25, 29, 0.7);
+  background: #e8e2d6;
   text-decoration: none;
   isolation: isolate;
-  transition: color 460ms ease, background-color 460ms ease, transform 460ms cubic-bezier(0.2, 0.7, 0.1, 1);
+  transition: transform 460ms cubic-bezier(0.2, 0.7, 0.1, 1), box-shadow 460ms ease;
+}
+
+.field-route::before,
+.field-route::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.field-route::before {
+  z-index: -2;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: transform 780ms cubic-bezier(0.2, 0.7, 0.1, 1);
 }
 
 .field-route::after {
-  position: absolute;
   z-index: -1;
-  right: -30px;
-  bottom: -70px;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: rgba(24, 65, 88, 0.12);
-  content: "";
-  transform: scale(0.3);
-  transition: transform 560ms cubic-bezier(0.2, 0.7, 0.1, 1);
 }
 
-.field-route:hover,
-.field-route:focus-visible {
-  color: #fff;
-  background: #183c50;
-  transform: translateY(-7px);
+.field-route--read::before {
+  background-image: url("/assets/home/route-read-zine.webp");
+  background-position: 50% 46%;
 }
 
-.field-route:hover::after,
-.field-route:focus-visible::after {
-  transform: scale(1.3);
+.field-route--read::after {
+  background: linear-gradient(180deg, rgba(246, 241, 230, 0.12) 0%, rgba(246, 241, 230, 0.66) 54%, rgba(246, 241, 230, 0.97) 100%);
 }
 
 .field-route--walk {
+  --route-seal-color: rgba(255, 255, 255, 0.2);
   color: #fff;
   background: #214b62;
 }
 
-.field-route--walk::after {
-  background: rgba(226, 79, 55, 0.78);
+.field-route--walk::before {
+  background-image: url("/assets/home/route-walk-zine.webp");
+  background-position: 66% 24%;
+  filter: saturate(0.86) contrast(1.02);
 }
 
-.field-route--keep {
-  background: #ded8cc;
+.field-route--walk::after {
+  background: linear-gradient(180deg, rgba(20, 54, 73, 0.5) 0%, rgba(20, 54, 73, 0.78) 52%, rgba(20, 54, 73, 0.98) 100%);
+}
+
+.field-route--keep::before {
+  background-image: url("/assets/home/route-keep-zine.webp");
+  background-position: 35% 72%;
 }
 
 .field-route--keep::after {
-  background: rgba(38, 72, 92, 0.18);
+  background: linear-gradient(180deg, rgba(222, 216, 204, 0.1) 0%, rgba(222, 216, 204, 0.64) 54%, rgba(222, 216, 204, 0.97) 100%);
+}
+
+.field-route:hover,
+.field-route:focus-visible {
+  z-index: 2;
+  transform: translateY(-7px);
+  box-shadow: 0 18px 30px rgba(20, 25, 29, 0.14);
+}
+
+.field-route:hover::before,
+.field-route:focus-visible::before {
+  transform: scale(1.045);
 }
 
 .field-route-index {
+  position: relative;
+  z-index: 2;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.12em;
@@ -13159,23 +13156,46 @@ a.note-card:focus-visible::after {
 
 .field-route-mark {
   position: absolute;
+  z-index: 2;
   top: 18px;
   right: 20px;
-  font-family: var(--font-serif);
-  font-size: clamp(3.8rem, 7vw, 6.8rem);
-  font-weight: 400;
-  line-height: 0.8;
-  opacity: 0.2;
-  transition: opacity 460ms ease, transform 560ms cubic-bezier(0.2, 0.7, 0.1, 1);
+  width: clamp(92px, 8vw, 132px);
+  height: clamp(90px, 8vw, 132px);
+  background-color: var(--route-seal-color);
+  transform-origin: 50% 50%;
+  transition: transform 560ms cubic-bezier(0.2, 0.7, 0.1, 1);
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+.field-route-mark--view {
+  width: clamp(108px, 9vw, 148px);
+  -webkit-mask-image: url("/assets/home/route-view-seal.png");
+  mask-image: url("/assets/home/route-view-seal.png");
+}
+
+.field-route-mark--walk {
+  -webkit-mask-image: url("/assets/home/route-walk-seal.png");
+  mask-image: url("/assets/home/route-walk-seal.png");
+}
+
+.field-route-mark--keep {
+  -webkit-mask-image: url("/assets/home/route-keep-seal.png");
+  mask-image: url("/assets/home/route-keep-seal.png");
 }
 
 .field-route:hover .field-route-mark,
 .field-route:focus-visible .field-route-mark {
-  opacity: 0.92;
-  transform: rotate(-8deg) scale(1.08);
+  transform: rotate(-4deg) scale(1.045);
 }
 
 .field-route-copy {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -13185,29 +13205,29 @@ a.note-card:focus-visible::after {
 }
 
 .field-route-copy strong {
-  max-width: 280px;
+  max-width: 290px;
   font-family: var(--font-sans);
   font-size: clamp(2rem, 3.5vw, 3.8rem);
   font-weight: 500;
   letter-spacing: -0.06em;
   line-height: 0.9;
+  text-wrap: pretty;
 }
 
 .field-route-copy > span:last-child {
-  max-width: 270px;
-  color: rgba(20, 25, 29, 0.64);
+  max-width: 285px;
+  color: rgba(20, 25, 29, 0.7);
   font-size: 0.92rem;
   line-height: 1.4;
 }
 
-.field-route--walk .field-route-copy > span:last-child,
-.field-route:hover .field-route-copy > span:last-child,
-.field-route:focus-visible .field-route-copy > span:last-child {
-  color: rgba(255, 255, 255, 0.72);
+.field-route--walk .field-route-copy > span:last-child {
+  color: rgba(255, 255, 255, 0.76);
 }
 
 .field-route-arrow {
   position: absolute;
+  z-index: 2;
   right: 22px;
   bottom: 20px;
   font-size: 1.25rem;
@@ -13229,23 +13249,31 @@ a.note-card:focus-visible::after {
 
 @media (max-width: 760px) {
   .field-routing {
-    gap: 52px;
-    padding-block: 78px;
+    gap: 48px;
+    padding-block: 68px 82px;
   }
 
-  .field-routing-top {
+  .field-routing-intro {
     grid-template-columns: 1fr;
-    gap: 42px;
+    gap: 22px;
+  }
+
+  .field-routing-intro > p,
+  .field-routing-intro h2,
+  .field-routing-intro > span {
+    grid-column: 1;
+  }
+
+  .field-routing-intro > p {
+    margin-top: 0;
   }
 
   .field-routing-intro h2 {
-    margin-top: 20px;
-    font-size: clamp(3.8rem, 17vw, 6.2rem);
+    font-size: clamp(3.55rem, 16vw, 5.8rem);
   }
 
-  .field-routing-poster {
-    width: min(68vw, 250px);
-    justify-self: center;
+  .field-routing-intro > span {
+    margin-top: 0;
   }
 
   .field-route-grid {
@@ -13253,18 +13281,26 @@ a.note-card:focus-visible::after {
   }
 
   .field-route {
-    min-height: 260px;
+    min-height: 330px;
   }
 
   .field-route-copy strong {
     font-size: clamp(2.45rem, 12vw, 4.2rem);
   }
+
+  .field-route-mark {
+    width: 104px;
+    height: 104px;
+  }
+
+  .field-route-mark--view {
+    width: 122px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .field-routing-poster,
   .field-route,
-  .field-route::after,
+  .field-route::before,
   .field-route-mark,
   .field-route-arrow {
     transition: none;
