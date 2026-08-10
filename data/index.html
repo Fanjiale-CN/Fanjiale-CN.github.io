@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2efe5">
+  <meta name="description" content="Twenty-five years of China's GDP, CPI, PPI and retail data, with 2020–2023 marked as the pandemic window.">
+  <meta property="og:title" content="Data — Galok">
+  <meta property="og:description" content="A running dataset behind the essays: GDP, CPI, PPI and consumption, 2000–present.">
+  <link rel="canonical" href="https://galok.me/data/">
+  <title>Data — Galok</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
+  <link rel="stylesheet" href="/styles.css?v=data-hub-20260810">
+  <link rel="stylesheet" href="/data/data-hub.css?v=20260810">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-2Y8N04VXYG');</script>
+</head>
+<body class="data-page">
+  <nav class="site-nav" aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a class="brand" href="/"><img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span></a>
+      <div class="nav-links"><a href="/be-a-viewer/">Be a Viewer</a><a href="/works/">Works</a><a href="/notes/">Notes</a><a href="/data/" aria-current="page">Data</a><a href="/archive/">Archive</a><a href="/about/">About</a></div>
+    </div>
+  </nav>
+
+  <main class="data-page-main">
+    <header class="data-hero">
+      <p class="data-kicker">DATA / GALOK</p>
+      <h1 class="data-title">Twenty-five years, one line at a time.</h1>
+      <p class="data-lead">GDP, CPI, PPI and retail consumption, 2000 to present, sourced from the National Bureau of Statistics. <b>2020–2023</b> is marked as the pandemic window across every chart.</p>
+    </header>
+
+    <section class="data-hub" data-hub aria-label="Interactive economic data explorer"></section>
+
+    <p class="data-methodology">
+      Methodology: all series are annual, year-over-year percentage change, sourced from public National Bureau of Statistics releases. 2020–2023 is defined as the "pandemic window" and marked in red on every chart — an editorial framing, not an official period. GDP and CPI are fully verified; PPI and retail sales currently include only confirmed years, with gaps left open — run the included <code>scrape_nbs.py</code> against the NBS data API to fill in the full series. This dataset is background reference for the Galok 势·框·察 essays and is not investment advice.
+    </p>
+  </main>
+
+  <script src="/data/data.js?v=20260810"></script>
+  <script src="/data/data-hub.js?v=20260810"></script>
+</body>
+</html>
