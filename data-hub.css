@@ -1,0 +1,231 @@
+.data-page-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+.data-hero {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+}
+
+.data-kicker {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--macro);
+  margin: 0 0 10px;
+}
+
+.data-title {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.15;
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+
+.data-lead {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 620px;
+  margin: 0 0 6px;
+}
+
+.data-lead b {
+  color: var(--macro);
+  font-weight: 600;
+}
+
+.data-hub {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+
+.data-hub-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.data-hub-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  padding: 7px 14px;
+  border: 1px solid var(--line-dark);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.data-hub-pill:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.data-hub-pill.is-active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.data-hub-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--dot, var(--macro));
+  display: inline-block;
+}
+
+.data-hub-chart-wrap {
+  position: relative;
+}
+
+.data-hub-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.data-hub-band-label {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  fill: var(--macro);
+}
+
+.data-hub-tick {
+  stroke: var(--line-dark);
+  stroke-width: 1;
+}
+
+.data-hub-zero-line {
+  stroke: var(--line-dark);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.data-hub-axis-label {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  fill: var(--muted);
+}
+
+.data-hub-line {
+  transition: stroke 0.2s ease;
+}
+
+.data-hub-dot {
+  cursor: pointer;
+}
+
+.data-hub-tooltip {
+  position: absolute;
+  transform: translate(-50%, -130%);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  white-space: nowrap;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.data-hub-tooltip b {
+  font-family: var(--font-serif);
+}
+
+.data-hub-tooltip em {
+  font-style: normal;
+  color: #e3a6a1;
+  font-size: 10px;
+}
+
+.data-hub-meta {
+  margin-top: 14px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.data-hub-meta-dot {
+  opacity: 0.5;
+}
+
+.data-hub-table-wrap {
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.data-hub-table-wrap summary {
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.data-hub-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+}
+
+.data-hub-table th, .data-hub-table td {
+  text-align: left;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-hub-table tr.is-pandemic td {
+  color: var(--macro);
+}
+
+.data-hub-source {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.data-hub-source a {
+  color: var(--muted);
+}
+
+.data-methodology {
+  margin-top: 32px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+
+@media (max-width: 640px) {
+  .data-hub { padding: 20px; }
+  .data-page-main { padding: 32px 16px 64px; }
+}
