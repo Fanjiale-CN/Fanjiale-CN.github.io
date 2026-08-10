@@ -913,6 +913,7 @@
       { href: "/be-a-viewer/", label: "Be a Viewer", match: "/be-a-viewer/" },
       { href: "/works/", label: "Works", match: "/works/" },
       { href: "/notes/", label: "Notes", matches: ["/notes/", "/views/", "/essays/", "/visual-notes/"] },
+      { href: "/data/", label: "Data", match: "/data/" },
       { href: "/archive/", label: "Archive", matches: ["/archive/", "/postcards/"] },
       { href: "/about/", label: "About", match: "/about/" }
     ];
