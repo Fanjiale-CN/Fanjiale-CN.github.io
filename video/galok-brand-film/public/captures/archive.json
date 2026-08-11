@@ -1,0 +1,60 @@
+{
+  "url": "http://127.0.0.1:4173/archive/",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "dpr": 2
+  },
+  "pageHeight": 5435,
+  "title": "Archive — Galok",
+  "blocks": [
+    {
+      "selector": "nav",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 77
+    },
+    {
+      "selector": "header",
+      "index": 0,
+      "x": 240,
+      "y": 77,
+      "width": 1440,
+      "height": 824
+    },
+    {
+      "selector": "main",
+      "index": 0,
+      "x": 0,
+      "y": 77,
+      "width": 1920,
+      "height": 4319
+    },
+    {
+      "selector": "h1",
+      "index": 0,
+      "x": 240,
+      "y": 352,
+      "width": 878,
+      "height": 398
+    },
+    {
+      "selector": "section",
+      "index": 0,
+      "x": 240,
+      "y": 901,
+      "width": 1440,
+      "height": 3495
+    },
+    {
+      "selector": "section",
+      "index": 1,
+      "x": 0,
+      "y": 4396,
+      "width": 1920,
+      "height": 544
+    }
+  ]
+}

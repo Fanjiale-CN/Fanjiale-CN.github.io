@@ -1,0 +1,156 @@
+{
+  "url": "http://127.0.0.1:4173/be-a-viewer/",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "dpr": 2
+  },
+  "pageHeight": 8570,
+  "title": "BE A VIEWER — GALOK",
+  "blocks": [
+    {
+      "selector": "nav",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 77
+    },
+    {
+      "selector": "header",
+      "index": 0,
+      "x": 64,
+      "y": 1301,
+      "width": 1792,
+      "height": 215
+    },
+    {
+      "selector": "header",
+      "index": 1,
+      "x": 240,
+      "y": 2690,
+      "width": 1440,
+      "height": 433
+    },
+    {
+      "selector": "header",
+      "index": 2,
+      "x": 256,
+      "y": 5175,
+      "width": 1408,
+      "height": 337
+    },
+    {
+      "selector": "main",
+      "index": 0,
+      "x": 0,
+      "y": 77,
+      "width": 1920,
+      "height": 7530
+    },
+    {
+      "selector": "h1",
+      "index": 0,
+      "x": 64,
+      "y": 799,
+      "width": 992,
+      "height": 144
+    },
+    {
+      "selector": "video",
+      "index": 0,
+      "x": -24,
+      "y": 64,
+      "width": 1968,
+      "height": 1107
+    },
+    {
+      "selector": "video",
+      "index": 1,
+      "x": -10,
+      "y": 72,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 2,
+      "x": -10,
+      "y": 72,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 3,
+      "x": -10,
+      "y": 72,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 4,
+      "x": -10,
+      "y": 72,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 5,
+      "x": -10,
+      "y": 72,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 6,
+      "x": -10,
+      "y": 72,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "section",
+      "index": 0,
+      "x": 0,
+      "y": 77,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "selector": "section",
+      "index": 1,
+      "x": 0,
+      "y": 1157,
+      "width": 1920,
+      "height": 1383
+    },
+    {
+      "selector": "section",
+      "index": 2,
+      "x": 0,
+      "y": 2540,
+      "width": 1920,
+      "height": 2490
+    },
+    {
+      "selector": "section",
+      "index": 3,
+      "x": 0,
+      "y": 5030,
+      "width": 1920,
+      "height": 2576
+    },
+    {
+      "selector": "section",
+      "index": 4,
+      "x": 0,
+      "y": 7607,
+      "width": 1920,
+      "height": 544
+    }
+  ]
+}

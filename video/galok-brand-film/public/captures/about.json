@@ -1,0 +1,116 @@
+{
+  "url": "http://127.0.0.1:4173/about/",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "dpr": 2
+  },
+  "pageHeight": 6601,
+  "title": "About — Galok",
+  "blocks": [
+    {
+      "selector": "nav",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 77
+    },
+    {
+      "selector": "header",
+      "index": 0,
+      "x": 200,
+      "y": 77,
+      "width": 1520,
+      "height": 1220
+    },
+    {
+      "selector": "header",
+      "index": 1,
+      "x": 200,
+      "y": 2461,
+      "width": 1520,
+      "height": 381
+    },
+    {
+      "selector": "header",
+      "index": 2,
+      "x": 200,
+      "y": 3353,
+      "width": 1520,
+      "height": 402
+    },
+    {
+      "selector": "header",
+      "index": 3,
+      "x": 200,
+      "y": 4689,
+      "width": 1520,
+      "height": 381
+    },
+    {
+      "selector": "main",
+      "index": 0,
+      "x": 200,
+      "y": 77,
+      "width": 1520,
+      "height": 6340
+    },
+    {
+      "selector": "h1",
+      "index": 0,
+      "x": 272,
+      "y": 363,
+      "width": 752,
+      "height": 564
+    },
+    {
+      "selector": "video",
+      "index": 0,
+      "x": 272,
+      "y": 3756,
+      "width": 1376,
+      "height": 774
+    },
+    {
+      "selector": "section",
+      "index": 0,
+      "x": 200,
+      "y": 1297,
+      "width": 1520,
+      "height": 1163
+    },
+    {
+      "selector": "section",
+      "index": 1,
+      "x": 200,
+      "y": 2461,
+      "width": 1520,
+      "height": 893
+    },
+    {
+      "selector": "section",
+      "index": 2,
+      "x": 200,
+      "y": 3353,
+      "width": 1520,
+      "height": 1336
+    },
+    {
+      "selector": "section",
+      "index": 3,
+      "x": 200,
+      "y": 4689,
+      "width": 1520,
+      "height": 814
+    },
+    {
+      "selector": "section",
+      "index": 4,
+      "x": 200,
+      "y": 5503,
+      "width": 1520,
+      "height": 914
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "url": "http://127.0.0.1:4173/works/",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "dpr": 2
+  },
+  "pageHeight": 6207,
+  "title": "Works — Galok",
+  "blocks": [
+    {
+      "selector": "nav",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 77
+    },
+    {
+      "selector": "header",
+      "index": 0,
+      "x": 240,
+      "y": 77,
+      "width": 1440,
+      "height": 824
+    },
+    {
+      "selector": "main",
+      "index": 0,
+      "x": 0,
+      "y": 77,
+      "width": 1920,
+      "height": 5090
+    },
+    {
+      "selector": "h1",
+      "index": 0,
+      "x": 240,
+      "y": 352,
+      "width": 878,
+      "height": 398
+    },
+    {
+      "selector": "video",
+      "index": 0,
+      "x": 240,
+      "y": 1462,
+      "width": 1440,
+      "height": 760
+    },
+    {
+      "selector": "video",
+      "index": 1,
+      "x": 240,
+      "y": 1462,
+      "width": 1440,
+      "height": 760
+    },
+    {
+      "selector": "section",
+      "index": 0,
+      "x": 240,
+      "y": 901,
+      "width": 1440,
+      "height": 1462
+    },
+    {
+      "selector": "section",
+      "index": 1,
+      "x": 240,
+      "y": 2363,
+      "width": 1440,
+      "height": 2804
+    },
+    {
+      "selector": "section",
+      "index": 2,
+      "x": 0,
+      "y": 5167,
+      "width": 1920,
+      "height": 544
+    }
+  ]
+}
