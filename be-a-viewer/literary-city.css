@@ -1,0 +1,398 @@
+:root {
+  --literary-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --literary-han: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  --literary-latin: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
+}
+
+.literary-city {
+  --lit-bg: #e8ebe4;
+  --lit-paper: #f4f1e8;
+  --lit-ink: #182323;
+  --lit-muted: #5d6e69;
+  --lit-line: rgba(24, 35, 35, .28);
+  --lit-accent: #a84533;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  color: var(--lit-ink);
+  background: var(--lit-bg);
+  font-family: var(--literary-sans);
+  text-rendering: optimizeLegibility;
+}
+
+.literary-city--hangzhou {
+  --lit-bg: #dfe7e1;
+  --lit-paper: #f1eee4;
+  --lit-ink: #172827;
+  --lit-muted: #60716b;
+  --lit-line: rgba(23, 40, 39, .27);
+  --lit-accent: #aa4936;
+}
+
+.literary-city--beijing {
+  --lit-bg: #ddcfb9;
+  --lit-paper: #f1e7d5;
+  --lit-ink: #2b211d;
+  --lit-muted: #6f5c4d;
+  --lit-line: rgba(43, 33, 29, .27);
+  --lit-accent: #a6372d;
+}
+
+.literary-city--shanghai {
+  --lit-bg: #d9ded8;
+  --lit-paper: #efeee6;
+  --lit-ink: #152324;
+  --lit-muted: #5f6c68;
+  --lit-line: rgba(21, 35, 36, .27);
+  --lit-accent: #08735d;
+}
+
+.literary-city--xian {
+  --lit-bg: #ccb792;
+  --lit-paper: #eadbc2;
+  --lit-ink: #261e18;
+  --lit-muted: #6d5948;
+  --lit-line: rgba(38, 30, 24, .28);
+  --lit-accent: #9e342a;
+}
+
+.literary-city--xiamen {
+  --lit-bg: #d9e5e5;
+  --lit-paper: #f0eadc;
+  --lit-ink: #143237;
+  --lit-muted: #5e7476;
+  --lit-line: rgba(20, 50, 55, .26);
+  --lit-accent: #205aa4;
+}
+
+.literary-city *,
+.literary-city *::before,
+.literary-city *::after { box-sizing: border-box; }
+
+.literary-running,
+.literary-masthead,
+.literary-series,
+.literary-plate,
+.literary-spreads,
+.literary-colophon {
+  width: min(100%, 118rem);
+  margin-inline: auto;
+  padding-inline: clamp(1.1rem, 4.2vw, 5.5rem);
+}
+
+.literary-running {
+  min-height: 4.25rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--lit-line);
+  font-size: .65rem;
+  font-weight: 760;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.literary-running span:nth-child(2) { color: var(--lit-accent); }
+.literary-running span:last-child { justify-self: end; }
+
+.literary-masthead {
+  min-height: clamp(34rem, 70vw, 58rem);
+  display: grid;
+  grid-template-columns: minmax(10rem, .7fr) minmax(0, 2fr);
+  align-content: center;
+  gap: clamp(2.5rem, 7vw, 9rem);
+  padding-block: clamp(5rem, 12vw, 13rem);
+  border-bottom: 1px solid var(--lit-line);
+}
+
+.literary-kicker {
+  margin: .85rem 0 0;
+  color: var(--lit-accent);
+  font-size: .72rem;
+  font-weight: 780;
+  letter-spacing: .18em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.literary-masthead-copy { max-width: 76rem; }
+
+.literary-masthead h2 {
+  margin: 0;
+  font-weight: 760;
+  line-height: .83;
+  letter-spacing: -.075em;
+}
+
+.literary-masthead h2 span {
+  display: block;
+  margin-bottom: .5em;
+  font-family: var(--literary-han);
+  font-size: clamp(1.3rem, 2.1vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: .08em;
+  line-height: 1;
+}
+
+.literary-masthead h2 b {
+  display: block;
+  font-family: var(--literary-han);
+  font-size: clamp(5.8rem, 18vw, 17rem);
+  font-weight: 700;
+}
+
+.literary-deck {
+  max-width: 40rem;
+  margin: clamp(2.5rem, 5vw, 5rem) 0 0 clamp(0rem, 12vw, 15rem);
+  color: var(--lit-muted);
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  line-height: 1.7;
+}
+
+.literary-series {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding-block: 0;
+  border-bottom: 1px solid var(--lit-line);
+}
+
+.literary-series a {
+  min-height: 5.25rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: .85rem;
+  padding: 1rem clamp(.75rem, 1.4vw, 1.5rem);
+  color: inherit;
+  border-right: 1px solid var(--lit-line);
+  text-decoration: none;
+  transition: color .22s ease, background-color .22s ease;
+}
+
+.literary-series a:first-child { border-left: 1px solid var(--lit-line); }
+.literary-series a:hover,
+.literary-series a:focus-visible,
+.literary-series a[aria-current="page"] { color: var(--lit-paper); background: var(--lit-ink); }
+.literary-series a:focus-visible { outline: 3px solid var(--lit-accent); outline-offset: -3px; }
+.literary-series b { color: var(--lit-accent); font-size: .65rem; letter-spacing: .14em; }
+.literary-series span { font-size: .74rem; font-weight: 760; letter-spacing: .1em; text-transform: uppercase; }
+
+.literary-plate {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(13rem, .6fr);
+  gap: clamp(1rem, 3vw, 3rem);
+  padding-block: clamp(4rem, 9vw, 10rem);
+  border-bottom: 1px solid var(--lit-line);
+}
+
+.literary-plate img {
+  width: 100%;
+  display: block;
+  aspect-ratio: var(--lit-plate-ratio, 3 / 2);
+  object-fit: cover;
+  background: var(--lit-paper);
+}
+
+.literary-city--beijing .literary-plate img,
+.literary-city--xian .literary-plate img { --lit-plate-ratio: 1; }
+
+.literary-plate figcaption {
+  align-self: end;
+  padding-bottom: .5rem;
+  font-size: .69rem;
+  letter-spacing: .14em;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+.literary-plate figcaption b,
+.literary-plate figcaption span { display: block; }
+.literary-plate figcaption b { margin-bottom: 1rem; color: var(--lit-accent); }
+.literary-plate figcaption span { color: var(--lit-muted); }
+
+.literary-spreads { padding-block: 0; }
+
+.literary-spread {
+  min-height: clamp(39rem, 66vw, 63rem);
+  display: grid;
+  grid-template-columns: minmax(9rem, .48fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  gap: clamp(2rem, 5vw, 7rem);
+  align-items: center;
+  padding-block: clamp(5rem, 11vw, 12rem);
+  border-bottom: 1px solid var(--lit-line);
+}
+
+.literary-citation {
+  align-self: start;
+  display: grid;
+  gap: 1rem;
+  padding-top: .45rem;
+}
+
+.literary-citation > span {
+  color: var(--lit-accent);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+
+.literary-citation p { margin: 0; }
+.literary-citation b,
+.literary-citation cite { display: block; }
+.literary-citation b { font-family: var(--literary-han); font-size: clamp(1.05rem, 1.4vw, 1.35rem); letter-spacing: .08em; }
+.literary-citation cite { margin-top: .55rem; color: var(--lit-muted); font-family: var(--literary-han); font-size: .88rem; font-style: normal; line-height: 1.55; }
+
+.literary-quote { margin: 0; }
+.literary-quote p { margin: 0; }
+
+.literary-quote--zh {
+  align-self: center;
+  font-family: var(--literary-han);
+  font-size: clamp(2.35rem, 5.5vw, 5.8rem);
+  font-weight: 600;
+  letter-spacing: .015em;
+  line-height: 1.24;
+  text-wrap: pretty;
+}
+
+.literary-quote--en {
+  align-self: center;
+  max-width: 35rem;
+  color: var(--lit-muted);
+  font-family: var(--literary-latin);
+  font-size: clamp(1.45rem, 2.45vw, 2.7rem);
+  font-style: italic;
+  line-height: 1.42;
+  text-wrap: balance;
+}
+
+.literary-source {
+  grid-column: 2 / -1;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--lit-line);
+  color: var(--lit-muted);
+  font-size: .62rem;
+  font-weight: 720;
+  letter-spacing: .14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.literary-source a { color: inherit; text-underline-offset: .28em; }
+.literary-source a:hover,
+.literary-source a:focus-visible { color: var(--lit-accent); }
+
+.literary-spread:nth-child(even) .literary-citation { grid-column: 3; }
+.literary-spread:nth-child(even) .literary-quote--zh { grid-column: 1 / 2; grid-row: 1; }
+.literary-spread:nth-child(even) .literary-quote--en { grid-column: 2 / 3; grid-row: 1; }
+.literary-spread:nth-child(even) .literary-source { grid-column: 1 / 3; }
+
+.literary-colophon {
+  display: grid;
+  grid-template-columns: .6fr 1fr 1fr;
+  gap: clamp(2rem, 6vw, 8rem);
+  padding-block: clamp(4rem, 7vw, 7rem);
+  background: var(--lit-ink);
+  color: var(--lit-paper);
+}
+
+.literary-colophon b {
+  color: var(--lit-accent);
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.literary-colophon p {
+  max-width: 38rem;
+  margin: 0;
+  color: color-mix(in srgb, var(--lit-paper) 72%, transparent);
+  font-family: var(--literary-han);
+  font-size: clamp(.95rem, 1.25vw, 1.15rem);
+  line-height: 1.8;
+}
+
+.literary-colophon a {
+  align-self: end;
+  justify-self: end;
+  color: var(--lit-paper);
+  font-size: .69rem;
+  font-weight: 760;
+  letter-spacing: .14em;
+  text-underline-offset: .35em;
+  text-transform: uppercase;
+}
+
+.literary-motion-ready [data-literary-reveal] { opacity: 0; }
+.literary-motion-ready .literary-masthead[data-literary-reveal] { transform: translateY(1.25rem); transition: opacity .9s ease-out, transform .9s cubic-bezier(.16, 1, .3, 1); }
+.literary-motion-ready .literary-plate[data-literary-reveal] { transform: translateX(1.5rem); transition: opacity .75s ease-out .08s, transform 1.05s cubic-bezier(.16, 1, .3, 1); }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-citation,
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-quote,
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-source { opacity: 0; }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-citation { transform: translateX(-1rem); transition: opacity .36s ease-out .12s, transform .48s cubic-bezier(.22, 1, .36, 1) .12s; }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-quote--zh { transform: translateY(1.5rem); transition: opacity .62s ease-out .2s, transform .74s cubic-bezier(.16, 1, .3, 1) .2s; }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-quote--en { transition: opacity .95s ease-out .32s; }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-source { transition: opacity .45s ease-out .48s; }
+.literary-motion-ready [data-literary-reveal].is-visible { opacity: 1; transform: none; }
+.literary-motion-ready .literary-spread[data-literary-reveal].is-visible .literary-citation,
+.literary-motion-ready .literary-spread[data-literary-reveal].is-visible .literary-quote,
+.literary-motion-ready .literary-spread[data-literary-reveal].is-visible .literary-source { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .literary-running { grid-template-columns: 1fr auto; }
+  .literary-running span:nth-child(2) { display: none; }
+  .literary-masthead { grid-template-columns: 1fr; min-height: 40rem; }
+  .literary-kicker { margin-top: 0; }
+  .literary-deck { margin-left: 18vw; }
+  .literary-series { display: flex; overflow-x: auto; scroll-snap-type: x proximity; }
+  .literary-series a { flex: 0 0 10.5rem; scroll-snap-align: start; }
+  .literary-plate { grid-template-columns: 1fr; }
+  .literary-plate figcaption { max-width: 28rem; }
+  .literary-spread,
+  .literary-spread:nth-child(even) {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 2.5rem;
+  }
+  .literary-spread:nth-child(even) .literary-citation,
+  .literary-spread:nth-child(even) .literary-quote--zh,
+  .literary-spread:nth-child(even) .literary-quote--en,
+  .literary-spread:nth-child(even) .literary-source,
+  .literary-citation,
+  .literary-quote--zh,
+  .literary-quote--en,
+  .literary-source { grid-column: 1; grid-row: auto; }
+  .literary-citation { grid-template-columns: auto 1fr; align-items: start; }
+  .literary-quote--zh { max-width: 15ch; }
+  .literary-quote--en { max-width: 28rem; margin-left: clamp(2rem, 12vw, 7rem); }
+  .literary-source { display: grid; }
+  .literary-colophon { grid-template-columns: 1fr; }
+  .literary-colophon a { justify-self: start; }
+}
+
+@media (max-width: 560px) {
+  .literary-running { min-height: 3.5rem; font-size: .57rem; }
+  .literary-masthead { min-height: 32rem; padding-block: 5.5rem; }
+  .literary-masthead h2 b { font-size: clamp(5.6rem, 32vw, 9rem); }
+  .literary-deck { margin-left: 0; }
+  .literary-plate { padding-block: 3.5rem; }
+  .literary-spread { padding-block: 5rem; }
+  .literary-quote--zh { font-size: clamp(2.25rem, 11vw, 3.6rem); }
+  .literary-quote--en { margin-left: 12vw; font-size: 1.45rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .literary-motion-ready [data-literary-reveal],
+  .literary-motion-ready .literary-spread[data-literary-reveal] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .literary-series { scroll-behavior: auto; }
+}
