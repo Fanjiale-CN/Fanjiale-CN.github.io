@@ -188,7 +188,7 @@
 
 .literary-plate img {
   width: 100%;
-  height: auto;
+  height: auto !important;
   display: block;
   aspect-ratio: var(--lit-plate-ratio, 3 / 2);
   object-fit: cover;
