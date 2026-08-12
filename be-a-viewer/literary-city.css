@@ -11,6 +11,7 @@
   --lit-muted: #5d6e69;
   --lit-line: rgba(24, 35, 35, .28);
   --lit-accent: #a84533;
+  --lit-ease-out: cubic-bezier(.23, 1, .32, 1);
   position: relative;
   isolation: isolate;
   overflow: clip;
@@ -215,21 +216,27 @@
 .literary-spreads { padding-block: 0; }
 
 .literary-spread {
-  min-height: clamp(39rem, 66vw, 63rem);
+  min-height: clamp(36rem, 54vw, 52rem);
   display: grid;
-  grid-template-columns: minmax(9rem, .48fr) minmax(0, 1fr) minmax(0, 1fr);
-  grid-template-rows: 1fr auto;
-  gap: clamp(2rem, 5vw, 7rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto 1fr auto;
+  column-gap: clamp(2.5rem, 7vw, 8rem);
+  row-gap: clamp(2.5rem, 5vw, 5rem);
   align-items: center;
-  padding-block: clamp(5rem, 11vw, 12rem);
+  padding-block: clamp(4.5rem, 8vw, 8rem);
   border-bottom: 1px solid var(--lit-line);
 }
 
 .literary-citation {
+  grid-column: 1 / -1;
+  grid-row: 1;
   align-self: start;
   display: grid;
-  gap: 1rem;
-  padding-top: .45rem;
+  grid-template-columns: minmax(8rem, .45fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 5rem);
+  padding: .45rem 0 1.5rem;
+  border-bottom: 1px solid var(--lit-line);
 }
 
 .literary-citation > span {
@@ -249,28 +256,37 @@
 .literary-quote p { margin: 0; }
 
 .literary-quote--zh {
+  grid-column: 1;
+  grid-row: 2;
   align-self: center;
+  max-width: 16ch;
   font-family: var(--literary-han);
-  font-size: clamp(2.35rem, 5.5vw, 5.8rem);
+  font-size: clamp(2.35rem, 4.2vw, 5.1rem);
   font-weight: 600;
   letter-spacing: .015em;
-  line-height: 1.24;
+  line-height: 1.2;
+  writing-mode: horizontal-tb;
+  word-break: normal;
+  line-break: strict;
   text-wrap: pretty;
 }
 
 .literary-quote--en {
+  grid-column: 2;
+  grid-row: 2;
   align-self: center;
   max-width: 35rem;
   color: var(--lit-muted);
   font-family: var(--literary-latin);
-  font-size: clamp(1.45rem, 2.45vw, 2.7rem);
+  font-size: clamp(1.35rem, 2vw, 2.25rem);
   font-style: italic;
   line-height: 1.42;
   text-wrap: balance;
 }
 
 .literary-source {
-  grid-column: 2 / -1;
+  grid-column: 1 / -1;
+  grid-row: 3;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
@@ -287,11 +303,6 @@
 .literary-source a { color: inherit; text-underline-offset: .28em; }
 .literary-source a:hover,
 .literary-source a:focus-visible { color: var(--lit-accent); }
-
-.literary-spread:nth-child(even) .literary-citation { grid-column: 3; }
-.literary-spread:nth-child(even) .literary-quote--zh { grid-column: 1 / 2; grid-row: 1; }
-.literary-spread:nth-child(even) .literary-quote--en { grid-column: 2 / 3; grid-row: 1; }
-.literary-spread:nth-child(even) .literary-source { grid-column: 1 / 3; }
 
 .literary-colophon {
   display: grid;
@@ -329,16 +340,18 @@
   text-transform: uppercase;
 }
 
-.literary-motion-ready [data-literary-reveal] { opacity: 0; }
-.literary-motion-ready .literary-masthead[data-literary-reveal] { transform: translateY(1.25rem); transition: opacity .9s ease-out, transform .9s cubic-bezier(.16, 1, .3, 1); }
-.literary-motion-ready .literary-plate[data-literary-reveal] { transform: translateX(1.5rem); transition: opacity .75s ease-out .08s, transform 1.05s cubic-bezier(.16, 1, .3, 1); }
+.literary-motion-ready .literary-masthead[data-literary-reveal],
+.literary-motion-ready .literary-plate[data-literary-reveal] { opacity: 0; }
+.literary-motion-ready .literary-spread[data-literary-reveal] { opacity: 1; }
+.literary-motion-ready .literary-masthead[data-literary-reveal] { transform: translateY(.75rem); transition: opacity 360ms var(--lit-ease-out), transform 520ms var(--lit-ease-out); }
+.literary-motion-ready .literary-plate[data-literary-reveal] { transform: translateX(.75rem); transition: opacity 360ms var(--lit-ease-out) 40ms, transform 520ms var(--lit-ease-out) 40ms; }
 .literary-motion-ready .literary-spread[data-literary-reveal] .literary-citation,
 .literary-motion-ready .literary-spread[data-literary-reveal] .literary-quote,
 .literary-motion-ready .literary-spread[data-literary-reveal] .literary-source { opacity: 0; }
-.literary-motion-ready .literary-spread[data-literary-reveal] .literary-citation { transform: translateX(-1rem); transition: opacity .36s ease-out .12s, transform .48s cubic-bezier(.22, 1, .36, 1) .12s; }
-.literary-motion-ready .literary-spread[data-literary-reveal] .literary-quote--zh { transform: translateY(1.5rem); transition: opacity .62s ease-out .2s, transform .74s cubic-bezier(.16, 1, .3, 1) .2s; }
-.literary-motion-ready .literary-spread[data-literary-reveal] .literary-quote--en { transition: opacity .95s ease-out .32s; }
-.literary-motion-ready .literary-spread[data-literary-reveal] .literary-source { transition: opacity .45s ease-out .48s; }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-citation { transform: translateY(.5rem); transition: opacity 280ms var(--lit-ease-out), transform 420ms var(--lit-ease-out); }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-quote--zh { transform: translateY(.75rem); transition: opacity 320ms var(--lit-ease-out) 60ms, transform 480ms var(--lit-ease-out) 60ms; }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-quote--en { transform: translateY(.5rem); transition: opacity 320ms var(--lit-ease-out) 120ms, transform 460ms var(--lit-ease-out) 120ms; }
+.literary-motion-ready .literary-spread[data-literary-reveal] .literary-source { transform: translateY(.35rem); transition: opacity 280ms var(--lit-ease-out) 180ms, transform 380ms var(--lit-ease-out) 180ms; }
 .literary-motion-ready [data-literary-reveal].is-visible { opacity: 1; transform: none; }
 .literary-motion-ready .literary-spread[data-literary-reveal].is-visible .literary-citation,
 .literary-motion-ready .literary-spread[data-literary-reveal].is-visible .literary-quote,
@@ -354,17 +367,12 @@
   .literary-series a { flex: 0 0 10.5rem; scroll-snap-align: start; }
   .literary-plate { grid-template-columns: 1fr; }
   .literary-plate figcaption { max-width: 28rem; }
-  .literary-spread,
-  .literary-spread:nth-child(even) {
+  .literary-spread {
     min-height: 0;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     gap: 2.5rem;
   }
-  .literary-spread:nth-child(even) .literary-citation,
-  .literary-spread:nth-child(even) .literary-quote--zh,
-  .literary-spread:nth-child(even) .literary-quote--en,
-  .literary-spread:nth-child(even) .literary-source,
   .literary-citation,
   .literary-quote--zh,
   .literary-quote--en,

@@ -20,6 +20,16 @@
       });
     }, { rootMargin: "0px 0px -9%", threshold: .07 });
 
-    reveals.forEach((node) => observer.observe(node));
+    reveals.forEach((node) => {
+      const rect = node.getBoundingClientRect();
+      const isInitiallyVisible = rect.top < window.innerHeight * .92 && rect.bottom > 0;
+
+      if (isInitiallyVisible) {
+        node.classList.add("is-visible");
+        return;
+      }
+
+      observer.observe(node);
+    });
   });
 })();
