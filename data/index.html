@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2efe5">
-  <meta name="description" content="Twenty-five years of China's GDP, CPI, PPI and retail data, with 2020–2023 marked as the pandemic window.">
+  <meta name="description" content="Twenty-five complete years of China's GDP, inflation, household consumption and capital-formation data.">
   <meta property="og:title" content="Data — Galok">
-  <meta property="og:description" content="A running dataset behind the essays: GDP, CPI, PPI and consumption, 2000–present.">
+  <meta property="og:description" content="Four complete annual series behind the archive, 2000–2024.">
   <link rel="canonical" href="https://galok.me/data/">
   <title>Data — Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="stylesheet" href="/styles.css?v=data-hub-20260810">
-  <link rel="stylesheet" href="/data/data-hub.css?v=20260810">
+  <link rel="stylesheet" href="/styles.css?v=data-hub-20260812">
+  <link rel="stylesheet" href="/data/data-hub.css?v=20260812">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-2Y8N04VXYG');</script>
 </head>
-<body class="data-page">
+<body class="data-page plain-body">
   <nav class="site-nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="/"><img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span></a>
@@ -25,19 +25,44 @@
 
   <main class="data-page-main">
     <header class="data-hero">
-      <p class="data-kicker">DATA / GALOK</p>
-      <h1 class="data-title">Twenty-five years, one line at a time.</h1>
-      <p class="data-lead">GDP, CPI, PPI and retail consumption, 2000 to present, sourced from the National Bureau of Statistics. <b>2020–2023</b> is marked as the pandemic window across every chart.</p>
+      <div class="data-hero-copy">
+        <p class="data-kicker">DATA / CHINA / 2000—2024</p>
+        <h1 class="data-title">Twenty-five years,<br>one line at a time.</h1>
+        <p class="data-lead">GDP, consumer inflation, household consumption and capital formation. Every series covers the same complete annual window, so gaps no longer distort the picture.</p>
+      </div>
+      <div class="data-hero-index" aria-label="Dataset summary">
+        <span><b>25</b> years</span>
+        <span><b>04</b> series</span>
+        <span><b>100</b> observations</span>
+        <span><b>2026.07</b> source update</span>
+      </div>
     </header>
 
     <section class="data-hub" data-hub aria-label="Interactive economic data explorer"></section>
 
-    <p class="data-methodology">
-      Methodology: all series are annual, year-over-year percentage change, sourced from public National Bureau of Statistics releases. 2020–2023 is defined as the "pandemic window" and marked in red on every chart — an editorial framing, not an official period. GDP and CPI are fully verified; PPI and retail sales currently include only confirmed years, with gaps left open — run the included <code>scrape_nbs.py</code> against the NBS data API to fill in the full series. This dataset is background reference for the Galok 势·框·察 essays and is not investment advice.
-    </p>
+    <section class="data-methodology" aria-labelledby="methodology-title">
+      <p class="data-kicker">METHOD / PROVENANCE</p>
+      <div>
+        <h2 id="methodology-title">What is actually in the frame.</h2>
+        <p>All values are annual percentage changes from the World Bank’s World Development Indicators. GDP, household consumption and capital formation use constant-price national-accounts series. CPI comes from the IMF International Financial Statistics database through the same World Bank release.</p>
+        <p>The common window ends in 2024 because household-consumption data for 2025 is not yet available in this release. The red 2020–2023 band is Galok’s editorial marker for the disruption period; it is not an official statistical classification.</p>
+        <div class="data-source-actions">
+          <a href="https://data.worldbank.org/country/china" target="_blank" rel="noopener">Open source dataset <span aria-hidden="true">↗</span></a>
+          <button type="button" data-download-all>Download all data (.csv)</button>
+        </div>
+        <p class="data-source-note">Source refreshed 13 July 2026 · CC BY 4.0 · Values displayed to one decimal place; downloads retain three decimals.</p>
+      </div>
+    </section>
   </main>
 
-  <script src="/data/data.js?v=20260810"></script>
-  <script src="/data/data-hub.js?v=20260810"></script>
+  <footer class="data-footer">
+    <a class="brand" href="/" aria-label="Galok home"><img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span></a>
+    <p>Data remains revisable. The source date stays visible.</p>
+    <div><a href="mailto:galokview@outlook.com">Email</a><a href="https://x.com/galokview" target="_blank" rel="noopener">X / @galokview</a></div>
+  </footer>
+
+  <script src="/data/data.js?v=20260812"></script>
+  <script src="/data/data-hub.js?v=20260812"></script>
+  <script src="/script.js?v=data-hub-20260812"></script>
 </body>
 </html>

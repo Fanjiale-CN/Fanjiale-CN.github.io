@@ -1,225 +1,334 @@
 (() => {
   const DATA = window.GALOK_DATA;
-  const YEAR_START = 2000;
-  const YEAR_END = 2025;
-  const YEARS = Array.from({ length: YEAR_END - YEAR_START + 1 }, (_, i) => YEAR_START + i);
+  if (!DATA?.indicators?.length) return;
 
-  const svgNS = "http://www.w3.org/2000/svg";
-  const el = (tag, attrs = {}) => {
-    const node = document.createElementNS(svgNS, tag);
-    for (const k in attrs) node.setAttribute(k, attrs[k]);
+  const YEAR_START = DATA.range.start;
+  const YEAR_END = DATA.range.end;
+  const YEARS = Array.from({ length: YEAR_END - YEAR_START + 1 }, (_, index) => YEAR_START + index);
+  const SVG_NS = "http://www.w3.org/2000/svg";
+
+  const svgElement = (tag, attrs = {}) => {
+    const node = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
     return node;
   };
 
-  function catmullRomPath(points) {
-    // points: [{x,y}], returns a smooth SVG path "d" string
-    if (points.length < 2) return "";
-    let d = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 0; i < points.length - 1; i++) {
-      const p0 = points[i - 1] || points[i];
-      const p1 = points[i];
-      const p2 = points[i + 1];
-      const p3 = points[i + 2] || p2;
-      const c1x = p1.x + (p2.x - p0.x) / 6;
-      const c1y = p1.y + (p2.y - p0.y) / 6;
-      const c2x = p2.x - (p3.x - p1.x) / 6;
-      const c2y = p2.y - (p3.y - p1.y) / 6;
-      d += ` C ${c1x} ${c1y}, ${c2x} ${c2y}, ${p2.x} ${p2.y}`;
-    }
-    return d;
-  }
+  const formatValue = (value, digits = 1) => `${Number(value).toFixed(digits)}%`;
 
   function seriesColor(seriesKey) {
-    const map = { macro: "#9e2a2b", frame: "#2f5d7c", scene: "#c9a227" };
-    return map[seriesKey] || "#171717";
+    const colors = {
+      macro: "#b52d27",
+      frame: "#315f76",
+      scene: "#9b7624",
+      observe: "#4e6750"
+    };
+    return colors[seriesKey] || "#1c1a17";
+  }
+
+  function linePath(points) {
+    return points.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+  }
+
+  function profileIndicator(indicator) {
+    const entries = YEARS.map((year) => ({ year, value: indicator.values[year] }));
+    const known = entries.filter((entry) => Number.isFinite(entry.value));
+    const latest = known.at(-1);
+    const average = known.reduce((sum, entry) => sum + entry.value, 0) / known.length;
+    const high = known.reduce((best, entry) => entry.value > best.value ? entry : best, known[0]);
+    const low = known.reduce((best, entry) => entry.value < best.value ? entry : best, known[0]);
+    return { entries, known, latest, average, high, low };
+  }
+
+  function downloadCsv(indicators, filename) {
+    const headings = ["year", ...indicators.map((indicator) => indicator.indicatorCode)];
+    const rows = YEARS.map((year) => [
+      year,
+      ...indicators.map((indicator) => Number.isFinite(indicator.values[year]) ? indicator.values[year].toFixed(3) : "")
+    ]);
+    const notes = indicators.map((indicator) => `# ${indicator.indicatorCode}: ${indicator.nameEn}`).join("\n");
+    const csv = `${notes}\n# Source: ${DATA.source}; updated ${DATA.lastUpdated}; ${DATA.license}\n${[headings, ...rows].map((row) => row.join(",")).join("\n")}\n`;
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
   }
 
   class DataHub {
     constructor(mount) {
       this.mount = mount;
-      this.width = 880;
-      this.height = 380;
-      this.padding = { top: 24, right: 24, bottom: 36, left: 44 };
+      this.width = 1040;
+      this.height = 440;
+      this.padding = { top: 52, right: 28, bottom: 42, left: 58 };
       this.activeId = DATA.indicators[0].id;
+      this.selectedYear = YEAR_END;
       this.build();
       this.render();
-      window.addEventListener("resize", () => this.render());
     }
 
     build() {
       this.mount.innerHTML = `
-        <div class="data-hub-controls" role="tablist" aria-label="选择指标"></div>
-        <div class="data-hub-chart-wrap">
-          <svg class="data-hub-svg" viewBox="0 0 ${this.width} ${this.height}" preserveAspectRatio="none" role="img"></svg>
+        <header class="data-hub-header">
+          <div>
+            <p class="data-hub-overline">SELECT A SERIES</p>
+            <h2>Annual change / percent</h2>
+          </div>
+          <span>${DATA.range.label}</span>
+        </header>
+        <div class="data-hub-controls" role="tablist" aria-label="Economic indicators"></div>
+        <div class="data-hub-reading" aria-live="polite">
+          <div class="data-hub-reading-title"><span data-active-code></span><h3 data-active-name></h3><p data-active-note></p></div>
+          <dl class="data-hub-stat-grid">
+            <div><dt>Latest</dt><dd data-stat-latest></dd><small data-stat-latest-year></small></div>
+            <div><dt>Period average</dt><dd data-stat-average></dd><small>2000—2024</small></div>
+            <div><dt>High</dt><dd data-stat-high></dd><small data-stat-high-year></small></div>
+            <div><dt>Low</dt><dd data-stat-low></dd><small data-stat-low-year></small></div>
+          </dl>
+        </div>
+        <div class="data-hub-chart-wrap" tabindex="0" role="group" aria-label="Chart. Use left and right arrow keys to inspect years.">
+          <svg class="data-hub-svg" viewBox="0 0 ${this.width} ${this.height}" role="img"></svg>
           <div class="data-hub-tooltip" hidden></div>
         </div>
+        <div class="data-hub-year-readout" aria-live="polite"><span data-readout-year></span><strong data-readout-value></strong><span data-readout-context></span></div>
         <div class="data-hub-meta"></div>
         <details class="data-hub-table-wrap">
-          <summary>View year-by-year data</summary>
+          <summary>View the complete year-by-year series</summary>
           <div class="data-hub-table"></div>
         </details>
       `;
+
       this.controls = this.mount.querySelector(".data-hub-controls");
       this.svg = this.mount.querySelector(".data-hub-svg");
+      this.chartWrap = this.mount.querySelector(".data-hub-chart-wrap");
       this.tooltip = this.mount.querySelector(".data-hub-tooltip");
       this.metaEl = this.mount.querySelector(".data-hub-meta");
       this.tableWrap = this.mount.querySelector(".data-hub-table");
 
-      DATA.indicators.forEach((ind) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "data-hub-pill";
-        btn.dataset.id = ind.id;
-        btn.setAttribute("role", "tab");
-        btn.style.setProperty("--dot", seriesColor(ind.series));
-        btn.innerHTML = `<span class="data-hub-pill-dot"></span>${ind.name}`;
-        btn.addEventListener("click", () => {
-          this.activeId = ind.id;
-          this.render();
-        });
-        this.controls.appendChild(btn);
+      DATA.indicators.forEach((indicator, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "data-hub-tab";
+        button.dataset.id = indicator.id;
+        button.setAttribute("role", "tab");
+        button.setAttribute("aria-controls", "data-series-panel");
+        button.style.setProperty("--series-color", seriesColor(indicator.series));
+        button.innerHTML = `<span>0${index + 1}</span><b>${indicator.name}</b>`;
+        button.addEventListener("click", () => this.selectIndicator(indicator.id));
+        button.addEventListener("keydown", (event) => this.handleTabKey(event, index));
+        this.controls.appendChild(button);
       });
+
+      this.chartWrap.addEventListener("keydown", (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === "Home") this.selectedYear = YEAR_START;
+        else if (event.key === "End") this.selectedYear = YEAR_END;
+        else this.selectedYear = Math.max(YEAR_START, Math.min(YEAR_END, this.selectedYear + (event.key === "ArrowRight" ? 1 : -1)));
+        this.updateSelection(true);
+      });
+
+      this.svg.addEventListener("pointermove", (event) => {
+        const rect = this.svg.getBoundingClientRect();
+        const { left, right } = this.padding;
+        const plotWidth = this.width - left - right;
+        const x = ((event.clientX - rect.left) / rect.width) * this.width;
+        const ratio = Math.max(0, Math.min(1, (x - left) / plotWidth));
+        this.selectedYear = Math.round(YEAR_START + ratio * (YEAR_END - YEAR_START));
+        this.updateSelection(event.pointerType !== "touch");
+      });
+      this.svg.addEventListener("pointerleave", () => this.hideTooltip());
+      this.svg.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "touch") this.updateSelection(false);
+      });
+
+      this.tableWrap.addEventListener("click", (event) => {
+        if (event.target.closest("[data-download-current]")) {
+          const indicator = this.currentIndicator();
+          downloadCsv([indicator], `galok-${indicator.id}-${YEAR_START}-${YEAR_END}.csv`);
+        }
+      });
+    }
+
+    handleTabKey(event, index) {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      let next = index;
+      if (event.key === "Home") next = 0;
+      else if (event.key === "End") next = DATA.indicators.length - 1;
+      else next = (index + (event.key === "ArrowRight" ? 1 : -1) + DATA.indicators.length) % DATA.indicators.length;
+      this.selectIndicator(DATA.indicators[next].id);
+      this.controls.children[next]?.focus();
+    }
+
+    selectIndicator(id) {
+      this.activeId = id;
+      this.selectedYear = YEAR_END;
+      this.render();
     }
 
     currentIndicator() {
-      return DATA.indicators.find((i) => i.id === this.activeId);
+      return DATA.indicators.find((indicator) => indicator.id === this.activeId);
     }
 
     render() {
-      const ind = this.currentIndicator();
-      const color = seriesColor(ind.series);
+      const indicator = this.currentIndicator();
+      const profile = profileIndicator(indicator);
+      const color = seriesColor(indicator.series);
 
-      // update pills
-      [...this.controls.children].forEach((btn) => {
-        btn.classList.toggle("is-active", btn.dataset.id === ind.id);
+      [...this.controls.children].forEach((button) => {
+        const active = button.dataset.id === indicator.id;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-selected", String(active));
+        button.tabIndex = active ? 0 : -1;
       });
 
-      // clear svg
-      while (this.svg.firstChild) this.svg.removeChild(this.svg.firstChild);
+      this.mount.querySelector("[data-active-code]").textContent = indicator.indicatorCode;
+      this.mount.querySelector("[data-active-name]").textContent = indicator.nameEn;
+      this.mount.querySelector("[data-active-note]").textContent = indicator.note;
+      this.mount.querySelector("[data-stat-latest]").textContent = formatValue(profile.latest.value);
+      this.mount.querySelector("[data-stat-latest-year]").textContent = profile.latest.year;
+      this.mount.querySelector("[data-stat-average]").textContent = formatValue(profile.average);
+      this.mount.querySelector("[data-stat-high]").textContent = formatValue(profile.high.value);
+      this.mount.querySelector("[data-stat-high-year]").textContent = profile.high.year;
+      this.mount.querySelector("[data-stat-low]").textContent = formatValue(profile.low.value);
+      this.mount.querySelector("[data-stat-low-year]").textContent = profile.low.year;
+
+      this.svg.replaceChildren();
+      const title = svgElement("title");
+      title.textContent = `${indicator.nameEn}, ${YEAR_START} to ${YEAR_END}`;
+      const description = svgElement("desc");
+      description.textContent = `${profile.known.length} annual percentage-change observations. Latest value ${formatValue(profile.latest.value)} in ${profile.latest.year}.`;
+      this.svg.append(title, description);
 
       const { top, right, bottom, left } = this.padding;
-      const plotW = this.width - left - right;
-      const plotH = this.height - top - bottom;
+      const plotWidth = this.width - left - right;
+      const plotHeight = this.height - top - bottom;
+      const values = profile.known.map((entry) => entry.value);
+      let minimum = Math.min(...values, 0);
+      let maximum = Math.max(...values, 0);
+      const rawSpan = maximum - minimum || 1;
+      minimum -= rawSpan * 0.12;
+      maximum += rawSpan * 0.12;
 
-      const entries = YEARS.map((y) => ({ year: y, value: ind.values[y] }));
-      const known = entries.filter((e) => e.value !== undefined);
-      const values = known.map((e) => e.value);
-      let min = Math.min(...values, 0);
-      let max = Math.max(...values, 0);
-      const span = max - min || 1;
-      min -= span * 0.12;
-      max += span * 0.12;
+      this.xFor = (year) => left + ((year - YEAR_START) / (YEAR_END - YEAR_START)) * plotWidth;
+      this.yFor = (value) => top + plotHeight - ((value - minimum) / (maximum - minimum)) * plotHeight;
 
-      const xFor = (year) => left + ((year - YEAR_START) / (YEAR_END - YEAR_START)) * plotW;
-      const yFor = (value) => top + plotH - ((value - min) / (max - min)) * plotH;
-
-      // pandemic band
-      const bandX1 = xFor(DATA.pandemicRange.start) - (plotW / (YEARS.length - 1)) / 2;
-      const bandX2 = xFor(DATA.pandemicRange.end) + (plotW / (YEARS.length - 1)) / 2;
-      this.svg.appendChild(el("rect", {
-        x: bandX1, y: top, width: bandX2 - bandX1, height: plotH,
-        fill: "#9e2a2b", "fill-opacity": "0.08"
+      const bandStart = this.xFor(DATA.disruptionRange.start) - plotWidth / (YEARS.length - 1) / 2;
+      const bandEnd = this.xFor(DATA.disruptionRange.end) + plotWidth / (YEARS.length - 1) / 2;
+      this.svg.appendChild(svgElement("rect", {
+        x: bandStart,
+        y: top,
+        width: bandEnd - bandStart,
+        height: plotHeight,
+        class: "data-hub-band"
       }));
-      const bandLabel = el("text", {
-        x: (bandX1 + bandX2) / 2, y: top + 14, "text-anchor": "middle",
+
+      const bandLabel = svgElement("text", {
+        x: (bandStart + bandEnd) / 2,
+        y: top - 18,
+        "text-anchor": "middle",
         class: "data-hub-band-label"
       });
-      bandLabel.textContent = DATA.pandemicRange.label;
+      bandLabel.textContent = DATA.disruptionRange.label;
       this.svg.appendChild(bandLabel);
 
-      // zero line if in range
-      if (min < 0 && max > 0) {
-        this.svg.appendChild(el("line", {
-          x1: left, x2: left + plotW, y1: yFor(0), y2: yFor(0),
-          class: "data-hub-zero-line"
-        }));
+      for (let index = 0; index < 5; index += 1) {
+        const value = minimum + ((maximum - minimum) * index) / 4;
+        const y = this.yFor(value);
+        this.svg.appendChild(svgElement("line", { x1: left, x2: left + plotWidth, y1: y, y2: y, class: "data-hub-grid-line" }));
+        const label = svgElement("text", { x: left - 12, y: y + 4, "text-anchor": "end", class: "data-hub-axis-label" });
+        label.textContent = formatValue(value);
+        this.svg.appendChild(label);
       }
 
-      // x axis ticks every 5 years
-      YEARS.filter((y) => y % 5 === 0).forEach((y) => {
-        const x = xFor(y);
-        this.svg.appendChild(el("line", { x1: x, x2: x, y1: top + plotH, y2: top + plotH + 5, class: "data-hub-tick" }));
-        const label = el("text", { x, y: top + plotH + 20, "text-anchor": "middle", class: "data-hub-axis-label" });
-        label.textContent = y;
+      YEARS.filter((year) => year % 5 === 0 || year === YEAR_END).forEach((year) => {
+        const x = this.xFor(year);
+        const label = svgElement("text", { x, y: top + plotHeight + 28, "text-anchor": "middle", class: "data-hub-axis-label" });
+        label.textContent = year;
         this.svg.appendChild(label);
       });
 
-      // y axis labels (min/mid/max)
-      [min + span * 0.12, (min + max) / 2, max - span * 0.12].forEach((v) => {
-        const y = yFor(v);
-        const label = el("text", { x: left - 8, y: y + 4, "text-anchor": "end", class: "data-hub-axis-label" });
-        label.textContent = `${v.toFixed(1)}%`;
-        this.svg.appendChild(label);
+      const points = profile.known.map((entry) => ({ ...entry, x: this.xFor(entry.year), y: this.yFor(entry.value) }));
+      this.svg.appendChild(svgElement("path", {
+        d: linePath(points),
+        fill: "none",
+        stroke: color,
+        "stroke-width": "3",
+        class: "data-hub-line"
+      }));
+      points.forEach((point) => {
+        this.svg.appendChild(svgElement("circle", {
+          cx: point.x,
+          cy: point.y,
+          r: "3.5",
+          fill: "#f1eee7",
+          stroke: color,
+          "stroke-width": "2",
+          class: "data-hub-dot"
+        }));
       });
 
-      // build path only across contiguous known points, breaking gaps
-      const segments = [];
-      let current = [];
-      entries.forEach((e) => {
-        if (e.value !== undefined) {
-          current.push({ x: xFor(e.year), y: yFor(e.value), year: e.year, value: e.value });
-        } else if (current.length) {
-          segments.push(current);
-          current = [];
+      this.selectionLine = svgElement("line", { class: "data-hub-selection-line" });
+      this.selectionDot = svgElement("circle", { r: "6", fill: color, class: "data-hub-selection-dot" });
+      this.svg.append(this.selectionLine, this.selectionDot);
+
+      this.metaEl.innerHTML = `
+        <div><span>Source</span><a href="${indicator.sourceUrl}" target="_blank" rel="noopener">${indicator.source} ↗</a></div>
+        <div><span>Indicator</span><b>${indicator.indicatorCode}</b></div>
+        <div><span>Coverage</span><b>${profile.known.length} / ${YEARS.length} years · complete</b></div>
+        <p>${indicator.sourceDetail}</p>
+      `;
+
+      this.tableWrap.innerHTML = `
+        <div class="data-hub-table-actions"><p>${indicator.nameEn} · values retain three decimal places</p><button type="button" data-download-current>Download this series (.csv)</button></div>
+        <table id="data-series-panel">
+          <thead><tr><th scope="col">Year</th><th scope="col">${indicator.name} (${indicator.unit})</th><th scope="col">Window</th></tr></thead>
+          <tbody>${profile.entries.map((entry) => `
+            <tr class="${entry.year >= DATA.disruptionRange.start && entry.year <= DATA.disruptionRange.end ? "is-disruption" : ""}">
+              <th scope="row">${entry.year}</th><td>${entry.value.toFixed(3)}</td><td>${entry.year >= DATA.disruptionRange.start && entry.year <= DATA.disruptionRange.end ? "Disruption" : "—"}</td>
+            </tr>`).join("")}</tbody>
+        </table>
+      `;
+
+      this.updateSelection(false);
+      window.requestAnimationFrame(() => {
+        if (window.matchMedia("(max-width: 640px)").matches) {
+          this.chartWrap.scrollLeft = this.chartWrap.scrollWidth - this.chartWrap.clientWidth;
         }
       });
-      if (current.length) segments.push(current);
-
-      segments.forEach((seg) => {
-        const path = el("path", {
-          d: catmullRomPath(seg), fill: "none", stroke: color,
-          "stroke-width": "2", class: "data-hub-line"
-        });
-        this.svg.appendChild(path);
-        seg.forEach((p) => {
-          this.svg.appendChild(el("circle", {
-            cx: p.x, cy: p.y, r: "3.2", fill: "#f7f4ef",
-            stroke: color, "stroke-width": "1.6",
-            class: "data-hub-dot", "data-year": p.year, "data-value": p.value
-          }));
-        });
-      });
-
-      // invisible hover targets (wider hit area per year)
-      const stepW = plotW / (YEARS.length - 1);
-      entries.forEach((e) => {
-        const hit = el("rect", {
-          x: xFor(e.year) - stepW / 2, y: top, width: stepW, height: plotH,
-          fill: "transparent", "data-year": e.year
-        });
-        hit.addEventListener("mouseenter", () => this.showTooltip(e, xFor(e.year), yFor(e.value ?? min)));
-        hit.addEventListener("mouseleave", () => this.hideTooltip());
-        this.svg.appendChild(hit);
-      });
-
-      // meta / source line
-      this.metaEl.innerHTML = `<span>${ind.nameEn}</span><span class="data-hub-meta-dot">·</span><span>${ind.note}</span>`;
-
-      // table
-      this.tableWrap.innerHTML = `
-        <table>
-          <thead><tr><th>Year</th><th>${ind.name} (${ind.unit})</th></tr></thead>
-          <tbody>
-            ${entries.map((e) => `
-              <tr class="${e.year >= DATA.pandemicRange.start && e.year <= DATA.pandemicRange.end ? "is-pandemic" : ""}">
-                <td>${e.year}</td><td>${e.value === undefined ? "—" : e.value.toFixed(1)}</td>
-              </tr>`).join("")}
-          </tbody>
-        </table>
-        <p class="data-hub-source">Source: <a href="${ind.sourceUrl}" target="_blank" rel="noopener">${ind.source}</a></p>
-      `;
     }
 
-    showTooltip(entry, x, y) {
-      if (entry.value === undefined) { this.hideTooltip(); return; }
+    updateSelection(showTooltip) {
+      const indicator = this.currentIndicator();
+      const value = indicator.values[this.selectedYear];
+      if (!Number.isFinite(value)) return;
+      const x = this.xFor(this.selectedYear);
+      const y = this.yFor(value);
+      const chartBottom = this.height - this.padding.bottom;
+      this.selectionLine.setAttribute("x1", x);
+      this.selectionLine.setAttribute("x2", x);
+      this.selectionLine.setAttribute("y1", this.padding.top);
+      this.selectionLine.setAttribute("y2", chartBottom);
+      this.selectionDot.setAttribute("cx", x);
+      this.selectionDot.setAttribute("cy", y);
+
+      this.mount.querySelector("[data-readout-year]").textContent = this.selectedYear;
+      this.mount.querySelector("[data-readout-value]").textContent = formatValue(value);
+      this.mount.querySelector("[data-readout-context]").textContent = `${indicator.name} · annual change`;
+
+      if (showTooltip) this.showTooltip(this.selectedYear, value, x, y);
+      else this.hideTooltip();
+    }
+
+    showTooltip(year, value, x, y) {
       const rect = this.svg.getBoundingClientRect();
-      const scaleX = rect.width / this.width;
-      const scaleY = rect.height / this.height;
       this.tooltip.hidden = false;
-      this.tooltip.style.left = `${x * scaleX}px`;
-      this.tooltip.style.top = `${y * scaleY}px`;
-      const pandemic = entry.year >= DATA.pandemicRange.start && entry.year <= DATA.pandemicRange.end;
-      this.tooltip.innerHTML = `<b>${entry.year}</b><span>${entry.value.toFixed(1)}%</span>${pandemic ? '<em>Pandemic window</em>' : ""}`;
+      this.tooltip.style.left = `${this.svg.offsetLeft + (x / this.width) * rect.width}px`;
+      this.tooltip.style.top = `${this.svg.offsetTop + (y / this.height) * rect.height}px`;
+      this.tooltip.innerHTML = `<b>${year}</b><span>${formatValue(value)}</span>`;
     }
 
     hideTooltip() {
@@ -230,5 +339,8 @@
   document.addEventListener("DOMContentLoaded", () => {
     const mount = document.querySelector("[data-hub]");
     if (mount) new DataHub(mount);
+    document.querySelector("[data-download-all]")?.addEventListener("click", () => {
+      downloadCsv(DATA.indicators, `galok-china-data-${YEAR_START}-${YEAR_END}.csv`);
+    });
   });
 })();
