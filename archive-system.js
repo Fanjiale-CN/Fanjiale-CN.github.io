@@ -99,6 +99,7 @@
       { type: "City", title: "Shanghai", description: "River, vertical skyline, remembered streets and the city after dark.", href: "/be-a-viewer/shanghai/", tags: "city coast night photography video" },
       { type: "City", title: "Xi’an", description: "Empire, the Terracotta Army, the city wall and the modern city beyond.", href: "/be-a-viewer/xian/", tags: "city north old-city night photography video" },
       { type: "City", title: "Xiamen", description: "Sea light, Minnan rooflines, island streets and the movement of the tide.", href: "/be-a-viewer/xiamen/", tags: "city coast old-city photography video" },
+      { type: "City", title: "Hangzhou", description: "West Lake, green hills and a city held behind the waterline.", href: "/be-a-viewer/hangzhou/", tags: "city east old-city lake water video field-note" },
       { type: "Project", title: "Galok editorial website", description: "A modular field notebook joining essays, city stories and visual archives.", href: "/works/#galok-system", tags: "project works web design" },
       { type: "Project", title: "Be a Viewer", description: "Four city stories built from moving image, photography and close observation.", href: "/works/#be-a-viewer-work", tags: "project works city video" },
       { type: "Project", title: "City Postcards", description: "Editorial editions that turn the city archive into a personal object.", href: "/postcards/", tags: "project works postcards photography" },

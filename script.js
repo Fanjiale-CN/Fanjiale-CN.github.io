@@ -1113,7 +1113,8 @@
       ["beijing-page-body", { current: "BEIJING", next: "SHANGHAI", href: "/be-a-viewer/shanghai/" }],
       ["shanghai-page-body", { current: "SHANGHAI", next: "XI’AN", href: "/be-a-viewer/xian/" }],
       ["xian-page-body", { current: "XI’AN", next: "XIAMEN", href: "/be-a-viewer/xiamen/" }],
-      ["xiamen-page-body", { current: "XIAMEN", next: "BEIJING", href: "/be-a-viewer/beijing/" }]
+      ["xiamen-page-body", { current: "XIAMEN", next: "HANGZHOU", href: "/be-a-viewer/hangzhou/" }],
+      ["hangzhou-page-body", { current: "HANGZHOU", next: "BEIJING", href: "/be-a-viewer/beijing/" }]
     ];
     const match = cityByBody.find(([className]) => body.classList.contains(className));
     if (!match || document.querySelector(".city-collection-rail")) return;

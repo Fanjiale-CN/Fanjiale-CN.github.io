@@ -183,7 +183,8 @@
     dali: { index: "04 / SOUTHWEST CHINA", name: "DALI", description: "Mountains, water and a slower rhythm.", status: "COMING SOON" },
     shenzhen: { index: "05 / SOUTH CHINA", name: "SHENZHEN", description: "A city built at the speed of possibility.", status: "COMING SOON" },
     xiamen: { index: "06 / SOUTHEAST CHINA", name: "XIAMEN", description: "Sea light, Minnan rooflines and a city moving with the tide.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xiamen/" },
-    tibet: { index: "07 / WEST CHINA", name: "TIBET", description: "Altitude, belief and a landscape beyond scale.", status: "COMING SOON" }
+    tibet: { index: "07 / WEST CHINA", name: "TIBET", description: "Altitude, belief and a landscape beyond scale.", status: "COMING SOON" },
+    hangzhou: { index: "08 / EAST CHINA", name: "HANGZHOU", description: "Water, hills and a city held behind the lake.", status: "AVAILABLE · ENTER THE FIELD NOTE ↗", href: "/be-a-viewer/hangzhou/" }
   };
 
   const selector = document.querySelector("[data-city-selector]");
