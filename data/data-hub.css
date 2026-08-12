@@ -42,7 +42,7 @@
 
 .data-cover {
   display: grid;
-  grid-template-rows: minmax(0, 1.05fr) minmax(0, .95fr);
+  grid-template-rows: minmax(0, 1.08fr) minmax(0, .92fr);
   width: min(100%, 680px, calc((100svh - 132px) * .75));
   aspect-ratio: 3 / 4;
   margin: 44px auto clamp(96px, 10vw, 150px);
@@ -57,20 +57,20 @@
   min-width: 0;
   flex-direction: column;
   justify-content: flex-start;
-  padding: clamp(34px, 5vw, 64px);
+  padding: clamp(28px, 3vw, 42px);
 }
 
 .data-cover .data-title {
-  margin-block: clamp(28px, 4vw, 48px) 22px;
-  font-size: clamp(3.2rem, min(7vw, 9svh), 6.2rem);
-  line-height: .88;
+  margin-block: clamp(20px, 2.5vw, 32px) 16px;
+  font-size: clamp(2.75rem, min(5vw, 6svh), 4.6rem);
+  line-height: .9;
 }
 
 .data-cover-meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  margin: auto 0 0;
+  margin: clamp(18px, 2vw, 28px) 0 0;
 }
 
 .data-cover-meta div {
@@ -103,23 +103,23 @@
   flex-direction: column;
   justify-content: flex-end;
   margin: 0;
-  padding: clamp(26px, 4vw, 52px) clamp(34px, 5vw, 64px);
+  padding: clamp(18px, 2.2vw, 28px) clamp(28px, 3vw, 42px);
   border-top: 1px solid var(--data-ink);
   background: var(--data-paper);
 }
 
 .data-cover-figure figcaption {
   max-width: 340px;
-  margin-bottom: 28px;
+  margin-bottom: 16px;
   font-family: Georgia, serif;
-  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-size: clamp(1.05rem, 1.5vw, 1.45rem);
   line-height: 1.18;
 }
 
 .data-cover-axis {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  margin-bottom: 18px;
+  margin-bottom: 8px;
   color: var(--data-muted);
   font-size: .6rem;
   font-weight: 760;
@@ -136,7 +136,7 @@
   grid-template-columns: 1fr auto;
   gap: 3px 16px;
   align-items: end;
-  padding: 13px 0 12px;
+  padding: 9px 0 8px;
   border-top: 1px solid var(--data-rule);
 }
 
@@ -144,8 +144,8 @@
   content: "";
   position: absolute;
   left: 66.666%;
-  top: 15px;
-  bottom: 15px;
+  top: 9px;
+  bottom: 9px;
   width: 1px;
   background: var(--data-ink);
   opacity: .35;
@@ -161,7 +161,7 @@
 .data-cover-track i {
   position: absolute;
   left: var(--point);
-  bottom: 15px;
+  bottom: 9px;
   width: 10px;
   height: 10px;
   border: 2px solid var(--data-paper-light);
@@ -195,7 +195,7 @@
 
 .data-cover-figure > p {
   max-width: 430px;
-  margin: 32px 0 0;
+  margin: 14px 0 0;
   color: var(--data-muted);
   font-family: Georgia, serif;
   font-size: .76rem;
