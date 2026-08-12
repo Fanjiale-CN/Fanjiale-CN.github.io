@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #0c1719; font-family: "Helvetica Neue", Arial, sans-serif; }
+    #root, .scene { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; }
+    .scene { display: grid; grid-template-columns: 420px 1fr; background: #0c1719; }
+    .scene:not(:first-child) { opacity: 0; }
+    .rail { padding: 70px 56px 60px; display: flex; flex-direction: column; color: #0b1415; background: #ecece6; }
+    .rail p { margin: 0; color: #e0524d; font-size: 20px; font-weight: 760; letter-spacing: .17em; }
+    .rail span { display: block; margin: 64px 0 24px; font-size: 132px; font-weight: 450; line-height: .8; letter-spacing: -.07em; }
+    .rail h2 { margin: 0; font-size: 50px; font-weight: 520; line-height: .9; letter-spacing: -.055em; }
+    .rail b { margin-top: auto; font-size: 18px; line-height: 1.55; letter-spacing: .14em; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; background: #0c1719; }
+    .grid img { width: 100%; height: 100%; display: block; object-fit: cover; }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="hangzhou-field-reel" data-width="1920" data-height="1080" data-start="0" data-duration="15.4">
+    <section class="scene" id="scene1"><div class="rail"><p>01 / WATER</p><span>水</span><h2>THE LAKE<br>SETS PACE.</h2><b>HANGZHOU / FIELD NOTE 08<br>30.2741° N</b></div><div class="grid"><img src="../../assets/be-a-viewer/hangzhou/gallery/03-lake-pavilion-mist.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/09-pagoda-shore.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/18-lake-boat.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/19-mountain-afterglow.webp" alt=""></div></section>
+    <section class="scene" id="scene2"><div class="rail"><p>02 / RAIN</p><span>雨</span><h2>WEATHER<br>EDITS.</h2><b>GLASS / FIGURE / STREET<br>NO SOUND</b></div><div class="grid"><img src="../../assets/be-a-viewer/hangzhou/gallery/06-rain-figures.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/05-rain-taxi.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/07-lakeside-evening.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/08-stone-water-markers.webp" alt=""></div></section>
+    <section class="scene" id="scene3"><div class="rail"><p>03 / OLD CITY</p><span>巷</span><h2>WALKING<br>SPEED.</h2><b>WOOD / GATE / THRESHOLD<br>FIELD DISTANCE 03</b></div><div class="grid"><img src="../../assets/be-a-viewer/hangzhou/gallery/12-old-neighbourhood.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/16-old-street.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/17-temple-gate.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/04-vertical-city-window.webp" alt=""></div></section>
+    <section class="scene" id="scene4"><div class="rail"><p>04 / NEW CITY</p><span>江</span><h2>THE RIVER<br>GLOWS.</h2><b>QIANJIANG / GLASS / TRANSIT<br>FIELD DISTANCE 04</b></div><div class="grid"><img src="../../assets/be-a-viewer/hangzhou/gallery/15-qianjiang-dusk.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/14-qianjiang-night.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/11-metro-escalator.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/20-glass-city.webp" alt=""></div></section>
+    <section class="scene" id="scene5"><div class="rail"><p>05 / NIGHT</p><span>夜</span><h2>THE CITY<br>WRITES BACK.</h2><b>我爱杭州<br>THE NOTE STAYS OPEN.</b></div><div class="grid"><img src="../../assets/be-a-viewer/hangzhou/gallery/01-night-kiosk.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/10-night-pavilion.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/02-love-hangzhou.webp" alt=""><img src="../../assets/be-a-viewer/hangzhou/gallery/13-lake-horizon.webp" alt=""></div></section>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    ["#scene1", "#scene2", "#scene3", "#scene4", "#scene5"].forEach((selector, index) => {
+      const start = index * 3;
+      if (index > 0) tl.fromTo(selector, { opacity: 0 }, { opacity: 1, duration: .45, ease: "power2.inOut" }, start);
+      tl.from(`${selector} .grid img`, { scale: 1.04, x: index % 2 ? 18 : -18, duration: 3.4, stagger: .03, ease: "power1.out" }, start);
+      tl.from(`${selector} .rail > *`, { y: 24, opacity: 0, duration: .62, stagger: .08, ease: "power3.out" }, start + .12);
+    });
+    window.__timelines["hangzhou-field-reel"] = tl;
+  </script>
+</body>
+</html>
