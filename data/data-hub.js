@@ -78,7 +78,8 @@
           </div>
           <span>${DATA.range.label}</span>
         </header>
-        <div class="data-hub-controls" role="tablist" aria-label="Economic indicators"></div>
+        <div class="data-hub-controls" aria-label="Choose an economic indicator"></div>
+        <div class="data-hub-panel" data-series-panel>
         <div class="data-hub-reading" aria-live="polite">
           <div class="data-hub-reading-title"><span data-active-code></span><h3 data-active-name></h3><p data-active-note></p></div>
           <dl class="data-hub-stat-grid">
@@ -97,7 +98,7 @@
         <details class="data-hub-table-wrap">
           <summary>View the complete year-by-year series</summary>
           <div class="data-hub-table"></div>
-        </details>
+        </details></div>
       `;
 
       this.controls = this.mount.querySelector(".data-hub-controls");
@@ -106,14 +107,15 @@
       this.tooltip = this.mount.querySelector(".data-hub-tooltip");
       this.metaEl = this.mount.querySelector(".data-hub-meta");
       this.tableWrap = this.mount.querySelector(".data-hub-table");
+      this.tooltipShowFrame = 0;
+      this.tooltipHideTimer = 0;
 
       DATA.indicators.forEach((indicator, index) => {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "data-hub-tab";
         button.dataset.id = indicator.id;
-        button.setAttribute("role", "tab");
-        button.setAttribute("aria-controls", "data-series-panel");
+        button.setAttribute("aria-pressed", "false");
         button.style.setProperty("--series-color", seriesColor(indicator.series));
         button.innerHTML = `<span>0${index + 1}</span><b>${indicator.name}</b>`;
         button.addEventListener("click", () => this.selectIndicator(indicator.id));
@@ -181,7 +183,7 @@
       [...this.controls.children].forEach((button) => {
         const active = button.dataset.id === indicator.id;
         button.classList.toggle("is-active", active);
-        button.setAttribute("aria-selected", String(active));
+        button.setAttribute("aria-pressed", String(active));
         button.tabIndex = active ? 0 : -1;
       });
 
@@ -284,7 +286,7 @@
 
       this.tableWrap.innerHTML = `
         <div class="data-hub-table-actions"><p>${indicator.nameEn} · values retain three decimal places</p><button type="button" data-download-current>Download this series (.csv)</button></div>
-        <table id="data-series-panel">
+        <table>
           <thead><tr><th scope="col">Year</th><th scope="col">${indicator.name} (${indicator.unit})</th><th scope="col">Window</th></tr></thead>
           <tbody>${profile.entries.map((entry) => `
             <tr class="${entry.year >= DATA.disruptionRange.start && entry.year <= DATA.disruptionRange.end ? "is-disruption" : ""}">
@@ -325,14 +327,32 @@
 
     showTooltip(year, value, x, y) {
       const rect = this.svg.getBoundingClientRect();
-      this.tooltip.hidden = false;
       this.tooltip.style.left = `${this.svg.offsetLeft + (x / this.width) * rect.width}px`;
       this.tooltip.style.top = `${this.svg.offsetTop + (y / this.height) * rect.height}px`;
       this.tooltip.innerHTML = `<b>${year}</b><span>${formatValue(value)}</span>`;
+      window.clearTimeout(this.tooltipHideTimer);
+      this.tooltipHideTimer = 0;
+      if (this.tooltip.hidden) {
+        this.tooltip.hidden = false;
+        this.tooltipShowFrame = window.requestAnimationFrame(() => {
+          this.tooltip.classList.add("is-visible");
+          this.tooltipShowFrame = 0;
+        });
+      } else if (!this.tooltipShowFrame) {
+        this.tooltip.classList.add("is-visible");
+      }
     }
 
     hideTooltip() {
-      this.tooltip.hidden = true;
+      if (this.tooltip.hidden) return;
+      window.cancelAnimationFrame(this.tooltipShowFrame);
+      this.tooltipShowFrame = 0;
+      this.tooltip.classList.remove("is-visible");
+      window.clearTimeout(this.tooltipHideTimer);
+      this.tooltipHideTimer = window.setTimeout(() => {
+        if (!this.tooltip.classList.contains("is-visible")) this.tooltip.hidden = true;
+        this.tooltipHideTimer = 0;
+      }, 160);
     }
   }
 
@@ -342,5 +362,80 @@
     document.querySelector("[data-download-all]")?.addEventListener("click", () => {
       downloadCsv(DATA.indicators, `galok-china-data-${YEAR_START}-${YEAR_END}.csv`);
     });
+
+    const articleNav = document.querySelector(".data-article-nav");
+    const navLinks = [...document.querySelectorAll(".data-article-nav a[href^='#']")];
+    const sections = [...document.querySelectorAll("[data-section]")];
+    const progress = document.querySelector("[data-reading-progress]");
+    if (articleNav && navLinks.length && sections.length) {
+      const updateReadingState = () => {
+        const marker = Math.min(window.innerHeight * 0.38, 340);
+        let current = sections[0].id;
+        sections.forEach((section) => {
+          if (section.getBoundingClientRect().top <= marker) current = section.id;
+        });
+        navLinks.forEach((link) => {
+          const active = link.getAttribute("href") === `#${current}`;
+          link.classList.toggle("is-active", active);
+          if (active) {
+            link.setAttribute("aria-current", "location");
+            if (articleNav.scrollWidth > articleNav.clientWidth) {
+              const linkStart = link.offsetLeft;
+              const linkEnd = linkStart + link.offsetWidth;
+              const viewStart = articleNav.scrollLeft;
+              const viewEnd = viewStart + articleNav.clientWidth;
+              if (linkStart < viewStart || linkEnd > viewEnd) {
+                articleNav.scrollTo({ left: Math.max(0, linkStart - articleNav.clientWidth / 2 + link.offsetWidth / 2), behavior: "auto" });
+              }
+            }
+          }
+          else link.removeAttribute("aria-current");
+        });
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const ratio = scrollable > 0 ? Math.max(0, Math.min(1, window.scrollY / scrollable)) : 0;
+        progress?.style.setProperty("--reading-progress", `${(ratio * 100).toFixed(2)}%`);
+      };
+      let ticking = false;
+      const requestUpdate = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          updateReadingState();
+          ticking = false;
+        });
+      };
+      updateReadingState();
+      window.addEventListener("scroll", requestUpdate, { passive: true });
+      window.addEventListener("resize", requestUpdate);
+    }
+
+    if ("IntersectionObserver" in window) {
+      const revealTargets = [...document.querySelectorAll("[data-section] .data-wide-figure figcaption")];
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          revealObserver.unobserve(entry.target);
+          const bounds = entry.target.getBoundingClientRect();
+          if (bounds.bottom <= 0 || bounds.top < window.innerHeight * 0.35) {
+            entry.target.classList.remove("data-reveal-once");
+            return;
+          }
+          entry.target.classList.add("is-revealing");
+          entry.target.getBoundingClientRect();
+          window.requestAnimationFrame(() => {
+            entry.target.classList.add("is-revealed");
+            window.setTimeout(() => {
+              entry.target.classList.remove("data-reveal-once", "is-revealing", "is-revealed");
+            }, 180);
+          });
+        });
+      }, { rootMargin: "0px 0px -12%", threshold: 0.15 });
+
+      revealTargets.forEach((target) => {
+        if (target.getBoundingClientRect().top < window.innerHeight) return;
+        target.classList.add("data-reveal-once");
+        revealObserver.observe(target);
+      });
+    }
   });
 })();

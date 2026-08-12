@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2efe5">
-  <meta name="description" content="Twenty-five complete years of China's GDP, inflation, household consumption and capital-formation data.">
+  <meta name="description" content="A source-auditable reading of China's growth, household life, employment, property, public finance and external balance.">
   <meta property="og:title" content="Data — Galok">
-  <meta property="og:description" content="Four complete annual series behind the archive, 2000–2024.">
+  <meta property="og:description" content="China is more than a growth rate. Read production, balance sheets and household life together.">
   <link rel="canonical" href="https://galok.me/data/">
   <title>Data — Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="stylesheet" href="/styles.css?v=data-hub-20260812">
-  <link rel="stylesheet" href="/data/data-hub.css?v=20260812">
+  <link rel="stylesheet" href="/styles.css?v=data-essay-20260813">
+  <link rel="stylesheet" href="/data/data-hub.css?v=20260813">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-2Y8N04VXYG');</script>
 </head>
@@ -23,36 +23,328 @@
     </div>
   </nav>
 
-  <main class="data-page-main">
-    <header class="data-hero">
-      <div class="data-hero-copy">
-        <p class="data-kicker">DATA / CHINA / 2000—2024</p>
-        <h1 class="data-title">Twenty-five years,<br>one line at a time.</h1>
-        <p class="data-lead">GDP, consumer inflation, household consumption and capital formation. Every series covers the same complete annual window, so gaps no longer distort the picture.</p>
+  <main class="data-page-main" id="top">
+    <header class="data-cover" aria-labelledby="data-title">
+      <div class="data-cover-copy">
+        <p class="data-kicker">GALOK DATA / CHINA / 2000—2025</p>
+        <h1 class="data-title" id="data-title">China, in more<br>than one number.</h1>
+        <p class="data-lead">Production, balance sheets and household life do not move as one.</p>
+        <dl class="data-cover-meta">
+          <div><dt>Research cut-off</dt><dd>12 August 2026</dd></div>
+          <div><dt>Reading time</dt><dd>18 minutes</dd></div>
+          <div><dt>Status</dt><dd>Living archive</dd></div>
+        </dl>
       </div>
-      <div class="data-hero-index" aria-label="Dataset summary">
-        <span><b>25</b> years</span>
-        <span><b>04</b> series</span>
-        <span><b>100</b> observations</span>
-        <span><b>2026.07</b> source update</span>
-      </div>
+      <figure class="data-cover-figure" aria-labelledby="cover-chart-title cover-chart-note">
+        <figcaption id="cover-chart-title">Three 2025 signals, one shared zero line</figcaption>
+        <div class="data-cover-axis" aria-hidden="true"><span>−20%</span><span>0</span><span>+10%</span></div>
+        <div class="data-cover-track" style="--point:83.3%;--color:var(--data-red)"><span>Production</span><i></i><b>+5.0%</b><small>Real GDP · <a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS · 28 Feb 2026</a></small></div>
+        <div class="data-cover-track" style="--point:79%;--color:var(--data-blue)"><span>Households</span><i></i><b>+3.7%</b><small>Retail sales · <a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS · 28 Feb 2026</a></small></div>
+        <div class="data-cover-track" style="--point:9.3%;--color:var(--data-gold)"><span>Balance sheets</span><i></i><b>−17.2%</b><small>Property investment · <a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html">NBS · 19 Jan 2026</a></small></div>
+        <p id="cover-chart-note">Different measures, not a composite index. The shared baseline shows direction, not equivalence.</p>
+      </figure>
     </header>
 
-    <section class="data-hub" data-hub aria-label="Interactive economic data explorer"></section>
-
-    <section class="data-methodology" aria-labelledby="methodology-title">
-      <p class="data-kicker">METHOD / PROVENANCE</p>
-      <div>
-        <h2 id="methodology-title">What is actually in the frame.</h2>
-        <p>All values are annual percentage changes from the World Bank’s World Development Indicators. GDP, household consumption and capital formation use constant-price national-accounts series. CPI comes from the IMF International Financial Statistics database through the same World Bank release.</p>
-        <p>The common window ends in 2024 because household-consumption data for 2025 is not yet available in this release. The red 2020–2023 band is Galok’s editorial marker for the disruption period; it is not an official statistical classification.</p>
-        <div class="data-source-actions">
-          <a href="https://data.worldbank.org/country/china" target="_blank" rel="noopener">Open source dataset <span aria-hidden="true">↗</span></a>
-          <button type="button" data-download-all>Download all data (.csv)</button>
-        </div>
-        <p class="data-source-note">Source refreshed 13 July 2026 · CC BY 4.0 · Values displayed to one decimal place; downloads retain three decimals.</p>
+    <section class="data-opening" aria-labelledby="opening-title">
+      <div class="data-opening-label"><span>00</span><p>THE READING</p></div>
+      <div class="data-opening-copy">
+        <h2 id="opening-title">Growth did not stop.<br>The experience of growth split.</h2>
+        <p class="data-standfirst">Real GDP expanded by about 5% in 2025. Consumer prices were roughly flat. Property investment fell 17.2% and private investment fell 6.4%. Each statement is accurate; none is the whole economy. <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS communiqué · 28 Feb 2026 ↗</a> <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html">NBS property · 19 Jan 2026 ↗</a> <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962326.html">NBS investment · 19 Jan 2026 ↗</a></p>
+        <p>Real output is measured after removing price changes. Households, companies and local governments live more directly in nominal wages, sales, profits, asset values and tax receipts. That is why a production system can remain strong while confidence, prices and public balance sheets feel weak.</p>
+        <aside class="data-definition"><b>How to read this page</b><p><span>Fact</span> is a published statistic. <span>Reading</span> is an institution’s interpretation. <span>Galok note</span> connects measures without claiming a causal estimate.</p></aside>
       </div>
     </section>
+
+    <section class="data-question-set" aria-labelledby="questions-title">
+      <p class="data-kicker">THREE QUESTIONS</p>
+      <h2 id="questions-title">What does each number see?</h2>
+      <ol><li><b>01</b><p>Which layer of China does each statistic describe?</p></li><li><b>02</b><p>Why can several accurate datasets tell different stories?</p></li><li><b>03</b><p>What do official institutions, Chinese scholars, household and business behaviour, and international institutions choose to emphasise?</p></li></ol>
+    </section>
+
+    <section class="data-summary" aria-labelledby="summary-title">
+      <header><p class="data-kicker">30-SECOND SUMMARY</p><h2 id="summary-title">The short reading.</h2></header>
+      <div><p><b>01</b>Production, balance sheets and household life can all be measured correctly and still point in different directions.</p><p><b>02</b>Weak prices, property and local finance connect aggregate growth to household and business caution.</p><p><b>03</b>Many institutional disagreements begin with different objects and definitions, not only different politics.</p></div>
+      <ul><li>Real is not nominal.</li><li>Goods trade is not the current account.</li><li>Total unemployment is not youth unemployment.</li><li>The headline budget is not the whole fiscal stance.</li></ul>
+    </section>
+
+    <figure class="data-signal-strip" aria-labelledby="signal-title signal-note">
+      <figcaption><span>2025 / FOUR SIGNALS</span><h2 id="signal-title">One zero line. Four directions.</h2></figcaption>
+      <div class="data-signal-axis" aria-hidden="true"><span>−5%</span><span>0</span><span>+5%</span></div>
+      <div class="data-signal-row" style="--point:100%;--color:var(--data-red)"><b>01 / Real GDP</b><i></i><strong>+5.0%</strong><small><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS · 28 Feb 2026 ↗</a></small></div>
+      <div class="data-signal-row" style="--point:50%;--color:var(--data-blue)"><b>02 / Consumer prices</b><i></i><strong>≈0%</strong><small><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS · 28 Feb 2026 ↗</a></small></div>
+      <div class="data-signal-row" style="--point:24%;--color:var(--data-gold)"><b>03 / Producer prices</b><i></i><strong>−2.6%</strong><small><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS · 28 Feb 2026 ↗</a></small></div>
+      <div class="data-signal-row" style="--point:33%;--color:var(--data-green)"><b>04 / Public-budget revenue</b><i></i><strong>−1.7%</strong><small><a href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF · 30 Jan 2026 ↗</a></small></div>
+      <p id="signal-note">Annual percentage change. A common baseline compares direction only; the measures are not components of one index.</p>
+    </figure>
+
+    <nav class="data-article-nav" aria-label="Article chapters">
+      <a href="#growth"><b>01</b><span>Growth</span></a><a href="#households"><b>02</b><span>Households</span></a><a href="#employment"><b>03</b><span>Employment</span></a><a href="#property"><b>04</b><span>Property</span></a><a href="#investment"><b>05</b><span>Investment</span></a><a href="#external"><b>06</b><span>External</span></a><a href="#state"><b>07</b><span>State</span></a><a href="#vantage"><b>08</b><span>Views</span></a><a href="#method"><b>09</b><span>Method</span></a><a href="#conclusion"><b>10</b><span>Close</span></a>
+      <i aria-hidden="true" data-reading-progress></i>
+    </nav>
+
+    <article class="data-longform">
+      <section class="data-essay-section" id="growth" data-section="growth" aria-labelledby="growth-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">01 / GROWTH &amp; PRICES</p>
+          <div class="data-section-copy">
+            <h2 id="growth-title">The production line and the price line.</h2>
+            <p class="data-section-lead">China produced more in 2025. The prices attached to that production remained weak. The distinction between real and nominal measures is the first key to the apparent contradiction.</p>
+            <p>Real GDP grew by about 5%. Annual consumer-price inflation was approximately zero, producer prices fell 2.6%, and general public-budget revenue fell 1.7% to RMB 21.60 trillion. Tax receipts rose 0.8%; corporate income-tax receipts rose 1.0%. Output after removing price change can expand even as the cash values that shape turnover, profits and the tax base grow much more slowly. <a class="data-source-link" href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF · 30 Jan 2026 ↗</a></p>
+            <p>The National Bureau of Statistics described the main annual targets as achieved. The IMF also estimated 5.0% growth for 2025 and expected a slowdown in 2026. Chinese economist Huang Yiping describes the longer pattern as <strong>strong supply, weak demand</strong>. The IMF gives more weight to the property adjustment, local public finance and weak domestic demand as sources of deflationary pressure. The observations overlap. The policy frame and the weight assigned to external spillovers differ. <a class="data-source-link" href="https://www.cf40.org.cn/article/1/289307">Huang / CF40 · 9 Jun 2026 ↗</a> <a class="data-source-link" href="https://www.imf.org/en/publications/cr/issues/2026/02/17/peoples-republic-of-china-2025-article-iv-consultation-press-release-staff-report-and-574028">IMF · 18 Feb 2026 ↗</a></p>
+          </div>
+          <aside class="data-margin-note"><b>Galok note</b><p>Low inflation is not automatically good news. When debts are nominal, weak prices can make existing obligations heavier relative to revenue.</p></aside>
+        </header>
+        <div class="data-explorer-intro"><p class="data-kicker">LONG VIEW / WDI / 2000—2024</p><h3>Twenty-five complete annual observations.</h3><p>The explorer below keeps four World Bank annual-change series on one common window: real GDP, CPI, household consumption and gross capital formation. It ends in 2024 because the 2025 household-consumption observation was not yet available in the July 2026 release. The 2025 signals above remain a separate, later snapshot.</p></div>
+        <div class="data-hub" data-hub aria-label="Interactive World Bank economic data explorer"></div>
+      </section>
+
+      <section class="data-essay-section" id="households" data-section="households" aria-labelledby="households-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">02 / HOUSEHOLDS</p>
+          <div class="data-section-copy">
+            <h2 id="households-title">Income rose. Caution remained.</h2>
+            <p class="data-section-lead">The average household is not the typical household, and a policy-supported purchase is not the same thing as durable confidence.</p>
+            <p>Per-capita disposable income reached RMB 43,377 in 2025 and grew by about 5% in real terms. Median disposable income was RMB 36,231 and grew 4.4% in nominal terms. The distance between the two numbers is not a complete distribution, but it warns against turning an average into a household portrait.</p>
+          </div>
+          <aside class="data-margin-note"><b>Definition</b><p>The median divides the population in half. The mean is pulled upward by high incomes. Neither measure shows the full distribution.</p></aside>
+        </header>
+
+        <figure class="data-wide-figure data-income-gap" aria-labelledby="income-title income-note">
+          <figcaption><span>2025 / RMB PER PERSON</span><h3 id="income-title">The typical income sits below the average.</h3></figcaption>
+          <div class="data-gap-axis"><span>30,000</span><span>35,000</span><span>40,000</span><span>45,000</span></div>
+          <div class="data-gap-line" role="img" aria-label="Median disposable income 36,231 yuan; mean disposable income 43,377 yuan"><i class="is-median"></i><i class="is-mean"></i><b class="is-median">Median<br>36,231</b><b class="is-mean">Mean<br>43,377</b></div>
+          <p id="income-note"><b>Galok calculation:</b> the gap is 7,146 yuan, or 16.5% of the mean, calculated from NBS mean and median values. <a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS communiqué · 28 Feb 2026 ↗</a></p>
+        </figure>
+
+        <div class="data-section-grid data-section-continuation">
+          <p class="data-section-number">BEHAVIOUR / NOT SENTIMENT</p>
+          <div class="data-section-copy">
+            <p>The World Bank estimates that Chinese households save about 31% of disposable income, well above the OECD average. Chinese scholars connect high saving to the safety net, housing and education risks, income distribution and household balance sheets. The figure is an estimate; it is not the same thing as new bank deposits. <a class="data-source-link" href="https://openknowledge.worldbank.org/entities/publication/f87ebe01-4eb7-4443-adbc-f9180fc01efc">World Bank · Jun 2025 ↗</a></p>
+            <div class="data-mechanism" aria-label="Editorial mechanism, not a causal estimate"><span>Uncertain income, housing &amp; services</span><i aria-hidden="true">→</i><span>Precautionary saving</span><i aria-hidden="true">→</i><span>Weaker broad consumption</span></div>
+            <p>Retail sales grew 3.7%. Trade-in subsidies helped appliances and communications equipment, but one subsidised category cannot stand in for broad confidence. Galok therefore treats saving, spending, median income, job seeking and home purchases as behavioural proxies—not as an opinion poll and not as a substitute for individual testimony. <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS communiqué · 28 Feb 2026 ↗</a></p>
+            <p>The demographic horizon also shifted. China recorded 7.92 million births and 11.31 million deaths in 2025. A shrinking and ageing population changes long-run demand for homes, schools, pensions and local public services. <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS communiqué · 28 Feb 2026 ↗</a></p>
+            <p>The domestic policy language now gives more space to raising income, strengthening social protection, supporting childcare and “investing in people.” Huang Yiping and Liu Yuanchun connect low consumption with distribution, social protection and household balance sheets. The World Bank adds better services for rural and migrant households and repair of local public finance. The IMF argues for moving demand support more decisively toward consumption and away from debt-led investment and export dependence. These prescriptions share a premise: households spend differently when future income, housing and public services feel less uncertain. <a class="data-source-link" href="https://www.cf40.org.cn/article/1/289307">Huang / CF40 · 9 Jun 2026 ↗</a> <a class="data-source-link" href="https://www.cf40.org.cn/article/1/288987">Liu / CF40 · 21 Jan 2025 ↗</a> <a class="data-source-link" href="https://openknowledge.worldbank.org/entities/publication/f87ebe01-4eb7-4443-adbc-f9180fc01efc">World Bank · Jun 2025 ↗</a> <a class="data-source-link" href="https://www.imf.org/en/publications/cr/issues/2026/02/17/peoples-republic-of-china-2025-article-iv-consultation-press-release-staff-report-and-574028">IMF · 18 Feb 2026 ↗</a></p>
+          </div>
+          <aside class="data-margin-note"><b>Institutional reading</b><p>Domestic and international analysts both connect consumption to security. They disagree more about sequencing, fiscal channels and the role of exports.</p></aside>
+        </div>
+      </section>
+
+      <section class="data-essay-section" id="employment" data-section="employment" aria-labelledby="employment-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">03 / EMPLOYMENT</p>
+          <div class="data-section-copy">
+            <h2 id="employment-title">One labour market, three age profiles.</h2>
+            <p class="data-section-lead">Aggregate stability and entry-level pressure can coexist. A single unemployment rate hides who is trying to enter, who is already established and who has stopped looking.</p>
+            <p>The urban surveyed unemployment rate averaged about 5.2% in 2025, while 12.67 million urban jobs were added. In November, unemployment among urban non-student 16–24 year-olds was 16.9%; it was 7.2% for ages 25–29 and 3.8% for ages 30–59. <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS annual facts · 28 Feb 2026 ↗</a> <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962330.html">NBS labour release · 19 Jan 2026 ↗</a></p>
+          </div>
+          <aside class="data-margin-note"><b>Method break</b><p>The youth series was suspended in 2023 and resumed with students excluded. Pre- and post-break observations should not be drawn as one seamless line.</p></aside>
+        </header>
+
+        <figure class="data-wide-figure data-bar-figure" aria-labelledby="jobs-title jobs-note">
+          <figcaption><span>NOVEMBER 2025 / URBAN / NON-STUDENT</span><h3 id="jobs-title">Youth pressure is not the aggregate rate.</h3></figcaption>
+          <div class="data-bar-row"><b>16–24</b><i style="--value:84.5%"></i><strong>16.9%</strong></div>
+          <div class="data-bar-row"><b>25–29</b><i style="--value:36%"></i><strong>7.2%</strong></div>
+          <div class="data-bar-row"><b>30–59</b><i style="--value:19%"></i><strong>3.8%</strong></div>
+          <div class="data-bar-scale" aria-hidden="true"><span>0</span><span>10%</span><span>20%</span></div>
+          <p id="jobs-note">Employees in surveyed enterprises worked about 48.6 hours a week. Employment quantity, hours, pay and security are separate dimensions. <a href="https://www.stats.gov.cn/english/PressRelease/202601/t20260119_1962328.html">NBS annual release · 19 Jan 2026 ↗</a> The November age-group observations follow the NBS non-student urban definition; the annual NBS release and method break are linked above.</p>
+        </figure>
+
+        <div class="data-section-grid data-section-continuation">
+          <p class="data-section-number">VISIBLE / MISSING</p>
+          <div class="data-section-copy"><p>The survey measures people in urban areas who meet a definition of unemployment and are looking for work. It does not fully describe the rural labour market, people who have left the labour force or the quality of an existing job. That boundary belongs beside the chart because it changes the meaning of the comparison.</p></div>
+        </div>
+      </section>
+
+      <section class="data-essay-section" id="property" data-section="property" aria-labelledby="property-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">04 / PROPERTY &amp; LOCAL FINANCE</p>
+          <div class="data-section-copy">
+            <h2 id="property-title">A property contraction becomes a public-finance problem.</h2>
+            <p class="data-section-lead">Homes, land and local budgets sit on the same balance sheet. When transaction and land revenue fall, the effect travels into the institutions that fund ordinary services.</p>
+            <p>Property development investment fell 17.2% to RMB 8.279 trillion in 2025. New commercial floor space sold fell 8.7%; sales value fell 12.6%. <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html">NBS property release · 19 Jan 2026 ↗</a> Local state-owned land-use-right sale revenue fell 14.7% to RMB 4.152 trillion. <a class="data-source-link" href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF fiscal outturn · 30 Jan 2026 ↗</a></p>
+          </div>
+          <aside class="data-margin-note"><b>Scale</b><p>Local governments execute roughly 85% of national general public-budget expenditure, including much of education, health, social protection and infrastructure.</p></aside>
+        </header>
+
+        <figure class="data-wide-figure data-decline-figure" aria-labelledby="property-chart-title property-chart-note">
+          <figcaption><span>YEAR-ON-YEAR CHANGE / 2025</span><h3 id="property-chart-title">Three declines, one fiscal chain.</h3></figcaption>
+          <div class="data-decline-row"><b>Property investment</b><span><i style="--value:86%"></i></span><strong>−17.2%</strong></div>
+          <div class="data-decline-row"><b>Land-sale revenue</b><span><i style="--value:73.5%"></i></span><strong>−14.7%</strong></div>
+          <div class="data-decline-axis" aria-hidden="true"><span>−20%</span><span>−10%</span><span>0</span></div>
+          <div class="data-decline-row"><b>Commercial-property sales value</b><span><i style="--value:63%"></i></span><strong>−12.6%</strong></div>
+          <p id="property-chart-note">The bars compare rates of change, not the absolute size of each market. <a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html">NBS real-estate release · 19 Jan 2026 ↗</a> <a href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF fiscal outturn · 30 Jan 2026 ↗</a></p>
+        </figure>
+
+        <div class="data-section-grid data-section-continuation">
+          <p class="data-section-number">DEBT / FLOW</p>
+          <div class="data-section-copy">
+            <div class="data-centre-local" aria-label="Central and local public-finance relationship"><span><b>Centre</b>Transfers · debt quotas · earmarked policy</span><i aria-hidden="true">→</i><span><b>Local</b>≈85% of general public-budget expenditure</span></div>
+            <p>National government-fund revenue fell 7%, while expenditure from those funds grew 11.3%. The state used local special-purpose bonds, ultra-long special treasury bonds and swaps of existing debt to support local balance sheets. <a class="data-source-link" href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF · 30 Jan 2026 ↗</a></p>
+            <p>A debt swap can replace expensive or opaque obligations with more manageable funding. It reduces refinancing pressure; it does not automatically recreate land revenue or generate the same amount of new demand. This is the difference between cleaning an old balance sheet and adding a fresh spending flow.</p>
+            <p>The Ministry of Finance stresses faster bond deployment, rising priority social expenditure and overall fiscal stability. Chinese researchers examine the broad fiscal stance, how much new demand remains after swaps, and how local growth incentives can be reconciled with public-service obligations. The IMF and World Bank emphasise debt restructuring, comprehensive reporting and reform of local revenue. They are often looking at different parts of the same mechanism. <a class="data-source-link" href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF · 30 Jan 2026 ↗</a> <a class="data-source-link" href="https://www.imf.org/en/publications/cr/issues/2026/02/17/peoples-republic-of-china-2025-article-iv-consultation-press-release-staff-report-and-574028">IMF · 18 Feb 2026 ↗</a></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="data-essay-section" id="investment" data-section="investment" aria-labelledby="investment-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">05 / INVESTMENT</p>
+          <div class="data-section-copy">
+            <h2 id="investment-title">The aggregate fell. Selected sectors accelerated.</h2>
+            <p class="data-section-lead">“More or less investment” is the wrong first question. The 2025 pattern depends on who invested and where the capital went.</p>
+            <p>Fixed-asset investment fell 3.8%. Private investment fell 6.4%; even excluding property, private investment fell 1.9%. At the same time, investment in information services grew 28.4% and aerospace equipment manufacturing grew 16.9%. <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962326.html">NBS investment release · 19 Jan 2026 ↗</a></p>
+          </div>
+          <aside class="data-margin-note"><b>Galok note</b><p>This is a K-shaped picture, not proof that one branch will permanently replace the other.</p></aside>
+        </header>
+
+        <figure class="data-wide-figure data-diverge-figure" aria-labelledby="investment-chart-title investment-chart-note">
+          <figcaption><span>FIXED-ASSET INVESTMENT / 2025</span><h3 id="investment-chart-title">A structural upgrade can coexist with weak private demand.</h3></figcaption>
+          <div class="data-diverge-axis" aria-hidden="true"><span>−10%</span><span>0</span><span>+30%</span></div>
+          <div class="data-diverge-row is-negative"><b>Private</b><span><i style="--value:16%"></i></span><strong>−6.4%</strong></div>
+          <div class="data-diverge-row is-negative"><b>All fixed assets</b><span><i style="--value:9.5%"></i></span><strong>−3.8%</strong></div>
+          <div class="data-diverge-row is-negative"><b>Private, ex-property</b><span><i style="--value:4.75%"></i></span><strong>−1.9%</strong></div>
+          <div class="data-diverge-row is-positive"><b>Aerospace equipment</b><span><i style="--value:42.25%"></i></span><strong>+16.9%</strong></div>
+          <div class="data-diverge-row is-positive"><b>Information services</b><span><i style="--value:71%"></i></span><strong>+28.4%</strong></div>
+          <p id="investment-chart-note">The chart uses one percentage-change scale. It does not imply equal sector size. <a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962326.html">NBS fixed-asset investment release · 19 Jan 2026 ↗</a></p>
+        </figure>
+
+        <div class="data-section-grid data-section-continuation">
+          <p class="data-section-number">BCI / SAMPLE</p>
+          <div class="data-section-copy">
+            <p>CKGSB’s Business Conditions Index is a monthly diffusion survey of private-company managers, with 50 as the expansion/contraction threshold. It read 49.4 in January, 46.9 in August, 51.1 in September and 49.8 in December 2025. The movement describes a sample’s forward-looking expectations, not the entire private economy. <a class="data-source-link" href="https://www.ckgsb.edu.cn/uploads/report/file/202601/15/1768456694184815.pdf">CKGSB · 15 Jan 2026 ↗</a></p>
+            <div class="data-bci-strip" aria-label="CKGSB Business Conditions Index selected 2025 readings; 50 is the expansion threshold"><span style="--bci:49.4%"><b>Jan</b><i></i><em>49.4</em></span><span style="--bci:46.9%"><b>Aug</b><i></i><em>46.9</em></span><span style="--bci:51.1%"><b>Sep</b><i></i><em>51.1</em></span><span style="--bci:49.8%"><b>Dec</b><i></i><em>49.8</em></span><small>50 / expansion threshold</small></div>
+            <p>A policy department may read strategic-sector investment as structural upgrading. A private firm may read weak orders, margins and financing expectations. An external institute may ask about state support, capacity and trade spillovers. The disagreement begins partly with the object being observed.</p>
+          </div>
+          <aside class="data-margin-note"><b>Survey caution</b><p>BCI is useful because it is timely and directional. Its sample and questionnaire make it categorically different from national investment accounts.</p></aside>
+        </div>
+      </section>
+
+      <section class="data-essay-section" id="external" data-section="external" aria-labelledby="external-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">06 / EXTERNAL BALANCE</p>
+          <div class="data-section-copy">
+            <h2 id="external-title">The export buffer is also the argument.</h2>
+            <p class="data-section-lead">Strong exports protect growth when domestic demand is weak. They also shift the adjustment outward and intensify disagreement over capacity and support.</p>
+            <p>The goods-trade surplus reached roughly US$1.19 trillion in 2025. The IMF estimated the current-account surplus at about 3.3% of GDP. Those are related but different measures: the current account also includes services, income and transfers.</p>
+          </div>
+          <aside class="data-margin-note"><b>Do not merge</b><p>US$1.19tn is a level in the goods account. 3.3% is the current account relative to GDP. They should never share an unlabeled axis.</p></aside>
+        </header>
+
+        <figure class="data-wide-figure data-account-figure" aria-labelledby="external-chart-title external-chart-note">
+          <figcaption><span>FROM CUSTOMS TO BALANCE OF PAYMENTS</span><h3 id="external-chart-title">A surplus changes as the accounting frame widens.</h3></figcaption>
+          <ol><li><b>01</b><span>Goods trade</span><strong>≈ US$1.19tn</strong></li><li><b>02</b><span>Add services, income and transfers</span><strong>Broader frame</strong></li><li><b>03</b><span>Current account</span><strong>≈ 3.3% of GDP</strong></li></ol>
+          <p id="external-chart-note">The middle step is conceptual, not a displayed numerical bridge. Sources: 2025 Chinese customs data as reported in the NBS communiqué, <a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">28 Feb 2026 ↗</a>; <a href="https://www.imf.org/en/publications/cr/issues/2026/02/17/peoples-republic-of-china-2025-article-iv-consultation-press-release-staff-report-and-574028">IMF Article IV · 18 Feb 2026 ↗</a>.</p>
+        </figure>
+
+        <div class="data-section-grid data-section-continuation">
+          <p class="data-section-number">SAME FACT / DIFFERENT QUESTION</p>
+          <div class="data-section-copy">
+            <p>Chinese commentary emphasises industrial competitiveness, market diversification and resilience. International institutions give more weight to low inflation, the real exchange rate, external imbalance and spillovers to trading partners. <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS communiqué · 28 Feb 2026 ↗</a> <a class="data-source-link" href="https://www.imf.org/en/publications/cr/issues/2026/02/17/peoples-republic-of-china-2025-article-iv-consultation-press-release-staff-report-and-574028">IMF · 18 Feb 2026 ↗</a></p>
+            <p>High-technology manufacturing, green industry and exports can improve productivity. When domestic demand is weak, the same strengths can feed overseas disputes about subsidy and capacity. One reading asks, “How competitive is the production system?” The other asks, “Where does the resulting adjustment land?”</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="data-essay-section" id="state" data-section="state" aria-labelledby="state-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">07 / POLITICAL ECONOMY</p>
+          <div class="data-section-copy">
+            <h2 id="state-title">What a budget can reveal—and what it cannot.</h2>
+            <p class="data-section-lead">Budgets make capacity, constraint and priority partly visible. They do not, on their own, prove effectiveness, motive or public satisfaction.</p>
+            <p>This reading does not reduce political economy to a regime label or subjective score. It uses auditable budgets, central–local relations, investment, jobs and social expenditure to discuss capacity and choice. General public-budget expenditure reached RMB 28.74 trillion in 2025, up 1%. Social-security and employment expenditure grew 6.7%, health 5.7%, and science and technology 4.8%. <a class="data-source-link" href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF · 30 Jan 2026 ↗</a></p>
+          </div>
+          <aside class="data-margin-note"><b>Boundary</b><p>This article does not infer political motive from an expenditure line. It labels interpretation where public evidence ends.</p></aside>
+        </header>
+
+        <figure class="data-wide-figure data-budget-figure" aria-labelledby="budget-title budget-note">
+          <figcaption><span>GENERAL PUBLIC-BUDGET EXPENDITURE / 2025</span><h3 id="budget-title">Selected lines grew faster than the total.</h3></figcaption>
+          <div class="data-budget-axis" aria-hidden="true"><span>0</span><span>5%</span><span>10%</span></div>
+          <div class="data-budget-row"><b>Social security &amp; employment</b><i style="--value:67%"></i><strong>+6.7%</strong></div>
+          <div class="data-budget-row"><b>Health</b><i style="--value:57%"></i><strong>+5.7%</strong></div>
+          <div class="data-budget-row"><b>Science &amp; technology</b><i style="--value:48%"></i><strong>+4.8%</strong></div>
+          <div class="data-budget-row is-total"><b>Total expenditure</b><i style="--value:10%"></i><strong>+1.0%</strong></div>
+          <p id="budget-note">Rates show change, not shares of the budget. Source: Ministry of Finance 2025 fiscal outturn, January 2026.</p>
+        </figure>
+
+        <div class="data-section-grid data-section-continuation">
+          <p class="data-section-number">CAPACITY / CONSTRAINT / PRIORITY / FEEDBACK</p>
+          <div class="data-section-copy">
+            <p>Government-fund expenditure reached RMB 11.29 trillion, up 11.3%. Spending backed by ultra-long special treasury bonds, local special-purpose bonds and special treasury bonds for financial-institution capitalisation totalled RMB 6.19 trillion. <a class="data-source-link" href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF · 30 Jan 2026 ↗</a></p>
+            <p><strong>Capacity</strong> is the ability to issue debt, transfer resources and mobilise industrial investment. <strong>Constraint</strong> appears in land revenue, local debt, weak prices and the tax base. <strong>Priority</strong> is the changing allocation among technology and industry, infrastructure and household services. <strong>Feedback</strong> asks whether household confidence, private investment, local execution and external friction validate the intended result.</p>
+            <p>Local governments execute roughly 85% of general public-budget expenditure. The centre shapes their space through transfers, debt quotas and earmarked programmes. That division is one reason a national commitment and a local service can move at different speeds.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="data-essay-section" id="vantage" data-section="vantage" aria-labelledby="vantage-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">08 / FOUR VANTAGE POINTS</p>
+          <div class="data-section-copy"><h2 id="vantage-title">Who is looking, and at what?</h2><p class="data-section-lead">The disagreement is not only ideological. It often starts with the unit of observation, time horizon and institutional responsibility.</p></div>
+          <aside class="data-margin-note"><b>Editorial rule</b><p>No mechanical “both sides.” Every reading carries a speaker, measure, date and limitation.</p></aside>
+        </header>
+
+        <div class="data-view-table" role="region" aria-label="Four vantage points on China's economy" tabindex="0">
+          <table>
+            <thead><tr><th>Vantage point</th><th>Main object</th><th>Representative reading</th><th>Likely blind spot</th></tr></thead>
+            <tbody>
+              <tr><th>Official institutions</th><td>Output, aggregate jobs, targets, budget execution</td><td>Resilience remains; the structure is upgrading; policy space remains.</td><td>Distribution, lived prices, local variation</td></tr>
+              <tr><th>Chinese scholars &amp; market institutes</th><td>Prices, balance sheets, private firms, transmission</td><td>Strong supply and weak demand; support consumption, social protection and confidence.</td><td>External spillovers, cross-country comparison</td></tr>
+              <tr><th>Household &amp; business behaviour</th><td>Saving, spending, investment, job seeking, home buying</td><td>Risk appetite is low; income and asset expectations are cautious.</td><td>Behaviour is not a complete account of opinion</td></tr>
+              <tr><th>IMF, World Bank &amp; external institutes</th><td>Rebalancing, debt, productivity, cross-border effects</td><td>Shift policy toward households; repair property and local finance; reduce export dependence.</td><td>Detail and path of domestic implementation</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <dl class="data-view-list">
+          <div><dt>Official institutions</dt><dd><b>Object</b> Output, aggregate jobs, targets and budget execution.</dd><dd><b>Reading</b> Resilience remains; the structure is upgrading; policy space remains.</dd><dd><b>Blind spot</b> Distribution, lived prices and local variation.</dd></div>
+          <div><dt>Chinese scholars &amp; market institutes</dt><dd><b>Object</b> Prices, balance sheets, private firms and policy transmission.</dd><dd><b>Reading</b> Strong supply and weak demand; support consumption, social protection and confidence.</dd><dd><b>Blind spot</b> External spillovers and cross-country comparison.</dd></div>
+          <div><dt>Household &amp; business behaviour</dt><dd><b>Object</b> Saving, spending, investment, job seeking and home buying.</dd><dd><b>Reading</b> Risk appetite is low; income and asset expectations are cautious.</dd><dd><b>Blind spot</b> Behaviour is not a complete account of opinion.</dd></div>
+          <div><dt>IMF, World Bank &amp; external institutes</dt><dd><b>Object</b> Rebalancing, debt, productivity and cross-border effects.</dd><dd><b>Reading</b> Shift policy toward households; repair property and local finance; reduce export dependence.</dd><dd><b>Blind spot</b> Detail and path of domestic implementation.</dd></div>
+        </dl>
+      </section>
+
+      <section class="data-essay-section" id="method" data-section="method" aria-labelledby="method-title">
+        <header class="data-section-grid">
+          <p class="data-section-number">09 / METHOD &amp; BOUNDARIES</p>
+          <div class="data-section-copy"><h2 id="method-title">The definition travels with the number.</h2><p class="data-section-lead">A transparent data page does not merely name a source. It shows why two tempting comparisons should not be made.</p></div>
+        </header>
+
+        <ol class="data-boundary-list">
+          <li><b>01</b><span>Real GDP and nominal income are not the same measure.</span></li><li><b>02</b><span>A goods-trade surplus and the current account are not the same balance.</span></li><li><b>03</b><span>The youth unemployment series has a method break around 2023.</span></li><li><b>04</b><span>The headline deficit excludes some funds, special bonds and implicit liabilities.</span></li><li><b>05</b><span>Property and investment growth can be revised after censuses and institutional reviews.</span></li><li><b>06</b><span>BCI and confidence surveys depend on their sample and questionnaire.</span></li><li><b>07</b><span>Individual social posts cannot represent public opinion; behavioural data are proxies, not a vote.</span></li><li><b>08</b><span>Forecasts are revised. Publication date and value must travel together.</span></li>
+        </ol>
+
+        <section class="data-methodology" aria-labelledby="methodology-title">
+          <p class="data-kicker">WDI / PROVENANCE</p>
+          <div>
+            <h3 id="methodology-title">What is in the long series.</h3>
+            <p>All values in the interactive explorer are annual percentage changes from the World Bank’s World Development Indicators. GDP, household consumption and capital formation use constant-price national-accounts series. CPI comes from IMF International Financial Statistics through the same World Bank release.</p>
+            <p>The common window ends in 2024 because household-consumption data for 2025 was not available in that release. The red 2020–2023 band is Galok’s editorial marker for disruption; it is not an official statistical classification.</p>
+            <div class="data-source-actions"><a href="https://data.worldbank.org/country/china" target="_blank" rel="noopener">Open WDI source <span aria-hidden="true">↗</span></a><button type="button" data-download-all>Download all WDI series (.csv)</button></div>
+            <p class="data-source-note">Source refreshed 13 July 2026 · CC BY 4.0 · Display values rounded to one decimal; downloads retain three.</p>
+          </div>
+        </section>
+
+        <details class="data-source-register">
+          <summary><span>Open the complete source register</span><b>20 sources</b></summary>
+          <div>
+            <h3>Chinese official data</h3>
+            <ol><li><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS · 2025 Statistical Communiqué · 28 Feb 2026</a></li><li><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962330.html">NBS · 2025 economic results · 19 Jan 2026</a></li><li><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html">NBS · Real-estate market · 19 Jan 2026</a></li><li><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962326.html">NBS · Fixed-asset investment · 19 Jan 2026</a></li><li><a href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">Ministry of Finance · 2025 fiscal outturn · 30 Jan 2026</a></li><li><a href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202603/t20260316_3985331.htm">Ministry of Finance · 2025 budget execution / 2026 draft · Mar 2026</a></li><li><a href="https://www.stats.gov.cn/sj/ndsj/2025/indexch.htm">NBS · China Statistical Yearbook 2025</a></li><li><a href="https://data.worldbank.org/country/china">World Bank · WDI China series · refreshed 13 Jul 2026</a></li></ol>
+            <h3>Chinese experts and market institutes</h3>
+            <ol start="9"><li><a href="https://www.cf40.org.cn/article/1/289307">Huang Yiping / CF40 · Strong supply, weak demand · 9 Jun 2026</a></li><li><a href="https://www.cf40.org.cn/article/1/288987">Liu Yuanchun / CF40 · Macroeconomic regulation · 21 Jan 2025</a></li><li><a href="https://cf40.org.cn/article/1/28887">CF40 · Consumption and household balance sheets · 31 Dec 2024</a></li><li><a href="https://www.cf40.org.cn/article/1/289275">Guo Kai &amp; Zhu He / CF40 · Has the economy recovered? · 7 Apr 2026</a></li><li><a href="https://english.ckgsb.edu.cn/knowledge/business-conditions-index/">CKGSB · Business Conditions Index</a></li><li><a href="https://www.ckgsb.edu.cn/uploads/report/file/202601/15/1768456694184815.pdf">CKGSB · BCI December 2025 · 15 Jan 2026</a></li></ol>
+            <h3>International institutions and external research</h3>
+            <ol start="15"><li><a href="https://www.imf.org/en/publications/cr/issues/2026/02/17/peoples-republic-of-china-2025-article-iv-consultation-press-release-staff-report-and-574028">IMF · 2025 Article IV Consultation · 18 Feb 2026</a></li><li><a href="https://www.imf.org/en/news/articles/2025/12/10/pr-25415-china-imf-staff-completes-2025-article-iv-mission-to-the-peoples-republic-of-china">IMF · 2025 Article IV mission · 10 Dec 2025</a></li><li><a href="https://openknowledge.worldbank.org/entities/publication/f87ebe01-4eb7-4443-adbc-f9180fc01efc">World Bank · China Economic Update: Unlocking Consumption · Jun 2025</a></li><li><a href="https://thedocs.worldbank.org/en/doc/0cb2fc6dd88d4db3816dc0433b5cb49b-0070012026/original/CEU-July-2026-EN.pdf">World Bank · China Economic Update · Jun 2026</a></li><li><a href="https://merics.org/en/tracker/chinas-economy-q4-strong-exports-offset-domestic-weaknesses">MERICS · China’s economy in Q4 · 23 Jan 2026</a></li><li><a href="https://rhg.com/research/far-from-normal-an-augmented-assessment-of-chinas-state-support/">Rhodium Group · Far From Normal · 17 Mar 2025</a></li></ol>
+          </div>
+        </details>
+      </section>
+
+      <section class="data-essay-section data-conclusion" id="conclusion" data-section="conclusion" aria-labelledby="conclusion-title">
+        <p class="data-section-number">10 / CONCLUSION</p>
+        <h2 id="conclusion-title">Three Chinas coexist.</h2>
+        <div class="data-conclusion-grid"><p><b>Production</b>Manufacturing capacity, exports and strategic industries remain strong.</p><p><b>Balance sheets</b>Property, local finance and private investment remain under pressure.</p><p><b>Household life</b>Income still grows, while age-specific job pressure, asset values and the safety net shape the willingness to spend.</p></div>
+        <p class="data-closing-line">The useful question is not which China is real. It is whether productive capacity can be converted more reliably into household income, public services and sustainable domestic demand.</p>
+        <p class="data-revision-note">Data is not a conclusion. Definitions are part of political economy. Editorial synthesis based on public statistics and published institutional research; figures may be revised at source. Review cadence: annual full update after the NBS communiqué, with corrections logged when source revisions appear.</p>
+        <a class="data-back-top" href="#top">Back to the beginning <span aria-hidden="true">↑</span></a>
+      </section>
+    </article>
   </main>
 
   <footer class="data-footer">
@@ -61,8 +353,8 @@
     <div><a href="mailto:galokview@outlook.com">Email</a><a href="https://x.com/galokview" target="_blank" rel="noopener">X / @galokview</a></div>
   </footer>
 
-  <script src="/data/data.js?v=20260812"></script>
-  <script src="/data/data-hub.js?v=20260812"></script>
-  <script src="/script.js?v=data-hub-20260812"></script>
+  <script src="/data/data.js?v=20260813"></script>
+  <script src="/data/data-hub.js?v=20260813"></script>
+  <script src="/script.js?v=data-essay-20260813"></script>
 </body>
 </html>
