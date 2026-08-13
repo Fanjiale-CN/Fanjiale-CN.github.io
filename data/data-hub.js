@@ -379,7 +379,7 @@
           link.classList.toggle("is-active", active);
           if (active) {
             link.setAttribute("aria-current", "location");
-            if (articleNav.scrollWidth > articleNav.clientWidth) {
+            if (!articleNav.classList.contains("chapter-rail") && articleNav.scrollWidth > articleNav.clientWidth) {
               const linkStart = link.offsetLeft;
               const linkEnd = linkStart + link.offsetWidth;
               const viewStart = articleNav.scrollLeft;

@@ -1513,11 +1513,12 @@
     });
 
     const nav = document.createElement("nav");
-    nav.className = "batch-chapter-nav legacy-chapter-nav";
+    nav.className = "batch-chapter-nav legacy-chapter-nav chapter-rail";
     nav.style.setProperty("--batch-nav-columns", String(Math.min(headings.length, 5)));
     nav.setAttribute("aria-label", "Article chapters");
     nav.innerHTML = headings.map((heading, index) => `<a href="#${heading.id}"><span>${String(index + 1).padStart(2, "0")}</span>${heading.textContent.trim()}</a>`).join("");
     hero.after(nav);
+    window.GALOK_CHAPTER_RAILS?.enhance(nav);
   }
 
   function initHomepageIndex() {

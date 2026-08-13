@@ -78,7 +78,9 @@
     if (!progressBar) return;
     const total = document.documentElement.scrollHeight - window.innerHeight;
     const progress = total > 0 ? Math.min(1, Math.max(0, window.scrollY / total)) : 0;
-    progressBar.style.transform = `scaleX(${progress})`;
+    progressBar.style.transform = document.querySelector("[data-hz-chapter-nav]")?.classList.contains("chapter-rail")
+      ? `scaleY(${progress})`
+      : `scaleX(${progress})`;
   }
   window.addEventListener("scroll", updatePageProgress, { passive: true });
   updatePageProgress();

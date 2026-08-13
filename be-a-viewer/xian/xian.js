@@ -82,7 +82,7 @@ function setActiveSection(section, touchInput = touchNavigation) {
     else link.removeAttribute("aria-current");
   });
   const activeLink = storyLinks.find((link) => link.getAttribute("href") === href);
-  if (activeLink && storyNav.scrollWidth > storyNav.clientWidth) {
+  if (activeLink && !storyNav.classList.contains("chapter-rail") && storyNav.scrollWidth > storyNav.clientWidth) {
     const targetLeft = activeLink.offsetLeft - (storyNav.clientWidth - activeLink.offsetWidth) / 2;
     const maxLeft = Math.max(0, storyNav.scrollWidth - storyNav.clientWidth);
     storyNav.scrollTo({
@@ -97,7 +97,9 @@ function updateStoryNav(scrollY, viewportHeight) {
   const start = storyMetrics[0].top;
   const end = storyMetrics.at(-1).bottom - viewportHeight;
   const progress = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, end - start)));
-  if (storyProgress) storyProgress.style.transform = `scaleX(${progress})`;
+  if (storyProgress) storyProgress.style.transform = storyNav?.classList.contains("chapter-rail")
+    ? `scaleY(${progress})`
+    : `scaleX(${progress})`;
   const readingLine = scrollY + viewportHeight * .42;
   let active = storyMetrics[0].section;
   storyMetrics.forEach((metric) => {

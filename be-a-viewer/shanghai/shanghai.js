@@ -220,7 +220,7 @@
       else link.removeAttribute("aria-current");
     });
     const activeLink = storyLinks.find((link) => link.getAttribute("href") === href);
-    if (activeLink && storyNav && storyNav.scrollWidth > storyNav.clientWidth) {
+    if (activeLink && storyNav && !storyNav.classList.contains("chapter-rail") && storyNav.scrollWidth > storyNav.clientWidth) {
       const targetLeft = activeLink.offsetLeft - (storyNav.clientWidth - activeLink.offsetWidth) / 2;
       const maxLeft = Math.max(0, storyNav.scrollWidth - storyNav.clientWidth);
       storyNav.scrollTo({
@@ -239,7 +239,9 @@
     const start = sectionMetrics[0].top;
     const end = sectionMetrics.at(-1).bottom - viewportHeight;
     const progress = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, end - start)));
-    if (storyProgress) storyProgress.style.transform = `scaleX(${progress})`;
+    if (storyProgress) storyProgress.style.transform = storyNav?.classList.contains("chapter-rail")
+      ? `scaleY(${progress})`
+      : `scaleX(${progress})`;
     const readingLine = scrollY + viewportHeight * .4;
     let active = sectionMetrics[0].section;
     sectionMetrics.forEach((metric) => {
