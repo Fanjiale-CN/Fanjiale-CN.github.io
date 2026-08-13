@@ -40,7 +40,7 @@
   bottom: auto !important;
   left: max(0px, env(safe-area-inset-left)) !important;
   width: var(--chapter-rail-collapsed) !important;
-  height: auto !important;
+  height: min(76svh, calc(var(--chapter-rail-count, 10) * var(--chapter-rail-row) + 2px)) !important;
   max-height: min(76svh, calc(var(--chapter-rail-count, 10) * var(--chapter-rail-row))) !important;
   min-height: 0 !important;
   display: flex !important;
