@@ -910,11 +910,10 @@
     if (!navInner || !brand || !links) return;
 
     const primaryLinks = [
-      { href: "/be-a-viewer/", label: "Be a Viewer", match: "/be-a-viewer/" },
-      { href: "/works/", label: "Works", match: "/works/" },
-      { href: "/notes/", label: "Notes", matches: ["/notes/", "/views/", "/essays/", "/visual-notes/"] },
-      { href: "/data/", label: "Data", match: "/data/" },
-      { href: "/archive/", label: "Archive", matches: ["/archive/", "/postcards/"] },
+      { href: "/be-a-viewer/", label: "Cities", match: "/be-a-viewer/" },
+      { href: "/notes/", label: "Essays", matches: ["/notes/", "/views/", "/essays/", "/visual-notes/", "/data/"] },
+      { href: "/works/", label: "Work", match: "/works/" },
+      { href: "/archive/", label: "Index", matches: ["/archive/", "/postcards/"] },
       { href: "/about/", label: "About", match: "/about/" }
     ];
     const currentPath = window.location.pathname;
@@ -1073,10 +1072,10 @@
         </a>
         <div class="footer-column">
           <span>Explore</span>
-          <a href="/be-a-viewer/">Be a Viewer</a>
-          <a href="/works/">Works</a>
-          <a href="/notes/">Notes</a>
-          <a href="/archive/">Archive</a>
+          <a href="/be-a-viewer/">Cities</a>
+          <a href="/notes/">Essays</a>
+          <a href="/works/">Work</a>
+          <a href="/archive/">Index</a>
           <a href="/about/">About</a>
         </div>
         <div class="footer-column">
@@ -1100,10 +1099,10 @@
     if (!menu) return;
     menu.innerHTML = `
       <span>Explore</span>
-      <a href="/be-a-viewer/">Be a Viewer</a>
-      <a href="/works/">Works</a>
-      <a href="/notes/">Notes</a>
-      <a href="/archive/">Archive</a>
+      <a href="/be-a-viewer/">Cities</a>
+      <a href="/notes/">Essays</a>
+      <a href="/works/">Work</a>
+      <a href="/archive/">Index</a>
       <a href="/about/">About</a>
     `;
   }
@@ -1186,21 +1185,6 @@
     document.querySelectorAll('a[href="https://x.com/galok"]').forEach((link) => {
       link.href = "https://x.com/galokview";
     });
-
-    const footer = document.querySelector("footer.footer");
-    if (!footer || document.querySelector(".site-contact")) return;
-
-    const contact = document.createElement("section");
-    contact.className = "site-contact";
-    contact.setAttribute("aria-label", "Contact Galok");
-    contact.innerHTML = `
-      <div class="site-contact-inner">
-        <p>CONTACT / GALOK</p>
-        <h2>Write to Galok.</h2>
-        <a href="mailto:galokview@outlook.com">galokview@outlook.com</a>
-      </div>
-    `;
-    footer.before(contact);
   }
 
   function initFieldHeroCarousel() {
@@ -1225,7 +1209,19 @@
       lens: hero.querySelector("[data-field-hero-lens]"),
       subject: hero.querySelector("[data-field-hero-subject]")
     };
-    if (!stage || slides.length < 2 || videos.some((video) => !video) || Object.values(fields).some((field) => !field)) return;
+    if (!stage || !slides.length || videos.some((video) => !video) || Object.values(fields).some((field) => !field)) return;
+
+    if (slides.length === 1) {
+      const video = videos[0];
+      video.muted = true;
+      if (reduceMotion) video.pause();
+      else video.play().catch(() => {});
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden || reduceMotion) video.pause();
+        else video.play().catch(() => {});
+      });
+      return;
+    }
 
     let activeIndex = 0;
     let copyTimer = 0;

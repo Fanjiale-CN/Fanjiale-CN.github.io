@@ -787,14 +787,20 @@ button.postcard-face-front {
   display: block;
   object-fit: cover;
   filter: saturate(0.82);
-  transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1), filter 240ms ease;
+  transition: transform 280ms cubic-bezier(0.23, 1, 0.32, 1), filter 180ms ease;
 }
 
-.postcard-thumb:hover img,
-.postcard-thumb:focus-visible img,
 .postcard-thumb[aria-current="true"] img {
   filter: saturate(1);
-  transform: scale(1.025);
+  transform: scale(1.02);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .postcard-thumb:hover img,
+  .postcard-thumb:focus-visible img {
+    filter: saturate(1);
+    transform: scale(1.02);
+  }
 }
 
 .postcard-thumb[aria-current="true"] .postcard-thumb-image::after {

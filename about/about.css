@@ -427,16 +427,18 @@ body.about-luxe-page {
   object-fit: cover;
   filter: saturate(0.86) contrast(0.98);
   transform: scale(1.001);
-  transition: filter 550ms var(--about-ease), transform 700ms var(--about-ease);
+  transition: filter 180ms ease, transform 280ms var(--about-ease);
 }
 
 .about-entry:nth-child(1) img { object-position: center 48%; }
 .about-entry:nth-child(3) img { object-position: center 42%; }
 
-.about-entry a:hover img,
-.about-entry a:focus-visible img {
-  filter: saturate(1) contrast(1);
-  transform: scale(1.025);
+@media (hover: hover) and (pointer: fine) {
+  .about-entry a:hover img,
+  .about-entry a:focus-visible img {
+    filter: saturate(1) contrast(1);
+    transform: scale(1.02);
+  }
 }
 
 .about-entry-meta {

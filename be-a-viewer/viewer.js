@@ -91,7 +91,7 @@
         slide.classList.toggle("is-active", active);
         const video = videos[slideIndex];
         if (!video) return;
-        video.preload = active || slideIndex === preloadIndex ? "auto" : "metadata";
+        video.preload = active || slideIndex === preloadIndex ? "auto" : "none";
         if (!active) {
           try { video.currentTime = 0; } catch {}
         }

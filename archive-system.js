@@ -101,8 +101,9 @@
       { type: "City", title: "Xiamen", description: "Sea light, Minnan rooflines, island streets and the movement of the tide.", href: "/be-a-viewer/xiamen/", tags: "city coast old-city photography video" },
       { type: "City", title: "Hangzhou", description: "West Lake, green hills and a city held behind the waterline.", href: "/be-a-viewer/hangzhou/", tags: "city east old-city lake water video field-note" },
       { type: "Project", title: "Galok editorial website", description: "A modular field notebook joining essays, city stories and visual archives.", href: "/works/#galok-system", tags: "project works web design" },
-      { type: "Project", title: "Be a Viewer", description: "Four city stories built from moving image, photography and close observation.", href: "/works/#be-a-viewer-work", tags: "project works city video" },
+      { type: "Project", title: "Be a Viewer", description: "Five city stories built from moving image, photography and close observation.", href: "/works/#be-a-viewer-work", tags: "project works city video" },
       { type: "Project", title: "City Postcards", description: "Editorial editions that turn the city archive into a personal object.", href: "/postcards/", tags: "project works postcards photography" },
+      { type: "Research", title: "China in more than one number", description: "A data-led reading of growth, households, employment, property and fiscal pressure.", href: "/data/", tags: "research essay data china economy households employment property fiscal" },
       { type: "Visual note", title: "Xiamen field evidence", description: "Ferry light, campus walls, old alleys, gardens and island views.", href: "/visual-notes/xiamen/", tags: "visual note photography city coast" }
     ];
     const items = [...fixedItems, ...essayItems];
@@ -122,7 +123,7 @@
           <h2>${item.title}</h2>
           <p>${item.description}</p>
         </a>
-      `).join("") : '<p class="archive-empty">No matching field notes. Try a city, format or wider term.</p>';
+      `).join("") : '<p class="archive-empty">No matching entries. Try a city, subject or wider term.</p>';
       const count = document.querySelector("[data-archive-count]");
       if (count) count.textContent = `${results.length} ${results.length === 1 ? "result" : "results"}`;
     }
