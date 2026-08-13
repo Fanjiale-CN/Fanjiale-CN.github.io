@@ -424,7 +424,7 @@
       else link.removeAttribute("aria-current");
     });
     const activeLink = storyLinks.find((link) => link.classList.contains("is-active"));
-    if (activeLink && storyNav && !storyNav.classList.contains("chapter-rail") && storyNav.scrollWidth > storyNav.clientWidth) {
+    if (activeLink && storyNav && storyNav.scrollWidth > storyNav.clientWidth) {
       const left = activeLink.offsetLeft - (storyNav.clientWidth - activeLink.offsetWidth) / 2;
       storyNav.scrollTo({ left: Math.max(0, left), behavior: "auto" });
     }
@@ -439,9 +439,7 @@
     const start = sectionMetrics[0].top;
     const end = sectionMetrics.at(-1).bottom - viewport;
     const amount = Math.max(0, Math.min(1, (scrollY - start) / Math.max(1, end - start)));
-    if (storyProgress) storyProgress.style.transform = storyNav?.classList.contains("chapter-rail")
-      ? `scaleY(${amount})`
-      : `scaleX(${amount})`;
+    if (storyProgress) storyProgress.style.transform = `scaleX(${amount})`;
     const readingLine = scrollY + viewport * .42;
     let active = sectionMetrics[0].section;
     sectionMetrics.forEach((metric) => { if (metric.top <= readingLine) active = metric.section; });
