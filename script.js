@@ -911,7 +911,8 @@
 
     const primaryLinks = [
       { href: "/be-a-viewer/", label: "Cities", match: "/be-a-viewer/" },
-      { href: "/notes/", label: "Essays", matches: ["/notes/", "/views/", "/essays/", "/visual-notes/", "/data/"] },
+      { href: "/notes/", label: "Essays", matches: ["/notes/", "/views/", "/essays/", "/visual-notes/"] },
+      { href: "/data/", label: "Data", match: "/data/" },
       { href: "/works/", label: "Work", match: "/works/" },
       { href: "/archive/", label: "Index", matches: ["/archive/", "/postcards/"] },
       { href: "/about/", label: "About", match: "/about/" }
