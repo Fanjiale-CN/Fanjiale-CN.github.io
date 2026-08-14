@@ -28,6 +28,20 @@ window.GALOK_CONTENT = {
   essays: [
     {
       series: "macro",
+      anchor: "\u52bf",
+      deck: "The title became a product. Then the product became a joke.",
+      title: "The Curator's Curse",
+      date: "2026",
+      readingTime: "9 min",
+      url: "/essays/the-curators-curse/",
+      cover: {
+        src: "/assets/views/articles/the-curators-curse-zine.webp",
+        alt: "A printed collage of a penguin curator, café receipts, rankings and exam records"
+      },
+      excerpt: "How China's boutique economy turned taste, credentials and bad service into a public status test — and why consumers rejected it."
+    },
+    {
+      series: "macro",
       anchor: "\u89c6",
       deck: "The meetings are private. The pattern is not.",
       title: "The Water Is Rising, and Nobody Will Tell You Why",
