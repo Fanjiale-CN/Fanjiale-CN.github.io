@@ -13533,3 +13533,23 @@ a.note-card:focus-visible::after {
   .field-latest-lead img,
   .field-latest-list a { transition: none; }
 }
+
+/* Galok glyph seal — brand symbol on the homepage essay cards. */
+.field-seal {
+  display: inline-block;
+  vertical-align: -0.08em;
+  margin-right: 0.3em;
+  font-size: 0.95em;
+  line-height: 1;
+  color: #9e2a2b;
+  transition: transform 160ms var(--motion-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .field-latest-list a:hover .field-seal,
+  .field-latest-list a:focus-visible .field-seal {
+    transform: scale(1.08);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .field-seal { transition: none !important; transform: none !important; }
+}

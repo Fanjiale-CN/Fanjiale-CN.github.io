@@ -76,6 +76,7 @@
       const lens = s.en || "Note";
       const cover = essay.cover || {};
       const issue = essay.issue ? `ISSUE ${essay.issue} · ` : "";
+      const seal = s.glyph ? `<span class="notes-row-seal glyph-draw" aria-hidden="true" data-glyph="${s.glyph}" data-pinyin="${s.pinyin}">${s.glyph}</span>` : "";
       const coverMarkup = cover.src
         ? `<span class="notes-row-cover" aria-hidden="true"><img src="${cover.src}" alt="" loading="lazy" decoding="async"></span>`
         : "";
@@ -84,7 +85,7 @@
           ${coverMarkup}
           <span>${String(index + 1).padStart(2, "0")}</span>
           <small>${issue}${lens} / ${essay.readingTime}</small>
-          <h3>${essay.title}</h3>
+          <h3>${seal}${essay.title}</h3>
           ${essay.deck ? `<p class="notes-row-deck">${essay.deck}</p>` : ""}
           <p>${essay.excerpt}</p>
         </a>

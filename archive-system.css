@@ -1185,3 +1185,41 @@
     transform: none !important;
   }
 }
+
+/* Galok glyph seal — brand symbol for every essay row and archive cluster. */
+.notes-row-seal {
+  display: inline-block;
+  vertical-align: -0.05em;
+  margin-right: 0.32em;
+  font-size: 0.62em;
+  line-height: 1;
+  color: var(--glyph-color);
+  transition: transform 160ms var(--archive-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .notes-row:hover .notes-row-seal,
+  .notes-row:focus-visible .notes-row-seal {
+    transform: scale(1.08);
+  }
+}
+
+/* Archive index clusters — each cluster stamped with its series glyph. */
+.archive-index-seal {
+  font-family: var(--font-glyph);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--archive-muted);
+  transition: color 160ms ease;
+  font-feature-settings: "palt" 1;
+}
+.archive-index-group:hover .archive-index-seal,
+.archive-index-group:focus-within .archive-index-seal {
+  color: rgba(255, 255, 255, .85);
+}
+@media (prefers-reduced-motion: reduce) {
+  .notes-row-seal,
+  .archive-index-seal {
+    transition: none !important;
+    transform: none !important;
+  }
+}
