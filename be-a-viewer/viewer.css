@@ -512,6 +512,18 @@
   animation: city-feedback-in 320ms ease both;
 }
 
+/* Exit mirrors the entry (find-animation-opportunities #5): opacity + translateY,
+   240ms. The element is removed from the flow after the transition ends.
+   Disabled entirely under prefers-reduced-motion (motion block below). */
+.city-coming-soon.is-exiting {
+  animation: city-feedback-out 240ms ease both;
+  pointer-events: none;
+}
+
+@keyframes city-feedback-out {
+  to { opacity: 0; transform: translateY(0.6rem); }
+}
+
 .city-coming-soon span {
   color: var(--viewer-red);
   font-size: .64rem;
@@ -800,7 +812,10 @@
     transition: none;
   }
 
-  .city-coming-soon.is-visible {
+  .city-coming-soon.is-visible,
+  .city-coming-soon.is-exiting {
     animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

@@ -7932,6 +7932,24 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Universal press feedback (find-animation-opportunities #2):
+   a 140ms confirm that every pressable surface was heard. Only transform,
+   gated by .motion-ready (set by script.js:21) so reduced-motion users
+   see no motion at all. Surfaces with their own :active semantics
+   (story-plane, viewer-film) keep theirs via equal specificity below. */
+.motion-ready button:active {
+  transform: scale(0.975);
+  transition: transform 140ms var(--motion-ease-out);
+}
+.motion-ready .story-plane:active {
+  transform: translate3d(var(--shift-x, 0px), var(--shift-y, 0px), 58px) scale(0.975);
+  transition: transform 140ms var(--motion-ease-out);
+}
+.motion-ready .viewer-film:active {
+  transform: scale(0.975);
+  transition: transform 140ms var(--motion-ease-out);
+}
+
 button:focus-visible,
 a:focus-visible,
 [tabindex]:focus-visible {

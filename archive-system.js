@@ -124,7 +124,13 @@
 
     function setIndexVisible(visible) {
       if (!indexSection) return;
-      indexSection.hidden = !visible;
+      if (visible) {
+        indexSection.hidden = false;
+        requestAnimationFrame(() => indexSection.classList.add("is-visible"));
+      } else {
+        indexSection.classList.remove("is-visible");
+        window.setTimeout(() => { indexSection.hidden = true; }, 160);
+      }
     }
 
     function render() {
@@ -136,13 +142,16 @@
         const haystack = `${item.type} ${item.title} ${item.description} ${item.tags}`.toLowerCase();
         return matchesFilter && (!query || haystack.includes(query));
       });
-      mount.innerHTML = results.length ? results.map((item) => `
-        <a class="archive-result" href="${item.href}">
+      mount.innerHTML = results.length ? results.map((item, order) => `
+        <a class="archive-result is-entering" style="--result-order: ${order}" href="${item.href}">
           <span>${item.type}</span>
           <h2>${item.title}</h2>
           <p>${item.description}</p>
         </a>
-      `).join("") : '<p class="archive-empty">No matching entries. Try a city, subject or wider term.</p>';
+      `).join("") : '<p class="archive-empty is-entering">No matching entries. Try a city, subject or wider term.</p>';
+      requestAnimationFrame(() => {
+        mount.querySelectorAll(".is-entering").forEach((node) => node.classList.remove("is-entering"));
+      });
       const count = document.querySelector("[data-archive-count]");
       if (count) count.textContent = `${results.length} ${results.length === 1 ? "result" : "results"}`;
     }

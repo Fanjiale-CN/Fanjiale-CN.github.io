@@ -573,6 +573,10 @@
   transition: color 160ms ease, transform 160ms var(--archive-ease-out);
 }
 
+.notes-row:active {
+  transform: scale(0.99);
+}
+
 .notes-row-cover {
   display: block;
   grid-column: 1;
@@ -703,10 +707,29 @@
   text-decoration: none;
   border-right: 1px solid var(--archive-line);
   border-bottom: 1px solid var(--archive-line);
-  transition: color 160ms ease, background-color 160ms ease;
+  transition: color 160ms ease, background-color 160ms ease, transform 120ms var(--archive-ease-out);
 }
 
 .archive-result:nth-child(3n) { border-right: 0; }
+
+/* Search result bridge: results and empty state enter with an opacity + 6px bridge
+   after a re-render; the index section exits symmetrically. Motion-gated via
+   .motion-ready (script.js:21) and fully disabled under prefers-reduced-motion
+   (motion block below the archive-index rules). */
+.motion-ready .archive-result.is-entering,
+.motion-ready .archive-empty.is-entering {
+  opacity: 0;
+  transform: translate3d(0, 6px, 0);
+  transition: opacity 180ms var(--archive-ease-out), transform 180ms var(--archive-ease-out);
+  transition-delay: calc(var(--result-order, 0) * 30ms);
+}
+.motion-ready .archive-index-section {
+  opacity: 1;
+  transition: opacity 160ms ease;
+}
+.motion-ready .archive-index-section:not(.is-visible) {
+  opacity: 0;
+}
 
 .archive-result span {
   color: var(--archive-red);
@@ -734,6 +757,16 @@
   padding: 90px 0;
   color: var(--archive-muted);
   font-size: 1.2rem;
+}
+
+.archive-empty::before {
+  content: "∅";
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: .02em;
+  margin-bottom: 18px;
+  color: var(--archive-ink);
 }
 
 /* Browse-the-archive subject clusters. */
@@ -831,8 +864,12 @@
   letter-spacing: .12em;
 }
 
+.archive-result:active {
+  transform: scale(0.985);
+}
+
 @media (hover: hover) and (pointer: fine) {
-  .archive-result:hover,
+.archive-result:hover,
   .archive-result:focus-visible {
     color: var(--archive-paper);
     background: var(--archive-blue);
@@ -1136,6 +1173,15 @@
   .archive-filters button,
   .city-atlas-filters button {
     transition-duration: .2s;
+    transform: none !important;
+  }
+  .archive-result.is-entering,
+  .archive-empty.is-entering,
+  .archive-index-section,
+  .notes-row {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
     transform: none !important;
   }
 }

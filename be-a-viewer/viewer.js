@@ -231,10 +231,19 @@
       feedback.hidden = false;
       feedback.classList.remove("is-visible");
       requestAnimationFrame(() => feedback.classList.add("is-visible"));
-      feedbackTimer = window.setTimeout(() => {
-        feedback.classList.remove("is-visible");
-        window.setTimeout(() => { feedback.hidden = true; }, 250);
-      }, 5000);
+      feedbackTimer = window.setTimeout(() => dismissFeedback(), 5000);
+    }
+
+    function dismissFeedback() {
+      if (!feedback) return;
+      clearTimeout(feedbackTimer);
+      if (!feedback.classList.contains("is-visible")) { feedback.hidden = true; return; }
+      feedback.classList.remove("is-visible");
+      if (!reducedMotion) feedback.classList.add("is-exiting");
+      window.setTimeout(() => {
+        feedback.classList.remove("is-exiting");
+        feedback.hidden = true;
+      }, 240);
     }
 
     desktopChoices.forEach((choice) => {
@@ -260,11 +269,7 @@
       if (card.tagName === "BUTTON") card.addEventListener("click", () => showComingSoon(card.dataset.cityCard));
     });
 
-    feedback?.querySelector("[data-city-feedback-close]")?.addEventListener("click", () => {
-      clearTimeout(feedbackTimer);
-      feedback.classList.remove("is-visible");
-      window.setTimeout(() => { feedback.hidden = true; }, 250);
-    });
+    feedback?.querySelector("[data-city-feedback-close]")?.addEventListener("click", () => dismissFeedback());
   }
 
   document.querySelectorAll("[data-current-year]").forEach((node) => {
