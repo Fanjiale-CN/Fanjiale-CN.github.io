@@ -241,7 +241,12 @@
       const city = choice.dataset.cityChoice;
       choice.addEventListener("pointerenter", () => setPreview(city));
       choice.addEventListener("focus", () => setPreview(city));
-      if (choice.dataset.status === "coming") choice.addEventListener("click", () => showComingSoon(city));
+      if (choice.dataset.status === "coming") {
+        choice.addEventListener("click", (event) => {
+          event.preventDefault();
+          showComingSoon(city);
+        });
+      }
     });
 
     fields.status?.addEventListener("click", (event) => {

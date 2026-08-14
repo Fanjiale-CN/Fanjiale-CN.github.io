@@ -29,6 +29,7 @@ window.GALOK_CONTENT = {
     {
       series: "macro",
       anchor: "\u52bf",
+      issue: 1,
       deck: "The title became a product. Then the product became a joke.",
       title: "The Curator's Curse",
       date: "2026",
@@ -43,6 +44,7 @@ window.GALOK_CONTENT = {
     {
       series: "macro",
       anchor: "\u89c6",
+      issue: 2,
       deck: "The meetings are private. The pattern is not.",
       title: "The Water Is Rising, and Nobody Will Tell You Why",
       date: "2026",
@@ -57,6 +59,7 @@ window.GALOK_CONTENT = {
     {
       series: "macro",
       anchor: "\u89c6",
+      issue: 3,
       deck: "The contract came before the conference.",
       title: "The People’s Republic of AI",
       date: "2026",
@@ -71,6 +74,7 @@ window.GALOK_CONTENT = {
     {
       series: "frame",
       anchor: "\u6846",
+      issue: 4,
       deck: "A compatibility label becomes a court summons.",
       title: "“Fits Honor” Is Now a Lawsuit Waiting to Happen",
       date: "2026",
@@ -85,6 +89,7 @@ window.GALOK_CONTENT = {
     {
       series: "frame",
       anchor: "\u6846",
+      issue: 5,
       deck: "A lifestyle platform buys the loudest tournament on earth.",
       title: "China’s Instagram Meets the World Cup",
       date: "2026",
@@ -99,6 +104,7 @@ window.GALOK_CONTENT = {
     {
       series: "scene",
       anchor: "\u5bdf",
+      issue: 6,
       deck: "A queue forms at every station.",
       title: "China’s Tourism Assembly Line",
       date: "2026",
@@ -113,6 +119,7 @@ window.GALOK_CONTENT = {
     {
       series: "macro",
       anchor: "\u89c6",
+      issue: 7,
       deck: "AI silence became infrastructure.",
       title: "When AI goes silent: real-time censorship infrastructure",
       date: "2026",
@@ -127,6 +134,7 @@ window.GALOK_CONTENT = {
     {
       series: "macro",
       anchor: "\u89c6",
+      issue: 8,
       deck: "The price anchor has moved.",
       title: "What your latte tells you about China's price illusion",
       date: "2026",
@@ -141,6 +149,7 @@ window.GALOK_CONTENT = {
     {
       series: "frame",
       anchor: "\u6846",
+      issue: 9,
       deck: "The platform turns desire into evidence.",
       title: "How platforms quietly redesign consumer choice",
       date: "2026",
@@ -155,6 +164,7 @@ window.GALOK_CONTENT = {
     {
       series: "scene",
       anchor: "\u5bdf",
+      issue: 10,
       deck: "A street-food myth loses its campus filter.",
       title: "How a goose-leg story shook an official narrative",
       date: "2026",
@@ -169,6 +179,7 @@ window.GALOK_CONTENT = {
     {
       series: "scene",
       anchor: "\u5bdf",
+      issue: 11,
       deck: "Cheap coffee is a new social scene.",
       title: "The ordinary life behind RMB 9.9 coffee",
       date: "2026",
@@ -183,6 +194,7 @@ window.GALOK_CONTENT = {
     {
       series: "scene",
       anchor: "\u5bdf",
+      issue: 12,
       deck: "Viral desire enters the proof economy.",
       title: "Under the cyber audit: after the influencer boom",
       date: "2026",

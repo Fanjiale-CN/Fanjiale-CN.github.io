@@ -70,13 +70,22 @@
     const mount = document.querySelector("[data-notes-stream]");
     if (!mount) return;
     const essays = window.GALOK_CONTENT?.essays || [];
+    const series = window.GALOK_CONTENT?.series || {};
     mount.innerHTML = essays.map((essay, index) => {
-      const lens = window.GALOK_CONTENT?.series?.[essay.series]?.en || "Note";
+      const s = series[essay.series] || {};
+      const lens = s.en || "Note";
+      const cover = essay.cover || {};
+      const issue = essay.issue ? `ISSUE ${essay.issue} · ` : "";
+      const coverMarkup = cover.src
+        ? `<span class="notes-row-cover" aria-hidden="true"><img src="${cover.src}" alt="" loading="lazy" decoding="async"></span>`
+        : "";
       return `
-        <a class="notes-row" href="${essay.url}">
+        <a class="notes-row" href="${essay.url}" style="--accent:${s.color || "var(--archive-ink)"}" data-series="${essay.series}">
+          ${coverMarkup}
           <span>${String(index + 1).padStart(2, "0")}</span>
-          <small>${lens} / ${essay.readingTime}</small>
+          <small>${issue}${lens} / ${essay.readingTime}</small>
           <h3>${essay.title}</h3>
+          ${essay.deck ? `<p class="notes-row-deck">${essay.deck}</p>` : ""}
           <p>${essay.excerpt}</p>
         </a>
       `;
@@ -109,9 +118,19 @@
     const items = [...fixedItems, ...essayItems];
     const buttons = [...document.querySelectorAll("[data-archive-filter]")];
     let filter = "all";
+    const indexSection = document.querySelector("[data-archive-index]");
+    const countNode = document.querySelector("[data-archive-count]");
+    if (countNode) countNode.textContent = `${items.length} entries`;
+
+    function setIndexVisible(visible) {
+      if (!indexSection) return;
+      indexSection.hidden = !visible;
+    }
 
     function render() {
       const query = input.value.trim().toLowerCase();
+      const isSearching = query.length > 0 || filter !== "all";
+      setIndexVisible(!isSearching);
       const results = items.filter((item) => {
         const matchesFilter = filter === "all" || item.type.toLowerCase() === filter;
         const haystack = `${item.type} ${item.title} ${item.description} ${item.tags}`.toLowerCase();
