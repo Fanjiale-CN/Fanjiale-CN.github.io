@@ -38,7 +38,7 @@
 }
 
 .archive-hero {
-  width: min(calc(100% - 48px), var(--archive-max));
+  width: min(calc(100vw - 48px), var(--archive-max));
   margin: 0 auto;
   padding: clamp(150px, 18vw, 240px) 0 clamp(80px, 10vw, 150px);
   display: grid;
@@ -46,6 +46,10 @@
   gap: clamp(48px, 8vw, 140px);
   align-items: end;
   border-bottom: 1px solid var(--archive-line);
+}
+
+.archive-hero > * {
+  min-width: 0;
 }
 
 .archive-kicker,
@@ -104,7 +108,7 @@
 }
 
 .archive-section {
-  width: min(calc(100% - 48px), var(--archive-max));
+  width: min(calc(100vw - 48px), var(--archive-max));
   margin: 0 auto;
   padding: clamp(76px, 9vw, 140px) 0;
   border-bottom: 1px solid var(--archive-line);
@@ -269,6 +273,7 @@
 .work-card-media {
   overflow: hidden;
   min-height: 360px;
+  min-width: 0;
   background: var(--archive-blue);
 }
 
@@ -284,7 +289,7 @@
   min-height: 250px;
   padding: clamp(26px, 4vw, 54px);
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 18px;
   align-content: end;
 }
@@ -325,6 +330,7 @@
 
 .notes-feature-art {
   min-height: 680px;
+  min-width: 0;
   background: var(--archive-white);
 }
 
@@ -342,6 +348,7 @@
 
 .notes-feature-copy {
   padding: clamp(38px, 6vw, 86px);
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -1118,17 +1125,17 @@
 .site-nav.xiamen-site-nav:not(.is-scrolled) .brand-lockup small { color: rgba(255,255,255,.68); }
 
 @media (max-width: 900px) {
-  .archive-hero,
-  .archive-section-head,
-  .city-atlas-head,
-  .city-collection-rail-inner {
-    grid-template-columns: 1fr;
+  .archive-page .archive-hero,
+  .archive-page .archive-section-head,
+  .archive-page .city-atlas-head,
+  .archive-page .city-collection-rail-inner {
+    grid-template-columns: 1fr !important;
   }
 
-  .works-grid,
-  .archive-results,
-  .archive-index-grid,
-  .city-atlas-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .archive-page .works-grid,
+  .archive-page .archive-results,
+  .archive-page .archive-index-grid,
+  .archive-page .city-atlas-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .work-card,
   .archive-result,
   .city-atlas-grid > * { grid-column: span 1; }
@@ -1139,16 +1146,16 @@
   .archive-result:nth-child(2n),
   .archive-index-group:nth-child(2n),
   .city-atlas-grid > *:nth-child(2n) { border-right: 0; }
-  .notes-feature { grid-template-columns: 1fr; }
-  .notes-feature-art { min-height: 560px; }
-  .notes-feature-copy { min-height: 520px; }
-  .about-columns { grid-template-columns: 1fr; }
+  .archive-page .notes-feature { grid-template-columns: 1fr !important; }
+  .archive-page .notes-feature-art { min-height: 560px; }
+  .archive-page .notes-feature-copy { min-height: 520px; }
+  .archive-page .about-columns { grid-template-columns: 1fr !important; }
   .about-columns article { min-height: 260px; border-right: 0; border-bottom: 1px solid var(--archive-ink); }
 }
 
 @media (max-width: 640px) {
   .archive-hero,
-  .archive-section { width: min(calc(100% - 32px), var(--archive-max)); }
+  .archive-section { width: min(calc(100vw - 32px), var(--archive-max)); }
   .archive-hero { padding-top: 126px; }
   .archive-title { font-size: clamp(4rem, 22vw, 6.5rem); }
   .archive-search-panel { grid-template-columns: 1fr; }
