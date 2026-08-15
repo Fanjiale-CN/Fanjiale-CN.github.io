@@ -597,8 +597,8 @@
 }
 
 .notes-row .notes-row-deck {
-  grid-column: 3;
-  max-width: 680px;
+  grid-column: 3 / -1;
+  max-width: 720px;
   margin: 4px 0 0;
   color: var(--accent, var(--archive-ink));
   font-style: italic;
@@ -614,6 +614,7 @@
 }
 
 .notes-row h3 {
+  grid-column: 4;
   margin: 0;
   font-size: clamp(1.55rem, 3vw, 3rem);
   letter-spacing: -.04em;
@@ -621,8 +622,8 @@
 }
 
 .notes-row p {
-  grid-column: 3;
-  max-width: 680px;
+  grid-column: 3 / -1;
+  max-width: 720px;
   margin: -4px 0 0;
   color: var(--archive-muted);
   line-height: 1.5;
