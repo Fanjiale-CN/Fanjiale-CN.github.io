@@ -11155,6 +11155,66 @@ body.article-body .site-shell {
 .batch-chapter-menu {
   display: none;
 }
+/* ---- Galok capsule nav host rules (article pages) ---- */
+.batch-chapter-nav.gcn {
+  position: fixed !important;
+  top: 84px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 100%;
+  max-width: 1264px;
+  padding: 0;
+  margin: 0;
+  border-bottom: none;
+  background: color-mix(in srgb, var(--batch-paper) 94%, transparent);
+  backdrop-filter: blur(14px);
+  z-index: 70;
+  /* the capsule component owns layout transitions */
+  transition: none;
+}
+.batch-chapter-nav.gcn.is-expanded {
+  display: grid;
+}
+.batch-chapter-nav.gcn.is-collapsed {
+  display: block !important;
+  overflow: visible;
+}
+.batch-chapter-nav.gcn.is-collapsed > a,
+.batch-chapter-nav.gcn.is-collapsed a:not(.gcn-bar a, .gcn-chapter) {
+  display: none;
+}
+/* ---- capsule bar children must survive host rules ---- */
+.batch-chapter-nav.gcn .gcn-bar,
+.batch-chapter-nav.gcn .gcn-bar a,
+.batch-chapter-nav.gcn .gcn-bar button,
+.batch-chapter-nav.gcn .gcn-bar .gcn-dot {
+  display: flex;
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+}
+/* host aria-current bg: keep only on the bar chapter link */
+.batch-chapter-nav.gcn a[aria-current="location"] {
+  background: transparent;
+}
+.batch-chapter-nav.gcn .gcn-chapter[aria-current="location"],
+.batch-chapter-nav.gcn .gcn-chapter[aria-current="location"] {
+  background: var(--ra-color-active-bg);
+}
+/* mobile: capsule off — desktop nav drops back to the details menu */
+@media (max-width: 900px) {
+  .batch-chapter-nav.gcn {
+    position: sticky !important;
+    top: 76px !important;
+    left: auto !important;
+    transform: none !important;
+    display: none !important;
+  }
+  .batch-chapter-menu {
+    display: block;
+  }
+}
+
 
 .batch-article-layout {
   padding-top: clamp(72px, 9vw, 116px);

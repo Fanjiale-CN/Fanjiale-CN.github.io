@@ -395,52 +395,15 @@
       scrollToHash(skipBtn.getAttribute("href"), true);
     });
     if (articleNav && navLinks.length && sections.length) {
-      // Auto-hide: the chapter strip slides away while scrolling down and returns
-      // on scroll-up, at the top of the page, or when the pointer touches the
-      // top 8px recall zone. Direction change needs a small dead-band to avoid
-      // flickering on micro-scrolls.
-      const navRecall = document.querySelector(".data-nav-recall") || (() => {
-        const zone = document.createElement("div");
-        zone.className = "data-nav-recall";
-        zone.setAttribute("aria-hidden", "true");
-        articleNav.parentNode.insertBefore(zone, articleNav.nextSibling);
-        return zone;
-      })();
-      let lastScrollY = window.scrollY;
-      let direction = 0;
-      const HIDE_THRESHOLD = 150;
-      const DEAD_BAND = 4;
-      let hideTimer = 0;
-      const NAV_HEIGHT = articleNav.offsetHeight || 68;
-      const setNavHidden = (hidden) => {
-        articleNav.classList.toggle("is-hidden", hidden);
-        navRecall.classList.toggle("is-active", hidden);
-      };
-      const updateNavVisibility = () => {
-        const scrollY = window.scrollY;
-        // Always visible at the top of the page: the nav first passes by naturally
-        // (it is fixed at top:72, so it disappears once scrollY exceeds 72).
-        if (scrollY <= HIDE_THRESHOLD) { setNavHidden(false); lastScrollY = scrollY; direction = 0; return; }
-        const delta = scrollY - lastScrollY;
-        if (Math.abs(delta) < DEAD_BAND) return;
-        if (Math.sign(delta) !== direction) { direction = Math.sign(delta); window.clearTimeout(hideTimer); hideTimer = 0; }
-        if (direction < 0) setNavHidden(false); // scrolling up: return immediately
-        else {
-          if (hideTimer) return; // already hiding after delay
-          hideTimer = window.setTimeout(() => {
-            hideTimer = 0;
-            if (direction < 0) return; // direction flipped during delay
-            setNavHidden(true);
-          }, 260);
-        }
-        lastScrollY = scrollY;
-      };
-      navRecall.addEventListener("mouseenter", () => {
-        if (!articleNav.classList.contains("is-hidden")) return;
-        lastScrollY = window.scrollY;
-        setNavHidden(false);
-      });
-      window.addEventListener("scroll", updateNavVisibility, { passive: true });
+      // Capsule nav (galok-capsule.js/css): the strip shrinks to a floating capsule
+      // on scroll-down and expands on scroll-up / hover / page top. Drag the grip
+      // to snap the capsule to a remembered anchor. Host keeps scroll-spy + scrubber.
+      articleNav.classList.add("gcn", "gcn--data");
+      articleNav.classList.toggle("is-expanded", window.scrollY <= 120);
+      // Hand the nav to the capsule component directly — avoids a fragile
+      // timing dependency on DOMContentLoaded order.
+      if (window.GalokCapsule) window.GalokCapsule.init(document);
+      else window.addEventListener("load", () => window.GalokCapsule?.init(document), { once: true });
       const updateReadingState = () => {
         const marker = Math.min(window.innerHeight * 0.38, 340);
         let current = sections[0].id;

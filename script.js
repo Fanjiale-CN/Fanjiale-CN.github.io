@@ -576,6 +576,25 @@
 
   initBatchChapterNavigation();
 
+  // Galok capsule nav — article pages (.batch-chapter-nav becomes the capsule host).
+  // The capsule mirrors the host's aria-current markings (set above), so the host
+  // scroll-spy stays the single source of truth.
+  if (typeof window.GalokCapsule === "object") {
+    var essayNav = document.querySelector(".batch-chapter-nav");
+    if (essayNav && !essayNav.classList.contains("gcn")) {
+      essayNav.classList.add("gcn", "gcn--essay");
+      window.GalokCapsule.init(document);
+    }
+  } else {
+    window.addEventListener("load", function () {
+      var essayNav = document.querySelector(".batch-chapter-nav");
+      if (essayNav && typeof window.GalokCapsule === "object") {
+        essayNav.classList.add("gcn", "gcn--essay");
+        window.GalokCapsule.init(document);
+      }
+    }, { once: true });
+  }
+
   function initSpatialHero() {
     const hero = document.querySelector("[data-spatial-hero]");
     if (!hero) return;

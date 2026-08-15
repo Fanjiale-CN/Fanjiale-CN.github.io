@@ -1007,20 +1007,27 @@
 }
 
 /*
- * Auto-hiding chapter nav. The strip hides itself when the reader scrolls down
- * (so it never sits on top of the text) and returns when they scroll up,
- * reach the top of the page, or move the pointer to the top 8px edge.
- * Hidden state uses only transform + visibility — no layout jumps.
+ * Capsule chapter nav (galok-capsule.css): the strip shrinks to a floating capsule
+ * when the reader scrolls down (so it never sits on top of the text), expands on
+ * scroll-up / hover / page top. Drag the grip (or long-press the bar) to unlock
+ * and snap the capsule to a remembered anchor. Transform-only motion.
  */
-.data-article-nav {
-  position: fixed;
+.data-article-nav.gcn {
   z-index: 12;
+  --gcn-ui-font: var(--font-ui, inherit);
+}
+/* Expanded strip: keep the full-width 10-column grid look. */
+.data-article-nav.gcn.is-expanded {
   top: 72px;
-  visibility: visible;
-  transform: translateY(0);
-  transition:
-    transform var(--data-duration-fast) var(--data-ease-out),
-    visibility 0s;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 100vw;
+  max-width: none;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  background: var(--data-paper);
 }
 .data-article-nav {
   display: grid;
@@ -1037,6 +1044,24 @@
   transition:
     transform var(--data-duration-fast) var(--data-ease-out),
     visibility 0s linear var(--data-duration-fast);
+}
+/* Collapsed capsule: the chapter grid slips out of view and the compact bar takes over. */
+.data-article-nav.gcn.is-collapsed > a,
+.data-article-nav.gcn.is-collapsed .data-chapter-scrubber,
+.data-article-nav.gcn.is-collapsed > i {
+  display: none;
+}
+.data-article-nav.gcn.is-collapsed a {
+  pointer-events: none;
+}
+/* The capsule bar stays interactive — its controls must never be hidden. */
+.data-article-nav.gcn.is-collapsed .gcn-bar,
+.data-article-nav.gcn.is-collapsed .gcn-bar a,
+.data-article-nav.gcn.is-collapsed .gcn-bar button,
+.data-article-nav.gcn.is-collapsed .gcn-bar .gcn-dot {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 .data-article-nav a {
   position: relative;
@@ -1099,6 +1124,7 @@
 }
 .data-article-nav b { color: var(--data-red); }
 /* Single sliding indicator: one red bar glides to the active chapter (state indication). */
+/* Hidden inside the capsule — the dot row carries chapter state there. */
 .data-chapter-scrubber {
   position: absolute;
   left: 0;
