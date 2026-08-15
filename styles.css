@@ -1,9 +1,9 @@
 :root {
   color-scheme: light;
-  --font-serif: "Galok English", "EB Garamond", "Times New Roman", serif;
+  --font-serif: "Galok Floane", "EB Garamond", "Times New Roman", serif;
   --font-hk: "Galok HK Ming", "PMingLiU", "MingLiU", "Songti TC", "Noto Serif HK", serif;
   --font-glyph: "Galok Glyph Display", "Galok HK Ming", "PMingLiU", "MingLiU", serif;
-  --font-ui: "Galok English", "Times New Roman", serif;
+  --font-ui: "Roboto Slab", "EB Garamond", "Times New Roman", serif;
   --paper: #f7f4ef;
   --paper-2: #fffaf2;
   --ink: #171717;
@@ -510,33 +510,19 @@
 }
 
 @font-face {
-  font-family: "Galok English";
-  src: url("/assets/fonts/eb-garamond-400.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Galok English";
-  src: url("/assets/fonts/eb-garamond-500.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Galok English";
-  src: url("/assets/fonts/eb-garamond-600.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Galok English";
-  src: url("/assets/fonts/eb-garamond-700.ttf") format("truetype");
+  font-family: "Galok Floane";
+  src: url("/assets/fonts/floane-bold.woff2") format("woff2"),
+       url("/assets/fonts/floane-bold.ttf") format("truetype");
   font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto Slab";
+  src: url("/assets/fonts/robotoslab-thin.woff2") format("woff2"),
+       url("/assets/fonts/robotoslab-thin.ttf") format("truetype");
+  font-weight: 250;
   font-style: normal;
   font-display: swap;
 }
@@ -589,7 +575,7 @@ body {
     repeating-linear-gradient(0deg, rgba(158, 42, 43, 0.045) 0 1px, transparent 1px 32px),
     var(--paper);
   color: var(--ink);
-  font-family: var(--font-serif);
+  font-family: var(--font-ui);
   font-size: 18px;
   line-height: 1.58;
   text-rendering: optimizeLegibility;
@@ -773,7 +759,7 @@ button {
   flex-wrap: wrap;
   gap: 12px;
   color: var(--muted);
-  font-family: var(--font-serif);
+  font-family: var(--font-ui);
   font-size: clamp(1.25rem, 1.8vw, 2rem);
 }
 
@@ -10786,8 +10772,8 @@ body.article-body .site-shell {
   --ra-color-chart-track: rgba(16, 18, 20, 0.12);
   --ra-color-chart-fill: var(--ra-color-accent);
   --ra-color-chart-secondary: #758087;
-  --ra-font-body: "Galok English", "EB Garamond", "Times New Roman", serif;
-  --ra-font-display: "Galok English", "EB Garamond", "Times New Roman", serif;
+  --ra-font-body: "Roboto Slab", "EB Garamond", "Times New Roman", serif;
+  --ra-font-display: "Galok Floane", "EB Garamond", "Times New Roman", serif;
   --ra-font-utility: var(--font-sans);
   --ra-text-cover-overline: clamp(0.56rem, 1.15vw, 0.72rem);
   --ra-text-cover-kicker: clamp(0.65rem, 1.4vw, 0.86rem);

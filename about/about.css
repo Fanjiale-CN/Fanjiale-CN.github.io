@@ -7,7 +7,7 @@
   --about-red: #c3312a;
   --about-image-matte: #d6d0c5;
   --about-footer-muted: #aaa49a;
-  --about-serif: "Galok English", "EB Garamond", "Times New Roman", serif;
+  --about-serif: "Galok Floane", "EB Garamond", "Times New Roman", serif;
   --about-pad: clamp(24px, 4.8vw, 80px);
   --about-max: 1800px;
   --about-ease: cubic-bezier(.22, .61, .36, 1);
@@ -116,7 +116,7 @@ body.about-luxe-page {
 .about-film h2,
 .about-contact h2 {
   font-family: var(--about-serif);
-  font-weight: 400;
+  font-weight: 700;
   text-wrap: balance;
 }
 
@@ -131,7 +131,7 @@ body.about-luxe-page {
 .about-film h2 em,
 .about-contact h2 em {
   color: var(--about-red);
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .about-hero-note {
@@ -456,7 +456,7 @@ body.about-luxe-page {
 .about-entry-meta strong {
   font-family: var(--about-serif);
   font-size: clamp(1.9rem, 3.1vw, 3.7rem);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.035em;
 }
@@ -560,7 +560,7 @@ body.about-luxe-page {
   color: inherit;
   font-family: var(--about-serif);
   font-size: clamp(2.8rem, 4.5vw, 5.5rem);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 0.96;
   letter-spacing: -0.04em;
   text-wrap: balance;
@@ -688,7 +688,7 @@ body.about-luxe-page {
   overflow-wrap: anywhere;
   font-family: var(--about-serif);
   font-size: clamp(1.55rem, 2.8vw, 3.4rem);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1;
 }
 
