@@ -5,59 +5,77 @@
    Reduced-motion: static hairline remains, no animation, nothing moves.
    ========================================================================== */
 
+/* split layout: map draws on the left, city name + copy on the right */
 .cl-stage {
   position: relative;
   width: 100%;
-  min-height: 78vh;
-  min-height: 78dvh;
+  min-height: 70vh;
+  min-height: 70dvh;
   display: grid;
-  place-items: center;
-  padding: 6rem 2rem 5rem;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: center;
+  padding: 5rem 4.5vw;
+  gap: 3.5rem;
   background: var(--cl-stage-bg, #f5f0e8);
   overflow: hidden;
   isolation: isolate;
 }
 
-.cl-wordmark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  line-height: 1.05;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.cl-wordmark .cl-latin {
-  display: block;
-  font-size: clamp(3.2rem, 9vw, 7rem);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--cl-stage-ink, #1a1a1a);
-}
-
-.cl-wordmark .cl-hanzi {
-  display: block;
-  font-family: "Galok Glyph Display", serif;
-  font-size: clamp(1.6rem, 4.2vw, 3.2rem);
-  color: var(--archive-red, #c74637);
-  margin-top: 0.35em;
-}
-
 .cl-map-wrap {
-  position: absolute;
-  inset: 0;
+  width: 100%;
+  grid-column: 1;
   display: grid;
   place-items: center;
-  padding: 3rem;
 }
 
 .cl-map {
-  width: min(86vh, 86dvh, 88vw);
-  height: min(86vh, 86dvh, 88vw);
-  max-width: 900px;
+  width: min(66vh, 66dvh, 66vw);
+  height: min(66vh, 66dvh, 66vw);
+  max-width: 720px;
   overflow: visible;
+}
+
+.cl-copy {
+  grid-column: 2;
+  text-align: left;
+  padding-left: 2vw;
+  border-left: 2px solid var(--archive-red, #c74637);
+}
+
+.cl-copy .cl-kicker {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--archive-red, #c74637);
+  text-transform: uppercase;
+}
+
+.cl-copy .cl-latin {
+  display: block;
+  font-size: clamp(3rem, 6.5vw, 5.6rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.02;
+  color: var(--cl-stage-ink, #1a1a1a);
+  margin-top: 1rem;
+}
+
+.cl-copy .cl-hanzi {
+  display: block;
+  font-family: "Galok Glyph Display", serif;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  color: var(--archive-red, #c74637);
+  margin-top: 0.6em;
+}
+
+.cl-copy .cl-tagline {
+  display: block;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  line-height: 1.6;
+  color: #57534a;
+  margin-top: 1.6em;
+  max-width: 26ch;
 }
 
 .cl-map path {
@@ -86,7 +104,7 @@
 .cl-stage.is-drawn .cl-district { opacity: 1; }
 .cl-stage.is-ghost .cl-outline { stroke-opacity: 0.16; }
 .cl-stage.is-ghost .cl-district { stroke-opacity: 0.07; }
-.cl-stage.is-ghost .cl-wordmark { opacity: 0; }
+.cl-stage.is-ghost .cl-copy { opacity: 0.18; }
 
 /* reduced motion: static hairline map, no JS needed */
 @media (prefers-reduced-motion: reduce) {
@@ -95,12 +113,20 @@
     stroke-opacity: 0.12;
   }
   .cl-stage .cl-outline { stroke-opacity: 0.3; }
-  .cl-stage .cl-wordmark { opacity: 1 !important; }
-  .cl-stage.is-ghost .cl-wordmark { opacity: 1; }
+  .cl-stage .cl-copy { opacity: 1 !important; }
+  .cl-stage.is-ghost .cl-copy { opacity: 1; }
 }
 
-/* phone: keep text legible over the map */
+/* phone: stack — map on top, copy below, keep text legible */
 @media (max-width: 640px) {
-  .cl-stage { min-height: 64vh; min-height: 64dvh; padding-top: 4rem; }
-  .cl-map-wrap { padding: 2rem 1rem; }
+  .cl-stage {
+    grid-template-columns: 1fr;
+    min-height: 64vh;
+    min-height: 64dvh;
+    padding: 4rem 1.25rem 3rem;
+    gap: 2rem;
+  }
+  .cl-map { width: min(56vw, 56dvh); height: min(56vw, 56dvh); }
+  .cl-copy { grid-column: 1; border-left: none; border-top: 2px solid var(--archive-red, #c74637); padding-left: 0; padding-top: 1.5rem; text-align: center; }
+  .cl-copy .cl-tagline { max-width: 34ch; margin-left: auto; margin-right: auto; }
 }
