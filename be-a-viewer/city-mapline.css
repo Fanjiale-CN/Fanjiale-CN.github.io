@@ -1,0 +1,106 @@
+/* ==========================================================================
+   city-mapline — self-drawing city boundary (GSAP DrawSVG + ScrollTrigger)
+   galok motion contract: exceptions registry for data-figure class animation.
+   Line drawing > 240ms on purpose (same exemption tier as metric-bar/reveal).
+   Reduced-motion: static hairline remains, no animation, nothing moves.
+   ========================================================================== */
+
+.cl-stage {
+  position: relative;
+  width: 100%;
+  min-height: 78vh;
+  min-height: 78dvh;
+  display: grid;
+  place-items: center;
+  padding: 6rem 2rem 5rem;
+  background: var(--cl-stage-bg, #f5f0e8);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.cl-wordmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  line-height: 1.05;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cl-wordmark .cl-latin {
+  display: block;
+  font-size: clamp(3.2rem, 9vw, 7rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--cl-stage-ink, #1a1a1a);
+}
+
+.cl-wordmark .cl-hanzi {
+  display: block;
+  font-family: "Galok Glyph Display", serif;
+  font-size: clamp(1.6rem, 4.2vw, 3.2rem);
+  color: var(--archive-red, #c74637);
+  margin-top: 0.35em;
+}
+
+.cl-map-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 3rem;
+}
+
+.cl-map {
+  width: min(86vh, 86dvh, 88vw);
+  height: min(86vh, 86dvh, 88vw);
+  max-width: 900px;
+  overflow: visible;
+}
+
+.cl-map path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+/* district hairlines: faint, drawn later, kept as watermark */
+.cl-district {
+  stroke: var(--cl-stage-ink, #1a1a1a);
+  stroke-width: 2.4;
+  opacity: 0;
+}
+
+/* main boundary: the drawn line */
+.cl-outline {
+  stroke: var(--cl-stage-ink, #1a1a1a);
+  stroke-width: 3.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+}
+
+/* state: line drawn, map recedes to watermark behind content */
+.cl-stage.is-drawn .cl-outline { opacity: 1; }
+.cl-stage.is-drawn .cl-district { opacity: 1; }
+.cl-stage.is-ghost .cl-outline { stroke-opacity: 0.16; }
+.cl-stage.is-ghost .cl-district { stroke-opacity: 0.07; }
+.cl-stage.is-ghost .cl-wordmark { opacity: 0; }
+
+/* reduced motion: static hairline map, no JS needed */
+@media (prefers-reduced-motion: reduce) {
+  .cl-stage .cl-map path {
+    opacity: 1 !important;
+    stroke-opacity: 0.12;
+  }
+  .cl-stage .cl-outline { stroke-opacity: 0.3; }
+  .cl-stage .cl-wordmark { opacity: 1 !important; }
+  .cl-stage.is-ghost .cl-wordmark { opacity: 1; }
+}
+
+/* phone: keep text legible over the map */
+@media (max-width: 640px) {
+  .cl-stage { min-height: 64vh; min-height: 64dvh; padding-top: 4rem; }
+  .cl-map-wrap { padding: 2rem 1rem; }
+}
