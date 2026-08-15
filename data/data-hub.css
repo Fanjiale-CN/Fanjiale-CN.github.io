@@ -1006,10 +1006,23 @@
   text-underline-offset: 5px;
 }
 
+/*
+ * Auto-hiding chapter nav. The strip hides itself when the reader scrolls down
+ * (so it never sits on top of the text) and returns when they scroll up,
+ * reach the top of the page, or move the pointer to the top 8px edge.
+ * Hidden state uses only transform + visibility — no layout jumps.
+ */
 .data-article-nav {
-  position: sticky;
+  position: fixed;
   z-index: 12;
   top: 72px;
+  visibility: visible;
+  transform: translateY(0);
+  transition:
+    transform var(--data-duration-fast) var(--data-ease-out),
+    visibility 0s;
+}
+.data-article-nav {
   display: grid;
   grid-template-columns: repeat(10, minmax(0, 1fr));
   margin: 0 calc(50% - 50vw);
@@ -1017,6 +1030,13 @@
   border-block: 1px solid var(--data-rule);
   background: rgba(241,238,231,.96);
   backdrop-filter: blur(12px);
+}
+.data-article-nav.is-hidden {
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition:
+    transform var(--data-duration-fast) var(--data-ease-out),
+    visibility 0s linear var(--data-duration-fast);
 }
 .data-article-nav a {
   position: relative;
@@ -1037,6 +1057,17 @@
     color var(--data-duration-fast) var(--data-ease-out),
     background-color var(--data-duration-fast) var(--data-ease-out);
 }
+/* Click zone that brings the nav back while it's hidden: an invisible 8px strip along the viewport's top edge. */
+.data-nav-recall {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  z-index: 13;
+  pointer-events: none;
+}
+.data-nav-recall.is-active { pointer-events: auto; }
 .data-article-nav a:first-child { border-left: 1px solid var(--data-rule); }
 .data-article-nav a:focus-visible,
 .data-article-nav a.is-active { color: var(--data-ink); background: var(--data-paper-light); }
@@ -1640,6 +1671,7 @@
   .data-summary ul { grid-template-columns: 1fr; }
 
   .data-article-nav { top: 64px; margin-inline: -16px; }
+  .data-nav-recall { top: 64px; }
   .data-article-nav a { min-height: 58px; }
   .data-longform { padding-top: 92px; }
 
@@ -1806,10 +1838,11 @@
 @media (prefers-reduced-motion: reduce) {
   .data-hub-tab,
   .data-article-nav a,
+  .data-article-nav.is-hidden,
   .data-hub-table-actions button,
   .data-source-actions button,
   .data-source-actions a {
-    transition-duration: var(--data-duration-fast);
+    transition-duration: 0s;
   }
 
   .data-hub-tab::after {
