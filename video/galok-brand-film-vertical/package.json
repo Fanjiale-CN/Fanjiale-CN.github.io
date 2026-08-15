@@ -1,0 +1,25 @@
+{
+  "name": "galok-brand-film",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "capture": "node capture.mjs",
+    "prepare": "bash prepare-media.sh",
+    "still": "NODE_OPTIONS=--require=./network-shim.cjs remotion still src/index.ts GalokBrandFilm --browser-executable=/tmp/chromium",
+    "render": "npm run prepare && NODE_OPTIONS=--require=./network-shim.cjs remotion render src/index.ts GalokBrandFilm out/galok-brand-film.mp4 --browser-executable=/tmp/chromium --codec=h264 --crf=18 --pixel-format=yuv420p --muted --concurrency=2",
+    "render:frames": "remotion still src/index.ts GalokBrandFilm"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.507",
+    "@sparticuz/chromium": "149.0.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@typescript-eslint/typescript-estree": "^8.67.0",
+    "puppeteer-core": "25.5.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "remotion": "4.0.507",
+    "typescript": "^5.9.3"
+  }
+}

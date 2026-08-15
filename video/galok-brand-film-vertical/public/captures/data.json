@@ -1,0 +1,52 @@
+{
+  "url": "http://127.0.0.1:4173/data/",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "dpr": 2
+  },
+  "pageHeight": 1168,
+  "title": "Data — Galok",
+  "blocks": [
+    {
+      "selector": "nav",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 77
+    },
+    {
+      "selector": "header",
+      "index": 0,
+      "x": 504,
+      "y": 125,
+      "width": 912,
+      "height": 202
+    },
+    {
+      "selector": "main",
+      "index": 0,
+      "x": 480,
+      "y": 77,
+      "width": 960,
+      "height": 1091
+    },
+    {
+      "selector": "h1",
+      "index": 0,
+      "x": 504,
+      "y": 153,
+      "width": 912,
+      "height": 48
+    },
+    {
+      "selector": "section",
+      "index": 0,
+      "x": 504,
+      "y": 359,
+      "width": 912,
+      "height": 567
+    }
+  ]
+}

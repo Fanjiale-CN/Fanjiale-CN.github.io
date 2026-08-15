@@ -634,6 +634,18 @@
   font-style: italic;
 }
 
+.notes-row-maturity {
+  display: inline;
+  margin-left: 8px;
+  color: var(--archive-ink);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: .04em;
+}
+.notes-row-maturity[data-maturity="evergreen"] {
+  color: var(--archive-red);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .notes-row:hover,
   .notes-row:focus-visible {

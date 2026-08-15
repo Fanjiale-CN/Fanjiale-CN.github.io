@@ -1,0 +1,116 @@
+/* Galok Data / Claim hook — 2026-08-15
+   Narrative hook for the Data page: claim kicker, claim title,
+   one-baseline-three-directions figure, and skip anchors.
+   Motion budget: opacity + transform only, <=480ms, reduced-motion safe. */
+
+.data-claim-kicker {
+  font-size: .72rem;
+  letter-spacing: .28em;
+  color: var(--data-red, #a5382e);
+  font-family: Georgia, serif;
+  margin: 0 0 18px;
+  text-transform: uppercase;
+}
+
+.data-opening-copy .data-claim-title {
+  margin-bottom: 34px;
+}
+
+/* --- Claim figure: one zero line, three directions --- */
+.data-claim-figure {
+  max-width: 64ch;
+  margin: 0 0 34px;
+  padding: 26px 30px 24px;
+  border: 1px solid var(--data-rule, rgba(26,26,26,.14));
+  background: rgba(255,255,255,.45);
+  border-radius: 2px;
+}
+.data-claim-figure figcaption {
+  font-size: .7rem;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #736c62;
+  margin-bottom: 16px;
+  font-family: Georgia, serif;
+}
+.data-claim-figure .data-claim-scale {
+  position: relative;
+}
+.data-claim-axis {
+  position: relative;
+  margin-top: 22px;
+  padding-top: 26px;
+  font-size: .72rem;
+  letter-spacing: .06em;
+  color: #8a8278;
+}
+.data-claim-axis::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 4px;
+  right: 4px;
+  height: 1px;
+  background: repeating-linear-gradient(to right, rgba(26,26,26,.34) 0 3px, transparent 3px 8px);
+}
+.data-claim-axis span { position: absolute; top: 8px; }
+.data-claim-axis span:nth-child(1) { left: 4px; }
+.data-claim-axis span:nth-child(2) { left: 50%; transform: translateX(-50%); }
+.data-claim-axis span:nth-child(3) { right: 4px; }
+
+.data-claim-point {
+  position: relative;
+  padding: 16px 0 4px;
+  border-top: 1px dashed rgba(26,26,26,.18);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+.data-claim-point::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: var(--point, 50%);
+  height: 1px;
+  background: var(--color, var(--data-ink));
+}
+.data-claim-point b {
+  font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--color, var(--data-ink));
+}
+.data-claim-point span {
+  color: #5a544b;
+  font-family: Georgia, serif;
+  font-size: .92rem;
+}
+
+.data-claim-figure p#claim-figure-note {
+  margin: 18px 0 0;
+  font-size: .8rem;
+  line-height: 1.6;
+  color: #736c62;
+  max-width: 52ch;
+}
+
+/* --- Skip anchor in the chapter nav --- */
+.data-nav-skip {
+  font-size: .68rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #8a8278;
+  border-bottom: 1px solid var(--data-rule, rgba(26,26,26,.14));
+  padding: 8px 14px 7px;
+}
+.data-nav-skip:hover {
+  color: var(--data-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .data-claim-figure [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}

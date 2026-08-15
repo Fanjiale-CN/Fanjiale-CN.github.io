@@ -60,29 +60,25 @@
 
     function scheduleFallback() {
       clearFallback();
-      if (pausedByUser || document.hidden || !heroVisible) return;
-      fallbackTimer = window.setTimeout(() => showSlide(activeIndex + 1), 6200);
     }
 
     async function playActive() {
       const video = videos[activeIndex];
       pauseAll();
       clearFallback();
-      if (!video || pausedByUser || !heroVisible || document.hidden) {
+      if (!video || !heroVisible || document.hidden) {
         updateToggle();
         return;
       }
       try {
         video.muted = true;
         await video.play();
-      } catch {
-        scheduleFallback();
-      }
+      } catch {}
       updateToggle();
       if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
     }
 
-    function showSlide(index, autoplay = true, instant = false) {
+    function showSlide(index, autoplay = false, instant = false) {
       activeIndex = (index + slides.length) % slides.length;
       pauseAll();
       const preloadIndex = (activeIndex + 1) % slides.length;
@@ -116,13 +112,19 @@
 
       try { videos[activeIndex].currentTime = 0; } catch {}
       if (progress) progress.style.transform = "scaleX(0)";
-      if (autoplay) playActive();
-      else updateToggle();
+      updateToggle();
+    }
+
+    function togglePlay() {
+      const video = videos[activeIndex];
+      if (!video) return;
+      if (video.paused) playActive();
+      else pauseAll(), updateToggle();
     }
 
     videos.forEach((video, index) => {
       video?.addEventListener("ended", () => {
-        if (!pausedByUser && index === activeIndex) showSlide(activeIndex + 1);
+        if (index === activeIndex) video.pause();
       });
       video?.addEventListener("loadedmetadata", () => {
         if (index === activeIndex && !progressFrame) progressFrame = requestAnimationFrame(updateProgress);
@@ -132,15 +134,7 @@
     dots.forEach((dot, index) => dot.addEventListener("click", () => showSlide(index)));
     hero.querySelector("[data-viewer-prev]")?.addEventListener("click", () => showSlide(activeIndex - 1));
     hero.querySelector("[data-viewer-next]")?.addEventListener("click", () => showSlide(activeIndex + 1));
-    toggle?.addEventListener("click", () => {
-      pausedByUser = !pausedByUser;
-      if (pausedByUser) {
-        clearFallback();
-        pauseAll();
-        updateToggle();
-      }
-      else playActive();
-    });
+    toggle?.addEventListener("click", togglePlay);
 
     stage?.addEventListener("pointerdown", (event) => {
       if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -150,15 +144,14 @@
       if (swipeStartX === null) return;
       const distance = event.clientX - swipeStartX;
       swipeStartX = null;
-      if (Math.abs(distance) < 52) return;
+      if (Math.abs(distance) < 52) { togglePlay(); return; }
       showSlide(activeIndex + (distance < 0 ? 1 : -1));
     }, { passive: true });
 
     if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver(([entry]) => {
         heroVisible = entry.isIntersecting;
-        if (heroVisible) playActive();
-        else {
+        if (!heroVisible) {
           clearFallback();
           pauseAll();
           updateToggle();
@@ -169,11 +162,10 @@
 
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) pauseAll();
-      else playActive();
     });
 
-    showSlide(0, !reducedMotion, true);
-    if (reducedMotion) pauseAll();
+    showSlide(0, false, true);
+    pauseAll();
   }
 
   const cityData = {

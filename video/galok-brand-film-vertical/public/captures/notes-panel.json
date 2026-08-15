@@ -1,0 +1,76 @@
+{
+  "url": "http://127.0.0.1:4173/notes/",
+  "viewport": {
+    "width": 900,
+    "height": 1080,
+    "dpr": 2
+  },
+  "pageHeight": 7727,
+  "title": "Notes — Galok",
+  "blocks": [
+    {
+      "selector": "nav",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 900,
+      "height": 77
+    },
+    {
+      "selector": "header",
+      "index": 0,
+      "x": 24,
+      "y": 77,
+      "width": 852,
+      "height": 659
+    },
+    {
+      "selector": "main",
+      "index": 0,
+      "x": 0,
+      "y": 77,
+      "width": 900,
+      "height": 6891
+    },
+    {
+      "selector": "h1",
+      "index": 0,
+      "x": 24,
+      "y": 274,
+      "width": 852,
+      "height": 142
+    },
+    {
+      "selector": "section",
+      "index": 0,
+      "x": 24,
+      "y": 736,
+      "width": 852,
+      "height": 2102
+    },
+    {
+      "selector": "section",
+      "index": 1,
+      "x": 24,
+      "y": 2839,
+      "width": 852,
+      "height": 2708
+    },
+    {
+      "selector": "section",
+      "index": 2,
+      "x": 24,
+      "y": 5546,
+      "width": 852,
+      "height": 1421
+    },
+    {
+      "selector": "section",
+      "index": 3,
+      "x": 0,
+      "y": 6968,
+      "width": 900,
+      "height": 326
+    }
+  ]
+}

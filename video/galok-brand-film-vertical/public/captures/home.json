@@ -1,0 +1,180 @@
+{
+  "url": "http://127.0.0.1:4173/",
+  "viewport": {
+    "width": 1920,
+    "height": 1080,
+    "dpr": 2
+  },
+  "pageHeight": 12272,
+  "title": "Galok / Field Notes",
+  "blocks": [
+    {
+      "selector": "nav",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 77
+    },
+    {
+      "selector": "header",
+      "index": 0,
+      "x": 72,
+      "y": 4216,
+      "width": 691,
+      "height": 390
+    },
+    {
+      "selector": "main",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 11308
+    },
+    {
+      "selector": "h1",
+      "index": 0,
+      "x": 72,
+      "y": 336,
+      "width": 990,
+      "height": 241
+    },
+    {
+      "selector": "video",
+      "index": 0,
+      "x": -24,
+      "y": -13,
+      "width": 1968,
+      "height": 1107
+    },
+    {
+      "selector": "video",
+      "index": 1,
+      "x": -10,
+      "y": -5,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 2,
+      "x": -10,
+      "y": -5,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 3,
+      "x": -10,
+      "y": -5,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 4,
+      "x": -10,
+      "y": -5,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 5,
+      "x": -10,
+      "y": -5,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 6,
+      "x": -10,
+      "y": -5,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "video",
+      "index": 7,
+      "x": -10,
+      "y": -5,
+      "width": 1939,
+      "height": 1091
+    },
+    {
+      "selector": "section",
+      "index": 0,
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "selector": "section",
+      "index": 1,
+      "x": 0,
+      "y": 1080,
+      "width": 1920,
+      "height": 1075
+    },
+    {
+      "selector": "section",
+      "index": 2,
+      "x": 0,
+      "y": 2155,
+      "width": 1920,
+      "height": 1881
+    },
+    {
+      "selector": "section",
+      "index": 3,
+      "x": 0,
+      "y": 4036,
+      "width": 1920,
+      "height": 1021
+    },
+    {
+      "selector": "section",
+      "index": 4,
+      "x": 0,
+      "y": 5057,
+      "width": 1920,
+      "height": 1754
+    },
+    {
+      "selector": "section",
+      "index": 5,
+      "x": 0,
+      "y": 6811,
+      "width": 1920,
+      "height": 1605
+    },
+    {
+      "selector": "section",
+      "index": 6,
+      "x": 0,
+      "y": 8415,
+      "width": 1920,
+      "height": 2106
+    },
+    {
+      "selector": "section",
+      "index": 7,
+      "x": 0,
+      "y": 10521,
+      "width": 1920,
+      "height": 787
+    },
+    {
+      "selector": "section",
+      "index": 8,
+      "x": 0,
+      "y": 11308,
+      "width": 1920,
+      "height": 544
+    }
+  ]
+}

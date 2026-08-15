@@ -14,7 +14,7 @@
   <title>About — Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="preload" as="image" href="/assets/be-a-viewer/shanghai/people-and-city.webp" fetchpriority="high">
-  <link rel="stylesheet" href="/styles.css?v=editorial-reframe-20260814">
+  <link rel="stylesheet" href="/styles.css?v=motion-lower-20260815">
   <link rel="stylesheet" href="/about/about.css?v=editorial-reframe-20260814">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-2Y8N04VXYG');</script>
@@ -24,7 +24,7 @@
   <nav class="site-nav about-nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="/" aria-label="Galok home"><img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span></a>
-      <div class="nav-links"><a href="/be-a-viewer/">Cities</a><a href="/notes/">Essays</a><a href="/data/">Data</a><a href="/works/">Work</a><a href="/archive/">Index</a><a href="/about/" aria-current="page">About</a></div>
+      <div class="nav-links"><a href="/be-a-viewer/">Cities</a><a href="/notes/">Essays</a><a href="/themes/">Themes</a><a href="/data/">Data</a><a href="/works/">Work</a><a href="/archive/">Index</a><a href="/about/" aria-current="page">About</a></div>
     </div>
   </nav>
 
@@ -153,17 +153,26 @@
 
     <section class="about-film" id="field-film" aria-labelledby="film-title">
       <div class="about-film-head" data-reveal>
-        <p>Field film / 00:36</p>
+        <p>Field film / 00:36 · mobile edition 00:26</p>
         <h2 id="film-title">The archive,<br><em>in motion.</em></h2>
-        <p>Four cities, works, notes and data brought together in one silent visual field note.</p>
+        <p>Four cities, works, notes and data brought together in one silent visual field note — desktop and mobile editions, side by side.</p>
       </div>
-      <figure class="about-film-frame" data-reveal>
-        <video controls muted playsinline preload="metadata" poster="/assets/about/galok-brand-film-poster.webp" aria-label="Galok visual archive promotional film">
-          <source src="/assets/about/galok-brand-film.mp4" type="video/mp4">
-          Your browser cannot play this film. <a href="/assets/about/galok-brand-film.mp4">Download the MP4</a>.
-        </video>
-        <figcaption><span>Galok visual archive</span><span>Silent film / 2026</span></figcaption>
-      </figure>
+      <div class="about-film-frames" data-reveal>
+        <figure class="about-film-frame">
+          <video controls muted playsinline preload="metadata" poster="/assets/about/galok-brand-film-poster.webp" aria-label="Galok visual archive promotional film">
+            <source src="/assets/about/galok-brand-film.mp4" type="video/mp4">
+            Your browser cannot play this film. <a href="/assets/about/galok-brand-film.mp4">Download the MP4</a>.
+          </video>
+          <figcaption><span>Desktop edition</span><span>Silent film / 16:9</span></figcaption>
+        </figure>
+        <figure class="about-film-frame about-film-frame-vertical">
+          <video controls muted playsinline preload="metadata" poster="/assets/about/galok-brand-film-vertical-poster.webp" aria-label="Galok visual archive vertical promotional film">
+            <source src="/assets/about/galok-brand-film-vertical.mp4" type="video/mp4">
+            Your browser cannot play this film. <a href="/assets/about/galok-brand-film-vertical.mp4">Download the MP4</a>.
+          </video>
+          <figcaption><span>Mobile edition</span><span>Silent film / 9:16</span></figcaption>
+        </figure>
+      </div>
     </section>
 
     <section class="about-contact" aria-labelledby="contact-title">
@@ -182,7 +191,7 @@
     <div><a href="/archive/">Index</a><a href="mailto:galokview@outlook.com">Email</a><a href="https://x.com/galokview" target="_blank" rel="noreferrer">X / @galokview</a><a href="#about-main">Back to top ↑</a></div>
   </footer>
 
-  <script src="/content.js?v=issue-line-20260814"></script>
+  <script src="/content.js?v=maturity-20260815"></script>
   <script src="/script.js?v=data-nav-20260814"></script>
   <script src="/about/about.js?v=about-luxe-20260811"></script>
 </body>

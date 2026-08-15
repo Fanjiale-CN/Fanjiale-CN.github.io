@@ -12,8 +12,9 @@
   <link rel="canonical" href="https://galok.me/data/">
   <title>Data — Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="stylesheet" href="/styles.css?v=editorial-reframe-20260814">
-  <link rel="stylesheet" href="/data/data-hub.css?v=20260813c">
+  <link rel="stylesheet" href="/styles.css?v=motion-lower-20260815">
+  <link rel="stylesheet" href="/data/data-hub.css?v=20260815a">
+  <link rel="stylesheet" href="/data/data-claim.css?v=20260815">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-2Y8N04VXYG');</script>
 </head>
@@ -21,7 +22,7 @@
   <nav class="site-nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="/"><img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span></a>
-      <div class="nav-links"><a href="/be-a-viewer/">Cities</a><a href="/notes/">Essays</a><a href="/data/" aria-current="page">Data</a><a href="/works/">Work</a><a href="/archive/">Index</a><a href="/about/">About</a></div>
+      <div class="nav-links"><a href="/be-a-viewer/">Cities</a><a href="/notes/">Essays</a><a href="/themes/">Themes</a><a href="/data/" aria-current="page">Data</a><a href="/works/">Work</a><a href="/archive/">Index</a><a href="/about/">About</a></div>
     </div>
   </nav>
 
@@ -45,7 +46,18 @@
     <section class="data-opening" aria-labelledby="opening-title">
       <div class="data-opening-label"><span>00</span><p>THE READING</p></div>
       <div class="data-opening-copy">
-        <h2 id="opening-title">Growth did not stop.<br>The experience of growth split.</h2>
+        <p class="data-claim-kicker">THE CLAIM</p>
+        <h2 id="opening-title" class="data-claim-title">Growth did not stop.<br>The experience of growth split.</h2>
+        <figure class="data-claim-figure" aria-labelledby="claim-figure-title claim-figure-note" data-reveal>
+          <figcaption id="claim-figure-title">One baseline, three directions.</figcaption>
+          <div class="data-claim-scale">
+          <div class="data-claim-point" style="--point:78%;--color:var(--data-red)" data-reveal><b>+5.0%</b><span>Production keeps expanding</span></div>
+          <div class="data-claim-point" style="--point:50%;--color:var(--data-blue)" data-reveal><b>≈0%</b><span>Prices hold the line</span></div>
+          <div class="data-claim-point" style="--point:4%;--color:var(--data-gold)" data-reveal><b>−17.2%</b><span>Balance sheets fall away</span></div>
+          <div class="data-claim-axis" aria-hidden="true"><span>Left of zero</span><span>Zero line</span><span>Right of zero</span></div>
+          </div>
+          <p id="claim-figure-note">The claim of this page in one figure: one shared zero line cannot reconcile three measurements that move in different directions.</p>
+        </figure>
         <p class="data-standfirst">Real GDP expanded by about 5% in 2025. Consumer prices were roughly flat. Property investment fell 17.2% and private investment fell 6.4%. Each statement is accurate; none is the whole economy. <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS communiqué · 28 Feb 2026 ↗</a> <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html">NBS property · 19 Jan 2026 ↗</a> <a class="data-source-link" href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962326.html">NBS investment · 19 Jan 2026 ↗</a></p>
         <p>Real output is measured after removing price changes. Households, companies and local governments live more directly in nominal wages, sales, profits, asset values and tax receipts. That is why a production system can remain strong while confidence, prices and public balance sheets feel weak.</p>
         <aside class="data-definition"><b>How to read this page</b><p><span>Fact</span> is a published statistic. <span>Reading</span> is an institution’s interpretation. <span>Galok note</span> connects measures without claiming a causal estimate.</p></aside>
@@ -75,6 +87,7 @@
     </figure>
 
     <nav class="data-article-nav" aria-label="Article chapters">
+      <a class="data-nav-skip" href="#conclusion">Skip to close</a>
       <a href="#growth"><b>01</b><span>Growth</span></a><a href="#households"><b>02</b><span>Households</span></a><a href="#employment"><b>03</b><span>Employment</span></a><a href="#property"><b>04</b><span>Property</span></a><a href="#investment"><b>05</b><span>Investment</span></a><a href="#external"><b>06</b><span>External</span></a><a href="#state"><b>07</b><span>State</span></a><a href="#vantage"><b>08</b><span>Views</span></a><a href="#method"><b>09</b><span>Method</span></a><a href="#conclusion"><b>10</b><span>Close</span></a>
       <i aria-hidden="true" data-reading-progress></i>
     </nav>

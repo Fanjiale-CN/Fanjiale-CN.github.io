@@ -35,6 +35,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "9 min",
       url: "/essays/the-curators-curse/",
+      maturity: "growing",
       cover: {
         src: "/assets/views/articles/the-curators-curse-zine.webp",
         alt: "A printed collage of a penguin curator, café receipts, rankings and exam records"
@@ -50,6 +51,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/the-water-is-rising/",
+      maturity: "growing",
       cover: {
         src: "/assets/views/articles/water-rising.webp",
         alt: "Clear water rippling across a dark shoreline"
@@ -65,6 +67,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/peoples-republic-of-ai/",
+      maturity: "evergreen",
       cover: {
         src: "/assets/views/articles/peoples-republic-of-ai.webp",
         alt: "A Chinese flag above a traditional tiled roof"
@@ -80,6 +83,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/honor-phone-case-lawsuit/",
+      maturity: "evergreen",
       cover: {
         src: "/assets/views/articles/honor-phone-cases.webp",
         alt: "An Honor phone photographed from its camera side"
@@ -95,6 +99,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/xiaohongshu-world-cup/",
+      maturity: "evergreen",
       cover: {
         src: "/assets/views/articles/xiaohongshu-world-cup.webp",
         alt: "People standing before a colourful FIFA World Cup mural"
@@ -110,6 +115,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "11 min",
       url: "/essays/tourism-assembly-line/",
+      maturity: "growing",
       cover: {
         src: "/assets/views/articles/tourism-assembly-line.webp",
         alt: "Crowds moving through a historic Chinese shopping street"
@@ -125,6 +131,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/ai-goes-silent-censorship-infrastructure/",
+      maturity: "growing",
       cover: {
         src: "/assets/views/articles/ai-goes-silent-china-zun.webp",
         alt: "A broken window in the glass facade of China Zun in Beijing"
@@ -140,6 +147,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "10 min",
       url: "/essays/latte-price-illusion/",
+      maturity: "evergreen",
       cover: {
         src: "/assets/hero/video/latte-ritual-poster.webp",
         alt: "A coffee ritual seen close up"
@@ -155,6 +163,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/platforms-redesign-choice/",
+      maturity: "growing",
       cover: {
         src: "/assets/views/articles/platform-influencer-boom.webp",
         alt: "A creator filming beneath a monumental modern building"
@@ -170,6 +179,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "8 min",
       url: "/essays/goose-leg-official-narrative/",
+      maturity: "planted",
       cover: {
         src: "/assets/views/articles/goose-leg.webp",
         alt: "Tsinghua University west gate seen from the street"
@@ -185,6 +195,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "7 min",
       url: "/essays/rmb-9-9-coffee/",
+      maturity: "evergreen",
       cover: {
         src: "/assets/hero/video/money-closeup-poster.webp",
         alt: "A close study of money"
@@ -200,6 +211,7 @@ window.GALOK_CONTENT = {
       date: "2026",
       readingTime: "9 min",
       url: "/essays/cyber-audit-proof-economy/",
+      maturity: "growing",
       cover: {
         src: "/assets/views/articles/cyber-audit.webp",
         alt: "A narrow courtyard lane framed by concrete and yellow flowers"

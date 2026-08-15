@@ -76,6 +76,7 @@
       const lens = s.en || "Note";
       const cover = essay.cover || {};
       const issue = essay.issue ? `ISSUE ${essay.issue} · ` : "";
+      const maturity = essay.maturity ? `<em class="notes-row-maturity" data-maturity="${essay.maturity}">${essay.maturity}</em>` : "";
       const seal = s.glyph ? `<span class="notes-row-seal glyph-draw" aria-hidden="true" data-glyph="${s.glyph}" data-pinyin="${s.pinyin}">${s.glyph}</span>` : "";
       const coverMarkup = cover.src
         ? `<span class="notes-row-cover" aria-hidden="true"><img src="${cover.src}" alt="" loading="lazy" decoding="async"></span>`
@@ -84,7 +85,7 @@
         <a class="notes-row" href="${essay.url}" style="--accent:${s.color || "var(--archive-ink)"}" data-series="${essay.series}">
           ${coverMarkup}
           <span>${String(index + 1).padStart(2, "0")}</span>
-          <small>${issue}${lens} / ${essay.readingTime}</small>
+          <small>${issue}${lens} / ${essay.readingTime}${maturity}</small>
           <h3>${seal}${essay.title}</h3>
           ${essay.deck ? `<p class="notes-row-deck">${essay.deck}</p>` : ""}
           <p>${essay.excerpt}</p>
@@ -97,13 +98,15 @@
     const mount = document.querySelector("[data-archive-results]");
     const input = document.querySelector("[data-archive-search]");
     if (!mount || !input) return;
-    const essayItems = (window.GALOK_CONTENT?.essays || []).map((essay) => ({
-      type: "Essay",
+    const essayItems = (window.GALOK_CONTENT?.essays || []).map((essay) => {
+      const maturity = essay.maturity ? ` maturity:${essay.maturity}` : "";
+      return {
+        type: "Essay",
       title: essay.title,
       description: essay.excerpt,
       href: essay.url,
-      tags: `essay notes ${essay.series}`
-    }));
+      tags: `essay notes ${essay.series}${maturity}`
+    }});
     const fixedItems = [
       { type: "City", title: "Beijing", description: "Central axis, public ceremony, side streets and contemporary form.", href: "/be-a-viewer/beijing/", tags: "city north old-city night photography video" },
       { type: "City", title: "Shanghai", description: "River, vertical skyline, remembered streets and the city after dark.", href: "/be-a-viewer/shanghai/", tags: "city coast night photography video" },
