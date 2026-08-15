@@ -1018,7 +1018,6 @@
   background: rgba(241,238,231,.96);
   backdrop-filter: blur(12px);
 }
-
 .data-article-nav a {
   position: relative;
   display: flex;
@@ -1038,36 +1037,61 @@
     color var(--data-duration-fast) var(--data-ease-out),
     background-color var(--data-duration-fast) var(--data-ease-out);
 }
-
 .data-article-nav a:first-child { border-left: 1px solid var(--data-rule); }
 .data-article-nav a:focus-visible,
 .data-article-nav a.is-active { color: var(--data-ink); background: var(--data-paper-light); }
-.data-article-nav a::after {
-  content: "";
+/* Skip-to-close: pulled out of the chapter grid so the nav stays a clean 10-column strip. */
+/* Higher specificity than `.data-article-nav a` (0,2,1 > 0,1,1) so the absolute
+   float wins the cascade against the nav link's `position: relative`. */
+.data-article-nav a.data-nav-skip {
   position: absolute;
-  inset: auto 10px -1px;
+  top: 50%;
+  right: max(20px, calc((100vw - 1400px) / 2 + 12px));
+  translate: 0 -50%;
+  z-index: 3;
+  min-height: 0;
+  gap: 7px;
+  padding: 5px 10px;
+  color: var(--data-muted);
+  border: 1px solid var(--data-rule);
+  background: rgba(247,244,239,.92);
+  font-size: .56rem;
+  font-weight: 460;
+  letter-spacing: .12em;
+  box-shadow: 0 1px 3px rgba(26,26,26,.05);
+  transition:
+    color var(--data-duration-fast) var(--data-ease-out),
+    background-color var(--data-duration-fast) var(--data-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .data-article-nav a.data-nav-skip:hover { color: var(--data-ink); background: var(--data-paper-light); }
+}
+.data-article-nav b { color: var(--data-red); }
+/* Single sliding indicator: one red bar glides to the active chapter (state indication). */
+.data-chapter-scrubber {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
   height: 2px;
   background: var(--data-red);
-  opacity: 0;
-  transform: scaleX(0);
+  pointer-events: none;
   transform-origin: left;
-  transition:
-    opacity var(--data-duration-fast) var(--data-ease-out),
-    transform var(--data-duration-ui) var(--data-ease-out);
+  transform: translateX(var(--scrub-x, 0px)) scaleX(var(--scrub-scale, 0));
+  transition: transform 200ms var(--data-ease-out);
+  will-change: transform;
 }
-.data-article-nav a.is-active::after {
-  opacity: 1;
-  transform: scaleX(1);
-}
-
-.data-article-nav b { color: var(--data-red); }
+/* Page-level reading progress: 1px hairline on the nav's top edge, separate from the chapter bar. */
 .data-article-nav i {
   position: absolute;
-  inset: auto 0 -1px;
-  width: var(--reading-progress, 0%);
+  top: -1px;
+  left: 0;
+  width: 100%;
   height: 1px;
   background: var(--data-red);
   pointer-events: none;
+  transform-origin: left;
+  transform: scaleX(var(--reading-progress, 0%));
+  will-change: transform;
 }
 
 .data-longform { padding-top: clamp(110px, 12vw, 180px); }
@@ -1507,6 +1531,16 @@
     grid-template-columns: repeat(10, 112px);
     overflow-x: auto;
     padding-inline: 20px;
+  }
+  .data-article-nav a.data-nav-skip {
+    /* On touch screens the chip floats mid-nav; tapping chapter links is primary. */
+    top: auto;
+    bottom: 4px;
+    right: auto;
+    left: max(20px, calc((100vw - 1400px) / 2 + 8px));
+    translate: 0 0;
+    z-index: 4;
+    background: rgba(247,244,239,.96);
   }
 
   .data-section-grid {

@@ -96,18 +96,10 @@
   max-width: 52ch;
 }
 
-/* --- Skip anchor in the chapter nav --- */
-.data-nav-skip {
-  font-size: .68rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: #8a8278;
-  border-bottom: 1px solid var(--data-rule, rgba(26,26,26,.14));
-  padding: 8px 14px 7px;
-}
-.data-nav-skip:hover {
-  color: var(--data-ink);
-}
+/* --- Skip anchor in the chapter nav ---
+    NOTE: layout/hover of .data-nav-skip moved to data-hub.css (floating chip
+    out of the 10-column chapter grid). Kept here only as low-specificity
+    text baseline; do not re-add positioning here. */
 @media (prefers-reduced-motion: reduce) {
   .data-claim-figure [data-reveal] {
     opacity: 1;

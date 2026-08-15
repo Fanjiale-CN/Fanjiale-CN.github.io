@@ -365,8 +365,35 @@
 
     const articleNav = document.querySelector(".data-article-nav");
     const navLinks = [...document.querySelectorAll(".data-article-nav a[href^='#']")];
+    const scrubber = document.createElement("i");
+    scrubber.className = "data-chapter-scrubber";
+    scrubber.setAttribute("aria-hidden", "true");
+    articleNav?.appendChild(scrubber);
     const sections = [...document.querySelectorAll("[data-section]")];
     const progress = document.querySelector("[data-reading-progress]");
+    const scrollToHash = (hash, smooth = true) => {
+      const target = document.querySelector(hash);
+      if (!target) return;
+      const navHeight = articleNav ? articleNav.offsetHeight + 76 : 76;
+      const y = target.getBoundingClientRect().top + window.scrollY - navHeight + 8;
+      if (smooth) window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      else window.scrollTo(0, Math.max(0, y));
+    };
+    // Intercept chapter clicks for a smooth, offset-corrected jump (all input devices).
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const hash = link.getAttribute("href");
+        if (!hash.startsWith("#")) return;
+        event.preventDefault();
+        history.replaceState(null, "", hash);
+        scrollToHash(hash, true);
+      });
+    });
+    const skipBtn = document.querySelector(".data-nav-skip");
+    skipBtn?.addEventListener("click", (event) => {
+      event.preventDefault();
+      scrollToHash(skipBtn.getAttribute("href"), true);
+    });
     if (articleNav && navLinks.length && sections.length) {
       const updateReadingState = () => {
         const marker = Math.min(window.innerHeight * 0.38, 340);
@@ -394,6 +421,17 @@
         const scrollable = document.documentElement.scrollHeight - window.innerHeight;
         const ratio = scrollable > 0 ? Math.max(0, Math.min(1, window.scrollY / scrollable)) : 0;
         progress?.style.setProperty("--reading-progress", `${(ratio * 100).toFixed(2)}%`);
+        // Slide the single chapter indicator to the active link.
+        if (scrubber) {
+          const activeLink = articleNav.querySelector("a.is-active") || navLinks[0];
+          if (activeLink) {
+            const navRect = articleNav.getBoundingClientRect();
+            const linkRect = activeLink.getBoundingClientRect();
+            const x = linkRect.left - navRect.left + articleNav.scrollLeft;
+            scrubber.style.setProperty("--scrub-x", `${x}px`);
+            scrubber.style.setProperty("--scrub-scale", `${linkRect.width}`);
+          }
+        }
       };
       let ticking = false;
       const requestUpdate = () => {
@@ -407,6 +445,14 @@
       updateReadingState();
       window.addEventListener("scroll", requestUpdate, { passive: true });
       window.addEventListener("resize", requestUpdate);
+      // Also resync after a smooth-scroll ends (scroll event pauses during smooth scroll).
+      let syncTimer = null;
+      window.addEventListener("scroll", () => {
+        window.clearTimeout(syncTimer);
+        syncTimer = window.setTimeout(() => {
+          requestUpdate();
+        }, 90);
+      }, { passive: true });
     }
 
     if ("IntersectionObserver" in window) {
