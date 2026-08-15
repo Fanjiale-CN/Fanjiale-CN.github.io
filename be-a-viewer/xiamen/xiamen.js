@@ -397,10 +397,11 @@
     }
   }
 
-  const storyNav = document.querySelector("[data-xm-story-nav]");
-  const storyLinks = [...document.querySelectorAll("[data-xm-section-link]")];
-  const storySections = storyLinks.map((link) => document.querySelector(link.getAttribute("href"))).filter(Boolean);
-  const storyProgress = document.querySelector("[data-xm-story-progress]");
+  /* Retired: chapter spy moved to the GalokCapsule component (city skin). */
+  const storyNav = null;
+  const storyLinks = [];
+  const storySections = [];
+  const storyProgress = null;
   let ticking = false;
   let sectionMetrics = [];
   let activeId = "";
@@ -417,17 +418,15 @@
   function setActiveSection(section) {
     if (!section || section.id === activeId) return;
     activeId = section.id;
+    /* Retired: spy marking now owned by GalokCapsule. */
     storyLinks.forEach((link) => {
       const active = link.getAttribute("href") === `#${activeId}`;
       link.classList.toggle("is-active", active);
       if (active) link.setAttribute("aria-current", "location");
       else link.removeAttribute("aria-current");
     });
-    const activeLink = storyLinks.find((link) => link.classList.contains("is-active"));
-    if (activeLink && storyNav && storyNav.scrollWidth > storyNav.clientWidth) {
-      const left = activeLink.offsetLeft - (storyNav.clientWidth - activeLink.offsetWidth) / 2;
-      storyNav.scrollTo({ left: Math.max(0, left), behavior: "auto" });
-    }
+    /* Retired: host bar scrolled by GalokCapsule. */
+    void storyLinks.find((link) => link.classList.contains("is-active"));
   }
 
   function renderScroll() {
@@ -439,11 +438,12 @@
     const start = sectionMetrics[0].top;
     const end = sectionMetrics.at(-1).bottom - viewport;
     const amount = Math.max(0, Math.min(1, (scrollY - start) / Math.max(1, end - start)));
-    if (storyProgress) storyProgress.style.transform = `scaleX(${amount})`;
+    /* Retired: progress hairline now owned by GalokCapsule. */
+    void storyProgress;
     const readingLine = scrollY + viewport * .42;
     let active = sectionMetrics[0].section;
     sectionMetrics.forEach((metric) => { if (metric.top <= readingLine) active = metric.section; });
-    setActiveSection(active);
+    /* Retired: spy dispatched by GalokCapsule. */
     if (!reducedMotion) renderNarratives(scrollY, viewport);
   }
 

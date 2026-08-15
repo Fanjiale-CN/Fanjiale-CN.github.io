@@ -534,7 +534,7 @@
 
   function initBatchChapterNavigation() {
     const desktop = document.querySelector(".batch-chapter-nav");
-    if (!desktop) return;
+    if (!desktop || desktop.classList.contains("gcn")) return;
 
     const links = Array.from(document.querySelectorAll(".batch-chapter-nav a[href^='#']"));
     const sections = Array.from(new Set(links
@@ -570,6 +570,9 @@
   // Galok capsule nav — article pages (.batch-chapter-nav becomes the capsule host).
   // The capsule mirrors the host's aria-current markings (set above), so the host
   // scroll-spy stays the single source of truth.
+  // Article pages get the gcn--essay capsule; city pages ship the capsule in
+  // their HTML already (gcn--city) and own chapter tracking themselves, so
+  // never force the essay skin or re-init on those hosts.
   if (typeof window.GalokCapsule === "object") {
     var essayNav = document.querySelector(".batch-chapter-nav");
     if (essayNav && !essayNav.classList.contains("gcn")) {
@@ -579,7 +582,7 @@
   } else {
     window.addEventListener("load", function () {
       var essayNav = document.querySelector(".batch-chapter-nav");
-      if (essayNav && typeof window.GalokCapsule === "object") {
+      if (essayNav && !essayNav.classList.contains("gcn--city") && typeof window.GalokCapsule === "object") {
         essayNav.classList.add("gcn", "gcn--essay");
         window.GalokCapsule.init(document);
       }

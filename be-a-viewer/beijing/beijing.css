@@ -9,6 +9,15 @@
   --bj-gutter: clamp(22px, 4.2vw, 72px);
 }
 
+/* Capsule nav (city skin): pinned under the site nav with a city signal line. */
+.gcn--city {
+  --gcn-city-accent: var(--bj-red);
+  --gcn-city-ink: var(--bj-ink);
+  --gcn-city-paper: var(--bj-paper);
+  --gcn-city-muted: var(--bj-jade);
+}
+
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -225,54 +234,14 @@ body.nav-open .beijing-site-nav {
   color: #fff;
 }
 
-.beijing-chapters {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  color: var(--bj-ink);
-  background: var(--bj-paper);
-  border-bottom: 1px solid var(--bj-line);
-}
-
-.beijing-chapters a {
-  min-height: 82px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 0 clamp(18px, 2.2vw, 36px);
-  color: inherit;
-  border-right: 1px solid var(--bj-line);
-  transition: color 180ms ease, background 180ms ease;
-}
-
-.beijing-chapters a:last-child {
-  border-right: 0;
-}
-
-.beijing-chapters b {
-  color: var(--bj-red);
-  font-size: .7rem;
-  letter-spacing: .13em;
-}
-
-.beijing-chapters span {
-  font-size: .74rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
 
 .beijing-chapters a:hover,
-.beijing-chapters a:focus-visible {
-  color: var(--bj-paper);
-  background: var(--bj-red);
-}
 
 .beijing-chapters a:hover b,
-.beijing-chapters a:focus-visible b {
-  color: inherit;
-}
 
+.bj-chapter {
+  scroll-margin-top: calc(var(--nav-height, 76px) + 56px);
+}
 .beijing-photo {
   position: relative;
   margin: 0;
@@ -1154,21 +1123,8 @@ body.nav-open .beijing-site-nav {
     border-bottom: 0;
   }
 
-  .beijing-chapters {
-    grid-template-columns: repeat(6, minmax(132px, 1fr));
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scrollbar-width: none;
-  }
+  
 
-  .beijing-chapters::-webkit-scrollbar {
-    display: none;
-  }
-
-  .beijing-chapters a {
-    min-height: 70px;
-    padding: 0 18px;
-  }
 
   .beijing-prologue {
     min-height: 0;

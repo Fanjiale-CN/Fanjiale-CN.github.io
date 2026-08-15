@@ -14,7 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="preload" href="/assets/be-a-viewer/video/hangzhou-poster.webp" as="image">
   <link rel="stylesheet" href="/styles.css?v=motion-lower-20260815">
-  <link rel="stylesheet" href="/be-a-viewer/hangzhou/hangzhou.css?v=hangzhou-chapter-20260813">
+  <link rel="stylesheet" href="/be-a-viewer/hangzhou/hangzhou.css?v=hangzhou-capsule-20260815a">
   <link rel="stylesheet" href="/be-a-viewer/literary-city.css?v=cities-in-words-20260813c">
   <link rel="stylesheet" href="/archive-system.css?v=motion-bridge-20260815">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
@@ -24,6 +24,7 @@
     gtag('js', new Date());
     gtag('config', 'G-2Y8N04VXYG');
   </script>
+  <link rel="stylesheet" href="/galok-capsule.css?v=20260815w">
   <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-split-20260815">
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
@@ -52,7 +53,7 @@
       <video autoplay muted loop playsinline preload="auto" poster="/assets/be-a-viewer/video/hangzhou-poster.webp" data-hz-hero-video><source src="/assets/be-a-viewer/video/hangzhou.mp4" type="video/mp4"></video>
       <div class="hz-hero-shade" aria-hidden="true"></div><div class="hz-hero-rule" aria-hidden="true"></div>
       <div class="hz-hero-content">
-        <div class="hz-hero-meta"><span>BE A VIEWER / CITY 08</span><span>30.2741° N / 120.1551° E</span><span>HANGZHOU / ZHEJIANG</span></div>
+        <div class="hz-hero-meta"><span>30.2741° N / 120.1551° E</span><span>HANGZHOU / ZHEJIANG</span></div>
         <div class="hz-hero-title"><p>WATER BEFORE THE STREET</p><h1 id="hangzhou-title">HANGZHOU</h1><span>Twenty frames move outward from West Lake: water, rain, old streets, new towers and light after dark.</span></div>
         <div class="hz-hero-index" aria-hidden="true"><b>08</b><span>EAST CHINA<br>WATERLINE</span></div>
         <button class="hz-hero-pause" type="button" data-hz-hero-toggle aria-label="Pause Hangzhou hero video" aria-pressed="false">PAUSE</button>
@@ -71,10 +72,9 @@
     </section>
 
 
-    <nav class="hz-chapter-nav" aria-label="Hangzhou chapter navigation" data-hz-chapter-nav>
-      <span>HANGZHOU / 08</span>
-      <div><a href="#water" data-hz-chapter-link="water">01 WATER</a><a href="#rain" data-hz-chapter-link="rain">02 RAIN</a><a href="#old-city" data-hz-chapter-link="old-city">03 OLD CITY</a><a href="#new-city" data-hz-chapter-link="new-city">04 NEW CITY</a><a href="#night" data-hz-chapter-link="night">05 NIGHT</a></div>
-      <i aria-hidden="true"><b data-hz-chapter-progress></b></i>
+    <nav class="batch-chapter-nav gcn gcn--city" aria-label="Hangzhou chapter navigation">
+      <a href="#water">01 WATER</a><a href="#rain">02 RAIN</a><a href="#old-city">03 OLD CITY</a><a href="#new-city">04 NEW CITY</a><a href="#night">05 NIGHT</a>
+      
     </nav>
 
     <section class="hz-ledger hz-reveal" id="field-ledger" aria-labelledby="hz-ledger-title">
@@ -93,7 +93,7 @@
         <article class="hz-reel-slide" data-hz-film-slide><div><p>05 / NIGHT</p><strong>夜</strong><h3>THE CITY<br>WRITES BACK.</h3></div><figure><img src="/assets/be-a-viewer/hangzhou/gallery/01-night-kiosk.webp" alt=""><img src="/assets/be-a-viewer/hangzhou/gallery/10-night-pavilion.webp" alt=""><img src="/assets/be-a-viewer/hangzhou/gallery/02-love-hangzhou.webp" alt=""><img src="/assets/be-a-viewer/hangzhou/gallery/13-lake-horizon.webp" alt=""></figure></article>
         <div class="hz-reel-overlay" aria-hidden="true"><span>GALOK / FIELD NOTE 08</span><b>NO SOUND</b></div><button type="button" data-hz-film-toggle aria-label="Pause Hangzhou field reel" aria-pressed="true">PAUSE</button>
       </div>
-      <div class="hz-reel-timeline"><span data-hz-film-time>00:00</span><i aria-hidden="true"><b data-hz-film-progress></b></i><span>00:15</span></div>
+      <div class="hz-reel-timeline"><span data-hz-film-time>00:00</span><span>00:15</span></div>
     </section>
 
     <section class="hz-chapter hz-chapter--water" id="water" data-hz-chapter="water" aria-labelledby="hz-water-title">
@@ -174,8 +174,8 @@
   </main>
 
   <footer class="footer field-footer"><div class="footer-inner"><div><img class="footer-brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><b>GALOK</b></div><div><span>Menu</span><a href="/be-a-viewer/">Cities</a><a href="/notes/">Essays</a><a href="/themes/">Themes</a><a href="/data/">Data</a><a href="/works/">Work</a><a href="/archive/">Index</a><a href="/about/">About</a></div><div><span>Follow</span><a class="external-link" href="https://medium.com/@galokview" target="_blank" rel="noreferrer">Medium</a><a class="external-link" href="https://x.com/galokview" target="_blank" rel="noreferrer">X</a></div><p>© <span data-current-year></span> Galok<br>Independent field notes.</p></div></footer>
-  <script src="/script.js?v=data-nav-20260814"></script>
-  <script src="/be-a-viewer/hangzhou/hangzhou.js?v=hangzhou-chapter-20260813"></script>
+  <script <script src="/galok-capsule.js?v=20260815w"></script>src="/script.js?v=data-nav-20260815b"></script>
+  <script src="/be-a-viewer/hangzhou/hangzhou.js?v=hangzhou-capsule-20260815a"></script>
   <script src="/archive-system.js?v=motion-bridge-20260815"></script>
   <script src="/be-a-viewer/literary-city.js?v=cities-in-words-20260813c"></script>
 </body>

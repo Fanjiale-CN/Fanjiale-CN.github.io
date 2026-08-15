@@ -3,13 +3,12 @@ import { getMotionState, subscribeToMotion } from "/be-a-viewer/xian/xian-motion
 const { reducedMotion, touchNavigation } = getMotionState();
 const pageBody = document.body;
 const siteNav = document.querySelector(".xian-site-nav");
-const storyNav = document.querySelector("[data-xian-story-nav]");
+/* Retired: chapter spy moved to the GalokCapsule component (city skin). */
+const storyNav = null;
 const hero = document.querySelector(".xian-hero");
-const storyLinks = [...(storyNav?.querySelectorAll("[data-xian-section-link]") || [])];
-const storySections = storyLinks
-  .map((link) => document.querySelector(link.getAttribute("href")))
-  .filter(Boolean);
-const storyProgress = storyNav?.querySelector("[data-xian-story-progress]");
+const storyLinks = [];
+const storySections = [];
+const storyProgress = null;
 let activeStoryHref = "";
 let measuredRevision = -1;
 let heroThreshold = 1;
@@ -75,35 +74,25 @@ function setActiveSection(section, touchInput = touchNavigation) {
   const href = `#${section.id}`;
   if (href === activeStoryHref) return;
   activeStoryHref = href;
+  /* Retired: spy marking now owned by GalokCapsule. */
   storyLinks.forEach((link) => {
     const active = link.getAttribute("href") === href;
     link.classList.toggle("is-active", active);
     if (active) link.setAttribute("aria-current", "location");
     else link.removeAttribute("aria-current");
   });
-  const activeLink = storyLinks.find((link) => link.getAttribute("href") === href);
-  if (activeLink && storyNav.scrollWidth > storyNav.clientWidth) {
-    const targetLeft = activeLink.offsetLeft - (storyNav.clientWidth - activeLink.offsetWidth) / 2;
-    const maxLeft = Math.max(0, storyNav.scrollWidth - storyNav.clientWidth);
-    storyNav.scrollTo({
-      left: Math.min(maxLeft, Math.max(0, targetLeft)),
-      behavior: reducedMotion || touchInput ? "auto" : "smooth"
-    });
-  }
+  /* Retired: host bar scrolled by GalokCapsule. */
+  void storyLinks.find((link) => link.getAttribute("href") === href);
 }
 
 function updateStoryNav(scrollY, viewportHeight) {
   if (!storyNav || !storyMetrics.length) return;
   const start = storyMetrics[0].top;
   const end = storyMetrics.at(-1).bottom - viewportHeight;
-  const progress = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, end - start)));
-  if (storyProgress) storyProgress.style.transform = `scaleX(${progress})`;
-  const readingLine = scrollY + viewportHeight * .42;
-  let active = storyMetrics[0].section;
-  storyMetrics.forEach((metric) => {
-    if (metric.top <= readingLine) active = metric.section;
-  });
-  setActiveSection(active);
+  /* Retired: progress hairline now owned by GalokCapsule. */
+  void (scrollY - start); void Math.max(1, end - start);
+  /* Retired: spy dispatched by GalokCapsule. */
+  void (scrollY + viewportHeight * .42);
 }
 
 storyLinks.forEach((link) => {
@@ -119,14 +108,14 @@ storyLinks.forEach((link) => {
 subscribeToMotion(({ scrollY, viewportHeight, revision }) => {
   if (revision !== measuredRevision) measureStory(revision);
   updateSiteNav(scrollY);
-  updateStoryNav(scrollY, viewportHeight);
+  /* updateStoryNav retired (GalokCapsule owns the chapter spy). */
 });
 
 window.addEventListener("load", () => {
   const state = getMotionState();
   measureStory(state.revision);
   updateSiteNav(state.scrollY);
-  updateStoryNav(state.scrollY, state.viewportHeight);
+  /* updateStoryNav retired (GalokCapsule owns the chapter spy). */
 }, { once: true });
 
 const lightbox = document.querySelector("[data-xian-lightbox]");

@@ -89,7 +89,10 @@
     actions.appendChild(prevBtn);
     actions.appendChild(nextBtn);
 
-    if (!isTouch) {
+    // City-skin capsules anchor to the page top (next to the site nav) —
+    // no drag handles, keeping the capsule as a single shared anchor.
+    var isCitySkin = nav.classList.contains("gcn--city");
+    if (!isTouch && !isCitySkin) {
       var grip = document.createElement("div");
       grip.className = "gcn-grip";
       grip.setAttribute("role", "button");
@@ -130,10 +133,15 @@
       nextBtn.disabled = activeIndex === chapters.length - 1;
     }
 
+    function navHeight() {
+      var s = q(".site-nav, [class$='-site-nav']");
+      return s ? Math.round(s.getBoundingClientRect().height) : 76;
+    }
+
     function jumpTo(i) {
       var c = chapters[Math.max(0, Math.min(chapters.length - 1, i))];
       if (!c || !c.target) return;
-      var y = c.target.getBoundingClientRect().top + window.pageYOffset - 160;
+      var y = c.target.getBoundingClientRect().top + window.pageYOffset - navHeight() - 8;
       window.scrollTo({ top: y, behavior: "smooth" });
       setChapter(i);
     }
@@ -175,6 +183,41 @@
     }
     mirrorChapterState();
 
+    // City pages retired their per-page story nav JS: the capsule owns chapter
+    // tracking directly for the city skin (essay/data skins mirror the host).
+    var citySpyTimer = 0;
+    function spyChapter() {
+      if (!chapters.length) return;
+      var readingLine = window.pageYOffset + window.innerHeight * 0.38;
+      var best = chapters[0];
+      chapters.forEach(function (c) {
+        if (c.target && c.target.offsetTop <= readingLine) best = c;
+      });
+      var idx = chapters.indexOf(best);
+      if (idx >= 0) setChapter(idx);
+    }
+    if (isCitySkin && "IntersectionObserver" in window) {
+      var targetIds = chapters.map(function (c) { return c.target.id; });
+      var io = new IntersectionObserver(function (entries) {
+        var seen = [];
+        entries.forEach(function (e) { if (e.isIntersecting) seen.push(e.target.id); });
+        if (!seen.length) return;
+        var top = 0; var id = seen[0];
+        seen.forEach(function (sid) {
+          var el = document.getElementById(sid);
+          var y = el ? el.getBoundingClientRect().top : Infinity;
+          if (y <= 120 && y > top) { top = y; id = sid; }
+        });
+        var idx = targetIds.indexOf(id);
+        if (idx >= 0 && idx !== activeIndex) setChapter(idx);
+      }, { rootMargin: "-15% 0px -70% 0px" });
+      chapters.forEach(function (c) {
+        if (c.target instanceof Element) io.observe(c.target);
+      });
+      // first chapter must be marked at mount (no host spy to mirror)
+      setChapter(0);
+    }
+
     // ---- expand / collapse ----
     var lastY = window.pageYOffset;
     var settleTimer = 0;
@@ -200,6 +243,15 @@
 
     function applyLayout() {
       if (window.pageYOffset < 120) { expand(); return; }
+      if (isCitySkin) {
+        // City capsules stay pinned under the site nav at all scroll depths —
+        // they are the single chapter anchor for city story pages.
+        nav.classList.add("is-collapsed");
+        nav.classList.remove("is-expanded");
+        nav.style.setProperty("--gcn-top", navHeight() + "px");
+        lastY = window.pageYOffset;
+        return;
+      }
       var dir = window.pageYOffset - lastY;
       if (dir > 6) collapse();
       else if (dir < -6) expand();
@@ -215,6 +267,11 @@
       var docH = document.documentElement.scrollHeight - window.innerHeight;
       var progress = docH > 0 ? Math.min(1, Math.max(0, window.pageYOffset / docH)) : 0;
       hairline.style.setProperty("--gcn-progress", progress.toFixed(3));
+      // city skin scroll-spy (throttled, keeps dots in sync)
+      if (isCitySkin) {
+        window.clearTimeout(citySpyTimer);
+        citySpyTimer = window.setTimeout(spyChapter, 120);
+      }
       if (nav.classList.contains("is-collapsed")) {
         var r = nav.getBoundingClientRect();
         hairline.style.setProperty("--gcn-hair-x", r.left + "px");
@@ -249,7 +306,7 @@
     applyLayout();
 
     // ---- drag + snap anchors (desktop only) ----
-    if (isTouch || !q(".gcn-grip")) return;
+    if (isTouch || !q(".gcn-grip") || isCitySkin) return;
     var grip = nav.querySelector(".gcn-grip");
     var anchors = ["top", "right", "left"];
     var dragStart = null;

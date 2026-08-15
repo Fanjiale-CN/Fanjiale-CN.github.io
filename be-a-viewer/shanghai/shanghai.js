@@ -13,12 +13,11 @@
   const templeBeats = [...document.querySelectorAll("[data-shanghai-temple-beat]")];
   const templeIndex = document.querySelector("[data-shanghai-temple-index]");
   const templeProgress = document.querySelector("[data-shanghai-temple-progress]");
-  const storyNav = document.querySelector("[data-shanghai-story-nav]");
-  const storyLinks = [...document.querySelectorAll("[data-shanghai-section-link]")];
-  const storySections = storyLinks
-    .map((link) => document.querySelector(link.getAttribute("href")))
-    .filter(Boolean);
-  const storyProgress = document.querySelector("[data-shanghai-story-progress]");
+    // Retired: chapter spy moved to the GalokCapsule component (city skin).
+  const storyNav = null;
+  const storyLinks = [];
+  const storySections = [];
+  const storyProgress = null;
   let pausedByUser = reducedMotion;
   let heroVisible = true;
   let templeVisible = false;
@@ -213,21 +212,15 @@
     const href = `#${section.id}`;
     if (href === activeHref) return;
     activeHref = href;
+    // Retired: spy marking now owned by GalokCapsule.
     storyLinks.forEach((link) => {
       const active = link.getAttribute("href") === href;
       link.classList.toggle("is-active", active);
       if (active) link.setAttribute("aria-current", "location");
       else link.removeAttribute("aria-current");
     });
-    const activeLink = storyLinks.find((link) => link.getAttribute("href") === href);
-    if (activeLink && storyNav && storyNav.scrollWidth > storyNav.clientWidth) {
-      const targetLeft = activeLink.offsetLeft - (storyNav.clientWidth - activeLink.offsetWidth) / 2;
-      const maxLeft = Math.max(0, storyNav.scrollWidth - storyNav.clientWidth);
-      storyNav.scrollTo({
-        left: Math.min(maxLeft, Math.max(0, targetLeft)),
-        behavior: "auto"
-      });
-    }
+    /* Retired: host bar scrolled by GalokCapsule. */
+    void storyLinks.find((link) => link.getAttribute("href") === href);
   }
 
   function renderScrollState() {
@@ -238,8 +231,8 @@
     if (!sectionMetrics.length) return;
     const start = sectionMetrics[0].top;
     const end = sectionMetrics.at(-1).bottom - viewportHeight;
-    const progress = Math.min(1, Math.max(0, (scrollY - start) / Math.max(1, end - start)));
-    if (storyProgress) storyProgress.style.transform = `scaleX(${progress})`;
+    /* Retired: progress hairline now owned by GalokCapsule. */
+    void (scrollY - start); void Math.max(1, end - start);
     const readingLine = scrollY + viewportHeight * .4;
     let active = sectionMetrics[0].section;
     sectionMetrics.forEach((metric) => {

@@ -1,6 +1,6 @@
 /* Galok Capsule Nav — shared capsule navigation component
    Galok palette only (ink / paper / signal red). Motion: transform+opacity, 260ms ease-out.
-   Two skins: .gcn--data (data page, --data-* tokens) and .gcn--essay (article pages, --ra-color-* tokens).
+   Three skins: .gcn--data (data page), .gcn--essay (article pages), .gcn--city (city story pages, pinned under the site nav with a city signal line).
    States: .gcn.is-expanded (full-width chapter strip) / .gcn.is-collapsed (floating capsule).
    Drag: unlocked via .gcn.is-dragging (grip click / long-press), snap anchors via data-gcn-pos, persisted in localStorage.
 */
@@ -9,6 +9,7 @@
   --gcn-ease: cubic-bezier(0.23, 1, 0.32, 1);
   --gcn-speed: 260ms;
   --gcn-radius: 14px;
+  --gcn-top: 72px;
   --gcn-capsule-h: 52px;
   --gcn-capsule-w: min(760px, calc(100vw - 32px));
   --gcn-accent: var(--gcn-skin-accent, #b52d27);
@@ -64,13 +65,45 @@
   --gcn-skin-muted: var(--ra-color-muted, #62696d);
 }
 
+/* ---------- skin: city pages ----------
+   Per-city tokens set by the city page CSS (e.g. .beijing-page-body):
+   --gcn-city-accent / --gcn-city-ink / --gcn-city-paper / --gcn-city-muted / --gcn-city-line.
+   Carries a 2px city signal line under the capsule edge (city accent). */
+.gcn--city {
+  --gcn-skin-accent: var(--gcn-city-accent, var(--gcn-skin-ink));
+  --gcn-skin-ink: var(--gcn-city-ink, #1c1a17);
+  --gcn-skin-paper: var(--gcn-city-paper, #f7f4ef);
+  --gcn-skin-muted: var(--gcn-city-muted, #77736b);
+  z-index: 60;
+}
+.gcn--city::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--gcn-skin-accent);
+  opacity: 0.85;
+  pointer-events: none;
+  transition: opacity var(--gcn-speed) var(--gcn-ease);
+}
+.gcn--city.is-collapsed::after { opacity: 0.3; }
+.gcn--city .gcn-anchor-hint { display: none; } /* no drag anchors on city pages */
+
+/* City capsules are wider (8–9 chapters typical) and sit pinned under the
+   site nav; the signal line stays tied to the capsule edge (rule repeated
+   after the generic .is-collapsed hairline block — specificity order). */
+.gcn--city.is-collapsed {
+  --gcn-capsule-w: min(880px, calc(100vw - 24px));
+}
+
 /* ---------- capsule (collapsed) ---------- */
 .gcn.is-collapsed {
   display: block !important;
   width: var(--gcn-capsule-w);
   max-width: var(--gcn-capsule-w);
   left: 50%;
-  top: 72px;
+  top: var(--gcn-top, 72px);
   transform: translate(-50%, 0);
   border-radius: var(--gcn-radius);
   border: 1px solid color-mix(in srgb, var(--gcn-ink) 22%, transparent);
@@ -219,6 +252,12 @@
   width: var(--gcn-hair-w, 736px);
   transform: translate(var(--gcn-hair-tx, -50%), calc(var(--gcn-capsule-h) - 50px + 4px)) scaleX(var(--gcn-progress, 0));
   right: auto;
+}
+
+/* city hairline pins under the capsule (overrides the generic rule above) */
+.gcn--city.is-collapsed .gcn-hairline {
+  top: calc(var(--gcn-top, 72px) + var(--gcn-capsule-h));
+  transform: translate(var(--gcn-hair-tx, -50%), 0) scaleX(var(--gcn-progress, 0));
 }
 
 /* ---------- drag state ---------- */

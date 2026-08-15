@@ -7,6 +7,15 @@
   --xian-line: rgba(17, 21, 22, .2);
 }
 
+/* Capsule nav (city skin): pinned under the site nav with a city signal line. */
+.gcn--city {
+  --gcn-city-accent: var(--xian-red);
+  --gcn-city-ink: var(--xian-ink);
+  --gcn-city-paper: var(--xian-paper);
+  --gcn-city-muted: var(--xian-grey);
+}
+
+
 html {
   scroll-behavior: smooth;
   width: 100%;
@@ -182,77 +191,12 @@ html {
   text-decoration: none;
 }
 
-.xian-story-nav {
-  position: sticky;
-  z-index: 20;
-  top: var(--nav-height, 76px);
-  height: 4.5rem;
-  display: flex;
-  align-items: stretch;
-  overflow-x: auto;
-  color: var(--xian-ink);
-  background: rgba(241,241,237,.95);
-  border-bottom: 1px solid var(--xian-line);
-  scrollbar-width: none;
-  backdrop-filter: blur(12px);
-  transform: translate3d(0,0,0);
-  transition: transform 420ms cubic-bezier(.16,1,.3,1);
-  will-change: transform;
-  overscroll-behavior-inline: contain;
-}
 
-.xian-page-body.site-chrome-hidden:not(.nav-open) .xian-story-nav {
-  transform: translate3d(0, calc(-100% - var(--nav-height, 76px)), 0);
-  pointer-events: none;
-}
+.xian-page-body.site-chrome-hidden:not(.nav-open) 
 
-.xian-story-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.xian-story-nav > i {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  background: rgba(17,21,22,.12);
-}
-
-.xian-story-nav > i span {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: var(--xian-red);
-  transform: scaleX(0);
-  transform-origin: left;
-}
-
-.xian-story-nav a {
-  min-width: 9.5rem;
-  padding: 0 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: .65rem;
-  color: rgba(17,21,22,.42);
-  border-right: 1px solid var(--xian-line);
-  font-size: .64rem;
-  letter-spacing: .1em;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.xian-story-nav a b {
-  color: var(--xian-red);
-}
-
-.xian-story-nav a.is-active {
-  color: var(--xian-ink);
-  background: #fff;
-}
 
 [data-xian-section] {
-  scroll-margin-top: calc(var(--nav-height, 76px) + 4.5rem);
+  scroll-margin-top: calc(var(--nav-height, 76px) + 56px);
 }
 
 .xian-arrival {
@@ -1250,19 +1194,8 @@ html {
     margin-top: 2rem;
   }
 
-  .xian-story-nav {
-    top: var(--nav-height, 72px);
-    height: 3.9rem;
-  }
+  
 
-  .xian-story-nav a {
-    min-width: auto;
-    padding: 0 1rem;
-  }
-
-  .xian-story-nav a span {
-    display: none;
-  }
 
   .xian-arrival,
   .xian-arrival-copy {
@@ -1557,14 +1490,7 @@ html {
   }
 
   .xian-site-nav.is-scrolled,
-  .xian-story-nav {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
 
-  .xian-story-nav {
-    background: rgba(241,241,237,.99);
-  }
 
   .xian-arrival img,
   .xian-light-transition img {
