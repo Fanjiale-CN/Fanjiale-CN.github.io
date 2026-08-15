@@ -11197,6 +11197,31 @@ body.article-body .site-shell {
 .batch-chapter-nav.gcn .gcn-chapter[aria-current="location"] {
   background: var(--ra-color-active-bg);
 }
+/* mobile chapter strip: never squeeze host chapter links into one row — show the
+   capsule bar only (current chapter + dots + prev/next), host links sr-only */
+@media (max-width: 767px) {
+  .batch-chapter-nav.gcn {
+    --gcn-capsule-w: calc(100vw - 16px);
+  }
+  .batch-chapter-nav.gcn > a,
+  .batch-chapter-nav.gcn a:not(.gcn-bar a, .gcn-bar button, .gcn-bar .gcn-dot) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .batch-chapter-nav.gcn.is-expanded .gcn-bar {
+    grid-column: 1 / -1;
+  }
+  .gcn.is-collapsed .gcn-hairline {
+    width: min(736px, calc(100vw - 32px));
+  }
+}
 
 
 .batch-article-layout {
