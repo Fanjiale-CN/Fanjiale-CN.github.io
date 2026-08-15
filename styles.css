@@ -3,7 +3,7 @@
   --font-serif: "Galok Floane", "EB Garamond", "Times New Roman", serif;
   --font-hk: "Galok HK Ming", "PMingLiU", "MingLiU", "Songti TC", "Noto Serif HK", serif;
   --font-glyph: "Galok Glyph Display", "Galok HK Ming", "PMingLiU", "MingLiU", serif;
-  --font-ui: "Roboto Slab", "EB Garamond", "Times New Roman", serif;
+  --font-ui: "Galok Gambetta", "EB Garamond", "Times New Roman", serif;
   --paper: #f7f4ef;
   --paper-2: #fffaf2;
   --ink: #171717;
@@ -519,11 +519,31 @@
 }
 
 @font-face {
-  font-family: "Roboto Slab";
-  src: url("/assets/fonts/robotoslab-thin.woff2") format("woff2"),
-       url("/assets/fonts/robotoslab-thin.ttf") format("truetype");
-  font-weight: 250;
+  font-family: "Galok Gambetta";
+  src: url("/assets/fonts/gambetta-400.woff2") format("woff2");
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Galok Gambetta";
+  src: url("/assets/fonts/gambetta-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Galok Gambetta";
+  src: url("/assets/fonts/gambetta-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Galok Gambetta";
+  src: url("/assets/fonts/gambetta-400i.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -577,7 +597,7 @@ body {
   color: var(--ink);
   font-family: var(--font-ui);
   font-size: 18px;
-  line-height: 1.58;
+  line-height: 1.66;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -3144,6 +3164,10 @@ button {
 .article-content li {
   color: #332f2b;
   font-size: 1.08rem;
+  line-height: 1.75;
+}
+.article-content p + p {
+  margin-top: 1.1em;
 }
 
 .article-content h2 {
