@@ -232,6 +232,19 @@
       collapse();
     });
 
+    // touch: no hover, so a tap on the capsule body toggles expand / collapse.
+    if (isTouch) {
+      nav.addEventListener("click", function (e) {
+        var t = e.target;
+        while (t && t !== nav) {
+          if (t === bar || t === grip) return; // bar/grip have their own handlers
+          t = t.parentElement;
+        }
+        if (nav.classList.contains("is-collapsed")) expand();
+        else if (!nav.classList.contains("is-dragging")) collapse();
+      });
+    }
+
     // apply once after mount
     applyLayout();
 

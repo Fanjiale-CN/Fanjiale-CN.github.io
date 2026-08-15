@@ -264,24 +264,3 @@
   .gcn-grip { cursor: pointer; }
 }
 
-/* ---------- narrow viewports: host pages keep their own (non-capsule) nav ---------- */
-@media (max-width: 900px) {
-  .gcn {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    width: auto !important;
-    max-width: none !important;
-    height: auto !important;
-    border-radius: 0 !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    backdrop-filter: none !important;
-    z-index: auto;
-  }
-  .gcn-bar,
-  .gcn-hairline,
-  .gcn-anchor-hint { display: none !important; }
-}

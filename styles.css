@@ -11151,10 +11151,6 @@ body.article-body .site-shell {
   color: var(--batch-ink);
   background: var(--ra-color-active-bg);
 }
-
-.batch-chapter-menu {
-  display: none;
-}
 /* ---- Galok capsule nav host rules (article pages) ---- */
 .batch-chapter-nav.gcn {
   position: fixed !important;
@@ -11200,87 +11196,6 @@ body.article-body .site-shell {
 .batch-chapter-nav.gcn .gcn-chapter[aria-current="location"],
 .batch-chapter-nav.gcn .gcn-chapter[aria-current="location"] {
   background: var(--ra-color-active-bg);
-}
-/* mobile: capsule off — desktop nav drops back to the details menu */
-@media (max-width: 900px) {
-  .batch-chapter-nav.gcn,
-  .batch-chapter-nav.gcn.is-collapsed,
-  .batch-chapter-nav.gcn.is-expanded {
-    position: sticky !important;
-    top: 76px !important;
-    left: auto !important;
-    transform: none !important;
-    display: none !important;
-  }
-  .batch-chapter-menu {
-    position: sticky;
-    top: 76px;
-    z-index: 70;
-    display: block;
-    border-bottom: 1px solid var(--ra-color-line);
-    background: color-mix(in srgb, var(--ra-color-bg) 94%, transparent);
-    backdrop-filter: blur(14px);
-    transition: none;
-  }
-
-  .batch-chapter-menu summary {
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 12px 18px;
-    color: var(--ra-color-muted);
-    font-family: var(--ra-font-utility);
-    font-size: 0.8125rem;
-    font-weight: 750;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    cursor: pointer;
-    list-style: none;
-  }
-
-  .batch-chapter-menu summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .batch-chapter-menu summary::after {
-    content: "+";
-    color: var(--ra-color-accent);
-    font-size: 1rem;
-  }
-
-  .batch-chapter-menu[open] summary::after {
-    content: "−";
-  }
-
-  .batch-chapter-menu > div {
-    display: grid;
-    border-top: 1px solid var(--ra-color-line);
-  }
-
-  .batch-chapter-menu a {
-    min-height: 48px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    padding: 10px 18px;
-    color: var(--ra-color-muted);
-    border-bottom: 1px solid var(--ra-color-line);
-    font-family: var(--ra-font-utility);
-    font-size: 0.75rem;
-    font-weight: 720;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .batch-chapter-menu a[aria-current="location"] {
-    color: var(--ra-color-fg);
-  }
-
-  .batch-chapter-menu a span {
-    color: var(--ra-color-accent);
-  }
 }
 
 
@@ -11767,10 +11682,6 @@ body.article-body .site-shell {
     max-width: 560px;
   }
 
-  .batch-chapter-nav:not(.gcn) {
-    display: none;
-  }
-
 }
 
 @media (max-width: 760px) {
@@ -11819,10 +11730,6 @@ body.article-body .site-shell {
 
   .batch-article-hero {
     min-height: auto;
-  }
-
-  .batch-chapter-menu {
-    top: 68px;
   }
 
   .batch-prose-section,
@@ -11912,20 +11819,11 @@ body.article-body .site-shell {
     font-size: var(--ra-text-cover-kicker);
   }
 
-  .batch-cover-question {
+    .batch-cover-question {
     max-width: 12ch;
     font-size: var(--ra-text-cover-title);
     line-height: var(--ra-leading-cover-title);
   }
-
-  .batch-chapter-menu summary {
-    font-size: 0.8125rem;
-  }
-
-  .batch-chapter-menu a {
-    font-size: 0.75rem;
-  }
-
   .water-cover-evidence {
     grid-template-columns: 1.08fr 0.92fr;
     gap: var(--ra-space-cover-evidence-column);
@@ -11960,7 +11858,6 @@ body.article-body .site-shell {
 @media (prefers-reduced-motion: reduce) {
   .batch-chapter-nav,
   .batch-chapter-nav a,
-  .batch-chapter-menu,
   .batch-wave-control,
   .batch-wave-control::before,
   .batch-stat-control,

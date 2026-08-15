@@ -534,15 +534,12 @@
 
   function initBatchChapterNavigation() {
     const desktop = document.querySelector(".batch-chapter-nav");
-    const mobile = document.querySelector(".batch-chapter-menu");
-    if (!desktop && !mobile) return;
+    if (!desktop) return;
 
-    const links = Array.from(document.querySelectorAll(".batch-chapter-nav a[href^='#'], .batch-chapter-menu a[href^='#']"));
+    const links = Array.from(document.querySelectorAll(".batch-chapter-nav a[href^='#']"));
     const sections = Array.from(new Set(links
       .map((link) => document.querySelector(link.getAttribute("href")))
       .filter((section) => section instanceof HTMLElement)));
-    const chapterLabel = mobile?.querySelector("[data-chapter-label]");
-    const mobileSummary = mobile?.querySelector("summary");
 
     function setCurrent(section) {
       if (!section?.id) return;
@@ -551,17 +548,11 @@
         if (link.getAttribute("href") === currentHref) link.setAttribute("aria-current", "location");
         else link.removeAttribute("aria-current");
       });
-      const currentLink = links.find((link) => link.getAttribute("href") === currentHref);
-      if (chapterLabel && currentLink) chapterLabel.textContent = currentLink.textContent.trim().replace(/\s+/g, " ");
     }
 
     links.forEach((link) => link.addEventListener("click", () => {
       const section = document.querySelector(link.getAttribute("href"));
       if (section instanceof HTMLElement) setCurrent(section);
-      if (mobile?.open) {
-        mobile.open = false;
-        window.requestAnimationFrame(() => mobileSummary?.focus({ preventScroll: true }));
-      }
     }));
 
     if (!("IntersectionObserver" in window) || !sections.length) return;
