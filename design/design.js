@@ -27,6 +27,10 @@
       } else {
         showToast(hex);
       }
+      /* card-level feedback: outline + label pulse, <= 260ms, no layout work */
+      sw.classList.add('is-copied');
+      clearTimeout(sw._copiedT);
+      sw._copiedT = setTimeout(function () { sw.classList.remove('is-copied'); }, 900);
     });
   });
 

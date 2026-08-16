@@ -85,6 +85,7 @@
   margin-left: 32px;
   margin-bottom: 12px;
 }
+.design-plate-wide { max-width: 360px; }
 .design-note {
   clear: both;
   margin-top: 24px;
@@ -92,52 +93,124 @@
   color: #77736b;
 }
 
-/* ---------- Palette: swatch wall ---------- */
-.design-swatchwall {
+/* ---------- Palette: grouped swatch wall ---------- */
+.design-palette { margin-top: 36px; }
+.design-palette-group { margin-top: 28px; }
+.design-palette-group:first-child { margin-top: 0; }
+.design-palette-grouplabel {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid #d8d2c8;
+  font-family: "Galok Gambetta", system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: #77736b;
+}
+.design-palette-grouplabel:first-of-type { border-top: none; }
+.design-grouplabel-num {
+  font-family: "Galok Floane", Georgia, serif;
+  font-size: 1.05rem;
+  color: #9e2a2b;
+  letter-spacing: 0;
+}
+.design-swatchwall, /* legacy class kept for JS compatibility */
+.design-palette {
+  display: flex;
+  flex-direction: column;
+}
+.design-palette-group {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 32px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 .design-swatch {
   position: relative;
-  height: 152px;
   border: 1px solid #d8d2c8;
-  padding: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 176px;
   text-align: left;
   background: var(--sw);
   cursor: pointer;
-  transition: opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.design-swatch:hover { opacity: 0.88; }
+.design-swatch:hover { transform: translateY(-3px); box-shadow: 0 6px 0 rgba(23, 23, 23, 0.14); }
+.design-swatch:active { transform: translateY(-1px); }
 .design-swatch b,
 .design-swatch span,
 .design-swatch small {
   display: block;
 }
-.design-swatch b {
+.design-swatch-head { }
+.design-swatch-name {
   font-family: "Galok Gambetta", system-ui, sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+.design-swatch-role {
+  display: block;
+  margin-top: 6px;
+  font-family: "Galok Gambetta", system-ui, sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+  opacity: 0.75;
+}
+.design-swatch-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+.design-swatch-hex,
+.design-swatch-rgb {
+  font-family: "Galok Gambetta", "Source Code Pro", system-ui, monospace;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+}
+.design-swatch-copy {
+  font-family: "Galok Gambetta", system-ui, sans-serif;
+  font-size: 0.58rem;
   letter-spacing: 0.14em;
+  opacity: 0.55;
+  margin-left: auto;
 }
-.design-swatch span {
-  font-size: 0.9rem;
-  margin-top: 2px;
+.design-swatch.is-copied .design-swatch-copy { opacity: 1; }
+.design-swatch.is-copied {
+  outline: 2px solid currentColor;
+  outline-offset: -4px;
 }
-.design-swatch small {
-  font-family: "Galok Gambetta", system-ui, sans-serif;
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
+/* large colored corner glyph keeps each card legible at a glance */
+.design-swatch-cn {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  font-family: "Galok HK Ming", "Source Han Serif HK", serif;
+  font-size: 2.6rem;
+  line-height: 1;
+  opacity: 0.9;
 }
-.design-swatch--ink,
-.design-swatch--signal { color: #f7f4ef; }
-.design-swatch--paper { color: #171717; }
-.design-swatch--frame,
-.design-swatch--scene,
-.design-swatch--green { color: #f7f4ef; }
+/* contrast: light text on dark/hue cards */
+.design-swatch[data-role="ink"],
+.design-swatch[data-role="signal"],
+.design-swatch[data-role="frame"],
+.design-swatch[data-role="scene"],
+.design-swatch[data-role="green"] { color: #f7f4ef; }
+.design-swatch[data-role="paper"],
+.design-swatch[data-role="muted"],
+.design-swatch[data-role="line"] { color: #171717; }
+.design-swatch[data-role="paper"] .design-swatch-name,
+.design-swatch[data-role="muted"] .design-swatch-name,
+.design-swatch[data-role="line"] .design-swatch-name { color: #171717; }
+/* hairline on light cards keeps borders legible against paper */
+.design-swatch[data-role="line"] { border: 1px solid #b5ad9f; }
 
 /* ---------- Type stack ---------- */
 .design-typestack {
@@ -332,7 +405,8 @@
 @media (max-width: 900px) {
   .design-laws,
   .design-lenses { grid-template-columns: 1fr; gap: 20px; }
-  .design-swatchwall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .design-palette-group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .design-swatch { min-height: 150px; }
   .design-rules,
   .design-motion { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .design-type-row { grid-template-columns: 36px 1fr; }
@@ -342,6 +416,9 @@
   .design-plate-side { float: none; width: 100%; margin: 32px 0 0; }
 }
 @media (max-width: 620px) {
+  .design-palette-group { grid-template-columns: 1fr; }
+  .design-swatch { min-height: 128px; padding: 16px; }
+  .design-swatch-cn { font-size: 2rem; right: 10px; bottom: 8px; }
   .design-type-row { grid-template-columns: 1fr; gap: 8px; }
   .design-assets { grid-template-columns: 1fr; }
   .design-gallery { grid-template-columns: 1fr; }

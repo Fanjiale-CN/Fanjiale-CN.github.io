@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://galok.me/design/">
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg"><link rel="stylesheet" href="/styles.css?v=motion-lower-20260815">
   <link rel="stylesheet" href="/archive-system.css?v=20260815x">
-  <link rel="stylesheet" href="/design/design.css?v=design-20260815">
+  <link rel="stylesheet" href="/design/design.css?v=design-20260816a">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" href="/assets/fonts/yishanbeizhuanti.ttf" as="font" type="font/ttf" crossorigin>
@@ -54,16 +54,61 @@
         <p class="archive-section-label">02 / PALETTE</p>
         <div><h2 id="palette-title">Three colors and their weather.</h2><p>Near-black ink, warm paper and one signal red hold the whole field. Deep blue, gold and green appear only inside their own territories.</p></div>
       </div>
-      <figure class="design-plate design-plate-side"><img src="/assets/zine/zine-ink.png" alt="Five letterpress ink swatches pinned in a column — the inks of the field" loading="lazy"></figure>
-      <div class="design-swatchwall" role="list">
-        <button class="design-swatch" style="--sw:#171717" data-hex="#171717" role="listitem"><b>INK</b><span>Near black / 近黑</span><small>#171717 · text &amp; structure</small></button>
-        <button class="design-swatch" style="--sw:#f7f4ef" data-hex="#f7f4ef" role="listitem"><b>PAPER</b><span>Warm paper / 暖纸</span><small>#f7f4ef · canvas of the field</small></button>
-        <button class="design-swatch" style="--sw:#9e2a2b" data-hex="#9e2a2b" role="listitem"><b>SIGNAL</b><span>Signal red / 信号红</span><small>#9e2a2b · the one accent</small></button>
-        <button class="design-swatch" style="--sw:#2f5d7c" data-hex="#2f5d7c" role="listitem"><b>FRAME</b><span>Field blue / 领域蓝</span><small>#2f5d7c · data &amp; the Frame lens</small></button>
-        <button class="design-swatch" style="--sw:#c9a227" data-hex="#c9a227" role="listitem"><b>SCENE</b><span>Wheat gold / 麦金</span><small>#c9a227 · city scenes &amp; light</small></button>
-        <button class="design-swatch" style="--sw:#2f6d61" data-hex="#2f6d61" role="listitem"><b>GREEN</b><span>Erhai green / 洱海绿</span><small>#2f6d61 · visual notes</small></button>
-        <button class="design-swatch" style="--sw:#77736b" data-hex="#77736b" role="listitem"><b>MUTED</b><span>Stone gray / 暖灰</span><small>#77736b · secondary text</small></button>
-        <button class="design-swatch" style="--sw:#d8d2c8" data-hex="#d8d2c8" role="listitem"><b>LINE</b><span>Hairline / 发丝线</span><small>#d8d2c8 · rules &amp; borders</small></button>
+      <figure class="design-plate design-plate-wide"><img src="/assets/zine/zine-ink.png" alt="Five letterpress ink swatches pinned in a column — the inks of the field" loading="lazy"></figure>
+      <div class="design-palette" role="list">
+
+        <div class="design-palette-group">
+          <p class="design-palette-grouplabel" data-reveal><span class="design-grouplabel-num">A</span><span>THE SHARED THREE / 三色共享 — every page carries these three, no exceptions.</span></p>
+          <button class="design-swatch design-swatch--large" style="--sw:#171717" data-hex="#171717" data-role="ink" role="listitem" aria-label="Ink — #171717 — click to copy">
+            <span class="design-swatch-head"><b class="design-swatch-name">INK</b><small class="design-swatch-role">INK / 墨水 — text, rules &amp; structure</small></span>
+            <span class="design-swatch-chips"><span class="design-swatch-hex">#171717</span><span class="design-swatch-rgb">rgb(23 23 23)</span><span class="design-swatch-copy" aria-hidden="true">TAP TO COPY</span></span>
+            <span class="design-swatch-cn" aria-hidden="true">近黑</span>
+          </button>
+          <button class="design-swatch design-swatch--large" style="--sw:#f7f4ef" data-hex="#f7f4ef" data-role="paper" role="listitem" aria-label="Paper — #f7f4ef — click to copy">
+            <span class="design-swatch-head"><b class="design-swatch-name">PAPER</b><small class="design-swatch-role">PAPER / 纸 — the canvas of the field</small></span>
+            <span class="design-swatch-chips"><span class="design-swatch-hex">#f7f4ef</span><span class="design-swatch-rgb">rgb(247 244 239)</span><span class="design-swatch-copy" aria-hidden="true">TAP TO COPY</span></span>
+            <span class="design-swatch-cn" aria-hidden="true">暖纸</span>
+          </button>
+          <button class="design-swatch design-swatch--large" style="--sw:#9e2a2b" data-hex="#9e2a2b" data-role="signal" role="listitem" aria-label="Signal — #9e2a2b — click to copy">
+            <span class="design-swatch-head"><b class="design-swatch-name">SIGNAL</b><small class="design-swatch-role">SIGNAL / 信号 — the one accent, once per screen</small></span>
+            <span class="design-swatch-chips"><span class="design-swatch-hex">#9e2a2b</span><span class="design-swatch-rgb">rgb(158 42 43)</span><span class="design-swatch-copy" aria-hidden="true">TAP TO COPY</span></span>
+            <span class="design-swatch-cn" aria-hidden="true">信号红</span>
+          </button>
+        </div>
+
+        <div class="design-palette-group">
+          <p class="design-palette-grouplabel" data-reveal><span class="design-grouplabel-num">B</span><span>THE RESERVED THREE / 领域保留 — appear only inside their own territory.</span></p>
+          <button class="design-swatch design-swatch--large" style="--sw:#2f5d7c" data-hex="#2f5d7c" data-role="frame" role="listitem" aria-label="Frame — #2f5d7c — click to copy">
+            <span class="design-swatch-head"><b class="design-swatch-name">FRAME</b><small class="design-swatch-role">FRAME / 领域 — data &amp; the Frame lens only</small></span>
+            <span class="design-swatch-chips"><span class="design-swatch-hex">#2f5d7c</span><span class="design-swatch-rgb">rgb(47 93 124)</span><span class="design-swatch-copy" aria-hidden="true">TAP TO COPY</span></span>
+            <span class="design-swatch-cn" aria-hidden="true">领域蓝</span>
+          </button>
+          <button class="design-swatch design-swatch--large" style="--sw:#c9a227" data-hex="#c9a227" data-role="scene" role="listitem" aria-label="Scene — #c9a227 — click to copy">
+            <span class="design-swatch-head"><b class="design-swatch-name">SCENE</b><small class="design-swatch-role">SCENE / 场景 — city scenes &amp; the Observe lens</small></span>
+            <span class="design-swatch-chips"><span class="design-swatch-hex">#c9a227</span><span class="design-swatch-rgb">rgb(201 162 39)</span><span class="design-swatch-copy" aria-hidden="true">TAP TO COPY</span></span>
+            <span class="design-swatch-cn" aria-hidden="true">麦金</span>
+          </button>
+          <button class="design-swatch design-swatch--large" style="--sw:#2f6d61" data-hex="#2f6d61" data-role="green" role="listitem" aria-label="Green — #2f6d61 — click to copy">
+            <span class="design-swatch-head"><b class="design-swatch-name">GREEN</b><small class="design-swatch-role">GREEN / 田野 — Erhai notes &amp; the home page only</small></span>
+            <span class="design-swatch-chips"><span class="design-swatch-hex">#2f6d61</span><span class="design-swatch-rgb">rgb(47 109 97)</span><span class="design-swatch-copy" aria-hidden="true">TAP TO COPY</span></span>
+            <span class="design-swatch-cn" aria-hidden="true">洱海绿</span>
+          </button>
+        </div>
+
+        <div class="design-palette-group">
+          <p class="design-palette-grouplabel" data-reveal><span class="design-grouplabel-num">C</span><span>THE INK GRAY SCALE / 墨阶辅助 — tints of ink, never a fifth accent.</span></p>
+          <button class="design-swatch design-swatch--large" style="--sw:#77736b" data-hex="#77736b" data-role="muted" role="listitem" aria-label="Muted — #77736b — click to copy">
+            <span class="design-swatch-head"><b class="design-swatch-name">MUTED</b><small class="design-swatch-role">MUTED / 暖灰 — secondary text, metadata</small></span>
+            <span class="design-swatch-chips"><span class="design-swatch-hex">#77736b</span><span class="design-swatch-rgb">rgb(119 115 107)</span><span class="design-swatch-copy" aria-hidden="true">TAP TO COPY</span></span>
+            <span class="design-swatch-cn" aria-hidden="true">暖灰</span>
+          </button>
+          <button class="design-swatch design-swatch--large" style="--sw:#d8d2c8" data-hex="#d8d2c8" data-role="line" role="listitem" aria-label="Line — #d8d2c8 — click to copy">
+            <span class="design-swatch-head"><b class="design-swatch-name">LINE</b><small class="design-swatch-role">LINE / 发丝 — hairline rules &amp; card borders</small></span>
+            <span class="design-swatch-chips"><span class="design-swatch-hex">#d8d2c8</span><span class="design-swatch-rgb">rgb(216 210 200)</span><span class="design-swatch-copy" aria-hidden="true">TAP TO COPY</span></span>
+            <span class="design-swatch-cn" aria-hidden="true">发丝线</span>
+          </button>
+        </div>
+
       </div>
       <p class="design-note">Tap any swatch to copy its hex. The rule: three colors on every page, never more — the signal red appears once per screen at most.</p>
     </section>
@@ -151,7 +196,7 @@
     </section>
   </main>
   <footer class="footer"><div class="footer-inner"><span>Galok / Design language</span><a href="/">Home</a></div></footer>
-  <script src="/script.js?v=data-nav-20260815b"></script>
-  <script src="/design/design.js?v=design-20260815"></script>
+  <script src="/script.js?v=nav-20260816"></script>
+  <script src="/design/design.js?v=design-20260816a"></script>
 </body>
 </html>
