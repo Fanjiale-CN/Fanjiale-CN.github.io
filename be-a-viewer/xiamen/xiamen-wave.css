@@ -1,47 +1,7 @@
-/* Xiamen experiment: compact chapter capsule + scroll-driven reading wave. */
+/* Xiamen experiment: hidden chapter capsule + centered reading wave. */
 
 .xiamen-page-body .gcn--city {
-  --gcn-capsule-w: min(520px, calc(100vw - 24px));
-  display: block !important;
-  width: var(--gcn-capsule-w) !important;
-  max-width: var(--gcn-capsule-w) !important;
-  height: var(--gcn-capsule-h);
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--xm-ink) 18%, transparent);
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--gcn-paper) 94%, transparent);
-  box-shadow: 0 8px 24px -18px color-mix(in srgb, var(--xm-ink) 42%, transparent);
-}
-
-.xiamen-page-body .gcn--city > a {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip-path: inset(50%) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
-.xiamen-page-body .gcn--city .gcn-bar {
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 16px;
-  padding: 0 8px 0 16px;
-}
-
-.xiamen-page-body .gcn--city .gcn-dots,
-.xiamen-page-body .gcn--city::after,
-.xiamen-page-body .gcn--city .gcn-hairline {
   display: none !important;
-}
-
-.xiamen-page-body .gcn--city .gcn-chapter {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .xm-wave-rail {
