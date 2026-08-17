@@ -19,7 +19,8 @@
 
   if (chapters.length < 2) return;
 
-  var TICK_COUNT = 72;
+  var TICK_COUNT = 73;
+  var CENTER_INDEX = Math.floor(TICK_COUNT / 2);
   var reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   var rail = document.createElement("aside");
   rail.className = "xm-wave-rail";
@@ -92,23 +93,24 @@
   }
 
   function renderWave(focusIndex) {
-    var progressIndex = currentProgress * (TICK_COUNT - 1);
-    var center = focusIndex >= 0 ? focusIndex : progressIndex;
-    var currentTick = Math.round(progressIndex);
+    var center = focusIndex >= 0 ? focusIndex : CENTER_INDEX;
+    var phase = currentProgress * (TICK_COUNT - 1);
 
     ticks.forEach(function (tick, index) {
       var distance = Math.abs(index - center);
       var energy = clamp(1 - distance / 5);
-      var scale = 0.27 + energy * 0.73;
-      var past = index < currentTick;
+      var ambient = 0.22 + (Math.sin((index + phase) * 1.17) + 1) * 0.035;
+      var scale = ambient + energy * (1 - ambient);
+      var past = index < CENTER_INDEX;
       var chapterIndex = chapterRatios.findIndex(function (ratio) {
-        return Math.abs(index - ratio * (TICK_COUNT - 1)) < 0.5;
+        var markerIndex = CENTER_INDEX + (ratio - currentProgress) * (TICK_COUNT - 1);
+        return Math.abs(index - markerIndex) < 0.5;
       });
 
       tick.style.setProperty("--xm-wave-scale", scale.toFixed(3));
       tick.style.setProperty("--xm-wave-opacity", (0.28 + energy * 0.72).toFixed(3));
       tick.classList.toggle("is-past", past);
-      tick.classList.toggle("is-current", index === currentTick);
+      tick.classList.toggle("is-current", index === CENTER_INDEX);
       tick.classList.toggle("is-chapter", chapterIndex >= 0);
     });
   }
@@ -190,7 +192,7 @@
 
   track.addEventListener("focus", function () {
     rail.classList.add("is-inspecting");
-    updateLabel(currentProgress, currentProgress * rail.clientHeight);
+    updateLabel(currentProgress, rail.clientHeight / 2);
   });
 
   track.addEventListener("blur", function () {
@@ -210,8 +212,8 @@
     event.preventDefault();
     currentProgress = clamp(currentProgress + step);
     scrollToRatio(currentProgress, true);
-    updateLabel(currentProgress, currentProgress * rail.clientHeight);
-    renderWave(currentProgress * (TICK_COUNT - 1));
+    updateLabel(currentProgress, rail.clientHeight / 2);
+    renderWave(-1);
   });
 
   window.addEventListener("scroll", requestRender, { passive: true });
