@@ -4,188 +4,176 @@
        Sections: Notes (essays, View/Frame/Observe) · Data (interactive China archive)
        · Be a Viewer (literary city chapters) · Works · Visual Notes · Postcards -->
   <url>
-    <loc>https://galok.me/</loc>
+    <loc>https://www.galok.me/</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://galok.me/about/</loc>
+    <loc>https://www.galok.me/about/</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://galok.me/notes/</loc>
+    <loc>https://www.galok.me/notes/</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/themes/</loc>
+    <loc>https://www.galok.me/themes/</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://galok.me/archive/</loc>
+    <loc>https://www.galok.me/archive/</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/data/</loc>
+    <loc>https://www.galok.me/data/</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/be-a-viewer/</loc>
+    <loc>https://www.galok.me/be-a-viewer/</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://galok.me/works/</loc>
+    <loc>https://www.galok.me/works/</loc>
     <lastmod>2026-08-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://galok.me/visual-notes/</loc>
+    <loc>https://www.galok.me/design/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.galok.me/visual-notes/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://galok.me/postcards/</loc>
+    <loc>https://www.galok.me/postcards/</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://galok.me/series/macro/</loc>
-    <lastmod>2026-08-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://galok.me/series/frame/</loc>
-    <lastmod>2026-08-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://galok.me/series/scene/</loc>
-    <lastmod>2026-08-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://galok.me/be-a-viewer/beijing/</loc>
+    <loc>https://www.galok.me/be-a-viewer/beijing/</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://galok.me/be-a-viewer/shanghai/</loc>
+    <loc>https://www.galok.me/be-a-viewer/shanghai/</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://galok.me/be-a-viewer/xian/</loc>
+    <loc>https://www.galok.me/be-a-viewer/xian/</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://galok.me/be-a-viewer/xiamen/</loc>
+    <loc>https://www.galok.me/be-a-viewer/xiamen/</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://galok.me/be-a-viewer/hangzhou/</loc>
+    <loc>https://www.galok.me/be-a-viewer/hangzhou/</loc>
     <lastmod>2026-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/cyber-audit-proof-economy/</loc>
+    <loc>https://www.galok.me/essays/cyber-audit-proof-economy/</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/rmb-9-9-coffee/</loc>
+    <loc>https://www.galok.me/essays/rmb-9-9-coffee/</loc>
     <lastmod>2026-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/goose-leg-official-narrative/</loc>
+    <loc>https://www.galok.me/essays/goose-leg-official-narrative/</loc>
     <lastmod>2026-07-30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/platforms-redesign-choice/</loc>
+    <loc>https://www.galok.me/essays/platforms-redesign-choice/</loc>
     <lastmod>2026-07-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/latte-price-illusion/</loc>
+    <loc>https://www.galok.me/essays/latte-price-illusion/</loc>
     <lastmod>2026-07-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/ai-goes-silent-censorship-infrastructure/</loc>
+    <loc>https://www.galok.me/essays/ai-goes-silent-censorship-infrastructure/</loc>
     <lastmod>2026-07-09</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/tourism-assembly-line/</loc>
+    <loc>https://www.galok.me/essays/tourism-assembly-line/</loc>
     <lastmod>2026-07-02</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/xiaohongshu-world-cup/</loc>
+    <loc>https://www.galok.me/essays/xiaohongshu-world-cup/</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/honor-phone-case-lawsuit/</loc>
+    <loc>https://www.galok.me/essays/honor-phone-case-lawsuit/</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/peoples-republic-of-ai/</loc>
+    <loc>https://www.galok.me/essays/peoples-republic-of-ai/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/the-water-is-rising/</loc>
+    <loc>https://www.galok.me/essays/the-water-is-rising/</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/essays/the-curators-curse/</loc>
+    <loc>https://www.galok.me/essays/the-curators-curse/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://galok.me/visual-notes/xiamen/</loc>
+    <loc>https://www.galok.me/visual-notes/xiamen/</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

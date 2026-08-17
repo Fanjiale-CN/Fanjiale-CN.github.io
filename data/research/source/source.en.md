@@ -1,6 +1,6 @@
 # China, in more than one number — editorial source
 
-- Target: `https://galok.me/data/`
+- Target: `https://www.galok.me/data/`
 - Language: English
 - Research cut-off: 12 August 2026
 - Main window: 2000–2025

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Galok — personal magazine of economic observation and city memory
-Sitemap: https://galok.me/sitemap.xml
+Sitemap: https://www.galok.me/sitemap.xml

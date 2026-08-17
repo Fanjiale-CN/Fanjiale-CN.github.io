@@ -2,7 +2,7 @@
 
 ## Comparison target
 
-- Source visual truth: current production page, `https://galok.me/data/`, plus the selected Tufte / Galok warm-paper design brief in `data/research/plan/plan.md`.
+- Source visual truth: current production page, `https://www.galok.me/data/`, plus the selected Tufte / Galok warm-paper design brief in `data/research/plan/plan.md`.
 - Implementation: local `data/index.html`, `data/data-hub.css`, `data/data-hub.js`.
 - Intended viewports: desktop 1440 × 1000 and mobile 390 × 844, device scale factor 1.
 - Intended states: cover, article body, WDI indicator selection, sticky chapter index, open source drawer, reduced motion.
