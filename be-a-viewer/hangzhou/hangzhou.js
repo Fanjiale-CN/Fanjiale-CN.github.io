@@ -70,7 +70,7 @@
     filmObserver.observe(filmStage);
   }
 
-  /* Retired: chapter spy moved to the GalokCapsule component (city skin). */
+  /* Retired: chapter spy moved to the GalokWave component (city skin). */
   const chapters = [];
   const chapterLinks = [];
   const progressBar = null;
@@ -84,7 +84,7 @@
   window.addEventListener("scroll", updatePageProgress, { passive: true });
   updatePageProgress();
 
-  /* Chapter observer retired (GalokCapsule owns the chapter spy). */
+  /* Chapter observer retired (GalokWave owns the chapter spy). */
   if (false && "IntersectionObserver" in window) {
     const chapterObserver = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];

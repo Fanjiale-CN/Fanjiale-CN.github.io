@@ -11,12 +11,12 @@
   --hz-display: clamp(3.5rem, 9.2vw, 9.4rem);
 }
 
-/* Capsule nav (city skin): pinned under the site nav with a city signal line. */
-.gcn--city {
-  --gcn-city-accent: var(--hz-red);
-  --gcn-city-ink: var(--hz-ink);
-  --gcn-city-paper: var(--hz-paper);
-  --gcn-city-muted: var(--hz-mist);
+/* Reading wave (city skin): inherits the city palette. */
+.gwn--city {
+  --gwn-city-accent: var(--hz-red);
+  --gwn-city-ink: var(--hz-ink);
+  --gwn-city-paper: var(--hz-paper);
+  --gwn-city-muted: var(--hz-mist);
 }
 
 

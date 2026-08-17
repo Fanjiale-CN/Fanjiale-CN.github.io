@@ -1,0 +1,205 @@
+/* Galok Reading Wave — shared chapter navigation.
+   The source navigation stays in the document; the visible interface is a
+   restrained right-edge rail with a fixed center playhead. */
+
+.gwn {
+  --gwn-accent: #b52d27;
+  --gwn-ink: #1c1a17;
+  --gwn-paper: #f7f4ef;
+  --gwn-muted: #77736b;
+  position: fixed !important;
+  top: 50% !important;
+  right: max(clamp(18px, 1.8vw, 30px), env(safe-area-inset-right)) !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: 680 !important;
+  display: block !important;
+  width: 42px !important;
+  max-width: 42px !important;
+  height: clamp(280px, 72vh, 680px) !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: translate3d(12px, -50%, 0) !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms ease-out, transform 180ms ease-out, visibility 180ms !important;
+}
+
+.gwn--data {
+  --gwn-accent: var(--data-red, #b52d27);
+  --gwn-ink: var(--data-ink, #1c1a17);
+  --gwn-paper: var(--data-paper, #f7f4ef);
+  --gwn-muted: var(--data-muted, #77736b);
+}
+
+.gwn--essay {
+  --gwn-accent: var(--ra-color-accent, #9e2a2b);
+  --gwn-ink: var(--ra-color-fg, #101214);
+  --gwn-paper: var(--ra-color-bg, #f0f1ee);
+  --gwn-muted: var(--ra-color-muted, #62696d);
+}
+
+.gwn--city {
+  --gwn-accent: var(--gwn-city-accent, #b52d27);
+  --gwn-ink: var(--gwn-city-ink, #1c1a17);
+  --gwn-paper: var(--gwn-city-paper, #f7f4ef);
+  --gwn-muted: var(--gwn-city-muted, #77736b);
+}
+
+.gwn.is-visible {
+  transform: translate3d(0, -50%, 0) !important;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.gwn > a,
+.gwn > i,
+.gwn > .data-chapter-scrubber {
+  display: none !important;
+}
+
+.gwn-track {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 6px 0;
+  cursor: ns-resize;
+  touch-action: none;
+  outline: none;
+}
+
+.gwn-track::after {
+  content: "";
+  position: absolute;
+  inset: -10px -8px;
+  z-index: -1;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--gwn-paper) 82%, transparent);
+  box-shadow: 0 12px 32px -26px color-mix(in srgb, var(--gwn-ink) 55%, transparent);
+  opacity: 0;
+  transition: opacity 160ms ease-out;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.gwn-track:hover::after,
+.gwn-track:focus-visible::after,
+.gwn.is-scrubbing .gwn-track::after {
+  opacity: 1;
+}
+
+.gwn-tick {
+  position: relative;
+  z-index: 1;
+  width: 30px;
+  height: 2px;
+  flex: 0 0 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gwn-ink) 24%, transparent);
+  opacity: var(--gwn-opacity, 0.34);
+  transform: scaleX(var(--gwn-scale, 0.27));
+  transform-origin: right center;
+  will-change: transform, opacity;
+  transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1), opacity 150ms ease-out, background-color 150ms ease-out;
+}
+
+.gwn-tick.is-past {
+  background: color-mix(in srgb, var(--gwn-ink) 48%, transparent);
+}
+
+.gwn-tick.is-chapter {
+  height: 3px;
+  flex-basis: 3px;
+  background: color-mix(in srgb, var(--gwn-accent) 72%, var(--gwn-ink));
+}
+
+.gwn-tick.is-current {
+  background: var(--gwn-ink);
+  opacity: 1;
+}
+
+.gwn-label {
+  position: absolute;
+  top: var(--gwn-label-y, 50%);
+  right: 54px;
+  width: 210px;
+  padding: 12px 14px 13px;
+  color: var(--gwn-ink);
+  border: 1px solid color-mix(in srgb, var(--gwn-ink) 16%, transparent);
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--gwn-paper) 94%, transparent);
+  box-shadow: 0 16px 38px -28px color-mix(in srgb, var(--gwn-ink) 66%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transform: translate3d(8px, -50%, 0) scale(0.98);
+  transform-origin: right center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 160ms ease-out, transform 160ms cubic-bezier(0.23, 1, 0.32, 1), visibility 160ms;
+}
+
+.gwn.is-inspecting .gwn-label,
+.gwn.is-scrubbing .gwn-label,
+.gwn-track:focus-visible + .gwn-label {
+  transform: translate3d(0, -50%, 0) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.gwn-label b,
+.gwn-label span {
+  display: block;
+}
+
+.gwn-label b {
+  font-family: var(--font-sans, var(--ra-font-utility, "Helvetica Neue", Arial, sans-serif));
+  font-size: 0.68rem;
+  font-weight: 740;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.gwn-label b em {
+  margin-right: 8px;
+  color: var(--gwn-accent);
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+.gwn-label span {
+  margin-top: 5px;
+  color: color-mix(in srgb, var(--gwn-ink) 64%, transparent);
+  font-family: var(--font-sans, var(--ra-font-utility, "Helvetica Neue", Arial, sans-serif));
+  font-size: 0.62rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px), (hover: none), (pointer: coarse) {
+  .gwn {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gwn,
+  .gwn-track::after,
+  .gwn-tick,
+  .gwn-label {
+    transition: none !important;
+  }
+}

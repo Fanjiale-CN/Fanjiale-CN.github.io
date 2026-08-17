@@ -397,36 +397,10 @@
     }
   }
 
-  /* Retired: chapter spy moved to the GalokCapsule component (city skin). */
-  const storyNav = null;
-  const storyLinks = [];
-  const storySections = [];
-  const storyProgress = null;
   let ticking = false;
-  let sectionMetrics = [];
-  let activeId = "";
 
-  function measureSections() {
-    sectionMetrics = storySections.map((section) => ({
-      section,
-      top: section.offsetTop,
-      bottom: section.offsetTop + section.offsetHeight
-    }));
+  function measureScrollScenes() {
     measureNarratives();
-  }
-
-  function setActiveSection(section) {
-    if (!section || section.id === activeId) return;
-    activeId = section.id;
-    /* Retired: spy marking now owned by GalokCapsule. */
-    storyLinks.forEach((link) => {
-      const active = link.getAttribute("href") === `#${activeId}`;
-      link.classList.toggle("is-active", active);
-      if (active) link.setAttribute("aria-current", "location");
-      else link.removeAttribute("aria-current");
-    });
-    /* Retired: host bar scrolled by GalokCapsule. */
-    void storyLinks.find((link) => link.classList.contains("is-active"));
   }
 
   function renderScroll() {
@@ -434,16 +408,6 @@
     const scrollY = window.scrollY;
     const viewport = window.innerHeight;
     siteNav?.classList.toggle("is-scrolled", scrollY > viewport * .7);
-    if (!sectionMetrics.length) return;
-    const start = sectionMetrics[0].top;
-    const end = sectionMetrics.at(-1).bottom - viewport;
-    const amount = Math.max(0, Math.min(1, (scrollY - start) / Math.max(1, end - start)));
-    /* Retired: progress hairline now owned by GalokCapsule. */
-    void storyProgress;
-    const readingLine = scrollY + viewport * .42;
-    let active = sectionMetrics[0].section;
-    sectionMetrics.forEach((metric) => { if (metric.top <= readingLine) active = metric.section; });
-    /* Retired: spy dispatched by GalokCapsule. */
     if (!reducedMotion) renderNarratives(scrollY, viewport);
   }
 
@@ -455,14 +419,14 @@
 
   window.addEventListener("scroll", requestScrollRender, { passive: true });
   window.addEventListener("resize", () => {
-    measureSections();
+    measureScrollScenes();
     requestScrollRender();
   }, { passive: true });
   window.addEventListener("load", () => {
-    measureSections();
+    measureScrollScenes();
     requestScrollRender();
   }, { once: true });
-  measureSections();
+  measureScrollScenes();
   renderScroll();
 
   const revealTargets = [

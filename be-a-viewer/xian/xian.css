@@ -7,12 +7,12 @@
   --xian-line: rgba(17, 21, 22, .2);
 }
 
-/* Capsule nav (city skin): pinned under the site nav with a city signal line. */
-.gcn--city {
-  --gcn-city-accent: var(--xian-red);
-  --gcn-city-ink: var(--xian-ink);
-  --gcn-city-paper: var(--xian-paper);
-  --gcn-city-muted: var(--xian-grey);
+/* Reading wave (city skin): inherits the city palette. */
+.gwn--city {
+  --gwn-city-accent: var(--xian-red);
+  --gwn-city-ink: var(--xian-ink);
+  --gwn-city-paper: var(--xian-paper);
+  --gwn-city-muted: var(--xian-grey);
 }
 
 

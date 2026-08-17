@@ -13,7 +13,7 @@
   const templeBeats = [...document.querySelectorAll("[data-shanghai-temple-beat]")];
   const templeIndex = document.querySelector("[data-shanghai-temple-index]");
   const templeProgress = document.querySelector("[data-shanghai-temple-progress]");
-    // Retired: chapter spy moved to the GalokCapsule component (city skin).
+    // Retired: chapter spy moved to the GalokWave component (city skin).
   const storyNav = null;
   const storyLinks = [];
   const storySections = [];
@@ -212,14 +212,14 @@
     const href = `#${section.id}`;
     if (href === activeHref) return;
     activeHref = href;
-    // Retired: spy marking now owned by GalokCapsule.
+    // Retired: spy marking now owned by GalokWave.
     storyLinks.forEach((link) => {
       const active = link.getAttribute("href") === href;
       link.classList.toggle("is-active", active);
       if (active) link.setAttribute("aria-current", "location");
       else link.removeAttribute("aria-current");
     });
-    /* Retired: host bar scrolled by GalokCapsule. */
+    /* Retired: host bar scrolled by GalokWave. */
     void storyLinks.find((link) => link.getAttribute("href") === href);
   }
 
@@ -231,7 +231,7 @@
     if (!sectionMetrics.length) return;
     const start = sectionMetrics[0].top;
     const end = sectionMetrics.at(-1).bottom - viewportHeight;
-    /* Retired: progress hairline now owned by GalokCapsule. */
+    /* Retired: progress hairline now owned by GalokWave. */
     void (scrollY - start); void Math.max(1, end - start);
     const readingLine = scrollY + viewportHeight * .4;
     let active = sectionMetrics[0].section;

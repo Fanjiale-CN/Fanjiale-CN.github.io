@@ -395,15 +395,13 @@
       scrollToHash(skipBtn.getAttribute("href"), true);
     });
     if (articleNav && navLinks.length && sections.length) {
-      // Capsule nav (galok-capsule.js/css): the strip shrinks to a floating capsule
-      // on scroll-down and expands on scroll-up / hover / page top. Drag the grip
-      // to snap the capsule to a remembered anchor. Host keeps scroll-spy + scrubber.
-      articleNav.classList.add("gcn", "gcn--data");
-      articleNav.classList.toggle("is-expanded", window.scrollY <= 120);
-      // Hand the nav to the capsule component directly — avoids a fragile
+      // Shared reading wave: keep this page's chapter links as the source and
+      // let the fixed center playhead own progress, inspection and scrubbing.
+      articleNav.classList.add("gwn", "gwn--data");
+      // Hand the nav to the reading wave component directly — avoids a fragile
       // timing dependency on DOMContentLoaded order.
-      if (window.GalokCapsule) window.GalokCapsule.init(document);
-      else window.addEventListener("load", () => window.GalokCapsule?.init(document), { once: true });
+      if (window.GalokWave) window.GalokWave.init(document);
+      else window.addEventListener("load", () => window.GalokWave?.init(document), { once: true });
       const updateReadingState = () => {
         const marker = Math.min(window.innerHeight * 0.38, 340);
         let current = sections[0].id;

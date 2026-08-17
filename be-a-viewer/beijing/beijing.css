@@ -9,12 +9,12 @@
   --bj-gutter: clamp(22px, 4.2vw, 72px);
 }
 
-/* Capsule nav (city skin): pinned under the site nav with a city signal line. */
-.gcn--city {
-  --gcn-city-accent: var(--bj-red);
-  --gcn-city-ink: var(--bj-ink);
-  --gcn-city-paper: var(--bj-paper);
-  --gcn-city-muted: var(--bj-jade);
+/* Reading wave (city skin): inherits the city palette. */
+.gwn--city {
+  --gwn-city-accent: var(--bj-red);
+  --gwn-city-ink: var(--bj-ink);
+  --gwn-city-paper: var(--bj-paper);
+  --gwn-city-muted: var(--bj-jade);
 }
 
 

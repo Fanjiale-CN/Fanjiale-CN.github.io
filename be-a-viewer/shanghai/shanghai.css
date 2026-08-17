@@ -9,12 +9,12 @@
   --sh-line: rgba(17, 20, 21, .2);
 }
 
-/* Capsule nav (city skin): pinned under the site nav with a city signal line. */
-.gcn--city {
-  --gcn-city-accent: var(--sh-red);
-  --gcn-city-ink: var(--sh-ink);
-  --gcn-city-paper: var(--sh-paper);
-  --gcn-city-muted: var(--sh-grey);
+/* Reading wave (city skin): inherits the city palette. */
+.gwn--city {
+  --gwn-city-accent: var(--sh-red);
+  --gwn-city-ink: var(--sh-ink);
+  --gwn-city-paper: var(--sh-paper);
+  --gwn-city-muted: var(--sh-grey);
 }
 
 

@@ -3,7 +3,7 @@ import { getMotionState, subscribeToMotion } from "/be-a-viewer/xian/xian-motion
 const { reducedMotion, touchNavigation } = getMotionState();
 const pageBody = document.body;
 const siteNav = document.querySelector(".xian-site-nav");
-/* Retired: chapter spy moved to the GalokCapsule component (city skin). */
+/* Retired: chapter spy moved to the GalokWave component (city skin). */
 const storyNav = null;
 const hero = document.querySelector(".xian-hero");
 const storyLinks = [];
@@ -74,14 +74,14 @@ function setActiveSection(section, touchInput = touchNavigation) {
   const href = `#${section.id}`;
   if (href === activeStoryHref) return;
   activeStoryHref = href;
-  /* Retired: spy marking now owned by GalokCapsule. */
+  /* Retired: spy marking now owned by GalokWave. */
   storyLinks.forEach((link) => {
     const active = link.getAttribute("href") === href;
     link.classList.toggle("is-active", active);
     if (active) link.setAttribute("aria-current", "location");
     else link.removeAttribute("aria-current");
   });
-  /* Retired: host bar scrolled by GalokCapsule. */
+  /* Retired: host bar scrolled by GalokWave. */
   void storyLinks.find((link) => link.getAttribute("href") === href);
 }
 
@@ -89,9 +89,9 @@ function updateStoryNav(scrollY, viewportHeight) {
   if (!storyNav || !storyMetrics.length) return;
   const start = storyMetrics[0].top;
   const end = storyMetrics.at(-1).bottom - viewportHeight;
-  /* Retired: progress hairline now owned by GalokCapsule. */
+  /* Retired: progress hairline now owned by GalokWave. */
   void (scrollY - start); void Math.max(1, end - start);
-  /* Retired: spy dispatched by GalokCapsule. */
+  /* Retired: spy dispatched by GalokWave. */
   void (scrollY + viewportHeight * .42);
 }
 
@@ -108,14 +108,14 @@ storyLinks.forEach((link) => {
 subscribeToMotion(({ scrollY, viewportHeight, revision }) => {
   if (revision !== measuredRevision) measureStory(revision);
   updateSiteNav(scrollY);
-  /* updateStoryNav retired (GalokCapsule owns the chapter spy). */
+  /* updateStoryNav retired (GalokWave owns the chapter spy). */
 });
 
 window.addEventListener("load", () => {
   const state = getMotionState();
   measureStory(state.revision);
   updateSiteNav(state.scrollY);
-  /* updateStoryNav retired (GalokCapsule owns the chapter spy). */
+  /* updateStoryNav retired (GalokWave owns the chapter spy). */
 }, { once: true });
 
 const lightbox = document.querySelector("[data-xian-lightbox]");
