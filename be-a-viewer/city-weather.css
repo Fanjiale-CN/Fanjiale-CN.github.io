@@ -145,7 +145,7 @@ galok-city-weather {
   margin: 0;
   overflow-wrap: normal;
   word-break: normal;
-  font-size: clamp(2.5rem, 5vw, 5.8rem);
+  font-size: clamp(2.5rem, 3.8vw, 5.3rem);
   font-weight: 510;
   line-height: .86;
   letter-spacing: -.065em;
