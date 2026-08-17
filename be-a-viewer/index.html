@@ -14,6 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=motion-lower-20260815">
   <link rel="stylesheet" href="/be-a-viewer/viewer.css?v=6">
+  <link rel="stylesheet" href="/be-a-viewer/city-weather.css?v=20260817">
   <link rel="stylesheet" href="/be-a-viewer/city-archive.css?v=editorial-reframe-20260814">
   <link rel="stylesheet" href="/archive-system.css?v=20260815x">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
@@ -123,7 +124,7 @@
           <a href="/be-a-viewer/shanghai/" data-city-choice="shanghai" data-status="available">
             <span>02</span><strong>SHANGHAI</strong><small>AVAILABLE</small>
           </a>
-          <a class="is-active" href="/be-a-viewer/xian/" data-city-choice="xian" data-status="available">
+          <a href="/be-a-viewer/xian/" data-city-choice="xian" data-status="available">
             <span>03</span><strong>XI’AN</strong><small>AVAILABLE</small>
           </a>
           <a href="/be-a-viewer/#choose-city" data-city-choice="dali" data-status="coming" aria-label="Dali — coming soon">
@@ -144,8 +145,8 @@
         </div>
 
         <div class="city-selector-visual" aria-live="polite">
-          <figure class="is-active" data-city-visual="xian"><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" width="1536" height="864"></figure>
-          <figure data-city-visual="beijing"><img src="/assets/be-a-viewer/video/beijing-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
+          <figure data-city-visual="xian"><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" width="1536" height="864"></figure>
+          <figure class="is-active" data-city-visual="beijing"><img src="/assets/be-a-viewer/video/beijing-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="shanghai"><img src="/assets/be-a-viewer/video/shanghai-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="dali"><img src="/assets/be-a-viewer/video/dali-poster.png" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="shenzhen"><img src="/assets/be-a-viewer/video/shenzhen-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
@@ -153,10 +154,10 @@
           <figure data-city-visual="tibet"><img src="/assets/be-a-viewer/video/tibet-plateau-poster.png" alt="" width="1920" height="1080" loading="lazy"></figure>
           <figure data-city-visual="hangzhou"><img src="/assets/be-a-viewer/video/hangzhou-poster.webp" alt="" width="1920" height="1080" loading="lazy"></figure>
           <div class="city-selector-caption">
-            <p data-city-index>03 / NORTHWEST CHINA</p>
-            <strong data-city-name>XI’AN</strong>
-            <span data-city-description>Empire, memory and life inside the wall.</span>
-            <b><a href="/be-a-viewer/xian/" data-city-status>AVAILABLE · ENTER THE STORY ↗</a></b>
+            <p data-city-index>01 / NORTH CHINA</p>
+            <strong data-city-name>BEIJING</strong>
+            <span data-city-description>Power, ceremony and everyday movement.</span>
+            <b><a href="/be-a-viewer/beijing/" data-city-status>AVAILABLE · ENTER THE STORY ↗</a></b>
           </div>
         </div>
       </div>
@@ -180,57 +181,7 @@
       </div>
     </section>
 
-    <section class="city-atlas" aria-labelledby="city-atlas-title" data-city-atlas>
-      <header class="city-atlas-head">
-        <p>02 / ROUTES &amp; THEMES</p>
-        <div>
-          <h2 id="city-atlas-title">BROWSE BY<br>WHAT YOU NOTICE.</h2>
-          <span>Move through the archive by region, atmosphere or the kind of evidence a city holds.</span>
-        </div>
-      </header>
-      <div class="city-atlas-filters" role="group" aria-label="Filter city archive">
-        <button type="button" data-city-filter="all" aria-pressed="true">All</button>
-        <button type="button" data-city-filter="north" aria-pressed="false">North</button>
-        <button type="button" data-city-filter="coast" aria-pressed="false">Coast</button>
-        <button type="button" data-city-filter="old-city" aria-pressed="false">Old city</button>
-        <button type="button" data-city-filter="night" aria-pressed="false">Night</button>
-      </div>
-      <p class="city-atlas-status" data-city-filter-status aria-live="polite">8 cities / 5 open now</p>
-      <div class="city-atlas-grid">
-        <a href="/be-a-viewer/beijing/" data-city-atlas-card data-themes="north old-city night">
-          <img src="/assets/be-a-viewer/video/beijing-poster.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Beijing civic square at dusk">
-          <span>01 / OPEN</span><strong>BEIJING</strong><small>Axis · ceremony · street heat</small>
-        </a>
-        <a href="/be-a-viewer/shanghai/" data-city-atlas-card data-themes="coast night">
-          <img src="/assets/be-a-viewer/shanghai/night-street.webp" width="1600" height="1067" loading="lazy" decoding="async" alt="Shanghai street after dark">
-          <span>02 / OPEN</span><strong>SHANGHAI</strong><small>River · vertical city · night</small>
-        </a>
-        <a href="/be-a-viewer/xian/" data-city-atlas-card data-themes="north old-city night">
-          <img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" width="1536" height="864" loading="lazy" decoding="async" alt="Xi’an city wall at sunset">
-          <span>03 / OPEN</span><strong>XI’AN</strong><small>Empire · wall · memory</small>
-        </a>
-        <article data-city-atlas-card data-themes="old-city coast" aria-label="Dali, coming soon">
-          <img src="/assets/be-a-viewer/video/dali-poster.png" width="1920" height="1080" loading="lazy" decoding="async" alt="Dali landscape">
-          <span>04 / COMING SOON</span><strong>DALI</strong><small>Mountain · water · slow time</small>
-        </article>
-        <article data-city-atlas-card data-themes="coast night" aria-label="Shenzhen, coming soon">
-          <img src="/assets/be-a-viewer/video/shenzhen-poster.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Shenzhen city view">
-          <span>05 / COMING SOON</span><strong>SHENZHEN</strong><small>Speed · glass · new city</small>
-        </article>
-        <a href="/be-a-viewer/xiamen/" data-city-atlas-card data-themes="coast old-city night">
-          <img src="/assets/be-a-viewer/xiamen/hero-water-poster.jpg" width="1920" height="1080" loading="lazy" decoding="async" alt="Xiamen shoreline and open water">
-          <span>06 / OPEN</span><strong>XIAMEN</strong><small>Tide · roofline · island</small>
-        </a>
-        <article data-city-atlas-card data-themes="north" aria-label="Tibet, coming soon">
-          <img src="/assets/be-a-viewer/video/tibet-plateau-poster.png" width="1920" height="1080" loading="lazy" decoding="async" alt="Tibetan plateau landscape">
-          <span>07 / COMING SOON</span><strong>TIBET</strong><small>Altitude · belief · scale</small>
-        </article>
-        <a href="/be-a-viewer/hangzhou/" data-city-atlas-card data-themes="old-city">
-          <img src="/assets/be-a-viewer/video/hangzhou-poster.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="West Lake and the green hills of Hangzhou">
-          <span>08 / OPEN</span><strong>HANGZHOU</strong><small>Lake · hill · measured distance</small>
-        </a>
-      </div>
-    </section>
+    <galok-city-weather data-city="beijing" data-live-city data-index="02" aria-label="Live conditions for the selected city"></galok-city-weather>
 
     <section class="city-archive-preview" id="visual-archive-preview" aria-labelledby="visual-archive-preview-title">
       <header class="city-archive-header">
@@ -303,8 +254,8 @@
   </footer>
 
   <script src="/script.js?v=nav-20260816"></script>
-  <script src="/be-a-viewer/viewer.js?v=poster-wall-20260815"></script>
+  <script type="module" src="/be-a-viewer/city-weather.js?v=20260817"></script>
+  <script type="module" src="/be-a-viewer/viewer.js?v=weather-20260817"></script>
   <script src="/be-a-viewer/city-archive.js?v=3"></script>
-  <script src="/archive-system.js?v=20260815x"></script>
 </body>
 </html>

@@ -1,3 +1,10 @@
+import { GALOK_CITIES, normalizeCitySlug } from "./cities.config.js";
+
+const announceCity = (value) => {
+  const city = normalizeCitySlug(value);
+  if (city) window.dispatchEvent(new CustomEvent("galok:citychange", { detail: { city } }));
+};
+
 (() => {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const hero = document.querySelector("[data-viewer-hero]");
@@ -97,6 +104,7 @@
         dot.classList.toggle("is-active", selected);
         dot.setAttribute("aria-pressed", String(selected));
       });
+      announceCity(slides[activeIndex].dataset.city);
 
       window.clearTimeout(copyTimer);
       if (reducedMotion || instant) {
@@ -168,16 +176,7 @@
     pauseAll();
   }
 
-  const cityData = {
-    beijing: { index: "01 / NORTH CHINA", name: "BEIJING", description: "Power, ceremony and everyday movement.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/beijing/" },
-    shanghai: { index: "02 / EAST CHINA", name: "SHANGHAI", description: "River, streets and a vertical city.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/shanghai/" },
-    xian: { index: "03 / NORTHWEST CHINA", name: "XI’AN", description: "Empire, memory and life inside the wall.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xian/" },
-    dali: { index: "04 / SOUTHWEST CHINA", name: "DALI", description: "Mountains, water and a slower rhythm.", status: "COMING SOON" },
-    shenzhen: { index: "05 / SOUTH CHINA", name: "SHENZHEN", description: "A city built at the speed of possibility.", status: "COMING SOON" },
-    xiamen: { index: "06 / SOUTHEAST CHINA", name: "XIAMEN", description: "Sea light, Minnan rooflines and a city moving with the tide.", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xiamen/" },
-    tibet: { index: "07 / WEST CHINA", name: "TIBET", description: "Altitude, belief and a landscape beyond scale.", status: "COMING SOON" },
-    hangzhou: { index: "08 / EAST CHINA", name: "HANGZHOU", description: "Water, hills and a city held behind the lake.", status: "AVAILABLE · ENTER THE FIELD NOTE ↗", href: "/be-a-viewer/hangzhou/" }
-  };
+  const cityData = GALOK_CITIES;
 
   const selector = document.querySelector("[data-city-selector]");
   if (selector) {
@@ -195,6 +194,7 @@
     function setPreview(city) {
       const data = cityData[city];
       if (!data) return;
+      announceCity(city);
       desktopChoices.forEach((choice) => choice.classList.toggle("is-active", choice.dataset.cityChoice === city));
       visuals.forEach((visual) => visual.classList.toggle("is-active", visual.dataset.cityVisual === city));
       Object.entries(fields).forEach(([key, node]) => {
