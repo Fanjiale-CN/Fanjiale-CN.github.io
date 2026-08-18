@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  --font-serif: "Galok Floane", "EB Garamond", "Times New Roman", serif;
+  --font-serif: "Galok Bagnard", "EB Garamond", "Times New Roman", serif;
   --font-hk: "Galok HK Ming", "PMingLiU", "MingLiU", "Songti TC", "Noto Serif HK", serif;
   --font-glyph: "Galok Glyph Display", "Galok HK Ming", "PMingLiU", "MingLiU", serif;
   --font-ui: "Galok Gambetta", "EB Garamond", "Times New Roman", serif;
@@ -510,10 +510,10 @@
 }
 
 @font-face {
-  font-family: "Galok Floane";
-  src: url("/assets/fonts/floane-bold.woff2") format("woff2"),
-       url("/assets/fonts/floane-bold.ttf") format("truetype");
-  font-weight: 700;
+  font-family: "Galok Bagnard";
+  src: url("/assets/fonts/bagnard.woff2") format("woff2"),
+       url("/assets/fonts/bagnard.otf") format("opentype");
+  font-weight: 400 900;
   font-style: normal;
   font-display: swap;
 }
@@ -10797,7 +10797,7 @@ body.article-body .site-shell {
   --ra-color-chart-fill: var(--ra-color-accent);
   --ra-color-chart-secondary: #758087;
   --ra-font-body: "Roboto Slab", "EB Garamond", "Times New Roman", serif;
-  --ra-font-display: "Galok Floane", "EB Garamond", "Times New Roman", serif;
+  --ra-font-display: "Galok Bagnard", "EB Garamond", "Times New Roman", serif;
   --ra-font-utility: var(--font-sans);
   --ra-text-cover-overline: clamp(0.56rem, 1.15vw, 0.72rem);
   --ra-text-cover-kicker: clamp(0.65rem, 1.4vw, 0.86rem);
