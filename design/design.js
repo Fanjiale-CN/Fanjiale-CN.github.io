@@ -34,25 +34,6 @@
     });
   });
 
-  /* ---------- Embedded field film ---------- */
-  var growthFilm = document.querySelector('.growth-film');
-  var motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-  function syncGrowthFilm() {
-    if (!growthFilm) return;
-    if (motionPreference.matches) {
-      growthFilm.pause();
-      var holdOnTitle = function () {
-        if (Number.isFinite(growthFilm.duration) && growthFilm.duration > 36.3) {
-          growthFilm.currentTime = 36.3;
-        }
-      };
-      if (growthFilm.readyState >= 1) holdOnTitle();
-      else growthFilm.addEventListener('loadedmetadata', holdOnTitle, {once: true});
-    }
-  }
-  syncGrowthFilm();
-  if (motionPreference.addEventListener) motionPreference.addEventListener('change', syncGrowthFilm);
-
   /* ---------- Motion demo (dot press) ---------- */
   var demo = document.querySelector('.design-motion-demo');
   if (demo) {
