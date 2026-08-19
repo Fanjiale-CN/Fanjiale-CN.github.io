@@ -896,7 +896,7 @@
     if (document.querySelector('link[href^="/archive-system.css"]')) return;
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/archive-system.css?v=archive-spine-20260809";
+    link.href = "/archive-system.css?v=ia-20260819";
     document.head.appendChild(link);
   }
 
@@ -925,10 +925,8 @@
     const primaryLinks = [
       { href: "/be-a-viewer/", label: "Cities", match: "/be-a-viewer/" },
       { href: "/notes/", label: "Essays", matches: ["/notes/", "/views/", "/essays/", "/visual-notes/"] },
-      { href: "/themes/", label: "Themes", match: "/themes/" },
       { href: "/data/", label: "Data", match: "/data/" },
       { href: "/works/", label: "Work", match: "/works/" },
-      { href: "/design/", label: "Design", match: "/design/" },
       { href: "/archive/", label: "Index", matches: ["/archive/", "/postcards/"] },
       { href: "/about/", label: "About", match: "/about/" }
     ];

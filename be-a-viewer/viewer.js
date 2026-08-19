@@ -257,10 +257,6 @@ const announceCity = (value) => {
       window.location.assign(href);
     });
 
-    selector.querySelectorAll("[data-city-card]").forEach((card) => {
-      if (card.tagName === "BUTTON") card.addEventListener("click", () => showComingSoon(card.dataset.cityCard));
-    });
-
     feedback?.querySelector("[data-city-feedback-close]")?.addEventListener("click", () => dismissFeedback());
   }
 

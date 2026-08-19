@@ -71,27 +71,43 @@
     if (!mount) return;
     const essays = window.GALOK_CONTENT?.essays || [];
     const series = window.GALOK_CONTENT?.series || {};
-    mount.innerHTML = essays.map((essay, index) => {
-      const s = series[essay.series] || {};
-      const lens = s.en || "Note";
-      const cover = essay.cover || {};
-      const issue = essay.issue ? `ISSUE ${essay.issue} · ` : "";
-      const maturity = essay.maturity ? `<em class="notes-row-maturity" data-maturity="${essay.maturity}">${essay.maturity}</em>` : "";
-      const seal = s.glyph ? `<span class="notes-row-seal glyph-draw" aria-hidden="true" data-glyph="${s.glyph}" data-pinyin="${s.pinyin}">${s.glyph}</span>` : "";
-      const coverMarkup = cover.src
-        ? `<span class="notes-row-cover" aria-hidden="true"><img src="${cover.src}" alt="" loading="lazy" decoding="async"></span>`
-        : "";
-      return `
-        <a class="notes-row" href="${essay.url}" style="--accent:${s.color || "var(--archive-ink)"}" data-series="${essay.series}">
-          ${coverMarkup}
-          <span>${String(index + 1).padStart(2, "0")}</span>
-          <small>${issue}${lens} / ${essay.readingTime}${maturity}</small>
-          <h3>${seal}${essay.title}</h3>
-          ${essay.deck ? `<p class="notes-row-deck">${essay.deck}</p>` : ""}
-          <p>${essay.excerpt}</p>
-        </a>
-      `;
-    }).join("");
+    const filters = [...document.querySelectorAll("[data-notes-lens]")];
+    let activeLens = "all";
+
+    function render() {
+      const visibleEssays = activeLens === "all"
+        ? essays
+        : essays.filter((essay) => essay.series === activeLens);
+      mount.innerHTML = visibleEssays.map((essay, index) => {
+        const s = series[essay.series] || {};
+        const lens = s.en || "Note";
+        const cover = essay.cover || {};
+        const issue = essay.issue ? `ISSUE ${essay.issue} · ` : "";
+        const maturity = essay.maturity ? `<em class="notes-row-maturity" data-maturity="${essay.maturity}">${essay.maturity}</em>` : "";
+        const seal = s.glyph ? `<span class="notes-row-seal glyph-draw" aria-hidden="true" data-glyph="${s.glyph}" data-pinyin="${s.pinyin}">${s.glyph}</span>` : "";
+        const coverMarkup = cover.src
+          ? `<span class="notes-row-cover" aria-hidden="true"><img src="${cover.src}" alt="" loading="lazy" decoding="async"></span>`
+          : "";
+        return `
+          <a class="notes-row" href="${essay.url}" style="--accent:${s.color || "var(--archive-ink)"}" data-series="${essay.series}">
+            ${coverMarkup}
+            <span>${String(index + 1).padStart(2, "0")}</span>
+            <small>${issue}${lens} / ${essay.readingTime}${maturity}</small>
+            <h3>${seal}${essay.title}</h3>
+            ${essay.deck ? `<p class="notes-row-deck">${essay.deck}</p>` : ""}
+            <p>${essay.excerpt}</p>
+          </a>
+        `;
+      }).join("");
+    }
+
+    filters.forEach((filter) => filter.addEventListener("click", () => {
+      activeLens = filter.dataset.notesLens || "all";
+      filters.forEach((button) => button.setAttribute("aria-pressed", String(button === filter)));
+      render();
+    }));
+
+    render();
   }
 
   function initArchiveSearch() {

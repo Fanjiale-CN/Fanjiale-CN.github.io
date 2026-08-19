@@ -568,6 +568,61 @@
   border-top: 1px solid var(--archive-ink);
 }
 
+.notes-lens-filters {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 34px;
+  border-top: 1px solid var(--archive-ink);
+  border-bottom: 1px solid var(--archive-ink);
+}
+
+.notes-lens-filters button {
+  min-height: 46px;
+  padding: 10px 16px;
+  color: var(--archive-muted);
+  border: 0;
+  border-right: 1px solid var(--archive-line);
+  border-radius: 0;
+  background: transparent;
+  font: inherit;
+  font-size: .66rem;
+  font-weight: 750;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.notes-lens-filters button[aria-pressed="true"] {
+  color: var(--archive-paper);
+  background: var(--archive-ink);
+}
+
+.work-design-link {
+  width: fit-content;
+  margin-top: 26px;
+  padding-top: 12px;
+  display: grid;
+  gap: 4px;
+  color: var(--archive-ink);
+  border-top: 1px solid var(--archive-ink);
+  font-size: .68rem;
+  font-weight: 750;
+  letter-spacing: .1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.work-design-link small {
+  color: var(--archive-muted);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+
+.work-design-link:hover,
+.work-design-link:focus-visible {
+  color: var(--archive-red);
+}
+
 .notes-row {
   display: grid;
   grid-template-columns: 150px 84px 140px minmax(0, 1fr);
