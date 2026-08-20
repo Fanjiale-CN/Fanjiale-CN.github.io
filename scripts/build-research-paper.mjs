@@ -171,7 +171,7 @@ const page = `<!DOCTYPE html>
   <title>Who Captures Growth? — GALOK RESEARCH 001</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=ia-20260819-menu">
-  <link rel="stylesheet" href="/research/research.css?v=20260820">
+  <link rel="stylesheet" href="/research/research.css?v=20260820a">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Who Captures Growth?","alternativeHeadline":"Capital Allocation, Labor-Market Power, and Household Demand in China's K-Shaped Economy","description":"A full-length independent research paper on how China's technology- and capital-intensive growth passes through into employment, labor income, job security and household demand.","image":"https://www.galok.me/assets/be-a-viewer/xian/night-market.jpeg","datePublished":"2026-08-19","dateModified":"2026-08-19","inLanguage":"en","articleSection":"Independent Research","author":{"@type":"Organization","name":"Galok"},"publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"},"mainEntityOfPage":"https://www.galok.me/research/who-captures-growth/","keywords":["China economy","industrial automation","labor markets","household consumption","industrial policy"]}</script>
   <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$$","$$"],["\\\\[","\\\\]"]]},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
