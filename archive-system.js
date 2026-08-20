@@ -132,6 +132,7 @@
       { type: "Project", title: "Galok editorial website", description: "A modular field notebook joining essays, city stories and visual archives.", href: "/works/#galok-system", tags: "project works web design" },
       { type: "Project", title: "Be a Viewer", description: "Five city stories built from moving image, photography and close observation.", href: "/works/#be-a-viewer-work", tags: "project works city video" },
       { type: "Project", title: "City Postcards", description: "Editorial editions that turn the city archive into a personal object.", href: "/postcards/", tags: "project works postcards photography" },
+      { type: "Research", title: "Who Captures Growth?", description: "Capital allocation, labor-market power and household demand in China's K-shaped economy.", href: "/research/who-captures-growth/", tags: "research empirical china labor households automation GALOK RESEARCH 001" },
       { type: "Research", title: "China in more than one number", description: "A data-led reading of growth, households, employment, property and fiscal pressure.", href: "/data/", tags: "research essay data china economy households employment property fiscal" },
       { type: "Visual note", title: "Xiamen field evidence", description: "Ferry light, campus walls, old alleys, gardens and island views.", href: "/visual-notes/xiamen/", tags: "visual note photography city coast" }
     ];

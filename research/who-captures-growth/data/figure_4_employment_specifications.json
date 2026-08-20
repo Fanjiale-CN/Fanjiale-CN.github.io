@@ -1,0 +1,110 @@
+[
+  {
+    "variant": "main",
+    "controls": "none",
+    "effect_pp_per_sd": -2.88799580587645,
+    "ci95_low_pp": -4.201056318354485,
+    "ci95_high_pp": -1.5749352933984246,
+    "p": 0.0002594274930966,
+    "first_stage_F": 62.60271134715455
+  },
+  {
+    "variant": "main",
+    "controls": "baseline_employment",
+    "effect_pp_per_sd": -2.5155278425328698,
+    "ci95_low_pp": -3.542024682136914,
+    "ci95_high_pp": -1.4890310029288354,
+    "p": 8.494652320567794e-05,
+    "first_stage_F": 96.54410766188012
+  },
+  {
+    "variant": "main",
+    "controls": "full_baseline",
+    "effect_pp_per_sd": -1.46141938717099,
+    "ci95_low_pp": -3.794380283529048,
+    "ci95_high_pp": 0.8715415091870632,
+    "p": 0.2353409633767663,
+    "first_stage_F": 48.21555574321321
+  },
+  {
+    "variant": "alt_1982_shifter",
+    "controls": "none",
+    "effect_pp_per_sd": -2.24028931361046,
+    "ci95_low_pp": -3.678580193542983,
+    "ci95_high_pp": -0.8019984336779405,
+    "p": 0.0056421533586057,
+    "first_stage_F": 103.47780711263457
+  },
+  {
+    "variant": "alt_1982_shifter",
+    "controls": "baseline_employment",
+    "effect_pp_per_sd": -2.4814928144831097,
+    "ci95_low_pp": -3.4748013826059077,
+    "ci95_high_pp": -1.4881842463603079,
+    "p": 6.771217782957553e-05,
+    "first_stage_F": 89.82871536130438
+  },
+  {
+    "variant": "alt_1982_shifter",
+    "controls": "full_baseline",
+    "effect_pp_per_sd": -1.43949114495825,
+    "ci95_low_pp": -3.4303689581426244,
+    "ci95_high_pp": 0.551386668226124,
+    "p": 0.1735115489329922,
+    "first_stage_F": 30.1166429743612
+  },
+  {
+    "variant": "exclude_automotive",
+    "controls": "none",
+    "effect_pp_per_sd": -3.2002248865541,
+    "ci95_low_pp": -4.98640748824685,
+    "ci95_high_pp": -1.4140422848613508,
+    "p": 0.0018740841934606,
+    "first_stage_F": 20.22670840710644
+  },
+  {
+    "variant": "exclude_automotive",
+    "controls": "baseline_employment",
+    "effect_pp_per_sd": -2.3933537663840596,
+    "ci95_low_pp": -3.7045656091139643,
+    "ci95_high_pp": -1.0821419236541607,
+    "p": 0.0016797643776295,
+    "first_stage_F": 38.144663256419335
+  },
+  {
+    "variant": "exclude_automotive",
+    "controls": "full_baseline",
+    "effect_pp_per_sd": -0.8978849300570799,
+    "ci95_low_pp": -3.679818913065274,
+    "ci95_high_pp": 1.8840490529511162,
+    "p": 0.5349484688894499,
+    "first_stage_F": 26.07207879599633
+  },
+  {
+    "variant": "exclude_electronics",
+    "controls": "none",
+    "effect_pp_per_sd": -2.52594276101023,
+    "ci95_low_pp": -3.730466585413055,
+    "ci95_high_pp": -1.3214189366074178,
+    "p": 0.0004277259439216,
+    "first_stage_F": 109.8536253954761
+  },
+  {
+    "variant": "exclude_electronics",
+    "controls": "baseline_employment",
+    "effect_pp_per_sd": -2.31537932312753,
+    "ci95_low_pp": -3.262497422291979,
+    "ci95_high_pp": -1.3682612239630871,
+    "p": 8.738531533311311e-05,
+    "first_stage_F": 163.12629856202918
+  },
+  {
+    "variant": "exclude_electronics",
+    "controls": "full_baseline",
+    "effect_pp_per_sd": -1.35797812351823,
+    "ci95_low_pp": -3.356728948538356,
+    "ci95_high_pp": 0.6407727015018896,
+    "p": 0.1995937944527296,
+    "first_stage_F": 70.6954764469979
+  }
+]

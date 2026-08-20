@@ -1,0 +1,18 @@
+[
+  {
+    "outcome": "Labor-force participation",
+    "published_effect_pct": -1
+  },
+  {
+    "outcome": "Employment",
+    "published_effect_pct": -7
+  },
+  {
+    "outcome": "Hourly earnings",
+    "published_effect_pct": -8
+  },
+  {
+    "outcome": "Hours among workers who remained employed",
+    "published_effect_pct": 8
+  }
+]

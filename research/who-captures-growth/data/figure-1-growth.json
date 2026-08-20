@@ -1,0 +1,42 @@
+[
+  {
+    "indicator": "Goods exports",
+    "change_pct": 14.0
+  },
+  {
+    "indicator": "High-tech manufacturing value added",
+    "change_pct": 13.8
+  },
+  {
+    "indicator": "Equipment manufacturing value added",
+    "change_pct": 9.7
+  },
+  {
+    "indicator": "Industrial value added",
+    "change_pct": 5.3
+  },
+  {
+    "indicator": "High-tech industries investment",
+    "change_pct": 5.0
+  },
+  {
+    "indicator": "Retail sales of consumer goods",
+    "change_pct": 1.2
+  },
+  {
+    "indicator": "Manufacturing investment",
+    "change_pct": -1.7
+  },
+  {
+    "indicator": "Fixed-asset investment",
+    "change_pct": -6.7
+  },
+  {
+    "indicator": "Private investment",
+    "change_pct": -9.4
+  },
+  {
+    "indicator": "Real-estate development investment",
+    "change_pct": -19.2
+  }
+]

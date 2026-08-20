@@ -1,0 +1,26 @@
+[
+  {
+    "outcome": "Food share",
+    "effect_pp_per_sd": 2.7480895695667336,
+    "p_all": 0.0054199181340386,
+    "p_no_municipalities": 0.049003451047936,
+    "p_n_hh_ge_100": 0.0242683343931259,
+    "bh_q_all": 0.0162597544021158
+  },
+  {
+    "outcome": "Housing share",
+    "effect_pp_per_sd": -0.9652591099053097,
+    "p_all": 0.0036541795963768,
+    "p_no_municipalities": 0.0581555015628903,
+    "p_n_hh_ge_100": 0.0011601680042852,
+    "bh_q_all": 0.0162597544021158
+  },
+  {
+    "outcome": "Mortgage holding",
+    "effect_pp_per_sd": -3.1521957737628137,
+    "p_all": 0.0015467631436821,
+    "p_no_municipalities": 0.2271311690850274,
+    "p_n_hh_ge_100": 0.0055418080886335,
+    "bh_q_all": 0.0139208682931389
+  }
+]
