@@ -9,14 +9,14 @@ const output = path.resolve('public/captures');
 // name, route, width, height — 1080x1920 full page evidence + 607x1080 panels
 const pages = [
   ['home-v916', '/', 1080, 1920],
-  ['viewer-v916', '/be-a-viewer/', 1080, 1920],
-  ['works-v916', '/works/', 1080, 1920],
-  ['notes-v916', '/notes/', 1080, 1920],
+  ['viewer-v916', '/cities/', 1080, 1920],
+  ['works-v916', '/work/', 1080, 1920],
+  ['notes-v916', '/essays/', 1080, 1920],
   ['data-v916', '/data/', 1080, 1920],
-  ['archive-v916', '/archive/', 1080, 1920],
+  ['archive-v916', '/index/', 1080, 1920],
   ['themes-v916', '/themes/', 1080, 1920],
-  ['works-panel-v916', '/works/', 607, 1080],
-  ['notes-panel-v916', '/notes/', 607, 1080],
+  ['works-panel-v916', '/work/', 607, 1080],
+  ['notes-panel-v916', '/essays/', 607, 1080],
   ['themes-panel-v916', '/themes/', 607, 1080],
 ];
 

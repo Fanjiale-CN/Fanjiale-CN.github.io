@@ -1,6 +1,6 @@
 // Galok / Themes — three-lens theme clusters.
 // Renders one card per series with its definition, maturity distribution,
-// the essays growing under it (with maturity marks) and a deep link into /notes/.
+// the essays growing under it (with maturity marks) and a deep link into /essays/.
 (function () {
   "use strict";
 
@@ -109,7 +109,7 @@
       const nav = document.createElement("div");
       nav.className = "themes-card-nav";
       const link = document.createElement("a");
-      link.href = `/notes/?series=${encodeURIComponent(key)}`;
+      link.href = `/essays/?series=${encodeURIComponent(key)}`;
       link.dataset.series = key;
       link.innerHTML = `Open the ${s.en} archive &rarr;`;
       nav.appendChild(link);

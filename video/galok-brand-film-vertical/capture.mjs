@@ -7,14 +7,14 @@ const base = process.env.GALOK_CAPTURE_URL || 'http://127.0.0.1:4173';
 const output = path.resolve('public/captures');
 const pages = [
   ['home', '/'],
-  ['viewer', '/be-a-viewer/'],
-  ['works', '/works/'],
-  ['notes', '/notes/'],
+  ['viewer', '/cities/'],
+  ['works', '/work/'],
+  ['notes', '/essays/'],
   ['data', '/data/'],
-  ['archive', '/archive/'],
+  ['archive', '/index/'],
   ['about', '/about/'],
-  ['works-panel', '/works/', 900, 1080],
-  ['notes-panel', '/notes/', 900, 1080],
+  ['works-panel', '/work/', 900, 1080],
+  ['notes-panel', '/essays/', 900, 1080],
 ];
 
 await fs.mkdir(output, {recursive: true});

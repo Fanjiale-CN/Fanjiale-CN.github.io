@@ -9739,13 +9739,24 @@ body.article-body .site-shell {
 
 @media (max-width: 760px) {
   html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    background: transparent;
     scroll-padding-top: 68px;
+  }
+
+  html.nav-open {
+    background: var(--field-black);
   }
 
   body,
   body.plain-body,
   body.article-body,
   body.home-body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
     font-size: 16px;
   }
 
@@ -10340,19 +10351,31 @@ body.article-body .site-shell {
   }
 
   .article-title {
-    font-size: clamp(3rem, 14.5vw, 5.1rem);
-    line-height: 0.9;
+    max-width: 100%;
+    font-size: clamp(2.75rem, 12.8vw, 4.5rem);
+    line-height: 0.92;
+    overflow-wrap: break-word;
   }
 
   .article-layout {
+    min-width: 0;
     gap: 58px;
     padding: 52px 0 90px;
+  }
+
+  .article-content,
+  .article-content > *,
+  .article-content section,
+  .article-content figure {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .article-content p,
   .article-content li {
     font-size: 1rem;
     line-height: 1.68;
+    overflow-wrap: break-word;
   }
 
   .article-content h2 {
@@ -10362,6 +10385,28 @@ body.article-body .site-shell {
   .article-content blockquote {
     margin: 40px 0;
     padding-left: 20px;
+  }
+
+  .article-content figure {
+    margin-right: 0;
+    margin-left: 0;
+    overflow: hidden;
+  }
+
+  .article-content img,
+  .article-content video,
+  .article-content svg,
+  .article-content canvas {
+    width: 100%;
+    height: auto;
+  }
+
+  .article-content table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .footer:not(.field-footer) .footer-inner {

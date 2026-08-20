@@ -923,11 +923,11 @@
     if (!navInner || !brand || !links) return;
 
     const primaryLinks = [
-      { href: "/be-a-viewer/", label: "Cities", match: "/be-a-viewer/" },
-      { href: "/notes/", label: "Essays", matches: ["/notes/", "/views/", "/essays/", "/visual-notes/"] },
+      { href: "/cities/", label: "Cities", matches: ["/cities/", "/be-a-viewer/"] },
+      { href: "/essays/", label: "Essays", matches: ["/essays/", "/views/", "/visual-notes/"] },
       { href: "/data/", label: "Data", match: "/data/" },
-      { href: "/works/", label: "Work", match: "/works/" },
-      { href: "/archive/", label: "Index", matches: ["/archive/", "/postcards/"] },
+      { href: "/work/", label: "Work", matches: ["/work/", "/works/"] },
+      { href: "/index/", label: "Index", matches: ["/index/", "/archive/", "/postcards/"] },
       { href: "/about/", label: "About", match: "/about/" }
     ];
     const currentPath = window.location.pathname;
@@ -966,6 +966,7 @@
       if (open === body.classList.contains("nav-open")) return;
       if (open) menuReturnFocus = document.activeElement;
       body.classList.toggle("nav-open", open);
+      document.documentElement.classList.toggle("nav-open", open);
       if (open) body.classList.remove("site-chrome-hidden");
       toggle.textContent = open ? "Close" : "Menu";
       toggle.setAttribute("aria-expanded", String(open));
@@ -1086,11 +1087,11 @@
         </a>
         <div class="footer-column">
           <span>Explore</span>
-          <a href="/be-a-viewer/">Cities</a>
-          <a href="/notes/">Essays</a>
-          <a href="/works/">Work</a>
+          <a href="/cities/">Cities</a>
+          <a href="/essays/">Essays</a>
+          <a href="/work/">Work</a>
           <a href="/design/">Design</a>
-          <a href="/archive/">Index</a>
+          <a href="/index/">Index</a>
           <a href="/about/">About</a>
         </div>
         <div class="footer-column">
@@ -1114,11 +1115,11 @@
     if (!menu) return;
     menu.innerHTML = `
       <span>Explore</span>
-      <a href="/be-a-viewer/">Cities</a>
-      <a href="/notes/">Essays</a>
-      <a href="/works/">Work</a>
+      <a href="/cities/">Cities</a>
+      <a href="/essays/">Essays</a>
+      <a href="/work/">Work</a>
       <a href="/design/">Design</a>
-      <a href="/archive/">Index</a>
+      <a href="/index/">Index</a>
       <a href="/about/">About</a>
     `;
   }
@@ -1144,7 +1145,7 @@
         <span>${data.current} / CITY STORY</span>
         <h2>Keep viewing.</h2>
         <div class="city-collection-links">
-          <a href="/be-a-viewer/">All cities</a>
+          <a href="/cities/">All cities</a>
           <a href="${data.href}">Next / ${data.next} →</a>
         </div>
       </div>

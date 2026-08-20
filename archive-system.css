@@ -1209,10 +1209,20 @@
 }
 
 @media (max-width: 640px) {
+  .archive-main {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
   .archive-hero,
-  .archive-section { width: min(calc(100vw - 32px), var(--archive-max)); }
-  .archive-hero { padding-top: 126px; }
-  .archive-title { font-size: clamp(4rem, 22vw, 6.5rem); }
+  .archive-section { width: calc(100% - 32px); }
+  .archive-hero { padding-top: 112px; }
+  .archive-title {
+    max-width: 100%;
+    font-size: clamp(3.35rem, 15.5vw, 5rem);
+    line-height: .9;
+    overflow-wrap: break-word;
+  }
   .archive-search-panel { grid-template-columns: 1fr; }
   .works-reel,
   .works-reel-copy { min-height: 680px; }
@@ -1227,12 +1237,61 @@
   .archive-index-group,
   .city-atlas-grid > * { border-right: 0 !important; }
   .work-card { min-height: 560px; }
-  .notes-row { grid-template-columns: 1fr; gap: 14px; }
-  .notes-row-cover { width: 96px; }
-  .notes-row > span { grid-column: 1; }
-  .notes-row > small { grid-column: 1; grid-row: 2; }
-  .notes-row h3 { grid-column: 1; grid-row: 1 / span 2; }
-  .notes-row p { grid-column: 1; }
+  .notes-lens-filters {
+    flex-wrap: nowrap;
+    margin-bottom: 22px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .notes-lens-filters::-webkit-scrollbar { display: none; }
+  .notes-lens-filters button {
+    min-width: max-content;
+    flex: 0 0 auto;
+  }
+  .notes-row {
+    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    gap: 10px 18px;
+    padding: 24px 0 30px;
+  }
+  .notes-row-cover {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    width: 104px;
+  }
+  .notes-row > span:not(.notes-row-cover) {
+    grid-column: 1;
+    grid-row: 4;
+    align-self: end;
+  }
+  .notes-row > small {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+  .notes-row h3 {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    font-size: clamp(1.6rem, 7.2vw, 2.35rem);
+    line-height: .96;
+    overflow-wrap: break-word;
+  }
+  .notes-row .notes-row-deck {
+    grid-column: 2;
+    grid-row: 3;
+    min-width: 0;
+    margin-top: 0;
+    font-size: .92rem;
+    line-height: 1.42;
+  }
+  .notes-row p:not(.notes-row-deck) {
+    grid-column: 1 / -1;
+    grid-row: 5;
+    margin-top: 8px;
+    font-size: .98rem;
+    line-height: 1.55;
+  }
   .city-atlas { padding-inline: 16px; }
   .city-atlas-grid > * { min-height: 470px; }
   .city-collection-links { align-items: flex-start; flex-direction: column; }

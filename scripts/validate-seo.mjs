@@ -23,10 +23,13 @@ function publicPath(file) {
 
 const aliases = new Map([
   ["about.html", "/about/"],
-  ["essays/index.html", "/notes/"],
-  ["series/frame/index.html", "/notes/"],
-  ["series/macro/index.html", "/notes/"],
-  ["series/scene/index.html", "/notes/"],
+  ["archive/index.html", "/index/"],
+  ["be-a-viewer/index.html", "/cities/"],
+  ["notes/index.html", "/essays/"],
+  ["series/frame/index.html", "/essays/"],
+  ["series/macro/index.html", "/essays/"],
+  ["series/scene/index.html", "/essays/"],
+  ["works/index.html", "/work/"],
 ]);
 
 function expectedCanonical(file) {
