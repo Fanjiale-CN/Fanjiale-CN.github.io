@@ -61,10 +61,9 @@ const figureMarkup = {
       <span class="r002-pill"><b id="life-presences">—</b> brand-year presences</span>
       <span class="r002-pill"><b id="life-core">—</b> present in all four years</span>
     </div>
-    <div class="r002-year-head"><div></div><div class="r002-year-grid"><span>2022</span><span>2023</span><span>2024</span><span>2025</span></div></div>
     <div class="r002-life-groups" id="life-groups"></div>
     <div class="r002-retention">Year-to-year retention: <span id="life-retention">—</span></div>
-    <p class="r002-caption">Figure 4. Each tiny row is one canonical brand. Filled cells indicate observed annual roster presence. Hovering individual cells reveals the brand.</p>
+    <p class="r002-caption">Figure 4. Roster patterns are summarized first. Select a pattern to inspect named brands in touch-sized rows; filled cells indicate observed annual presence.</p>
   </section>`,
   5: `<section class="r002-figure" id="figure-5">
     <div class="r002-figure-number">Figure 05</div>
@@ -179,7 +178,7 @@ const toc = [
 ].map(([id, label]) => `<a href="#${id}" data-toc-link="${id}">${label}</a>`).join("");
 
 const page = `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="research-paper-root">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -202,8 +201,8 @@ const page = `<!DOCTYPE html>
   <title>The Fast Metabolism Economy — GALOK RESEARCH 002</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
-  <link rel="stylesheet" href="/research/research.css?v=20260822c">
-  <link rel="stylesheet" href="/research/fast-metabolism-economy/charts.css?v=20260822c">
+  <link rel="stylesheet" href="/research/research.css?v=20260822d">
+  <link rel="stylesheet" href="/research/fast-metabolism-economy/charts.css?v=20260822d">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Fast Metabolism Economy","alternativeHeadline":"Franchising, Network Expansion, and Store Turnover in China's Consumer Economy","description":"Independent empirical research on the gross store flows hidden beneath chain expansion in China's consumer economy.","image":"https://www.galok.me/assets/research/research-002-cover.jpg","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","articleSection":"Independent Research","author":{"@type":"Organization","name":"Galok"},"publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"},"mainEntityOfPage":"https://www.galok.me/research/fast-metabolism-economy/","keywords":["China consumer economy","franchising","chain foodservice","store turnover","gross flows"]}</script>
   <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$$","$$"],["\\\\[","\\\\]"]]},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -243,7 +242,7 @@ ${articleWithSections}
   <footer class="footer"><div class="footer-inner"><span>Galok / Research 002</span><a href="/research/">All research</a><a href="/">Home</a></div></footer>
   <script src="/script.js?v=ia-20260820-mobile"></script>
   <script src="/data/research-002/research-002-data.js?v=20260821"></script>
-  <script src="/research/fast-metabolism-economy/charts.js?v=20260822c"></script>
+  <script src="/research/fast-metabolism-economy/charts.js?v=20260822d"></script>
   <script src="/research/research.js?v=20260820"></script>
 </body>
 </html>

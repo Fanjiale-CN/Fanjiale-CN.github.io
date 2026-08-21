@@ -40,9 +40,13 @@ fail(!page.includes("Final v1.0"), "Research 002 final status missing");
 fail(!page.includes("research-002-cover.jpg"), "Official cover is not integrated");
 fail(!page.includes("GALOK_RESEARCH_002_REPLICATION_PACKAGE_v1_0.zip"), "Replication download is not linked");
 fail(!page.includes('class="r002-quadrant-key"'), "Figure 3 responsive quadrant key is missing");
-fail(!page.includes("charts.css?v=20260822c") || !page.includes("charts.js?v=20260822c"), "Research 002 chart assets are not cache-busted");
+fail(!page.includes('<html lang="en" class="research-paper-root">'), "Research 002 root overflow containment is missing");
+fail(!page.includes("research.css?v=20260822d") || !page.includes("charts.css?v=20260822d") || !page.includes("charts.js?v=20260822d"), "Research 002 assets are not cache-busted");
 fail(!chartsJs.includes("window.setTimeout(hideTip,2200)"), "Touch tooltips must auto-dismiss on Research 002");
 fail(!chartsJs.includes('document.addEventListener("scroll",hideTip,true)'), "Research 002 tooltips must dismiss on scroll");
+fail(!chartsJs.includes('className="r002-life-state-list"') || !chartsJs.includes('visibleBrands=12'), "Figure 4 progressive disclosure is missing");
+fail(chartsJs.includes('className="r002-life-cell"'), "Figure 4 must not expose tiny per-cell touch targets");
+fail(!chartsCss.includes(".r002-life-brand-grid") || !chartsCss.includes("min-height: 44px"), "Figure 4 touch-sized detail controls are missing");
 fail(!chartsCss.includes("@container (max-width: 900px)"), "Figure 6 tablet card reflow is missing");
 
 let previousFigure = -1;

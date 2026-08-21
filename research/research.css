@@ -7,6 +7,15 @@
   --research-blue: #2f5d7c;
 }
 
+html.research-paper-root,
+body.research-paper-page {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  background: var(--research-paper);
+  overscroll-behavior-x: none;
+}
+
 .research-index-page,
 .research-paper-page {
   color: var(--research-ink);
@@ -449,9 +458,10 @@
 .research-paper-hero-image img {
   display: block;
   width: 100%;
-  aspect-ratio: 1.82 / 1;
-  object-fit: cover;
-  object-position: 50% 53%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
   filter: saturate(0.82) contrast(1.05);
 }
 
@@ -965,53 +975,71 @@
   }
 }
 
-/* Research 002: give touch tablets the full manuscript width so dense figures do not collide. */
+/* Touch tablets: keep the full manuscript width and retain a compact, sticky index. */
 @media (hover: none) and (pointer: coarse) and (min-width: 761px) and (max-width: 1366px) {
-  .research-002-page .research-paper-layout {
+  html.research-paper-root,
+  body.research-paper-page {
+    overflow-x: hidden;
+  }
+
+  .research-paper-page .research-paper-layout {
     display: block;
     width: min(100% - 48px, 1200px);
     padding-top: 64px;
   }
 
-  .research-002-page .research-paper-toc {
+  .research-paper-page .research-mobile-toc {
     display: none;
   }
 
-  .research-002-page .research-mobile-toc {
+  .research-paper-page .research-paper-toc {
     display: block;
-    width: min(100% - 48px, 1200px);
-    margin: 0 auto;
+    position: sticky;
+    top: 76px;
+    z-index: 120;
+    width: 100%;
+    max-height: none;
+    margin: 0 0 64px;
+    overflow: hidden;
     border-top: 1px solid var(--research-ink);
     border-bottom: 1px solid var(--research-line);
+    background: color-mix(in srgb, var(--research-paper) 96%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
-  .research-002-page .research-mobile-toc summary {
+  .research-paper-page .research-paper-toc > p,
+  .research-paper-page .research-audit-link {
+    display: none;
+  }
+
+  .research-paper-page .research-paper-toc nav {
     display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    flex-direction: row;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
   }
 
-  .research-002-page .research-mobile-toc summary span {
-    color: var(--research-muted);
+  .research-paper-page .research-paper-toc nav::-webkit-scrollbar {
+    display: none;
   }
 
-  .research-002-page .research-mobile-toc nav {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 24px;
-    padding-bottom: 18px;
+  .research-paper-page .research-paper-toc nav a {
+    flex: 0 0 auto;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-right: 1px solid var(--research-line);
+    border-bottom: 0;
+    white-space: nowrap;
   }
 
-  .research-002-page .research-mobile-toc a {
-    padding: 8px 0;
-    color: inherit;
-    border-top: 1px solid var(--research-line);
-    font-size: 0.7rem;
-    text-decoration: none;
+  .research-paper-page .research-paper-toc nav a.is-active {
+    padding-left: 14px;
+    border-left: 0;
+    box-shadow: inset 0 -2px 0 var(--research-red);
   }
 }
 
@@ -1153,7 +1181,9 @@
   }
 
   .research-paper-hero-image img {
-    aspect-ratio: 4 / 3;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
   }
 
   .research-paper-layout {
@@ -1231,13 +1261,13 @@
   }
 
   .research-manuscript table {
-    width: calc(100vw - 32px);
+    width: 100%;
     margin-left: 0;
     font-size: 0.76rem;
   }
 
   .research-figure {
-    width: calc(100vw - 32px);
+    width: 100%;
     margin-top: 4rem;
   }
 
@@ -1539,8 +1569,10 @@
   }
 
   .research-002-cover img {
-    aspect-ratio: 4 / 5;
-    object-position: 52% 50%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    object-position: center;
   }
 
   .research-002-layout {

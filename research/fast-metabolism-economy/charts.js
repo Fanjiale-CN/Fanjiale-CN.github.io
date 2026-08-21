@@ -158,22 +158,87 @@
     const grouped={};
     l.state_order.forEach(s=>grouped[s]=[]);
     l.brands.forEach(b=>(grouped[b.state]||(grouped[b.state]=[])).push(b));
+    root.innerHTML="";
+    const stateList=document.createElement("div");
+    stateList.className="r002-life-state-list";
+    stateList.setAttribute("aria-label","Roster pattern overview");
+    const detail=document.createElement("section");
+    detail.className="r002-life-detail";
+    detail.setAttribute("aria-live","polite");
+    let activeState=l.state_order[0];
+    let visibleBrands=12;
+
+    function renderDetail(){
+      const brands=grouped[activeState]||[];
+      detail.innerHTML="";
+      const head=document.createElement("div");
+      head.className="r002-life-detail-head";
+      const title=document.createElement("h3");
+      title.textContent=l.state_labels[activeState];
+      const note=document.createElement("p");
+      note.textContent=`${brands.length} canonical brands · showing ${Math.min(visibleBrands,brands.length)}. Ranking presence is an observation state, not a closure claim.`;
+      head.append(title,note);
+
+      const years=document.createElement("div");
+      years.className="r002-life-years";
+      l.years.forEach(year=>{const span=document.createElement("span");span.textContent=year;years.appendChild(span);});
+
+      const grid=document.createElement("div");
+      grid.className="r002-life-brand-grid";
+      brands.slice(0,visibleBrands).forEach(brand=>{
+        const row=document.createElement("div");
+        row.className="r002-life-brand";
+        const name=document.createElement("span");
+        name.textContent=brand.brand;
+        name.title=brand.brand;
+        const marks=document.createElement("span");
+        marks.className="r002-life-brand-years";
+        const status=brand.present.map((value,index)=>`${l.years[index]} ${value?"present":"absent"}`).join(", ");
+        marks.setAttribute("aria-label",`${brand.brand}: ${status}`);
+        brand.present.forEach(value=>{const mark=document.createElement("i");if(value)mark.className="on";mark.setAttribute("aria-hidden","true");marks.appendChild(mark);});
+        row.append(name,marks);grid.appendChild(row);
+      });
+      detail.append(head,years,grid);
+      if(visibleBrands<brands.length){
+        const more=document.createElement("button");
+        more.type="button";
+        more.className="r002-life-more";
+        more.textContent=`Show ${Math.min(12,brands.length-visibleBrands)} more brands`;
+        more.addEventListener("click",()=>{visibleBrands+=12;renderDetail();});
+        detail.appendChild(more);
+      }
+    }
+
     l.state_order.forEach(state=>{
       const brands=grouped[state]||[];
-      const g=document.createElement("div");g.className="r002-life-group";
-      const lab=document.createElement("div");lab.className="r002-life-label";
-      lab.innerHTML=`<strong>${l.state_labels[state]}</strong><small>${brands.length} brands</small>`;
-      const mat=document.createElement("div");mat.className="r002-life-matrix";
-      brands.forEach(b=>{
-        b.present.forEach((v,i)=>{
-          const c=document.createElement("span");c.className="r002-life-cell"+(v?" on":"");
-          c.title=`${b.brand} · ${l.years[i]} · ${v?"present":"absent"}`;
-          attachTip(c,`<b>${b.brand}</b><br>${l.years[i]}: ${v?"present in roster":"not in roster"}<br>${l.state_labels[state]}`);
-          mat.appendChild(c);
-        });
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="r002-life-state";
+      button.setAttribute("aria-pressed",String(state===activeState));
+      const label=document.createElement("strong");
+      label.textContent=l.state_labels[state];
+      const count=document.createElement("small");
+      count.textContent=`${brands.length} brands`;
+      const pattern=document.createElement("span");
+      pattern.className="r002-life-pattern";
+      l.years.forEach((year,index)=>{
+        const mark=document.createElement("i");
+        const ratio=brands.length?brands.filter(brand=>brand.present[index]).length/brands.length:0;
+        mark.style.setProperty("--presence-opacity",String(0.16+ratio*0.84));
+        mark.title=`${year}: ${Math.round(ratio*100)}% present`;
+        pattern.appendChild(mark);
       });
-      g.append(lab,mat);root.appendChild(g);
+      button.append(label,count,pattern);
+      button.addEventListener("click",()=>{
+        activeState=state;
+        visibleBrands=12;
+        $$(".r002-life-state",stateList).forEach(item=>item.setAttribute("aria-pressed",String(item===button)));
+        renderDetail();
+      });
+      stateList.appendChild(button);
     });
+    root.append(stateList,detail);
+    renderDetail();
     $("#life-brands").textContent=l.canonical_brands;
     $("#life-presences").textContent=l.brand_year_presences;
     $("#life-core").textContent=l.present_all_four_years;

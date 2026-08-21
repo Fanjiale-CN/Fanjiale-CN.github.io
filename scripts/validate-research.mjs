@@ -49,6 +49,8 @@ for (const field of ["og:title", "og:description", "og:image", "twitter:card"]) 
 fail(!page.includes('"@type":"ScholarlyArticle"'), "Missing ScholarlyArticle structured data");
 fail(!page.includes("Final v1.0"), "Final v1.0 status missing");
 fail(!page.includes("GALOK RESEARCH 001"), "Series label missing");
+fail(!page.includes('<html lang="en" class="research-paper-root">'), "Research 001 root overflow containment is missing");
+fail(!page.includes("research.css?v=20260822d"), "Research 001 paper styles are not cache-busted");
 
 const articleDirectory = join(root, "research", "who-captures-growth");
 const allowedData = new Set([
