@@ -48,6 +48,7 @@ const figureMarkup = {
     <h2>Growth and metabolism are separate dimensions</h2>
     <p class="r002-deck">Every dot is a real full-year, no-acquisition observation. No decorative data points.</p>
     <div class="r002-inline-stats"><span class="r002-pill">N = <b id="quadrant-n">—</b></span><span class="r002-pill">Median MMR = <b id="quadrant-median">—</b></span><span class="r002-pill">30% threshold agreement = <b id="quadrant-agree">—</b></span></div>
+    <div class="r002-quadrant-key" aria-label="Quadrant key"><span><b>High MMR</b>Contraction</span><span><b>High MMR</b>Expansion</span><span><b>Low MMR</b>Contraction</span><span><b>Low MMR</b>Expansion</span></div>
     <div class="r002-svg-wrap" id="quadrant-chart"></div>
     <p class="r002-caption">Figure 3. The horizontal reference is the sample median MMR; the vertical reference is zero net growth. Parent and child observations may appear as separate plotted states but are never pooled together in headline estimates.</p>
   </section>`,
@@ -201,8 +202,8 @@ const page = `<!DOCTYPE html>
   <title>The Fast Metabolism Economy — GALOK RESEARCH 002</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
-  <link rel="stylesheet" href="/research/research.css?v=20260821b">
-  <link rel="stylesheet" href="/research/fast-metabolism-economy/charts.css?v=20260821b">
+  <link rel="stylesheet" href="/research/research.css?v=20260822c">
+  <link rel="stylesheet" href="/research/fast-metabolism-economy/charts.css?v=20260822c">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Fast Metabolism Economy","alternativeHeadline":"Franchising, Network Expansion, and Store Turnover in China's Consumer Economy","description":"Independent empirical research on the gross store flows hidden beneath chain expansion in China's consumer economy.","image":"https://www.galok.me/assets/research/research-002-cover.jpg","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","articleSection":"Independent Research","author":{"@type":"Organization","name":"Galok"},"publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"},"mainEntityOfPage":"https://www.galok.me/research/fast-metabolism-economy/","keywords":["China consumer economy","franchising","chain foodservice","store turnover","gross flows"]}</script>
   <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$$","$$"],["\\\\[","\\\\]"]]},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -242,7 +243,7 @@ ${articleWithSections}
   <footer class="footer"><div class="footer-inner"><span>Galok / Research 002</span><a href="/research/">All research</a><a href="/">Home</a></div></footer>
   <script src="/script.js?v=ia-20260820-mobile"></script>
   <script src="/data/research-002/research-002-data.js?v=20260821"></script>
-  <script src="/research/fast-metabolism-economy/charts.js?v=20260821b"></script>
+  <script src="/research/fast-metabolism-economy/charts.js?v=20260822c"></script>
   <script src="/research/research.js?v=20260820"></script>
 </body>
 </html>

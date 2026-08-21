@@ -3,6 +3,7 @@
   const D = window.GALOK_R002_DATA;
   if(!D) throw new Error("GALOK_R002_DATA not found");
   const isMobile=window.matchMedia("(max-width: 600px)").matches;
+  const canHover=window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const $ = (q,root=document)=>root.querySelector(q);
   const $$ = (q,root=document)=>[...root.querySelectorAll(q)];
   const ns="http://www.w3.org/2000/svg";
@@ -13,13 +14,43 @@
   };
   const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
   const tooltip=$("#r002-tooltip");
-  function showTip(e,html){
-    tooltip.innerHTML=html; tooltip.classList.add("show");
+  let tooltipTimer=0;
+  function hideTip(){
+    window.clearTimeout(tooltipTimer);
+    tooltip.classList.remove("show");
+  }
+  function showTip(e,html,{temporary=!canHover}={}){
+    window.clearTimeout(tooltipTimer);
+    tooltip.innerHTML=html;
+    tooltip.classList.add("show");
     const x=clamp(e.clientX+14,10,window.innerWidth-tooltip.offsetWidth-10);
     const y=clamp(e.clientY+14,10,window.innerHeight-tooltip.offsetHeight-10);
     tooltip.style.left=x+"px";tooltip.style.top=y+"px";
+    if(temporary) tooltipTimer=window.setTimeout(hideTip,2200);
   }
-  function hideTip(){tooltip.classList.remove("show")}
+  function attachTip(target,html){
+    target.dataset.r002Tip="";
+    target.addEventListener("pointermove",e=>{
+      if(canHover && e.pointerType==="mouse") showTip(e,html,{temporary:false});
+    });
+    target.addEventListener("pointerleave",()=>{
+      if(canHover) hideTip();
+    });
+    target.addEventListener("pointerup",e=>{
+      if(!canHover) showTip(e,html,{temporary:true});
+    });
+    target.addEventListener("focus",()=>{
+      const b=target.getBoundingClientRect();
+      showTip({clientX:b.left+b.width/2,clientY:b.top+b.height/2},html,{temporary:!canHover});
+    });
+    target.addEventListener("blur",hideTip);
+  }
+  document.addEventListener("pointerdown",e=>{
+    if(!e.target.closest("[data-r002-tip]")) hideTip();
+  },true);
+  document.addEventListener("scroll",hideTip,true);
+  window.addEventListener("resize",hideTip,{passive:true});
+  window.addEventListener("pagehide",hideTip);
 
   function hero(){
     const h=D["headline"];
@@ -68,23 +99,15 @@
     if(opts.vref!==undefined) svg.appendChild(el("line",{x1:sx(opts.vref),y1:p.t,x2:sx(opts.vref),y2:H-p.b,class:"r002-refline"}));
     if(opts.href!==undefined) svg.appendChild(el("line",{x1:p.l,y1:sy(opts.href),x2:W-p.r,y2:sy(opts.href),class:"r002-refline"}));
 
-    if(opts.regions&&!isMobile){
-      opts.regions.forEach(r=>{
-        const t=el("text",{x:sx(r.x),y:sy(r.y),class:"r002-region-label","text-anchor":r.anchor||"start"});
-        t.textContent=r.text;svg.appendChild(t);
-      });
-    }
-
     rows.forEach(r=>{
       const x=opts.x(r),y=opts.y(r);
       const key=opts.key(r);
       let cls="r002-point base";
       if(opts.negative && opts.negative(r))cls="r002-point negative";
       if(opts.highlight && opts.highlight.includes(key))cls="r002-point highlight";
-      const c=el("circle",{cx:sx(x),cy:sy(y),r:5,class:cls,tabindex:"0"});
+      const c=el("circle",{cx:sx(x),cy:sy(y),r:5,class:cls,tabindex:"0",role:"img","aria-label":opts.pointLabel?opts.pointLabel(r):key});
       const html=opts.tip(r);
-      c.addEventListener("mousemove",e=>showTip(e,html)); c.addEventListener("mouseleave",hideTip);
-      c.addEventListener("focus",e=>{const b=c.getBoundingClientRect();showTip({clientX:b.left,clientY:b.top},html)}); c.addEventListener("blur",hideTip);
+      attachTip(c,html);
       svg.appendChild(c);
       if(opts.labels && opts.labels[key]){
         const cfg=opts.labels[key];
@@ -106,8 +129,6 @@
       "Busy Ming Group|2025":{text:"Busy Ming 2025",dx:10,dy:-10},
       "Auntea Jenny|2025":{text:"Auntea Jenny 2025",dx:10,dy:-8},
       "Jiumaojiu|2025":{text:"Jiumaojiu 2025",dx:10,dy:16},
-      "Yum China Other Brands|2025":{text:"Yum Other 2025",dx:10,dy:18},
-      "Xiabuxiabu Group|2025":{text:"Xiabuxiabu 2025",dx:10,dy:18},
       "MIXUE Group|2024":{text:"MIXUE 2024",dx:10,dy:-10},
     };
     const mobileLabels={
@@ -124,12 +145,7 @@
       negative:r=>r.net_growth_pct<0,
       highlight:["Guming|2025","Busy Ming Group|2024","Busy Ming Group|2025","Auntea Jenny|2025","MIXUE Group|2024"],
       labels:isMobile?mobileLabels:labels,
-      regions:[
-        {x:4,y:82,text:"HIGH METABOLISM · EXPANSION"},
-        {x:4,y:27,text:"LOW METABOLISM · EXPANSION"},
-        {x:-23,y:82,text:"HIGH METABOLISM · CONTRACTION"},
-        {x:-23,y:27,text:"LOW METABOLISM · CONTRACTION"},
-      ],
+      pointLabel:r=>`${r.system}, ${r.year}: MMR ${r.mmr_pct.toFixed(1)}%, net growth ${r.net_growth_pct.toFixed(1)}%`,
       tip:r=>`<b>${r.system} · ${r.year}</b><br>MMR ${r.mmr_pct.toFixed(1)}%<br>Net growth ${r.net_growth_pct.toFixed(1)}%`
     });
     $("#quadrant-n").textContent=q.n;
@@ -152,8 +168,7 @@
         b.present.forEach((v,i)=>{
           const c=document.createElement("span");c.className="r002-life-cell"+(v?" on":"");
           c.title=`${b.brand} · ${l.years[i]} · ${v?"present":"absent"}`;
-          c.addEventListener("mousemove",e=>showTip(e,`<b>${b.brand}</b><br>${l.years[i]}: ${v?"present in roster":"not in roster"}<br>${l.state_labels[state]}`));
-          c.addEventListener("mouseleave",hideTip);
+          attachTip(c,`<b>${b.brand}</b><br>${l.years[i]}: ${v?"present in roster":"not in roster"}<br>${l.state_labels[state]}`);
           mat.appendChild(c);
         });
       });
@@ -176,6 +191,7 @@
       xlabel:"Franchise intensity",ylabel:"Subsequent network growth",
       key:r=>r.brand_en,x:r=>r.franchise_intensity_pct,y:r=>r.growth_pct,
       negative:r=>r.growth_pct<0,
+      pointLabel:r=>`${r.brand_en}: franchise intensity ${r.franchise_intensity_pct.toFixed(1)}%, growth ${r.growth_pct.toFixed(1)}%`,
       tip:r=>`<b>${r.brand_en}</b><br>Franchise intensity ${r.franchise_intensity_pct.toFixed(1)}%<br>Growth ${r.growth_pct.toFixed(1)}%<br>Initial stores ${r.initial_stores.toLocaleString()}`,
       labels:{}
     });
@@ -187,7 +203,8 @@
       const card=document.createElement("article");card.className="r002-card"+(c.message?" break":"");
       let html=`<div class="r002-card-year">${c.year}</div><h3>${c.brand}</h3>`;
       if(c.message){
-        html+=`<div class="r002-card-pair"><div><b>${c.franchisee_terminations.toLocaleString()}</b><small>Franchisee terminations</small></div><div><b>${c.stores_transferred_to_other_franchisees.toLocaleString()}</b><small>Stores transferred</small></div></div><div class="r002-card-message">${c.message}</div>`;
+        const [messageLead,messageTrail]=c.message.split("≠").map(part=>part.trim());
+        html+=`<div class="r002-card-pair"><div><b>${c.franchisee_terminations.toLocaleString()}</b><small>Franchisee terminations</small></div><div><b>${c.stores_transferred_to_other_franchisees.toLocaleString()}</b><small>Stores transferred</small></div></div><div class="r002-card-message" aria-label="${messageLead} is not ${messageTrail}"><span>${messageLead}</span><b aria-hidden="true">≠</b><span>${messageTrail}</span></div>`;
       }else{
         html+=`<div class="r002-card-pair"><div><b>${c.opened.toLocaleString()}</b><small>Opened</small></div><div><b>${c.closed.toLocaleString()}</b><small>Closed</small></div><div><b>${c.net_growth_pct.toFixed(1)}%</b><small>Net growth</small></div><div><b>${c.mmr_pct.toFixed(1)}%</b><small>MMR</small></div></div>`;
       }

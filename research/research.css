@@ -965,6 +965,56 @@
   }
 }
 
+/* Research 002: give touch tablets the full manuscript width so dense figures do not collide. */
+@media (hover: none) and (pointer: coarse) and (min-width: 761px) and (max-width: 1366px) {
+  .research-002-page .research-paper-layout {
+    display: block;
+    width: min(100% - 48px, 1200px);
+    padding-top: 64px;
+  }
+
+  .research-002-page .research-paper-toc {
+    display: none;
+  }
+
+  .research-002-page .research-mobile-toc {
+    display: block;
+    width: min(100% - 48px, 1200px);
+    margin: 0 auto;
+    border-top: 1px solid var(--research-ink);
+    border-bottom: 1px solid var(--research-line);
+  }
+
+  .research-002-page .research-mobile-toc summary {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .research-002-page .research-mobile-toc summary span {
+    color: var(--research-muted);
+  }
+
+  .research-002-page .research-mobile-toc nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+    padding-bottom: 18px;
+  }
+
+  .research-002-page .research-mobile-toc a {
+    padding: 8px 0;
+    color: inherit;
+    border-top: 1px solid var(--research-line);
+    font-size: 0.7rem;
+    text-decoration: none;
+  }
+}
+
 @media (max-width: 760px) {
   .data-research-results {
     width: calc(100% - 32px);

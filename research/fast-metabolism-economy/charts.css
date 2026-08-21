@@ -18,6 +18,7 @@
 .r002-figure {
   position: relative;
   width: min(1120px, calc(100vw - 400px));
+  container-type: inline-size;
   margin: 6rem 0 4rem;
   padding: 28px 0 34px;
   overflow: hidden;
@@ -74,15 +75,18 @@
   background: #111b20;
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
   opacity: 0;
+  visibility: hidden;
   transform: translateY(4px);
-  transition: opacity 120ms ease, transform 120ms ease;
+  transition: opacity 120ms ease, transform 120ms ease, visibility 0s linear 120ms;
   font-size: 0.72rem;
   line-height: 1.45;
 }
 
 .r002-tooltip.show {
   opacity: 1;
+  visibility: visible;
   transform: translateY(0);
+  transition-delay: 0s;
 }
 
 .r002-metric-grid {
@@ -231,6 +235,33 @@
   overflow: hidden;
 }
 
+.r002-quadrant-key {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 12px 0 18px;
+  border-top: 1px solid var(--r002-line);
+  border-left: 1px solid var(--r002-line);
+}
+
+.r002-quadrant-key span {
+  min-width: 0;
+  padding: 9px 10px;
+  border-right: 1px solid var(--r002-line);
+  border-bottom: 1px solid var(--r002-line);
+  color: var(--r002-muted);
+  font-size: 0.57rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.r002-quadrant-key b {
+  display: block;
+  color: var(--r002-ink);
+  font-weight: 800;
+}
+
 .r002-svg {
   display: block;
   width: 100%;
@@ -247,7 +278,6 @@
 .r002-point.negative { fill: var(--r002-orange); }
 .r002-label { fill: var(--r002-ink); font-size: 12px; font-weight: 700; }
 .r002-axis-label { fill: var(--r002-muted); font-size: 11px; }
-.r002-region-label { fill: #747c7a; font-size: 12px; font-weight: 800; letter-spacing: 0.07em; }
 .r002-svg.is-mobile .r002-axis-label { font-size: 15px; }
 .r002-svg.is-mobile .r002-label { font-size: 15px; }
 
@@ -314,11 +344,12 @@
 
 .r002-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid var(--r002-line);
   border-left: 1px solid var(--r002-line);
 }
 .r002-card {
+  min-width: 0;
   min-height: 240px;
   padding: 20px;
   border-right: 1px solid var(--r002-line);
@@ -329,6 +360,7 @@
   font-family: var(--font-serif);
   font-size: 1.55rem;
   font-weight: 500;
+  overflow-wrap: anywhere;
 }
 .r002-card-year {
   color: var(--r002-muted);
@@ -338,22 +370,37 @@
 }
 .r002-card-pair {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 18px;
 }
-.r002-card-pair div { padding-top: 12px; border-top: 1px solid var(--r002-line); }
-.r002-card-pair b { font-family: var(--font-serif); font-size: 1.65rem; font-weight: 500; }
+.r002-card-pair div { min-width: 0; padding-top: 12px; border-top: 1px solid var(--r002-line); }
+.r002-card-pair b { display: block; font-family: var(--font-serif); font-size: clamp(1.35rem, 2.3cqw, 1.65rem); font-weight: 500; }
 .r002-card-pair small {
   display: block;
   margin-top: 4px;
   color: var(--r002-muted);
   font-size: 0.62rem;
   letter-spacing: 0.08em;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 .r002-card.break { background: var(--r002-orange-soft); }
-.r002-card-message { margin-top: 28px; font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.06; }
+.r002-card-message {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: end;
+  margin-top: 28px;
+  font-family: var(--font-serif);
+  font-size: clamp(1.18rem, 2.25cqw, 1.6rem);
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.r002-card-message span { min-width: 0; }
+.r002-card-message b { color: var(--r002-orange); font-weight: 500; }
 
 .r002-taxonomy {
   display: grid;
@@ -410,6 +457,18 @@
   .r002-figure { width: 100%; }
 }
 
+@container (max-width: 900px) {
+  .r002-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .r002-card { min-height: 220px; }
+  .r002-card-pair b { font-size: 1.65rem; }
+  .r002-card-message { font-size: 1.55rem; }
+}
+
+@container (max-width: 620px) {
+  .r002-quadrant-key { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .r002-card-message { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+}
+
 @media (max-width: 760px) {
   .r002-figure {
     width: calc(100vw - 32px);
@@ -440,6 +499,12 @@
   .r002-year-head { grid-template-columns: 96px 1fr; }
   .r002-life-cell { height: 4px; }
   .r002-tax-result { align-items: stretch; flex-direction: column; }
+  .r002-card-message { grid-template-columns: 1fr; gap: 4px; }
+  .r002-card-message b { justify-self: start; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .r002-point:hover { r: 5; }
 }
 
 @media (prefers-reduced-motion: reduce) {

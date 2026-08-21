@@ -22,6 +22,8 @@ function fail(condition, message) {
 
 const source = readFileSync(sourcePath, "utf8");
 const page = readFileSync(pagePath, "utf8");
+const chartsJs = readFileSync(join(articleRoot, "charts.js"), "utf8");
+const chartsCss = readFileSync(join(articleRoot, "charts.css"), "utf8");
 const headline = JSON.parse(readFileSync(join(dataRoot, "headline.json"), "utf8"));
 const quadrants = JSON.parse(readFileSync(join(dataRoot, "quadrants.json"), "utf8"));
 const lifecycle = JSON.parse(readFileSync(join(dataRoot, "brand-lifecycle.json"), "utf8"));
@@ -37,6 +39,11 @@ fail(!page.includes("GALOK RESEARCH 002"), "Research 002 series identity missing
 fail(!page.includes("Final v1.0"), "Research 002 final status missing");
 fail(!page.includes("research-002-cover.jpg"), "Official cover is not integrated");
 fail(!page.includes("GALOK_RESEARCH_002_REPLICATION_PACKAGE_v1_0.zip"), "Replication download is not linked");
+fail(!page.includes('class="r002-quadrant-key"'), "Figure 3 responsive quadrant key is missing");
+fail(!page.includes("charts.css?v=20260822c") || !page.includes("charts.js?v=20260822c"), "Research 002 chart assets are not cache-busted");
+fail(!chartsJs.includes("window.setTimeout(hideTip,2200)"), "Touch tooltips must auto-dismiss on Research 002");
+fail(!chartsJs.includes('document.addEventListener("scroll",hideTip,true)'), "Research 002 tooltips must dismiss on scroll");
+fail(!chartsCss.includes("@container (max-width: 900px)"), "Figure 6 tablet card reflow is missing");
 
 let previousFigure = -1;
 for (let number = 1; number <= 7; number += 1) {
