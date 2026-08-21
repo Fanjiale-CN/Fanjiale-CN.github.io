@@ -8179,6 +8179,19 @@ body.site-chrome-hidden:not(.nav-open) .site-nav {
   overflow-x: clip;
 }
 
+/* iPad Safari can ignore overflow-x: clip during horizontal rubber-banding,
+   exposing the dark root canvas beside the homepage. Keep this containment
+   touch-only so the desktop field layout and motion remain unchanged. */
+@media (hover: none), (pointer: coarse), (max-width: 1120px) {
+  html.field-home-root,
+  body.field-home {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+  }
+}
+
 .field-main {
   width: 100%;
   margin: 0;

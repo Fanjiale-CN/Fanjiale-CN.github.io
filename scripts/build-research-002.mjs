@@ -7,6 +7,7 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const sourcePath = join(root, "_research-source", "fast-metabolism-economy.md");
 const outputPath = join(root, "research", "fast-metabolism-economy", "index.html");
 const workPath = join("/tmp", "galok-fast-metabolism-economy.md");
+const figureToken = (number) => `GALOKRESEARCH002FIGURE${number}`;
 
 const figureMarkup = {
   1: `<section class="r002-figure" id="figure-1">
@@ -118,30 +119,38 @@ const headingIds = new Map([
 markdown = markdown.replace(/^## (.+)$/gm, (match, title) => {
   const id = headingIds.get(title);
   if (!id) return match;
-  const heading = `<h2 id="${id}">${title}</h2>`;
-  return id === "introduction" ? `</section>\n${figureMarkup[1]}\n${heading}` : heading;
+  const heading = `## ${title} {#${id}}`;
+  return id === "introduction" ? `</section>\n\n${figureToken(1)}\n\n${heading}` : heading;
 });
 
 markdown = markdown
   .replace("<!-- FIGURE 1: A growing network can replace a large share of itself -->", "")
-  .replace("<!-- FIGURE 2: What net growth leaves out — Guming 2025 -->", figureMarkup[2])
+  .replace("<!-- FIGURE 2: What net growth leaves out — Guming 2025 -->", figureToken(2))
   .replace("<!-- FIGURE 6: Different chains, different internal mechanics -->", "")
-  .replace("<!-- FIGURE 3: Growth and metabolism are separate dimensions -->", figureMarkup[3])
-  .replace("<!-- FIGURE 4: Roster persistence is not brand survival -->", figureMarkup[4])
-  .replace("<!-- FIGURE 5: Franchise intensity and subsequent growth -->", `${figureMarkup[5]}\n\n${figureMarkup[6]}`)
-  .replace("<!-- FIGURE 7: What counts as a closure? -->", figureMarkup[7])
-  .replace(/^\\\[$/gm, "$$")
-  .replace(/^\\\]$/gm, "$$")
+  .replace("<!-- FIGURE 3: Growth and metabolism are separate dimensions -->", figureToken(3))
+  .replace("<!-- FIGURE 4: Roster persistence is not brand survival -->", figureToken(4))
+  .replace("<!-- FIGURE 5: Franchise intensity and subsequent growth -->", `${figureToken(5)}\n\n${figureToken(6)}`)
+  .replace("<!-- FIGURE 7: What counts as a closure? -->", figureToken(7))
+  .replace(/^\\\[$/gm, "$$$$")
+  .replace(/^\\\]$/gm, "$$$$")
   .replace(/\\\((.+?)\\\)/g, "$$$1$");
 
 writeFileSync(workPath, markdown);
-const article = execFileSync("pandoc", [
+let article = execFileSync("pandoc", [
   workPath,
   "--from=markdown-yaml_metadata_block-multiline_tables-grid_tables-simple_tables-table_captions+pipe_tables+tex_math_dollars+raw_html+autolink_bare_uris",
   "--to=html5",
   "--mathjax",
   "--wrap=none",
 ], { encoding: "utf8", maxBuffer: 12 * 1024 * 1024 });
+
+for (let number = 1; number <= 7; number += 1) {
+  article = article.replace(`<p>${figureToken(number)}</p>`, figureMarkup[number]);
+}
+
+if (/GALOKRESEARCH002FIGURE\d|<pre><code>[\s\S]*?r002-/.test(article)) {
+  throw new Error("Research 002 figure placeholders were not converted into live HTML.");
+}
 
 const replication = `<aside class="research-replication" aria-label="Research 002 replication package">
   <p>DATA / METHOD / REPLICATION</p>

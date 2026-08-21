@@ -48,6 +48,16 @@ for (let number = 1; number <= 7; number += 1) {
   previousFigure = position;
 }
 
+fail(/<pre><code>[\s\S]*?r002-/.test(page), "Research 002 figure markup is escaped inside a code block");
+fail(/&lt;(?:div|span|section) class=&quot;r002-/.test(page), "Research 002 contains escaped figure HTML");
+fail(/<h2 id="[^"]+">\s*<ol/.test(page), "Research 002 numbered section heading was parsed as a list");
+fail(!page.includes('class="math display"'), "Research 002 display equations were not rendered as math");
+
+for (const id of [
+  "hero-net", "hero-mmr", "hero-dots", "g-begin", "g-open", "g-close", "g-end",
+  "quadrant-chart", "life-groups", "franchise-chart", "brand-cards", "taxonomy", "tax-question",
+]) fail(!page.includes(`id="${id}"`), `Missing live chart mount #${id}`);
+
 for (const id of [
   "introduction", "literature-conceptual-framework", "data-and-measurement", "empirical-results",
   "administrative-evidence", "discussion", "conclusion", "data-and-code-availability", "references", "appendix-a",
