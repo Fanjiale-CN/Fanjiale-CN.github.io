@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "cards": [
+    {
+      "brand": "Guming",
+      "year": 2025,
+      "opened": 4292,
+      "closed": 652,
+      "net_growth_pct": 36.7,
+      "mmr_pct": 42.1
+    },
+    {
+      "brand": "MIXUE Group",
+      "year": 2024,
+      "opened": 10555,
+      "closed": 1609,
+      "net_growth_pct": 23.8,
+      "mmr_pct": 29.0
+    },
+    {
+      "brand": "Auntea Jenny",
+      "year": 2025,
+      "opened": 3654,
+      "closed": 1383,
+      "net_growth_pct": 24.8,
+      "mmr_pct": 49.0
+    },
+    {
+      "brand": "ChaPanda",
+      "year": 2025,
+      "franchisee_terminations": 1218,
+      "stores_transferred_to_other_franchisees": 735,
+      "message": "FRANCHISEE EXIT ≠ STORE CLOSURE"
+    }
+  ]
+}

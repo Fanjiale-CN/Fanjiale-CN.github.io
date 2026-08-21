@@ -1,0 +1,2300 @@
+{
+  "version": "1.0",
+  "canonical_brands": 186,
+  "brand_year_presences": 400,
+  "present_all_four_years": 37,
+  "retention_pct": {
+    "2022_to_2023": 69,
+    "2023_to_2024": 75,
+    "2024_to_2025": 64
+  },
+  "categories": [
+    {
+      "key": "persistent_core",
+      "label": "Persistent core",
+      "count": 37
+    },
+    {
+      "key": "new_2025_entrant",
+      "label": "New 2025 entrant",
+      "count": 32
+    },
+    {
+      "key": "reentry_gapped_active",
+      "label": "Reentry / gapped active",
+      "count": 4
+    },
+    {
+      "key": "active_recent",
+      "label": "Active recent",
+      "count": 27
+    },
+    {
+      "key": "dropped_after_2024",
+      "label": "Dropped after 2024",
+      "count": 36
+    },
+    {
+      "key": "early_dropout",
+      "label": "Early dropout",
+      "count": 50
+    }
+  ],
+  "interpretation": "Ranking presence is a visibility measure; ranking exit is not brand death.",
+  "brands": [
+    {
+      "brand_id": "R002B008",
+      "brand": "DQ",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B016",
+      "brand": "一鸣真鲜奶吧",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B042",
+      "brand": "古茗",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B044",
+      "brand": "吉祥馄饨",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B049",
+      "brand": "喜姐炸串",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B051",
+      "brand": "塔斯汀",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B057",
+      "brand": "夸父炸串",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B061",
+      "brand": "守柴炉烤鸭",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B063",
+      "brand": "尊宝比萨",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B069",
+      "brand": "巴比",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B072",
+      "brand": "幸运咖",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B073",
+      "brand": "广隆蛋挞王",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B076",
+      "brand": "张亮麻辣烫",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B078",
+      "brand": "德克士",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B079",
+      "brand": "德庄火锅",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B083",
+      "brand": "快乐番薯",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B087",
+      "brand": "探鱼",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B098",
+      "brand": "杨国福麻辣烫",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B106",
+      "brand": "楠火锅",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B109",
+      "brand": "永和大王",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B113",
+      "brand": "沪上阿姨",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B115",
+      "brand": "派乐汉堡",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B129",
+      "brand": "犟骨头",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B130",
+      "brand": "猪角",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B133",
+      "brand": "甜啦啦",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B138",
+      "brand": "紫燕百味鸡",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B149",
+      "brand": "茶百道",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B153",
+      "brand": "蒙自源",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B157",
+      "brand": "蛙喔",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B159",
+      "brand": "蛙来哒",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B161",
+      "brand": "蜜雪冰城",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B171",
+      "brand": "酒拾烤肉",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B173",
+      "brand": "阿水大杯茶",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B177",
+      "brand": "霸王茶姬",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B181",
+      "brand": "马路边边",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B182",
+      "brand": "鱼你在一起",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B185",
+      "brand": "黄记煌三汁焖锅",
+      "present": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "state": "PERSISTENT_CORE",
+      "pattern": "1111"
+    },
+    {
+      "brand_id": "R002B006",
+      "brand": "85度C",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B009",
+      "brand": "KUMO KUMO",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B018",
+      "brand": "三米粥铺",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B021",
+      "brand": "临榆炸鸡腿",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B028",
+      "brand": "五谷渔粉",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B034",
+      "brand": "冒大仙冒菜",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B035",
+      "brand": "冯四孃跷脚牛肉",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B038",
+      "brand": "刘炭长牛烧大块烤肉",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B043",
+      "brand": "可可同学",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B047",
+      "brand": "和府捞面",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B056",
+      "brand": "天好咖啡",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B075",
+      "brand": "廣順興",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B077",
+      "brand": "徐升记不改良老火锅",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B080",
+      "brand": "必胜客",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B094",
+      "brand": "朴大叔拌饭",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B095",
+      "brand": "李华泽",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B096",
+      "brand": "李想大虾",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B101",
+      "brand": "栖头鸭",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B108",
+      "brand": "比格比萨自助",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B114",
+      "brand": "波比艾斯",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B116",
+      "brand": "海底捞",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B118",
+      "brand": "满兴咱妈烀饼",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B119",
+      "brand": "满巍明",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B120",
+      "brand": "焱玖家麻辣猪蹄火锅",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B125",
+      "brand": "爷爷不泡茶",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B143",
+      "brand": "肯德基",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B146",
+      "brand": "花小小新疆炒米粉",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B147",
+      "brand": "茉莉奶白",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B152",
+      "brand": "萍姐火锅·公路夜市",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B167",
+      "brand": "赵美丽火锅",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B169",
+      "brand": "邵汇大虾",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B170",
+      "brand": "郭淑芬",
+      "present": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "state": "NEW_2025_ENTRANT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B020",
+      "brand": "东来顺",
+      "present": [
+        0,
+        1,
+        0,
+        1
+      ],
+      "state": "REENTRY_OR_GAPPED_ACTIVE",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B064",
+      "brand": "小猪查理",
+      "present": [
+        1,
+        1,
+        0,
+        1
+      ],
+      "state": "REENTRY_OR_GAPPED_ACTIVE",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B090",
+      "brand": "曼玲粥店",
+      "present": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "state": "REENTRY_OR_GAPPED_ACTIVE",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B107",
+      "brand": "正新鸡排",
+      "present": [
+        1,
+        1,
+        0,
+        1
+      ],
+      "state": "REENTRY_OR_GAPPED_ACTIVE",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B010",
+      "brand": "LINLEE林里",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B058",
+      "brand": "奈雪的茶",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B059",
+      "brand": "如意馄饨",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B071",
+      "brand": "幸福西饼",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B085",
+      "brand": "慕巴夫鲜花主题蛋糕",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B091",
+      "brand": "曾三仙米线",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B093",
+      "brand": "朱光玉火锅馆",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B100",
+      "brand": "柠季",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B110",
+      "brand": "汉堡王",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B112",
+      "brand": "沙胆彪炭炉牛杂煲",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B121",
+      "brand": "熊喵来了火锅",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B122",
+      "brand": "熊大爷",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B123",
+      "brand": "熊家无二",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B124",
+      "brand": "熊猫叮咚",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B132",
+      "brand": "瑞幸咖啡",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B135",
+      "brand": "益禾堂",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B137",
+      "brand": "窑鸡王",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B139",
+      "brand": "绝味鸭脖",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B140",
+      "brand": "维尔纳斯",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B141",
+      "brand": "老乡鸡",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B145",
+      "brand": "至尊比萨",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B148",
+      "brand": "茉酸奶",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B150",
+      "brand": "茶话弄",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B155",
+      "brand": "虎丫炒鸡",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B160",
+      "brand": "蜀大侠",
+      "present": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B162",
+      "brand": "融柳大铁牛螺蛳粉",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B178",
+      "brand": "霸碗盖码饭",
+      "present": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "state": "ACTIVE_RECENT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B003",
+      "brand": "313羊庄",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B005",
+      "brand": "7分甜",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B017",
+      "brand": "三品王",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B022",
+      "brand": "乐凯撒",
+      "present": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B023",
+      "brand": "九田家黑牛烤肉",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B024",
+      "brand": "九街淑芬",
+      "present": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B025",
+      "brand": "书亦烧仙草",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B029",
+      "brand": "享哆味",
+      "present": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B031",
+      "brand": "先启半步颠",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B033",
+      "brand": "冒大仙",
+      "present": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B037",
+      "brand": "刘一手火锅",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B040",
+      "brand": "北木南烤肉和酒",
+      "present": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B041",
+      "brand": "卤校长老火锅",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B046",
+      "brand": "和合谷",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B050",
+      "brand": "喜茶",
+      "present": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B053",
+      "brand": "多乐之日",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B065",
+      "brand": "小肥羊",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B066",
+      "brand": "小谷姐姐麻辣拌·麻辣烫",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B067",
+      "brand": "小龙坎火锅",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B068",
+      "brand": "屋头串串",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B070",
+      "brand": "巴黎贝甜",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B084",
+      "brand": "悸动烧仙草",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B104",
+      "brand": "棒约翰",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B126",
+      "brand": "爸爸糖",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B136",
+      "brand": "盛香亭",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B142",
+      "brand": "老街称盘麻辣烫",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B151",
+      "brand": "莱得快",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B156",
+      "brand": "虾吃虾涮",
+      "present": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B158",
+      "brand": "蛙小侠",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B163",
+      "brand": "袁记串串香",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B164",
+      "brand": "袁记云饺",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B165",
+      "brand": "谭鸭血老火锅",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B168",
+      "brand": "迷你椰",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B174",
+      "brand": "阿甘锅盔",
+      "present": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "111"
+    },
+    {
+      "brand_id": "R002B183",
+      "brand": "鲜目录·中国寿司",
+      "present": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B186",
+      "brand": "黑色经典",
+      "present": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "state": "DROPPED_AFTER_2024",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B001",
+      "brand": "%百分茶",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B002",
+      "brand": "1973继光香香鸡",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B004",
+      "brand": "700cc",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B007",
+      "brand": "ARTEASG",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B011",
+      "brand": "MY.girl蜜菓",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B012",
+      "brand": "N多寿司",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B013",
+      "brand": "RB巡茶",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B014",
+      "brand": "TANING手挞柠檬茶",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B015",
+      "brand": "一只酸奶牛",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B019",
+      "brand": "三顾冒菜",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B026",
+      "brand": "五爷拌面",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B027",
+      "brand": "五芳斋",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B030",
+      "brand": "佐敦道",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B032",
+      "brand": "兵立王",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B036",
+      "brand": "冰雪时光",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B039",
+      "brand": "加减茶饮",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B045",
+      "brand": "吾饮良品",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B048",
+      "brand": "和番",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B052",
+      "brand": "外婆屯卤肉饭",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B054",
+      "brand": "大渝火锅",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B055",
+      "brand": "大鼓米线",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B060",
+      "brand": "子固路拌粉",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B062",
+      "brand": "安德鲁森",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B074",
+      "brand": "廖记棒棒鸡",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B081",
+      "brand": "快乐柠檬happylemon",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B082",
+      "brand": "快乐爱斯米牛排自助",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B086",
+      "brand": "挪瓦咖啡NOWWA",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B088",
+      "brand": "新时沏",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B089",
+      "brand": "新石器烤肉",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B092",
+      "brand": "本宫的茶",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B097",
+      "brand": "来点烤肉",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B099",
+      "brand": "柚见鲜茶",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B102",
+      "brand": "桂桂茶",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B103",
+      "brand": "桂源铺",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B105",
+      "brand": "椒爱水煮鱼川菜",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B111",
+      "brand": "江川右·一家有态度的粥店",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B117",
+      "brand": "淳百味",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B127",
+      "brand": "牛约堡",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B128",
+      "brand": "牦牛道米线",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B131",
+      "brand": "玛格利塔",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B134",
+      "brand": "百基拉",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B144",
+      "brand": "胖哥俩肉蟹煲",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B154",
+      "brand": "蔡林记热干面",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B166",
+      "brand": "赛百味",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B172",
+      "brand": "钢管厂五区",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B175",
+      "brand": "阿生哥螺蛳粉",
+      "present": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B176",
+      "brand": "阿香米线",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B179",
+      "brand": "面包新语",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    },
+    {
+      "brand_id": "R002B180",
+      "brand": "香他她",
+      "present": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "1"
+    },
+    {
+      "brand_id": "R002B184",
+      "brand": "鲜芋仙",
+      "present": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "state": "EARLY_DROPOUT",
+      "pattern": "11"
+    }
+  ],
+  "years": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "state_order": [
+    "PERSISTENT_CORE",
+    "NEW_2025_ENTRANT",
+    "REENTRY_OR_GAPPED_ACTIVE",
+    "ACTIVE_RECENT",
+    "DROPPED_AFTER_2024",
+    "EARLY_DROPOUT"
+  ],
+  "state_labels": {
+    "PERSISTENT_CORE": "Persistent core",
+    "NEW_2025_ENTRANT": "New 2025 entrant",
+    "REENTRY_OR_GAPPED_ACTIVE": "Reentry / gapped active",
+    "ACTIVE_RECENT": "Active recent",
+    "DROPPED_AFTER_2024": "Dropped after 2024",
+    "EARLY_DROPOUT": "Early dropout"
+  }
+}

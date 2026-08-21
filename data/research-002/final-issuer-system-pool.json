@@ -1,0 +1,507 @@
+{
+  "version": "1.1",
+  "date": "2026-08-22",
+  "metric_definition": {
+    "mmr": "(openings + closures) / ((begin_stock + end_stock) / 2)",
+    "net_growth": "(openings - closures) / begin_stock",
+    "closure_share": "closures / (openings + closures)"
+  },
+  "conservative_core": {
+    "rule": "final issuer; full year; top-level total-network comparable scope; explicit physical flows; no acquisition break; no parent-child double counting",
+    "summary": {
+      "observations": 5,
+      "systems": 4,
+      "gross_flow": 19248,
+      "combined_average_stock": 76413.0,
+      "mmr": 0.25189431117741745,
+      "net_change": 12188,
+      "combined_begin_stock": 70319,
+      "net_growth": 0.17332442156458425,
+      "closures": 3530,
+      "closure_share": 0.18339567747298421
+    },
+    "observations": [
+      {
+        "system": "MIXUE Group",
+        "year": 2024,
+        "begin_stock": 37516,
+        "openings": 10555,
+        "closures": 1609,
+        "end_stock": 46462,
+        "avg_stock": 41989.0,
+        "gross_flow": 12164,
+        "net_change": 8946,
+        "mmr": 0.2896949200981209,
+        "net_growth": 0.23845825781000107,
+        "closure_share": 0.1322755672476159,
+        "scope": "reported network",
+        "source": "MIXUE Group, Annual Report 2025",
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0423/2026042301901.pdf"
+      },
+      {
+        "system": "Jiumaojiu",
+        "year": 2025,
+        "begin_stock": 807,
+        "openings": 26,
+        "closures": 189,
+        "end_stock": 644,
+        "avg_stock": 725.5,
+        "gross_flow": 215,
+        "net_change": -163,
+        "mmr": 0.2963473466574776,
+        "net_growth": -0.20198265179677818,
+        "closure_share": 0.8790697674418605,
+        "scope": "total restaurants",
+        "source": "Jiumaojiu International Holdings Limited, Annual Report 2025",
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0429/2026042906101_c.pdf"
+      },
+      {
+        "system": "Xiabuxiabu Group",
+        "year": 2025,
+        "begin_stock": 957,
+        "openings": 57,
+        "closures": 109,
+        "end_stock": 905,
+        "avg_stock": 931.0,
+        "gross_flow": 166,
+        "net_change": -52,
+        "mmr": 0.17830290010741137,
+        "net_growth": -0.054336468129571575,
+        "closure_share": 0.6566265060240963,
+        "scope": "total restaurants",
+        "source": "Xiabuxiabu Catering Management (China) Holdings Co., Ltd., Annual Report 2025",
+        "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0416/2026041601791_c.pdf"
+      },
+      {
+        "system": "Yum China",
+        "year": 2024,
+        "begin_stock": 14644,
+        "openings": 2503,
+        "closures": 752,
+        "end_stock": 16395,
+        "avg_stock": 15519.5,
+        "gross_flow": 3255,
+        "net_change": 1751,
+        "mmr": 0.20973613840652083,
+        "net_growth": 0.11957115542201584,
+        "closure_share": 0.23102918586789556,
+        "scope": "total restaurants",
+        "source": "Yum China Holdings, Inc., Fourth Quarter and Full Year 2024 Results",
+        "url": "https://www.sec.gov/Archives/edgar/data/1673358/000095017025014954/yumc-ex99_1.htm"
+      },
+      {
+        "system": "Yum China",
+        "year": 2025,
+        "begin_stock": 16395,
+        "openings": 2577,
+        "closures": 871,
+        "end_stock": 18101,
+        "avg_stock": 17248.0,
+        "gross_flow": 3448,
+        "net_change": 1706,
+        "mmr": 0.19990723562152132,
+        "net_growth": 0.10405611466910643,
+        "closure_share": 0.2526102088167053,
+        "scope": "total restaurants",
+        "source": "Yum China Holdings, Inc., Fourth Quarter and Full Year 2025 Results",
+        "url": "https://www.sec.gov/Archives/edgar/data/1673358/000119312526036625/yumc-ex99_1.htm"
+      }
+    ]
+  },
+  "expanded_final_issuer_pool": {
+    "rule": "conservative rule plus final-issuer near-total franchised networks where franchised scope >99% of contemporaneous total network",
+    "summary": {
+      "observations": 13,
+      "systems": 8,
+      "gross_flow": 55753,
+      "combined_average_stock": 161556.5,
+      "mmr": 0.34509908298335257,
+      "net_change": 36579,
+      "combined_begin_stock": 143267,
+      "net_growth": 0.25532048552702297,
+      "closures": 9587,
+      "closure_share": 0.17195487238354887
+    },
+    "observations": [
+      {
+        "system": "Guming",
+        "year": 2024,
+        "begin_stock": 9001,
+        "openings": 1587,
+        "closures": 674,
+        "end_stock": 9914,
+        "avg_stock": 9457.5,
+        "gross_flow": 2261,
+        "net_change": 913,
+        "mmr": 0.23906952154374836,
+        "net_growth": 0.10143317409176758,
+        "closure_share": 0.2980981866430783,
+        "scope": "reported network",
+        "source": "Guming Holdings Limited, Annual Report 2025",
+        "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0424/2026042401574.pdf"
+      },
+      {
+        "system": "Guming",
+        "year": 2025,
+        "begin_stock": 9914,
+        "openings": 4292,
+        "closures": 652,
+        "end_stock": 13554,
+        "avg_stock": 11734.0,
+        "gross_flow": 4944,
+        "net_change": 3640,
+        "mmr": 0.42133969660814724,
+        "net_growth": 0.3671575549727658,
+        "closure_share": 0.13187702265372167,
+        "scope": "reported network",
+        "source": "Guming Holdings Limited, Annual Report 2025",
+        "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0424/2026042401574.pdf"
+      },
+      {
+        "system": "MIXUE Group",
+        "year": 2024,
+        "begin_stock": 37516,
+        "openings": 10555,
+        "closures": 1609,
+        "end_stock": 46462,
+        "avg_stock": 41989.0,
+        "gross_flow": 12164,
+        "net_change": 8946,
+        "mmr": 0.2896949200981209,
+        "net_growth": 0.23845825781000107,
+        "closure_share": 0.1322755672476159,
+        "scope": "reported network",
+        "source": "MIXUE Group, Annual Report 2025",
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0423/2026042301901.pdf"
+      },
+      {
+        "system": "ChaPanda",
+        "year": 2024,
+        "begin_stock": 7795,
+        "openings": 1477,
+        "closures": 890,
+        "end_stock": 8382,
+        "avg_stock": 8088.5,
+        "gross_flow": 2367,
+        "net_change": 587,
+        "mmr": 0.292637695493602,
+        "net_growth": 0.07530468248877485,
+        "closure_share": 0.3760033798056612,
+        "scope": "franchised stores; >99% of contemporaneous total network",
+        "source": "Sichuan Baicha Baidao Industrial Co., Ltd., Annual Report 2025",
+        "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0424/2026042402745.pdf"
+      },
+      {
+        "system": "ChaPanda",
+        "year": 2025,
+        "begin_stock": 8382,
+        "openings": 1159,
+        "closures": 933,
+        "end_stock": 8608,
+        "avg_stock": 8495.0,
+        "gross_flow": 2092,
+        "net_change": 226,
+        "mmr": 0.24626250735726898,
+        "net_growth": 0.026962538773562396,
+        "closure_share": 0.44598470363288717,
+        "scope": "franchised stores; >99% of contemporaneous total network",
+        "source": "Sichuan Baicha Baidao Industrial Co., Ltd., Annual Report 2025",
+        "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0424/2026042402745.pdf"
+      },
+      {
+        "system": "Auntea Jenny",
+        "year": 2024,
+        "begin_stock": 7756,
+        "openings": 2383,
+        "closures": 987,
+        "end_stock": 9152,
+        "avg_stock": 8454.0,
+        "gross_flow": 3370,
+        "net_change": 1396,
+        "mmr": 0.3986278684646321,
+        "net_growth": 0.17998968540484786,
+        "closure_share": 0.2928783382789317,
+        "scope": "all-brand franchised stores; >99% of contemporaneous total network",
+        "source": "Auntea Jenny (Shanghai) Industrial Co., Ltd., Annual Report 2025",
+        "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0428/2026042804495.pdf"
+      },
+      {
+        "system": "Auntea Jenny",
+        "year": 2025,
+        "begin_stock": 9152,
+        "openings": 3654,
+        "closures": 1383,
+        "end_stock": 11423,
+        "avg_stock": 10287.5,
+        "gross_flow": 5037,
+        "net_change": 2271,
+        "mmr": 0.4896233292831106,
+        "net_growth": 0.24814248251748253,
+        "closure_share": 0.2745681953543776,
+        "scope": "all-brand franchised stores; >99% of contemporaneous total network",
+        "source": "Auntea Jenny (Shanghai) Industrial Co., Ltd., Annual Report 2025",
+        "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0428/2026042804495.pdf"
+      },
+      {
+        "system": "Busy Ming Group",
+        "year": 2024,
+        "begin_stock": 6569,
+        "openings": 8083,
+        "closures": 273,
+        "end_stock": 14379,
+        "avg_stock": 10474.0,
+        "gross_flow": 8356,
+        "net_change": 7810,
+        "mmr": 0.7977849914072942,
+        "net_growth": 1.188917643476937,
+        "closure_share": 0.03267113451412159,
+        "scope": "franchised stores; 99.9% of contemporaneous total network",
+        "source": "Busy Ming Group Co., Ltd., Annual Report 2025",
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0429/2026042901204.pdf"
+      },
+      {
+        "system": "Busy Ming Group",
+        "year": 2025,
+        "begin_stock": 14379,
+        "openings": 7813,
+        "closures": 265,
+        "end_stock": 21927,
+        "avg_stock": 18153.0,
+        "gross_flow": 8078,
+        "net_change": 7548,
+        "mmr": 0.4449953175783617,
+        "net_growth": 0.5249321927811391,
+        "closure_share": 0.03280514978955187,
+        "scope": "franchised stores; 99.9% of contemporaneous total network",
+        "source": "Busy Ming Group Co., Ltd., Annual Report 2025",
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0429/2026042901204.pdf"
+      },
+      {
+        "system": "Jiumaojiu",
+        "year": 2025,
+        "begin_stock": 807,
+        "openings": 26,
+        "closures": 189,
+        "end_stock": 644,
+        "avg_stock": 725.5,
+        "gross_flow": 215,
+        "net_change": -163,
+        "mmr": 0.2963473466574776,
+        "net_growth": -0.20198265179677818,
+        "closure_share": 0.8790697674418605,
+        "scope": "total restaurants",
+        "source": "Jiumaojiu International Holdings Limited, Annual Report 2025",
+        "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0429/2026042906101_c.pdf"
+      },
+      {
+        "system": "Xiabuxiabu Group",
+        "year": 2025,
+        "begin_stock": 957,
+        "openings": 57,
+        "closures": 109,
+        "end_stock": 905,
+        "avg_stock": 931.0,
+        "gross_flow": 166,
+        "net_change": -52,
+        "mmr": 0.17830290010741137,
+        "net_growth": -0.054336468129571575,
+        "closure_share": 0.6566265060240963,
+        "scope": "total restaurants",
+        "source": "Xiabuxiabu Catering Management (China) Holdings Co., Ltd., Annual Report 2025",
+        "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0416/2026041601791_c.pdf"
+      },
+      {
+        "system": "Yum China",
+        "year": 2024,
+        "begin_stock": 14644,
+        "openings": 2503,
+        "closures": 752,
+        "end_stock": 16395,
+        "avg_stock": 15519.5,
+        "gross_flow": 3255,
+        "net_change": 1751,
+        "mmr": 0.20973613840652083,
+        "net_growth": 0.11957115542201584,
+        "closure_share": 0.23102918586789556,
+        "scope": "total restaurants",
+        "source": "Yum China Holdings, Inc., Fourth Quarter and Full Year 2024 Results",
+        "url": "https://www.sec.gov/Archives/edgar/data/1673358/000095017025014954/yumc-ex99_1.htm"
+      },
+      {
+        "system": "Yum China",
+        "year": 2025,
+        "begin_stock": 16395,
+        "openings": 2577,
+        "closures": 871,
+        "end_stock": 18101,
+        "avg_stock": 17248.0,
+        "gross_flow": 3448,
+        "net_change": 1706,
+        "mmr": 0.19990723562152132,
+        "net_growth": 0.10405611466910643,
+        "closure_share": 0.2526102088167053,
+        "scope": "total restaurants",
+        "source": "Yum China Holdings, Inc., Fourth Quarter and Full Year 2025 Results",
+        "url": "https://www.sec.gov/Archives/edgar/data/1673358/000119312526036625/yumc-ex99_1.htm"
+      }
+    ]
+  },
+  "quadrant_universe": {
+    "n": 20,
+    "median_mmr": 0.2911663077958615,
+    "fixed_30pct_agreement_n": 18,
+    "fixed_30pct_agreement_rate": 0.9,
+    "counts": {
+      "high_expansion": 7,
+      "low_expansion": 9,
+      "high_contraction": 3,
+      "low_contraction": 1
+    },
+    "observations": [
+      {
+        "system": "KFC China",
+        "year": 2025,
+        "mmr": 0.1701765063907486,
+        "net_growth": 0.1158138736263736,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Xiabuxiabu Group",
+        "year": 2025,
+        "mmr": 0.1783029001074113,
+        "net_growth": -0.0543364681295715,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "KFC China",
+        "year": 2024,
+        "mmr": 0.1879329201604083,
+        "net_growth": 0.1313131313131313,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Yum China",
+        "year": 2025,
+        "mmr": 0.1999072356215213,
+        "net_growth": 0.1040561146691064,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Yum China",
+        "year": 2024,
+        "mmr": 0.2097361384065208,
+        "net_growth": 0.1195711554220158,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Pizza Hut China",
+        "year": 2024,
+        "mmr": 0.2160318362706083,
+        "net_growth": 0.1243961352657004,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Pizza Hut China",
+        "year": 2025,
+        "mmr": 0.2194627470856563,
+        "net_growth": 0.1192266380236305,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Guming",
+        "year": 2024,
+        "mmr": 0.2390695215437483,
+        "net_growth": 0.1014331740917675,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "ChaPanda",
+        "year": 2025,
+        "mmr": 0.2462625073572689,
+        "net_growth": 0.0269625387735623,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "MIXUE Group",
+        "year": 2024,
+        "mmr": 0.2896949200981209,
+        "net_growth": 0.238458257810001,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "ChaPanda",
+        "year": 2024,
+        "mmr": 0.292637695493602,
+        "net_growth": 0.0753046824887748,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Jiumaojiu",
+        "year": 2025,
+        "mmr": 0.2963473466574776,
+        "net_growth": -0.2019826517967781,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Auntea Jenny",
+        "year": 2024,
+        "mmr": 0.3986280338309275,
+        "net_growth": 0.1799896854058793,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Yum China Other Brands",
+        "year": 2024,
+        "mmr": 0.4205925206410879,
+        "net_growth": -0.0125482625482625,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Guming",
+        "year": 2025,
+        "mmr": 0.4213396966081472,
+        "net_growth": 0.3671575549727658,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Busy Ming Group",
+        "year": 2025,
+        "mmr": 0.444995316479367,
+        "net_growth": 0.5249321927811391,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Auntea Jenny",
+        "year": 2025,
+        "mmr": 0.4896233292831106,
+        "net_growth": 0.2481424825174825,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Yum China Other Brands",
+        "year": 2025,
+        "mmr": 0.4951505870342011,
+        "net_growth": -0.0850439882697947,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Busy Ming Group",
+        "year": 2024,
+        "mmr": 0.7977849914072942,
+        "net_growth": 1.188917643476937,
+        "source_quality_note": "final issuer"
+      },
+      {
+        "system": "Busy Ming Group",
+        "year": 2022,
+        "mmr": 0.810731348768835,
+        "net_growth": 1.3061968408262454,
+        "source_quality_note": "issuer listing document; broad descriptive universe only"
+      }
+    ]
+  },
+  "retired_result": {
+    "old_extended_mmr": 0.325301,
+    "reason": "superseded by final Busy Ming annual-report evidence and expanded final-issuer scope audit; do not use in final manuscript or website"
+  }
+}

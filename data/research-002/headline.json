@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "title": "The Fast Metabolism Economy",
+  "conservative_core": {
+    "mmr_pct": 25.2,
+    "net_growth_pct": 17.3,
+    "closure_share_pct": 18.3,
+    "observations": 5,
+    "systems": 4
+  },
+  "expanded_final_issuer": {
+    "mmr_pct": 34.5,
+    "net_growth_pct": 25.5,
+    "closure_share_pct": 17.2,
+    "observations": 13,
+    "systems": 8
+  },
+  "display_note": "Disclosure-rich chain systems; not a China-wide restaurant turnover rate."
+}

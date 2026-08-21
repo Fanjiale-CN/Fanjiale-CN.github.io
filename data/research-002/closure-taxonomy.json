@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "question": "Does this signal establish that the physical outlet ceased operating at the location?",
+  "groups": [
+    {
+      "group": "Administrative records",
+      "events": [
+        {
+          "event": "License expiry",
+          "physical_closure": "not established"
+        },
+        {
+          "event": "License cancellation",
+          "physical_closure": "not automatically established"
+        },
+        {
+          "event": "Legal-entity cancellation",
+          "physical_closure": "not automatically established"
+        },
+        {
+          "event": "Legal-entity revocation",
+          "physical_closure": "not automatically established"
+        }
+      ]
+    },
+    {
+      "group": "Relationship and governance",
+      "events": [
+        {
+          "event": "Franchisee exit",
+          "physical_closure": "not established"
+        },
+        {
+          "event": "Store transfer",
+          "physical_closure": "usually no; operator may change while store continues"
+        }
+      ]
+    },
+    {
+      "group": "Spatial and visibility",
+      "events": [
+        {
+          "event": "Relocation / address change",
+          "physical_closure": "old location may cease, business may continue elsewhere"
+        },
+        {
+          "event": "Ranking disappearance",
+          "physical_closure": "not established"
+        }
+      ]
+    },
+    {
+      "group": "Physical outcome",
+      "events": [
+        {
+          "event": "Verified physical closure",
+          "physical_closure": "yes"
+        }
+      ]
+    }
+  ]
+}

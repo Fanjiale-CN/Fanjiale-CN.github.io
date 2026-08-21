@@ -1,0 +1,155 @@
+{
+  "version": "1.0",
+  "n": 20,
+  "median_mmr_pct": 29.1166,
+  "zero_net_growth_pct": 0,
+  "fixed_30pct_agreement_rate": 0.9,
+  "counts": {
+    "high_expansion": 7,
+    "low_expansion": 9,
+    "high_contraction": 3,
+    "low_contraction": 1
+  },
+  "observations": [
+    {
+      "system": "KFC China",
+      "year": 2025,
+      "mmr_pct": 17.0177,
+      "net_growth_pct": 11.5814,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Xiabuxiabu Group",
+      "year": 2025,
+      "mmr_pct": 17.8303,
+      "net_growth_pct": -5.4336,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "KFC China",
+      "year": 2024,
+      "mmr_pct": 18.7933,
+      "net_growth_pct": 13.1313,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Yum China",
+      "year": 2025,
+      "mmr_pct": 19.9907,
+      "net_growth_pct": 10.4056,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Yum China",
+      "year": 2024,
+      "mmr_pct": 20.9736,
+      "net_growth_pct": 11.9571,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Pizza Hut China",
+      "year": 2024,
+      "mmr_pct": 21.6032,
+      "net_growth_pct": 12.4396,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Pizza Hut China",
+      "year": 2025,
+      "mmr_pct": 21.9463,
+      "net_growth_pct": 11.9227,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Guming",
+      "year": 2024,
+      "mmr_pct": 23.907,
+      "net_growth_pct": 10.1433,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "ChaPanda",
+      "year": 2025,
+      "mmr_pct": 24.6263,
+      "net_growth_pct": 2.6963,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "MIXUE Group",
+      "year": 2024,
+      "mmr_pct": 28.9695,
+      "net_growth_pct": 23.8458,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "ChaPanda",
+      "year": 2024,
+      "mmr_pct": 29.2638,
+      "net_growth_pct": 7.5305,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Jiumaojiu",
+      "year": 2025,
+      "mmr_pct": 29.6347,
+      "net_growth_pct": -20.1983,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Auntea Jenny",
+      "year": 2024,
+      "mmr_pct": 39.8628,
+      "net_growth_pct": 17.999,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Yum China Other Brands",
+      "year": 2024,
+      "mmr_pct": 42.0593,
+      "net_growth_pct": -1.2548,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Guming",
+      "year": 2025,
+      "mmr_pct": 42.134,
+      "net_growth_pct": 36.7158,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Busy Ming Group",
+      "year": 2025,
+      "mmr_pct": 44.4995,
+      "net_growth_pct": 52.4932,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Auntea Jenny",
+      "year": 2025,
+      "mmr_pct": 48.9623,
+      "net_growth_pct": 24.8142,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Yum China Other Brands",
+      "year": 2025,
+      "mmr_pct": 49.5151,
+      "net_growth_pct": -8.5044,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Busy Ming Group",
+      "year": 2024,
+      "mmr_pct": 79.7785,
+      "net_growth_pct": 118.8918,
+      "source_quality_note": "final issuer"
+    },
+    {
+      "system": "Busy Ming Group",
+      "year": 2022,
+      "mmr_pct": 81.0731,
+      "net_growth_pct": 130.6197,
+      "source_quality_note": "issuer listing document; broad descriptive universe only"
+    }
+  ]
+}

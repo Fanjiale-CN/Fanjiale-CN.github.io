@@ -1,0 +1,230 @@
+{
+  "version": "1.0",
+  "n": 22,
+  "pearson_r": 0.069,
+  "spearman_rho": 0.335,
+  "partial_r_controlling_log_initial_size": -0.058,
+  "rows": [
+    {
+      "brand_zh": "蜜雪冰城",
+      "brand_en": "MIXUE",
+      "franchise_intensity_pct": 99.923,
+      "initial_stores": 32291,
+      "stores_2025": 46479,
+      "growth_pct": 43.938,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "瑞幸咖啡",
+      "brand_en": "Luckin Coffee",
+      "franchise_intensity_pct": 34.589,
+      "initial_stores": 16248,
+      "stores_2025": 22340,
+      "growth_pct": 37.494,
+      "group": "MIXED_OR_LOW",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "古茗",
+      "brand_en": "Guming",
+      "franchise_intensity_pct": 99.889,
+      "initial_stores": 9010,
+      "stores_2025": 9823,
+      "growth_pct": 9.023,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "沪上阿姨",
+      "brand_en": "Auntea Jenny",
+      "franchise_intensity_pct": 99.363,
+      "initial_stores": 8001,
+      "stores_2025": 8537,
+      "growth_pct": 6.699,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "茶百道",
+      "brand_en": "ChaPanda",
+      "franchise_intensity_pct": 98.997,
+      "initial_stores": 7874,
+      "stores_2025": 7922,
+      "growth_pct": 0.61,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "益禾堂",
+      "brand_en": "Yihetang",
+      "franchise_intensity_pct": 99.715,
+      "initial_stores": 7020,
+      "stores_2025": 8705,
+      "growth_pct": 24.003,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "杨国福麻辣烫",
+      "brand_en": "Yang Guo Fu",
+      "franchise_intensity_pct": 99.955,
+      "initial_stores": 6703,
+      "stores_2025": 6340,
+      "growth_pct": -5.415,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "甜啦啦",
+      "brand_en": "Tianlala",
+      "franchise_intensity_pct": 98.784,
+      "initial_stores": 6580,
+      "stores_2025": 8050,
+      "growth_pct": 22.34,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "紫燕百味鸡",
+      "brand_en": "Ziyan Foods",
+      "franchise_intensity_pct": 97.552,
+      "initial_stores": 6331,
+      "stores_2025": 6020,
+      "growth_pct": -4.912,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "塔斯汀",
+      "brand_en": "Tastien",
+      "franchise_intensity_pct": 99.933,
+      "initial_stores": 6001,
+      "stores_2025": 8662,
+      "growth_pct": 44.343,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "张亮麻辣烫",
+      "brand_en": "Zhang Liang Malatang",
+      "franchise_intensity_pct": 98.305,
+      "initial_stores": 5900,
+      "stores_2025": 6295,
+      "growth_pct": 6.695,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "巴比",
+      "brand_en": "Babi",
+      "franchise_intensity_pct": 99.404,
+      "initial_stores": 5030,
+      "stores_2025": 5108,
+      "growth_pct": 1.551,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "吉祥馄饨",
+      "brand_en": "Jixiang Wonton",
+      "franchise_intensity_pct": 96.041,
+      "initial_stores": 3031,
+      "stores_2025": 3290,
+      "growth_pct": 8.545,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "幸运咖",
+      "brand_en": "Lucky Cup",
+      "franchise_intensity_pct": 99.305,
+      "initial_stores": 3021,
+      "stores_2025": 4510,
+      "growth_pct": 49.288,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "尊宝比萨",
+      "brand_en": "Zunbao Pizza",
+      "franchise_intensity_pct": 99.667,
+      "initial_stores": 3002,
+      "stores_2025": 3000,
+      "growth_pct": -0.067,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "鱼你在一起",
+      "brand_en": "Yu Ni Zai Yi Qi",
+      "franchise_intensity_pct": 99.826,
+      "initial_stores": 2304,
+      "stores_2025": 2506,
+      "growth_pct": 8.767,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "一鸣真鲜奶吧",
+      "brand_en": "Yiming",
+      "franchise_intensity_pct": 68.72,
+      "initial_stores": 2273,
+      "stores_2025": 1888,
+      "growth_pct": -16.938,
+      "group": "MIXED_OR_LOW",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "奈雪的茶",
+      "brand_en": "Nayuki",
+      "franchise_intensity_pct": 8.376,
+      "initial_stores": 1743,
+      "stores_2025": 1795,
+      "growth_pct": 2.983,
+      "group": "MIXED_OR_LOW",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "蒙自源",
+      "brand_en": "Mengziyuan",
+      "franchise_intensity_pct": 98.665,
+      "initial_stores": 1723,
+      "stores_2025": 2020,
+      "growth_pct": 17.237,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "茉酸奶",
+      "brand_en": "Mo Yogurt",
+      "franchise_intensity_pct": 98.765,
+      "initial_stores": 1701,
+      "stores_2025": 982,
+      "growth_pct": -42.269,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "汉堡王",
+      "brand_en": "Burger King",
+      "franchise_intensity_pct": 21.271,
+      "initial_stores": 1589,
+      "stores_2025": 1489,
+      "growth_pct": -6.293,
+      "group": "MIXED_OR_LOW",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    },
+    {
+      "brand_zh": "如意馄饨",
+      "brand_en": "Ruyi Wonton",
+      "franchise_intensity_pct": 98.773,
+      "initial_stores": 1549,
+      "stores_2025": 1510,
+      "growth_pct": -2.518,
+      "group": "HIGH_FRANCHISE",
+      "source_quality": "SECONDARY_TRANSCRIPTION_OF_CCFA_TOP280"
+    }
+  ],
+  "note": "Exploratory matched sample; franchise intensity source is a secondary transcription of CCFA TOP280."
+}
