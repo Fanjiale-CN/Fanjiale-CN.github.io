@@ -1,39 +1,44 @@
-# Design QA — `/data/`
+# Design QA — Research tablet reading wave
 
 ## Comparison target
 
-- Source visual truth: current production page, `https://www.galok.me/data/`, plus the selected Tufte / Galok warm-paper design brief in `data/research/plan/plan.md`.
-- Implementation: local `data/index.html`, `data/data-hub.css`, `data/data-hub.js`.
-- Intended viewports: desktop 1440 × 1000 and mobile 390 × 844, device scale factor 1.
-- Intended states: cover, article body, WDI indicator selection, sticky chapter index, open source drawer, reduced motion.
+- Source issue: `/workspace/scratch/aa2e56b19934/upload/IMG_4259.png`.
+- Side-by-side source and implementation evidence: `qa-research-wave-comparison.jpg`.
+- Rendered viewport: 1363 × 936 CSS pixels, medium/tablet layout.
+- Tested state: Research 002 body at an active section, with the right-edge wave visible.
 
-## Evidence status
+## Visual comparison
 
-- Source capture was inspected before implementation during this task.
-- Browser-rendered local implementation screenshot: unavailable. The managed cloud browser rejected local-loopback URLs; `host.docker.internal` returned a gateway error. The local Playwright runtime had no bundled Chromium, and downloading a browser binary was blocked by the environment network policy.
-- Full-view combined comparison: not possible without a rendered implementation capture.
-- Focused region comparison: not possible for the same reason.
+- The fixed horizontal chapter strip in the source is removed from the reading column.
+- The replacement uses the existing Galok Reading Wave visual language: quiet hairlines, a fixed centre playhead, restrained chapter accents and a paper-coloured inspector.
+- The article typography, paper colour, section spacing, figures and copy are unchanged.
+- The wave occupies the safe right edge without creating horizontal overflow or covering the reading column.
+- Research 001 and Research 002 use the same shared component and breakpoint rules.
 
-## Code-level checks completed
+## Interaction checks
 
-- Fonts / typography: body prose is Georgia at 1.04–1.16rem with 1.74–1.78 line height and a 69ch maximum; display sizes scale with `clamp()`.
-- Spacing / rhythm: wide 1400px shell, 720px reading column, figure widths capped at 1120px, and mobile single-column rules at 640px.
-- Colours / tokens: warm paper, ink, muted text, hairline rules and four restrained data accents are centralised as `--data-*` tokens.
-- Images: no external imagery by design; data visuals are semantic HTML or the existing data-driven SVG explorer.
-- Copy: English-only editorial copy, ten numbered chapters, three framing questions, a 30-second summary, local source labels and a 20-item source register.
-- Interactions: indicator selection, keyboard year inspection, CSV downloads, chapter reading state, native source drawer and reduced-motion branch.
-- Static validation: `node --check data/data-hub.js` and `git diff --check` pass; IDs are unique and in-page navigation targets resolve.
+- Scroll tracking: active chapter and reading percentage update with document scroll.
+- Touch/pen scrub: pointer capture keeps the wave responsive while dragging.
+- Direct jump: tapping the wave moves to the corresponding document position.
+- Inspector: the chapter label follows the inspected position and dismisses after 1.1 seconds on touch/pen.
+- Position measurement: chapter positions use document-relative bounding rectangles so long, dynamically laid-out papers do not drift.
+- Accessibility: the interactive track exposes scrollbar semantics, current percentage, chapter text and keyboard controls.
+- Responsive fallback: wide desktop retains the left contents rail; phone retains the compact native contents disclosure.
 
-## Primary interaction test status
+## Validation
 
-Code paths were inspected, but a live browser interaction pass and console-error check could not be completed before deployment because the local implementation could not be opened in the managed browser.
+- Both generated research pages contain the shared wave stylesheet, script and chapter navigation.
+- No horizontal overflow was observed in the rendered tablet state.
+- No page JavaScript errors were observed; the only browser console message came from the browser extension environment.
+- Static validators, JavaScript syntax checks and `git diff --check` pass.
 
-## Findings
+## Findings resolved
 
-- [P1] Rendered evidence missing.
-  - Impact: Typography wrapping, mobile cover height, sticky navigation, horizontal overflow and chart state cannot be accepted from code alone.
-  - Fix: deploy to GitHub Pages, capture production desktop/mobile states, check console logs, then compare the production result against the original production visual truth and the brief.
+- [P1] Tablet contents navigation was fixed at the page top and disappeared after scrolling.
+- [P1] The horizontal list exceeded the available width and made later chapters hard to reach.
+- [P2] Long-paper chapter positions could drift when measured through offset-parent chains.
+- [P2] Touch inspection could leave a label visible indefinitely.
 
 ## Final result
 
-blocked
+passed

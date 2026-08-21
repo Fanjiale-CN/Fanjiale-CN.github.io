@@ -171,7 +171,8 @@ const page = `<!DOCTYPE html>
   <title>Who Captures Growth? — GALOK RESEARCH 001</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
-  <link rel="stylesheet" href="/research/research.css?v=20260822d">
+  <link rel="stylesheet" href="/galok-wave.css?v=20260822-research-ipad">
+  <link rel="stylesheet" href="/research/research.css?v=20260822e">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Who Captures Growth?","alternativeHeadline":"Capital Allocation, Labor-Market Power, and Household Demand in China's K-Shaped Economy","description":"A full-length independent research paper on how China's technology- and capital-intensive growth passes through into employment, labor income, job security and household demand.","image":"https://www.galok.me/assets/be-a-viewer/xian/night-market.jpeg","datePublished":"2026-08-19","dateModified":"2026-08-19","inLanguage":"en","articleSection":"Independent Research","author":{"@type":"Organization","name":"Galok"},"publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"},"mainEntityOfPage":"https://www.galok.me/research/who-captures-growth/","keywords":["China economy","industrial automation","labor markets","household consumption","industrial policy"]}</script>
   <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$$","$$"],["\\\\[","\\\\]"]]},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -200,6 +201,7 @@ const page = `<!DOCTYPE html>
     </header>
 
     <details class="research-mobile-toc"><summary>Contents <span>14 sections</span></summary><nav aria-label="Paper contents">${toc}</nav></details>
+    <nav class="research-wave-toc gwn gwn--research gwn--tablet" data-gwn-start="#abstract" aria-label="Interactive paper contents"><a href="#abstract">00 Abstract</a>${toc}</nav>
     <div class="research-paper-layout">
       <aside class="research-paper-toc"><p>CONTENTS</p><nav aria-label="Paper contents">${toc}</nav><a class="research-audit-link" href="#data-and-reproducibility">Statistical audit reflected in evidence labels ↓</a></aside>
       <article class="research-manuscript" data-research-manuscript>
@@ -209,7 +211,8 @@ ${articleWithSections}
   </main>
   <footer class="footer"><div class="footer-inner"><span>Galok / Research 001</span><a href="/research/">All research</a><a href="/">Home</a></div></footer>
   <script src="/script.js?v=ia-20260820-mobile"></script>
-  <script src="/research/research.js?v=20260820"></script>
+  <script src="/galok-wave.js?v=20260822-research-ipad"></script>
+  <script src="/research/research.js?v=20260822e"></script>
 </body>
 </html>
 `;

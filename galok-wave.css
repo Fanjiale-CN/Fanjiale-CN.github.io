@@ -53,6 +53,18 @@
   --gwn-muted: var(--gwn-city-muted, #77736b);
 }
 
+.gwn--research {
+  --gwn-accent: var(--research-red, #b23a32);
+  --gwn-ink: var(--research-ink, #102124);
+  --gwn-paper: var(--research-paper, #f2efe5);
+  --gwn-muted: var(--research-muted, #737a78);
+}
+
+/* Research papers opt into the wave only at tablet-sized viewports. */
+.gwn--tablet {
+  display: none !important;
+}
+
 .gwn.is-visible {
   transform: translate3d(0, -50%, 0) !important;
   opacity: 1;
@@ -192,6 +204,33 @@
 @media (max-width: 900px), (hover: none), (pointer: coarse) {
   .gwn {
     display: none !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1366px) {
+  .gwn.gwn--tablet {
+    right: max(12px, env(safe-area-inset-right)) !important;
+    display: block !important;
+    width: 52px !important;
+    max-width: 52px !important;
+    height: min(66vh, 620px) !important;
+  }
+
+  .gwn.gwn--tablet .gwn-track {
+    padding-block: 4px;
+  }
+
+  .gwn.gwn--tablet .gwn-track::after {
+    inset: -14px -8px -14px -12px;
+  }
+
+  .gwn.gwn--tablet .gwn-tick {
+    width: 36px;
+  }
+
+  .gwn.gwn--tablet .gwn-label {
+    right: 60px;
+    width: min(240px, calc(100vw - 112px));
   }
 }
 

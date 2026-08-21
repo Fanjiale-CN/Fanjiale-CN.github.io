@@ -201,7 +201,8 @@ const page = `<!DOCTYPE html>
   <title>The Fast Metabolism Economy — GALOK RESEARCH 002</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
-  <link rel="stylesheet" href="/research/research.css?v=20260822d">
+  <link rel="stylesheet" href="/galok-wave.css?v=20260822-research-ipad">
+  <link rel="stylesheet" href="/research/research.css?v=20260822e">
   <link rel="stylesheet" href="/research/fast-metabolism-economy/charts.css?v=20260822d">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Fast Metabolism Economy","alternativeHeadline":"Franchising, Network Expansion, and Store Turnover in China's Consumer Economy","description":"Independent empirical research on the gross store flows hidden beneath chain expansion in China's consumer economy.","image":"https://www.galok.me/assets/research/research-002-cover.jpg","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","articleSection":"Independent Research","author":{"@type":"Organization","name":"Galok"},"publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"},"mainEntityOfPage":"https://www.galok.me/research/fast-metabolism-economy/","keywords":["China consumer economy","franchising","chain foodservice","store turnover","gross flows"]}</script>
   <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$$","$$"],["\\\\[","\\\\]"]]},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script>
@@ -232,6 +233,7 @@ const page = `<!DOCTYPE html>
     </header>
 
     <details class="research-mobile-toc"><summary>Contents <span>10 sections</span></summary><nav aria-label="Paper contents">${toc}</nav></details>
+    <nav class="research-wave-toc gwn gwn--research gwn--tablet" data-gwn-start="#abstract" aria-label="Interactive paper contents"><a href="#abstract">00 Abstract</a>${toc}</nav>
     <div class="research-paper-layout research-002-layout">
       <aside class="research-paper-toc"><p>CONTENTS</p><nav aria-label="Paper contents">${toc}</nav><a class="research-audit-link" href="#data-and-code-availability">Data, method and replication ↓</a></aside>
       <article class="research-manuscript" data-research-manuscript>
@@ -243,7 +245,8 @@ ${articleWithSections}
   <script src="/script.js?v=ia-20260820-mobile"></script>
   <script src="/data/research-002/research-002-data.js?v=20260821"></script>
   <script src="/research/fast-metabolism-economy/charts.js?v=20260822d"></script>
-  <script src="/research/research.js?v=20260820"></script>
+  <script src="/galok-wave.js?v=20260822-research-ipad"></script>
+  <script src="/research/research.js?v=20260822e"></script>
 </body>
 </html>
 `;

@@ -88,12 +88,19 @@
     var hoverIndex = -1;
     var dragging = false;
     var frame = 0;
+    var inspectTimer = 0;
+
+    function documentTop(element) {
+      return window.scrollY + element.getBoundingClientRect().top;
+    }
 
     function measure() {
-      storyStart = chapters[0].target.offsetTop;
+      var startSelector = nav.getAttribute("data-gwn-start");
+      var startTarget = startSelector ? query(startSelector) : null;
+      storyStart = documentTop(startTarget instanceof HTMLElement ? startTarget : chapters[0].target);
       storyEnd = Math.max(storyStart + 1, document.documentElement.scrollHeight - window.innerHeight);
       chapterRatios = chapters.map(function (chapter) {
-        return clamp((chapter.target.offsetTop - storyStart) / (storyEnd - storyStart));
+        return clamp((documentTop(chapter.target) - storyStart) / (storyEnd - storyStart));
       });
     }
 
@@ -170,6 +177,7 @@
     }
 
     function inspect(event) {
+      window.clearTimeout(inspectTimer);
       var ratio = ratioFromPointer(event);
       hoverIndex = ratio * (TICK_COUNT - 1);
       nav.classList.add("is-inspecting");
@@ -210,6 +218,13 @@
       nav.classList.remove("is-scrubbing");
       if (event.pointerId !== undefined && track.hasPointerCapture(event.pointerId)) {
         track.releasePointerCapture(event.pointerId);
+      }
+      if (event.pointerType === "touch" || event.pointerType === "pen") {
+        inspectTimer = window.setTimeout(function () {
+          hoverIndex = -1;
+          nav.classList.remove("is-inspecting");
+          renderWave(-1);
+        }, 1100);
       }
     }
 
