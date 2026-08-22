@@ -6,11 +6,20 @@
 - Browser-rendered implementation: `qa-cities-archive-implementation.jpg`, captured from the deployed Xi’an state at `https://www.galok.me/cities/`.
 - Combined comparison evidence: `qa-cities-archive-comparison.jpg` (reference on the left; deployed implementation on the right).
 - Homepage browser evidence: `qa-home-train-implementation.jpg`, captured from the deployed night-train hero at `https://www.galok.me/`.
-- Implementation viewport: 1348 × 926 CSS pixels at device-pixel-ratio 1.
+- Source crop: 674 × 650 pixels. Implementation capture: 1348 × 926 pixels from a 1348 × 926 CSS-pixel viewport at device-pixel-ratio 1.
+- Density normalization: the source crop remained 674 × 650; the browser capture was proportionally reduced and centred on a 674 × 650 canvas before both were joined into one 1348 × 650 comparison image.
+- State: Xi’an selected in the live archive browser, after its crossfade settled and before the next automatic advance.
+- Full-view evidence: `qa-cities-archive-comparison.jpg`.
+- A separate focused crop was not required: the comparison already keeps the title, coordinates, poster, action labels and all four edition controls legible at 1:1 review size.
 
 ## Findings
 
 - No actionable P0/P1/P2 difference remains in the tested homepage hero or Cities archive browser.
+- Fonts and typography: the existing Galok sans and editorial serif stacks, weights and uppercase tracking are unchanged; the oversized city name remains the dominant entry point while metadata stays optically lighter.
+- Spacing and layout rhythm: the dark exhibit uses the existing wide grid and hairline boundaries, with one clear visual subject and enough negative space around title, coordinates and actions.
+- Colors and visual tokens: the existing warm paper, near-black, off-white and signal-red system is preserved; no gradient, rounded card language or new palette was introduced.
+- Image quality and asset fidelity: the selected train source was re-encoded at useful desktop and portrait-mobile dimensions, and every city poster uses `object-fit: contain` so its original ratio remains visible.
+- Copy and content: the new archive labels use existing city and project terminology; city names, coordinates, edition names and postcard destinations match their actual routes.
 - The homepage now uses the selected snow-night train as the single moving-image subject. The existing Galok type, rules, palette and square-corner editorial controls remain intact.
 - The Cities archive keeps the reference’s dark exhibit field and natural-ratio postcard artwork, but replaces the duplicated static card area with one readable four-edition index.
 - City name, issue number, coordinates, editorial note and destination links form one hierarchy; photography is contained rather than cropped.
