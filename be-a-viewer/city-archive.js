@@ -140,13 +140,18 @@
     }
 
     function stopCycle() {
-      if (cycleTimer !== null) window.clearInterval(cycleTimer);
+      if (cycleTimer !== null) window.clearTimeout(cycleTimer);
       cycleTimer = null;
     }
 
     function startCycle() {
-      if (reduceMotion || !inView || document.hidden || cycleTimer !== null) return;
-      cycleTimer = window.setInterval(() => setScene(activeIndex + 1), 6200);
+      stopCycle();
+      if (reduceMotion || !inView || document.hidden) return;
+      cycleTimer = window.setTimeout(() => {
+        cycleTimer = null;
+        setScene(activeIndex + 1);
+        startCycle();
+      }, 6200);
     }
 
     controls.forEach((control, controlIndex) => {
