@@ -335,3 +335,136 @@ galok-city-weather {
     transform: none;
   }
 }
+
+/* Editorial cover treatment: the poster carries the left field, live data stays in its paper air. */
+.city-weather__cover,
+.city-weather__cover[hidden] {
+  display: none;
+}
+
+.city-weather[data-cover] {
+  --city-weather-ink: #e9e0d1;
+  --city-weather-paper: #211f1a;
+  --city-weather-signal: #a33b2c;
+  --city-weather-line: rgba(33, 31, 26, .28);
+  --city-weather-muted: rgba(33, 31, 26, .64);
+  min-height: min(62vw, 58rem);
+  color: var(--city-weather-paper);
+  background: var(--city-weather-ink);
+}
+
+.city-weather[data-cover] .city-weather__cover {
+  display: block;
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  margin: 0;
+}
+
+.city-weather[data-cover] .city-weather__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.city-weather[data-cover] .city-weather__masthead,
+.city-weather[data-cover] .city-weather__reading,
+.city-weather[data-cover] .city-weather__metrics,
+.city-weather[data-cover] .city-weather__source {
+  position: relative;
+  z-index: 1;
+  width: min(49%, 56rem);
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.city-weather[data-cover] .city-weather__masthead {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.city-weather[data-cover] .city-weather__masthead > p {
+  grid-column: 1 / -1;
+}
+
+.city-weather[data-cover] .city-weather__reading {
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+.city-weather[data-cover] .city-weather__temperature output {
+  font-size: clamp(5.5rem, 11vw, 11.5rem);
+}
+
+.city-weather[data-cover] .city-weather__metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.city-weather[data-cover] .city-weather__metric {
+  padding: clamp(1.25rem, 2vw, 2rem) clamp(.75rem, 1.4vw, 1.35rem);
+}
+
+.city-weather[data-cover] .city-weather__metric:nth-child(3n + 1) {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.city-weather[data-cover] .city-weather__metric:nth-child(3n) {
+  padding-right: 0;
+}
+
+.city-weather[data-cover] .city-weather__metric:nth-child(n + 4) {
+  border-top: 1px solid var(--city-weather-line);
+}
+
+@media (max-width: 900px) {
+  .city-weather[data-cover] {
+    min-height: auto;
+  }
+
+  .city-weather[data-cover] .city-weather__cover {
+    position: relative;
+    z-index: 0;
+    inset: auto;
+    width: calc(100% + 10vw);
+    aspect-ratio: 1672 / 941;
+    margin: -5.5rem -5vw 3rem;
+  }
+
+  .city-weather[data-cover] .city-weather__cover img {
+    height: 100%;
+  }
+
+  .city-weather[data-cover] .city-weather__masthead,
+  .city-weather[data-cover] .city-weather__reading,
+  .city-weather[data-cover] .city-weather__metrics,
+  .city-weather[data-cover] .city-weather__source {
+    width: min(100%, 112rem);
+    margin-inline: auto;
+  }
+
+  .city-weather[data-cover] .city-weather__metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .city-weather[data-cover] .city-weather__metric:nth-child(3n + 1) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .city-weather[data-cover] .city-weather__metric:nth-child(3n) {
+    padding-right: 1.2rem;
+  }
+
+  .city-weather[data-cover] .city-weather__metric:nth-child(n + 4) {
+    border-top: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .city-weather[data-cover] .city-weather__cover {
+    width: calc(100% + 2rem);
+    margin: -4.75rem -1rem 2.5rem;
+  }
+}

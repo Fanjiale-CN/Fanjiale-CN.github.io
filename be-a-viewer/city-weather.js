@@ -3,6 +3,12 @@ import { getGalokCity, normalizeCitySlug } from "./cities.config.js";
 const WEATHER_CURRENT = "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m";
 const CACHE_TTL = 10 * 60 * 1000;
 const cityCache = new Map();
+const weatherCovers = new Map([
+  ["beijing", {
+    src: "/assets/be-a-viewer/weather/beijing/cover.webp",
+    alt: "Beijing palace walls in clear sunlight on aged paper"
+  }]
+]);
 
 const weatherLabels = new Map([
   [0, "CLEAR"],
@@ -131,6 +137,9 @@ class GalokCityWeather extends HTMLElement {
     if (!this.hasAttribute("role")) this.setAttribute("role", "region");
     this.innerHTML = `
       <section class="city-weather" data-state="loading">
+        <figure class="city-weather__cover" data-weather-cover hidden aria-hidden="true">
+          <img data-weather-cover-image alt="" decoding="async">
+        </figure>
         <header class="city-weather__masthead">
           <p data-weather-section>${this.dataset.index ? `${this.dataset.index} / ` : ""}LIVE CITY FIELD</p>
           <div class="city-weather__place">
@@ -169,6 +178,19 @@ class GalokCityWeather extends HTMLElement {
     const timeout = window.setTimeout(() => requestController.abort(), 12000);
 
     root.dataset.state = "loading";
+    const cover = weatherCovers.get(city.slug);
+    const coverImage = root.querySelector("[data-weather-cover-image]");
+    if (cover) {
+      root.dataset.cover = city.slug;
+      coverImage.src = cover.src;
+      coverImage.alt = cover.alt;
+      coverImage.parentElement.hidden = false;
+    } else {
+      delete root.dataset.cover;
+      coverImage.removeAttribute("src");
+      coverImage.alt = "";
+      coverImage.parentElement.hidden = true;
+    }
     root.querySelector("[data-weather-city]").textContent = city.name;
     root.querySelector("[data-weather-coordinates]").textContent = `${coordinate(city.latitude, "N", "S")} / ${coordinate(city.longitude, "E", "W")}`;
     root.querySelector("[data-weather-status]").textContent = "READING CURRENT CONDITIONS";
