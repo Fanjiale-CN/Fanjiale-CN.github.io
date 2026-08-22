@@ -23,7 +23,7 @@
 - Research 001 and Research 002 both loaded from the live HTTPS site with `research.css?v=20260822f`.
 - Both pages measured a 752 px prose column and 1120 px figure column at 1363 × 936; document width was 1348 px, so no horizontal overflow was present.
 - The tablet reading wave remained visible, marked the introduction as active, and updated to a later section after a deep-link reload.
-- Browser rendering completed without a visible JavaScript error state. The browser runtime did not expose a console-log reader; the two page validators and generated-page checks therefore remain the authoritative JavaScript/markup gate.
+- Browser rendering completed without a visible JavaScript error state, and the live tab's console error log was empty. The two page validators and generated-page checks also passed.
 - Mobile rules were checked statically: the phone layout keeps 16 px page gutters, a 1.06rem body size, 1.68 line height, reduced heading scales and the existing compact native contents disclosure.
 
 ## Comparison history
