@@ -13621,7 +13621,7 @@ a.note-card:focus-visible::after {
 }
 
 .field-hero--rain .field-hero-copy h1 {
-  max-width: 8.3ch;
+  max-width: 11.4ch;
   font-size: clamp(4.9rem, 8.25vw, 8.7rem);
   font-weight: 480;
   letter-spacing: -0.07em;
