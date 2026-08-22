@@ -1,55 +1,54 @@
-# Design QA — Research long-form reading layout
+# Design QA — Homepage rain-film hero
 
 ## Comparison target
 
-- Source visual truth: `/workspace/scratch/aa2e56b19934/upload/IMG_4260.png` (the previous Research 001 tablet layout).
-- Browser-rendered implementation: `qa-research-layout-001-implementation.jpg`.
-- Combined comparison evidence: `qa-research-layout-comparison.jpg`.
-- Source pixels: 2048 × 1423. Browser chrome was cropped, then the page area was scaled and padded to the 1348 × 926 implementation capture.
-- Implementation pixels: 1348 × 926 from a 1363 × 936 CSS-pixel browser viewport at the browser's native capture density.
-- State: Research 001, `#introduction`, tablet/medium layout with the right reading wave visible.
+- Source visual truth: `qa-home-hero-source.jpg`, extracted from the user-supplied 33.3-second rain-transit film at 00:18.
+- Browser-rendered implementation: `qa-home-hero-implementation.jpg`, captured from `https://www.galok.me/?hero=ea364f0c-2` after the final stylesheet and script versions reached GitHub Pages.
+- Combined comparison evidence: `qa-home-hero-comparison.jpg` (source film frame on the left; finished hero on the right).
+- Source pixels: 1280 × 720.
+- Implementation pixels: 1348 × 926 from a 1363 × 936 CSS-pixel Chrome viewport at device-pixel-ratio 1.
+- Comparison normalization: the source frame was scaled to 674 × 379 and centred on a 674 × 463 dark canvas; the implementation was scaled proportionally to 674 × 463; both were joined into one 1348 × 463 image.
+- State: desktop opening frame, video ready, user-paused state with the play control visible.
 
 ## Findings
 
-- No actionable P0/P1/P2 differences remain after the reading-layout pass.
-- Typography: the previous extra-wide Helvetica reading measure was replaced with the existing Galok Gambetta text face and Bagnard display face. Body copy now measures 752 px at the tested viewport, with an 18.7 px size and 29–31 px line height.
-- Spacing and layout: prose and headings share a centred 47rem measure; figures retain a separate 1120 px measure. The document width remains below the viewport and the right wave does not cover the text column.
-- Colour and tokens: the existing paper, ink, muted, red and blue tokens remain unchanged. No gradients, cards or new visual language were introduced.
-- Image quality: research hero and figure images are unchanged and retain intrinsic-ratio rendering. No image was replaced, redrawn or recropped.
-- Copy and content: paper copy, tables, figures, citations and data are unchanged.
+- No actionable P0/P1/P2 differences remain in the tested homepage hero.
+- Typography: the existing Galok sans stack, weights and all-caps metadata remain unchanged. The new headline holds a deliberate two-line measure, with natural wrapping and enough contrast against the rain field.
+- Spacing and layout: the editorial copy occupies the dark left field while the red transit subject remains unobstructed on the right. Top metadata, CTA, film duration and playback control use the existing square-corner, hairline-rule system.
+- Colours and tokens: the treatment uses the existing near-black, white and signal-red visual language. The media wash is restrained and local to the hero; no new palette, rounded card system or generic gradient language was introduced.
+- Image quality: the supplied 1280 × 720 H.264 film was re-encoded without audio at 25 fps and 2.9 MB for desktop. A 540 × 960, 1.9 MB mobile crop keeps the red transit subject in frame. The 16 KB WebP poster preserves the same scene and tone.
+- Copy and content: “The city keeps the evidence.” gives the film one short editorial claim; the supporting sentence names Galok's actual subjects and formats without generic manifesto language.
 
 ## Interaction and runtime checks
 
-- Research 001 and Research 002 both loaded from the live HTTPS site with `research.css?v=20260822f`.
-- Both pages measured a 752 px prose column and 1120 px figure column at 1363 × 936; document width was 1348 px, so no horizontal overflow was present.
-- The tablet reading wave remained visible, marked the introduction as active, and updated to a later section after a deep-link reload.
-- Browser rendering completed without a visible JavaScript error state, and the live tab's console error log was empty. The two page validators and generated-page checks also passed.
-- Mobile rules were checked statically: the phone layout keeps 16 px page gutters, a 1.06rem body size, 1.68 line height, reduced heading scales and the existing compact native contents disclosure.
+- The live HTTPS homepage loaded the final `styles.css?v=ia-20260822-rain-hero-2` and `script.js?v=ia-20260822-rain-hero` assets.
+- The desktop film loaded from `/assets/hero/video/rain-transit.mp4` with a 33.32-second duration and ready state 4.
+- The film control changed correctly between Play and Pause and updated its accessible label in both states.
+- “Enter the magazine” navigated to `#field-routing`; the destination settled below the sticky navigation.
+- No page-authored JavaScript error was present in the browser console. Logged errors belonged to the cloud-browser extension, not `www.galok.me`.
+- Mobile rules were checked statically: the 540 × 960 source, full-viewport media, three-line headline allowance, 30-character copy measure, bottom controls and overflow containment all stay within the phone canvas. Reduced-motion mode falls back to the poster and removes the playback control.
 
 ## Comparison history
 
-### Pass 1 — source issue
+### Pass 1 — initial live deployment
 
-- [P1] Prose occupied nearly the full 1200 px tablet manuscript width, producing very long lines and poor return sweeps.
-- [P2] Section headings used the same oversized sans treatment as data figures, weakening long-form hierarchy.
-- [P2] The tablet figure-width fix had coupled prose width to chart width.
+- [P2] The headline inherited a narrow measure and wrapped into four short lines, weakening the intended editorial hierarchy.
+- [P2] The first deployment retained the previous script cache key, so the visible film control did not receive the new single-film playback handler.
 
 ### Fixes applied
 
-- Split the manuscript into a narrow prose measure and a wide figure/table measure.
-- Restored Galok's editorial text and display faces inside research pages only.
-- Added paragraph rhythm, balanced headings, normal word breaking and calmer mobile heading scales.
-- Kept charts, tables, wave navigation, imagery and paper content on their existing sans/data treatment.
+- Increased the headline measure to hold the intended two-line statement while retaining the existing responsive type scale.
+- Versioned both the hero stylesheet and script so GitHub Pages and browser caches load the new composition and control logic together.
 
 ### Pass 2 — post-fix evidence
 
-- The combined comparison shows the old wide sans column on the left and the revised centred editorial column on the right.
-- Research 001 and Research 002 produce matching measured widths, typefaces and overflow results.
-- No further P0/P1/P2 visual issue was found in the rendered tablet state.
+- `qa-home-hero-comparison.jpg` shows the supplied rain frame preserved as the dominant visual and the finished two-line editorial overlay occupying the darker left field.
+- Browser measurements confirmed the title, CTA, duration note and film control remain inside the 1348-pixel hero canvas.
+- Playback and anchor interactions passed on the deployed page, with no page-authored console error.
 
-## Residual test gap
+## Follow-up polish
 
-- A physical phone viewport was not available in the cloud browser for this pass; phone behavior is covered by the existing responsive rules and static validation, but should still receive a quick Safari spot check after cache refresh.
+- P3: a physical Safari phone check is still worthwhile after CDN cache expiry because the cloud browser did not expose a separate mobile viewport in this pass.
 
 ## Final result
 
