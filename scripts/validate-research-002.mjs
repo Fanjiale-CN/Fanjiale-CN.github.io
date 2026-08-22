@@ -41,7 +41,7 @@ fail(!page.includes("research-002-cover.jpg"), "Official cover is not integrated
 fail(!page.includes("GALOK_RESEARCH_002_REPLICATION_PACKAGE_v1_0.zip"), "Replication download is not linked");
 fail(!page.includes('class="r002-quadrant-key"'), "Figure 3 responsive quadrant key is missing");
 fail(!page.includes('<html lang="en" class="research-paper-root">'), "Research 002 root overflow containment is missing");
-fail(!page.includes("research.css?v=20260822e") || !page.includes("charts.css?v=20260822d") || !page.includes("charts.js?v=20260822d"), "Research 002 assets are not cache-busted");
+fail(!page.includes("research.css?v=20260822f") || !page.includes("charts.css?v=20260822d") || !page.includes("charts.js?v=20260822d"), "Research 002 assets are not cache-busted");
 fail(!page.includes("galok-wave.css?v=20260822-research-ipad") || !page.includes("galok-wave.js?v=20260822-research-ipad"), "Research 002 tablet wave assets are missing");
 fail(!page.includes('class="research-wave-toc gwn gwn--research gwn--tablet"'), "Research 002 tablet wave contents are missing");
 fail(!chartsJs.includes("window.setTimeout(hideTip,2200)"), "Touch tooltips must auto-dismiss on Research 002");

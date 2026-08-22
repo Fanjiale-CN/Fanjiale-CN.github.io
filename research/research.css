@@ -535,8 +535,12 @@ body.research-paper-page {
 
 .research-manuscript {
   min-width: 0;
-  font-size: clamp(1.05rem, 1.25vw, 1.18rem);
-  line-height: 1.74;
+  color: #253034;
+  font-family: "Galok Gambetta", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: clamp(1.06rem, 1.1vw, 1.18rem);
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  line-height: 1.72;
 }
 
 .research-manuscript > h2,
@@ -546,11 +550,13 @@ body.research-paper-page {
   margin: 7rem 0 2.2rem;
   padding-top: 1rem;
   border-top: 1px solid var(--research-ink);
-  font-family: var(--font-serif);
-  font-size: clamp(2.8rem, 5.2vw, 5rem);
-  font-weight: 500;
-  line-height: 0.94;
-  letter-spacing: -0.045em;
+  color: var(--research-ink);
+  font-family: "Galok Bagnard", "Galok Gambetta", Georgia, serif;
+  font-size: clamp(2.8rem, 4.5vw, 4.6rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 
 .research-manuscript > h2:first-of-type {
@@ -560,22 +566,55 @@ body.research-paper-page {
 .research-manuscript h3 {
   scroll-margin-top: 110px;
   margin: 3.7rem 0 1.2rem;
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3vw, 2.75rem);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  color: var(--research-ink);
+  font-family: "Galok Bagnard", "Galok Gambetta", Georgia, serif;
+  font-size: clamp(1.75rem, 2.6vw, 2.55rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
 }
 
 .research-manuscript h4 {
   margin: 2.4rem 0 0.9rem;
+  color: var(--research-ink);
+  font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.35;
 }
 
 .research-manuscript p,
 .research-manuscript li {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+  text-wrap: pretty;
+}
+
+.research-manuscript > p,
+.research-abstract > p,
+.research-appendix > p {
+  margin: 0 0 1.38em;
+}
+
+.research-manuscript > h2 + p {
+  color: #3e484a;
+  font-size: 1.1em;
+  line-height: 1.64;
+}
+
+.research-manuscript > ul,
+.research-manuscript > ol,
+.research-abstract > ul,
+.research-abstract > ol,
+.research-appendix > ul,
+.research-appendix > ol {
+  margin: 0 0 1.65em;
+  padding-left: 1.25em;
+}
+
+.research-manuscript li + li {
+  margin-top: 0.42em;
 }
 
 .research-manuscript a {
@@ -608,10 +647,13 @@ body.research-paper-page {
 
 .research-abstract > h2 {
   margin: 0 0 1.4rem;
-  font-family: var(--font-serif);
-  font-size: clamp(2.8rem, 5vw, 4.8rem);
-  font-weight: 500;
-  line-height: 0.92;
+  color: var(--research-ink);
+  font-family: "Galok Bagnard", "Galok Gambetta", Georgia, serif;
+  font-size: clamp(2.7rem, 4.3vw, 4.3rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .research-abstract h3:first-child {
@@ -632,6 +674,8 @@ body.research-paper-page {
   font-size: 0.84rem;
   line-height: 1.42;
   -webkit-overflow-scrolling: touch;
+  color: var(--research-ink);
+  font-family: var(--font-sans);
 }
 
 .research-manuscript th,
@@ -662,6 +706,12 @@ body.research-paper-page {
   padding: 22px 0 28px;
   border-top: 1px solid var(--research-ink);
   border-bottom: 1px solid var(--research-line);
+  color: var(--research-ink);
+  font-family: var(--font-sans);
+}
+
+.r002-figure {
+  font-family: var(--font-sans);
 }
 
 .research-figure figcaption {
@@ -995,6 +1045,25 @@ body.research-paper-page {
   .research-paper-page .research-paper-toc {
     display: none;
   }
+
+  .research-paper-page .research-manuscript > :not(.research-figure):not(.r002-figure) {
+    width: min(100%, 47rem);
+    margin-inline: auto;
+  }
+
+  .research-paper-page .research-manuscript > .research-abstract {
+    width: min(100%, 54rem);
+  }
+
+  .research-paper-page .research-manuscript > table {
+    width: min(100%, 62rem);
+  }
+
+  .research-paper-page .research-manuscript > .research-figure,
+  .research-paper-page .research-manuscript > .r002-figure {
+    width: min(100%, 1120px);
+    margin-inline: auto;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1187,20 +1256,22 @@ body.research-paper-page {
   }
 
   .research-manuscript {
-    font-size: 1.04rem;
-    line-height: 1.7;
+    font-size: 1.06rem;
+    line-height: 1.68;
   }
 
   .research-manuscript > h2,
   .research-references > h2,
   .research-direct-sources > h2 {
-    margin-top: 5.4rem;
-    font-size: clamp(2.65rem, 14vw, 4.5rem);
+    margin-top: 5rem;
+    font-size: clamp(2.45rem, 12vw, 3.7rem);
+    line-height: 1;
   }
 
   .research-manuscript h3 {
-    margin-top: 3.2rem;
-    font-size: clamp(1.75rem, 9vw, 2.7rem);
+    margin-top: 3rem;
+    font-size: clamp(1.65rem, 7.8vw, 2.3rem);
+    line-height: 1.08;
   }
 
   .research-manuscript blockquote {
@@ -1212,6 +1283,15 @@ body.research-paper-page {
   .research-abstract {
     margin-inline: -6px;
     padding: 28px 20px;
+  }
+
+  .research-abstract > h2 {
+    font-size: clamp(2.4rem, 11vw, 3.4rem);
+  }
+
+  .research-abstract p:first-of-type {
+    font-size: 1.18rem;
+    line-height: 1.56;
   }
 
   .research-manuscript table {

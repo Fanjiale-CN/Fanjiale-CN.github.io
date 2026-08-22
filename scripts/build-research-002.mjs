@@ -202,7 +202,7 @@ const page = `<!DOCTYPE html>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
   <link rel="stylesheet" href="/galok-wave.css?v=20260822-research-ipad">
-  <link rel="stylesheet" href="/research/research.css?v=20260822e">
+  <link rel="stylesheet" href="/research/research.css?v=20260822f">
   <link rel="stylesheet" href="/research/fast-metabolism-economy/charts.css?v=20260822d">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Fast Metabolism Economy","alternativeHeadline":"Franchising, Network Expansion, and Store Turnover in China's Consumer Economy","description":"Independent empirical research on the gross store flows hidden beneath chain expansion in China's consumer economy.","image":"https://www.galok.me/assets/research/research-002-cover.jpg","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","articleSection":"Independent Research","author":{"@type":"Organization","name":"Galok"},"publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"},"mainEntityOfPage":"https://www.galok.me/research/fast-metabolism-economy/","keywords":["China consumer economy","franchising","chain foodservice","store turnover","gross flows"]}</script>
   <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$$","$$"],["\\\\[","\\\\]"]]},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script>
