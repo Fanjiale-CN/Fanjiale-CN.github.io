@@ -73,7 +73,7 @@ const announceCity = (value) => {
       const video = videos[activeIndex];
       pauseAll();
       clearFallback();
-      if (!video || !heroVisible || document.hidden) {
+      if (!video || pausedByUser || !heroVisible || document.hidden) {
         updateToggle();
         return;
       }
@@ -85,7 +85,7 @@ const announceCity = (value) => {
       if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
     }
 
-    function showSlide(index, autoplay = false, instant = false) {
+    function showSlide(index, autoplay = true, instant = false) {
       activeIndex = (index + slides.length) % slides.length;
       pauseAll();
       const preloadIndex = (activeIndex + 1) % slides.length;
@@ -120,19 +120,30 @@ const announceCity = (value) => {
 
       try { videos[activeIndex].currentTime = 0; } catch {}
       if (progress) progress.style.transform = "scaleX(0)";
-      updateToggle();
+      if (autoplay) {
+        pausedByUser = false;
+        requestAnimationFrame(playActive);
+      } else {
+        updateToggle();
+      }
     }
 
     function togglePlay() {
       const video = videos[activeIndex];
       if (!video) return;
-      if (video.paused) playActive();
-      else pauseAll(), updateToggle();
+      if (pausedByUser || video.paused) {
+        pausedByUser = false;
+        playActive();
+      } else {
+        pausedByUser = true;
+        pauseAll();
+        updateToggle();
+      }
     }
 
     videos.forEach((video, index) => {
       video?.addEventListener("ended", () => {
-        if (index === activeIndex) video.pause();
+        if (index === activeIndex && !pausedByUser) showSlide(activeIndex + 1, true);
       });
       video?.addEventListener("loadedmetadata", () => {
         if (index === activeIndex && !progressFrame) progressFrame = requestAnimationFrame(updateProgress);
@@ -163,17 +174,17 @@ const announceCity = (value) => {
           clearFallback();
           pauseAll();
           updateToggle();
-        }
+        } else if (!pausedByUser) playActive();
       }, { threshold: 0.05 });
       observer.observe(hero);
     }
 
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) pauseAll();
+      else if (!pausedByUser) playActive();
     });
 
-    showSlide(0, false, true);
-    pauseAll();
+    showSlide(0, true, true);
   }
 
   const cityData = GALOK_CITIES;

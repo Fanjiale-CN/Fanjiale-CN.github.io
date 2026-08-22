@@ -126,10 +126,16 @@
         const isActive = sceneIndex === activeIndex;
         scene.classList.toggle("is-active", isActive);
         scene.setAttribute("aria-hidden", String(!isActive));
-        scene.tabIndex = isActive ? 0 : -1;
+        scene.tabIndex = -1;
+        scene.querySelectorAll("a").forEach((link) => {
+          link.tabIndex = isActive ? 0 : -1;
+        });
       });
       controls.forEach((control, controlIndex) => {
-        control.setAttribute("aria-current", String(controlIndex === activeIndex));
+        const isActive = controlIndex === activeIndex;
+        control.setAttribute("aria-current", String(isActive));
+        control.setAttribute("aria-selected", String(isActive));
+        control.tabIndex = isActive ? 0 : -1;
       });
     }
 
@@ -140,13 +146,23 @@
 
     function startCycle() {
       if (reduceMotion || !inView || document.hidden || cycleTimer !== null) return;
-      cycleTimer = window.setInterval(() => setScene(activeIndex + 1), 4800);
+      cycleTimer = window.setInterval(() => setScene(activeIndex + 1), 6200);
     }
 
     controls.forEach((control, controlIndex) => {
       control.addEventListener("click", () => {
         stopCycle();
         setScene(controlIndex);
+        startCycle();
+      });
+      control.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const nextIndex = (controlIndex + direction + controls.length) % controls.length;
+        stopCycle();
+        setScene(nextIndex);
+        controls[nextIndex].focus();
         startCycle();
       });
     });
