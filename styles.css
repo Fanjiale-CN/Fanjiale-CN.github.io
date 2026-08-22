@@ -13583,6 +13583,234 @@ a.note-card:focus-visible::after {
   .field-latest-list a { transition: none; }
 }
 
+/* Homepage opening frame: rain, transit and the evidence held by a city. */
+.field-hero--rain {
+  min-height: min(940px, 100svh);
+  background: #0b1116;
+}
+
+.field-hero--rain .field-hero-slide img,
+.field-hero--rain .field-hero-slide video {
+  object-position: 50% 50%;
+  filter: saturate(0.9) contrast(1.06) brightness(0.82);
+  transform: none;
+}
+
+.field-hero--rain .field-hero-slide.is-active img,
+.field-hero--rain .field-hero-slide.is-active video {
+  transform: none;
+}
+
+.field-hero--rain .field-hero-wash {
+  background:
+    linear-gradient(90deg, rgba(4, 10, 15, 0.72) 0%, rgba(4, 10, 15, 0.34) 46%, rgba(4, 10, 15, 0.12) 78%, rgba(4, 10, 15, 0.24) 100%),
+    linear-gradient(180deg, rgba(4, 10, 15, 0.18) 0%, rgba(4, 10, 15, 0.02) 48%, rgba(4, 10, 15, 0.64) 100%);
+}
+
+.field-hero--rain .field-hero-grid {
+  min-height: min(940px, 100svh);
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.34fr);
+  grid-template-rows: auto 1fr auto;
+  padding: 112px var(--home-gutter) 42px;
+}
+
+.field-hero--rain .field-hero-copy {
+  align-self: end;
+  max-width: min(880px, 72vw);
+  padding: 0 0 clamp(92px, 13vh, 146px);
+}
+
+.field-hero--rain .field-hero-copy h1 {
+  max-width: 8.3ch;
+  font-size: clamp(4.9rem, 8.25vw, 8.7rem);
+  font-weight: 480;
+  letter-spacing: -0.07em;
+  line-height: 0.82;
+  text-wrap: balance;
+}
+
+.field-hero--rain .field-hero-copy > p:last-of-type {
+  max-width: 610px;
+  margin-top: 28px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(1rem, 1.28vw, 1.18rem);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.field-hero--rain .field-primary--hero {
+  min-height: 50px;
+  margin-top: 26px;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.72);
+  background: rgba(5, 12, 18, 0.16);
+  backdrop-filter: blur(8px);
+}
+
+.field-hero--rain .field-primary--hero:hover,
+.field-hero--rain .field-primary--hero:focus-visible {
+  color: var(--field-black);
+  background: #fff;
+}
+
+.field-hero--rain .field-hero-index {
+  align-self: end;
+  max-width: 300px;
+  margin-bottom: clamp(88px, 12vh, 132px);
+}
+
+.field-hero--rain .field-hero-index > span {
+  min-width: 4.5ch;
+  font-family: var(--font-mono);
+  font-size: clamp(1.8rem, 2.6vw, 2.65rem);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.05em;
+}
+
+.field-hero--rain .field-hero-index small {
+  max-width: 170px;
+  line-height: 1.35;
+}
+
+.field-hero-media-control {
+  position: absolute;
+  left: var(--home-gutter);
+  bottom: 30px;
+  z-index: 4;
+  min-height: 38px;
+  padding: 7px 0 5px;
+  color: rgba(255, 255, 255, 0.74);
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.field-hero-media-control:hover,
+.field-hero-media-control:focus-visible {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .motion-ready .field-hero--rain .field-hero-topline,
+  .motion-ready .field-hero--rain .field-kicker,
+  .motion-ready .field-hero--rain .field-hero-copy h1,
+  .motion-ready .field-hero--rain .field-hero-copy > p:last-of-type,
+  .motion-ready .field-hero--rain .field-primary--hero,
+  .motion-ready .field-hero--rain .field-hero-index {
+    animation: field-rain-hero-in 240ms var(--motion-ease-out) both;
+  }
+
+  .motion-ready .field-hero--rain .field-kicker { animation-delay: 40ms; }
+  .motion-ready .field-hero--rain .field-hero-copy h1 { animation-delay: 80ms; }
+  .motion-ready .field-hero--rain .field-hero-copy > p:last-of-type { animation-delay: 120ms; }
+  .motion-ready .field-hero--rain .field-primary--hero { animation-delay: 160ms; }
+  .motion-ready .field-hero--rain .field-hero-index { animation-delay: 180ms; }
+}
+
+@keyframes field-rain-hero-in {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (max-width: 760px) {
+  .field-hero--rain,
+  .field-hero--rain .field-hero-grid {
+    min-height: 100svh;
+  }
+
+  .field-hero--rain .field-hero-slide img,
+  .field-hero--rain .field-hero-slide video {
+    object-position: 50% 50%;
+    filter: saturate(0.92) contrast(1.05) brightness(0.76);
+  }
+
+  .field-hero--rain .field-hero-wash {
+    background:
+      linear-gradient(180deg, rgba(4, 10, 15, 0.5) 0%, rgba(4, 10, 15, 0.08) 28%, rgba(4, 10, 15, 0.78) 100%),
+      linear-gradient(90deg, rgba(4, 10, 15, 0.34), transparent 82%);
+  }
+
+  .field-hero--rain .field-hero-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    padding: 92px var(--home-gutter) 32px;
+  }
+
+  .field-hero--rain .field-hero-topline span:nth-child(2) {
+    display: none;
+  }
+
+  .field-hero--rain .field-hero-topline span:nth-child(3) {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .field-hero--rain .field-hero-copy {
+    align-self: end;
+    max-width: 100%;
+    padding: 0 0 124px;
+  }
+
+  .field-hero--rain .field-hero-copy h1 {
+    max-width: 8.2ch;
+    font-size: clamp(3.35rem, 16.1vw, 4.65rem);
+    line-height: 0.86;
+  }
+
+  .field-hero--rain .field-hero-copy > p:last-of-type {
+    max-width: 30ch;
+    margin-top: 20px;
+    font-size: 0.92rem;
+    line-height: 1.48;
+  }
+
+  .field-hero--rain .field-primary--hero {
+    margin-top: 20px;
+    padding-inline: 18px;
+  }
+
+  .field-hero--rain .field-hero-index {
+    position: absolute;
+    right: var(--home-gutter);
+    bottom: 26px;
+    max-width: 176px;
+    margin: 0;
+    padding: 0 0 4px 14px;
+  }
+
+  .field-hero--rain .field-hero-index > span {
+    display: none;
+  }
+
+  .field-hero--rain .field-hero-index b,
+  .field-hero--rain .field-hero-index small {
+    font-size: 0.58rem;
+  }
+
+  .field-hero-media-control {
+    bottom: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field-hero--rain .field-hero-slide video {
+    display: none;
+  }
+
+  .field-hero-media-control {
+    display: none;
+  }
+}
+
 /* Galok glyph seal — brand symbol on the homepage essay cards. */
 .field-seal {
   display: inline-block;

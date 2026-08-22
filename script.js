@@ -1230,13 +1230,48 @@
 
     if (slides.length === 1) {
       const video = videos[0];
+      let userPaused = reduceMotion;
+      let heroInView = true;
+
+      const updateSingleToggle = () => {
+        if (!toggle) return;
+        const isPaused = userPaused || video.paused;
+        toggle.textContent = isPaused ? "Play film" : "Pause film";
+        toggle.setAttribute("aria-label", isPaused ? "Play hero film" : "Pause hero film");
+      };
+
+      const syncSingleVideo = () => {
+        if (userPaused || document.hidden || !heroInView) {
+          video.pause();
+          updateSingleToggle();
+          return;
+        }
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.then === "function") {
+          playPromise.then(updateSingleToggle).catch(updateSingleToggle);
+        } else {
+          updateSingleToggle();
+        }
+      };
+
       video.muted = true;
-      if (reduceMotion) video.pause();
-      else video.play().catch(() => {});
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden || reduceMotion) video.pause();
-        else video.play().catch(() => {});
+      toggle?.addEventListener("click", () => {
+        userPaused = !video.paused;
+        syncSingleVideo();
       });
+      video.addEventListener("play", updateSingleToggle);
+      video.addEventListener("pause", updateSingleToggle);
+      document.addEventListener("visibilitychange", () => {
+        syncSingleVideo();
+      });
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+          heroInView = entries[0]?.isIntersecting ?? true;
+          syncSingleVideo();
+        }, { threshold: 0.12 });
+        observer.observe(hero);
+      }
+      syncSingleVideo();
       return;
     }
 
