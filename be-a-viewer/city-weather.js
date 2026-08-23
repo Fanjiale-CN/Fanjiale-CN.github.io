@@ -80,9 +80,45 @@ const xianWeatherCovers = {
   }
 };
 
+const xiamenWeatherCovers = {
+  clear: {
+    src: "/assets/be-a-viewer/weather/xiamen/clear-bagua-mansion.webp",
+    alt: "Bagua Mansion in clear Xiamen sunlight on aged paper"
+  },
+  partlyCloudy: {
+    src: "/assets/be-a-viewer/weather/xiamen/partly-cloudy-yanwu-bridge.webp",
+    alt: "Yanwu Bridge beneath broken Xiamen clouds on aged paper"
+  },
+  overcast: {
+    src: "/assets/be-a-viewer/weather/xiamen/overcast-shapowei.webp",
+    alt: "Shapowei shelter harbour beneath an overcast Xiamen sky on aged paper"
+  },
+  rain: {
+    src: "/assets/be-a-viewer/weather/xiamen/light-rain-zhongshan-road.webp",
+    alt: "Zhongshan Road arcades in light Xiamen rain on aged paper"
+  },
+  heavyRain: {
+    src: "/assets/be-a-viewer/weather/xiamen/heavy-rain-jimei-dragon-boat-pond.webp",
+    alt: "Jimei Dragon Boat Pond in heavy Xiamen rain on aged paper"
+  },
+  thunderstorm: {
+    src: "/assets/be-a-viewer/weather/xiamen/thunderstorm-haicang-bridge.webp",
+    alt: "Haicang Bridge beneath a Xiamen thunderstorm on aged paper"
+  },
+  typhoon: {
+    src: "/assets/be-a-viewer/weather/xiamen/typhoon-guanyinshan-coast.webp",
+    alt: "Guanyinshan coast in Xiamen typhoon weather on aged paper"
+  },
+  seaFog: {
+    src: "/assets/be-a-viewer/weather/xiamen/sea-fog-nanputuo.webp",
+    alt: "Nanputuo Temple and Wulao Peaks in Xiamen sea fog on aged paper"
+  }
+};
+
 const dynamicWeatherCovers = {
   shanghai: shanghaiWeatherCovers,
-  xian: xianWeatherCovers
+  xian: xianWeatherCovers,
+  xiamen: xiamenWeatherCovers
 };
 
 function weatherCoverFor(city, data) {
@@ -96,10 +132,13 @@ function weatherCoverFor(city, data) {
   const unhealthyHaze = city.slug === "xian" && (Number(data.aqi) >= 151 || Number(data.pm10) >= 150);
 
   if ([95, 96, 99].includes(code)) return covers.thunderstorm;
+  if (city.slug === "xiamen" && wetAndWindy && [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return covers.typhoon;
   if (city.slug === "shanghai" && ([65, 66, 67, 82].includes(code) || (wetAndWindy && [51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code)))) return covers.typhoon;
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return covers.snow;
+  if (city.slug === "xiamen" && [65, 66, 67, 82].includes(code)) return covers.heavyRain;
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return covers.snow || covers.overcast;
   if (severeDust) return covers.duststorm;
-  if ([45, 48].includes(code) || unhealthyHaze) return covers.haze;
+  if ([45, 48].includes(code)) return covers.seaFog || covers.haze || covers.overcast;
+  if (unhealthyHaze) return covers.haze;
   if ([51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code)) return covers.rain;
   if (code === 2) return covers.partlyCloudy;
   if ([0, 1].includes(code)) return covers.clear;
