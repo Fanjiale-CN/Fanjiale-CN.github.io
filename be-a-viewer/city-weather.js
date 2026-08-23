@@ -45,21 +45,65 @@ const shanghaiWeatherCovers = {
   }
 };
 
+const xianWeatherCovers = {
+  clear: {
+    src: "/assets/be-a-viewer/weather/xian/clear-bell-tower.webp",
+    alt: "Xi'an Bell Tower in clear sunlight on aged paper"
+  },
+  partlyCloudy: {
+    src: "/assets/be-a-viewer/weather/xian/partly-cloudy-city-wall.webp",
+    alt: "Xi'an City Wall beneath broken clouds on aged paper"
+  },
+  overcast: {
+    src: "/assets/be-a-viewer/weather/xian/overcast-qujiang-tv-tower.webp",
+    alt: "Qujiang television tower beneath an overcast Xi'an sky on aged paper"
+  },
+  rain: {
+    src: "/assets/be-a-viewer/weather/xian/light-rain-drum-tower.webp",
+    alt: "Xi'an Drum Tower in light rain on aged paper"
+  },
+  thunderstorm: {
+    src: "/assets/be-a-viewer/weather/xian/thunderstorm-chanba.webp",
+    alt: "Chanba riverside beneath a Xi'an thunderstorm on aged paper"
+  },
+  duststorm: {
+    src: "/assets/be-a-viewer/weather/xian/duststorm-daming-palace.webp",
+    alt: "Daming Palace Danfeng Gate in a Xi'an duststorm on aged paper"
+  },
+  haze: {
+    src: "/assets/be-a-viewer/weather/xian/haze-high-tech-cbd.webp",
+    alt: "Xi'an High-tech CBD fading into haze on aged paper"
+  },
+  snow: {
+    src: "/assets/be-a-viewer/weather/xian/light-snow-big-wild-goose-pagoda.webp",
+    alt: "Big Wild Goose Pagoda in light Xi'an snow on aged paper"
+  }
+};
+
+const dynamicWeatherCovers = {
+  shanghai: shanghaiWeatherCovers,
+  xian: xianWeatherCovers
+};
+
 function weatherCoverFor(city, data) {
-  if (city.slug !== "shanghai") return weatherCovers.get(city.slug);
-  if (!data) return shanghaiWeatherCovers.overcast;
+  const covers = dynamicWeatherCovers[city.slug];
+  if (!covers) return weatherCovers.get(city.slug);
+  if (!data) return covers.overcast;
 
   const code = Number(data.weatherCode);
   const wetAndWindy = Number(data.wind) >= 32;
+  const severeDust = city.slug === "xian" && Number(data.pm10) >= 300 && Number(data.wind) >= 25;
+  const unhealthyHaze = city.slug === "xian" && (Number(data.aqi) >= 151 || Number(data.pm10) >= 150);
 
-  if ([95, 96, 99].includes(code)) return shanghaiWeatherCovers.thunderstorm;
-  if ([65, 66, 67, 82].includes(code) || (wetAndWindy && [51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code))) return shanghaiWeatherCovers.typhoon;
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return shanghaiWeatherCovers.snow;
-  if ([45, 48].includes(code)) return shanghaiWeatherCovers.haze;
-  if ([51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code)) return shanghaiWeatherCovers.rain;
-  if (code === 2) return shanghaiWeatherCovers.partlyCloudy;
-  if ([0, 1].includes(code)) return shanghaiWeatherCovers.clear;
-  return shanghaiWeatherCovers.overcast;
+  if ([95, 96, 99].includes(code)) return covers.thunderstorm;
+  if (city.slug === "shanghai" && ([65, 66, 67, 82].includes(code) || (wetAndWindy && [51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code)))) return covers.typhoon;
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return covers.snow;
+  if (severeDust) return covers.duststorm;
+  if ([45, 48].includes(code) || unhealthyHaze) return covers.haze;
+  if ([51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code)) return covers.rain;
+  if (code === 2) return covers.partlyCloudy;
+  if ([0, 1].includes(code)) return covers.clear;
+  return covers.overcast;
 }
 
 function applyWeatherCover(root, city, data) {
@@ -152,7 +196,7 @@ async function requestCityConditions(city, signal) {
   airUrl.search = new URLSearchParams({
     latitude: city.latitude,
     longitude: city.longitude,
-    current: "us_aqi",
+    current: "us_aqi,pm10",
     timezone: "auto"
   }).toString();
 
@@ -173,7 +217,8 @@ async function requestCityConditions(city, signal) {
     weatherCode: weather.current?.weather_code,
     wind: weather.current?.wind_speed_10m,
     sunset: weather.daily?.sunset?.[0],
-    aqi: air.current?.us_aqi
+    aqi: air.current?.us_aqi,
+    pm10: air.current?.pm10
   };
 
   cityCache.set(city.slug, { timestamp: Date.now(), data });
