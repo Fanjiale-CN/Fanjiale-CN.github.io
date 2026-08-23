@@ -10,6 +10,75 @@ const weatherCovers = new Map([
   }]
 ]);
 
+const shanghaiWeatherCovers = {
+  clear: {
+    src: "/assets/be-a-viewer/weather/shanghai/clear-longhua.webp",
+    alt: "Longhua Pagoda in clear Shanghai sunlight on aged paper"
+  },
+  partlyCloudy: {
+    src: "/assets/be-a-viewer/weather/shanghai/partly-cloudy-waibaidu.webp",
+    alt: "Waibaidu Bridge beneath broken clouds on aged paper"
+  },
+  overcast: {
+    src: "/assets/be-a-viewer/weather/shanghai/overcast-yangpu.webp",
+    alt: "Yangpu riverside industrial heritage beneath an overcast sky on aged paper"
+  },
+  rain: {
+    src: "/assets/be-a-viewer/weather/shanghai/light-rain-wukang.webp",
+    alt: "Wukang Building in light Shanghai rain on aged paper"
+  },
+  thunderstorm: {
+    src: "/assets/be-a-viewer/weather/shanghai/thunderstorm-china-art-museum.webp",
+    alt: "China Art Museum beneath a Shanghai thunderstorm on aged paper"
+  },
+  typhoon: {
+    src: "/assets/be-a-viewer/weather/shanghai/typhoon-nanhui-mouth.webp",
+    alt: "Nanhui Mouth seawall in typhoon rain on aged paper"
+  },
+  haze: {
+    src: "/assets/be-a-viewer/weather/shanghai/haze-lujiazui.webp",
+    alt: "Lujiazui skyline fading into Shanghai haze on aged paper"
+  },
+  snow: {
+    src: "/assets/be-a-viewer/weather/shanghai/light-snow-yuyuan.webp",
+    alt: "Yuyuan Garden in light Shanghai snow on aged paper"
+  }
+};
+
+function weatherCoverFor(city, data) {
+  if (city.slug !== "shanghai") return weatherCovers.get(city.slug);
+  if (!data) return shanghaiWeatherCovers.overcast;
+
+  const code = Number(data.weatherCode);
+  const wetAndWindy = Number(data.wind) >= 32;
+
+  if ([95, 96, 99].includes(code)) return shanghaiWeatherCovers.thunderstorm;
+  if ([65, 66, 67, 82].includes(code) || (wetAndWindy && [51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code))) return shanghaiWeatherCovers.typhoon;
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return shanghaiWeatherCovers.snow;
+  if ([45, 48].includes(code)) return shanghaiWeatherCovers.haze;
+  if ([51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code)) return shanghaiWeatherCovers.rain;
+  if (code === 2) return shanghaiWeatherCovers.partlyCloudy;
+  if ([0, 1].includes(code)) return shanghaiWeatherCovers.clear;
+  return shanghaiWeatherCovers.overcast;
+}
+
+function applyWeatherCover(root, city, data) {
+  const cover = weatherCoverFor(city, data);
+  const coverImage = root.querySelector("[data-weather-cover-image]");
+  if (cover) {
+    root.dataset.cover = city.slug;
+    coverImage.src = cover.src;
+    coverImage.alt = cover.alt;
+    coverImage.parentElement.hidden = false;
+    return;
+  }
+
+  delete root.dataset.cover;
+  coverImage.removeAttribute("src");
+  coverImage.alt = "";
+  coverImage.parentElement.hidden = true;
+}
+
 const weatherLabels = new Map([
   [0, "CLEAR"],
   [1, "MAINLY CLEAR"],
@@ -178,19 +247,7 @@ class GalokCityWeather extends HTMLElement {
     const timeout = window.setTimeout(() => requestController.abort(), 12000);
 
     root.dataset.state = "loading";
-    const cover = weatherCovers.get(city.slug);
-    const coverImage = root.querySelector("[data-weather-cover-image]");
-    if (cover) {
-      root.dataset.cover = city.slug;
-      coverImage.src = cover.src;
-      coverImage.alt = cover.alt;
-      coverImage.parentElement.hidden = false;
-    } else {
-      delete root.dataset.cover;
-      coverImage.removeAttribute("src");
-      coverImage.alt = "";
-      coverImage.parentElement.hidden = true;
-    }
+    applyWeatherCover(root, city);
     root.querySelector("[data-weather-city]").textContent = city.name;
     root.querySelector("[data-weather-coordinates]").textContent = `${coordinate(city.latitude, "N", "S")} / ${coordinate(city.longitude, "E", "W")}`;
     root.querySelector("[data-weather-status]").textContent = "READING CURRENT CONDITIONS";
@@ -198,6 +255,7 @@ class GalokCityWeather extends HTMLElement {
     try {
       const data = await requestCityConditions(city, requestController.signal);
       if (requestController !== this.requestController) return;
+      applyWeatherCover(root, city, data);
       root.querySelector("[data-weather-time]").textContent = formatClock(data.time);
       root.querySelector("[data-weather-temperature]").textContent = formatNumber(data.temperature);
       root.querySelector("[data-weather-condition]").textContent = weatherLabels.get(data.weatherCode) || "CURRENT CONDITIONS";
