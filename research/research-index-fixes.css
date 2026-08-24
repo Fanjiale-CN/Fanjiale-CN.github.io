@@ -1,0 +1,267 @@
+/* Research index layout fixes — scoped to the /research/ landing page only. */
+
+.research-index-page .research-index-main,
+.research-index-page .research-index-main * {
+  box-sizing: border-box;
+}
+
+.research-index-page .research-index-main {
+  overflow: hidden;
+}
+
+.research-index-page .research-index-hero {
+  grid-template-columns: minmax(132px, 1.5fr) minmax(0, 7.4fr) minmax(230px, 3.1fr);
+  column-gap: clamp(24px, 2.4vw, 40px);
+  min-height: min(650px, 60vh);
+  padding-bottom: clamp(44px, 4.5vw, 68px);
+}
+
+.research-index-page .research-index-hero > p,
+.research-index-page .research-index-hero > span,
+.research-index-page .research-index-hero h1 {
+  min-width: 0;
+}
+
+.research-index-page .research-index-hero h1 {
+  font-size: clamp(4rem, 7.35vw, 8.1rem);
+  line-height: 0.86;
+  text-wrap: balance;
+}
+
+.research-index-page .research-index-hero > span {
+  max-width: 29ch;
+  font-size: clamp(0.92rem, 1.05vw, 1.06rem);
+}
+
+.research-index-page .research-index-list {
+  grid-template-columns: minmax(132px, 1.5fr) minmax(0, 10.5fr);
+  column-gap: clamp(24px, 2.4vw, 40px);
+  row-gap: clamp(64px, 6vw, 96px);
+  padding-top: clamp(58px, 5vw, 78px);
+}
+
+.research-index-page .research-index-list > p {
+  grid-column: 1;
+  align-self: start;
+  padding-top: 3px;
+}
+
+.research-index-page .research-index-card {
+  grid-column: 2;
+  grid-template-columns: minmax(0, 1.42fr) minmax(330px, 1fr);
+  min-width: 0;
+}
+
+.research-index-page .research-index-card figure,
+.research-index-page .research-index-card > div {
+  min-width: 0;
+}
+
+.research-index-page .research-index-card figure {
+  min-height: 0;
+}
+
+.research-index-page .research-index-card figure img {
+  display: block;
+}
+
+.research-index-page .research-index-card > div {
+  padding: clamp(24px, 2.2vw, 34px) clamp(22px, 2.2vw, 36px);
+}
+
+.research-index-page .research-index-card h2 {
+  margin-top: clamp(34px, 4vw, 54px);
+  font-size: clamp(3rem, 4.35vw, 5.25rem);
+  line-height: 0.86;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.research-index-page .research-index-card > div > p {
+  max-width: 31ch;
+  font-size: clamp(1.08rem, 1.42vw, 1.45rem);
+}
+
+.research-index-page .research-index-card dl {
+  margin-top: clamp(44px, 5vw, 78px);
+}
+
+.research-index-page .research-index-card dl div {
+  grid-template-columns: minmax(72px, 88px) minmax(0, 1fr);
+}
+
+.research-index-page .research-index-card dd {
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 1180px) {
+  .research-index-page .research-index-main {
+    width: min(100% - 48px, 1120px);
+  }
+
+  .research-index-page .research-index-hero {
+    grid-template-columns: 132px minmax(0, 1fr);
+    min-height: 0;
+    padding-top: 132px;
+  }
+
+  .research-index-page .research-index-hero h1 {
+    grid-column: 2;
+    font-size: clamp(4.2rem, 8.7vw, 6.8rem);
+  }
+
+  .research-index-page .research-index-hero > span {
+    grid-column: 2;
+    max-width: 48ch;
+    margin-top: 30px;
+    padding-bottom: 0;
+  }
+
+  .research-index-page .research-index-list {
+    grid-template-columns: 132px minmax(0, 1fr);
+  }
+
+  .research-index-page .research-index-card {
+    grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+  }
+
+  .research-index-page .research-index-card h2 {
+    font-size: clamp(2.75rem, 5vw, 4.15rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .research-index-page .research-index-main {
+    width: calc(100% - 40px);
+  }
+
+  .research-index-page .research-index-hero {
+    grid-template-columns: 1fr;
+    padding-top: 118px;
+    padding-bottom: 46px;
+  }
+
+  .research-index-page .research-index-hero > p,
+  .research-index-page .research-index-hero h1,
+  .research-index-page .research-index-hero > span {
+    grid-column: 1;
+  }
+
+  .research-index-page .research-index-hero h1 {
+    margin-top: 30px;
+    font-size: clamp(3.8rem, 12vw, 6.2rem);
+  }
+
+  .research-index-page .research-index-hero > span {
+    max-width: 44ch;
+    margin-top: 32px;
+  }
+
+  .research-index-page .research-index-list {
+    display: block;
+    padding-top: 50px;
+  }
+
+  .research-index-page .research-index-list > p {
+    margin: 0 0 14px;
+    padding-top: 0;
+  }
+
+  .research-index-page .research-index-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+    margin-bottom: 62px;
+  }
+
+  .research-index-page .research-index-card figure {
+    min-height: 0;
+  }
+
+  .research-index-page .research-index-card h2 {
+    font-size: clamp(2.55rem, 6vw, 3.65rem);
+  }
+}
+
+@media (max-width: 760px) {
+  .research-index-page .research-index-main {
+    width: calc(100% - 32px);
+    overflow: visible;
+  }
+
+  .research-index-page .research-index-hero {
+    padding-top: 106px;
+    padding-bottom: 40px;
+  }
+
+  .research-index-page .research-index-hero h1 {
+    margin-top: 28px;
+    font-size: clamp(3.25rem, 15.4vw, 5.2rem);
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    text-wrap: pretty;
+  }
+
+  .research-index-page .research-index-hero > span {
+    margin-top: 28px;
+    font-size: 0.98rem;
+    line-height: 1.48;
+  }
+
+  .research-index-page .research-index-list {
+    padding: 42px 0 76px;
+  }
+
+  .research-index-page .research-index-list > p {
+    margin-bottom: 12px;
+  }
+
+  .research-index-page .research-index-card {
+    display: block;
+    margin-bottom: 54px;
+  }
+
+  .research-index-page .research-index-card figure {
+    aspect-ratio: 4 / 3;
+  }
+
+  .research-index-page .research-index-card > div {
+    padding: 22px 0 24px;
+  }
+
+  .research-index-page .research-index-card h2 {
+    margin: 30px 0 20px;
+    font-size: clamp(2.85rem, 13.7vw, 4.45rem);
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+  }
+
+  .research-index-page .research-index-card > div > p {
+    max-width: 32ch;
+    font-size: clamp(1.08rem, 4.8vw, 1.28rem);
+    line-height: 1.28;
+  }
+
+  .research-index-page .research-index-card dl {
+    margin: 36px 0 24px;
+  }
+
+  .research-index-page .research-index-card dl div {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .research-index-page .research-index-hero h1 {
+    font-size: clamp(3rem, 14.6vw, 3.9rem);
+  }
+
+  .research-index-page .research-index-card h2 {
+    font-size: clamp(2.65rem, 13.2vw, 3.65rem);
+  }
+
+  .research-index-page .research-index-card dt,
+  .research-index-page .research-index-card dd {
+    font-size: 0.72rem;
+  }
+}
