@@ -180,7 +180,7 @@ const DataScene: React.FC = () => {
         <div style={{display: 'flex', justifyContent: 'space-between', color: MUTED, fontFamily: MONO, fontSize: 26}}><span>2000</span><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2025</span></div>
       </div>
       <div style={{position: 'absolute', left: PAD, right: PAD, bottom: 130}}>
-        <p style={{margin: 0, color: MUTED, fontFamily: MONO, fontSize: 21, letterSpacing: '.06em'}}>THE RESEARCH DESK SITS UNDER ALL THREE LENSES — <span style={{color: RED}}>26 YEARS, ONE LINE</span></p>
+        <p style={{margin: 0, color: MUTED, fontFamily: MONO, fontSize: 21, letterSpacing: '.06em'}}>THE DATA DESK SITS UNDER ALL THREE LENSES — <span style={{color: RED}}>26 YEARS, ONE LINE</span></p>
       </div>
     </AbsoluteFill>
   );

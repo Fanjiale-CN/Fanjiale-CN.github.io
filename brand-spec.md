@@ -6,7 +6,7 @@
 - Logo colors: `#E5392D`, `#111111`
 - Wordmark: `GALOK / Field notes`
 - Voice: observant, direct, editorial, specific
-- Primary routes: `/be-a-viewer/`, `/works/`, `/notes/`, `/archive/`, `/about/`. Existing `/views/`, `/visual-notes/`, `/postcards/` and `/essays/{slug}/` routes remain public archive destinations.
+- Primary routes: `/cities/`, `/essays/`, `/research/`, `/data/`, `/work/`, `/index/`, `/about/`. `/be-a-viewer/`, `/works/`, `/notes/`, `/views/` and `/archive/` are compatibility redirects; city chapters keep their established `/be-a-viewer/{city}/` routes.
 
 ## Visual system
 

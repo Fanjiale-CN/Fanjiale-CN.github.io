@@ -134,7 +134,7 @@
       { type: "Project", title: "City Postcards", description: "Editorial editions that turn the city archive into a personal object.", href: "/postcards/", tags: "project works postcards photography" },
       { type: "Research", title: "The Fast Metabolism Economy", description: "Franchising, network expansion and gross store turnover in China's consumer economy.", href: "/research/fast-metabolism-economy/", tags: "research empirical china franchising foodservice store turnover gross flows GALOK RESEARCH 002" },
       { type: "Research", title: "Who Captures Growth?", description: "Capital allocation, labor-market power and household demand in China's K-shaped economy.", href: "/research/who-captures-growth/", tags: "research empirical china labor households automation GALOK RESEARCH 001" },
-      { type: "Research", title: "China in more than one number", description: "A data-led reading of growth, households, employment, property and fiscal pressure.", href: "/data/", tags: "research essay data china economy households employment property fiscal" },
+      { type: "Data", title: "China in more than one number", description: "A source-led reading of growth, households, employment, property and fiscal pressure.", href: "/data/", tags: "data evidence china economy households employment property fiscal" },
       { type: "Visual note", title: "Xiamen field evidence", description: "Ferry light, campus walls, old alleys, gardens and island views.", href: "/visual-notes/xiamen/", tags: "visual note photography city coast" }
     ];
     const items = [...fixedItems, ...essayItems];

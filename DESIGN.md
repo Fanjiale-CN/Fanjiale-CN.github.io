@@ -8,7 +8,7 @@
 
 ## Design philosophy: growth
 
-Galok is a living field that grows like a plant, not a finished product. People grow on food; readers grow on three distances of observation — **View (视), Frame (框), Observe (察)** — which are the three ways this archive is consumed. Design exists only to serve information, and restraint is the discipline that keeps the field quiet enough to grow in.
+Galok is a living field that grows like a plant, not a finished product. People grow on food; readers grow on three distances of observation — **View (視), Frame (框), Observe (察)** — which are the three ways this archive is consumed. Design exists only to serve information, and restraint is the discipline that keeps the field quiet enough to grow in.
 
 - **Growth first.** Content is living crops with natural states (Planted, Growing, Evergreen), not finished inventory. The site itself is planted, not built; incompleteness is permitted.
 - **Design serves information.** The three-color system, zine covers and glyph seals exist only to make information easier to read, digest and absorb. No decoration for its own sake.
@@ -17,7 +17,7 @@ Galok is a living field that grows like a plant, not a finished product. People 
 ## Glyph seal system
 
 - The seal glyphs are set in **Galok Glyph Display** (`/assets/fonts/yishanbeizhuanti.ttf`, an inscribed-zhuan typeface). A glyph seal is an edition stamp, not a decoration.
-- Three seals map the three distances: **视 (View) · 框 (Frame) · 察 (Observe)**. Each essay, essay card and thematic cluster carries its seal.
+- Three seals map the three distances: **視 (View) · 框 (Frame) · 察 (Observe)**. Each essay, essay card and thematic cluster carries its seal.
 - Seals appear as small corner stamps on essay covers and cards (Notes wall, homepage feature cards, archive clusters) and as the anchor glyph at the head of each article. Always paired with the English label; the seal is bilingual by design (glyph + label + pinyin data attribute).
 - Seals inherit the palette discipline: ink on paper, never signal red, never larger than the label they accompany. They stay still — no motion on seals except entry opacity, because a seal is something that has already been stamped.
 

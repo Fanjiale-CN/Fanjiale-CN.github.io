@@ -1,11 +1,11 @@
 window.GALOK_CONTENT = {
   series: {
     macro: {
-      glyph: "\u89c6",
+      glyph: "\u8996",
       pinyin: "shi",
       en: "View",
       color: "#9e2a2b",
-      definition: "Macro pressure as it becomes visible in daily life.",
+      definition: "Systemic pressure as it becomes visible in daily life.",
       summary: "For balance sheets, policy shifts, price signals and confidence cycles that eventually show up in ordinary choices."
     },
     frame: {
@@ -28,7 +28,7 @@ window.GALOK_CONTENT = {
   essays: [
     {
       series: "macro",
-      anchor: "\u52bf",
+      anchor: "\u8996",
       issue: 1,
       deck: "The title became a product. Then the product became a joke.",
       title: "The Curator's Curse",
@@ -44,7 +44,7 @@ window.GALOK_CONTENT = {
     },
     {
       series: "macro",
-      anchor: "\u89c6",
+      anchor: "\u8996",
       issue: 2,
       deck: "The meetings are private. The pattern is not.",
       title: "The Water Is Rising, and Nobody Will Tell You Why",
@@ -60,7 +60,7 @@ window.GALOK_CONTENT = {
     },
     {
       series: "macro",
-      anchor: "\u89c6",
+      anchor: "\u8996",
       issue: 3,
       deck: "The contract came before the conference.",
       title: "The People’s Republic of AI",
@@ -124,7 +124,7 @@ window.GALOK_CONTENT = {
     },
     {
       series: "macro",
-      anchor: "\u89c6",
+      anchor: "\u8996",
       issue: 7,
       deck: "AI silence became infrastructure.",
       title: "When AI goes silent: real-time censorship infrastructure",
@@ -140,7 +140,7 @@ window.GALOK_CONTENT = {
     },
     {
       series: "macro",
-      anchor: "\u89c6",
+      anchor: "\u8996",
       issue: 8,
       deck: "The price anchor has moved.",
       title: "What your latte tells you about China's price illusion",

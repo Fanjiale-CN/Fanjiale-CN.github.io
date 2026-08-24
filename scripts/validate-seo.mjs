@@ -29,6 +29,7 @@ const aliases = new Map([
   ["series/frame/index.html", "/essays/"],
   ["series/macro/index.html", "/essays/"],
   ["series/scene/index.html", "/essays/"],
+  ["views/index.html", "/essays/"],
   ["works/index.html", "/work/"],
 ]);
 
