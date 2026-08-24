@@ -47,7 +47,10 @@
           else video.pause();
         }
       });
-      controls.forEach((control, controlIndex) => control.setAttribute("aria-current", String(controlIndex === active)));
+      controls.forEach((control, controlIndex) => {
+        if (controlIndex === active) control.setAttribute("aria-current", "true");
+        else control.removeAttribute("aria-current");
+      });
     }
 
     controls.forEach((control, index) => control.addEventListener("click", () => show(index)));

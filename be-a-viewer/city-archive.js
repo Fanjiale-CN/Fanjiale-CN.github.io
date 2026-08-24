@@ -126,6 +126,7 @@
         const isActive = sceneIndex === activeIndex;
         scene.classList.toggle("is-active", isActive);
         scene.setAttribute("aria-hidden", String(!isActive));
+        scene.toggleAttribute("inert", !isActive);
         scene.tabIndex = -1;
         scene.querySelectorAll("a").forEach((link) => {
           link.tabIndex = isActive ? 0 : -1;
@@ -133,7 +134,8 @@
       });
       controls.forEach((control, controlIndex) => {
         const isActive = controlIndex === activeIndex;
-        control.setAttribute("aria-current", String(isActive));
+        if (isActive) control.setAttribute("aria-current", "true");
+        else control.removeAttribute("aria-current");
         control.setAttribute("aria-selected", String(isActive));
         control.tabIndex = isActive ? 0 : -1;
       });
@@ -161,10 +163,13 @@
         startCycle();
       });
       control.addEventListener("keydown", (event) => {
-        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
         event.preventDefault();
-        const direction = event.key === "ArrowRight" ? 1 : -1;
-        const nextIndex = (controlIndex + direction + controls.length) % controls.length;
+        const nextIndex = event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? controls.length - 1
+            : (controlIndex + (event.key === "ArrowRight" ? 1 : -1) + controls.length) % controls.length;
         stopCycle();
         setScene(nextIndex);
         controls[nextIndex].focus();

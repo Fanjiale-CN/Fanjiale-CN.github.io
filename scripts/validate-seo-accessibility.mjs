@@ -93,6 +93,7 @@ for (const file of publicPages) {
   if (!skip || !new RegExp(`\\bid=["']${skip}["']`, "i").test(html)) errors.push(`${source}: skip link target is missing`);
   if (!/<main\b[^>]*\btabindex=["']-1["'][^>]*>/i.test(html)) errors.push(`${source}: main needs tabindex=-1 for skip navigation`);
   if (/aria-current=["']location["']/i.test(html)) errors.push(`${source}: static aria-current=location is misleading`);
+  if (/aria-current=["']false["']/i.test(html)) errors.push(`${source}: inactive controls must omit aria-current`);
 
   const nav = html.match(/<div\b[^>]*\bclass=["'][^"']*\bnav-links\b[^"']*["'][^>]*>[\s\S]*?<\/div>/i)?.[0] ?? "";
   const current = [...nav.matchAll(/<a\b[^>]*\baria-current=["']page["'][^>]*>([^<]+)/gi)].map((match) => match[1].trim());
@@ -104,6 +105,24 @@ for (const file of publicPages) {
     if (!/\balt=["']/i.test(image)) errors.push(`${source}: image missing alt`);
   }
   if (/CNNIC figures cited in the Medium draft/i.test(html)) errors.push(`${source}: production draft trace remains`);
+}
+
+function read(path) {
+  return readFileSync(join(root, path), "utf8");
+}
+
+const citiesHtml = read("cities/index.html");
+for (const scene of [...citiesHtml.matchAll(/<article\b[^>]*\bdata-archive-reel-scene\b[^>]*>/gi)].slice(1)) {
+  if (!/\binert(?:\s|>)/i.test(scene[0])) errors.push("cities/index.html: hidden archive reel scenes must be inert");
+}
+if (!/scene\.toggleAttribute\(["']inert["'],\s*!isActive\)/.test(read("be-a-viewer/city-archive.js"))) {
+  errors.push("city archive: inactive scenes must toggle inert");
+}
+if (!/else control\.removeAttribute\(["']aria-current["']\)/.test(read("be-a-viewer/city-archive.js"))) {
+  errors.push("city archive: inactive controls must omit aria-current");
+}
+if (!/<button\b(?=[^>]*data-role=["']muted["'])(?=[^>]*data-hex=["']#68645d["'])[^>]*>/i.test(read("design/index.html"))) {
+  errors.push("design/index.html: muted swatch must match the contrast-safe token");
 }
 
 for (const essay of essays) {
