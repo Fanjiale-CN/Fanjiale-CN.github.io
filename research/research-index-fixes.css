@@ -90,6 +90,7 @@
 
 .research-index-page .research-index-list {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(72px, 9vw, 142px);
   padding: clamp(68px, 7vw, 108px) 0 clamp(104px, 11vw, 180px);
 }
