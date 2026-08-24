@@ -1,4 +1,4 @@
-import { getGalokCity, normalizeCitySlug } from "./cities.config.js";
+import { getGalokCity, normalizeCitySlug } from "./cities.config.js?v=batch4-content-20260824";
 
 const WEATHER_CURRENT = "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m";
 const CACHE_TTL = 10 * 60 * 1000;

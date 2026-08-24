@@ -1,4 +1,72 @@
 window.GALOK_CONTENT = {
+  site: {
+    primaryNav: [
+      { href: "/cities/", label: "Cities" },
+      { href: "/essays/", label: "Essays" },
+      { href: "/research/", label: "Research" },
+      { href: "/data/", label: "Data" },
+      { href: "/work/", label: "Work" },
+      { href: "/index/", label: "Index" },
+      { href: "/about/", label: "About" }
+    ],
+    footer: {
+      menu: [
+        { href: "/cities/", label: "Cities" },
+        { href: "/essays/", label: "Essays" },
+        { href: "/research/", label: "Research" },
+        { href: "/themes/", label: "Themes" },
+        { href: "/data/", label: "Data" },
+        { href: "/work/", label: "Work" },
+        { href: "/index/", label: "Index" },
+        { href: "/about/", label: "About" }
+      ],
+      social: [
+        { href: "https://medium.com/@galokview", label: "Medium" },
+        { href: "https://x.com/galokview", label: "X" },
+        { href: "mailto:galokview@outlook.com", label: "Email" }
+      ]
+    }
+  },
+  cities: [
+    { slug: "beijing", number: "01", index: "01 / NORTH CHINA", name: "BEIJING", label: "Beijing", latitude: 39.9042, longitude: 116.4074, description: "Power, ceremony and everyday movement.", archiveDescription: "Central axis, public ceremony, side streets and contemporary form.", tags: "city north old-city night photography video", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/beijing/" },
+    { slug: "shanghai", number: "02", index: "02 / EAST CHINA", name: "SHANGHAI", label: "Shanghai", latitude: 31.2304, longitude: 121.4737, description: "River, streets and a vertical city.", archiveDescription: "River, vertical skyline, remembered streets and the city after dark.", tags: "city coast night photography video", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/shanghai/" },
+    { slug: "xian", number: "03", index: "03 / NORTHWEST CHINA", name: "XI’AN", label: "Xi’an", latitude: 34.3416, longitude: 108.9398, description: "Empire, memory and life inside the wall.", archiveDescription: "Empire, the Terracotta Army, the city wall and the modern city beyond.", tags: "city north old-city night photography video", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xian/" },
+    { slug: "dali", number: "04", index: "04 / SOUTHWEST CHINA", name: "DALI", label: "Dali", latitude: 25.6065, longitude: 100.2676, description: "Mountains, water and a slower rhythm.", tags: "city southwest mountain water", status: "COMING SOON" },
+    { slug: "shenzhen", number: "05", index: "05 / SOUTH CHINA", name: "SHENZHEN", label: "Shenzhen", latitude: 22.5431, longitude: 114.0579, description: "A city built at the speed of possibility.", tags: "city south contemporary", status: "COMING SOON" },
+    { slug: "xiamen", number: "06", index: "06 / SOUTHEAST CHINA", name: "XIAMEN", label: "Xiamen", latitude: 24.4798, longitude: 118.0894, description: "Sea light, Minnan rooflines and a city moving with the tide.", archiveDescription: "Sea light, Minnan rooflines, island streets and the movement of the tide.", tags: "city coast old-city photography video", status: "AVAILABLE · ENTER THE STORY ↗", href: "/be-a-viewer/xiamen/" },
+    { slug: "tibet", number: "07", index: "07 / WEST CHINA", name: "TIBET", label: "Tibet", latitude: 29.65, longitude: 91.1, description: "Altitude, belief and a landscape beyond scale.", tags: "city west landscape", status: "COMING SOON" },
+    { slug: "hangzhou", number: "08", index: "08 / EAST CHINA", name: "HANGZHOU", label: "Hangzhou", latitude: 30.2741, longitude: 120.1551, description: "Water, hills and a city held behind the lake.", archiveDescription: "West Lake, green hills and a city held behind the waterline.", tags: "city east old-city lake water video field-note", status: "AVAILABLE · ENTER THE FIELD NOTE ↗", href: "/be-a-viewer/hangzhou/" }
+  ],
+  research: [
+    {
+      issue: 1,
+      code: "GALOK RESEARCH 001",
+      title: "Who Captures Growth?",
+      subtitle: "Capital Allocation, Labor-Market Power, and Household Demand in China's K-Shaped Economy",
+      description: "Capital allocation, labor-market power and household demand in China's K-shaped economy.",
+      url: "/research/who-captures-growth/",
+      date: "2026",
+      classification: "Independent Research",
+      method: "Empirical",
+      field: "China / Labor / Households / Automation",
+      cover: { src: "/assets/be-a-viewer/xian/night-market.jpeg", alt: "A night market crowd moving beneath illuminated signs in Xi'an" },
+      tags: "research empirical china labor households automation"
+    },
+    {
+      issue: 2,
+      code: "GALOK RESEARCH 002",
+      title: "The Fast Metabolism Economy",
+      subtitle: "Franchising, Network Expansion, and Store Turnover in China's Consumer Economy",
+      description: "Franchising, network expansion and gross store turnover in China's consumer economy.",
+      url: "/research/fast-metabolism-economy/",
+      date: "2026",
+      classification: "Independent Research",
+      method: "Empirical",
+      field: "China / Franchising / Foodservice / Gross Flows",
+      cover: { src: "/assets/research/research-002-cover.jpg", alt: "A shopping-mall interior layered with glass reflections, pedestrians and large advertising portraits" },
+      tags: "research empirical china franchising foodservice store turnover gross flows"
+    }
+  ],
   series: {
     macro: {
       glyph: "\u8996",

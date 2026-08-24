@@ -1,5 +1,19 @@
 (function () {
   const content = window.GALOK_CONTENT || { essays: [], series: {} };
+
+  function syncContentFacts() {
+    const openCities = (content.cities || []).filter((city) => city.href).length;
+    const facts = {
+      essays: String(content.essays.length),
+      "essay-entries": `${content.essays.length} entries`,
+      "open-cities": `${openCities} open cities`,
+      "research-papers": `${(content.research || []).length} papers + data desk`
+    };
+    document.querySelectorAll("[data-content-count]").forEach((node) => {
+      const value = facts[node.dataset.contentCount];
+      if (value) node.textContent = value;
+    });
+  }
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const pinyinByGlyph = {
@@ -1763,6 +1777,7 @@
   }
 
   loadArchiveSystemStyles();
+  syncContentFacts();
   enhanceAccessibilityShell();
   initLegacyArticleShell();
   enhanceNavigation();

@@ -126,17 +126,18 @@
       href: essay.url,
       tags: `essay notes ${essay.series}${maturity}`
     }});
+    const cityItems = (window.GALOK_CONTENT?.cities || [])
+      .filter((city) => city.href)
+      .map((city) => ({ type: "City", title: city.label, description: city.archiveDescription || city.description, href: city.href, tags: city.tags || "city" }));
+    const researchItems = (window.GALOK_CONTENT?.research || [])
+      .sort((left, right) => right.issue - left.issue)
+      .map((paper) => ({ type: "Research", title: paper.title, description: paper.description, href: paper.url, tags: `${paper.tags || "research"} ${paper.code || ""}`.trim() }));
     const fixedItems = [
-      { type: "City", title: "Beijing", description: "Central axis, public ceremony, side streets and contemporary form.", href: "/be-a-viewer/beijing/", tags: "city north old-city night photography video" },
-      { type: "City", title: "Shanghai", description: "River, vertical skyline, remembered streets and the city after dark.", href: "/be-a-viewer/shanghai/", tags: "city coast night photography video" },
-      { type: "City", title: "Xi’an", description: "Empire, the Terracotta Army, the city wall and the modern city beyond.", href: "/be-a-viewer/xian/", tags: "city north old-city night photography video" },
-      { type: "City", title: "Xiamen", description: "Sea light, Minnan rooflines, island streets and the movement of the tide.", href: "/be-a-viewer/xiamen/", tags: "city coast old-city photography video" },
-      { type: "City", title: "Hangzhou", description: "West Lake, green hills and a city held behind the waterline.", href: "/be-a-viewer/hangzhou/", tags: "city east old-city lake water video field-note" },
+      ...cityItems,
       { type: "Project", title: "Galok editorial website", description: "A modular field notebook joining essays, city stories and visual archives.", href: "/work/#galok-system", tags: "project works web design" },
       { type: "Project", title: "Be a Viewer", description: "Five city stories built from moving image, photography and close observation.", href: "/work/#be-a-viewer-work", tags: "project works city video" },
       { type: "Project", title: "City Postcards", description: "Editorial editions that turn the city archive into a personal object.", href: "/postcards/", tags: "project works postcards photography" },
-      { type: "Research", title: "The Fast Metabolism Economy", description: "Franchising, network expansion and gross store turnover in China's consumer economy.", href: "/research/fast-metabolism-economy/", tags: "research empirical china franchising foodservice store turnover gross flows GALOK RESEARCH 002" },
-      { type: "Research", title: "Who Captures Growth?", description: "Capital allocation, labor-market power and household demand in China's K-shaped economy.", href: "/research/who-captures-growth/", tags: "research empirical china labor households automation GALOK RESEARCH 001" },
+      ...researchItems,
       { type: "Data", title: "China in more than one number", description: "A source-led reading of growth, households, employment, property and fiscal pressure.", href: "/data/", tags: "data evidence china economy households employment property fiscal" },
       { type: "Visual note", title: "Xiamen field evidence", description: "Ferry light, campus walls, old alleys, gardens and island views.", href: "/visual-notes/xiamen/", tags: "visual note photography city coast" }
     ];

@@ -1,4 +1,4 @@
-import { GALOK_CITIES, normalizeCitySlug } from "./cities.config.js";
+import { GALOK_CITIES, normalizeCitySlug } from "./cities.config.js?v=batch4-content-20260824";
 
 const announceCity = (value) => {
   const city = normalizeCitySlug(value);
