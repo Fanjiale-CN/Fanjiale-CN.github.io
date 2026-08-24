@@ -115,10 +115,46 @@ const xiamenWeatherCovers = {
   }
 };
 
+const hangzhouWeatherCovers = {
+  clear: {
+    src: "/assets/be-a-viewer/weather/hangzhou/clear-broken-bridge.webp",
+    alt: "Broken Bridge over West Lake in clear Hangzhou sunlight on aged paper"
+  },
+  partlyCloudy: {
+    src: "/assets/be-a-viewer/weather/hangzhou/partly-cloudy-leifeng-pagoda.webp",
+    alt: "Leifeng Pagoda beneath broken Hangzhou clouds on aged paper"
+  },
+  overcast: {
+    src: "/assets/be-a-viewer/weather/hangzhou/overcast-gongchen-bridge.webp",
+    alt: "Gongchen Bridge over the Grand Canal beneath an overcast Hangzhou sky on aged paper"
+  },
+  rain: {
+    src: "/assets/be-a-viewer/weather/hangzhou/light-rain-sudi.webp",
+    alt: "Su Causeway in light Hangzhou rain on aged paper"
+  },
+  thunderstorm: {
+    src: "/assets/be-a-viewer/weather/hangzhou/thunderstorm-qianjiang-new-city.webp",
+    alt: "Hangzhou Olympic Sports Center and Qianjiang New City beneath a thunderstorm on aged paper"
+  },
+  typhoon: {
+    src: "/assets/be-a-viewer/weather/hangzhou/typhoon-qiantang-embankment.webp",
+    alt: "Qiantang River embankment in typhoon rain on aged paper"
+  },
+  haze: {
+    src: "/assets/be-a-viewer/weather/hangzhou/haze-qianjiang-new-city.webp",
+    alt: "Qianjiang New City fading into Hangzhou haze on aged paper"
+  },
+  snow: {
+    src: "/assets/be-a-viewer/weather/hangzhou/light-snow-lingyin-temple.webp",
+    alt: "Lingyin Temple in light Hangzhou snow on aged paper"
+  }
+};
+
 const dynamicWeatherCovers = {
   shanghai: shanghaiWeatherCovers,
   xian: xianWeatherCovers,
-  xiamen: xiamenWeatherCovers
+  xiamen: xiamenWeatherCovers,
+  hangzhou: hangzhouWeatherCovers
 };
 
 function weatherCoverFor(city, data) {
@@ -129,11 +165,11 @@ function weatherCoverFor(city, data) {
   const code = Number(data.weatherCode);
   const wetAndWindy = Number(data.wind) >= 32;
   const severeDust = city.slug === "xian" && Number(data.pm10) >= 300 && Number(data.wind) >= 25;
-  const unhealthyHaze = city.slug === "xian" && (Number(data.aqi) >= 151 || Number(data.pm10) >= 150);
+  const unhealthyHaze = ["xian", "hangzhou"].includes(city.slug) && (Number(data.aqi) >= 151 || Number(data.pm10) >= 150);
 
   if ([95, 96, 99].includes(code)) return covers.thunderstorm;
   if (city.slug === "xiamen" && wetAndWindy && [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return covers.typhoon;
-  if (city.slug === "shanghai" && ([65, 66, 67, 82].includes(code) || (wetAndWindy && [51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code)))) return covers.typhoon;
+  if (["shanghai", "hangzhou"].includes(city.slug) && ([65, 66, 67, 82].includes(code) || (wetAndWindy && [51, 53, 55, 56, 57, 61, 63, 80, 81].includes(code)))) return covers.typhoon;
   if (city.slug === "xiamen" && [65, 66, 67, 82].includes(code)) return covers.heavyRain;
   if ([71, 73, 75, 77, 85, 86].includes(code)) return covers.snow || covers.overcast;
   if (severeDust) return covers.duststorm;
