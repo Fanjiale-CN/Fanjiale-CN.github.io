@@ -118,7 +118,7 @@ const xiamenWeatherCovers = {
 const hangzhouWeatherCovers = {
   clear: {
     src: "/assets/be-a-viewer/weather/hangzhou/clear-broken-bridge.webp",
-    alt: "Broken Bridge over West Lake in clear Hangzhou sunlight on aged paper"
+    alt: "West Lake lotus pond and pavilion in clear Hangzhou sunlight on aged paper"
   },
   partlyCloudy: {
     src: "/assets/be-a-viewer/weather/hangzhou/partly-cloudy-leifeng-pagoda.webp",
@@ -126,11 +126,11 @@ const hangzhouWeatherCovers = {
   },
   overcast: {
     src: "/assets/be-a-viewer/weather/hangzhou/overcast-gongchen-bridge.webp",
-    alt: "Gongchen Bridge over the Grand Canal beneath an overcast Hangzhou sky on aged paper"
+    alt: "Hangzhou stone village beneath an overcast sky on aged paper"
   },
   rain: {
     src: "/assets/be-a-viewer/weather/hangzhou/light-rain-sudi.webp",
-    alt: "Su Causeway in light Hangzhou rain on aged paper"
+    alt: "Hangzhou tea village in light rain on aged paper"
   },
   thunderstorm: {
     src: "/assets/be-a-viewer/weather/hangzhou/thunderstorm-qianjiang-new-city.webp",
