@@ -12,6 +12,23 @@
   let activeHeroBeat = 0;
   let heroFrame = 0;
 
+  function preferredHeroSource() {
+    if (!heroVideo) return "";
+    return portraitMedia.matches && heroVideo.dataset.mobileSrc
+      ? heroVideo.dataset.mobileSrc
+      : heroVideo.dataset.src || "";
+  }
+
+  function ensureHeroSource() {
+    const source = preferredHeroSource();
+    if (!heroVideo || !source || heroVideo.dataset.loadedSrc === source) return Boolean(source);
+    heroVideo.src = source;
+    heroVideo.dataset.loadedSrc = source;
+    heroVideo.preload = "metadata";
+    heroVideo.load();
+    return true;
+  }
+
   function syncHeroPoster() {
     if (!heroVideo) return;
     const poster = portraitMedia.matches
@@ -54,10 +71,10 @@
 
   function updateHeroButton() {
     if (!heroToggle) return;
-    const paused = !heroVideo || heroVideo.paused;
-    heroToggle.textContent = paused ? "PLAY" : "PAUSE";
-    heroToggle.setAttribute("aria-label", paused ? "Play Beijing hero video" : "Pause Beijing hero video");
-    heroToggle.setAttribute("aria-pressed", String(paused));
+    const playing = Boolean(heroVideo && !heroVideo.paused && !heroVideo.ended);
+    heroToggle.textContent = playing ? "PAUSE" : "PLAY";
+    heroToggle.setAttribute("aria-label", playing ? "Pause Beijing hero video" : "Play Beijing hero video");
+    heroToggle.setAttribute("aria-pressed", String(playing));
   }
 
   async function syncHeroVideo() {
@@ -69,6 +86,7 @@
       updateHeroButton();
       return;
     }
+    if (!ensureHeroSource()) return;
     try {
       heroVideo.muted = true;
       await heroVideo.play();
@@ -78,7 +96,7 @@
   }
 
   heroToggle?.addEventListener("click", () => {
-    heroPausedByUser = !heroPausedByUser;
+    heroPausedByUser = !(heroPausedByUser || heroVideo?.paused);
     syncHeroVideo();
   });
 
@@ -102,7 +120,13 @@
   }
 
   document.addEventListener("visibilitychange", syncHeroVideo);
-  portraitMedia.addEventListener?.("change", syncHeroPoster);
+  portraitMedia.addEventListener?.("change", () => {
+    syncHeroPoster();
+    if (heroVideo?.dataset.loadedSrc && heroVideo.dataset.loadedSrc !== preferredHeroSource()) {
+      ensureHeroSource();
+      syncHeroVideo();
+    }
+  });
   syncHeroPoster();
   setHeroBeat(0);
   updateHeroButton();

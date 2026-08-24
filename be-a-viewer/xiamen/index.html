@@ -12,7 +12,7 @@
   <title>Xiamen — A City Drawn by the Tide | GALOK</title>
   <link rel="canonical" href="https://www.galok.me/be-a-viewer/xiamen/">
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="preload" href="/assets/be-a-viewer/xiamen/hero-water-hd-poster.jpg" as="image">
+  <link rel="preload" href="/assets/be-a-viewer/xiamen/hero-water-hd-poster.jpg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
   <link rel="stylesheet" href="/be-a-viewer/xiamen/xiamen.css?v=20260817-wave">
   <link rel="stylesheet" href="/be-a-viewer/city-weather.css?v=20260822-cover">
@@ -27,11 +27,11 @@
     gtag('config', 'G-2Y8N04VXYG');
   </script>
   <link rel="stylesheet" href="/galok-wave.css?v=20260817">
-  <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-split-20260815">
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
-  <script src="/be-a-viewer/city-mapline.js?v=city-mapline-split-20260815"></script>
+  <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-performance-20260824">
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+  <script defer src="/be-a-viewer/city-mapline.js?v=city-mapline-performance-20260824"></script>
 </head>
 <body class="plain-body xiamen-page-body">
   <nav class="site-nav xiamen-site-nav" aria-label="Primary navigation">
@@ -54,10 +54,7 @@
     <section class="xm-hero" id="xiamen" aria-labelledby="xiamen-page-title" data-xm-hero>
       <div class="xm-hero-stage" data-xm-hero-stage>
         <figure class="xm-hero-slide is-active" data-xm-hero-slide data-label="WATER">
-          <video muted playsinline loop preload="auto" poster="/assets/be-a-viewer/xiamen/hero-water-hd-poster.jpg">
-            <source src="https://videos.pexels.com/video-files/30346512/13007430_3840_2160_30fps.mp4" type="video/mp4">
-            <source src="/assets/be-a-viewer/xiamen/hero-water-v2.mp4" type="video/mp4">
-          </video>
+          <video muted playsinline loop preload="none" poster="/assets/be-a-viewer/xiamen/hero-water-hd-poster.jpg" data-src="/assets/be-a-viewer/xiamen/hero-water-v2.mp4" data-mobile-src="/assets/be-a-viewer/xiamen/mobile/hero-water-v2.mp4"></video>
           <figcaption>
             <p>01 / WATER</p>
             <h1 id="xiamen-page-title">THE SEA<br>ARRIVES FIRST.</h1>
@@ -65,9 +62,7 @@
           </figcaption>
         </figure>
         <figure class="xm-hero-slide" data-xm-hero-slide data-label="STONE">
-          <video muted playsinline preload="metadata" poster="/assets/be-a-viewer/xiamen/hero-stone-poster.jpg">
-            <source src="/assets/be-a-viewer/xiamen/hero-stone.mp4" type="video/mp4">
-          </video>
+          <video muted playsinline preload="none" poster="/assets/be-a-viewer/xiamen/hero-stone-poster.jpg" data-src="/assets/be-a-viewer/xiamen/hero-stone.mp4" data-mobile-src="/assets/be-a-viewer/xiamen/mobile/hero-stone.mp4"></video>
           <figcaption>
             <p>02 / STONE</p>
             <h2>SALT STAYS<br>IN THE WALLS.</h2>
@@ -75,9 +70,7 @@
           </figcaption>
         </figure>
         <figure class="xm-hero-slide" data-xm-hero-slide data-label="CITY">
-          <video muted playsinline preload="metadata" poster="/assets/be-a-viewer/xiamen/hero-city-poster.jpg">
-            <source src="/assets/be-a-viewer/xiamen/hero-city.mp4" type="video/mp4">
-          </video>
+          <video muted playsinline preload="none" poster="/assets/be-a-viewer/xiamen/hero-city-poster.jpg" data-src="/assets/be-a-viewer/xiamen/hero-city.mp4" data-mobile-src="/assets/be-a-viewer/xiamen/mobile/hero-city.mp4"></video>
           <figcaption>
             <p>03 / CITY</p>
             <h2>XIAMEN MOVES<br>WITH THE TIDE.</h2>
@@ -93,7 +86,7 @@
         <span data-xm-hero-count>01 / 03</span>
         
         <button type="button" data-xm-hero-prev aria-label="Previous scene">PREV</button>
-        <button type="button" data-xm-hero-toggle aria-label="Pause hero video" aria-pressed="false">PAUSE</button>
+        <button type="button" data-xm-hero-toggle aria-label="Play hero video" aria-pressed="false">PLAY</button>
         <button type="button" data-xm-hero-next aria-label="Next scene">NEXT</button>
         <a href="#tide-table">ENTER XIAMEN <span aria-hidden="true">↓</span></a>
       </div>
@@ -134,7 +127,7 @@
       </div>
       <div class="xm-tide-player" data-xm-tide-player>
         <div class="xm-tide-media" aria-live="polite">
-          <figure class="is-active" data-xm-tide-frame="0"><img src="/assets/be-a-viewer/xiamen/sea-evening.webp" width="1920" height="1200" alt="The Xiamen waterfront at evening"><figcaption>SEA / A LINE WITHOUT AN EDGE</figcaption></figure>
+          <figure class="is-active" data-xm-tide-frame="0"><img src="/assets/be-a-viewer/xiamen/sea-evening.webp" width="1920" height="1200" alt="The Xiamen waterfront at evening" loading="lazy" decoding="async"><figcaption>SEA / A LINE WITHOUT AN EDGE</figcaption></figure>
           <figure data-xm-tide-frame="1"><img src="/assets/be-a-viewer/xiamen/gulangyu-roofs.webp" width="2200" height="1650" loading="lazy" decoding="async" alt="Red roofs and dense greenery on Gulangyu"><figcaption>ISLAND / ROOFS IN THE GREEN</figcaption></figure>
           <figure data-xm-tide-frame="2"><img src="/assets/be-a-viewer/xiamen/university-road.webp" width="2200" height="1467" loading="lazy" decoding="async" alt="A telephone on an old street near Xiamen University"><figcaption>STREET / COLOUR AS MEMORY</figcaption></figure>
           <figure data-xm-tide-frame="3"><img src="/assets/be-a-viewer/xiamen/temple-detail.webp" width="1280" height="1920" loading="lazy" decoding="async" alt="A richly coloured Minnan temple roof"><figcaption>ROOFLINE / CRAFT AGAINST THE SKY</figcaption></figure>
@@ -450,7 +443,7 @@
       <dialog class="city-archive-lightbox" aria-label="Expanded Xiamen visual archive" data-archive-lightbox>
         <button type="button" data-archive-close>CLOSE</button>
         <button type="button" aria-label="View previous archive image" data-archive-previous>PREV</button>
-        <figure><img src="/assets/editorial/xiamen/poster/arrival-lines.webp" alt="" data-archive-image><figcaption data-archive-caption></figcaption></figure>
+        <figure><img src="/assets/editorial/xiamen/poster/arrival-lines.webp" alt="" data-archive-image width="1024" height="1536" loading="lazy" decoding="async"><figcaption data-archive-caption></figcaption></figure>
         <button type="button" aria-label="View next archive image" data-archive-next>NEXT</button>
         <p data-archive-count></p>
       </dialog>
@@ -497,7 +490,7 @@
 
   <script type="module" src="/be-a-viewer/city-weather.js?v=20260824-hangzhou-weather"></script>
   <script src="/galok-wave.js?v=20260817"></script><script src="/script.js?v=ia-20260820-mobile"></script>
-  <script src="/be-a-viewer/xiamen/xiamen.js?v=20260817-wave-fix"></script>
+  <script src="/be-a-viewer/xiamen/xiamen.js?v=cities-performance-20260824"></script>
   <script src="/be-a-viewer/city-archive.js?v=3"></script>
   <script src="/be-a-viewer/literary-city.js?v=cities-in-words-20260813c"></script>
 </body>

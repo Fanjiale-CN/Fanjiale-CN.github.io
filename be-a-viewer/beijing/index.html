@@ -12,7 +12,7 @@
   <title>Beijing — The City Along an Axis | GALOK</title>
   <link rel="canonical" href="https://www.galok.me/be-a-viewer/beijing/">
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="preload" href="/assets/be-a-viewer/beijing/beijing-hero-poster.jpg" as="image">
+  <link rel="preload" href="/assets/be-a-viewer/beijing/beijing-hero-poster.jpg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
   <link rel="stylesheet" href="/be-a-viewer/beijing/beijing.css?v=20260817-wave">
   <link rel="stylesheet" href="/be-a-viewer/city-weather.css?v=20260822-cover">
@@ -27,11 +27,11 @@
     gtag('config', 'G-2Y8N04VXYG');
   </script>
   <link rel="stylesheet" href="/galok-wave.css?v=20260817">
-  <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-split-20260815">
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
-  <script src="/be-a-viewer/city-mapline.js?v=city-mapline-split-20260815"></script>
+  <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-performance-20260824">
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+  <script defer src="/be-a-viewer/city-mapline.js?v=city-mapline-performance-20260824"></script>
 </head>
 <body class="plain-body beijing-page-body">
   <a class="skip-link" href="#beijing-story">Skip to the Beijing story</a>
@@ -59,15 +59,14 @@
           muted
           playsinline
           loop
-          preload="metadata"
+          preload="none"
           poster="/assets/be-a-viewer/beijing/beijing-hero-poster.jpg"
           data-poster-landscape="/assets/be-a-viewer/beijing/beijing-hero-poster.jpg"
           data-poster-portrait="/assets/be-a-viewer/beijing/beijing-hero-mobile-poster.jpg"
+          data-src="/assets/be-a-viewer/beijing/beijing-hero.mp4"
+          data-mobile-src="/assets/be-a-viewer/beijing/beijing-hero-mobile.mp4"
           data-beijing-hero-video
-        >
-          <source media="(orientation: portrait)" src="/assets/be-a-viewer/beijing/beijing-hero-mobile.mp4" type="video/mp4">
-          <source src="/assets/be-a-viewer/beijing/beijing-hero.mp4" type="video/mp4">
-        </video>
+        ></video>
       </div>
       <div class="beijing-hero-shade" aria-hidden="true"></div>
 
@@ -90,7 +89,7 @@
       <div class="beijing-hero-footer">
         <span data-beijing-hero-index>01 / 03</span>
         <div class="beijing-hero-progress" aria-hidden="true"><i data-beijing-hero-progress></i></div>
-        <button type="button" data-beijing-video-toggle aria-label="Pause Beijing hero video" aria-pressed="false">PAUSE</button>
+        <button type="button" data-beijing-video-toggle aria-label="Play Beijing hero video" aria-pressed="false">PLAY</button>
         <a href="#central-axis">ENTER BEIJING <span aria-hidden="true">↓</span></a>
       </div>
     </section>
@@ -125,7 +124,7 @@
         <p>Scale is experienced by sequence: cross a threshold, enter a court, look farther.</p>
       </div>
       <figure class="beijing-photo beijing-prologue-photo" data-beijing-reveal>
-        <img src="/assets/be-a-viewer/beijing/palace-sunset.webp" width="1800" height="1200" alt="The tiled roofs of the Forbidden City at sunset" decoding="async">
+        <img src="/assets/be-a-viewer/beijing/palace-sunset.webp" width="1800" height="1200" alt="The tiled roofs of the Forbidden City at sunset" decoding="async" loading="lazy">
         <figcaption>PALACE ROOFS / LAST LIGHT</figcaption>
       </figure>
       <div class="beijing-prologue-word" aria-hidden="true">AXIS</div>
@@ -140,7 +139,7 @@
 
       <div class="beijing-axis-stage">
         <article class="beijing-axis-panel is-active" id="axis-panel-imperial" role="tabpanel" aria-labelledby="axis-stop-imperial" data-axis-panel="0">
-          <img src="/assets/be-a-viewer/beijing/imperial-eaves.webp" width="1800" height="1202" alt="Palace roofs and painted eaves against a blue sky">
+          <img src="/assets/be-a-viewer/beijing/imperial-eaves.webp" width="1800" height="1202" alt="Palace roofs and painted eaves against a blue sky" loading="lazy" decoding="async">
           <div>
             <p>01 / IMPERIAL</p>
             <h3>Ritual gives the city its measure.</h3>
@@ -339,7 +338,7 @@
       <dialog class="city-archive-lightbox" aria-label="Expanded Beijing visual archive" data-archive-lightbox>
         <button type="button" data-archive-close>CLOSE</button>
         <button type="button" aria-label="View previous archive image" data-archive-previous>PREV</button>
-        <figure><img src="/assets/editorial/beijing/poster/measured-courtyard.webp" alt="" data-archive-image><figcaption data-archive-caption></figcaption></figure>
+        <figure><img src="/assets/editorial/beijing/poster/measured-courtyard.webp" alt="" data-archive-image width="1024" height="1536" loading="lazy" decoding="async"><figcaption data-archive-caption></figcaption></figure>
         <button type="button" aria-label="View next archive image" data-archive-next>NEXT</button>
         <p data-archive-count></p>
       </dialog>
@@ -391,7 +390,7 @@
 
   <script type="module" src="/be-a-viewer/city-weather.js?v=20260824-hangzhou-weather"></script>
   <script src="/galok-wave.js?v=20260817"></script><script src="/script.js?v=ia-20260820-mobile"></script>
-  <script src="/be-a-viewer/beijing/beijing.js?v=4"></script>
+  <script src="/be-a-viewer/beijing/beijing.js?v=cities-performance-20260824"></script>
   <script src="/be-a-viewer/city-archive.js?v=3"></script>
   <script src="/be-a-viewer/literary-city.js?v=cities-in-words-20260813c"></script>
 </body>

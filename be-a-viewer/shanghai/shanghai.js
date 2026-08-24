@@ -30,6 +30,23 @@
   let heroThreshold = 1;
   let activeHref = "";
 
+  function preferredVideoSource(video) {
+    if (!video) return "";
+    return portraitMedia.matches && video.dataset.mobileSrc
+      ? video.dataset.mobileSrc
+      : video.dataset.src || "";
+  }
+
+  function ensureVideoSource(video) {
+    const source = preferredVideoSource(video);
+    if (!video || !source || video.dataset.loadedSrc === source) return Boolean(source);
+    video.src = source;
+    video.dataset.loadedSrc = source;
+    video.preload = "metadata";
+    video.load();
+    return true;
+  }
+
   function syncHeroPoster() {
     if (!heroVideo) return;
     const poster = portraitMedia.matches
@@ -52,10 +69,10 @@
 
   function updateVideoButton() {
     if (!videoToggle) return;
-    const paused = !heroVideo || heroVideo.paused;
-    videoToggle.textContent = paused ? "PLAY" : "PAUSE";
-    videoToggle.setAttribute("aria-label", paused ? "Play Shanghai hero video" : "Pause Shanghai hero video");
-    videoToggle.setAttribute("aria-pressed", String(paused));
+    const playing = Boolean(heroVideo && !heroVideo.paused && !heroVideo.ended);
+    videoToggle.textContent = playing ? "PAUSE" : "PLAY";
+    videoToggle.setAttribute("aria-label", playing ? "Pause Shanghai hero video" : "Play Shanghai hero video");
+    videoToggle.setAttribute("aria-pressed", String(playing));
   }
 
   async function syncHeroVideo() {
@@ -65,6 +82,7 @@
       updateVideoButton();
       return;
     }
+    if (!ensureVideoSource(heroVideo)) return;
     try {
       heroVideo.muted = true;
       await heroVideo.play();
@@ -125,10 +143,10 @@
 
   function updateTempleButton() {
     if (!templeToggle) return;
-    const paused = !templeVideo || templeVideo.paused;
-    templeToggle.textContent = paused ? "PLAY" : "PAUSE";
-    templeToggle.setAttribute("aria-label", paused ? "Play Jing’an Temple video" : "Pause Jing’an Temple video");
-    templeToggle.setAttribute("aria-pressed", String(paused));
+    const playing = Boolean(templeVideo && !templeVideo.paused && !templeVideo.ended);
+    templeToggle.textContent = playing ? "PAUSE" : "PLAY";
+    templeToggle.setAttribute("aria-label", playing ? "Pause Jing’an Temple video" : "Play Jing’an Temple video");
+    templeToggle.setAttribute("aria-pressed", String(playing));
   }
 
   async function syncTempleVideo() {
@@ -139,6 +157,7 @@
       updateTempleButton();
       return;
     }
+    if (!ensureVideoSource(templeVideo)) return;
     try {
       templeVideo.muted = true;
       await templeVideo.play();
@@ -148,12 +167,12 @@
   }
 
   videoToggle?.addEventListener("click", () => {
-    pausedByUser = !pausedByUser;
+    pausedByUser = !(pausedByUser || heroVideo?.paused);
     syncHeroVideo();
   });
 
   templeToggle?.addEventListener("click", () => {
-    templePausedByUser = !templePausedByUser;
+    templePausedByUser = !(templePausedByUser || templeVideo?.paused);
     syncTempleVideo();
   });
 
@@ -180,6 +199,14 @@
   portraitMedia.addEventListener?.("change", () => {
     syncHeroPoster();
     syncTemplePoster();
+    if (heroVideo?.dataset.loadedSrc) {
+      ensureVideoSource(heroVideo);
+      syncHeroVideo();
+    }
+    if (templeVideo?.dataset.loadedSrc && templeVisible) {
+      ensureVideoSource(templeVideo);
+      syncTempleVideo();
+    }
   });
   syncHeroPoster();
   syncTemplePoster();

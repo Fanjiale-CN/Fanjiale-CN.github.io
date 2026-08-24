@@ -60,19 +60,21 @@
     var mapEl = stage.querySelector(".cl-map");
     if (!mapEl) { return; }
 
-    // reduced motion: pure CSS static hairline, no JS animation
-    if (REDUCED) {
+    // Reduced motion or a failed CDN dependency: keep the final map and copy readable.
+    if (REDUCED || !window.gsap || !window.DrawSVGPlugin || !window.ScrollTrigger) {
+      stage.classList.add("is-static");
       stage.classList.add("is-ghost");
       return;
     }
 
-    gsap.registerPlugin(DrawSVGPlugin, ScrollTrigger);
+    stage.classList.add("is-animated");
+    window.gsap.registerPlugin(window.DrawSVGPlugin, window.ScrollTrigger);
 
     var districts;
     install(mapEl, function (ds) { districts = Array.prototype.slice.call(ds); });
 
     function build() {
-      var tl = gsap.timeline({
+      var tl = window.gsap.timeline({
         scrollTrigger: {
           trigger: stage,
           start: "top 88%",

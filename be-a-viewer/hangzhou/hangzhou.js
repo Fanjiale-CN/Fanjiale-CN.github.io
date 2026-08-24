@@ -1,25 +1,70 @@
 (() => {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileMedia = window.matchMedia("(max-width: 760px)");
 
+  const hero = document.querySelector("[data-hz-hero]");
   const heroVideo = document.querySelector("[data-hz-hero-video]");
   const heroToggle = document.querySelector("[data-hz-hero-toggle]");
+  let heroPausedByUser = reducedMotion;
+  let heroVisible = true;
+
+  function ensureHeroSource() {
+    if (!heroVideo) return false;
+    const source = mobileMedia.matches && heroVideo.dataset.mobileSrc
+      ? heroVideo.dataset.mobileSrc
+      : heroVideo.dataset.src || "";
+    if (!source) return false;
+    if (heroVideo.dataset.loadedSrc !== source) {
+      heroVideo.src = source;
+      heroVideo.dataset.loadedSrc = source;
+      heroVideo.preload = "metadata";
+      heroVideo.load();
+    }
+    return true;
+  }
 
   function syncHero() {
     if (!heroVideo || !heroToggle) return;
-    const paused = heroVideo.paused;
-    heroToggle.textContent = paused ? "PLAY" : "PAUSE";
-    heroToggle.setAttribute("aria-pressed", String(paused));
-    heroToggle.setAttribute("aria-label", `${paused ? "Play" : "Pause"} Hangzhou hero video`);
+    const playing = !heroVideo.paused && !heroVideo.ended;
+    heroToggle.textContent = playing ? "PAUSE" : "PLAY";
+    heroToggle.setAttribute("aria-pressed", String(playing));
+    heroToggle.setAttribute("aria-label", `${playing ? "Pause" : "Play"} Hangzhou hero video`);
+  }
+
+  async function syncHeroPlayback({ userInitiated = false } = {}) {
+    if (!heroVideo) return;
+    if (heroPausedByUser || !heroVisible || document.hidden || (reducedMotion && !userInitiated)) {
+      heroVideo.pause();
+      syncHero();
+      return;
+    }
+    if (!ensureHeroSource()) return;
+    try {
+      heroVideo.muted = true;
+      await heroVideo.play();
+    } catch {}
+    syncHero();
   }
 
   heroToggle?.addEventListener("click", () => {
-    if (heroVideo.paused) heroVideo.play().catch(() => {});
-    else heroVideo.pause();
-    syncHero();
+    if (heroVideo.paused) {
+      heroPausedByUser = false;
+      syncHeroPlayback({ userInitiated: true });
+    } else {
+      heroPausedByUser = true;
+      heroVideo.pause();
+    }
   });
-  if (reducedMotion) heroVideo?.pause();
-  ["play", "pause"].forEach((eventName) => heroVideo?.addEventListener(eventName, syncHero));
+  ["play", "pause", "ended", "error"].forEach((eventName) => heroVideo?.addEventListener(eventName, syncHero));
+  if (hero && "IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => {
+      heroVisible = entry.isIntersecting;
+      syncHeroPlayback();
+    }, { threshold: .06 }).observe(hero);
+  }
+  document.addEventListener("visibilitychange", () => syncHeroPlayback());
   syncHero();
+  syncHeroPlayback();
 
   const filmStage = document.querySelector("[data-hz-film-stage]");
   const filmSlides = [...document.querySelectorAll("[data-hz-film-slide]")];

@@ -87,7 +87,8 @@
 .cl-district {
   stroke: var(--cl-stage-ink, #1a1a1a);
   stroke-width: 2.4;
-  opacity: 0;
+  opacity: 1;
+  stroke-opacity: 0.12;
 }
 
 /* main boundary: the drawn line */
@@ -96,8 +97,12 @@
   stroke-width: 3.6;
   stroke-linecap: round;
   stroke-linejoin: round;
-  opacity: 0;
+  opacity: 1;
+  stroke-opacity: 0.3;
 }
+
+.cl-stage.is-animated .cl-district,
+.cl-stage.is-animated .cl-outline { opacity: 0; }
 
 /* state: line drawn, map recedes to watermark behind content */
 .cl-stage.is-drawn .cl-outline { opacity: 1; }
@@ -105,6 +110,13 @@
 .cl-stage.is-ghost .cl-outline { stroke-opacity: 0.16; }
 .cl-stage.is-ghost .cl-district { stroke-opacity: 0.07; }
 .cl-stage.is-ghost .cl-copy { opacity: 0.18; }
+.cl-stage.is-static .cl-map path {
+  opacity: 1;
+  stroke-opacity: 0.12;
+}
+.cl-stage.is-static .cl-outline { stroke-opacity: 0.3; }
+.cl-stage.is-static .cl-copy,
+.cl-stage.is-static.is-ghost .cl-copy { opacity: 1; }
 
 /* reduced motion: static hairline map, no JS needed */
 @media (prefers-reduced-motion: reduce) {

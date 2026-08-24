@@ -18,7 +18,7 @@ Total output lines: 494
   <title>Shanghai — River, Streets and Vertical City | GALOK</title>
   <link rel="canonical" href="https://www.galok.me/be-a-viewer/shanghai/">
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="preload" href="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg" as="image">
+  <link rel="preload" href="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
   <link rel="stylesheet" href="/be-a-viewer/shanghai/shanghai.css?v=20260817-wave">
   <link rel="stylesheet" href="/be-a-viewer/city-weather.css?v=20260822-cover">
@@ -33,11 +33,11 @@ Total output lines: 494
     gtag('config', 'G-2Y8N04VXYG');
   </script>
   <link rel="stylesheet" href="/galok-wave.css?v=20260817">
-  <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-split-20260815">
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
-  <script src="/be-a-viewer/city-mapline.js?v=city-mapline-split-20260815"></script>
+  <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-performance-20260824">
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+  <script defer src="/be-a-viewer/city-mapline.js?v=city-mapline-performance-20260824"></script>
 </head>
 <body class="plain-body shanghai-page-body">
   <nav class="site-nav shanghai-site-nav" aria-label="Primary navigation">
@@ -63,15 +63,14 @@ Total output lines: 494
           muted
           playsinline
           loop
-          preload="metadata"
+          preload="none"
           poster="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg"
           data-poster-landscape="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg"
           data-poster-portrait="/assets/be-a-viewer/shanghai/shanghai-hero-mobile-poster.jpg"
+          data-src="/assets/be-a-viewer/shanghai/shanghai-hero-optimized.mp4"
+          data-mobile-src="/assets/be-a-viewer/shanghai/shanghai-hero-mobile-lite.mp4"
           data-shanghai-hero-video
-        >
-          <source media="(orientation: portrait)" src="/assets/be-a-viewer/shanghai/shanghai-hero-mobile.mp4" type="video/mp4">
-          <source src="/assets/be-a-viewer/shanghai/shanghai-hero.mp4" type="video/mp4">
-        </video>
+        ></video>
       </div>
       <div class="shanghai-hero-fallback" aria-hidden="true"></div>
       <h1 class="sr-only" id="shanghai-title">Shanghai</h1>
@@ -81,7 +80,7 @@ Total output lines: 494
         <p>上海老漂亮了. This city is wonderfully lovely.</p>
       </div>
       <div class="shanghai-hero-ui">
-        <button type="button" data-shanghai-video-toggle aria-label="Pause Shanghai hero video" aria-pressed="false">PAUSE</button>
+        <button type="button" data-shanghai-video-toggle aria-label="Play Shanghai hero video" aria-pressed="false">PLAY</button>
         <a href="#river">ENTER SHANGHAI <span aria-hidden="true">↓</span></a>
       </div>
     </section>
@@ -119,7 +118,7 @@ Total output lines: 494
         <p>The Huangpu is not a dividing line. It is the city’s longest room—a place where every period turns to face the next.</p>
       </div>
       <figure class="shanghai-photo shanghai-river-main">
-        <img src="/assets/be-a-viewer/shanghai/bund-west-bank.webp" width="2400" height="1802" alt="The Bund on the west bank of the Huangpu River" decoding="async">
+        <img src="/assets/be-a-viewer/shanghai/bund-west-bank.webp" width="2400" height="1802" alt="The Bund on the west bank of the Huangpu River" decoding="async" loading="lazy">
         <figcaption>WEST BANK / THE BUND</figcaption>
       </figure>
       <figure class="shanghai-photo shanghai-river-detail">
@@ -267,15 +266,14 @@ Total output lines: 494
           muted
           playsinline
           loop
-          preload="metadata"
+          preload="none"
           poster="/assets/be-a-viewer/shanghai/jingan-temple-poster.jpg"
           data-poster-landscape="/assets/be-a-viewer/shanghai/jingan-temple-poster.jpg"
           data-poster-portrait="/assets/be-a-viewer/shanghai/jingan-temple-mobile-poster.jpg"
+          data-src="/assets/be-a-viewer/shanghai/jingan-temple.mp4"
+          data-mobile-src="/assets/be-a-viewer/shanghai/jingan-temple-mobile.mp4"
           data-shanghai-temple-video
-        >
-          <source media="(orientation: portrait)" src="/assets/be-a-viewer/shanghai/jingan-temple-mobile.mp4" type="video/mp4">
-          <source src="/assets/be-a-viewer/shanghai/jingan-temple.mp4" type="video/mp4">
-        </video>
+        ></video>
       </div>
       <div class="shanghai-temple-wash" aria-hidden="true"></div>
       <div class="shanghai-temple-meta">
@@ -300,7 +298,7 @@ Total output lines: 494
         </article>
       </div>
       <div class="shanghai-temple-controls">
-        <button type="button" data-shanghai-temple-toggle aria-label="Pause Jing’an Temple video" aria-pressed="false">PAUSE</button>
+        <button type="button" data-shanghai-temple-toggle aria-label="Play Jing’an Temple video" aria-pressed="false">PLAY</button>
         <span data-shanghai-temple-index>01 / 03</span>
         
         <a href="#streets-remember">CONTINUE <span aria-hidden="true">↓</span></a>
@@ -408,7 +406,7 @@ Total output lines: 494
       <dialog class="city-archive-lightbox" aria-label="Expanded Shanghai visual archive" data-archive-lightbox>
         <button type="button" data-archive-close>CLOSE</button>
         <button type="button" aria-label="View previous archive image" data-archive-previous>PREV</button>
-        <figure><img src="/assets/editorial/shanghai/poster/river-in-fog.webp" alt="" data-archive-image><figcaption data-archive-caption></figcaption></figure>
+        <figure><img src="/assets/editorial/shanghai/poster/river-in-fog.webp" alt="" data-archive-image width="1122" height="1402" loading="lazy" decoding="async"><figcaption data-archive-caption></figcaption></figure>
         <button type="button" aria-label="View next archive image" data-archive-next>NEXT</button>
         <p data-archive-count></p>
       </dialog>
@@ -474,7 +472,7 @@ Total output lines: 494
     <dialog class="shanghai-lightbox" aria-label="Expanded Shanghai photograph" data-shanghai-lightbox>
       <button type="button" data-shanghai-lightbox-close>CLOSE</button>
       <button type="button" aria-label="View previous photograph" data-shanghai-lightbox-previous>PREV</button>
-      <figure><img src="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg" alt="" data-shanghai-lightbox-image><figcaption data-shanghai-lightbox-caption></figcaption></figure>
+      <figure><img src="/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg" alt="" data-shanghai-lightbox-image width="1920" height="1080" loading="lazy" decoding="async"><figcaption data-shanghai-lightbox-caption></figcaption></figure>
       <button type="button" aria-label="View next photograph" data-shanghai-lightbox-next>NEXT</button>
       <p data-shanghai-lightbox-count></p>
     </dialog>
@@ -493,7 +491,7 @@ Total output lines: 494
 
   <script type="module" src="/be-a-viewer/city-weather.js?v=20260824-hangzhou-weather"></script>
   <script src="/galok-wave.js?v=20260817"></script><script src="/script.js?v=ia-20260820-mobile"></script>
-  <script src="/be-a-viewer/shanghai/shanghai.js?v=7"></script>
+  <script src="/be-a-viewer/shanghai/shanghai.js?v=cities-performance-20260824"></script>
   <script src="/be-a-viewer/city-archive.js?v=3"></script>
   <script src="/be-a-viewer/literary-city.js?v=cities-in-words-20260813c"></script>
 </body>

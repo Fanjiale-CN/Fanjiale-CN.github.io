@@ -6,7 +6,9 @@ const announceCity = (value) => {
 };
 
 (() => {
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reducedMotionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const mobileMedia = window.matchMedia("(max-width: 760px)");
+  let reducedMotion = reducedMotionMedia.matches;
   const hero = document.querySelector("[data-viewer-hero]");
 
   if (hero) {
@@ -36,6 +38,23 @@ const announceCity = (value) => {
 
     const pauseAll = () => videos.forEach((video) => video?.pause());
 
+    function preferredSource(video) {
+      if (!video) return "";
+      return mobileMedia.matches && video.dataset.mobileSrc
+        ? video.dataset.mobileSrc
+        : video.dataset.src || "";
+    }
+
+    function ensureSource(video) {
+      const source = preferredSource(video);
+      if (!video || !source || video.dataset.loadedSrc === source) return Boolean(source);
+      video.src = source;
+      video.dataset.loadedSrc = source;
+      video.preload = "metadata";
+      video.load();
+      return true;
+    }
+
     function syncCopy(slide) {
       Object.entries(fields).forEach(([key, node]) => {
         if (node && slide.dataset[key] !== undefined) node.textContent = slide.dataset[key];
@@ -54,10 +73,10 @@ const announceCity = (value) => {
     function updateToggle() {
       if (!toggle) return;
       const video = videos[activeIndex];
-      const paused = pausedByUser || !video || video.paused;
-      toggle.textContent = paused ? "PLAY" : "PAUSE";
-      toggle.setAttribute("aria-label", paused ? "Play travel video" : "Pause travel video");
-      toggle.setAttribute("aria-pressed", String(paused));
+      const playing = Boolean(video && !video.paused && !video.ended);
+      toggle.textContent = playing ? "PAUSE" : "PLAY";
+      toggle.setAttribute("aria-label", playing ? "Pause travel video" : "Play travel video");
+      toggle.setAttribute("aria-pressed", String(playing));
     }
 
     function clearFallback() {
@@ -69,11 +88,15 @@ const announceCity = (value) => {
       clearFallback();
     }
 
-    async function playActive() {
+    async function playActive({ userInitiated = false } = {}) {
       const video = videos[activeIndex];
       pauseAll();
       clearFallback();
-      if (!video || pausedByUser || !heroVisible || document.hidden) {
+      if (!video || pausedByUser || !heroVisible || document.hidden || (reducedMotion && !userInitiated)) {
+        updateToggle();
+        return;
+      }
+      if (!ensureSource(video)) {
         updateToggle();
         return;
       }
@@ -85,16 +108,15 @@ const announceCity = (value) => {
       if (!progressFrame) progressFrame = requestAnimationFrame(updateProgress);
     }
 
-    function showSlide(index, autoplay = true, instant = false) {
+    function showSlide(index, { autoplay = !pausedByUser && !reducedMotion, instant = false } = {}) {
       activeIndex = (index + slides.length) % slides.length;
       pauseAll();
-      const preloadIndex = (activeIndex + 1) % slides.length;
       slides.forEach((slide, slideIndex) => {
         const active = slideIndex === activeIndex;
         slide.classList.toggle("is-active", active);
         const video = videos[slideIndex];
         if (!video) return;
-        video.preload = active || slideIndex === preloadIndex ? "auto" : "none";
+        video.preload = active && video.dataset.loadedSrc ? "metadata" : "none";
         if (!active) {
           try { video.currentTime = 0; } catch {}
         }
@@ -121,7 +143,6 @@ const announceCity = (value) => {
       try { videos[activeIndex].currentTime = 0; } catch {}
       if (progress) progress.style.transform = "scaleX(0)";
       if (autoplay) {
-        pausedByUser = false;
         requestAnimationFrame(playActive);
       } else {
         updateToggle();
@@ -133,7 +154,7 @@ const announceCity = (value) => {
       if (!video) return;
       if (pausedByUser || video.paused) {
         pausedByUser = false;
-        playActive();
+        playActive({ userInitiated: true });
       } else {
         pausedByUser = true;
         pauseAll();
@@ -143,11 +164,13 @@ const announceCity = (value) => {
 
     videos.forEach((video, index) => {
       video?.addEventListener("ended", () => {
-        if (index === activeIndex && !pausedByUser) showSlide(activeIndex + 1, true);
+        updateToggle();
+        if (index === activeIndex && !pausedByUser && !reducedMotion) showSlide(activeIndex + 1);
       });
       video?.addEventListener("loadedmetadata", () => {
         if (index === activeIndex && !progressFrame) progressFrame = requestAnimationFrame(updateProgress);
       });
+      ["play", "pause", "error"].forEach((eventName) => video?.addEventListener(eventName, updateToggle));
     });
 
     dots.forEach((dot, index) => dot.addEventListener("click", () => showSlide(index)));
@@ -182,9 +205,20 @@ const announceCity = (value) => {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) pauseAll();
       else if (!pausedByUser) playActive();
+      updateToggle();
     });
 
-    showSlide(0, true, true);
+    reducedMotionMedia.addEventListener?.("change", (event) => {
+      reducedMotion = event.matches;
+      if (reducedMotion) {
+        pauseAll();
+      } else if (!pausedByUser) {
+        playActive();
+      }
+      updateToggle();
+    });
+
+    showSlide(0, { autoplay: !reducedMotion, instant: true });
   }
 
   const cityData = GALOK_CITIES;

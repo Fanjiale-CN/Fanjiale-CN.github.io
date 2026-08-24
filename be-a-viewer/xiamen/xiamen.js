@@ -20,15 +20,32 @@
     let elapsed = 0;
     let frame = 0;
     let swipeStart = null;
+    const mobileMedia = window.matchMedia("(max-width: 760px)");
 
     const pauseAll = () => videos.forEach((video) => video?.pause());
 
+    function ensureSource(video) {
+      if (!video) return false;
+      const source = mobileMedia.matches && video.dataset.mobileSrc
+        ? video.dataset.mobileSrc
+        : video.dataset.src || "";
+      if (!source) return false;
+      if (video.dataset.loadedSrc !== source) {
+        video.src = source;
+        video.dataset.loadedSrc = source;
+        video.preload = "metadata";
+        video.load();
+      }
+      return true;
+    }
+
     function updateToggle() {
       if (!toggle) return;
-      const paused = pausedByUser || !visible || document.hidden;
-      toggle.textContent = paused ? "PLAY" : "PAUSE";
-      toggle.setAttribute("aria-label", paused ? "Play Xiamen hero" : "Pause Xiamen hero");
-      toggle.setAttribute("aria-pressed", String(paused));
+      const video = videos[activeIndex];
+      const playing = Boolean(video && !video.paused && !video.ended);
+      toggle.textContent = playing ? "PAUSE" : "PLAY";
+      toggle.setAttribute("aria-label", playing ? "Pause Xiamen hero" : "Play Xiamen hero");
+      toggle.setAttribute("aria-pressed", String(playing));
     }
 
     async function playActive() {
@@ -38,7 +55,7 @@
         return;
       }
       const video = videos[activeIndex];
-      if (!video) return;
+      if (!video || !ensureSource(video)) return;
       try {
         video.muted = true;
         await video.play();
@@ -56,7 +73,7 @@
         slide.setAttribute("aria-hidden", String(!active));
         const video = videos[slideIndex];
         if (!video) return;
-        video.preload = active || slideIndex === (activeIndex + 1) % slides.length ? "auto" : "metadata";
+        video.preload = active && video.dataset.loadedSrc ? "metadata" : "none";
         if (!active) {
           video.pause();
           try { video.currentTime = 0; } catch {}
@@ -69,7 +86,8 @@
 
     function renderHero(now) {
       frame = 0;
-      if (!pausedByUser && visible && !document.hidden) {
+      const video = videos[activeIndex];
+      if (!pausedByUser && visible && !document.hidden && video && !video.paused) {
         const current = elapsed + now - startedAt;
         const amount = Math.min(1, current / sceneDuration);
         if (progress) progress.style.transform = `scaleX(${amount})`;
@@ -81,11 +99,13 @@
     hero.querySelector("[data-xm-hero-prev]")?.addEventListener("click", () => showSlide(activeIndex - 1));
     hero.querySelector("[data-xm-hero-next]")?.addEventListener("click", () => showSlide(activeIndex + 1));
     toggle?.addEventListener("click", () => {
-      pausedByUser = !pausedByUser;
-      if (pausedByUser) {
+      const video = videos[activeIndex];
+      if (!pausedByUser && video && !video.paused) {
+        pausedByUser = true;
         elapsed += performance.now() - startedAt;
         pauseAll();
       } else {
+        pausedByUser = false;
         startedAt = performance.now();
         playActive();
       }
@@ -126,6 +146,11 @@
         startedAt = performance.now();
         playActive();
       }
+      updateToggle();
+    });
+
+    videos.forEach((video) => {
+      ["play", "pause", "ended", "error"].forEach((eventName) => video?.addEventListener(eventName, updateToggle));
     });
 
     showSlide(0);

@@ -12,7 +12,7 @@
   <title>Xi’an — Terracotta Army and China’s Ancient Capital | GALOK</title>
   <link rel="canonical" href="https://www.galok.me/be-a-viewer/xian/">
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="preload" href="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" as="image">
+  <link rel="preload" href="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
   <link rel="stylesheet" href="/be-a-viewer/xian/xian.css?v=20260817-wave">
   <link rel="stylesheet" href="/be-a-viewer/city-weather.css?v=20260822-cover">
@@ -27,11 +27,11 @@
     gtag('config', 'G-2Y8N04VXYG');
   </script>
   <link rel="stylesheet" href="/galok-wave.css?v=20260817">
-  <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-split-20260815">
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
-  <script src="/be-a-viewer/city-mapline.js?v=city-mapline-split-20260815"></script>
+  <link rel="stylesheet" href="/be-a-viewer/city-mapline.css?v=city-mapline-performance-20260824">
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/DrawSVGPlugin.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+  <script defer src="/be-a-viewer/city-mapline.js?v=city-mapline-performance-20260824"></script>
 </head>
 <body class="plain-body xian-page-body">
   <nav class="site-nav xian-site-nav" aria-label="Primary navigation">
@@ -52,7 +52,7 @@
 
   <main class="xian-page-main">
     <section class="xian-hero" id="xian" aria-labelledby="xian-title">
-      <img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" width="1536" height="864" alt="Xi’an city wall and moat beneath a dramatic evening sky">
+      <img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" width="1536" height="864" fetchpriority="high" alt="Xi’an city wall and moat beneath a dramatic evening sky">
       <div class="xian-hero-shade" aria-hidden="true"></div>
       <div class="xian-hero-topline">
         <span>34.34° N / 108.94° E</span>
@@ -93,7 +93,7 @@
       <figure>
         <picture>
           <source media="(max-width: 700px)" srcset="/assets/be-a-viewer/xian/original/xian-arrival-threshold-mobile.webp">
-          <img src="/assets/be-a-viewer/xian/original/xian-arrival-threshold.webp" width="1536" height="830" alt="Xi’an railway station sign and clock rising behind the historic city wall">
+          <img src="/assets/be-a-viewer/xian/original/xian-arrival-threshold.webp" width="1536" height="830" alt="Xi’an railway station sign and clock rising behind the historic city wall" loading="lazy" decoding="async">
         </picture>
       </figure>
       <div class="xian-arrival-copy">
@@ -150,7 +150,7 @@
           <span>Drag to rotate. Pinch or scroll to zoom.</span>
         </div>
         <div class="xian-model-stage" data-model-stage aria-label="Three-dimensional model of a Terracotta Army warrior">
-          <img class="xian-model-poster" src="/assets/be-a-viewer/xian/terracotta-portrait.jpeg" width="1536" height="1152" alt="Close portrait of a Terracotta Army warrior" data-model-poster>
+          <img class="xian-model-poster" src="/assets/be-a-viewer/xian/terracotta-portrait.jpeg" width="1536" height="1152" alt="Close portrait of a Terracotta Army warrior" data-model-poster loading="lazy" decoding="async">
           <div class="xian-model-status" role="status" aria-live="polite" data-model-status>
             <span>PREPARING 3D OBJECT</span>
             <b data-model-progress>0%</b>
@@ -372,7 +372,7 @@
       <dialog class="city-archive-lightbox" aria-label="Expanded Xi’an visual archive" data-archive-lightbox>
         <button type="button" data-archive-close>CLOSE</button>
         <button type="button" aria-label="View previous archive image" data-archive-previous>PREV</button>
-        <figure><img src="/assets/editorial/xian/poster/wall-as-horizon.webp" alt="" data-archive-image><figcaption data-archive-caption></figcaption></figure>
+        <figure><img src="/assets/editorial/xian/poster/wall-as-horizon.webp" alt="" data-archive-image width="1023" height="1537" loading="lazy" decoding="async"><figcaption data-archive-caption></figcaption></figure>
         <button type="button" aria-label="View next archive image" data-archive-next>NEXT</button>
         <p data-archive-count></p>
       </dialog>
@@ -403,7 +403,7 @@
     <dialog class="xian-lightbox" aria-label="Expanded photograph" data-xian-lightbox>
       <button type="button" data-xian-lightbox-close>CLOSE</button>
       <button type="button" aria-label="View previous photograph" data-xian-lightbox-previous>PREV</button>
-      <figure><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" data-xian-lightbox-image><figcaption data-xian-lightbox-caption></figcaption></figure>
+      <figure><img src="/assets/be-a-viewer/xian/city-wall-sunset.jpeg" alt="" data-xian-lightbox-image width="1536" height="864" loading="lazy" decoding="async"><figcaption data-xian-lightbox-caption></figcaption></figure>
       <button type="button" aria-label="View next photograph" data-xian-lightbox-next>NEXT</button>
       <p data-xian-lightbox-count></p>
     </dialog>
