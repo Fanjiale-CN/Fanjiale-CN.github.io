@@ -39,6 +39,9 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const object = root.querySelector("[data-postcard-object]");
   const stage = root.querySelector("[data-postcard-stage]");
+  const front = root.querySelector("[data-postcard-flip-front]");
+  const back = root.querySelector(".postcard-face-back");
+  const flipButton = root.querySelector("[data-postcard-flip]");
   const strip = root.querySelector("[data-postcard-strip]");
   const image = root.querySelector("[data-postcard-image]");
   const message = root.querySelector("[data-postcard-message]");
@@ -207,7 +210,7 @@
     if (!cards[index] || index === activeIndex) return;
     saveDraft();
     activeIndex = index;
-    if (object?.classList.contains("is-flipped")) object.classList.remove("is-flipped");
+    if (object?.classList.contains("is-flipped")) setFlipped(false);
     window.clearTimeout(switchTimer);
 
     if (reduceMotion || options.instant) {
@@ -233,12 +236,22 @@
     saveDraft();
     object.classList.toggle("is-flipped", flipped);
     stage?.setAttribute("data-side", flipped ? "back" : "front");
+    front?.setAttribute("aria-pressed", String(flipped));
+    front?.setAttribute("aria-hidden", String(flipped));
+    front?.toggleAttribute("inert", flipped);
+    back?.setAttribute("aria-hidden", String(!flipped));
+    back?.toggleAttribute("inert", !flipped);
+    flipButton?.setAttribute("aria-pressed", String(flipped));
     const flipLabel = root.querySelector("[data-postcard-flip] span");
     const flipDetail = root.querySelector("[data-postcard-flip] small");
     if (flipLabel) flipLabel.textContent = flipped ? "Show front" : "Turn over";
     if (flipDetail) flipDetail.textContent = flipped ? "Return to artwork" : "Write the back";
     playCue("turn");
-    if (flipped) window.setTimeout(() => message?.focus({ preventScroll: true }), reduceMotion ? 0 : 420);
+    if (flipped) {
+      window.setTimeout(() => message?.focus({ preventScroll: true }), reduceMotion ? 0 : 420);
+    } else {
+      window.setTimeout(() => front?.focus({ preventScroll: true }), reduceMotion ? 0 : 420);
+    }
   }
 
   function applyFilter(filter) {
@@ -249,7 +262,7 @@
     if (!filteredIndexes.length) return;
 
     root.querySelectorAll("[data-postcard-filter]").forEach((button) => {
-      button.setAttribute("aria-selected", String(button.dataset.postcardFilter === filter));
+      button.setAttribute("aria-pressed", String(button.dataset.postcardFilter === filter));
     });
     strip.querySelectorAll("[data-postcard-select]").forEach((button) => {
       button.hidden = filter !== "all" && button.dataset.city !== filter;

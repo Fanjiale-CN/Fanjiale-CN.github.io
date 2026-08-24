@@ -7,6 +7,7 @@
   --data-red: #b52d27;
   --data-blue: #315f76;
   --data-gold: #9b7624;
+  --data-gold-ink: #76580f;
   --data-green: #4e6750;
   --data-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --data-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -1406,7 +1407,7 @@
 .data-bar-scale span:last-child { text-align: right; }
 
 .data-decline-row > span i { margin-left: auto; background: var(--data-gold); }
-.data-decline-row > strong { color: var(--data-gold); }
+.data-decline-row > strong { color: var(--data-gold-ink); }
 .data-decline-axis,
 .data-budget-axis {
   display: grid;
@@ -1446,7 +1447,7 @@
 }
 .data-diverge-row.is-negative > span i { right: 80%; width: var(--value); background: var(--data-gold); }
 .data-diverge-row.is-positive > span i { left: 20%; width: var(--value); background: var(--data-blue); }
-.data-diverge-row.is-negative > strong { color: var(--data-gold); }
+.data-diverge-row.is-negative > strong { color: var(--data-gold-ink); }
 .data-diverge-row.is-positive > strong { color: var(--data-blue); }
 
 .data-account-figure ol {

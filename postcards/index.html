@@ -6,14 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#e9e4d8">
   <meta name="description" content="Collect, write, download and share editorial city postcards from the Galok visual archive.">
-  <meta name="keywords" content="galok postcards, data postcards, china data sets, visual data postcards">
-  <meta property="og:title" content="City Postcards — GALOK">
-  <meta property="og:description" content="Ninety-seven collectible city postcards made from real photographs of Xiamen, Xi’an, Beijing and Shanghai.">
-  <meta property="og:image" content="/assets/editorial/xiamen/postcard/arrival-lines.webp">
-  <title>City Postcards — GALOK</title>
+
+
+<title>City Postcards — GALOK</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
-  <link rel="stylesheet" href="/postcards/postcards.css?v=editorial-reframe-20260814">
+  <link rel="stylesheet" href="/styles.css?v=batch3-20260824">
+  <link rel="stylesheet" href="/postcards/postcards.css?v=batch3-a11y-20260824">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -21,8 +19,19 @@
     gtag('js', new Date());
     gtag('config', 'G-2Y8N04VXYG');
   </script>
+
+  <meta property="og:title" content="City Postcards — GALOK">
+  <meta property="og:description" content="Collect, write, download and share editorial city postcards from the Galok visual archive.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.galok.me/postcards/">
+  <meta property="og:image" content="https://www.galok.me/assets/editorial/xiamen/postcard/arrival-lines.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="City Postcards — GALOK">
+  <meta name="twitter:description" content="Collect, write, download and share editorial city postcards from the Galok visual archive.">
+  <meta name="twitter:image" content="https://www.galok.me/assets/editorial/xiamen/postcard/arrival-lines.webp">
 </head>
 <body class="postcard-page">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <nav class="site-nav postcard-site-nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="/">
@@ -33,13 +42,13 @@
         <a href="/cities/">Cities</a>
         <a href="/essays/">Essays</a><a href="/research/">Research</a>
         <a href="/data/">Data</a><a href="/work/">Work</a>
-        <a href="/index/" aria-current="page">Index</a>
+        <a href="/index/">Index</a>
         <a href="/about/">About</a>
       </div>
     </div>
   </nav>
 
-  <main class="postcard-main">
+  <main id="main-content" class="postcard-main" tabindex="-1">
     <header class="postcard-hero" aria-labelledby="postcard-title">
       <div class="postcard-hero-index" aria-hidden="true">
         <span>GALOK / CITY POSTCARD ARCHIVE</span>
@@ -71,19 +80,19 @@
         <p data-postcard-status aria-live="polite">Xiamen / Arrival Lines / 01 of 97</p>
       </header>
 
-      <div class="postcard-city-tabs" role="tablist" aria-label="Filter postcards by city">
-        <button type="button" role="tab" aria-selected="true" data-postcard-filter="all">All / 97</button>
-        <button type="button" role="tab" aria-selected="false" data-postcard-filter="xiamen">Xiamen / 28</button>
-        <button type="button" role="tab" aria-selected="false" data-postcard-filter="xian">Xi’an / 26</button>
-        <button type="button" role="tab" aria-selected="false" data-postcard-filter="beijing">Beijing / 16</button>
-        <button type="button" role="tab" aria-selected="false" data-postcard-filter="shanghai">Shanghai / 27</button>
+      <div class="postcard-city-tabs" role="group" aria-label="Filter postcards by city">
+        <button type="button" aria-pressed="true" data-postcard-filter="all">All / 97</button>
+        <button type="button" aria-pressed="false" data-postcard-filter="xiamen">Xiamen / 28</button>
+        <button type="button" aria-pressed="false" data-postcard-filter="xian">Xi’an / 26</button>
+        <button type="button" aria-pressed="false" data-postcard-filter="beijing">Beijing / 16</button>
+        <button type="button" aria-pressed="false" data-postcard-filter="shanghai">Shanghai / 27</button>
       </div>
 
       <div class="postcard-workspace">
         <div class="postcard-stage-wrap">
           <div class="postcard-stage" data-postcard-stage>
             <div class="postcard-object" data-postcard-object>
-              <button class="postcard-face postcard-face-front" type="button" data-postcard-flip-front aria-label="Turn postcard over to write a message">
+              <button class="postcard-face postcard-face-front" type="button" data-postcard-flip-front aria-label="Turn postcard over to write a message" aria-pressed="false">
                 <span class="postcard-front-image"><img data-postcard-image src="/assets/editorial/xiamen/postcard/arrival-lines.webp" alt="Arrival Lines editorial poster from Xiamen"></span>
                 <span class="postcard-front-copy">
                   <span data-postcard-edition>01 / 97</span>
@@ -94,7 +103,7 @@
                 <span class="postcard-front-mark">GALOK.ME / BE A VIEWER</span>
               </button>
 
-              <div class="postcard-face postcard-face-back" aria-label="Write the back of the postcard">
+              <div class="postcard-face postcard-face-back" aria-label="Write the back of the postcard" aria-hidden="true" inert>
                 <div class="postcard-back-left">
                   <div class="postcard-back-heading"><span data-postcard-back-city>XIAMEN</span><small>CITY POSTCARD / 2026</small></div>
                   <label for="postcard-message">Message</label>
@@ -147,7 +156,7 @@
             <span data-postcard-tool-detail>Xiamen / Photo Abstract Editorial</span>
           </div>
           <div class="postcard-tools-actions">
-            <button type="button" data-postcard-flip><span>Turn over</span><small>Write the back</small></button>
+            <button type="button" data-postcard-flip aria-pressed="false"><span>Turn over</span><small>Write the back</small></button>
             <button type="button" data-postcard-sound aria-pressed="false"><span>Sound off</span><small>Paper and stamp cues</small></button>
             <button type="button" data-postcard-download><span>Download set</span><small>Front + written back PNG</small></button>
             <button type="button" data-postcard-share><span>Share postcard</span><small>Send the selected edition</small></button>
@@ -186,6 +195,6 @@
 
   <script src="/script.js?v=ia-20260820-mobile"></script>
   <script src="/postcards/postcards-data.js?v=archive-97"></script>
-  <script src="/postcards/postcards.js?v=archive-97"></script>
+  <script src="/postcards/postcards.js?v=batch3-a11y-20260824"></script>
 </body>
 </html>
