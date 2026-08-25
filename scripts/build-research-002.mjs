@@ -190,13 +190,13 @@ const page = `<!DOCTYPE html>
   <meta property="og:title" content="The Fast Metabolism Economy — GALOK RESEARCH 002">
   <meta property="og:description" content="Franchising, Network Expansion, and Store Turnover in China's Consumer Economy.">
   <meta property="og:url" content="https://www.galok.me/research/fast-metabolism-economy/">
-  <meta property="og:image" content="https://www.galok.me/assets/research/research-002-cover.jpg">
+  <meta property="og:image" content="https://media.galok.me/research/002/research-002-cover--6dc193a5fa21.jpg">
   <meta property="article:published_time" content="2026-08-21">
   <meta property="article:modified_time" content="2026-08-21">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Fast Metabolism Economy — GALOK RESEARCH 002">
   <meta name="twitter:description" content="Independent empirical research on the gross store flows hidden beneath chain expansion.">
-  <meta name="twitter:image" content="https://www.galok.me/assets/research/research-002-cover.jpg">
+  <meta name="twitter:image" content="https://media.galok.me/research/002/research-002-cover--6dc193a5fa21.jpg">
   <link rel="canonical" href="https://www.galok.me/research/fast-metabolism-economy/">
   <title>The Fast Metabolism Economy — GALOK RESEARCH 002</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
@@ -204,7 +204,7 @@ const page = `<!DOCTYPE html>
   <link rel="stylesheet" href="/galok-wave.css?v=20260822-research-ipad">
   <link rel="stylesheet" href="/research/research.css?v=20260822f">
   <link rel="stylesheet" href="/research/fast-metabolism-economy/charts.css?v=20260822d">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Fast Metabolism Economy","alternativeHeadline":"Franchising, Network Expansion, and Store Turnover in China's Consumer Economy","description":"Independent empirical research on the gross store flows hidden beneath chain expansion in China's consumer economy.","image":"https://www.galok.me/assets/research/research-002-cover.jpg","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","articleSection":"Independent Research","author":{"@type":"Organization","name":"Galok"},"publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"},"mainEntityOfPage":"https://www.galok.me/research/fast-metabolism-economy/","keywords":["China consumer economy","franchising","chain foodservice","store turnover","gross flows"]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"The Fast Metabolism Economy","alternativeHeadline":"Franchising, Network Expansion, and Store Turnover in China's Consumer Economy","description":"Independent empirical research on the gross store flows hidden beneath chain expansion in China's consumer economy.","image":"https://media.galok.me/research/002/research-002-cover--6dc193a5fa21.jpg","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","articleSection":"Independent Research","author":{"@type":"Organization","name":"Galok"},"publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"},"mainEntityOfPage":"https://www.galok.me/research/fast-metabolism-economy/","keywords":["China consumer economy","franchising","chain foodservice","store turnover","gross flows"]}</script>
   <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\\\(","\\\\)"]],displayMath:[["$$","$$"],["\\\\[","\\\\]"]]},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]}};</script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -227,7 +227,7 @@ const page = `<!DOCTYPE html>
         <dl><div><dt>Author</dt><dd>Galok</dd></div><div><dt>Type</dt><dd>Independent Research</dd></div><div><dt>Status</dt><dd>Final v1.0</dd></div><div><dt>Published</dt><dd>21 August 2026</dd></div></dl>
       </div>
       <figure class="research-paper-hero-image research-002-cover">
-        <img src="/assets/research/research-002-cover.jpg" width="2048" height="1365" alt="A shopping-mall interior layered with glass reflections, pedestrians and large advertising portraits" fetchpriority="high">
+        <img src="https://media.galok.me/research/002/research-002-cover--6dc193a5fa21.jpg" width="2048" height="1365" alt="A shopping-mall interior layered with glass reflections, pedestrians and large advertising portraits" fetchpriority="high">
         <figcaption>Consumer space, reflected and reorganized. GALOK RESEARCH 002 cover photograph.</figcaption>
       </figure>
     </header>

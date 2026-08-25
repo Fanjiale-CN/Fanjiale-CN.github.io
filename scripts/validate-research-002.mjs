@@ -37,7 +37,7 @@ fail(!page.includes('<link rel="canonical" href="https://www.galok.me/research/f
 fail(!page.includes('"@type":"ScholarlyArticle"'), "Research 002 ScholarlyArticle metadata missing");
 fail(!page.includes("GALOK RESEARCH 002"), "Research 002 series identity missing");
 fail(!page.includes("Final v1.0"), "Research 002 final status missing");
-fail(!page.includes("research-002-cover.jpg"), "Official cover is not integrated");
+fail(!page.includes("research-002-cover--6dc193a5fa21.jpg"), "Official cover is not integrated");
 fail(!page.includes("GALOK_RESEARCH_002_REPLICATION_PACKAGE_v1_0.zip"), "Replication download is not linked");
 fail(!page.includes('class="r002-quadrant-key"'), "Figure 3 responsive quadrant key is missing");
 fail(!page.includes('<html lang="en" class="research-paper-root">'), "Research 002 root overflow containment is missing");
