@@ -1,0 +1,33 @@
+name: Notify IndexNow
+
+on:
+  workflow_run:
+    workflows: [Galok Site Validation]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Wait for the published sitemap
+        run: |
+          for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            if curl --fail --silent --show-error https://www.galok.me/sitemap.xml > /tmp/galok-sitemap.xml; then
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "Published sitemap did not become reachable in time."
+          exit 1
+
+      - name: Notify IndexNow
+        run: node scripts/notify-indexnow.mjs

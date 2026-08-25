@@ -11,7 +11,8 @@ const scripts = [
   "validate-cities-performance.mjs",
   "validate-research.mjs",
   "validate-research-002.mjs",
-  "validate-publishing.mjs"
+  "validate-publishing.mjs",
+  "validate-discovery.mjs"
 ];
 const directory = dirname(fileURLToPath(import.meta.url));
 let failed = false;

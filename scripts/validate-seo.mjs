@@ -9,7 +9,7 @@ const errors = [];
 function walk(dir, predicate) {
   const files = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === ".git" || entry.name === "node_modules") continue;
+    if ([".git", "node_modules", "pagefind"].includes(entry.name)) continue;
     const fullPath = join(dir, entry.name);
     if (entry.isDirectory()) files.push(...walk(fullPath, predicate));
     else if (predicate(fullPath)) files.push(fullPath);

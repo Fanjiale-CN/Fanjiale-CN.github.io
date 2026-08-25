@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-pagefind-search>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -9,6 +9,7 @@
 
 <link rel="canonical" href="https://www.galok.me/index/">
   <title>Index — Galok</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Index — Galok","description":"Search the public Galok archive across cities, essays, research, data, projects and visual notes.","url":"https://www.galok.me/index/","isPartOf":{"@type":"WebSite","name":"Galok","url":"https://www.galok.me/"},"inLanguage":"en"}</script>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=batch3-20260824">
   <link rel="stylesheet" href="/archive-system.css?v=ia-20260819">
@@ -60,7 +61,7 @@
           <button type="button" data-archive-filter="research" aria-pressed="false">Research</button>
           <button type="button" data-archive-filter="data" aria-pressed="false">Data</button>
           <button type="button" data-archive-filter="project" aria-pressed="false">Projects</button>
-          <button type="button" data-archive-filter="visual note" aria-pressed="false">Images</button>
+          <button type="button" data-archive-filter="visual" aria-pressed="false">Visual Notes</button>
         </div>
       </div>
       <div class="archive-results" data-archive-results aria-live="polite"></div>
@@ -105,5 +106,6 @@
   <script src="/content.js?v=batch4-content-20260824"></script>
   <script src="/script.js?v=batch4-engineering-20260824"></script>
   <script src="/archive-system.js?v=batch4-engineering-20260824"></script>
+  <script type="module" src="/index/search.js?v=discovery-20260825"></script>
 </body>
 </html>

@@ -1,0 +1,219 @@
+[
+  {
+    "type": "site",
+    "label": "Galok",
+    "title": "Galok — Economy and City Memory",
+    "excerpt": "Galok is a personal magazine of economic observation and city memory, told through essays, photography, data and moving image.",
+    "url": "/"
+  },
+  {
+    "type": "site",
+    "label": "Galok",
+    "title": "About",
+    "excerpt": "Galok is a personal magazine of economic observation and city memory, published through essays, photography, data and moving image.",
+    "url": "/about/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
+    "title": "Beijing — The City Along an Axis",
+    "excerpt": "View Beijing through its central axis, public ceremony, side-street life and contemporary form.",
+    "url": "/be-a-viewer/beijing/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
+    "title": "Hangzhou — The Lake Sets the Pace",
+    "excerpt": "Hangzhou through water, rain and the words of Bai Juyi, Su Shi, Liu Yong and Zhang Dai.",
+    "url": "/be-a-viewer/hangzhou/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
+    "title": "Shanghai — River, Streets and Vertical City",
+    "excerpt": "View Shanghai through the river, its vertical skyline, Jing’an Temple, remembered streets and the city after dark.",
+    "url": "/be-a-viewer/shanghai/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
+    "title": "Xiamen — A City Drawn by the Tide",
+    "excerpt": "View Xiamen through sea light, Minnan rooflines, island streets and a city that moves with the tide.",
+    "url": "/be-a-viewer/xiamen/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
+    "title": "Xi’an — Terracotta Army and China’s Ancient Capital",
+    "excerpt": "Explore Xi’an through its imperial history, the Terracotta Army, the ancient city wall and the modern city beyond them.",
+    "url": "/be-a-viewer/xian/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
+    "title": "Cities / BE A VIEWER",
+    "excerpt": "Cities / BE A VIEWER enters Chinese cities through moving images, close observation and independent visual stories.",
+    "url": "/cities/"
+  },
+  {
+    "type": "data",
+    "label": "Data",
+    "title": "Data",
+    "excerpt": "A source-auditable reading of China",
+    "url": "/data/"
+  },
+  {
+    "type": "project",
+    "label": "Projects",
+    "title": "Design / Galok",
+    "excerpt": "The Galok design language: growth-first philosophy, the three-color field, type system, motion restraint, and the View / Frame / Observe lenses.",
+    "url": "/design/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "Essays",
+    "excerpt": "Essays by Galok on China",
+    "url": "/essays/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "When AI goes silent - Galok",
+    "excerpt": "When AI goes silent: a Galok View essay on real-time censorship infrastructure and deployment-layer control.",
+    "url": "/essays/ai-goes-silent-censorship-infrastructure/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "Under the cyber audit: after the influencer boom - Galok",
+    "excerpt": "Under the cyber audit: where China",
+    "url": "/essays/cyber-audit-proof-economy/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "How a goose-leg story shook an official narrative - Galok",
+    "excerpt": "How a Beijing goose-leg vendor story shook an official narrative, an Observe essay by Galok.",
+    "url": "/essays/goose-leg-official-narrative/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "Fits Honor Is Now a Lawsuit Waiting to Happen - Galok",
+    "excerpt": "How Honor",
+    "url": "/essays/honor-phone-case-lawsuit/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "What your latte tells you about China's price illusion - Galok",
+    "excerpt": "What your latte tells you about China",
+    "url": "/essays/latte-price-illusion/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "The People’s Republic of AI - Galok",
+    "excerpt": "How China turned a new AI cooperation organization into commercial reach, and how its governance model differs from the American approach.",
+    "url": "/essays/peoples-republic-of-ai/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "How platforms quietly redesign consumer choice - Galok",
+    "excerpt": "How platforms quietly redesign consumer choice, an essay by Galok.",
+    "url": "/essays/platforms-redesign-choice/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "The ordinary life behind RMB 9.9 coffee - Galok",
+    "excerpt": "The ordinary life behind RMB 9.9 coffee, an essay by Galok.",
+    "url": "/essays/rmb-9-9-coffee/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "The Curator's Curse",
+    "excerpt": "How China",
+    "url": "/essays/the-curators-curse/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "The Water Is Rising - Galok",
+    "excerpt": "Inside China",
+    "url": "/essays/the-water-is-rising/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "China’s Tourism Assembly Line - Galok",
+    "excerpt": "How platform economics turned domestic travel in China into a repeatable production schedule of filters, queues, exposure and amplification.",
+    "url": "/essays/tourism-assembly-line/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "China’s Instagram Meets the World Cup - Galok",
+    "excerpt": "Xiaohongshu bought the 2026 World Cup rights to grow daily users and attract more men. Its own platform history shows why the bet is difficult.",
+    "url": "/essays/xiaohongshu-world-cup/"
+  },
+  {
+    "type": "project",
+    "label": "Projects",
+    "title": "City Postcards",
+    "excerpt": "Collect, write, download and share editorial city postcards from the Galok visual archive.",
+    "url": "/postcards/"
+  },
+  {
+    "type": "research",
+    "label": "Research",
+    "title": "Research",
+    "excerpt": "Independent empirical research by Galok.",
+    "url": "/research/"
+  },
+  {
+    "type": "research",
+    "label": "Research",
+    "title": "The Fast Metabolism Economy — GALOK RESEARCH 002",
+    "excerpt": "A full-length independent research paper on franchising, network expansion and gross store turnover in China",
+    "url": "/research/fast-metabolism-economy/"
+  },
+  {
+    "type": "research",
+    "label": "Research",
+    "title": "Who Captures Growth? — GALOK RESEARCH 001",
+    "excerpt": "A full-length independent research paper on how China",
+    "url": "/research/who-captures-growth/"
+  },
+  {
+    "type": "site",
+    "label": "Galok",
+    "title": "Themes — Three Lenses",
+    "excerpt": "Three lenses — View, Frame, Observe — for reading economic change in China. Each theme gathers the essays that grow under it.",
+    "url": "/themes/"
+  },
+  {
+    "type": "visual",
+    "label": "Visual Notes",
+    "title": "Visual Notes - Galok",
+    "excerpt": "Visual Notes by Galok, a secondary archive of city fragments and field evidence.",
+    "url": "/visual-notes/"
+  },
+  {
+    "type": "visual",
+    "label": "Visual Notes",
+    "title": "Xiamen Visual Notes - Galok",
+    "excerpt": "Xiamen visual notes by Galok.",
+    "url": "/visual-notes/xiamen/"
+  },
+  {
+    "type": "project",
+    "label": "Projects",
+    "title": "Works",
+    "excerpt": "Selected Galok work across editorial websites, city stories, moving image and visual archives.",
+    "url": "/work/"
+  }
+]

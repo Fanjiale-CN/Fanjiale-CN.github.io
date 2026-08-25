@@ -114,6 +114,7 @@
   }
 
   function initArchiveSearch() {
+    if (document.documentElement.hasAttribute("data-pagefind-search")) return;
     const mount = document.querySelector("[data-archive-results]");
     const input = document.querySelector("[data-archive-search]");
     if (!mount || !input) return;

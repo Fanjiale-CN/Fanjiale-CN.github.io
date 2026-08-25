@@ -7,11 +7,15 @@
     "ci:links": "node scripts/validate-runtime-links.mjs",
     "ci:budget": "node scripts/check-resource-budgets.mjs",
     "ci:runtime": "node scripts/runtime-accessibility.mjs",
-    "ci:report": "node scripts/write-ci-report.mjs"
+    "ci:report": "node scripts/write-ci-report.mjs",
+    "build:discovery": "node scripts/build-discovery.mjs && pagefind --site /tmp/galok-pagefind-source --output-path pagefind",
+    "ci:search": "node scripts/runtime-discovery-search.mjs",
+    "ci:indexnow": "node scripts/notify-indexnow.mjs"
   },
   "devDependencies": {
     "@axe-core/puppeteer": "^4.13.0",
     "@lhci/cli": "^0.15.1",
-    "puppeteer-core": "^25.9.0"
+    "puppeteer-core": "^25.9.0",
+    "pagefind": "^1.5.2"
   }
 }
