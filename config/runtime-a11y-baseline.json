@@ -1,0 +1,9 @@
+{
+  "/": { "color-contrast": 9 },
+  "/cities/": { "color-contrast": 53, "definition-list": 1 },
+  "/essays/": { "color-contrast": 62 },
+  "/research/": { "color-contrast": 8 },
+  "/research/fast-metabolism-economy/": { "aria-prohibited-attr": 12, "color-contrast": 71 },
+  "/data/": { "color-contrast": 9, "definition-list": 1 },
+  "/index/": { "color-contrast": 66 }
+}

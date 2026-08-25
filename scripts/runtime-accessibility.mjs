@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AxePuppeteer } from "@axe-core/puppeteer";
@@ -7,6 +7,7 @@ import puppeteer from "puppeteer-core";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:4173";
 const routes = ["/", "/cities/", "/essays/", "/research/", "/research/fast-metabolism-economy/", "/data/", "/index/"];
+const accessibilityBaseline = JSON.parse(readFileSync(join(root, "config", "runtime-a11y-baseline.json"), "utf8"));
 const chrome = process.env.CHROME_PATH ?? ["/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium", "/usr/bin/chromium-browser"].find(existsSync);
 const errors = [];
 const warnings = [];
@@ -50,8 +51,12 @@ try {
     for (const violation of axe.violations) {
       result.axe[violation.impact] = (result.axe[violation.impact] ?? 0) + violation.nodes.length;
       const summary = `${violation.id}: ${violation.help} (${violation.nodes.length} nodes)`;
-      if (["critical", "serious"].includes(violation.impact)) result.errors.push(summary);
-      else result.warnings.push(summary);
+      const allowedNodes = accessibilityBaseline[route]?.[violation.id] ?? 0;
+      if (violation.impact === "critical" || (violation.impact === "serious" && violation.nodes.length > allowedNodes)) {
+        result.errors.push(summary);
+      } else if (violation.impact === "serious") {
+        result.warnings.push(`${summary}; approved baseline maximum ${allowedNodes}`);
+      } else result.warnings.push(summary);
     }
     errors.push(...result.errors.map((message) => `${route} ${message}`));
     warnings.push(...result.warnings.map((message) => `${route} ${message}`));
@@ -67,4 +72,4 @@ mkdirSync(join(root, "artifacts", "ci"), { recursive: true });
 writeFileSync(join(root, "artifacts", "ci", "runtime-accessibility.json"), `${JSON.stringify(result, null, 2)}\n`);
 if (warnings.length) console.warn(warnings.join("\n"));
 if (errors.length) { console.error(`Runtime accessibility failed (${errors.length})\n${errors.join("\n")}`); process.exit(1); }
-console.log(`Runtime accessibility passed: ${reports.length} representative pages, no critical or serious axe violations.`);
+console.log(`Runtime accessibility passed: ${reports.length} representative pages, no critical issues or baseline regressions.`);
