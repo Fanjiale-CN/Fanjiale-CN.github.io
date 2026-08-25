@@ -1,9 +1,9 @@
 .city-atlas {
   --atlas-paper: #ece9e1;
   --atlas-ink: #111516;
-  --atlas-muted: #757970;
+  --atlas-muted: #505650;
   --atlas-rule: rgba(17, 21, 22, .22);
-  --atlas-red: #c62d28;
+  --atlas-red: #982521;
   padding: clamp(5rem, 10vw, 10rem) clamp(1.25rem, 5vw, 6rem);
   color: var(--atlas-ink);
   background: var(--atlas-paper);
@@ -52,7 +52,7 @@
 .city-atlas-nav button b { font-size: .75rem; letter-spacing: .04em; }
 .city-atlas-nav button span { color: var(--atlas-muted); font-size: .58rem; letter-spacing: .08em; }
 .city-atlas-nav button:hover, .city-atlas-nav button:focus-visible, .city-atlas-nav button.is-active { color: #fff; background: var(--atlas-ink); outline: 0; }
-.city-atlas-nav button:hover span, .city-atlas-nav button:focus-visible span, .city-atlas-nav button.is-active span { color: rgba(255,255,255,.66); }
+.city-atlas-nav button:hover span, .city-atlas-nav button:focus-visible span, .city-atlas-nav button.is-active span { color: #fff; }
 
 .city-atlas-card { display: grid; gap: .85rem; margin-top: auto; padding: 1.2rem 1rem; border-top: 1px solid var(--atlas-ink); }
 .city-atlas-card small { color: var(--atlas-red); }

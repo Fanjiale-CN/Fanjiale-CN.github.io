@@ -1,9 +1,9 @@
 .reader-contact {
   --reader-paper: #f3f0e8;
   --reader-ink: #182024;
-  --reader-muted: #687075;
+  --reader-muted: #4e575c;
   --reader-rule: rgba(24, 32, 36, .22);
-  --reader-red: #bd302b;
+  --reader-red: #992722;
   max-width: min(100% - 2rem, 1100px);
   margin: clamp(4rem, 9vw, 9rem) auto;
   padding: clamp(1.4rem, 4vw, 3.4rem);

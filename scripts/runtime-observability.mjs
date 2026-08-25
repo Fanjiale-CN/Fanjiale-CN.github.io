@@ -28,7 +28,15 @@ try {
   const essays = await visit("/essays/");
   await essays.close();
   const research = await visit("/research/fast-metabolism-economy/");
-  await research.click("[data-toc-link]");
+  await research.evaluate(() => {
+    const link = [...document.querySelectorAll("[data-toc-link]")].find((node) => {
+      const rect = node.getBoundingClientRect();
+      const style = window.getComputedStyle(node);
+      return rect.width > 0 && rect.height > 0 && style.visibility !== "hidden" && style.display !== "none";
+    });
+    if (!(link instanceof HTMLElement)) throw new Error("Visible research table-of-contents link missing");
+    link.click();
+  });
   report.events.push(...await research.evaluate(() => window.dataLayer.filter((item) => item[0] === "event").map((item) => item[1])));
   await research.close();
   const city = await visit("/be-a-viewer/hangzhou/");
