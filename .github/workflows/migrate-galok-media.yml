@@ -1,0 +1,71 @@
+name: Migrate Galok media to R2
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Type MIGRATE_GALOK_MEDIA to upload and switch production media references
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: galok-r2-media-migration
+  cancel-in-progress: false
+
+jobs:
+  validate-confirmation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require explicit confirmation
+        env:
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          test "$CONFIRM" = "MIGRATE_GALOK_MEDIA" || {
+            echo "Confirmation text did not match. No files were uploaded."
+            exit 1
+          }
+
+  migrate:
+    needs: validate-confirmation
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Show migration plan
+        run: node scripts/migrate-media-edge.mjs
+
+      - name: Upload, verify, and rewrite production references
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/galok-npm-cache
+          XDG_CONFIG_HOME: ${{ runner.temp }}/galok-wrangler-config
+        run: node scripts/migrate-media-edge.mjs --apply
+
+      - name: Verify published objects
+        run: node scripts/migrate-media-edge.mjs --verify
+
+      - name: Commit verified reference changes
+        run: |
+          if git diff --quiet && test ! -f reports/media-edge-migration-result.json; then
+            echo "No reference changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          git add reports/media-edge-migration-result.json
+          git commit -m "Migrate production media to R2"
+          git push origin HEAD:main

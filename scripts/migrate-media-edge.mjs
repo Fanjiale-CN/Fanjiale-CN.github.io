@@ -4,8 +4,8 @@
  * Upload the audited R2 batch first, verify public delivery, then rewrite only
  * the current production references.  No Git source asset is deleted here.
  *
- * Required for --apply: CLOUDFLARE_API_TOKEN with R2 Object Read & Write on
- * galok-media.  The token is intentionally not read from a repository file.
+ * Required for --apply: CLOUDFLARE_API_TOKEN with Account > Workers R2 Storage
+ * > Edit. The token is intentionally not read from a repository file.
  */
 
 import { execFile } from 'node:child_process';
