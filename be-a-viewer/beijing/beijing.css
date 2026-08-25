@@ -97,7 +97,7 @@ body.nav-open .beijing-site-nav {
 
 .beijing-hero-media {
   z-index: -3;
-  background: var(--bj-ink) url("/assets/be-a-viewer/beijing/beijing-hero-poster.jpg") center / cover no-repeat;
+  background: var(--bj-ink) url("https://media.galok.me/cities/beijing/beijing-hero-poster--b135511e06f4.jpg") center / cover no-repeat;
 }
 
 .beijing-hero-media video {

@@ -45,7 +45,7 @@
   function articleCover(essay) {
     const cover = essay.cover || {};
     return {
-      src: cover.src || essay.image || "/assets/visual-notes/city-road.webp",
+      src: cover.src || essay.image || "https://media.galok.me/essays/city-road--a182027bc1ef.webp",
       alt: cover.alt || essay.imageAlt || `Field image for ${essay.title}`
     };
   }
@@ -1521,15 +1521,15 @@
       },
       "/essays/goose-leg-official-narrative/": {
         lens: "Observe", kicker: "Street / proof", title: "One small order changes the story.",
-        image: "/assets/views/articles/goose-leg.webp", alt: "Tsinghua University west gate seen from the street", time: "8 min"
+        image: "https://media.galok.me/essays/articles/goose-leg--88aa1e44a9d3.webp", alt: "Tsinghua University west gate seen from the street", time: "8 min"
       },
       "/essays/rmb-9-9-coffee/": {
         lens: "Observe", kicker: "Coffee / routine", title: "Cheap can still feel complete.",
-        image: "/assets/hero/video/money-closeup-poster.webp", alt: "Close study of money", time: "7 min"
+        image: "https://media.galok.me/hero/video/money-closeup-poster--a16c70dd82ab.webp", alt: "Close study of money", time: "7 min"
       },
       "/essays/cyber-audit-proof-economy/": {
         lens: "Observe", kicker: "Proof / platform", title: "A platform economy learns to be checked.",
-        image: "/assets/views/articles/cyber-audit.webp", alt: "A narrow courtyard lane framed by concrete and yellow flowers", time: "9 min"
+        image: "https://media.galok.me/essays/articles/cyber-audit--56158e1e7d42.webp", alt: "A narrow courtyard lane framed by concrete and yellow flowers", time: "9 min"
       }
     };
     const meta = legacy[window.location.pathname];
@@ -1593,7 +1593,7 @@
     function articleCover(essay) {
       const cover = essay.cover || {};
       return {
-        src: cover.src || essay.image || "/assets/visual-notes/city-road.webp",
+        src: cover.src || essay.image || "https://media.galok.me/essays/city-road--a182027bc1ef.webp",
         alt: cover.alt || essay.imageAlt || `Field image for ${essay.title}`
       };
     }
@@ -1617,7 +1617,7 @@
         title: "The old street edits itself for the camera.",
         excerpt: "Lanterns, shade, storefronts and the tourist-facing texture of an alley.",
         href: "/visual-notes/xiamen/",
-        image: "/assets/visual-notes/old-street.webp",
+        image: "https://media.galok.me/essays/old-street--f35ea3fe1a0a.webp",
         imageAlt: "Lanterns in an old Xiamen street",
         action: "Open the note"
       },
@@ -1626,7 +1626,7 @@
         title: "Infrastructure becomes the daily stage.",
         excerpt: "A road curve holds movement, greenery, concrete and summer heat in one frame.",
         href: "/visual-notes/xiamen/",
-        image: "/assets/visual-notes/city-road.webp",
+        image: "https://media.galok.me/essays/city-road--a182027bc1ef.webp",
         imageAlt: "Road curving beneath a bridge",
         action: "Open the note"
       },

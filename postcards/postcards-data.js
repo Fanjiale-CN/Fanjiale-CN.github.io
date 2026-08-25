@@ -8,7 +8,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/arrival-lines.webp",
+    "image": "https://media.galok.me/postcards/xiamen/arrival-lines--f11018e748c5.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/arrival-lines.webp",
     "color": "#554032"
   },
@@ -21,7 +21,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/island-city.webp",
+    "image": "https://media.galok.me/postcards/xiamen/island-city--4e2206c15885.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/island-city.webp",
     "color": "#8d3c35"
   },
@@ -34,7 +34,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/wall-still-speaks.webp",
+    "image": "https://media.galok.me/postcards/xiamen/wall-still-speaks--ea93d5f94f8f.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/wall-still-speaks.webp",
     "color": "#4E2724"
   },
@@ -60,7 +60,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/sea-evening.webp",
+    "image": "https://media.galok.me/postcards/xiamen/sea-evening--810250dea566.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/sea-evening.webp",
     "color": "#6B97C7"
   },
@@ -73,7 +73,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/gulangyu-roofs.webp",
+    "image": "https://media.galok.me/postcards/xiamen/gulangyu-roofs--842a6aee67d5.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/gulangyu-roofs.webp",
     "color": "#223A46"
   },
@@ -99,7 +99,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/temple-detail.webp",
+    "image": "https://media.galok.me/postcards/xiamen/temple-detail--9ad5c8dea897.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/temple-detail.webp",
     "color": "#26364A"
   },
@@ -112,7 +112,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/coast-at-16-42.webp",
+    "image": "https://media.galok.me/postcards/xiamen/coast-at-16-42--8d5e99ab5293.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/coast-at-16-42.webp",
     "color": "#3577A8"
   },
@@ -151,7 +151,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/blue-city-red-lights.webp",
+    "image": "https://media.galok.me/postcards/xiamen/blue-city-red-lights--2e753f40fd89.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/blue-city-red-lights.webp",
     "color": "#23394C"
   },
@@ -164,7 +164,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/temple-sky.webp",
+    "image": "https://media.galok.me/postcards/xiamen/temple-sky--15921e67463b.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/temple-sky.webp",
     "color": "#5E2721"
   },
@@ -268,7 +268,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/zhongshan-road.webp",
+    "image": "https://media.galok.me/postcards/xiamen/zhongshan-road--df28fb8f82a3.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/zhongshan-road.webp",
     "color": "#048803"
   },
@@ -333,7 +333,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/city-inside-bay.webp",
+    "image": "https://media.galok.me/postcards/xiamen/city-inside-bay--6ae43a61be0a.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/city-inside-bay.webp",
     "color": "#0779C2"
   },
@@ -346,7 +346,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XIAMEN",
     "code": "XM",
     "coordinates": "24.4798° N / 118.0894° E",
-    "image": "/assets/editorial/xiamen/postcard/bridge-to-the-coast.webp",
+    "image": "https://media.galok.me/postcards/xiamen/bridge-to-the-coast--9be059f0a201.webp",
     "thumb": "/assets/editorial/xiamen/postcard/thumb/bridge-to-the-coast.webp",
     "color": "#2C5257"
   },
@@ -398,7 +398,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/earth-keeps-ranks.webp",
+    "image": "https://media.galok.me/postcards/xian/earth-keeps-ranks--2cc6be4e4d57.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/earth-keeps-ranks.webp",
     "color": "#463A2C"
   },
@@ -502,7 +502,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/museum-curtain-light.webp",
+    "image": "https://media.galok.me/postcards/xian/museum-curtain-light--6d0a274723d0.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/museum-curtain-light.webp",
     "color": "#614222"
   },
@@ -515,7 +515,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/shrine-in-shadow.webp",
+    "image": "https://media.galok.me/postcards/xian/shrine-in-shadow--38e1c4ac07a3.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/shrine-in-shadow.webp",
     "color": "#48392C"
   },
@@ -580,7 +580,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/wild-goose-pagoda-day.webp",
+    "image": "https://media.galok.me/postcards/xian/wild-goose-pagoda-day--551628b07a88.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/wild-goose-pagoda-day.webp",
     "color": "#453928"
   },
@@ -606,7 +606,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/courtyard-lanterns.webp",
+    "image": "https://media.galok.me/postcards/xian/courtyard-lanterns--a61a95cf2c16.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/courtyard-lanterns.webp",
     "color": "#4F2B21"
   },
@@ -645,7 +645,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/night-market.webp",
+    "image": "https://media.galok.me/postcards/xian/night-market--5e20839661df.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/night-market.webp",
     "color": "#252D51"
   },
@@ -658,7 +658,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/bell-tower-night.webp",
+    "image": "https://media.galok.me/postcards/xian/bell-tower-night--31eae4432a8c.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/bell-tower-night.webp",
     "color": "#2A4349"
   },
@@ -684,7 +684,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/urban-forest.webp",
+    "image": "https://media.galok.me/postcards/xian/urban-forest--98132c976d3a.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/urban-forest.webp",
     "color": "#515729"
   },
@@ -697,7 +697,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "XI'AN",
     "code": "XA",
     "coordinates": "34.3416° N / 108.9398° E",
-    "image": "/assets/editorial/xian/postcard/lakeside-pavilion.webp",
+    "image": "https://media.galok.me/postcards/xian/lakeside-pavilion--f3ada0f24f08.webp",
     "thumb": "/assets/editorial/xian/postcard/thumb/lakeside-pavilion.webp",
     "color": "#5BACDA"
   },
@@ -723,7 +723,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "BEIJING",
     "code": "BJ",
     "coordinates": "39.9042° N / 116.4074° E",
-    "image": "/assets/editorial/beijing/postcard/doorway-at-noon.webp",
+    "image": "https://media.galok.me/postcards/beijing/doorway-at-noon--d699e3a6d749.webp",
     "thumb": "/assets/editorial/beijing/postcard/thumb/doorway-at-noon.webp",
     "color": "#967059"
   },
@@ -775,7 +775,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "BEIJING",
     "code": "BJ",
     "coordinates": "39.9042° N / 116.4074° E",
-    "image": "/assets/editorial/beijing/postcard/order-under-sky.webp",
+    "image": "https://media.galok.me/postcards/beijing/order-under-sky--3103867506ce.webp",
     "thumb": "/assets/editorial/beijing/postcard/thumb/order-under-sky.webp",
     "color": "#026D75"
   },
@@ -827,7 +827,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "BEIJING",
     "code": "BJ",
     "coordinates": "39.9042° N / 116.4074° E",
-    "image": "/assets/editorial/beijing/postcard/rain-keeps-the-street.webp",
+    "image": "https://media.galok.me/postcards/beijing/rain-keeps-the-street--cff0c0c1e3ee.webp",
     "thumb": "/assets/editorial/beijing/postcard/thumb/rain-keeps-the-street.webp",
     "color": "#9C6B4F"
   },
@@ -840,7 +840,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "BEIJING",
     "code": "BJ",
     "coordinates": "39.9042° N / 116.4074° E",
-    "image": "/assets/editorial/beijing/postcard/the-shop-stays-open.webp",
+    "image": "https://media.galok.me/postcards/beijing/the-shop-stays-open--276713f84ede.webp",
     "thumb": "/assets/editorial/beijing/postcard/thumb/the-shop-stays-open.webp",
     "color": "#5A302C"
   },
@@ -853,7 +853,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "BEIJING",
     "code": "BJ",
     "coordinates": "39.9042° N / 116.4074° E",
-    "image": "/assets/editorial/beijing/postcard/between-two-chairs.webp",
+    "image": "https://media.galok.me/postcards/beijing/between-two-chairs--92b52cade355.webp",
     "thumb": "/assets/editorial/beijing/postcard/thumb/between-two-chairs.webp",
     "color": "#2A4E50"
   },
@@ -866,7 +866,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "BEIJING",
     "code": "BJ",
     "coordinates": "39.9042° N / 116.4074° E",
-    "image": "/assets/editorial/beijing/postcard/winter-in-sugar.webp",
+    "image": "https://media.galok.me/postcards/beijing/winter-in-sugar--e536e2a2fffa.webp",
     "thumb": "/assets/editorial/beijing/postcard/thumb/winter-in-sugar.webp",
     "color": "#5A201F"
   },
@@ -1087,7 +1087,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "SHANGHAI",
     "code": "SH",
     "coordinates": "31.2304° N / 121.4737° E",
-    "image": "/assets/editorial/shanghai/postcard/theatre-curve-ii.webp",
+    "image": "https://media.galok.me/postcards/shanghai/theatre-curve-ii--88f0cb62286b.webp",
     "thumb": "/assets/editorial/shanghai/postcard/thumb/theatre-curve-ii.webp",
     "color": "#174c58"
   },
@@ -1126,7 +1126,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "SHANGHAI",
     "code": "SH",
     "coordinates": "31.2304° N / 121.4737° E",
-    "image": "/assets/editorial/shanghai/postcard/ship-on-land.webp",
+    "image": "https://media.galok.me/postcards/shanghai/ship-on-land--cdb241e7d074.webp",
     "thumb": "/assets/editorial/shanghai/postcard/thumb/ship-on-land.webp",
     "color": "#CE987F"
   },
@@ -1139,7 +1139,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "SHANGHAI",
     "code": "SH",
     "coordinates": "31.2304° N / 121.4737° E",
-    "image": "/assets/editorial/shanghai/postcard/apple-jingan.webp",
+    "image": "https://media.galok.me/postcards/shanghai/apple-jingan--42eea567f55f.webp",
     "thumb": "/assets/editorial/shanghai/postcard/thumb/apple-jingan.webp",
     "color": "#174c58"
   },
@@ -1152,7 +1152,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "SHANGHAI",
     "code": "SH",
     "coordinates": "31.2304° N / 121.4737° E",
-    "image": "/assets/editorial/shanghai/postcard/ruijin-road.webp",
+    "image": "https://media.galok.me/postcards/shanghai/ruijin-road--92da3b08646a.webp",
     "thumb": "/assets/editorial/shanghai/postcard/thumb/ruijin-road.webp",
     "color": "#423B27"
   },
@@ -1191,7 +1191,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "SHANGHAI",
     "code": "SH",
     "coordinates": "31.2304° N / 121.4737° E",
-    "image": "/assets/editorial/shanghai/postcard/qipao-shop.webp",
+    "image": "https://media.galok.me/postcards/shanghai/qipao-shop--bc5c439e1b4b.webp",
     "thumb": "/assets/editorial/shanghai/postcard/thumb/qipao-shop.webp",
     "color": "#9E6859"
   },
@@ -1204,7 +1204,7 @@ window.GALOK_POSTCARDS = Object.freeze([
     "cityDisplay": "SHANGHAI",
     "code": "SH",
     "coordinates": "31.2304° N / 121.4737° E",
-    "image": "/assets/editorial/shanghai/postcard/qipao-shadow.webp",
+    "image": "https://media.galok.me/postcards/shanghai/qipao-shadow--fec66f629a71.webp",
     "thumb": "/assets/editorial/shanghai/postcard/thumb/qipao-shadow.webp",
     "color": "#5C572D"
   },

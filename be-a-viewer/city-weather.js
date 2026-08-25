@@ -5,7 +5,7 @@ const CACHE_TTL = 10 * 60 * 1000;
 const cityCache = new Map();
 const weatherCovers = new Map([
   ["beijing", {
-    src: "/assets/be-a-viewer/weather/beijing/cover.webp",
+    src: "https://media.galok.me/cities/shared/weather/beijing/cover--472f1d65103a.webp",
     alt: "Beijing palace walls in clear sunlight on aged paper"
   }]
 ]);
@@ -24,11 +24,11 @@ const shanghaiWeatherCovers = {
     alt: "Yangpu riverside industrial heritage beneath an overcast sky on aged paper"
   },
   rain: {
-    src: "/assets/be-a-viewer/weather/shanghai/light-rain-wukang.webp",
+    src: "https://media.galok.me/cities/shared/weather/shanghai/light-rain-wukang--e33ff7678cf1.webp",
     alt: "Wukang Building in light Shanghai rain on aged paper"
   },
   thunderstorm: {
-    src: "/assets/be-a-viewer/weather/shanghai/thunderstorm-china-art-museum.webp",
+    src: "https://media.galok.me/cities/shared/weather/shanghai/thunderstorm-china-art-museum--bf217b13e701.webp",
     alt: "China Art Museum beneath a Shanghai thunderstorm on aged paper"
   },
   typhoon: {
@@ -40,53 +40,53 @@ const shanghaiWeatherCovers = {
     alt: "Lujiazui skyline fading into Shanghai haze on aged paper"
   },
   snow: {
-    src: "/assets/be-a-viewer/weather/shanghai/light-snow-yuyuan.webp",
+    src: "https://media.galok.me/cities/shared/weather/shanghai/light-snow-yuyuan--2d0fa916c45c.webp",
     alt: "Yuyuan Garden in light Shanghai snow on aged paper"
   }
 };
 
 const xianWeatherCovers = {
   clear: {
-    src: "/assets/be-a-viewer/weather/xian/clear-bell-tower.webp",
+    src: "https://media.galok.me/cities/shared/weather/xian/clear-bell-tower--cbd2e8db4aa0.webp",
     alt: "Xi'an Bell Tower in clear sunlight on aged paper"
   },
   partlyCloudy: {
-    src: "/assets/be-a-viewer/weather/xian/partly-cloudy-city-wall.webp",
+    src: "https://media.galok.me/cities/shared/weather/xian/partly-cloudy-city-wall--d2e9d88cc412.webp",
     alt: "Xi'an City Wall beneath broken clouds on aged paper"
   },
   overcast: {
-    src: "/assets/be-a-viewer/weather/xian/overcast-qujiang-tv-tower.webp",
+    src: "https://media.galok.me/cities/shared/weather/xian/overcast-qujiang-tv-tower--2ac4737d9cf7.webp",
     alt: "Qujiang television tower beneath an overcast Xi'an sky on aged paper"
   },
   rain: {
-    src: "/assets/be-a-viewer/weather/xian/light-rain-drum-tower.webp",
+    src: "https://media.galok.me/cities/shared/weather/xian/light-rain-drum-tower--f6ad6bb6649d.webp",
     alt: "Xi'an Drum Tower in light rain on aged paper"
   },
   thunderstorm: {
-    src: "/assets/be-a-viewer/weather/xian/thunderstorm-chanba.webp",
+    src: "https://media.galok.me/cities/shared/weather/xian/thunderstorm-chanba--a2ff2905b979.webp",
     alt: "Chanba riverside beneath a Xi'an thunderstorm on aged paper"
   },
   duststorm: {
-    src: "/assets/be-a-viewer/weather/xian/duststorm-daming-palace.webp",
+    src: "https://media.galok.me/cities/shared/weather/xian/duststorm-daming-palace--9b334e2d7ed6.webp",
     alt: "Daming Palace Danfeng Gate in a Xi'an duststorm on aged paper"
   },
   haze: {
-    src: "/assets/be-a-viewer/weather/xian/haze-high-tech-cbd.webp",
+    src: "https://media.galok.me/cities/shared/weather/xian/haze-high-tech-cbd--b784575f6c1c.webp",
     alt: "Xi'an High-tech CBD fading into haze on aged paper"
   },
   snow: {
-    src: "/assets/be-a-viewer/weather/xian/light-snow-big-wild-goose-pagoda.webp",
+    src: "https://media.galok.me/cities/shared/weather/xian/light-snow-big-wild-goose-pagoda--fa2705097755.webp",
     alt: "Big Wild Goose Pagoda in light Xi'an snow on aged paper"
   }
 };
 
 const xiamenWeatherCovers = {
   clear: {
-    src: "/assets/be-a-viewer/weather/xiamen/clear-bagua-mansion.webp",
+    src: "https://media.galok.me/cities/shared/weather/xiamen/clear-bagua-mansion--aee5b38637cc.webp",
     alt: "Bagua Mansion in clear Xiamen sunlight on aged paper"
   },
   partlyCloudy: {
-    src: "/assets/be-a-viewer/weather/xiamen/partly-cloudy-yanwu-bridge.webp",
+    src: "https://media.galok.me/cities/shared/weather/xiamen/partly-cloudy-yanwu-bridge--4e4b372f5f44.webp",
     alt: "Yanwu Bridge beneath broken Xiamen clouds on aged paper"
   },
   overcast: {
@@ -94,19 +94,19 @@ const xiamenWeatherCovers = {
     alt: "Shapowei shelter harbour beneath an overcast Xiamen sky on aged paper"
   },
   rain: {
-    src: "/assets/be-a-viewer/weather/xiamen/light-rain-zhongshan-road.webp",
+    src: "https://media.galok.me/cities/shared/weather/xiamen/light-rain-zhongshan-road--8070bed2c08b.webp",
     alt: "Zhongshan Road arcades in light Xiamen rain on aged paper"
   },
   heavyRain: {
-    src: "/assets/be-a-viewer/weather/xiamen/heavy-rain-jimei-dragon-boat-pond.webp",
+    src: "https://media.galok.me/cities/shared/weather/xiamen/heavy-rain-jimei-dragon-boat-pond--bf4bdfdaaeed.webp",
     alt: "Jimei Dragon Boat Pond in heavy Xiamen rain on aged paper"
   },
   thunderstorm: {
-    src: "/assets/be-a-viewer/weather/xiamen/thunderstorm-haicang-bridge.webp",
+    src: "https://media.galok.me/cities/shared/weather/xiamen/thunderstorm-haicang-bridge--86e81c926af8.webp",
     alt: "Haicang Bridge beneath a Xiamen thunderstorm on aged paper"
   },
   typhoon: {
-    src: "/assets/be-a-viewer/weather/xiamen/typhoon-guanyinshan-coast.webp",
+    src: "https://media.galok.me/cities/shared/weather/xiamen/typhoon-guanyinshan-coast--f59e692175f6.webp",
     alt: "Guanyinshan coast in Xiamen typhoon weather on aged paper"
   },
   seaFog: {
@@ -117,19 +117,19 @@ const xiamenWeatherCovers = {
 
 const hangzhouWeatherCovers = {
   clear: {
-    src: "/assets/be-a-viewer/weather/hangzhou/clear-broken-bridge.webp",
+    src: "https://media.galok.me/cities/shared/weather/hangzhou/clear-broken-bridge--e5bbc94f4eab.webp",
     alt: "West Lake lotus pond and pavilion in clear Hangzhou sunlight on aged paper"
   },
   partlyCloudy: {
-    src: "/assets/be-a-viewer/weather/hangzhou/partly-cloudy-leifeng-pagoda.webp",
+    src: "https://media.galok.me/cities/shared/weather/hangzhou/partly-cloudy-leifeng-pagoda--8dd06ecf28a8.webp",
     alt: "Leifeng Pagoda beneath broken Hangzhou clouds on aged paper"
   },
   overcast: {
-    src: "/assets/be-a-viewer/weather/hangzhou/overcast-gongchen-bridge.webp",
+    src: "https://media.galok.me/cities/shared/weather/hangzhou/overcast-gongchen-bridge--ada89829db91.webp",
     alt: "Hangzhou stone village beneath an overcast sky on aged paper"
   },
   rain: {
-    src: "/assets/be-a-viewer/weather/hangzhou/light-rain-sudi.webp",
+    src: "https://media.galok.me/cities/shared/weather/hangzhou/light-rain-sudi--133f221a02fb.webp",
     alt: "Hangzhou tea village in light rain on aged paper"
   },
   thunderstorm: {
@@ -137,7 +137,7 @@ const hangzhouWeatherCovers = {
     alt: "Hangzhou Olympic Sports Center and Qianjiang New City beneath a thunderstorm on aged paper"
   },
   typhoon: {
-    src: "/assets/be-a-viewer/weather/hangzhou/typhoon-qiantang-embankment.webp",
+    src: "https://media.galok.me/cities/shared/weather/hangzhou/typhoon-qiantang-embankment--faa553a97753.webp",
     alt: "Qiantang River embankment in typhoon rain on aged paper"
   },
   haze: {
@@ -145,7 +145,7 @@ const hangzhouWeatherCovers = {
     alt: "Qianjiang New City fading into Hangzhou haze on aged paper"
   },
   snow: {
-    src: "/assets/be-a-viewer/weather/hangzhou/light-snow-lingyin-temple.webp",
+    src: "https://media.galok.me/cities/shared/weather/hangzhou/light-snow-lingyin-temple--e420390d7bcb.webp",
     alt: "Lingyin Temple in light Hangzhou snow on aged paper"
   }
 };

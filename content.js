@@ -49,7 +49,7 @@ window.GALOK_CONTENT = {
       classification: "Independent Research",
       method: "Empirical",
       field: "China / Labor / Households / Automation",
-      cover: { src: "/assets/be-a-viewer/xian/night-market.jpeg", alt: "A night market crowd moving beneath illuminated signs in Xi'an" },
+      cover: { src: "https://media.galok.me/cities/xian/night-market--cd963a454540.jpeg", alt: "A night market crowd moving beneath illuminated signs in Xi'an" },
       tags: "research empirical china labor households automation"
     },
     {
@@ -63,7 +63,7 @@ window.GALOK_CONTENT = {
       classification: "Independent Research",
       method: "Empirical",
       field: "China / Franchising / Foodservice / Gross Flows",
-      cover: { src: "/assets/research/research-002-cover.jpg", alt: "A shopping-mall interior layered with glass reflections, pedestrians and large advertising portraits" },
+      cover: { src: "https://media.galok.me/research/002/research-002-cover--6dc193a5fa21.jpg", alt: "A shopping-mall interior layered with glass reflections, pedestrians and large advertising portraits" },
       tags: "research empirical china franchising foodservice store turnover gross flows"
     }
   ],
@@ -105,7 +105,7 @@ window.GALOK_CONTENT = {
       url: "/essays/the-curators-curse/",
       maturity: "growing",
       cover: {
-        src: "/assets/views/articles/the-curators-curse-zine.webp",
+        src: "https://media.galok.me/essays/articles/the-curators-curse-zine--61feb06d7f66.webp",
         alt: "A printed collage of a penguin curator, café receipts, rankings and exam records"
       },
       excerpt: "How China's boutique economy turned taste, credentials and bad service into a public status test — and why consumers rejected it."
@@ -121,7 +121,7 @@ window.GALOK_CONTENT = {
       url: "/essays/the-water-is-rising/",
       maturity: "growing",
       cover: {
-        src: "/assets/views/articles/water-rising.webp",
+        src: "https://media.galok.me/essays/articles/water-rising--d95c4905da3e.webp",
         alt: "Clear water rippling across a dark shoreline"
       },
       excerpt: "Inside China's quiet AI purge: automation, silent layoffs and the organizational fear spreading through the technology workforce."
@@ -153,7 +153,7 @@ window.GALOK_CONTENT = {
       url: "/essays/honor-phone-case-lawsuit/",
       maturity: "evergreen",
       cover: {
-        src: "/assets/views/articles/honor-phone-cases.webp",
+        src: "https://media.galok.me/essays/articles/honor-phone-cases--20ee62c0b834.webp",
         alt: "An Honor phone photographed from its camera side"
       },
       excerpt: "More than 400 small vendors were sued for using Honor's name to tell customers which phone their cases fit."
@@ -169,7 +169,7 @@ window.GALOK_CONTENT = {
       url: "/essays/xiaohongshu-world-cup/",
       maturity: "evergreen",
       cover: {
-        src: "/assets/views/articles/xiaohongshu-world-cup.webp",
+        src: "https://media.galok.me/essays/articles/xiaohongshu-world-cup--80fbed36aac5.webp",
         alt: "People standing before a colourful FIFA World Cup mural"
       },
       excerpt: "Xiaohongshu wants the World Cup to grow daily users and attract more men. Its own platform history shows why the bet is difficult."
@@ -185,7 +185,7 @@ window.GALOK_CONTENT = {
       url: "/essays/tourism-assembly-line/",
       maturity: "growing",
       cover: {
-        src: "/assets/views/articles/tourism-assembly-line.webp",
+        src: "https://media.galok.me/essays/articles/tourism-assembly-line--6e5467b87fb8.webp",
         alt: "Crowds moving through a historic Chinese shopping street"
       },
       excerpt: "How platform economics turned travel into a production schedule of filters, queues, exposure and amplification."
@@ -249,7 +249,7 @@ window.GALOK_CONTENT = {
       url: "/essays/goose-leg-official-narrative/",
       maturity: "planted",
       cover: {
-        src: "/assets/views/articles/goose-leg.webp",
+        src: "https://media.galok.me/essays/articles/goose-leg--88aa1e44a9d3.webp",
         alt: "Tsinghua University west gate seen from the street"
       },
       excerpt: "A Beijing vendor, elite campuses and one goose-flavored duck leg show how a beloved sincerity story can fail once ordinary evidence arrives."
@@ -265,7 +265,7 @@ window.GALOK_CONTENT = {
       url: "/essays/rmb-9-9-coffee/",
       maturity: "evergreen",
       cover: {
-        src: "/assets/hero/video/money-closeup-poster.webp",
+        src: "https://media.galok.me/hero/video/money-closeup-poster--a16c70dd82ab.webp",
         alt: "A close study of money"
       },
       excerpt: "Cheap is not the opposite of desire. It becomes powerful when it feels competent, quick, repeatable and socially clean."
@@ -281,7 +281,7 @@ window.GALOK_CONTENT = {
       url: "/essays/cyber-audit-proof-economy/",
       maturity: "growing",
       cover: {
-        src: "/assets/views/articles/cyber-audit.webp",
+        src: "https://media.galok.me/essays/articles/cyber-audit--56158e1e7d42.webp",
         alt: "A narrow courtyard lane framed by concrete and yellow flowers"
       },
       excerpt: "China's platform internet no longer only creates desire. It trains consumers, cities and brands to prove that desire can survive inspection."

@@ -352,7 +352,7 @@ html {
   right: 0;
   left: 0;
   height: min(38rem, 58svh);
-  background: url("/assets/be-a-viewer/xiamen/editorial/adrian2019-xiamen-4622472_1920-desktop.webp") center 58% / cover no-repeat;
+  background: url("https://media.galok.me/cities/xiamen/editorial/adrian2019-xiamen-4622472_1920-desktop--4644a6b481c2.webp") center 58% / cover no-repeat;
   opacity: .075;
   filter: saturate(.65) contrast(.9);
   transform: translate3d(0, var(--tide-lift), 0) scale(1.02);

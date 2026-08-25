@@ -105,7 +105,7 @@ html {
 
 .shanghai-hero-media {
   z-index: -2;
-  background: var(--sh-black) url("/assets/be-a-viewer/shanghai/shanghai-hero-poster.jpg") center / cover no-repeat;
+  background: var(--sh-black) url("https://media.galok.me/cities/shanghai/shanghai-hero-poster--8f38417150e0.jpg") center / cover no-repeat;
 }
 
 .shanghai-hero-media video {
@@ -117,7 +117,7 @@ html {
 
 @media (orientation: portrait) {
   .shanghai-hero-media {
-    background-image: url("/assets/be-a-viewer/shanghai/shanghai-hero-mobile-poster.jpg");
+    background-image: url("https://media.galok.me/cities/shanghai/shanghai-hero-mobile-poster--e18e609f0bff.jpg");
   }
 }
 
@@ -654,7 +654,7 @@ html {
   height: min(70rem, 76vw);
   min-height: 0;
   aspect-ratio: auto;
-  background: #202223 url("/assets/be-a-viewer/shanghai/apple-jingan.jpeg") center / cover no-repeat;
+  background: #202223 url("https://media.galok.me/cities/shanghai/apple-jingan--6bfcc0ca101e.jpeg") center / cover no-repeat;
   cursor: zoom-in;
 }
 
@@ -817,7 +817,7 @@ html {
 
 .shanghai-temple-media {
   z-index: -2;
-  background: #111a1b url("/assets/be-a-viewer/shanghai/jingan-temple-poster.jpg") center / cover no-repeat;
+  background: #111a1b url("https://media.galok.me/cities/shanghai/jingan-temple-poster--8a74725526be.jpg") center / cover no-repeat;
 }
 
 .shanghai-temple-media video {
@@ -1531,7 +1531,7 @@ html {
   }
 
   .shanghai-temple-media {
-    background-image: url("/assets/be-a-viewer/shanghai/jingan-temple-mobile-poster.jpg");
+    background-image: url("https://media.galok.me/cities/shanghai/jingan-temple-mobile-poster--48713bb231f4.jpg");
   }
 
   .shanghai-temple-media video {

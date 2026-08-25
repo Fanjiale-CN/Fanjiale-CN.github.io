@@ -1,4 +1,4 @@
-const MODEL_URL = "/assets/models/xian/terracotta-warrior.glb";
+const MODEL_URL = "https://media.galok.me/models/xian/terracotta-warrior--1aa9c11a60fc.glb";
 const MODEL_BYTES = 15867792;
 const section = document.querySelector("#warrior");
 const stage = section?.querySelector("[data-model-stage]");
