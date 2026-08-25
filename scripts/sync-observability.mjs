@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const measurementId = "G-2Y8N04VXYG";
 const clarityId = "y7uoedckle";
+const cloudflareWebAnalyticsToken = "661a632fda6543c7ba4c14b93e9a9452";
 const marker = "<!-- GALOK_OBSERVABILITY_START -->";
 const endMarker = "<!-- GALOK_OBSERVABILITY_END -->";
 const checkOnly = process.argv.includes("--check");
@@ -24,6 +25,7 @@ const block = `${marker}
       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "${clarityId}");
   </script>
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${cloudflareWebAnalyticsToken}"}'></script>
   <script defer src="/assets/observability.js?v=20260825"></script>
   ${endMarker}`;
 
@@ -61,6 +63,7 @@ function removeAnalytics(html) {
     next = `${next.slice(0, blockStart)}${next.slice(blockEnd)}`;
   }
   next = next.replace(/<script\b[^>]*\bsrc=["']https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-2Y8N04VXYG["'][^>]*>\s*<\/script>\s*/gi, "");
+  next = next.replace(/<script\b[^>]*\bsrc=["']https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js["'][^>]*>\s*<\/script>\s*/gi, "");
   next = next.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, (script) => script.includes("G-2Y8N04VXYG") && /gtag\s*\(\s*["']config["']/i.test(script) ? "" : script);
   return next.replace(/^[\t ]+$/gm, "");
 }
@@ -77,8 +80,9 @@ for (const file of walk(root)) {
     const gtagSources = (next.match(/googletagmanager\.com\/gtag\/js\?id=G-2Y8N04VXYG/g) || []).length;
     const configs = (next.match(/gtag\("config", "G-2Y8N04VXYG"\)/g) || []).length;
     const clarity = (next.match(/"y7uoedckle"/g) || []).length;
-    if (gtagSources !== 1 || configs !== 1 || clarity !== 1 || !next.includes('/assets/observability.js?v=20260825')) invalid.push(path);
-  } else if (/G-2Y8N04VXYG|y7uoedckle|GALOK_OBSERVABILITY_START/.test(next)) invalid.push(path);
+    const cloudflare = (next.match(/static\.cloudflareinsights\.com\/beacon\.min\.js/g) || []).length;
+    if (gtagSources !== 1 || configs !== 1 || clarity !== 1 || cloudflare !== 1 || !next.includes(`"token":"${cloudflareWebAnalyticsToken}"`) || !next.includes('/assets/observability.js?v=20260825')) invalid.push(path);
+  } else if (/G-2Y8N04VXYG|y7uoedckle|cloudflareinsights\.com|GALOK_OBSERVABILITY_START/.test(next)) invalid.push(path);
   if (next !== before) {
     changed.push(path);
     if (!checkOnly) writeFileSync(file, next);

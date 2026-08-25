@@ -11,7 +11,7 @@
 
 These settings live in the Cloudflare account and cannot be truthfully changed from this repository.
 
-1. Open **Websites → galok.me → Analytics & Logs → Web Analytics**. Create or enable the site token, then add the supplied Web Analytics snippet through **Zaraz** or the site head. Confirm the dashboard starts receiving page views before treating RUM as enabled.
+1. Open **Web Analytics** and keep one site entry for the canonical hostname **www.galok.me**. The supplied Web Analytics snippet is installed by `scripts/sync-observability.mjs`; do not add a second copy through Zaraz. Confirm the dashboard starts receiving page views before treating RUM as enabled.
 2. Open **Speed → Optimization**. Keep **Brotli** and **HTTP/3** enabled. Enable **Speed Brain** only after testing homepage → Essays, Essays → article, Research → paper and Cities → city page. Leave **Early Hints** unchanged unless Cloudflare reports a concrete preload benefit.
 3. Under **Caching → Cache Rules**, keep the existing immutable cache policy for versioned `media.galok.me` assets. Do not add a broad HTML “Cache Everything” rule.
 
