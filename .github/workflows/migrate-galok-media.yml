@@ -47,9 +47,18 @@ jobs:
       - name: Show migration plan
         run: node scripts/migrate-media-edge.mjs
 
+      - name: Require R2 credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN secret."; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID secret."; exit 1; }
+
       - name: Upload, verify, and rewrite production references
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           NPM_CONFIG_CACHE: ${{ runner.temp }}/galok-npm-cache
           XDG_CONFIG_HOME: ${{ runner.temp }}/galok-wrangler-config
         run: node scripts/migrate-media-edge.mjs --apply
