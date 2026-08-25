@@ -10,7 +10,9 @@
     "ci:report": "node scripts/write-ci-report.mjs",
     "build:discovery": "node scripts/build-discovery.mjs && pagefind --site /tmp/galok-pagefind-source --output-path pagefind",
     "ci:search": "node scripts/runtime-discovery-search.mjs",
-    "ci:indexnow": "node scripts/notify-indexnow.mjs"
+    "ci:indexnow": "node scripts/notify-indexnow.mjs",
+    "sync:observability": "node scripts/sync-observability.mjs",
+    "ci:observability": "node scripts/runtime-observability.mjs"
   },
   "devDependencies": {
     "@axe-core/puppeteer": "^4.13.0",

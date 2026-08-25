@@ -8,15 +8,32 @@ const readJson = (file, fallback) => existsSync(file) ? JSON.parse(readFileSync(
 const links = readJson(join(output, "link-report.json"), { scannedPages: 0, checkedMediaUrls: 0, errors: ["link report was not generated"], warnings: [] });
 const budget = readJson(join(output, "resource-budget.json"), { assetsChecked: 0, bytesChecked: 0, errors: ["resource report was not generated"], warnings: [], largestAssets: [] });
 const runtime = readJson(join(output, "runtime-accessibility.json"), { routes: [], errors: ["runtime accessibility report was not generated"], warnings: [] });
+const observability = readJson(join(output, "runtime-observability.json"), { requests: [], events: [], errors: ["observability runtime report was not generated"] });
 
 const lighthouseDir = join(output, "lighthouse");
 const manifest = readJson(join(lighthouseDir, "manifest.json"), []);
+const auditValue = (audit) => audit?.numericValue ?? audit?.details?.items?.[0]?.responseTime ?? null;
 const lighthouse = manifest.map((run) => {
   const report = run.jsonPath ? readJson(join(root, run.jsonPath), null) : null;
   const categories = report?.categories ?? {};
-  return { url: run.url, scores: Object.fromEntries(["performance", "accessibility", "best-practices", "seo"].map((key) => [key, Math.round((run.summary?.[key] ?? categories[key]?.score ?? 0) * 100)])) };
+  const audits = report?.audits ?? {};
+  return {
+    url: run.url,
+    scores: Object.fromEntries(["performance", "accessibility", "best-practices", "seo"].map((key) => [key, Math.round((run.summary?.[key] ?? categories[key]?.score ?? 0) * 100)])),
+    metrics: {
+      lcp: auditValue(audits["largest-contentful-paint"]),
+      responsiveness: auditValue(audits["interaction-to-next-paint"]) ?? auditValue(audits["total-blocking-time"]),
+      cls: auditValue(audits["cumulative-layout-shift"]),
+      ttfb: auditValue(audits["server-response-time"]),
+      bytes: auditValue(audits["total-byte-weight"]),
+      requests: audits["network-requests"]?.details?.items?.length ?? null
+    }
+  };
 });
 const score = (value) => value === undefined ? "—" : `${value}`;
+const milliseconds = (value) => Number.isFinite(value) ? `${Math.round(value)} ms` : "—";
+const bytes = (value) => Number.isFinite(value) ? `${(value / 1024 / 1024).toFixed(2)} MiB` : "—";
+const decimal = (value) => Number.isFinite(value) ? value.toFixed(3) : "—";
 const summary = [
   "# Galok CI report",
   "",
@@ -25,6 +42,7 @@ const summary = [
   `| HTML / links | ${links.errors.length ? "FAIL" : "PASS"} | ${links.scannedPages} pages · ${links.checkedMediaUrls} R2 URLs · ${links.errors.length} errors |`,
   `| Resource budget | ${budget.errors.length ? "FAIL" : "PASS"} | ${budget.assetsChecked} assets · ${(budget.bytesChecked / 1024 / 1024).toFixed(1)} MiB · ${budget.warnings.length} documented exceptions |`,
   `| Runtime accessibility | ${runtime.errors.length ? "FAIL" : "PASS"} | ${runtime.routes.length} representative pages · ${runtime.errors.length} errors |`,
+  `| Runtime observability | ${observability.errors.length ? "FAIL" : "PASS"} | ${observability.requests.length} tracker requests · ${new Set(observability.events).size} named events |`,
   `| Lighthouse | ${lighthouse.length === 7 ? "PASS" : "INCOMPLETE"} | ${lighthouse.length}/7 reports |`,
   "",
   "## Lighthouse baseline",
@@ -32,6 +50,12 @@ const summary = [
   "| Page | Performance | Accessibility | Best Practices | SEO |",
   "| --- | ---: | ---: | ---: | ---: |",
   ...lighthouse.map((item) => `| ${item.url.replace("http://127.0.0.1:4173", "") || "/"} | ${score(item.scores.performance)} | ${score(item.scores.accessibility)} | ${score(item.scores["best-practices"])} | ${score(item.scores.seo)} |`),
+  "",
+  "## Performance details",
+  "",
+  "| Page | LCP | INP / TBT | CLS | TTFB | Transfer | Requests |",
+  "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+  ...lighthouse.map((item) => `| ${item.url.replace("http://127.0.0.1:4173", "") || "/"} | ${milliseconds(item.metrics.lcp)} | ${milliseconds(item.metrics.responsiveness)} | ${decimal(item.metrics.cls)} | ${milliseconds(item.metrics.ttfb)} | ${bytes(item.metrics.bytes)} | ${item.metrics.requests ?? "—"} |`),
   "",
   "## Largest referenced resources",
   "",

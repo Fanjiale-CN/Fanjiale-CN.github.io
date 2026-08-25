@@ -12,7 +12,8 @@ const scripts = [
   "validate-research.mjs",
   "validate-research-002.mjs",
   "validate-publishing.mjs",
-  "validate-discovery.mjs"
+  "validate-discovery.mjs",
+  "validate-observability.mjs"
 ];
 const directory = dirname(fileURLToPath(import.meta.url));
 let failed = false;

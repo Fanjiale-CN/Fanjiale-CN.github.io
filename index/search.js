@@ -30,6 +30,7 @@ let activeType = "all";
 let catalog = [];
 let pagefind;
 let timer;
+let lastTrackedQuery = "";
 
 const setIndexVisible = (visible) => {
   if (!indexSection) return;
@@ -73,6 +74,10 @@ async function queryPagefind(query) {
 async function search() {
   const query = input.value.trim();
   updateUrl(query);
+  if (query.length >= 2 && query !== lastTrackedQuery) {
+    lastTrackedQuery = query;
+    window.galokTrack?.("archive_search", { query_length: query.length, filter: activeType });
+  }
   if (!query) {
     const entries = catalogEntries();
     setIndexVisible(activeType === "all");
@@ -110,5 +115,15 @@ buttons.forEach((button) => button.addEventListener("click", () => {
   buttons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
   search();
 }));
+
+mount.addEventListener("click", (event) => {
+  const result = event.target.closest("a.archive-result");
+  if (!result) return;
+  window.galokTrack?.("archive_result_open", {
+    result_type: result.dataset.archiveResultType || "site",
+    result_title: result.querySelector("h2")?.textContent || "Galok",
+    destination: new URL(result.href, window.location.origin).pathname
+  });
+});
 
 initialize();

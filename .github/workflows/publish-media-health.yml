@@ -1,0 +1,43 @@
+name: Publish Galok media health object
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Type PUBLISH_GALOK_MEDIA_HEALTH to publish media.galok.me/health.txt
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require explicit confirmation
+        env:
+          CONFIRM: ${{ inputs.confirm }}
+        run: test "$CONFIRM" = "PUBLISH_GALOK_MEDIA_HEALTH"
+
+      - name: Publish health object to R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/galok-npm-cache
+          XDG_CONFIG_HOME: ${{ runner.temp }}/galok-wrangler-config
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN"
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          printf 'GALOK MEDIA OK\n' > "$RUNNER_TEMP/health.txt"
+          npx --yes wrangler r2 object put galok-media/health.txt --remote --file "$RUNNER_TEMP/health.txt" --content-type text/plain --cache-control no-store
+
+      - name: Verify public media health endpoint
+        run: |
+          for attempt in 1 2 3 4 5 6 7 8; do
+            body="$(curl --fail --silent https://media.galok.me/health.txt || true)"
+            test "$body" = "GALOK MEDIA OK" && exit 0
+            sleep 5
+          done
+          echo "media.galok.me/health.txt did not return the expected body"
+          exit 1

@@ -81,6 +81,14 @@ jobs:
           CHROME_PATH: /usr/bin/google-chrome
         run: node scripts/runtime-discovery-search.mjs
 
+      - name: Verify analytics and Clarity runtime wiring
+        id: runtime_observability
+        continue-on-error: true
+        env:
+          BASE_URL: http://127.0.0.1:4173
+          CHROME_PATH: /usr/bin/google-chrome
+        run: node scripts/runtime-observability.mjs
+
       - name: Measure Lighthouse baseline
         id: lighthouse
         continue-on-error: true
@@ -107,4 +115,5 @@ jobs:
           test "${{ steps.discovery.outcome }}" = "success"
           test "${{ steps.runtime_a11y.outcome }}" = "success"
           test "${{ steps.runtime_search.outcome }}" = "success"
+          test "${{ steps.runtime_observability.outcome }}" = "success"
           test "${{ steps.lighthouse.outcome }}" = "success"
