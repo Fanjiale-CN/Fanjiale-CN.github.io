@@ -17,7 +17,7 @@ hubVideos.forEach((tag, index) => {
   check(!/(?:^|\s)src="/.test(tag), `hub video ${index + 1} assigns a source before activation`);
 });
 check(!/<source\b[^>]*src=/.test(hub.slice(hub.indexOf("data-viewer-hero-stage"), hub.indexOf("viewer-hero-shade"))), "hub stage contains eager source elements");
-check(/beijing-poster\.webp" as="image" fetchpriority="high"/.test(hub), "hub poster is not high priority");
+check(/beijing-poster(?:--[a-f0-9]+)?\.webp" as="image" fetchpriority="high"/.test(hub), "hub poster is not high priority");
 
 const mobileVideos = ["beijing", "shanghai", "xian", "dali", "shenzhen", "xiamen", "tibet-plateau", "hangzhou"];
 mobileVideos.forEach((name) => {

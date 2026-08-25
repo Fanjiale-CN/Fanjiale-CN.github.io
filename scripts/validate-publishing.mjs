@@ -172,12 +172,14 @@ for (const essay of content.essays) {
   for (const field of ["title", "date", "readingTime", "series", "issue", "url", "cover"]) if (!essay[field]) errors.push(`content.js: essay ${essay.title || "(untitled)"} is missing ${field}`);
   const target = localTarget(essay.url);
   if (!target || !existsSync(target)) errors.push(`content.js: essay route missing ${essay.url}`);
-  if (essay.cover?.src && !existsSync(localTarget(essay.cover.src))) errors.push(`content.js: essay cover missing ${essay.cover.src}`);
+  const cover = essay.cover?.src ? localTarget(essay.cover.src) : null;
+  if (cover?.invalid || (cover && !existsSync(cover))) errors.push(`content.js: essay cover missing ${essay.cover.src}`);
 }
 for (const paper of content.research) {
   for (const field of ["code", "title", "date", "classification", "method", "field", "url", "cover"]) if (!paper[field]) errors.push(`content.js: research ${paper.title || "(untitled)"} is missing ${field}`);
   if (!existsSync(localTarget(paper.url))) errors.push(`content.js: research route missing ${paper.url}`);
-  if (paper.cover?.src && !existsSync(localTarget(paper.cover.src))) errors.push(`content.js: research cover missing ${paper.cover.src}`);
+  const cover = paper.cover?.src ? localTarget(paper.cover.src) : null;
+  if (cover?.invalid || (cover && !existsSync(cover))) errors.push(`content.js: research cover missing ${paper.cover.src}`);
 }
 for (const city of content.cities.filter((item) => item.href)) {
   if (!existsSync(localTarget(city.href))) errors.push(`content.js: city route missing ${city.href}`);

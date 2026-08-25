@@ -1,0 +1,17 @@
+{
+  "name": "galok-site-ci",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-site.mjs",
+    "ci:links": "node scripts/validate-runtime-links.mjs",
+    "ci:budget": "node scripts/check-resource-budgets.mjs",
+    "ci:runtime": "node scripts/runtime-accessibility.mjs",
+    "ci:report": "node scripts/write-ci-report.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/puppeteer": "^4.13.0",
+    "@lhci/cli": "^0.15.1",
+    "puppeteer-core": "^25.9.0"
+  }
+}

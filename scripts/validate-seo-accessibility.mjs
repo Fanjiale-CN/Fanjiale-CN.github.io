@@ -4,7 +4,12 @@ import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const origin = "https://www.galok.me";
+const mediaOrigin = "https://media.galok.me";
 const errors = [];
+
+function isAbsolutePublicImage(value) {
+  return value.startsWith(`${origin}/`) || value.startsWith(`${mediaOrigin}/`);
+}
 
 function walk(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -81,11 +86,11 @@ for (const file of publicPages) {
     if (countMeta(html, field, "property") !== 1) errors.push(`${source}: needs one ${field}`);
   }
   if (meta(html, "og:url", "property") !== canon.href) errors.push(`${source}: og:url must equal canonical`);
-  if (!meta(html, "og:image", "property").startsWith(`${origin}/`)) errors.push(`${source}: og:image must be absolute`);
+  if (!isAbsolutePublicImage(meta(html, "og:image", "property"))) errors.push(`${source}: og:image must be an absolute public URL`);
   for (const field of ["twitter:card", "twitter:title", "twitter:description", "twitter:image"]) {
     if (countMeta(html, field) !== 1) errors.push(`${source}: needs one ${field}`);
   }
-  if (!meta(html, "twitter:image").startsWith(`${origin}/`)) errors.push(`${source}: twitter:image must be absolute`);
+  if (!isAbsolutePublicImage(meta(html, "twitter:image"))) errors.push(`${source}: twitter:image must be an absolute public URL`);
   const expectedType = essays.has(source) || source.startsWith("research/") && source !== "research/index.html" ? "article" : "website";
   if (meta(html, "og:type", "property") !== expectedType) errors.push(`${source}: og:type must be ${expectedType}`);
 

@@ -155,7 +155,6 @@ const page = `<!DOCTYPE html>
   <meta name="theme-color" content="#f2efe5">
   <meta name="description" content="A full-length independent research paper on how China's technology- and capital-intensive growth passes through into employment, labor income, job security and household demand.">
   <meta name="author" content="Galok">
-  <meta name="keywords" content="China economy, industrial automation, labor markets, household consumption, precautionary saving, industrial policy, labor institutions">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Who Captures Growth? — GALOK RESEARCH 001">
   <meta property="og:description" content="Capital Allocation, Labor-Market Power, and Household Demand in China's K-Shaped Economy.">
@@ -178,6 +177,7 @@ const page = `<!DOCTYPE html>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body class="research-paper-page">
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="research-progress" aria-hidden="true"><i data-research-progress></i></div>
   <nav class="site-nav" aria-label="Primary navigation">
     <div class="nav-inner">
@@ -186,7 +186,7 @@ const page = `<!DOCTYPE html>
     </div>
   </nav>
 
-  <main>
+  <main id="main-content" tabindex="-1">
     <header class="research-paper-hero">
       <div class="research-paper-identity">
         <p>GALOK RESEARCH 001</p>

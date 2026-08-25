@@ -3,3 +3,5 @@ dist/
 qa/
 .DS_Store
 design-qa.md
+artifacts/ci/
+.lighthouseci/

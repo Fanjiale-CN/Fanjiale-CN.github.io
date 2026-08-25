@@ -1,0 +1,18 @@
+{
+  "limits": {
+    "imageBytes": 2097152,
+    "videoBytes": 15728640,
+    "scriptWarnBytes": 512000,
+    "styleWarnBytes": 512000,
+    "homeCriticalBytes": 2097152
+  },
+  "allowOversizeImages": [
+    "research/002/zine-"
+  ],
+  "allowOversizeVideos": [
+    "cities/carousel/beijing--97990cdbbe5c.mp4",
+    "cities/carousel/shanghai--f092c4d1f861.mp4",
+    "cities/carousel/shenzhen--39ebe3e1a0b8.mp4",
+    "cities/carousel/xiamen--35c13ad85fdb.mp4"
+  ]
+}
