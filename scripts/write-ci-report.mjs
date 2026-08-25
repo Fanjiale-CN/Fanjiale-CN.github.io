@@ -14,7 +14,7 @@ const manifest = readJson(join(lighthouseDir, "manifest.json"), []);
 const lighthouse = manifest.map((run) => {
   const report = run.jsonPath ? readJson(join(root, run.jsonPath), null) : null;
   const categories = report?.categories ?? {};
-  return { url: run.url, scores: Object.fromEntries(["performance", "accessibility", "best-practices", "seo"].map((key) => [key, Math.round((categories[key]?.score ?? 0) * 100)])) };
+  return { url: run.url, scores: Object.fromEntries(["performance", "accessibility", "best-practices", "seo"].map((key) => [key, Math.round((run.summary?.[key] ?? categories[key]?.score ?? 0) * 100)])) };
 });
 const score = (value) => value === undefined ? "—" : `${value}`;
 const summary = [
