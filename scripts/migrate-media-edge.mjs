@@ -86,7 +86,7 @@ if (apply) {
   }
   for (const asset of batch) {
     const sourceFile = path.join(root, asset.source_path);
-    const args = ['--yes', 'wrangler', 'r2', 'object', 'put', `${bucket}/${asset.r2_key}`, '--file', sourceFile, '--content-type', mimeTypes[asset.extension] || 'application/octet-stream', '--cache-control', cacheControl];
+    const args = ['--yes', 'wrangler', 'r2', 'object', 'put', `${bucket}/${asset.r2_key}`, '--remote', '--file', sourceFile, '--content-type', mimeTypes[asset.extension] || 'application/octet-stream', '--cache-control', cacheControl];
     await run('npx', args, {
       cwd: root,
       env: {
