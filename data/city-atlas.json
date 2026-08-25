@@ -1,0 +1,80 @@
+{
+  "updated": "2026-08-25",
+  "cities": [
+    {
+      "id": "beijing",
+      "number": "01",
+      "name": "BEIJING",
+      "region": "NORTH CHINA",
+      "route": "/be-a-viewer/beijing/",
+      "summary": "Ceremony, compression and everyday movement around an old centre.",
+      "center": [116.4074, 39.9042],
+      "zoom": 10.4,
+      "points": [
+        { "name": "Temple of Heaven", "kind": "CITY ENTRY", "coordinates": [116.4106, 39.8822], "href": "/be-a-viewer/beijing/", "note": "The opening frame: ceremony in motion." },
+        { "name": "Central Axis", "kind": "FIELD NOTE", "coordinates": [116.3972, 39.9163], "href": "/be-a-viewer/beijing/", "note": "A line that still organises distance." },
+        { "name": "Rain Curb", "kind": "PHOTO", "coordinates": [116.4232, 39.9284], "href": "/be-a-viewer/beijing/", "note": "Street-level weather and labour." }
+      ]
+    },
+    {
+      "id": "shanghai",
+      "number": "02",
+      "name": "SHANGHAI",
+      "region": "EAST COAST",
+      "route": "/be-a-viewer/shanghai/",
+      "summary": "River light, fast surfaces and the pressure held inside an evening street.",
+      "center": [121.4737, 31.2304],
+      "zoom": 10.8,
+      "points": [
+        { "name": "The Bund", "kind": "CITY ENTRY", "coordinates": [121.4906, 31.2362], "href": "/be-a-viewer/shanghai/", "note": "The river as a moving horizon." },
+        { "name": "Jing’an Temple", "kind": "FILM", "coordinates": [121.4461, 31.2237], "href": "/be-a-viewer/shanghai/", "note": "A pause inside the electrical city." },
+        { "name": "Yuqing Road", "kind": "FIELD NOTE", "coordinates": [121.4548, 31.2088], "href": "/be-a-viewer/shanghai/", "note": "Compressed streets, close observation." }
+      ]
+    },
+    {
+      "id": "xian",
+      "number": "03",
+      "name": "XI’AN",
+      "region": "NORTHWEST",
+      "route": "/be-a-viewer/xian/",
+      "summary": "A city where stone, food and ordinary traffic keep memory at street level.",
+      "center": [108.9398, 34.3416],
+      "zoom": 11.1,
+      "points": [
+        { "name": "South Gate / City Wall", "kind": "CITY ENTRY", "coordinates": [108.9492, 34.2516], "href": "/be-a-viewer/xian/", "note": "The wall draws the horizon." },
+        { "name": "Bell Tower", "kind": "PHOTO", "coordinates": [108.9471, 34.2602], "href": "/be-a-viewer/xian/", "note": "The city keeps moving around its centre." },
+        { "name": "Muslim Quarter", "kind": "FIELD NOTE", "coordinates": [108.9382, 34.2651], "href": "/be-a-viewer/xian/", "note": "Night market density and a lived archive." }
+      ]
+    },
+    {
+      "id": "xiamen",
+      "number": "04",
+      "name": "XIAMEN",
+      "region": "SOUTHEAST",
+      "route": "/be-a-viewer/xiamen/",
+      "summary": "Arrival lines, sea edges and the daily geometry of a port city.",
+      "center": [118.0894, 24.4798],
+      "zoom": 10.8,
+      "points": [
+        { "name": "Gulangyu", "kind": "CITY ENTRY", "coordinates": [118.0644, 24.4440], "href": "/be-a-viewer/xiamen/", "note": "The island keeps the coast in view." },
+        { "name": "Shapowei", "kind": "FIELD NOTE", "coordinates": [118.0824, 24.4378], "href": "/be-a-viewer/xiamen/", "note": "A harbour edge after dark." },
+        { "name": "Xiamen Botanical Garden", "kind": "PHOTO", "coordinates": [118.1077, 24.4481], "href": "/be-a-viewer/xiamen/", "note": "Hills, humidity and a city beyond the frame." }
+      ]
+    },
+    {
+      "id": "hangzhou",
+      "number": "05",
+      "name": "HANGZHOU",
+      "region": "EAST CHINA",
+      "route": "/be-a-viewer/hangzhou/",
+      "summary": "Water arrives before the street; the city appears slowly around it.",
+      "center": [120.1551, 30.2741],
+      "zoom": 10.6,
+      "points": [
+        { "name": "West Lake", "kind": "CITY ENTRY", "coordinates": [120.1420, 30.2229], "href": "/be-a-viewer/hangzhou/", "note": "Lake, mist and the deliberate pace of a chapter." },
+        { "name": "Qinghefang", "kind": "FIELD NOTE", "coordinates": [120.1730, 30.2301], "href": "/be-a-viewer/hangzhou/", "note": "Commerce, weather and a close street." },
+        { "name": "Qianjiang New City", "kind": "PHOTO", "coordinates": [120.2176, 30.2407], "href": "/be-a-viewer/hangzhou/", "note": "The newer skyline across the water." }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "galok-reader-contact",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-25",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGIN": "https://www.galok.me",
+    "TURNSTILE_SITEKEY": "REPLACE_AFTER_CREATING_TURNSTILE_WIDGET",
+    "TURNSTILE_HOSTNAME": "www.galok.me"
+  },
+  "r2_buckets": [
+    {
+      "binding": "SUBMISSIONS",
+      "bucket_name": "galok-reader-submissions"
+    }
+  ]
+}

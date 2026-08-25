@@ -44,6 +44,11 @@ jobs:
         continue-on-error: true
         run: node scripts/validate-site.mjs
 
+      - name: Validate City Atlas and reader contact platform
+        id: experience
+        continue-on-error: true
+        run: npm run ci:experience
+
       - name: Validate HTML, routes, fragments and R2 media
         id: links
         continue-on-error: true
@@ -110,6 +115,7 @@ jobs:
         if: always()
         run: |
           test "${{ steps.native.outcome }}" = "success"
+          test "${{ steps.experience.outcome }}" = "success"
           test "${{ steps.links.outcome }}" = "success"
           test "${{ steps.budget.outcome }}" = "success"
           test "${{ steps.discovery.outcome }}" = "success"

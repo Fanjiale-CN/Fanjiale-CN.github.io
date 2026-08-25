@@ -5,7 +5,7 @@
   const eventNames = new Set([
     "essay_open", "research_open", "city_open", "postcard_open",
     "archive_search", "archive_result_open", "research_toc_use",
-    "city_video_play", "city_video_pause", "external_link_open"
+    "city_video_play", "city_video_pause", "city_atlas_node_open", "external_link_open"
   ]);
   const lastEvents = new Map();
 
@@ -74,5 +74,43 @@
       video.addEventListener("play", () => window.galokTrack("city_video_play", { city: route.split("/").filter(Boolean).at(-1), media: text(media, 96) }));
       video.addEventListener("pause", () => window.galokTrack("city_video_pause", { city: route.split("/").filter(Boolean).at(-1), media: text(media, 96) }));
     });
+  }
+
+  const appendStylesheet = (href) => {
+    if (document.querySelector(`link[href^="${href}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.append(link);
+  };
+  const appendScript = (src) => {
+    if (document.querySelector(`script[src^="${src}"]`)) return;
+    const script = document.createElement("script");
+    script.src = src;
+    script.defer = true;
+    document.head.append(script);
+  };
+  const readerMarkup = (id, label, title, copy, context) => `<section class="reader-contact" aria-labelledby="${id}" data-reader-contact data-reader-contact-context="${context}"><header class="reader-contact-head"><p>${label}</p><div><h2 id="${id}">${title}</h2><p>${copy}</p></div></header><div class="reader-contact-body" data-reader-contact-body><p class="reader-contact-note">Reader desk loading.</p></div></section>`;
+  const readerDesk = {
+    "/about/": ["reader-contact-about-title", "Reader desk / 01", "Corrections.<br>Sources. <em>Notes.</em>", "Found an error, a source, a contradiction or a collaboration lead? Send it to Galok’s reader desk.", "About page"],
+    "/data/": ["reader-contact-data-title", "Reader desk / Data", "Put a number<br>on the <em>record.</em>", "Send a correction, a direct source or a methodological objection with the relevant page URL.", "Data page"],
+    "/research/who-captures-growth/": ["reader-contact-r001-title", "Reader desk / Research 001", "Found a source,<br>error or <em>contradiction?</em>", "Send it with the relevant section or figure. Evidence can change a paper; it should have a way in.", "Research 001: Who Captures Growth"],
+    "/research/fast-metabolism-economy/": ["reader-contact-r002-title", "Reader desk / Research 002", "Found a source,<br>error or <em>contradiction?</em>", "Store counts and local evidence change quickly. Send a correction or source with the page it concerns.", "Research 002: The Fast Metabolism Economy"]
+  };
+  if (readerDesk[route]) {
+    const target = document.querySelector("main article") || document.querySelector("main");
+    if (target && !document.querySelector("[data-reader-contact]")) {
+      target.insertAdjacentHTML("beforeend", readerMarkup(...readerDesk[route]));
+      appendStylesheet("/assets/reader-contact.css?v=upgrade05-20260825");
+      appendScript("/assets/reader-contact.js?v=upgrade05-20260825");
+    }
+  }
+  if (route === "/cities/" && !document.querySelector("[data-city-atlas]")) {
+    const selector = document.querySelector("[data-city-selector]");
+    if (selector) {
+      selector.insertAdjacentHTML("afterend", `<section class="city-atlas" id="city-atlas" aria-labelledby="city-atlas-title" data-city-atlas><header class="city-atlas-head"><p class="city-atlas-eyebrow">02 / CITY ATLAS</p><div><h2 class="city-atlas-title" id="city-atlas-title">READ THE CITY<br>IN POINTS.</h2><p class="city-atlas-deck">Five open city stories, placed as an editorial index. Each red point leads back to a chapter, image or moving frame in Galok.</p></div></header><div class="city-atlas-shell"><aside class="city-atlas-sidebar" aria-label="City Atlas controls"><div class="city-atlas-nav" data-city-atlas-nav aria-label="Choose an Atlas city"></div><div class="city-atlas-card" aria-live="polite"><small data-city-atlas-meta>01 / NORTH CHINA</small><strong data-city-atlas-title>BEIJING</strong><p data-city-atlas-text>Loading city record.</p><a href="/be-a-viewer/beijing/" data-city-atlas-link>Open city story ↗</a></div></aside><div class="city-atlas-map" data-city-atlas-map aria-label="Interactive Galok City Atlas"><span class="city-atlas-status" data-city-atlas-status>ATLAS STANDBY</span></div></div></section>`);
+      appendStylesheet("/be-a-viewer/city-atlas.css?v=upgrade05-20260825");
+      appendScript("/be-a-viewer/city-atlas.js?v=upgrade05-20260825");
+    }
   }
 })();
