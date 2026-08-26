@@ -1,1 +1,17 @@
-{"name":"galok-radar","main":"src/index.js","compatibility_date":"2026-08-26","routes":[{"pattern":"www.galok.me/api/signals/*","zone_name":"galok.me"}]}
+{
+  "name": "galok-radar",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-26",
+  "routes": [
+    {
+      "pattern": "www.galok.me/api/signals/*",
+      "zone_name": "galok.me"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "RADAR_BUCKET",
+      "bucket_name": "galok-media"
+    }
+  ]
+}
