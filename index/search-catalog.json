@@ -37,6 +37,13 @@
   {
     "type": "city",
     "label": "Cities",
+    "title": "Shenzhen — A City in Many Frequencies",
+    "excerpt": "Shenzhen across five city frequencies: bay, crossing, street, ridge and light after dark.",
+    "url": "/be-a-viewer/shenzhen/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
     "title": "Xiamen — A City Drawn by the Tide",
     "excerpt": "View Xiamen through sea light, Minnan rooflines, island streets and a city that moves with the tide.",
     "url": "/be-a-viewer/xiamen/"
