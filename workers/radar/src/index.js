@@ -1,8 +1,8 @@
 const topics = [
-  { topic: "Economy", query: 'China economy OR "household demand"' },
-  { topic: "Technology", query: "China AI OR semiconductor" },
-  { topic: "Consumption", query: "China consumer OR retail" },
-  { topic: "Cities", query: "China city OR urban" }
+  { topic: "Economy", query: '("China economy" OR "Chinese economy" OR "household demand")' },
+  { topic: "Technology", query: '("China AI" OR "Chinese AI" OR semiconductor)' },
+  { topic: "Consumption", query: '("China consumer" OR "Chinese consumer" OR retail)' },
+  { topic: "Cities", query: '("China city" OR "Chinese cities" OR urban)' }
 ];
 
 const endpoint = "https://api.gdeltproject.org/api/v2/doc/doc";
@@ -27,22 +27,42 @@ const stableId = (title, index) => {
   }
   return `gdelt-${index}-${(hash >>> 0).toString(36)}`;
 };
+const errorLabel = (error) => {
+  if (error?.name === "AbortError") return "timeout";
+  const message = clean(error?.message || error || "unknown_error");
+  return message.slice(0, 120) || "unknown_error";
+};
 
 async function queryTopic(item) {
+  const startedAt = Date.now();
   const url = new URL(endpoint);
   url.searchParams.set("query", item.query);
   url.searchParams.set("mode", "artlist");
   url.searchParams.set("maxrecords", "25");
   url.searchParams.set("format", "json");
-  url.searchParams.set("timespan", "1d");
+  url.searchParams.set("timespan", "2d");
+  url.searchParams.set("sort", "datedesc");
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 5000);
+  const timeout = setTimeout(() => controller.abort(), 12000);
   try {
-    const response = await fetch(url, { headers: { accept: "application/json" }, signal: controller.signal });
-    if (!response.ok) throw new Error(`GDELT ${response.status}`);
-    const json = await response.json();
-    return (json.articles || [])
+    const response = await fetch(url, {
+      headers: {
+        accept: "application/json",
+        "user-agent": "Galok-Radar/1.0 (+https://www.galok.me/radar/)"
+      },
+      signal: controller.signal
+    });
+    if (!response.ok) throw new Error(`http_${response.status}`);
+
+    let json;
+    try {
+      json = await response.json();
+    } catch {
+      throw new Error("invalid_json");
+    }
+
+    const articles = (json.articles || [])
       .filter((article) => validUrl(article.url) && article.title)
       .map((article) => ({
         topic: item.topic,
@@ -51,6 +71,12 @@ async function queryTopic(item) {
         outlet: clean(article.domain || article.sourcecountry || "Source"),
         publishedAt: gdeltDate(article.seendate)
       }));
+
+    return {
+      topic: item.topic,
+      elapsedMs: Date.now() - startedAt,
+      articles
+    };
   } finally {
     clearTimeout(timeout);
   }
@@ -102,19 +128,36 @@ export default {
     const cached = await cache.match(freshKey);
     if (cached) return cached;
 
+    let diagnostics = [];
     try {
       const settled = await Promise.allSettled(topics.map(queryTopic));
-      const groups = settled.filter((result) => result.status === "fulfilled").map((result) => result.value);
-      if (!groups.length) throw new Error("All GDELT topic requests failed");
+      diagnostics = settled.map((result, index) => {
+        const topic = topics[index].topic;
+        if (result.status === "fulfilled") {
+          return {
+            topic,
+            ok: true,
+            count: result.value.articles.length,
+            elapsedMs: result.value.elapsedMs
+          };
+        }
+        return { topic, ok: false, error: errorLabel(result.reason) };
+      });
+
+      const groups = settled
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => result.value.articles);
+      if (!groups.length) throw new Error("all_topic_requests_failed");
 
       const signals = normalize(groups);
-      if (!signals.length) throw new Error("GDELT returned no usable candidates");
+      if (!signals.length) throw new Error("no_usable_candidates");
 
       const body = JSON.stringify({
         version: "1.0",
         generatedAt: new Date().toISOString(),
         source: "GDELT DOC 2.0 discovery candidates",
-        partial: groups.length !== topics.length,
+        partial: diagnostics.some((item) => !item.ok),
+        upstream: diagnostics,
         signals
       });
 
@@ -130,8 +173,16 @@ export default {
       }
 
       return Response.json(
-        { version: "1.0", generatedAt: new Date().toISOString(), source: "edge unavailable", signals: [], error: "upstream_unavailable" },
-        { status: 503, headers: { "cache-control": "public, max-age=60" } }
+        {
+          version: "1.0",
+          generatedAt: new Date().toISOString(),
+          source: "edge unavailable",
+          signals: [],
+          error: "upstream_unavailable",
+          detail: errorLabel(error),
+          upstream: diagnostics
+        },
+        { status: 503, headers: responseHeaders(60, "miss") }
       );
     }
   }
