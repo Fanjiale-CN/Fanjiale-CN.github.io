@@ -1,0 +1,127 @@
+name: Refresh Radar live candidates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/build-radar-live-feed.mjs"
+      - ".github/workflows/refresh-radar-live.yml"
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: galok-radar-live-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    name: Build and publish Radar live candidates
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Build live candidate payload
+        run: node scripts/build-radar-live-feed.mjs --output "$RUNNER_TEMP/radar-live-signals.json"
+
+      - name: Validate generated payload
+        shell: bash
+        run: |
+          node - "$RUNNER_TEMP/radar-live-signals.json" <<'NODE'
+          const fs = require('node:fs');
+          const file = process.argv[2];
+          const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+          if (data.version !== '1.0') throw new Error('Unexpected Radar payload version.');
+          if (!Array.isArray(data.signals) || data.signals.length < 1 || data.signals.length > 24) throw new Error('Radar payload must contain 1-24 signals.');
+          if (!Date.parse(data.generatedAt)) throw new Error('Radar payload generatedAt is invalid.');
+          for (const item of data.signals) {
+            if (item.state !== 'Signal' || !item.id || !item.headline || !item.summary || !item.context) throw new Error('Radar signal schema is incomplete.');
+            if (!Array.isArray(item.coverage) || !item.coverage.length) throw new Error('Radar signal is missing coverage.');
+          }
+          console.log(`Validated ${data.signals.length} Radar candidates from ${data.provider}.`);
+          NODE
+
+      - name: Require Cloudflare credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        shell: bash
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN secret."; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID secret."; exit 1; }
+
+      - name: Publish payload to existing R2 bucket
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/galok-npm-cache
+          XDG_CONFIG_HOME: ${{ runner.temp }}/galok-wrangler-config
+        shell: bash
+        run: |
+          npx --yes wrangler r2 object put galok-media/radar/live-signals.json \
+            --remote \
+            --file "$RUNNER_TEMP/radar-live-signals.json" \
+            --content-type application/json \
+            --cache-control "public, max-age=300"
+
+      - name: Verify public R2 payload
+        shell: bash
+        run: |
+          verified="$RUNNER_TEMP/radar-live-signals-verified.json"
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent --show-error --location --max-time 15 \
+              "https://media.galok.me/radar/live-signals.json?run=${GITHUB_RUN_ID}-${attempt}" \
+              --output "$verified"; then
+              if node - "$verified" <<'NODE'
+          const fs = require('node:fs');
+          const data = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (data.version !== '1.0' || !Array.isArray(data.signals) || !data.signals.length) process.exit(1);
+          const age = Date.now() - Date.parse(data.generatedAt);
+          if (!Number.isFinite(age) || age < -60000 || age > 10 * 60 * 1000) process.exit(1);
+          console.log(`R2 serves ${data.signals.length} candidates generated ${Math.round(age / 1000)}s ago.`);
+          NODE
+              then
+                exit 0
+              fi
+            fi
+            sleep 5
+          done
+          echo "Published Radar payload could not be verified through media.galok.me."
+          exit 1
+
+      - name: Verify production Radar API
+        shell: bash
+        run: |
+          api_body="$RUNNER_TEMP/radar-api-live.json"
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            code="$(curl --silent --show-error --location --max-time 15 \
+              --output "$api_body" --write-out '%{http_code}' \
+              "https://www.galok.me/api/signals/?health=${GITHUB_RUN_ID}-${attempt}" || true)"
+            echo "Radar API verification attempt $attempt: HTTP ${code:-000}"
+            if [[ "$code" == "200" ]] && node - "$api_body" <<'NODE'
+          const fs = require('node:fs');
+          const data = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (data.version !== '1.0' || !Array.isArray(data.signals) || !data.signals.length) process.exit(1);
+          const age = Date.now() - Date.parse(data.generatedAt);
+          if (!Number.isFinite(age) || age < -60000 || age > 30 * 60 * 1000) process.exit(1);
+          console.log(`Production Radar API serves ${data.signals.length} live candidates from ${data.provider || data.source}.`);
+          NODE
+            then
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Production Radar API did not serve a valid live payload after R2 publication."
+          echo "Last response:"
+          head -c 2000 "$api_body" || true
+          echo
+          exit 1
