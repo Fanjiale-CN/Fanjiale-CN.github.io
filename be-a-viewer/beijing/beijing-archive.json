@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "city": "Beijing",
+  "source": "Library of Congress",
+  "maxYear": 1949,
+  "allowedCategories": ["architecture", "street-life", "landscape"],
+  "items": [
+    {
+      "id": "summer-palace-east",
+      "category": "landscape",
+      "title": "Summer Palace, View from the East",
+      "dateLabel": "ca. 1890–1910",
+      "yearStart": 1890,
+      "yearEnd": 1910,
+      "location": "Summer Palace · Beijing",
+      "imageUrl": "https://cdn.loc.gov/service/pnp/ppmsca/41200/41211v.jpg",
+      "sourceUrl": "https://www.loc.gov/pictures/item/2017658052/",
+      "sourceLabel": "Library of Congress · Photochrom Print Collection",
+      "rights": "No known restrictions on publication."
+    },
+    {
+      "id": "temple-of-heaven-drawing",
+      "category": "architecture",
+      "title": "Temple of Heaven",
+      "dateLabel": "1860–1900",
+      "yearStart": 1860,
+      "yearEnd": 1900,
+      "location": "Temple of Heaven · Beijing",
+      "imageUrl": "https://cdn.loc.gov/service/pnp/ppmsca/07400/07452v.jpg",
+      "sourceUrl": "https://www.loc.gov/pictures/item/2004679129/",
+      "sourceLabel": "Library of Congress · Documentary Drawings",
+      "rights": "No known restrictions on publication."
+    },
+    {
+      "id": "peking-street-1925",
+      "category": "street-life",
+      "title": "Peking Street Scene",
+      "dateLabel": "ca. 1925",
+      "yearStart": 1925,
+      "yearEnd": 1925,
+      "location": "Beijing",
+      "imageUrl": "https://cdn.loc.gov/service/pnp/cph/3c30000/3c37000/3c37000/3c37021v.jpg",
+      "sourceUrl": "https://www.loc.gov/item/2006689699/",
+      "sourceLabel": "Library of Congress · Frank and Frances Carpenter Collection",
+      "rights": "No known restrictions on publication."
+    }
+  ]
+}
