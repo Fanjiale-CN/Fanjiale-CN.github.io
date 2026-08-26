@@ -8,7 +8,8 @@ const checks = [
   ["Site shell", "sync-site-shell.mjs", ["--check"]],
   ["Publishing structure", "validate-publishing.mjs", []],
   ["Discovery assets", "validate-discovery.mjs", []],
-  ["Radar pipeline", "validate-radar.mjs", []]
+  ["Radar pipeline", "validate-radar.mjs", []],
+  ["Beijing historical archive", "validate-beijing-archive.mjs", []]
 ];
 
 for (const [label, script, args] of checks) {
@@ -24,4 +25,4 @@ for (const [label, script, args] of checks) {
   }
 }
 
-console.log("\nRelease preflight passed: 5 lightweight checks. Full browser, visual and Lighthouse gates run in GitHub Actions after push.");
+console.log(`\nRelease preflight passed: ${checks.length} lightweight checks. Full browser, visual and Lighthouse gates run in GitHub Actions after push.`);

@@ -299,4 +299,9 @@
   } else {
     revealItems.forEach((item) => item.classList.add("is-visible"));
   }
+
+  const archiveModule = document.createElement("script");
+  archiveModule.src = "/be-a-viewer/beijing/beijing-archive.js?v=20260827-pilot1";
+  archiveModule.defer = true;
+  document.head.append(archiveModule);
 })();
