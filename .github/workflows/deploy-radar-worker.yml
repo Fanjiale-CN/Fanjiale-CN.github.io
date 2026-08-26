@@ -74,7 +74,7 @@ jobs:
 
           for attempt in 1 2 3 4 5 6; do
             result="$(curl \
-              --max-time 12 \
+              --max-time 15 \
               --silent \
               --show-error \
               --location \
@@ -88,9 +88,20 @@ jobs:
             effective_url="${result#*|}"
             echo "Radar health attempt $attempt: HTTP ${code:-000}; effective URL: ${effective_url:-unknown}"
 
-            if [[ "$code" == "200" || "$code" == "503" ]]; then
-              echo "Radar Worker production route is reachable."
+            if [[ "$code" == "200" ]]; then
+              echo "Radar Worker production route is live with candidate data."
               exit 0
+            fi
+
+            if [[ "$code" == "503" ]]; then
+              echo "::notice::Radar Worker is reachable but currently serving the upstream fallback."
+              echo "--- fallback diagnostics ---"
+              head -c 2000 "$body_file" || true
+              echo
+              if [[ "$attempt" == "6" ]]; then
+                echo "::warning::Radar deployment is healthy, but the discovery upstream remained unavailable during the health window."
+                exit 0
+              fi
             fi
 
             sleep 5
@@ -100,7 +111,7 @@ jobs:
           echo "--- response headers ---"
           sed -n '1,40p' "$header_file" || true
           echo "--- response body ---"
-          head -c 1000 "$body_file" || true
+          head -c 2000 "$body_file" || true
           echo
           echo "--- curl diagnostics ---"
           cat "$error_file" || true
