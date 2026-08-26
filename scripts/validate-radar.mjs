@@ -7,6 +7,9 @@ const data = JSON.parse(readFileSync(join(root, "radar/signals.json"), "utf8"));
 const html = readFileSync(join(root, "radar/index.html"), "utf8");
 const css = readFileSync(join(root, "radar/radar.css"), "utf8");
 const js = readFileSync(join(root, "radar/radar.js"), "utf8");
+const worker = readFileSync(join(root, "workers/radar/src/index.js"), "utf8");
+const workerConfig = readFileSync(join(root, "workers/radar/wrangler.jsonc"), "utf8");
+const deployWorkflow = readFileSync(join(root, ".github/workflows/deploy-radar-worker.yml"), "utf8");
 const errors = [];
 const states = ["Signal", "Brief", "Lead", "Archive"];
 
@@ -45,11 +48,22 @@ for (const item of data.signals ?? []) {
 for (const state of states) {
   if (!data.signals.some((item) => item.state === state)) errors.push(`state missing: ${state}`);
 }
-for (const marker of ["data-radar-stream", "data-radar-filter", "data-radar-dialog", "CollectionPage", "/assets/galok-symbol.svg"]) {
+
+for (const marker of ["data-radar-stream", "data-radar-filter", "data-radar-dialog", "CollectionPage", "/assets/galok-symbol.svg", "verified snapshot", "live candidates"]) {
   if (!html.includes(marker)) errors.push(`page marker missing: ${marker}`);
 }
-for (const marker of ["history.replaceState", "showModal()", "IntersectionObserver", "prefers-reduced-motion"]) {
+for (const marker of ["history.replaceState", "showModal()", "IntersectionObserver", "prefers-reduced-motion", "data-provenance", "radar-row__provenance"]) {
   if (!`${js}\n${css}`.includes(marker)) errors.push(`interaction marker missing: ${marker}`);
+}
+for (const marker of ["/radar/signals.json", "/api/signals/", "AbortController", "Live candidate", "provenance === \"live\""]) {
+  if (!js.includes(marker)) errors.push(`live/fallback marker missing: ${marker}`);
+}
+for (const marker of ["Promise.allSettled", "stableId", "cache=stale", "86400", "AbortController", "x-radar-cache"]) {
+  if (!worker.includes(marker)) errors.push(`worker resilience marker missing: ${marker}`);
+}
+if (!workerConfig.includes('"pattern":"www.galok.me/api/signals/*"')) errors.push("Radar Worker route is not pinned to /api/signals/*");
+for (const marker of ["workers/radar/**", "workflow_dispatch", "CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "wrangler deploy", "credentials.outputs.ready"]) {
+  if (!deployWorkflow.includes(marker)) errors.push(`worker deploy workflow marker missing: ${marker}`);
 }
 
 if (errors.length) {
@@ -57,4 +71,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Radar validation passed: ${data.signals.length} signals, four editorial states, direct evidence and fallback data.`);
+console.log(`Radar validation passed: ${data.signals.length} editorial signals, dual-source client, resilient edge cache and guarded Worker deployment.`);

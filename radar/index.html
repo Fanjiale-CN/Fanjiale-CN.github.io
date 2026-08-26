@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f2efe5">
-  <meta name="description" content="Galok Radar tracks verified signals across China, technology, consumption, households and cities—with sources and editorial state kept visible.">
+  <meta name="description" content="Galok Radar tracks editorially reviewed signals alongside clearly labeled live discovery candidates across China, technology, consumption, households and cities.">
   <link rel="canonical" href="https://www.galok.me/radar/">
   <title>Radar — Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=repair-20260827">
-  <link rel="stylesheet" href="/radar/radar.css?v=20260826">
+  <link rel="stylesheet" href="/radar/radar.css?v=20260827-live">
   <meta property="og:title" content="Radar — Galok">
   <meta property="og:description" content="A source-transparent editorial signal ledger from Galok.">
   <meta property="og:type" content="website">
@@ -49,11 +49,11 @@
     <header class="radar-masthead">
       <div class="radar-masthead__mark"><img src="/assets/galok-symbol.svg" alt="" width="76" height="76"><span>LIVE FIELD / 2026</span></div>
       <div class="radar-masthead__title"><p>GALOK / RADAR 001</p><h1>Signals before<br><em>the argument.</em></h1></div>
-      <p class="radar-masthead__dek">A source-visible ledger for movements that may become research, essays or city notes. Updated evidence stays separate from Galok’s interpretation.</p>
+      <p class="radar-masthead__dek">A source-visible ledger for movements that may become research, essays or city notes. Live candidates remain visibly separate from Galok’s editorial interpretation.</p>
     </header>
 
     <section class="radar-controls" aria-labelledby="radar-filter-title">
-      <div><p id="radar-filter-title">EDITORIAL STATE</p><span data-radar-status aria-live="polite">Loading verified signals…</span></div>
+      <div><p id="radar-filter-title">EDITORIAL STATE</p><span data-radar-status aria-live="polite">Loading editorial snapshot…</span></div>
       <div class="radar-filters" role="group" aria-label="Filter signals by editorial state">
         <button type="button" data-radar-filter="all" aria-pressed="true">All</button>
         <button type="button" data-radar-filter="Signal" aria-pressed="false">Signal</button>
@@ -64,15 +64,15 @@
     </section>
 
     <section class="radar-ledger" aria-labelledby="radar-ledger-title">
-      <h2 id="radar-ledger-title" class="sr-only">Current editorial signals</h2>
+      <h2 id="radar-ledger-title" class="sr-only">Current editorial signals and live discovery candidates</h2>
       <aside class="radar-time-rail" aria-label="Signal timeline"><p>TIME / UTC</p><ol data-radar-time-rail></ol></aside>
       <div class="radar-stream" data-radar-stream></div>
     </section>
 
     <section class="radar-method" aria-labelledby="radar-method-title">
       <p>METHOD / SOURCE DISCIPLINE</p>
-      <div><h2 id="radar-method-title">Automation finds a line.<br>Editorial work decides its weight.</h2><p>GDELT DOC 2.0 may surface candidate coverage. URLs, dates and duplicate records are normalized at the edge. The public ledger keeps a checked-in fallback and exposes every source used for each item.</p></div>
-      <dl><div><dt>Cache</dt><dd>15 minutes</dd></div><div><dt>Fallback</dt><dd>1 day stale + verified snapshot</dd></div><div><dt>States</dt><dd>Signal / Brief / Lead / Archive</dd></div></dl>
+      <div><h2 id="radar-method-title">Automation finds a line.<br>Editorial work decides its weight.</h2><p>The checked-in editorial snapshot loads first and remains the durable public record. GDELT DOC 2.0 may add clearly labeled live candidates through a short-lived edge cache. Automated candidates can only enter as Signal; if edge discovery fails or times out, the editorial snapshot remains fully usable.</p></div>
+      <dl><div><dt>Edge cache</dt><dd>15 minutes</dd></div><div><dt>Edge fallback</dt><dd>up to 24 hours stale</dd></div><div><dt>Public fallback</dt><dd>verified snapshot</dd></div><div><dt>States</dt><dd>Signal / Brief / Lead / Archive</dd></div></dl>
     </section>
   </main>
 
@@ -82,6 +82,6 @@
     <p data-radar-dialog-context></p><ol data-radar-dialog-sources></ol>
   </dialog>
   <footer class="footer"><div class="footer-inner"><span>Galok / Radar</span><a href="/">Home</a></div></footer>
-  <script src="/content.js?v=radar-20260826"></script><script src="/script.js?v=radar-20260826"></script><script type="module" src="/radar/radar.js?v=20260826"></script>
+  <script src="/content.js?v=radar-20260826"></script><script src="/script.js?v=radar-20260826"></script><script type="module" src="/radar/radar.js?v=20260827-live"></script>
 </body>
 </html>

@@ -1,0 +1,80 @@
+name: Deploy Galok Radar Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "workers/radar/**"
+      - ".github/workflows/deploy-radar-worker.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: galok-radar-worker-production
+  cancel-in-progress: true
+
+jobs:
+  validate-and-deploy:
+    name: Validate and deploy Radar Worker
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: workers/radar
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate Worker source syntax
+        run: node --check src/index.js
+
+      - name: Build Worker bundle without publishing
+        env:
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/galok-npm-cache
+          XDG_CONFIG_HOME: ${{ runner.temp }}/galok-wrangler-config
+        run: npx --yes wrangler deploy --dry-run --outdir "$RUNNER_TEMP/radar-worker-dry-run"
+
+      - name: Detect Cloudflare credentials
+        id: credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        shell: bash
+        run: |
+          if [[ -n "$CLOUDFLARE_API_TOKEN" && -n "$CLOUDFLARE_ACCOUNT_ID" ]]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Radar Worker validated but deployment was skipped because Cloudflare credentials are not configured."
+          fi
+
+      - name: Deploy Radar Worker
+        if: steps.credentials.outputs.ready == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/galok-npm-cache
+          XDG_CONFIG_HOME: ${{ runner.temp }}/galok-wrangler-config
+        run: npx --yes wrangler deploy
+
+      - name: Verify production route
+        if: steps.credentials.outputs.ready == 'true'
+        working-directory: .
+        shell: bash
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            code="$(curl --max-time 12 --silent --output /dev/null --write-out '%{http_code}' https://www.galok.me/api/signals/ || true)"
+            if [[ "$code" == "200" || "$code" == "503" ]]; then
+              echo "Radar Worker route responded with HTTP $code."
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Radar Worker production route did not resolve after deployment."
+          exit 1
