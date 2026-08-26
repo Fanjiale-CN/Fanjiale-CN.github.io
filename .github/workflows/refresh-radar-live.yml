@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "scripts/build-radar-live-feed.mjs"
+      - "scripts/merge-radar-daily-archive.mjs"
       - ".github/workflows/refresh-radar-live.yml"
   schedule:
     - cron: "7,22,37,52 * * * *"
@@ -15,11 +16,11 @@ permissions:
 
 concurrency:
   group: galok-radar-live-refresh
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   refresh:
-    name: Build and publish Radar live candidates
+    name: Build, archive and publish Radar live candidates
     runs-on: ubuntu-latest
     timeout-minutes: 8
 
@@ -50,6 +51,27 @@ jobs:
           console.log(`Validated ${data.signals.length} Radar candidates from ${data.provider}.`);
           NODE
 
+      - name: Build archive paths
+        id: archive_meta
+        shell: bash
+        run: |
+          node - "$RUNNER_TEMP/radar-live-signals.json" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs = require('node:fs');
+          const data = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          const runId = process.argv[3];
+          const attempt = process.argv[4];
+          const date = new Date(data.generatedAt);
+          const pad = (value) => String(value).padStart(2, '0');
+          const yyyy = date.getUTCFullYear();
+          const mm = pad(date.getUTCMonth() + 1);
+          const dd = pad(date.getUTCDate());
+          const hh = pad(date.getUTCHours());
+          const mi = pad(date.getUTCMinutes());
+          const ss = pad(date.getUTCSeconds());
+          console.log(`snapshot_key=radar/archive/${yyyy}/${mm}/${dd}/${hh}-${mi}-${ss}-${runId}-${attempt}.json`);
+          console.log(`daily_key=radar/archive/${yyyy}-${mm}-${dd}.json`);
+          NODE
+
       - name: Require Cloudflare credentials
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -59,7 +81,7 @@ jobs:
           test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing CLOUDFLARE_API_TOKEN secret."; exit 1; }
           test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing CLOUDFLARE_ACCOUNT_ID secret."; exit 1; }
 
-      - name: Publish payload to existing R2 bucket
+      - name: Publish latest payload to existing R2 bucket
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -73,7 +95,7 @@ jobs:
             --content-type application/json \
             --cache-control "public, max-age=300"
 
-      - name: Verify public R2 payload
+      - name: Verify public latest payload
         shell: bash
         run: |
           verified="$RUNNER_TEMP/radar-live-signals-verified.json"
@@ -97,6 +119,95 @@ jobs:
           done
           echo "Published Radar payload could not be verified through media.galok.me."
           exit 1
+
+      - name: Publish immutable raw snapshot
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/galok-npm-cache
+          XDG_CONFIG_HOME: ${{ runner.temp }}/galok-wrangler-config
+          SNAPSHOT_KEY: ${{ steps.archive_meta.outputs.snapshot_key }}
+        shell: bash
+        run: |
+          npx --yes wrangler r2 object put "galok-media/${SNAPSHOT_KEY}" \
+            --remote \
+            --file "$RUNNER_TEMP/radar-live-signals.json" \
+            --content-type application/json \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Fetch existing daily archive
+        env:
+          DAILY_KEY: ${{ steps.archive_meta.outputs.daily_key }}
+        shell: bash
+        run: |
+          existing="$RUNNER_TEMP/radar-daily-existing.json"
+          code="$(curl --silent --show-error --location --max-time 15 \
+            --output "$existing" --write-out '%{http_code}' \
+            "https://media.galok.me/${DAILY_KEY}?read=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" || true)"
+          if [[ "$code" == "200" ]]; then
+            echo "Existing daily archive found."
+          elif [[ "$code" == "404" ]]; then
+            rm -f "$existing"
+            echo "Starting a new daily archive."
+          else
+            echo "Could not safely read existing daily archive: HTTP ${code:-000}"
+            exit 1
+          fi
+
+      - name: Merge daily deduplicated archive
+        env:
+          SNAPSHOT_KEY: ${{ steps.archive_meta.outputs.snapshot_key }}
+        shell: bash
+        run: |
+          args=(
+            --current "$RUNNER_TEMP/radar-live-signals.json"
+            --output "$RUNNER_TEMP/radar-daily-archive.json"
+            --snapshot-key "$SNAPSHOT_KEY"
+          )
+          if [[ -f "$RUNNER_TEMP/radar-daily-existing.json" ]]; then
+            args+=(--existing "$RUNNER_TEMP/radar-daily-existing.json")
+          fi
+          node scripts/merge-radar-daily-archive.mjs "${args[@]}"
+
+      - name: Publish daily deduplicated archive
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          NPM_CONFIG_CACHE: ${{ runner.temp }}/galok-npm-cache
+          XDG_CONFIG_HOME: ${{ runner.temp }}/galok-wrangler-config
+          DAILY_KEY: ${{ steps.archive_meta.outputs.daily_key }}
+        shell: bash
+        run: |
+          npx --yes wrangler r2 object put "galok-media/${DAILY_KEY}" \
+            --remote \
+            --file "$RUNNER_TEMP/radar-daily-archive.json" \
+            --content-type application/json \
+            --cache-control "public, max-age=300"
+
+      - name: Verify history archive
+        env:
+          SNAPSHOT_KEY: ${{ steps.archive_meta.outputs.snapshot_key }}
+          DAILY_KEY: ${{ steps.archive_meta.outputs.daily_key }}
+        shell: bash
+        run: |
+          snapshot="$RUNNER_TEMP/radar-history-snapshot.json"
+          daily="$RUNNER_TEMP/radar-history-daily.json"
+          curl --fail --silent --show-error --location --max-time 15 \
+            "https://media.galok.me/${SNAPSHOT_KEY}?verify=${GITHUB_RUN_ID}" --output "$snapshot"
+          curl --fail --silent --show-error --location --max-time 15 \
+            "https://media.galok.me/${DAILY_KEY}?verify=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" --output "$daily"
+          node - "$snapshot" "$daily" "$SNAPSHOT_KEY" <<'NODE'
+          const fs = require('node:fs');
+          const snapshot = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          const daily = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
+          const snapshotKey = process.argv[4];
+          if (!Array.isArray(snapshot.signals) || !snapshot.signals.length) throw new Error('Raw Radar snapshot is empty.');
+          if (daily.type !== 'radar-daily-archive' || !Array.isArray(daily.signals) || !daily.signals.length) throw new Error('Daily Radar archive is invalid.');
+          if (daily.latestSnapshot !== snapshotKey) throw new Error('Daily Radar archive does not reference the latest raw snapshot.');
+          if (!Array.isArray(daily.snapshots) || !daily.snapshots.some((entry) => entry.key === snapshotKey)) throw new Error('Daily Radar snapshot ledger is incomplete.');
+          if (!daily.signals.every((item) => item.archiveKey && item.firstSeenAt && item.lastSeenAt && Number.isInteger(item.seenCount) && item.seenCount > 0)) throw new Error('Daily Radar signal history fields are incomplete.');
+          console.log(`History archive verified: ${daily.signalCount} unique signals across ${daily.snapshotCount} snapshots.`);
+          NODE
 
       - name: Verify production Radar API
         shell: bash
