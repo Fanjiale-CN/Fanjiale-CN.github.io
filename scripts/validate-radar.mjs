@@ -1,4 +1,6 @@
-import { readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -12,7 +14,8 @@ const workerConfig = readFileSync(join(root, "workers/radar/wrangler.jsonc"), "u
 const deployWorkflow = readFileSync(join(root, ".github/workflows/deploy-radar-worker.yml"), "utf8");
 const refreshWorkflow = readFileSync(join(root, ".github/workflows/refresh-radar-live.yml"), "utf8");
 const buildFeed = readFileSync(join(root, "scripts/build-radar-live-feed.mjs"), "utf8");
-const mergeArchive = readFileSync(join(root, "scripts/merge-radar-daily-archive.mjs"), "utf8");
+const mergeArchivePath = join(root, "scripts/merge-radar-daily-archive.mjs");
+const mergeArchive = readFileSync(mergeArchivePath, "utf8");
 const errors = [];
 const states = ["Signal", "Brief", "Lead", "Archive"];
 
@@ -94,6 +97,60 @@ for (const marker of ["Google News RSS", "GDELT", "Promise.allSettled", "Signal"
 }
 for (const marker of ["radar-daily-archive", "archiveKey", "firstSeenAt", "lastSeenAt", "seenCount", "snapshotCount", "latestSnapshot", "snapshots"]) {
   if (!mergeArchive.includes(marker)) errors.push(`Radar history archive marker missing: ${marker}`);
+}
+
+const temp = mkdtempSync(join(tmpdir(), "galok-radar-archive-"));
+try {
+  const currentOnePath = join(temp, "current-one.json");
+  const currentTwoPath = join(temp, "current-two.json");
+  const archiveOnePath = join(temp, "archive-one.json");
+  const archiveTwoPath = join(temp, "archive-two.json");
+  const fixtureSignal = {
+    id: "fixture-1",
+    state: "Signal",
+    topic: "Economy",
+    headline: "Fixture signal",
+    summary: "Fixture summary",
+    context: "Fixture context",
+    publishedAt: "2026-08-27T01:00:00.000Z",
+    updatedAt: "2026-08-27T01:00:00.000Z",
+    geography: "China / Global",
+    coverage: [{ outlet: "Fixture", title: "Fixture signal", url: "https://example.com/news/fixture?utm_source=test", publishedAt: "2026-08-27T01:00:00.000Z" }],
+  };
+  const currentOne = { version: "1.0", generatedAt: "2026-08-27T01:00:00.000Z", provider: "fixture", signals: [fixtureSignal] };
+  const currentTwo = {
+    version: "1.0",
+    generatedAt: "2026-08-27T01:15:00.000Z",
+    provider: "fixture",
+    signals: [
+      { ...fixtureSignal, id: "fixture-reordered", updatedAt: "2026-08-27T01:15:00.000Z" },
+      {
+        ...fixtureSignal,
+        id: "fixture-2",
+        headline: "Second fixture signal",
+        coverage: [{ outlet: "Fixture", title: "Second fixture signal", url: "https://example.com/news/second", publishedAt: "2026-08-27T01:10:00.000Z" }],
+      },
+    ],
+  };
+  writeFileSync(currentOnePath, JSON.stringify(currentOne));
+  writeFileSync(currentTwoPath, JSON.stringify(currentTwo));
+
+  const first = spawnSync(process.execPath, [mergeArchivePath, "--current", currentOnePath, "--output", archiveOnePath, "--snapshot-key", "radar/archive/2026/08/27/01-00-00-1-1.json"], { encoding: "utf8" });
+  if (first.status !== 0) errors.push(`Radar history smoke test first merge failed: ${first.stderr || first.stdout}`);
+
+  const second = spawnSync(process.execPath, [mergeArchivePath, "--current", currentTwoPath, "--existing", archiveOnePath, "--output", archiveTwoPath, "--snapshot-key", "radar/archive/2026/08/27/01-15-00-2-1.json"], { encoding: "utf8" });
+  if (second.status !== 0) {
+    errors.push(`Radar history smoke test second merge failed: ${second.stderr || second.stdout}`);
+  } else {
+    const archive = JSON.parse(readFileSync(archiveTwoPath, "utf8"));
+    const repeated = archive.signals.find((item) => item.headline === "Fixture signal");
+    if (archive.signalCount !== 2 || archive.snapshotCount !== 2) errors.push("Radar history smoke test counts are incorrect");
+    if (!repeated || repeated.seenCount !== 2 || repeated.firstSeenAt !== currentOne.generatedAt || repeated.lastSeenAt !== currentTwo.generatedAt) {
+      errors.push("Radar history smoke test deduplication fields are incorrect");
+    }
+  }
+} finally {
+  rmSync(temp, { recursive: true, force: true });
 }
 
 if (errors.length) {
