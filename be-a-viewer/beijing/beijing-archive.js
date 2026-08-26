@@ -64,6 +64,8 @@
       const maxYear = Number.isInteger(data.maxYear) ? data.maxYear : 1949;
       const items = Array.isArray(data.items) ? data.items.filter((item) => validItem(item, maxYear)).slice(0, 3) : [];
       if (items.length < 2) return;
+      const firstYear = Math.min(...items.map((item) => item.yearStart));
+      const lastYear = Math.max(...items.map((item) => item.yearEnd));
 
       const section = document.createElement("section");
       section.className = "beijing-archive";
@@ -73,7 +75,7 @@
       section.innerHTML = `
         <header class="beijing-archive__head">
           <div class="beijing-archive__title">
-            <p class="beijing-archive__kicker">CITY MEMORY / ${escapeHtml(items[0].dateLabel)} → ${escapeHtml(items.at(-1).dateLabel)}</p>
+            <p class="beijing-archive__kicker">CITY MEMORY / ${firstYear} → ${lastYear}</p>
             <h2 id="beijing-archive-title">BEIJING<br>BEFORE NOW.</h2>
           </div>
           <p class="beijing-archive__intro">A small archival window into the physical city: water, roofs, streets and the geometry that survived into the present.</p>
