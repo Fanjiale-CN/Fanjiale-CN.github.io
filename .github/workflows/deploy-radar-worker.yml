@@ -68,13 +68,40 @@ jobs:
         working-directory: .
         shell: bash
         run: |
+          body_file="$RUNNER_TEMP/radar-health-body"
+          header_file="$RUNNER_TEMP/radar-health-headers"
+          error_file="$RUNNER_TEMP/radar-health-error"
+
           for attempt in 1 2 3 4 5 6; do
-            code="$(curl --max-time 12 --silent --output /dev/null --write-out '%{http_code}' https://www.galok.me/api/signals/ || true)"
+            result="$(curl \
+              --max-time 12 \
+              --silent \
+              --show-error \
+              --location \
+              --output "$body_file" \
+              --dump-header "$header_file" \
+              --write-out '%{http_code}|%{url_effective}' \
+              https://www.galok.me/api/signals/ \
+              2>"$error_file" || true)"
+
+            code="${result%%|*}"
+            effective_url="${result#*|}"
+            echo "Radar health attempt $attempt: HTTP ${code:-000}; effective URL: ${effective_url:-unknown}"
+
             if [[ "$code" == "200" || "$code" == "503" ]]; then
-              echo "Radar Worker route responded with HTTP $code."
+              echo "Radar Worker production route is reachable."
               exit 0
             fi
+
             sleep 5
           done
-          echo "Radar Worker production route did not resolve after deployment."
+
+          echo "Radar Worker production route did not return an expected status after deployment."
+          echo "--- response headers ---"
+          sed -n '1,40p' "$header_file" || true
+          echo "--- response body ---"
+          head -c 1000 "$body_file" || true
+          echo
+          echo "--- curl diagnostics ---"
+          cat "$error_file" || true
           exit 1
