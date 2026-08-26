@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate-site.mjs",
+    "release": "npm run build:discovery && node scripts/release-check.mjs",
     "ci:links": "node scripts/validate-runtime-links.mjs",
     "ci:budget": "node scripts/check-resource-budgets.mjs",
     "ci:runtime": "node scripts/runtime-accessibility.mjs",
