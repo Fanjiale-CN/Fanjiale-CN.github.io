@@ -12,6 +12,7 @@ const workerConfig = readFileSync(join(root, "workers/radar/wrangler.jsonc"), "u
 const deployWorkflow = readFileSync(join(root, ".github/workflows/deploy-radar-worker.yml"), "utf8");
 const refreshWorkflow = readFileSync(join(root, ".github/workflows/refresh-radar-live.yml"), "utf8");
 const buildFeed = readFileSync(join(root, "scripts/build-radar-live-feed.mjs"), "utf8");
+const mergeArchive = readFileSync(join(root, "scripts/merge-radar-daily-archive.mjs"), "utf8");
 const errors = [];
 const states = ["Signal", "Brief", "Lead", "Archive"];
 
@@ -72,11 +73,27 @@ if (!/"binding"\s*:\s*"RADAR_BUCKET"/.test(workerConfig) || !/"bucket_name"\s*:\
 for (const marker of ["workers/radar/**", "workflow_dispatch", "CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "wrangler deploy", "credentials.outputs.ready"]) {
   if (!deployWorkflow.includes(marker)) errors.push(`worker deploy workflow marker missing: ${marker}`);
 }
-for (const marker of ["schedule:", "workflow_dispatch", "build-radar-live-feed.mjs", "galok-media/radar/live-signals.json", "wrangler r2 object put", "Verify production Radar API"]) {
+for (const marker of [
+  "schedule:",
+  "workflow_dispatch",
+  "build-radar-live-feed.mjs",
+  "merge-radar-daily-archive.mjs",
+  "galok-media/radar/live-signals.json",
+  "radar/archive/",
+  "snapshot_key",
+  "daily_key",
+  "max-age=31536000, immutable",
+  "cancel-in-progress: false",
+  "Verify history archive",
+  "Verify production Radar API",
+]) {
   if (!refreshWorkflow.includes(marker)) errors.push(`Radar refresh workflow marker missing: ${marker}`);
 }
 for (const marker of ["Google News RSS", "GDELT", "Promise.allSettled", "Signal", "24"]) {
   if (!buildFeed.includes(marker)) errors.push(`Radar scheduled feed marker missing: ${marker}`);
+}
+for (const marker of ["radar-daily-archive", "archiveKey", "firstSeenAt", "lastSeenAt", "seenCount", "snapshotCount", "latestSnapshot", "snapshots"]) {
+  if (!mergeArchive.includes(marker)) errors.push(`Radar history archive marker missing: ${marker}`);
 }
 
 if (errors.length) {
@@ -84,4 +101,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Radar validation passed: ${data.signals.length} editorial signals, scheduled discovery ingestion, direct R2 delivery, 24-hour stale tolerance and guarded Worker deployment.`);
+console.log(`Radar validation passed: ${data.signals.length} editorial signals, scheduled discovery ingestion, immutable refresh history, daily deduplicated archives, direct R2 delivery, 24-hour stale tolerance and guarded Worker deployment.`);
