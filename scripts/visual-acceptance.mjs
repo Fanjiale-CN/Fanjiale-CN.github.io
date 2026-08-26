@@ -30,6 +30,13 @@ const browser = await puppeteer.launch({
   args: ["--no-sandbox", "--disable-dev-shm-usage", "--autoplay-policy=no-user-gesture-required"]
 });
 
+const isLocalCloudflareRumCorsNoise = (message) => {
+  if (!/^http:\/\/(?:127\.0\.0\.1|localhost)(?::\d+)?/.test(baseUrl)) return false;
+  return message.includes("cloudflareinsights.com/cdn-cgi/rum")
+    && message.includes("blocked by CORS policy")
+    && message.includes("127.0.0.1");
+};
+
 try {
   for (const [name, width, height] of viewports) {
     for (const route of routes) {
@@ -72,7 +79,10 @@ try {
           video: video ? { paused: video.paused, muted: video.muted, playsInline: video.playsInline, readyState: video.readyState, display: getComputedStyle(video).display } : null
         };
       });
-      const actionableConsoleErrors = consoleErrors.filter((message) => message.includes(baseUrl) || /(?:Uncaught|TypeError|ReferenceError|SyntaxError)/.test(message));
+      const actionableConsoleErrors = consoleErrors.filter((message) => {
+        if (isLocalCloudflareRumCorsNoise(message)) return false;
+        return message.includes(baseUrl) || /(?:Uncaught|TypeError|ReferenceError|SyntaxError)/.test(message);
+      });
       const item = { name, width, height, route, status: response?.status() ?? null, ...metrics, failedRequests, consoleErrors, pageErrors };
 
       if (!response?.ok()) errors.push(`${name} ${route}: HTTP ${item.status}`);
