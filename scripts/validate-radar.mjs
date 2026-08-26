@@ -10,6 +10,8 @@ const js = readFileSync(join(root, "radar/radar.js"), "utf8");
 const worker = readFileSync(join(root, "workers/radar/src/index.js"), "utf8");
 const workerConfig = readFileSync(join(root, "workers/radar/wrangler.jsonc"), "utf8");
 const deployWorkflow = readFileSync(join(root, ".github/workflows/deploy-radar-worker.yml"), "utf8");
+const refreshWorkflow = readFileSync(join(root, ".github/workflows/refresh-radar-live.yml"), "utf8");
+const buildFeed = readFileSync(join(root, "scripts/build-radar-live-feed.mjs"), "utf8");
 const errors = [];
 const states = ["Signal", "Brief", "Lead", "Archive"];
 
@@ -58,12 +60,23 @@ for (const marker of ["history.replaceState", "showModal()", "IntersectionObserv
 for (const marker of ["/radar/signals.json", "/api/signals/", "AbortController", "Live candidate", "provenance === \"live\""]) {
   if (!js.includes(marker)) errors.push(`live/fallback marker missing: ${marker}`);
 }
-for (const marker of ["Promise.allSettled", "stableId", "cache=stale", "86400", "AbortController", "x-radar-cache"]) {
-  if (!worker.includes(marker)) errors.push(`worker resilience marker missing: ${marker}`);
+
+for (const marker of ["RADAR_BUCKET", "radar/live-signals.json", "staleMaxAgeMs", "24 * 60 * 60 * 1000", "x-radar-cache", "cloudflare-r2"]) {
+  if (!worker.includes(marker)) errors.push(`worker R2 resilience marker missing: ${marker}`);
 }
-if (!workerConfig.includes('"pattern":"www.galok.me/api/signals/*"')) errors.push("Radar Worker route is not pinned to /api/signals/*");
+if (!/"pattern"\s*:\s*"www\.galok\.me\/api\/signals\/\*"/.test(workerConfig)) errors.push("Radar Worker route is not pinned to /api/signals/*");
+if (!/"binding"\s*:\s*"RADAR_BUCKET"/.test(workerConfig) || !/"bucket_name"\s*:\s*"galok-media"/.test(workerConfig)) {
+  errors.push("Radar Worker must bind RADAR_BUCKET to galok-media");
+}
+
 for (const marker of ["workers/radar/**", "workflow_dispatch", "CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID", "wrangler deploy", "credentials.outputs.ready"]) {
   if (!deployWorkflow.includes(marker)) errors.push(`worker deploy workflow marker missing: ${marker}`);
+}
+for (const marker of ["schedule:", "workflow_dispatch", "build-radar-live-feed.mjs", "galok-media/radar/live-signals.json", "wrangler r2 object put", "Verify production Radar API"]) {
+  if (!refreshWorkflow.includes(marker)) errors.push(`Radar refresh workflow marker missing: ${marker}`);
+}
+for (const marker of ["Google News RSS", "GDELT", "Promise.allSettled", "Signal", "24"]) {
+  if (!buildFeed.includes(marker)) errors.push(`Radar scheduled feed marker missing: ${marker}`);
 }
 
 if (errors.length) {
@@ -71,4 +84,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Radar validation passed: ${data.signals.length} editorial signals, dual-source client, resilient edge cache and guarded Worker deployment.`);
+console.log(`Radar validation passed: ${data.signals.length} editorial signals, scheduled discovery ingestion, direct R2 delivery, 24-hour stale tolerance and guarded Worker deployment.`);
