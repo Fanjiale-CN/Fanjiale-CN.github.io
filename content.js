@@ -3,6 +3,7 @@ window.GALOK_CONTENT = {
     primaryNav: [
       { href: "/cities/", label: "Cities" },
       { href: "/essays/", label: "Essays" },
+      { href: "/radar/", label: "Radar" },
       { href: "/research/", label: "Research" },
       { href: "/data/", label: "Data" },
       { href: "/work/", label: "Work" },
@@ -13,6 +14,7 @@ window.GALOK_CONTENT = {
       menu: [
         { href: "/cities/", label: "Cities" },
         { href: "/essays/", label: "Essays" },
+        { href: "/radar/", label: "Radar" },
         { href: "/research/", label: "Research" },
         { href: "/themes/", label: "Themes" },
         { href: "/data/", label: "Data" },

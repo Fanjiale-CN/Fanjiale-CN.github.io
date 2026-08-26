@@ -23,7 +23,7 @@ if (!feed.includes("<pubDate>") || !feed.includes("<author>")) fail("feed.xml is
 const catalog = JSON.parse(read("index/search-catalog.json"));
 if (!Array.isArray(catalog) || !catalog.length) fail("search catalog is empty");
 if (catalog.some((entry) => /\/(?:archive|views|_research-source|qa)\//.test(entry.url))) fail("search catalog contains an excluded route");
-for (const type of ["city", "essay", "research", "data", "project", "visual"]) {
+for (const type of ["city", "essay", "radar", "research", "data", "project", "visual"]) {
   if (!catalog.some((entry) => entry.type === type)) fail(`search catalog has no ${type} entries`);
 }
 if (!existsSync(join(root, "pagefind", "pagefind.js"))) fail("Pagefind client bundle is missing");

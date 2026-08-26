@@ -5,7 +5,7 @@ import vm from "node:vm";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const errors = [];
-const expectedNav = ["/cities/", "/essays/", "/research/", "/data/", "/work/", "/index/", "/about/"];
+const expectedNav = ["/cities/", "/essays/", "/radar/", "/research/", "/data/", "/work/", "/index/", "/about/"];
 
 function walk(dir, predicate) {
   const files = [];
@@ -36,6 +36,9 @@ for (const file of htmlFiles) {
   if (name(file).startsWith("research/") && !/<a href=["']\/research\/["'] aria-current=["']page["']>Research<\/a>/.test(block)) {
     errors.push(`${name(file)}: Research is not marked as the current primary section`);
   }
+  if (name(file).startsWith("radar/") && !/<a href=["']\/radar\/["'] aria-current=["']page["']>Radar<\/a>/.test(block)) {
+    errors.push(`${name(file)}: Radar is not marked as the current primary section`);
+  }
 }
 
 const script = readFileSync(join(root, "script.js"), "utf8");
@@ -45,6 +48,7 @@ if (JSON.stringify(runtimeHrefs) !== JSON.stringify(expectedNav)) {
   errors.push(`script.js: runtime navigation is ${runtimeHrefs.join(" | ")}`);
 }
 if (!script.includes('match: "/research/"')) errors.push("script.js: Research route matching is missing");
+if (!script.includes('match: "/radar/"')) errors.push("script.js: Radar route matching is missing");
 
 const sandbox = { window: {} };
 vm.runInNewContext(readFileSync(join(root, "content.js"), "utf8"), sandbox);

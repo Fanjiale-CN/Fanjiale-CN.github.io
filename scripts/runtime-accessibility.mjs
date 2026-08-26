@@ -6,7 +6,7 @@ import puppeteer from "puppeteer-core";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:4173";
-const routes = ["/", "/cities/", "/essays/", "/research/", "/research/fast-metabolism-economy/", "/data/", "/index/"];
+const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/research/fast-metabolism-economy/", "/data/", "/index/"];
 const accessibilityBaseline = JSON.parse(readFileSync(join(root, "config", "runtime-a11y-baseline.json"), "utf8"));
 const chrome = process.env.CHROME_PATH ?? ["/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium", "/usr/bin/chromium-browser"].find(existsSync);
 const errors = [];

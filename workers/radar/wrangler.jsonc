@@ -1,0 +1,1 @@
+{"name":"galok-radar","main":"src/index.js","compatibility_date":"2026-08-26","routes":[{"pattern":"www.galok.me/api/signals/*","zone_name":"galok.me"}]}

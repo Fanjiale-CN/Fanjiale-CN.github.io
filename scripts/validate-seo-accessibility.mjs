@@ -59,6 +59,7 @@ function hasNoindex(html) {
 function expectedNav(path) {
   if (path === "cities/index.html" || path.startsWith("be-a-viewer/")) return "Cities";
   if (path.startsWith("essays/")) return "Essays";
+  if (path.startsWith("radar/")) return "Radar";
   if (path.startsWith("research/")) return "Research";
   if (path === "data/index.html") return "Data";
   if (path === "work/index.html") return "Work";

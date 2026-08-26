@@ -135,6 +135,7 @@
       .map((paper) => ({ type: "Research", title: paper.title, description: paper.description, href: paper.url, tags: `${paper.tags || "research"} ${paper.code || ""}`.trim() }));
     const fixedItems = [
       ...cityItems,
+      { type: "Radar", title: "Signals before the argument", description: "A source-visible ledger of verified signals, briefs, leads and archived context.", href: "/radar/", tags: "radar signals news sources evidence china technology consumption cities" },
       { type: "Project", title: "Galok editorial website", description: "A modular field notebook joining essays, city stories and visual archives.", href: "/work/#galok-system", tags: "project works web design" },
       { type: "Project", title: "Be a Viewer", description: "Five city stories built from moving image, photography and close observation.", href: "/work/#be-a-viewer-work", tags: "project works city video" },
       { type: "Project", title: "City Postcards", description: "Editorial editions that turn the city archive into a personal object.", href: "/postcards/", tags: "project works postcards photography" },

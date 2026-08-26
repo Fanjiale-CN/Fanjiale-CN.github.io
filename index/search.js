@@ -1,6 +1,7 @@
 const typeLabels = {
   city: "Cities",
   essay: "Essays",
+  radar: "Radar",
   research: "Research",
   data: "Data",
   project: "Projects",
@@ -14,6 +15,7 @@ const typeForUrl = (url) => {
   const path = new URL(url, window.location.origin).pathname;
   if (path.startsWith("/be-a-viewer/") || path.startsWith("/cities/")) return "city";
   if (path.startsWith("/essays/")) return "essay";
+  if (path.startsWith("/radar/")) return "radar";
   if (path.startsWith("/research/")) return "research";
   if (path.startsWith("/data/")) return "data";
   if (path.startsWith("/visual-notes/")) return "visual";

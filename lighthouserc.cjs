@@ -10,6 +10,7 @@ module.exports = {
         "http://127.0.0.1:4173/",
         "http://127.0.0.1:4173/cities/",
         "http://127.0.0.1:4173/essays/",
+        "http://127.0.0.1:4173/radar/",
         "http://127.0.0.1:4173/research/",
         "http://127.0.0.1:4173/research/fast-metabolism-economy/",
         "http://127.0.0.1:4173/data/",

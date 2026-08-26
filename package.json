@@ -13,6 +13,8 @@
     "ci:indexnow": "node scripts/notify-indexnow.mjs",
     "sync:observability": "node scripts/sync-observability.mjs",
     "ci:observability": "node scripts/runtime-observability.mjs",
+    "ci:radar": "node scripts/validate-radar.mjs",
+    "ci:radar:runtime": "node scripts/runtime-radar.mjs",
     "ci:experience": "node scripts/validate-experience-platform.mjs"
   },
   "devDependencies": {

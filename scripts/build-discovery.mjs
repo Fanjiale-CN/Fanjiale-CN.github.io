@@ -30,6 +30,7 @@ function routeFor(relativePath) {
 function typeFor(relativePath) {
   if (relativePath.startsWith("be-a-viewer/") || relativePath.startsWith("cities/")) return "city";
   if (relativePath.startsWith("essays/")) return "essay";
+  if (relativePath.startsWith("radar/")) return "radar";
   if (relativePath.startsWith("research/")) return "research";
   if (relativePath.startsWith("data/")) return "data";
   if (relativePath.startsWith("visual-notes/")) return "visual";
@@ -38,7 +39,7 @@ function typeFor(relativePath) {
 }
 
 function typeLabel(type) {
-  return ({ city: "Cities", essay: "Essays", research: "Research", data: "Data", project: "Projects", visual: "Visual Notes", site: "Galok" })[type];
+  return ({ city: "Cities", essay: "Essays", radar: "Radar", research: "Research", data: "Data", project: "Projects", visual: "Visual Notes", site: "Galok" })[type];
 }
 
 function walk(directory, result = []) {
@@ -80,7 +81,7 @@ function rssDate(value, fallback) {
 
 function priorityFor(route) {
   if (route === "/") return ["1.0", "weekly"];
-  if (["/cities/", "/essays/", "/research/", "/data/", "/index/"].includes(route)) return ["0.9", "weekly"];
+  if (["/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/"].includes(route)) return ["0.9", "weekly"];
   if (route.startsWith("/essays/") || route.startsWith("/research/")) return ["0.9", "monthly"];
   return ["0.7", "monthly"];
 }

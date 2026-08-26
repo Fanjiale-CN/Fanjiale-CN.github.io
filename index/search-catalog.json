@@ -175,6 +175,13 @@
     "url": "/postcards/"
   },
   {
+    "type": "radar",
+    "label": "Radar",
+    "title": "Radar",
+    "excerpt": "Galok Radar tracks verified signals across China, technology, consumption, households and cities—with sources and editorial state kept visible.",
+    "url": "/radar/"
+  },
+  {
     "type": "research",
     "label": "Research",
     "title": "Research",

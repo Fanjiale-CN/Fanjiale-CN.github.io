@@ -24,6 +24,7 @@ function currentHref(file) {
   const path = relative(root, file).replaceAll("\\", "/");
   if (path === "cities/index.html" || path.startsWith("be-a-viewer/")) return "/cities/";
   if (path.startsWith("essays/")) return "/essays/";
+  if (path.startsWith("radar/")) return "/radar/";
   if (path.startsWith("research/")) return "/research/";
   if (path === "data/index.html") return "/data/";
   if (path === "work/index.html") return "/work/";

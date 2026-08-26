@@ -8,6 +8,7 @@ const tests = [
   ["monopsony", "/research/who-captures-growth/", "research"],
   ["Galaxy SOHO", "/be-a-viewer/beijing/", "city"],
   ["鼓浪屿", "/be-a-viewer/xiamen/", "city"],
+  ["source-visible ledger", "/radar/", "radar"],
   ["youth unemployment", "/data/", "data"]
 ];
 

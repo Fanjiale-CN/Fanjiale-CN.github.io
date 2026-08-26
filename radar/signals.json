@@ -1,0 +1,95 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-08-26T11:27:44Z",
+  "source": "Galok verified fallback snapshot",
+  "signals": [
+    {
+      "id": "china-industrial-profit-cycle",
+      "state": "Signal",
+      "topic": "Economy",
+      "headline": "Production is still running ahead of retail demand",
+      "summary": "Official July data put industrial growth well above retail-sales growth while fixed-asset investment remained in contraction.",
+      "context": "The signal is the widening mix: manufacturing and high-tech output remain stronger than consumer spending and investment. Follow whether subsequent releases narrow that gap.",
+      "publishedAt": "2026-08-17T02:00:00Z",
+      "updatedAt": "2026-08-26T11:20:00Z",
+      "geography": "China",
+      "coverage": [
+        { "outlet": "National Bureau of Statistics", "title": "National economy in the first seven months of 2026", "url": "https://www.stats.gov.cn/english/PressRelease/202608/t20260817_1965057.html", "publishedAt": "2026-08-17T02:00:00Z" },
+        { "outlet": "Reuters", "title": "China's $119 billion policy financing tool begins project applications", "url": "https://www.reuters.com/world/asia-pacific/chinas-119-billion-policy-financing-tool-begins-project-applications-faces-roll-2026-08-24/", "publishedAt": "2026-08-24T10:49:00Z" }
+      ]
+    },
+    {
+      "id": "platform-discount-reset",
+      "state": "Brief",
+      "topic": "Consumption",
+      "headline": "Alibaba is raising equity to keep the AI buildout moving",
+      "summary": "A $10.2 billion Hong Kong placement follows a quarter in which heavy AI infrastructure spending pushed profit sharply lower.",
+      "context": "The financing links capital-market dilution directly to the cost of the AI race. Watch how quickly spending turns into cloud demand, model revenue and operating leverage.",
+      "publishedAt": "2026-08-24T01:32:00Z",
+      "updatedAt": "2026-08-26T11:15:00Z",
+      "geography": "China",
+      "coverage": [
+        { "outlet": "Reuters", "title": "Alibaba shares slide after $10.2 billion AI share sale", "url": "https://www.reuters.com/business/retail-consumer/alibaba-set-open-down-8-hong-kong-after-102-billion-share-placement-plan-2026-08-24/", "publishedAt": "2026-08-24T01:32:00Z" },
+        { "outlet": "Reuters", "title": "Alibaba profit falls 75% after ramping up AI infrastructure spending", "url": "https://www.reuters.com/business/retail-consumer/alibaba-beats-quarterly-revenue-estimates-2026-08-20/", "publishedAt": "2026-08-20T09:35:00Z" }
+      ]
+    },
+    {
+      "id": "ai-infrastructure-export",
+      "state": "Lead",
+      "topic": "Technology",
+      "headline": "Brazil's AI buildout is splitting contracts between Chinese and US suppliers",
+      "summary": "A national supercomputer push is allocating projects across rival technology blocs rather than choosing a single stack.",
+      "context": "The durable story sits in procurement: which suppliers win compute, networking and power contracts, and what restrictions follow the hardware into operation.",
+      "publishedAt": "2026-08-20T21:07:00Z",
+      "updatedAt": "2026-08-26T11:10:00Z",
+      "geography": "Asia / Global",
+      "coverage": [
+        { "outlet": "Reuters", "title": "Brazil launches AI supercomputer push, splits projects between Chinese, US firms", "url": "https://www.reuters.com/world/americas/brazil-launches-ai-supercomputer-push-splits-projects-between-chinese-us-firms-2026-08-20/", "publishedAt": "2026-08-20T21:07:00Z" },
+        { "outlet": "Reuters", "title": "US drafting ban on Chinese data-center devices", "url": "https://www.reuters.com/world/trump-administration-drafting-ban-chinese-data-center-devices-sources-say-2026-08-04/", "publishedAt": "2026-08-04T10:00:00Z" }
+      ]
+    },
+    {
+      "id": "household-confidence-gap",
+      "state": "Lead",
+      "topic": "Households",
+      "headline": "Household confidence remains the missing transmission channel",
+      "summary": "July's official release showed retail sales growing far more slowly than industrial output while the urban unemployment rate moved higher.",
+      "context": "This lead connects the latest household-demand figures with Galok Research 001. The next check is whether wage security and employment quality begin to support spending without another subsidy cycle.",
+      "publishedAt": "2026-08-17T02:00:00Z",
+      "updatedAt": "2026-08-26T11:05:00Z",
+      "geography": "China",
+      "coverage": [
+        { "outlet": "National Bureau of Statistics", "title": "National economy in the first seven months of 2026", "url": "https://www.stats.gov.cn/english/PressRelease/202608/t20260817_1965057.html", "publishedAt": "2026-08-17T02:00:00Z" },
+        { "outlet": "Galok Research", "title": "Who Captures Growth?", "url": "https://www.galok.me/research/who-captures-growth/", "publishedAt": "2026-08-19T00:00:00Z" }
+      ]
+    },
+    {
+      "id": "store-network-metabolism",
+      "state": "Archive",
+      "topic": "Consumption",
+      "headline": "Store counts conceal the turnover inside the network",
+      "summary": "Gross openings can rise while individual stores, operators and neighborhoods experience rapid replacement.",
+      "context": "Retained as the evidence trail behind Galok Research 002 and future updates to the replication package.",
+      "publishedAt": "2026-08-18T08:00:00Z",
+      "updatedAt": "2026-08-26T11:00:00Z",
+      "geography": "China",
+      "coverage": [
+        { "outlet": "Galok Research", "title": "The Fast Metabolism Economy", "url": "https://www.galok.me/research/fast-metabolism-economy/", "publishedAt": "2026-08-18T08:00:00Z" }
+      ]
+    },
+    {
+      "id": "city-border-rhythm",
+      "state": "Brief",
+      "topic": "Cities",
+      "headline": "The border city is read through frequency, not skyline",
+      "summary": "Shenzhen becomes legible through bay, crossing, street, ridge and light—five rhythms that resist a single innovation-city image.",
+      "context": "A field-note brief connecting the new Shenzhen city page to wider questions of movement, work and regional identity.",
+      "publishedAt": "2026-08-20T13:00:00Z",
+      "updatedAt": "2026-08-26T10:55:00Z",
+      "geography": "Shenzhen",
+      "coverage": [
+        { "outlet": "Galok Cities", "title": "Shenzhen — five city frequencies", "url": "https://www.galok.me/be-a-viewer/shenzhen/", "publishedAt": "2026-08-20T13:00:00Z" }
+      ]
+    }
+  ]
+}
