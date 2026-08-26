@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const scripts = [
+  "validate-stylesheets.mjs",
   "sync-site-shell.mjs --check",
   "sync-content-facts.mjs --check",
   "validate-seo.mjs",

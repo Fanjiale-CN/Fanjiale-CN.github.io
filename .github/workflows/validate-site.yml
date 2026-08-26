@@ -102,6 +102,15 @@ jobs:
           CHROME_PATH: /usr/bin/google-chrome
         run: node scripts/runtime-radar.mjs
 
+      - name: Verify global styles across routes and viewports
+        id: visual
+        continue-on-error: true
+        env:
+          BASE_URL: http://127.0.0.1:4173
+          CHROME_PATH: /usr/bin/google-chrome
+          VISUAL_EVIDENCE_DIR: artifacts/ci/visual-acceptance
+        run: npm run ci:visual
+
       - name: Measure Lighthouse baseline
         id: lighthouse
         continue-on-error: true
@@ -131,4 +140,5 @@ jobs:
           test "${{ steps.runtime_search.outcome }}" = "success"
           test "${{ steps.runtime_observability.outcome }}" = "success"
           test "${{ steps.runtime_radar.outcome }}" = "success"
+          test "${{ steps.visual.outcome }}" = "success"
           test "${{ steps.lighthouse.outcome }}" = "success"

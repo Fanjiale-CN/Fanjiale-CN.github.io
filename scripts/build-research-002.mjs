@@ -200,7 +200,7 @@ const page = `<!DOCTYPE html>
   <link rel="canonical" href="https://www.galok.me/research/fast-metabolism-economy/">
   <title>The Fast Metabolism Economy — GALOK RESEARCH 002</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-  <link rel="stylesheet" href="/styles.css?v=ia-20260820-mobile">
+  <link rel="stylesheet" href="/styles.css?v=repair-20260827">
   <link rel="stylesheet" href="/galok-wave.css?v=20260822-research-ipad">
   <link rel="stylesheet" href="/research/research.css?v=20260822f">
   <link rel="stylesheet" href="/research/fast-metabolism-economy/charts.css?v=20260822d">
