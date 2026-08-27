@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "city": "Xi'an",
-  "maxYear": 1949,
+  "datePolicy": "historical-city-space",
   "allowedCategories": ["architecture", "street-life", "landscape"],
   "allowedSources": ["Wikimedia Commons"],
   "items": [
