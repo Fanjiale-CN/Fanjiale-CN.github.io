@@ -14,7 +14,7 @@ const viewports = [
   ["source-desktop", 1348, 926],
   ["ipad-landscape", 2048, 1536]
 ];
-const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/", "/about/", "/be-a-viewer/shanghai/"];
+const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/", "/about/", "/be-a-viewer/shanghai/", "/be-a-viewer/hangzhou/"];
 const errors = [];
 const results = [];
 const evidenceDirectory = process.env.VISUAL_EVIDENCE_DIR
@@ -67,6 +67,31 @@ try {
         const shanghaiHistoryCard15 = document.querySelector('[data-shanghai-history-id="nanjing-road-1952"]');
         const shanghaiHistoryCard15Box = shanghaiHistoryCard15?.getBoundingClientRect();
         const shanghaiHistoryCard15GridBox = shanghaiHistoryCard15?.parentElement?.getBoundingClientRect();
+
+        const hzNight = document.querySelector(".hz-night-triptych");
+        const hzNightFigure = hzNight?.querySelector("figure");
+        const hzNightImage = hzNightFigure?.querySelector("img");
+        const hzPosterImage = document.querySelector(".hz-poster img");
+        const hzCityGrid = document.querySelector(".hz-city-grid");
+        const hzCityPortrait = document.querySelector(".hz-city-portrait");
+        const contentWidth = (element) => {
+          if (!element) return null;
+          const box = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          return box.width - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0);
+        };
+        const hangzhouMobile = hzNight ? {
+          stylesheet: [...document.styleSheets].some((sheet) => sheet.href?.includes("hangzhou-mobile.css")),
+          coreScript: [...document.scripts].some((script) => script.src?.includes("hangzhou-core.js")),
+          nightFigureWidth: hzNightFigure?.getBoundingClientRect().width ?? null,
+          nightContentWidth: contentWidth(hzNight),
+          nightObjectFit: hzNightImage ? getComputedStyle(hzNightImage).objectFit : null,
+          nightAspectRatio: hzNightImage ? getComputedStyle(hzNightImage).aspectRatio : null,
+          posterHeight: hzPosterImage?.getBoundingClientRect().height ?? null,
+          cityPortraitWidth: hzCityPortrait?.getBoundingClientRect().width ?? null,
+          cityContentWidth: contentWidth(hzCityGrid)
+        } : null;
+
         const unreadyMedia = [...document.querySelectorAll("img,video")]
           .filter((element) => element.tagName === "IMG" ? !element.complete || element.naturalWidth === 0 : element.readyState === 0)
           .map((element) => element.currentSrc || element.src)
@@ -90,6 +115,7 @@ try {
             width: shanghaiHistoryCard15Box.width,
             gridWidth: shanghaiHistoryCard15GridBox.width
           } : null,
+          hangzhouMobile,
           unreadyMedia,
           video: video ? { paused: video.paused, muted: video.muted, playsInline: video.playsInline, readyState: video.readyState, display: getComputedStyle(video).display } : null
         };
@@ -119,10 +145,25 @@ try {
           else if (item.shanghaiHistoryCard15.width < item.shanghaiHistoryCard15.gridWidth * .5) errors.push(`${name} ${route}: Shanghai history card 15 is too narrow ${item.shanghaiHistoryCard15.width}/${item.shanghaiHistoryCard15.gridWidth}`);
         }
       }
+      if (route === "/be-a-viewer/hangzhou/" && name === "mobile") {
+        if (!item.hangzhouMobile) errors.push(`${name} ${route}: Hangzhou mobile layout metrics missing`);
+        else {
+          if (!item.hangzhouMobile.stylesheet) errors.push(`${name} ${route}: Hangzhou mobile repair stylesheet not loaded`);
+          if (!item.hangzhouMobile.coreScript) errors.push(`${name} ${route}: Hangzhou core interaction script not loaded`);
+          if (item.hangzhouMobile.nightFigureWidth !== null && item.hangzhouMobile.nightContentWidth !== null && item.hangzhouMobile.nightFigureWidth < item.hangzhouMobile.nightContentWidth - 2) {
+            errors.push(`${name} ${route}: night figure remains too narrow ${item.hangzhouMobile.nightFigureWidth}/${item.hangzhouMobile.nightContentWidth}`);
+          }
+          if (item.hangzhouMobile.nightObjectFit !== "contain") errors.push(`${name} ${route}: night image object-fit is ${item.hangzhouMobile.nightObjectFit}`);
+          if (item.hangzhouMobile.posterHeight !== null && item.hangzhouMobile.posterHeight > height * .71) errors.push(`${name} ${route}: poster exceeds mobile viewport budget ${item.hangzhouMobile.posterHeight}/${height}`);
+          if (item.hangzhouMobile.cityPortraitWidth !== null && item.hangzhouMobile.cityContentWidth !== null && item.hangzhouMobile.cityPortraitWidth < item.hangzhouMobile.cityContentWidth - 2) {
+            errors.push(`${name} ${route}: city portrait remains too narrow ${item.hangzhouMobile.cityPortraitWidth}/${item.hangzhouMobile.cityContentWidth}`);
+          }
+        }
+      }
       results.push(item);
 
-      if (route === "/" || (name === "desktop" && ["/radar/", "/cities/", "/essays/", "/research/", "/data/", "/index/"].includes(route))) {
-        const label = route === "/" ? "home" : route.replaceAll("/", "");
+      if (route === "/" || (name === "desktop" && ["/radar/", "/cities/", "/essays/", "/research/", "/data/", "/index/"].includes(route)) || (route === "/be-a-viewer/hangzhou/" && name === "mobile")) {
+        const label = route === "/" ? "home" : route.replaceAll("/", "") || "home";
         await page.screenshot({ path: join(evidenceDirectory, `fix-${label}-${name}.png`), fullPage: false });
       }
       await page.close();
