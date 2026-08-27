@@ -67,23 +67,24 @@
 
     const stylesheet = document.createElement("link");
     stylesheet.rel = "stylesheet";
-    stylesheet.href = "/be-a-viewer/shanghai/shanghai-history.css?v=20260827-sh20";
+    stylesheet.href = "/be-a-viewer/shanghai/shanghai-history.css?v=20260827-sh20-fix2";
     document.head.append(stylesheet);
 
     try {
-      const response = await fetch("/be-a-viewer/shanghai/shanghai-history.json?v=20260827-sh20", { cache: "force-cache" });
+      const response = await fetch("/be-a-viewer/shanghai/shanghai-history.json?v=20260827-sh20-fix2", { cache: "force-cache" });
       if (!response.ok) return;
       const data = await response.json();
       const periods = Array.isArray(data.periods) ? data.periods : [];
       const periodIds = new Set(periods.map((period) => period.id));
       const items = Array.isArray(data.items) ? data.items.filter((item) => validItem(item, periodIds)).slice(0, 20) : [];
-      if (items.length !== 20 || periods.length !== 4) return;
+      if (!items.length || !periods.length) return;
 
       const firstYear = Math.min(...items.map((item) => item.yearStart));
       const lastYear = Math.max(...items.map((item) => item.yearEnd));
       let runningIndex = 0;
       const periodMarkup = periods.map((period) => {
         const periodItems = items.filter((item) => item.period === period.id);
+        if (!periodItems.length) return "";
         const cards = periodItems.map((item) => card(item, runningIndex++)).join("");
         return `
           <section class="shanghai-history-period" aria-labelledby="shanghai-history-${escapeHtml(period.id)}">
@@ -107,7 +108,7 @@
             <h2 id="shanghai-history-title">SHANGHAI<br>BEFORE THE SKYLINE.</h2>
             <p>Twenty records of the physical city across a century and a half: hotels, stations, parks, commercial streets, old-city gates, riverfront stone and the ordinary fabric that kept changing around them.</p>
           </div>
-          <div class="shanghai-history__counter"><b>20</b><span>ARCHIVE<br>FRAMES</span></div>
+          <div class="shanghai-history__counter"><b>${String(items.length).padStart(2, "0")}</b><span>ARCHIVE<br>FRAMES</span></div>
         </header>
         <div class="shanghai-history__periods">${periodMarkup}</div>
         <footer class="shanghai-history__foot">

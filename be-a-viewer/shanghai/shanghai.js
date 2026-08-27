@@ -1,6 +1,4 @@
 (() => {
-  void import("/be-a-viewer/shanghai/shanghai-history.js?v=20260827-sh20-hotfix1").catch(() => {});
-
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
   const body = document.body;
