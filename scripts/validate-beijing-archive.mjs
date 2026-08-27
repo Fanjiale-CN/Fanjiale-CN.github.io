@@ -41,7 +41,7 @@ for (const item of manifest.items || []) {
   }
 }
 
-for (const marker of ["beijing-archive.json", "beijing-archive.css", "data-beijing-archive", "allowedCategories", "yearEnd <= currentYear", "slice(0, 8)"]) {
+for (const marker of ["beijing-archive.json", "beijing-archive.css", "data-beijing-archive", "allowedCategories", "yearEnd <= currentYear", "slice(0, 12)"]) {
   if (!archiveJs.includes(marker)) errors.push(`Beijing archive renderer marker missing: ${marker}`);
 }
 if (!beijingJs.includes("beijing-archive.js")) errors.push("Beijing page does not load the historical archive renderer");
