@@ -1,0 +1,313 @@
+/* Hangzhou historical archive / 36 records / 2026-08-28
+   Visual language follows be-a-viewer/hangzhou/DESIGN.md: paper, mist, ink, water, field red. */
+
+.hangzhou-history {
+  position: relative;
+  padding: clamp(6rem, 10vw, 10rem) var(--hz-pad) clamp(7rem, 12vw, 12rem);
+  color: var(--hz-ink);
+  background:
+    linear-gradient(rgba(11, 20, 21, .055) 1px, transparent 1px) 0 0 / 100% 4.2rem,
+    var(--hz-paper);
+  overflow: clip;
+}
+
+.hangzhou-history-head {
+  position: relative;
+  z-index: 1;
+  max-width: 100rem;
+  margin: 0 auto clamp(7rem, 11vw, 12rem);
+  display: grid;
+  grid-template-columns: minmax(9rem, .28fr) minmax(0, 1fr) minmax(12rem, .28fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: end;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(11, 20, 21, .38);
+}
+
+.hangzhou-history-kicker {
+  align-self: start;
+  margin: 0;
+  color: var(--hz-red);
+  font-size: .66rem;
+  font-weight: 780;
+  letter-spacing: .18em;
+}
+
+.hangzhou-history-heading h2 {
+  margin: 0;
+  font-size: clamp(4rem, 8.6vw, 9.2rem);
+  font-weight: 500;
+  line-height: .82;
+  letter-spacing: -.075em;
+}
+
+.hangzhou-history-heading > p {
+  width: min(42rem, 88%);
+  margin: 2.5rem 0 0 auto;
+  color: rgba(11, 20, 21, .66);
+  font-size: clamp(1rem, 1.45vw, 1.32rem);
+  line-height: 1.55;
+}
+
+.hangzhou-history-range {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: .5rem 1rem;
+  padding: 1.2rem 0;
+  border-top: 1px solid rgba(11, 20, 21, .22);
+  border-bottom: 1px solid rgba(11, 20, 21, .22);
+}
+
+.hangzhou-history-range b {
+  font-size: clamp(1.6rem, 2.7vw, 3.1rem);
+  font-weight: 480;
+  letter-spacing: -.04em;
+}
+
+.hangzhou-history-range span {
+  color: rgba(11, 20, 21, .54);
+  font-size: .58rem;
+  font-weight: 760;
+  letter-spacing: .15em;
+}
+
+.hangzhou-history-waterline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(.65rem, 1.3vw, 1.4rem);
+  width: 1px;
+  background: rgba(23, 58, 64, .2);
+  pointer-events: none;
+}
+
+.hangzhou-history-waterline i {
+  position: sticky;
+  top: 12vh;
+  display: block;
+  width: 2px;
+  height: 18vh;
+  margin-left: -1px;
+  background: var(--hz-red);
+}
+
+.hangzhou-history-era {
+  max-width: 100rem;
+  margin: 0 auto clamp(8rem, 13vw, 14rem);
+  display: grid;
+  grid-template-columns: minmax(9rem, .24fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 6rem);
+  align-items: start;
+}
+
+.hangzhou-history-era-label {
+  position: sticky;
+  top: calc(var(--nav-height, 76px) + 2.5rem);
+  padding-top: 1rem;
+  border-top: 1px solid rgba(11, 20, 21, .4);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 600ms cubic-bezier(.22, 1, .36, 1), transform 600ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.hangzhou-history-era-label.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.hangzhou-history-era-label > span {
+  color: var(--hz-red);
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .17em;
+}
+
+.hangzhou-history-era-label h3 {
+  margin: 1.2rem 0;
+  font-size: clamp(1.5rem, 2.5vw, 2.8rem);
+  font-weight: 520;
+  line-height: .96;
+  letter-spacing: -.045em;
+}
+
+.hangzhou-history-era-label p {
+  margin: 0;
+  color: rgba(11, 20, 21, .58);
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+.hangzhou-history-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(2.5rem, 5vw, 6rem) clamp(1rem, 2vw, 2rem);
+  align-items: start;
+}
+
+.hangzhou-history-card {
+  grid-column: span 6;
+  margin: 0;
+  min-width: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 700ms cubic-bezier(.22, 1, .36, 1), transform 700ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.hangzhou-history-card.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.hz-history-span-1,
+.hz-history-span-6 { grid-column: 1 / 9; }
+.hz-history-span-2 { grid-column: 8 / 13; margin-top: clamp(3rem, 9vw, 9rem); }
+.hz-history-span-3 { grid-column: 2 / 7; }
+.hz-history-span-4 { grid-column: 7 / 13; margin-top: clamp(2rem, 6vw, 6rem); }
+.hz-history-span-5 { grid-column: 3 / 11; }
+
+.hangzhou-history-media {
+  display: block;
+  width: 100%;
+  min-height: 8rem;
+  background: #d8d6cd;
+  border: 1px solid rgba(11, 20, 21, .12);
+  overflow: hidden;
+}
+
+.hangzhou-history-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  filter: saturate(.88) contrast(1.025);
+  transition: filter 320ms ease, transform 600ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.hangzhou-history-media:hover img,
+.hangzhou-history-media:focus-visible img {
+  filter: saturate(1) contrast(1);
+  transform: scale(1.008);
+}
+
+.hangzhou-history-card.is-media-missing .hangzhou-history-media {
+  aspect-ratio: 4 / 3;
+  background:
+    linear-gradient(135deg, transparent 49.8%, rgba(224, 82, 77, .32) 50%, transparent 50.2%),
+    #d8d6cd;
+}
+
+.hangzhou-history-card figcaption {
+  padding-top: .9rem;
+  border-top: 1px solid rgba(11, 20, 21, .28);
+}
+
+.hangzhou-history-card-top,
+.hangzhou-history-card-rights {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: rgba(11, 20, 21, .54);
+  font-size: .56rem;
+  font-weight: 760;
+  letter-spacing: .13em;
+}
+
+.hangzhou-history-card-top span:first-child { color: var(--hz-red); }
+
+.hangzhou-history-card h4 {
+  max-width: 36rem;
+  margin: .8rem 0 .45rem;
+  font-size: clamp(1.15rem, 1.8vw, 1.8rem);
+  font-weight: 530;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.hangzhou-history-card figcaption > p {
+  margin: 0 0 .9rem;
+  color: rgba(11, 20, 21, .63);
+  font-size: .72rem;
+  line-height: 1.5;
+}
+
+.hangzhou-history-card-rights {
+  padding-top: .7rem;
+  border-top: 1px solid rgba(11, 20, 21, .13);
+}
+
+.hangzhou-history-foot {
+  max-width: 100rem;
+  margin: 0 auto;
+  padding-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  border-top: 1px solid rgba(11, 20, 21, .38);
+  font-size: .6rem;
+  font-weight: 760;
+  letter-spacing: .14em;
+}
+
+.hangzhou-history-foot span { color: rgba(11, 20, 21, .5); }
+.hangzhou-history-foot a { color: var(--hz-ink); text-decoration-thickness: 1px; text-underline-offset: .3rem; }
+
+@media (max-width: 900px) {
+  .hangzhou-history-head { grid-template-columns: 1fr; align-items: start; }
+  .hangzhou-history-range { max-width: 28rem; }
+  .hangzhou-history-era { grid-template-columns: minmax(7rem, .24fr) minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .hangzhou-history {
+    padding: 5.5rem var(--hz-pad) 6.5rem;
+    background:
+      linear-gradient(rgba(11, 20, 21, .045) 1px, transparent 1px) 0 0 / 100% 3.6rem,
+      var(--hz-paper);
+  }
+  .hangzhou-history-head { margin-bottom: 6rem; gap: 2.2rem; }
+  .hangzhou-history-heading h2 { font-size: clamp(3.6rem, 17vw, 5.8rem); }
+  .hangzhou-history-heading > p { width: 100%; margin: 2rem 0 0; font-size: 1rem; }
+  .hangzhou-history-waterline { left: .55rem; }
+  .hangzhou-history-era { display: block; margin-bottom: 7rem; }
+  .hangzhou-history-era-label {
+    position: relative;
+    top: auto;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.15rem;
+    background: transparent;
+    border-bottom: 1px solid rgba(11, 20, 21, .16);
+  }
+  .hangzhou-history-era-label p { max-width: 27rem; }
+  .hangzhou-history-grid { display: block; }
+  .hangzhou-history-card,
+  .hz-history-span-1,
+  .hz-history-span-2,
+  .hz-history-span-3,
+  .hz-history-span-4,
+  .hz-history-span-5,
+  .hz-history-span-6 {
+    width: 100%;
+    margin: 0 0 3.75rem;
+  }
+  .hangzhou-history-media img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transform: none;
+  }
+  .hangzhou-history-card h4 { font-size: 1.35rem; }
+  .hangzhou-history-foot { align-items: flex-start; flex-direction: column; gap: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hangzhou-history-era-label,
+  .hangzhou-history-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hangzhou-history-media img { transition: none; transform: none !important; }
+}
