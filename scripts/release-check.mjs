@@ -11,7 +11,8 @@ const checks = [
   ["Radar pipeline", "validate-radar.mjs", []],
   ["Beijing historical archive", "validate-beijing-archive.mjs", []],
   ["Xi'an historical archive", "validate-xian-history.mjs", []],
-  ["Shanghai historical archive", "validate-shanghai-history.mjs", []]
+  ["Shanghai historical archive", "validate-shanghai-history.mjs", []],
+  ["Xiamen historical archive", "validate-xiamen-history.mjs", []]
 ];
 
 for (const [label, script, args] of checks) {
