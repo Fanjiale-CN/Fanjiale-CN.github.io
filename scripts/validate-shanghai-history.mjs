@@ -49,6 +49,7 @@ for (const item of manifest.items || []) {
 for (const marker of ["shanghai-history.json", "shanghai-history.css", "data-shanghai-history", "allowedCategories", "blockedTopics", "slice(0, 20)", "items.length !== 20"]) {
   if (!renderer.includes(marker)) errors.push(`Shanghai history renderer marker missing: ${marker}`);
 }
+if (mapline.split(/\r?\n/).length < 100) errors.push("Shared city mapline bootstrap unexpectedly collapsed into a single-line payload");
 if (!mapline.includes("shanghai-history.js")) errors.push("Shanghai page does not load the historical archive renderer through the shared city bootstrap");
 
 if (errors.length) {
