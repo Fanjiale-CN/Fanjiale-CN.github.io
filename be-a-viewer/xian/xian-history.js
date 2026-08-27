@@ -9,6 +9,7 @@
 
   const allowedCategories = new Set(["architecture", "street-life", "landscape"]);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const currentYear = new Date().getFullYear();
   const text = (value = "") => String(value).trim();
   const escapeHtml = (value = "") => text(value)
     .replaceAll("&", "&amp;")
@@ -26,16 +27,21 @@
     }
   }
 
-  function validItem(item, maxYear) {
+  function approvedRights(value) {
+    return /^(?:public domain\.?|cc0(?: 1\.0)?|cc by(?:-sa)? (?:2\.0|3\.0|4\.0))$/i.test(text(value));
+  }
+
+  function validItem(item) {
     return item
       && allowedCategories.has(item.category)
       && Number.isInteger(item.yearStart)
       && Number.isInteger(item.yearEnd)
+      && item.yearStart >= 1800
       && item.yearStart <= item.yearEnd
-      && item.yearEnd <= maxYear
+      && item.yearEnd <= currentYear
       && safeCommonsUrl(item.imageUrl)
       && safeCommonsUrl(item.sourceUrl)
-      && /^public domain\.?$/i.test(text(item.rights));
+      && approvedRights(item.rights);
   }
 
   function card(item, index) {
@@ -48,7 +54,7 @@
         <div class="xian-history-card__copy">
           <div>
             <h3>${escapeHtml(item.title)}</h3>
-            <p>${escapeHtml(item.location)}<br>${escapeHtml(item.sourceLabel)}</p>
+            <p>${escapeHtml(item.location)}<br>${escapeHtml(item.sourceLabel)}<br>${escapeHtml(item.rights)}</p>
           </div>
           <span>${escapeHtml(item.dateLabel)}</span>
         </div>
@@ -57,11 +63,10 @@
 
   async function mount() {
     try {
-      const response = await fetch("/be-a-viewer/xian/xian-history.json?v=20260827-xian1", { cache: "force-cache" });
+      const response = await fetch("/be-a-viewer/xian/xian-history.json?v=20260827-datepolicy", { cache: "force-cache" });
       if (!response.ok) return;
       const data = await response.json();
-      const maxYear = Number.isInteger(data.maxYear) ? data.maxYear : 1949;
-      const items = Array.isArray(data.items) ? data.items.filter((item) => validItem(item, maxYear)).slice(0, 8) : [];
+      const items = Array.isArray(data.items) ? data.items.filter(validItem).slice(0, 8) : [];
       if (items.length < 4) return;
       const firstYear = Math.min(...items.map((item) => item.yearStart));
       const lastYear = Math.max(...items.map((item) => item.yearEnd));
@@ -77,11 +82,11 @@
             <p class="xian-history__kicker">CITY MEMORY / ${firstYear} → ${lastYear}</p>
             <h2 id="xian-history-title">CHANG’AN<br>BEFORE NOW.</h2>
           </div>
-          <p class="xian-history__intro">Six surviving views of the physical city: gates, wall, pagoda and courtyard. The archive stays close to built space, leaving political and military imagery outside this collection.</p>
+          <p class="xian-history__intro">A curated view of the physical city across time: gates, wall, pagoda, streets and ordinary urban space. Political, military and conflict imagery stays outside this collection.</p>
         </header>
         <div class="xian-history__grid">${items.map(card).join("")}</div>
         <footer class="xian-history__foot">
-          <span>Curated pre-1950 city-space records · public-domain material only</span>
+          <span>Curated city-space records · rights and topic checked before publication</span>
           <a href="https://commons.wikimedia.org/wiki/Category:Historical_photographs_of_Xi%27an" target="_blank" rel="noopener noreferrer">Wikimedia Commons archive ↗</a>
         </footer>`;
 
