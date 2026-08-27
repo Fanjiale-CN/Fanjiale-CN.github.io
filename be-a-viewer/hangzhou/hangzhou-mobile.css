@@ -1,0 +1,218 @@
+/* Hangzhou mobile composition repair / 2026-08-28
+   iPhone/iPad portrait: preserve photographic readability and remove desktop stagger artifacts. */
+
+@media (max-width: 760px) {
+  html,
+  body,
+  .hangzhou-page-body,
+  .hz-main,
+  .hz-hero,
+  .hz-chapter,
+  .hz-reel,
+  .hz-poster,
+  .hz-close {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hangzhou-page-body,
+  .hz-main {
+    overflow-x: hidden;
+  }
+
+  .hz-main img,
+  .hz-main video {
+    max-width: 100%;
+  }
+
+  .hz-site-nav {
+    left: 0;
+    right: 0;
+    width: auto;
+    max-width: none;
+  }
+
+  .hz-hero,
+  .hz-hero-content {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+
+  .hz-hero > video {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 50% 50%;
+    transform: none;
+  }
+
+  .hz-hero-content {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: max(var(--hz-pad), env(safe-area-inset-left));
+    padding-right: max(var(--hz-pad), env(safe-area-inset-right));
+  }
+
+  /* Narrative photographs become a clean vertical photo sequence on phones. */
+  .hz-water-grid,
+  .hz-city-grid,
+  .hz-rain-stage,
+  .hz-night-triptych {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: var(--hz-pad);
+    padding-right: var(--hz-pad);
+  }
+
+  .hz-shot,
+  .hz-shot--wide,
+  .hz-shot--portrait,
+  .hz-shot--square,
+  .hz-shot--tall,
+  .hz-shot--landscape,
+  .hz-water-grid .hz-shot,
+  .hz-city-grid > figure,
+  .hz-city-portrait,
+  .hz-city-panorama,
+  .hz-city-stack,
+  .hz-editorial,
+  .hz-editorial--city,
+  .hz-rain-primary,
+  .hz-rain-secondary,
+  .hz-night-triptych figure {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .hz-shot,
+  .hz-city-grid > figure,
+  .hz-city-stack,
+  .hz-rain-primary,
+  .hz-rain-secondary,
+  .hz-editorial,
+  .hz-night-triptych figure {
+    margin-top: 0 !important;
+    margin-bottom: 2.75rem !important;
+  }
+
+  .hz-water-grid .hz-shot img,
+  .hz-city-grid img,
+  .hz-city-stack img,
+  .hz-rain-stage img,
+  .hz-editorial img,
+  .hz-night-triptych img {
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    object-position: center;
+  }
+
+  .hz-city-stack {
+    display: block;
+  }
+
+  .hz-city-stack figure {
+    margin: 0 0 2.75rem;
+  }
+
+  /* The horizontal archive remains swipeable, while source frames stay uncropped. */
+  .hz-old-rail {
+    grid-auto-columns: min(86vw, 30rem);
+    padding-left: var(--hz-pad);
+    padding-right: var(--hz-pad);
+  }
+
+  .hz-rail-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    background: var(--hz-paper);
+  }
+
+  /* Night images were being forced into portrait ratios, producing black slabs and severe crops. */
+  .hz-night-triptych {
+    min-height: 0;
+    display: block;
+    padding-bottom: 4.5rem;
+  }
+
+  .hz-night-triptych figure:nth-child(1),
+  .hz-night-triptych figure:nth-child(2),
+  .hz-night-triptych figure:nth-child(3) {
+    width: 100% !important;
+    margin: 0 0 2.75rem !important;
+    align-self: auto;
+  }
+
+  .hz-night-triptych figure:nth-child(1) img,
+  .hz-night-triptych figure:nth-child(2) img,
+  .hz-night-triptych figure:nth-child(3) img {
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+  }
+
+  /* Keep the printed-note poster legible without letting one tall sheet occupy multiple screens. */
+  .hz-poster {
+    min-height: 0;
+    padding: 4.5rem var(--hz-pad);
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 2.5rem;
+  }
+
+  .hz-poster-copy > p:not(.hz-eyebrow) {
+    width: 100%;
+    margin: 2rem 0;
+  }
+
+  .hz-poster figure {
+    width: 100% !important;
+    margin: 0 !important;
+    display: grid;
+    justify-items: center;
+  }
+
+  .hz-poster img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 68svh;
+    max-height: 68dvh;
+    object-fit: contain;
+    box-shadow: .65rem .65rem 0 rgba(11, 20, 21, .08);
+  }
+
+  .hz-poster figcaption {
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .hz-shot figcaption,
+  .hz-rail-card figcaption,
+  .hz-editorial figcaption,
+  .hz-rain-primary figcaption,
+  .hz-rain-secondary figcaption,
+  .hz-city-grid figcaption,
+  .hz-night-triptych figcaption {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+}
+
+@media (max-width: 390px) {
+  .hz-poster img {
+    max-height: 64svh;
+    max-height: 64dvh;
+  }
+
+  .hz-old-rail {
+    grid-auto-columns: 88vw;
+  }
+}
