@@ -301,7 +301,7 @@
   }
 
   const archiveModule = document.createElement("script");
-  archiveModule.src = "/be-a-viewer/beijing/beijing-archive.js?v=20260827-pilot1";
+  archiveModule.src = "/be-a-viewer/beijing/beijing-archive.js?v=20260827-datepolicy";
   archiveModule.defer = true;
   document.head.append(archiveModule);
 })();
