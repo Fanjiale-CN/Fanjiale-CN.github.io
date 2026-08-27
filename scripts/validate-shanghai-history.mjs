@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const manifest = JSON.parse(readFileSync(join(root, "be-a-viewer/shanghai/shanghai-history.json"), "utf8"));
 const renderer = readFileSync(join(root, "be-a-viewer/shanghai/shanghai-history.js"), "utf8");
+const shanghaiJs = readFileSync(join(root, "be-a-viewer/shanghai/shanghai.js"), "utf8");
 const mapline = readFileSync(join(root, "be-a-viewer/city-mapline.js"), "utf8");
 const errors = [];
 const currentYear = new Date().getUTCFullYear();
@@ -49,12 +50,12 @@ for (const item of manifest.items || []) {
 for (const marker of ["shanghai-history.json", "shanghai-history.css", "data-shanghai-history", "allowedCategories", "blockedTopics", "slice(0, 20)", "items.length !== 20"]) {
   if (!renderer.includes(marker)) errors.push(`Shanghai history renderer marker missing: ${marker}`);
 }
-if (mapline.split(/\r?\n/).length < 100) errors.push("Shared city mapline bootstrap unexpectedly collapsed into a single-line payload");
-if (!mapline.includes("shanghai-history.js")) errors.push("Shanghai page does not load the historical archive renderer through the shared city bootstrap");
+if (!shanghaiJs.includes("shanghai-history.js")) errors.push("Shanghai page script does not load the historical archive renderer");
+if (mapline.includes("shanghai-history.js")) errors.push("Shared city mapline must not own Shanghai-specific history loading");
 
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
 
-console.log(`Shanghai historical archive validation passed: ${manifest.items.length} curated city-space records across ${manifest.periods.length} periods with rights and sensitive-topic guards.`);
+console.log(`Shanghai historical archive validation passed: ${manifest.items.length} curated city-space records across ${manifest.periods.length} periods with rights, sensitive-topic guards, and a Shanghai-local loader.`);

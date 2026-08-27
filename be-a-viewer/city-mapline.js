@@ -118,12 +118,5 @@
     ready();
   }
 
-  if (/^\/be-a-viewer\/shanghai\/?$/.test(window.location.pathname)) {
-    var shanghaiHistory = document.createElement("script");
-    shanghaiHistory.src = "/be-a-viewer/shanghai/shanghai-history.js?v=20260827-sh20";
-    shanghaiHistory.defer = true;
-    document.head.appendChild(shanghaiHistory);
-  }
-
   window.GalokCityMapline = { init: function () { document.querySelectorAll(".cl-stage").forEach(initStage); } };
 })();
