@@ -64,6 +64,9 @@ try {
         const video = document.querySelector(".field-hero video, video");
         const shanghaiHistory = document.querySelector(".shanghai-history");
         const shanghaiHistoryBox = shanghaiHistory?.getBoundingClientRect();
+        const shanghaiHistoryCard15 = document.querySelector('[data-shanghai-history-id="nanjing-road-1952"]');
+        const shanghaiHistoryCard15Box = shanghaiHistoryCard15?.getBoundingClientRect();
+        const shanghaiHistoryCard15GridBox = shanghaiHistoryCard15?.parentElement?.getBoundingClientRect();
         const unreadyMedia = [...document.querySelectorAll("img,video")]
           .filter((element) => element.tagName === "IMG" ? !element.complete || element.naturalWidth === 0 : element.readyState === 0)
           .map((element) => element.currentSrc || element.src)
@@ -82,6 +85,10 @@ try {
             parent: shanghaiHistory.parentElement?.className ?? "",
             previous: shanghaiHistory.previousElementSibling?.className ?? "",
             cards: shanghaiHistory.querySelectorAll(".shanghai-history-card").length
+          } : null,
+          shanghaiHistoryCard15: shanghaiHistoryCard15Box && shanghaiHistoryCard15GridBox ? {
+            width: shanghaiHistoryCard15Box.width,
+            gridWidth: shanghaiHistoryCard15GridBox.width
           } : null,
           unreadyMedia,
           video: video ? { paused: video.paused, muted: video.muted, playsInline: video.playsInline, readyState: video.readyState, display: getComputedStyle(video).display } : null
@@ -108,6 +115,8 @@ try {
           if (!item.shanghaiHistory.parent.includes("shanghai-page-main")) errors.push(`${name} ${route}: Shanghai history archive is nested under ${item.shanghaiHistory.parent}`);
           if (!item.shanghaiHistory.previous.includes("shanghai-memory")) errors.push(`${name} ${route}: Shanghai history archive is not placed after the memory section`);
           if (item.shanghaiHistory.cards !== 19) errors.push(`${name} ${route}: expected 19 Shanghai history cards, found ${item.shanghaiHistory.cards}`);
+          if (!item.shanghaiHistoryCard15) errors.push(`${name} ${route}: Shanghai history card 15 missing`);
+          else if (item.shanghaiHistoryCard15.width < item.shanghaiHistoryCard15.gridWidth * .5) errors.push(`${name} ${route}: Shanghai history card 15 is too narrow ${item.shanghaiHistoryCard15.width}/${item.shanghaiHistoryCard15.gridWidth}`);
         }
       }
       results.push(item);

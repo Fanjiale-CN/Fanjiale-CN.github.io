@@ -66,11 +66,11 @@
 
     const stylesheet = document.createElement("link");
     stylesheet.rel = "stylesheet";
-    stylesheet.href = "/be-a-viewer/shanghai/shanghai-history.css?v=20260827-sh20-layout-fix3";
+    stylesheet.href = "/be-a-viewer/shanghai/shanghai-history.css?v=20260827-sh20-layout-fix4";
     document.head.append(stylesheet);
 
     try {
-      const response = await fetch("/be-a-viewer/shanghai/shanghai-history.json?v=20260827-sh20-layout-fix3", { cache: "force-cache" });
+      const response = await fetch("/be-a-viewer/shanghai/shanghai-history.json?v=20260827-sh20-layout-fix4", { cache: "force-cache" });
       if (!response.ok) return;
       const data = await response.json();
       const periods = Array.isArray(data.periods) ? data.periods : [];
