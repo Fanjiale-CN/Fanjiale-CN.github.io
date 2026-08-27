@@ -10,7 +10,8 @@ const checks = [
   ["Discovery assets", "validate-discovery.mjs", []],
   ["Radar pipeline", "validate-radar.mjs", []],
   ["Beijing historical archive", "validate-beijing-archive.mjs", []],
-  ["Xi'an historical archive", "validate-xian-history.mjs", []]
+  ["Xi'an historical archive", "validate-xian-history.mjs", []],
+  ["Shanghai historical archive", "validate-shanghai-history.mjs", []]
 ];
 
 for (const [label, script, args] of checks) {
