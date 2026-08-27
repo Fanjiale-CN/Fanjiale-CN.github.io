@@ -188,3 +188,5 @@ if (lightbox) {
 document.querySelectorAll("[data-current-year]").forEach((node) => {
   node.textContent = new Date().getFullYear();
 });
+
+void import("/be-a-viewer/xian/xian-history.js?v=20260827-xian1").catch(() => {});
