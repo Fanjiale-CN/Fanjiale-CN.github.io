@@ -82,8 +82,33 @@
 }
 
 .beijing-archive-card:nth-child(3) {
-  grid-column: 3 / 10;
-  margin-top: clamp(40px, 6vw, 92px);
+  grid-column: 1 / 7;
+  margin-top: clamp(34px, 5vw, 74px);
+}
+
+.beijing-archive-card:nth-child(4) {
+  grid-column: 7 / 13;
+  margin-top: clamp(8px, 2vw, 34px);
+}
+
+.beijing-archive-card:nth-child(5) {
+  grid-column: 2 / 9;
+  margin-top: clamp(66px, 8vw, 126px);
+}
+
+.beijing-archive-card:nth-child(6) {
+  grid-column: 9 / 13;
+  margin-top: clamp(122px, 14vw, 208px);
+}
+
+.beijing-archive-card:nth-child(7) {
+  grid-column: 1 / 7;
+  margin-top: clamp(42px, 6vw, 92px);
+}
+
+.beijing-archive-card:nth-child(8) {
+  grid-column: 7 / 13;
+  margin-top: clamp(88px, 10vw, 156px);
 }
 
 .beijing-archive-card__media {
@@ -96,7 +121,9 @@
   border: 1px solid rgba(244, 241, 233, .18);
 }
 
-.beijing-archive-card:first-child .beijing-archive-card__media {
+.beijing-archive-card:first-child .beijing-archive-card__media,
+.beijing-archive-card[data-archive-id="jingshan-palace-view"] .beijing-archive-card__media,
+.beijing-archive-card[data-archive-id="ancient-peking-walls"] .beijing-archive-card__media {
   aspect-ratio: 16 / 11;
 }
 
@@ -219,9 +246,14 @@
   transform: translate3d(0, 0, 0);
 }
 
-.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(2) { transition-delay: 90ms; }
-.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(3) { transition-delay: 150ms; }
-.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive__foot { transition-delay: 190ms; }
+.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(2) { transition-delay: 70ms; }
+.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(3) { transition-delay: 110ms; }
+.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(4) { transition-delay: 150ms; }
+.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(5) { transition-delay: 190ms; }
+.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(6) { transition-delay: 230ms; }
+.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(7) { transition-delay: 270ms; }
+.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive-card:nth-child(8) { transition-delay: 310ms; }
+.beijing-archive[data-archive-motion="ready"].is-visible .beijing-archive__foot { transition-delay: 350ms; }
 
 @media (max-width: 820px) {
   .beijing-archive__head {
@@ -242,9 +274,7 @@
     grid-template-columns: 1fr;
   }
 
-  .beijing-archive-card:first-child,
-  .beijing-archive-card:nth-child(2),
-  .beijing-archive-card:nth-child(3) {
+  .beijing-archive__grid .beijing-archive-card {
     grid-column: 1;
     margin-top: 0;
   }
