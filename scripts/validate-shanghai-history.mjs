@@ -51,6 +51,11 @@ for (const marker of ["shanghai-history.json", "shanghai-history.css", "data-sha
   if (!renderer.includes(marker)) errors.push(`Shanghai history renderer marker missing: ${marker}`);
 }
 if (!shanghaiPage.includes("shanghai-history.js")) errors.push("Shanghai page does not load the historical archive renderer");
+const pageScriptVersion = shanghaiPage.match(/shanghai-history\.js\?v=([^"']+)/)?.[1];
+const historyStylesheetVersion = renderer.match(/shanghai-history\.css\?v=([^"']+)/)?.[1];
+if (!pageScriptVersion || !historyStylesheetVersion || pageScriptVersion !== historyStylesheetVersion) {
+  errors.push("Shanghai history script and stylesheet cache versions must match");
+}
 if (mapline.includes("shanghai-history.js")) errors.push("Shared city mapline must not own Shanghai-specific history loading");
 
 if (errors.length) {
