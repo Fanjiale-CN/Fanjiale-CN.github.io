@@ -14,7 +14,7 @@ if (manifest.version !== "1.0") errors.push("Beijing archive manifest version mu
 if (manifest.city !== "Beijing") errors.push("Beijing archive city must be Beijing");
 if (manifest.source !== "Library of Congress") errors.push("Beijing archive source must be Library of Congress");
 if (!Number.isInteger(manifest.maxYear) || manifest.maxYear > 1949) errors.push("Beijing archive maxYear must be 1949 or earlier");
-if (!Array.isArray(manifest.items) || manifest.items.length < 2 || manifest.items.length > 6) errors.push("Beijing archive pilot must contain 2-6 items");
+if (!Array.isArray(manifest.items) || manifest.items.length < 2 || manifest.items.length > 12) errors.push("Beijing archive must contain 2-12 curated items");
 
 const ids = new Set();
 for (const item of manifest.items || []) {
@@ -22,7 +22,7 @@ for (const item of manifest.items || []) {
   ids.add(item.id);
   if (!allowedCategories.has(item.category)) errors.push(`${item.id}: category is outside the historical archive allowlist`);
   if (!Number.isInteger(item.yearStart) || !Number.isInteger(item.yearEnd) || item.yearStart > item.yearEnd || item.yearEnd > manifest.maxYear) {
-    errors.push(`${item.id}: date is outside the pre-1950 pilot window`);
+    errors.push(`${item.id}: date is outside the pre-1950 archive window`);
   }
   const searchable = [item.title, item.location, item.sourceLabel, item.category].filter(Boolean).join(" ");
   if (prohibited.test(searchable)) errors.push(`${item.id}: blocked historical archive topic`);
@@ -40,7 +40,7 @@ for (const item of manifest.items || []) {
   }
 }
 
-for (const marker of ["beijing-archive.json", "beijing-archive.css", "data-beijing-archive", "allowedCategories", "yearEnd <= maxYear"]) {
+for (const marker of ["beijing-archive.json", "beijing-archive.css", "data-beijing-archive", "allowedCategories", "yearEnd <= maxYear", "slice(0, 8)"]) {
   if (!archiveJs.includes(marker)) errors.push(`Beijing archive renderer marker missing: ${marker}`);
 }
 if (!beijingJs.includes("beijing-archive.js")) errors.push("Beijing page does not load the historical archive renderer");

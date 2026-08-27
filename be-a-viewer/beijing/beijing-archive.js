@@ -4,7 +4,7 @@
 
   const stylesheet = document.createElement("link");
   stylesheet.rel = "stylesheet";
-  stylesheet.href = "/be-a-viewer/beijing/beijing-archive.css?v=20260827-pilot1";
+  stylesheet.href = "/be-a-viewer/beijing/beijing-archive.css?v=20260827-expand8";
   document.head.append(stylesheet);
 
   const allowedCategories = new Set(["architecture", "street-life", "landscape"]);
@@ -58,11 +58,11 @@
 
   async function mount() {
     try {
-      const response = await fetch("/be-a-viewer/beijing/beijing-archive.json?v=20260827-pilot1", { cache: "force-cache" });
+      const response = await fetch("/be-a-viewer/beijing/beijing-archive.json?v=20260827-expand8", { cache: "force-cache" });
       if (!response.ok) return;
       const data = await response.json();
       const maxYear = Number.isInteger(data.maxYear) ? data.maxYear : 1949;
-      const items = Array.isArray(data.items) ? data.items.filter((item) => validItem(item, maxYear)).slice(0, 3) : [];
+      const items = Array.isArray(data.items) ? data.items.filter((item) => validItem(item, maxYear)).slice(0, 8) : [];
       if (items.length < 2) return;
       const firstYear = Math.min(...items.map((item) => item.yearStart));
       const lastYear = Math.max(...items.map((item) => item.yearEnd));
@@ -78,7 +78,7 @@
             <p class="beijing-archive__kicker">CITY MEMORY / ${firstYear} → ${lastYear}</p>
             <h2 id="beijing-archive-title">BEIJING<br>BEFORE NOW.</h2>
           </div>
-          <p class="beijing-archive__intro">A small archival window into the physical city: water, roofs, streets and the geometry that survived into the present.</p>
+          <p class="beijing-archive__intro">A curated archival window into the physical city: walls, roofs, streets, gardens and the geometry that survived into the present.</p>
         </header>
         <div class="beijing-archive__grid">
           ${items.map(card).join("")}
