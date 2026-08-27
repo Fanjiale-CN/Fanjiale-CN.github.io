@@ -9,7 +9,7 @@ const check = (condition, message) => {
 
 const hub = read("cities/index.html");
 const hubVideos = [...hub.matchAll(/<video\b[^>]*data-viewer-video[^>]*>/g)].map((match) => match[0]);
-check(hubVideos.length === 8, `expected 8 hub videos, found ${hubVideos.length}`);
+check(hubVideos.length === 6, `expected 6 hub videos, found ${hubVideos.length}`);
 hubVideos.forEach((tag, index) => {
   check(/\bpreload="none"/.test(tag), `hub video ${index + 1} is not poster-first`);
   check(/\bdata-src="/.test(tag), `hub video ${index + 1} has no lazy desktop source`);
@@ -19,7 +19,7 @@ hubVideos.forEach((tag, index) => {
 check(!/<source\b[^>]*src=/.test(hub.slice(hub.indexOf("data-viewer-hero-stage"), hub.indexOf("viewer-hero-shade"))), "hub stage contains eager source elements");
 check(/beijing-poster(?:--[a-f0-9]+)?\.webp" as="image" fetchpriority="high"/.test(hub), "hub poster is not high priority");
 
-const mobileVideos = ["beijing", "shanghai", "xian", "dali", "shenzhen", "xiamen", "tibet-plateau", "hangzhou"];
+const mobileVideos = ["beijing", "shanghai", "xian", "shenzhen", "xiamen", "hangzhou"];
 mobileVideos.forEach((name) => {
   const path = new URL(`assets/be-a-viewer/video/mobile/${name}.mp4`, root);
   check(existsSync(path), `missing hub mobile video: ${name}`);
