@@ -82,6 +82,58 @@
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E7%A7%81%E4%BA%BA%E5%BA%AD%E9%99%A2.jpg",
       "sourceLabel": "Wikimedia Commons · Eighteen Capitals of China",
       "rights": "Public domain."
+    },
+    {
+      "id": "inner-gate-bell-tower-2004",
+      "category": "street-life",
+      "title": "From the Inner Gate toward the Bell Tower",
+      "dateLabel": "2004",
+      "yearStart": 2004,
+      "yearEnd": 2004,
+      "location": "Xi'an City Wall",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Xian%20city%20wall%20inner%20gate%20looking%20inside.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xian_city_wall_inner_gate_looking_inside.jpg",
+      "sourceLabel": "Wikimedia Commons · Richardelainechambers",
+      "rights": "CC BY-SA 3.0"
+    },
+    {
+      "id": "bell-tower-2006",
+      "category": "architecture",
+      "title": "Bell Tower",
+      "dateLabel": "2006",
+      "yearStart": 2006,
+      "yearEnd": 2006,
+      "location": "Bell Tower · Xi'an",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Xian%20bell%20tower%202006.JPG",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xian_bell_tower_2006.JPG",
+      "sourceLabel": "Wikimedia Commons · Don-kun",
+      "rights": "CC BY 3.0"
+    },
+    {
+      "id": "drum-tower-2006",
+      "category": "architecture",
+      "title": "Drum Tower",
+      "dateLabel": "2006",
+      "yearStart": 2006,
+      "yearEnd": 2006,
+      "location": "Drum Tower · Xi'an",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Xian%20drum%20tower%202006.JPG",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xian_drum_tower_2006.JPG",
+      "sourceLabel": "Wikimedia Commons · Don-kun",
+      "rights": "CC BY 3.0"
+    },
+    {
+      "id": "south-gate-2008",
+      "category": "architecture",
+      "title": "South Gate of the City Wall",
+      "dateLabel": "2008",
+      "yearStart": 2008,
+      "yearEnd": 2008,
+      "location": "South Gate · Xi'an",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Xi%27an%20South%20Gate%20%282661212001%29.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xi%27an_South_Gate_(2661212001).jpg",
+      "sourceLabel": "Wikimedia Commons · Peter Dowley",
+      "rights": "CC BY 2.0"
     }
   ]
 }

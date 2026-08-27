@@ -4,7 +4,7 @@
 
   const stylesheet = document.createElement("link");
   stylesheet.rel = "stylesheet";
-  stylesheet.href = "/be-a-viewer/xian/xian-history.css?v=20260827-xian1";
+  stylesheet.href = "/be-a-viewer/xian/xian-history.css?v=20260827-expand10";
   document.head.append(stylesheet);
 
   const allowedCategories = new Set(["architecture", "street-life", "landscape"]);
@@ -63,10 +63,10 @@
 
   async function mount() {
     try {
-      const response = await fetch("/be-a-viewer/xian/xian-history.json?v=20260827-datepolicy", { cache: "force-cache" });
+      const response = await fetch("/be-a-viewer/xian/xian-history.json?v=20260827-expand10", { cache: "force-cache" });
       if (!response.ok) return;
       const data = await response.json();
-      const items = Array.isArray(data.items) ? data.items.filter(validItem).slice(0, 8) : [];
+      const items = Array.isArray(data.items) ? data.items.filter(validItem).slice(0, 10) : [];
       if (items.length < 4) return;
       const firstYear = Math.min(...items.map((item) => item.yearStart));
       const lastYear = Math.max(...items.map((item) => item.yearEnd));

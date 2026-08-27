@@ -41,7 +41,7 @@ for (const item of manifest.items || []) {
   }
 }
 
-for (const marker of ["xian-history.json", "xian-history.css", "data-xian-history", "allowedCategories", "yearEnd <= currentYear", "approvedRights", "slice(0, 8)"]) {
+for (const marker of ["xian-history.json", "xian-history.css", "data-xian-history", "allowedCategories", "yearEnd <= currentYear", "approvedRights", "slice(0, 10)"]) {
   if (!renderer.includes(marker)) errors.push(`Xi'an history renderer marker missing: ${marker}`);
 }
 if (!xianJs.includes("xian-history.js")) errors.push("Xi'an page does not load the historical archive renderer");

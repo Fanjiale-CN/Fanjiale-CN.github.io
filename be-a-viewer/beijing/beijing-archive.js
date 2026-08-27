@@ -4,7 +4,7 @@
 
   const stylesheet = document.createElement("link");
   stylesheet.rel = "stylesheet";
-  stylesheet.href = "/be-a-viewer/beijing/beijing-archive.css?v=20260827-expand8";
+  stylesheet.href = "/be-a-viewer/beijing/beijing-archive.css?v=20260827-expand12";
   document.head.append(stylesheet);
 
   const allowedCategories = new Set(["architecture", "street-life", "landscape"]);
@@ -60,10 +60,10 @@
 
   async function mount() {
     try {
-      const response = await fetch("/be-a-viewer/beijing/beijing-archive.json?v=20260827-datepolicy", { cache: "force-cache" });
+      const response = await fetch("/be-a-viewer/beijing/beijing-archive.json?v=20260827-expand12", { cache: "force-cache" });
       if (!response.ok) return;
       const data = await response.json();
-      const items = Array.isArray(data.items) ? data.items.filter(validItem).slice(0, 8) : [];
+      const items = Array.isArray(data.items) ? data.items.filter(validItem).slice(0, 12) : [];
       if (items.length < 2) return;
       const firstYear = Math.min(...items.map((item) => item.yearStart));
       const lastYear = Math.max(...items.map((item) => item.yearEnd));
