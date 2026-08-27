@@ -2,7 +2,7 @@
   "version": "1.0",
   "city": "Beijing",
   "source": "Library of Congress",
-  "maxYear": 1949,
+  "datePolicy": "historical-city-space",
   "allowedCategories": ["architecture", "street-life", "landscape"],
   "items": [
     {
