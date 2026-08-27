@@ -1,0 +1,87 @@
+{
+  "version": "1.0",
+  "city": "Xi'an",
+  "maxYear": 1949,
+  "allowedCategories": ["architecture", "street-life", "landscape"],
+  "allowedSources": ["Wikimedia Commons"],
+  "items": [
+    {
+      "id": "duanli-gate-1907",
+      "category": "architecture",
+      "title": "Duanli Gate",
+      "dateLabel": "1907",
+      "yearStart": 1907,
+      "yearEnd": 1907,
+      "location": "Duanli Gate · Xi'an",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Duan%20Li%20Men%2C%20Xi%27an%2C%201907.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Duan_Li_Men,_Xi%27an,_1907.jpg",
+      "sourceLabel": "Wikimedia Commons · Édouard Chavannes",
+      "rights": "Public domain."
+    },
+    {
+      "id": "city-wall-1908",
+      "category": "architecture",
+      "title": "Xi'an City Wall",
+      "dateLabel": "ca. 1908",
+      "yearStart": 1908,
+      "yearEnd": 1908,
+      "location": "Xi'an City Wall",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Xi%27an%20walls.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Xi%27an_walls.jpg",
+      "sourceLabel": "Wikimedia Commons · John Shields photograph",
+      "rights": "Public domain."
+    },
+    {
+      "id": "great-wild-goose-pagoda-1911",
+      "category": "architecture",
+      "title": "Great Wild Goose Pagoda",
+      "dateLabel": "1911",
+      "yearStart": 1911,
+      "yearEnd": 1911,
+      "location": "Great Wild Goose Pagoda · Xi'an",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/%E8%A5%BF%E5%AE%89%E5%BA%9C%E5%A4%A7%E9%9B%81%E5%A1%94.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E5%A4%A7%E9%9B%81%E5%A1%94.jpg",
+      "sourceLabel": "Wikimedia Commons · Eighteen Capitals of China",
+      "rights": "Public domain."
+    },
+    {
+      "id": "south-gate-1911",
+      "category": "architecture",
+      "title": "South Gate of Xi'an Prefecture",
+      "dateLabel": "1911",
+      "yearStart": 1911,
+      "yearEnd": 1911,
+      "location": "South Gate · Xi'an",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/%E8%A5%BF%E5%AE%89%E5%BA%9C%E5%8D%97%E9%97%A8.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E5%8D%97%E9%97%A8.jpg",
+      "sourceLabel": "Wikimedia Commons · historical photograph",
+      "rights": "Public domain."
+    },
+    {
+      "id": "anyuan-gate-1911",
+      "category": "architecture",
+      "title": "Anyuan Gate",
+      "dateLabel": "1911",
+      "yearStart": 1911,
+      "yearEnd": 1911,
+      "location": "Anyuan Gate · Xi'an",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/%E8%A5%BF%E5%AE%89%E5%BA%9C%E5%AE%89%E8%BF%9C%E9%97%A8.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E5%AE%89%E8%BF%9C%E9%97%A8.jpg",
+      "sourceLabel": "Wikimedia Commons · historical photograph",
+      "rights": "Public domain."
+    },
+    {
+      "id": "private-courtyard-1911",
+      "category": "street-life",
+      "title": "Private Courtyard in Xi'an",
+      "dateLabel": "1911",
+      "yearStart": 1911,
+      "yearEnd": 1911,
+      "location": "Xi'an",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:Redirect/file/%E8%A5%BF%E5%AE%89%E5%BA%9C%E7%A7%81%E4%BA%BA%E5%BA%AD%E9%99%A2.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E7%A7%81%E4%BA%BA%E5%BA%AD%E9%99%A2.jpg",
+      "sourceLabel": "Wikimedia Commons · Eighteen Capitals of China",
+      "rights": "Public domain."
+    }
+  ]
+}
