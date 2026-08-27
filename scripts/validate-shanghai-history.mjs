@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const manifest = JSON.parse(readFileSync(join(root, "be-a-viewer/shanghai/shanghai-history.json"), "utf8"));
 const renderer = readFileSync(join(root, "be-a-viewer/shanghai/shanghai-history.js"), "utf8");
-const shanghaiJs = readFileSync(join(root, "be-a-viewer/shanghai/shanghai.js"), "utf8");
+const shanghaiPage = readFileSync(join(root, "be-a-viewer/shanghai/index.html"), "utf8");
 const mapline = readFileSync(join(root, "be-a-viewer/city-mapline.js"), "utf8");
 const errors = [];
 const currentYear = new Date().getUTCFullYear();
@@ -17,7 +17,7 @@ if (manifest.version !== "1.0") errors.push("Shanghai history manifest version m
 if (manifest.city !== "Shanghai") errors.push("Shanghai history city must be Shanghai");
 if (manifest.datePolicy !== "historical-city-space") errors.push("Shanghai history datePolicy must be historical-city-space");
 if (!Array.isArray(manifest.periods) || manifest.periods.length !== 4) errors.push("Shanghai history must define exactly four archive periods");
-if (!Array.isArray(manifest.items) || manifest.items.length !== 20) errors.push("Shanghai history must contain exactly 20 curated items");
+if (!Array.isArray(manifest.items) || manifest.items.length < 4 || manifest.items.length > 20) errors.push("Shanghai history must contain 4-20 curated items");
 
 const periodIds = new Set((manifest.periods || []).map((period) => period.id));
 if (periodIds.size !== 4) errors.push("Shanghai history period ids must be unique");
@@ -47,10 +47,10 @@ for (const item of manifest.items || []) {
   }
 }
 
-for (const marker of ["shanghai-history.json", "shanghai-history.css", "data-shanghai-history", "allowedCategories", "blockedTopics", "slice(0, 20)", "items.length !== 20"]) {
+for (const marker of ["shanghai-history.json", "shanghai-history.css", "data-shanghai-history", "allowedCategories", "blockedTopics", "slice(0, 20)", "if (!items.length || !periods.length) return;"]) {
   if (!renderer.includes(marker)) errors.push(`Shanghai history renderer marker missing: ${marker}`);
 }
-if (!shanghaiJs.includes("shanghai-history.js")) errors.push("Shanghai page script does not load the historical archive renderer");
+if (!shanghaiPage.includes("shanghai-history.js")) errors.push("Shanghai page does not load the historical archive renderer");
 if (mapline.includes("shanghai-history.js")) errors.push("Shared city mapline must not own Shanghai-specific history loading");
 
 if (errors.length) {

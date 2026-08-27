@@ -14,7 +14,7 @@ const viewports = [
   ["source-desktop", 1348, 926],
   ["ipad-landscape", 2048, 1536]
 ];
-const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/", "/about/"];
+const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/", "/about/", "/be-a-viewer/shanghai/"];
 const errors = [];
 const results = [];
 const evidenceDirectory = process.env.VISUAL_EVIDENCE_DIR
@@ -62,6 +62,8 @@ try {
         const nav = document.querySelector(".site-nav");
         const main = document.querySelector("main");
         const video = document.querySelector(".field-hero video, video");
+        const shanghaiHistory = document.querySelector(".shanghai-history");
+        const shanghaiHistoryBox = shanghaiHistory?.getBoundingClientRect();
         const unreadyMedia = [...document.querySelectorAll("img,video")]
           .filter((element) => element.tagName === "IMG" ? !element.complete || element.naturalWidth === 0 : element.readyState === 0)
           .map((element) => element.currentSrc || element.src)
@@ -75,6 +77,12 @@ try {
           logo: logoBox ? { width: logoBox.width, height: logoBox.height } : null,
           navVisible: Boolean(nav && nav.getBoundingClientRect().height > 0),
           mainVisible: Boolean(main && main.getBoundingClientRect().height > 0),
+          shanghaiHistory: shanghaiHistoryBox ? {
+            width: shanghaiHistoryBox.width,
+            parent: shanghaiHistory.parentElement?.className ?? "",
+            previous: shanghaiHistory.previousElementSibling?.className ?? "",
+            cards: shanghaiHistory.querySelectorAll(".shanghai-history-card").length
+          } : null,
           unreadyMedia,
           video: video ? { paused: video.paused, muted: video.muted, playsInline: video.playsInline, readyState: video.readyState, display: getComputedStyle(video).display } : null
         };
@@ -93,6 +101,15 @@ try {
       if (failedRequests.length) errors.push(`${name} ${route}: failed local requests ${JSON.stringify(failedRequests)}`);
       if (pageErrors.length) errors.push(`${name} ${route}: page errors ${pageErrors.join(" | ")}`);
       if (actionableConsoleErrors.length) errors.push(`${name} ${route}: actionable console errors ${actionableConsoleErrors.join(" | ")}`);
+      if (route === "/be-a-viewer/shanghai/") {
+        if (!item.shanghaiHistory) errors.push(`${name} ${route}: Shanghai history archive missing`);
+        else {
+          if (item.shanghaiHistory.width < item.clientWidth - 1) errors.push(`${name} ${route}: Shanghai history archive is not full width ${item.shanghaiHistory.width}/${item.clientWidth}`);
+          if (!item.shanghaiHistory.parent.includes("shanghai-page-main")) errors.push(`${name} ${route}: Shanghai history archive is nested under ${item.shanghaiHistory.parent}`);
+          if (!item.shanghaiHistory.previous.includes("shanghai-memory")) errors.push(`${name} ${route}: Shanghai history archive is not placed after the memory section`);
+          if (item.shanghaiHistory.cards !== 19) errors.push(`${name} ${route}: expected 19 Shanghai history cards, found ${item.shanghaiHistory.cards}`);
+        }
+      }
       results.push(item);
 
       if (route === "/" || (name === "desktop" && ["/radar/", "/cities/", "/essays/", "/research/", "/data/", "/index/"].includes(route))) {

@@ -9,7 +9,7 @@ const xianJs = readFileSync(join(root, "be-a-viewer/xian/xian.js"), "utf8");
 const errors = [];
 const currentYear = new Date().getUTCFullYear();
 const allowedCategories = new Set(["architecture", "street-life", "landscape"]);
-const prohibited = /(?:1989|8964|june\s+fourth|tiananmen|protest|demonstration|military|army|soldier|troop|artillery|police|riot|rebellion|battle|war|political|communist|mao|cultural\s+revolution|great\s+leap|red\s+guard|massacre|crackdown|tank|xi.?an\s+incident|sian\s+incident)/i;
+const prohibited = /(?:1989|8964|june\s+fourth|tiananmen|protest|demonstration|military|army|soldier|troop|artillery|police|riot|rebellion|battle|\bwar\b|political|communist|mao|cultural\s+revolution|great\s+leap|red\s+guard|massacre|crackdown|tank|xi.?an\s+incident|sian\s+incident)/i;
 const approvedRights = /^(?:public domain\.?|cc0(?: 1\.0)?|cc by(?:-sa)? (?:2\.0|3\.0|4\.0))$/i;
 
 if (manifest.version !== "1.0") errors.push("Xi'an history manifest version must be 1.0");

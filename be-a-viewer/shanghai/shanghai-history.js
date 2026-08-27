@@ -55,8 +55,7 @@
   }
 
   function findTarget() {
-    const qipao = document.querySelector(".shanghai-qipao-story");
-    return qipao?.closest("section")
+    return document.querySelector(".shanghai-memory")
       || document.querySelector("[data-shanghai-temple]")
       || document.querySelector(".shanghai-section");
   }
@@ -67,11 +66,11 @@
 
     const stylesheet = document.createElement("link");
     stylesheet.rel = "stylesheet";
-    stylesheet.href = "/be-a-viewer/shanghai/shanghai-history.css?v=20260827-sh20-fix2";
+    stylesheet.href = "/be-a-viewer/shanghai/shanghai-history.css?v=20260827-sh20-layout-fix3";
     document.head.append(stylesheet);
 
     try {
-      const response = await fetch("/be-a-viewer/shanghai/shanghai-history.json?v=20260827-sh20-fix2", { cache: "force-cache" });
+      const response = await fetch("/be-a-viewer/shanghai/shanghai-history.json?v=20260827-sh20-layout-fix3", { cache: "force-cache" });
       if (!response.ok) return;
       const data = await response.json();
       const periods = Array.isArray(data.periods) ? data.periods : [];
