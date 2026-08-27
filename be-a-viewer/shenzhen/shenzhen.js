@@ -128,3 +128,10 @@
     else tryPlay();
   });
 })();
+
+(() => {
+  const timeScript = document.createElement("script");
+  timeScript.type = "module";
+  timeScript.src = "/be-a-viewer/shenzhen/shenzhen-time.js?v=20260828-growth1";
+  document.head.append(timeScript);
+})();

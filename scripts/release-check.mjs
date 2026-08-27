@@ -12,7 +12,8 @@ const checks = [
   ["Beijing historical archive", "validate-beijing-archive.mjs", []],
   ["Xi'an historical archive", "validate-xian-history.mjs", []],
   ["Shanghai historical archive", "validate-shanghai-history.mjs", []],
-  ["Xiamen historical archive", "validate-xiamen-history.mjs", []]
+  ["Xiamen historical archive", "validate-xiamen-history.mjs", []],
+  ["Shenzhen history and growth", "validate-shenzhen-history.mjs", []]
 ];
 
 for (const [label, script, args] of checks) {
