@@ -9,6 +9,7 @@
 
   const allowedCategories = new Set(["architecture", "street-life", "landscape"]);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const currentYear = new Date().getFullYear();
 
   const text = (value = "") => String(value).trim();
   const escapeHtml = (value = "") => text(value)
@@ -27,13 +28,14 @@
     }
   }
 
-  function validItem(item, maxYear) {
+  function validItem(item) {
     return item
       && allowedCategories.has(item.category)
       && Number.isInteger(item.yearStart)
       && Number.isInteger(item.yearEnd)
+      && item.yearStart >= 1800
       && item.yearStart <= item.yearEnd
-      && item.yearEnd <= maxYear
+      && item.yearEnd <= currentYear
       && safeUrl(item.imageUrl, "loc.gov")
       && safeUrl(item.sourceUrl, "loc.gov")
       && /no known restrictions on publication/i.test(item.rights || "");
@@ -58,11 +60,10 @@
 
   async function mount() {
     try {
-      const response = await fetch("/be-a-viewer/beijing/beijing-archive.json?v=20260827-expand8", { cache: "force-cache" });
+      const response = await fetch("/be-a-viewer/beijing/beijing-archive.json?v=20260827-datepolicy", { cache: "force-cache" });
       if (!response.ok) return;
       const data = await response.json();
-      const maxYear = Number.isInteger(data.maxYear) ? data.maxYear : 1949;
-      const items = Array.isArray(data.items) ? data.items.filter((item) => validItem(item, maxYear)).slice(0, 8) : [];
+      const items = Array.isArray(data.items) ? data.items.filter(validItem).slice(0, 8) : [];
       if (items.length < 2) return;
       const firstYear = Math.min(...items.map((item) => item.yearStart));
       const lastYear = Math.max(...items.map((item) => item.yearEnd));
@@ -84,7 +85,7 @@
           ${items.map(card).join("")}
         </div>
         <footer class="beijing-archive__foot">
-          <span>Curated historical material · records checked before publication</span>
+          <span>Curated historical city-space material · rights and topic checked before publication</span>
           <a href="https://www.loc.gov/pictures/" target="_blank" rel="noopener noreferrer">Library of Congress source archive ↗</a>
         </footer>`;
 
