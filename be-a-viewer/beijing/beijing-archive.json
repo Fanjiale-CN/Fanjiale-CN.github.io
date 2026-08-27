@@ -108,6 +108,58 @@
       "sourceUrl": "https://www.loc.gov/pictures/item/2019633834/",
       "sourceLabel": "Library of Congress · Stereograph Cards",
       "rights": "No known restrictions on publication."
+    },
+    {
+      "id": "peking-wall-birdseye-1900",
+      "category": "landscape",
+      "title": "Bird's-eye View of the Peking City Wall",
+      "dateLabel": "ca. 1900",
+      "yearStart": 1900,
+      "yearEnd": 1900,
+      "location": "Beijing City Wall",
+      "imageUrl": "https://cdn.loc.gov/service/pnp/stereo/1s10000/1s19000/1s19600/1s19625v.jpg",
+      "sourceUrl": "https://www.loc.gov/item/2006689672/",
+      "sourceLabel": "Library of Congress · Stereograph Cards",
+      "rights": "No known restrictions on publication."
+    },
+    {
+      "id": "outer-gate-walled-city-1901",
+      "category": "architecture",
+      "title": "Outer Gate of the Walled City",
+      "dateLabel": "1901",
+      "yearStart": 1901,
+      "yearEnd": 1901,
+      "location": "Beijing",
+      "imageUrl": "https://cdn.loc.gov/service/pnp/stereo/1s10000/1s19000/1s19500/1s19539v.jpg",
+      "sourceUrl": "https://www.loc.gov/item/2019634296/",
+      "sourceLabel": "Library of Congress · Stereograph Cards",
+      "rights": "No known restrictions on publication."
+    },
+    {
+      "id": "coach-coal-mountain-1901",
+      "category": "street-life",
+      "title": "Coach Looking toward Coal Mountain",
+      "dateLabel": "1901",
+      "yearStart": 1901,
+      "yearEnd": 1901,
+      "location": "Jingshan · Beijing",
+      "imageUrl": "https://cdn.loc.gov/service/pnp/stereo/1s10000/1s19000/1s19500/1s19523v.jpg",
+      "sourceUrl": "https://www.loc.gov/item/2006689690/",
+      "sourceLabel": "Library of Congress · Stereograph Cards",
+      "rights": "No known restrictions on publication in the U.S."
+    },
+    {
+      "id": "southern-peking-market-1900",
+      "category": "street-life",
+      "title": "Busy Market Street in Southern Peking",
+      "dateLabel": "1900",
+      "yearStart": 1900,
+      "yearEnd": 1900,
+      "location": "South Gate to Chien-men · Beijing",
+      "imageUrl": "https://cdn.loc.gov/service/pnp/stereo/1s10000/1s19000/1s19400/1s19487v.jpg",
+      "sourceUrl": "https://www.loc.gov/item/2007683134/",
+      "sourceLabel": "Library of Congress · Stereograph Cards",
+      "rights": "No known restrictions on publication."
     }
   ]
 }
