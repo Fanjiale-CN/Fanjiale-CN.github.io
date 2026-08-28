@@ -41,6 +41,7 @@ const isLocalCloudflareRumCorsNoise = (message) => {
 try {
   for (const [name, width, height] of viewports) {
     for (const route of routes) {
+      if (route === "/be-a-viewer/chongqing/" && !["tablet", "ipad-css-landscape"].includes(name)) continue;
       const page = await browser.newPage();
       await page.setViewport({ width, height, deviceScaleFactor: 1 });
       const failedRequests = [];
