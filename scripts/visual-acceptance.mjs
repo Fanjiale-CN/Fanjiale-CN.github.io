@@ -15,7 +15,7 @@ const viewports = [
   ["source-desktop", 1348, 926],
   ["ipad-landscape", 2048, 1536]
 ];
-const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/", "/about/", "/be-a-viewer/shanghai/", "/be-a-viewer/hangzhou/"];
+const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/", "/about/", "/be-a-viewer/shanghai/", "/be-a-viewer/hangzhou/", "/be-a-viewer/chongqing/"];
 const errors = [];
 const results = [];
 const evidenceDirectory = process.env.VISUAL_EVIDENCE_DIR
@@ -100,6 +100,36 @@ try {
           posterHeight: hzPosterImage?.getBoundingClientRect().height ?? null
         } : null;
 
+        const cqBridge = document.querySelector(".cq-bridges");
+        const cqBridgeSticky = document.querySelector(".cq-bridge-sticky");
+        const cqBridgeHeader = cqBridgeSticky?.querySelector("header");
+        const cqBridgeHeading = cqBridgeHeader?.querySelector("h2");
+        const cqBridgeTrack = document.querySelector(".cq-bridge-track");
+        const cqBridgeArticles = [...(cqBridgeTrack?.querySelectorAll("article") ?? [])];
+        const cqBridgeFilm = document.querySelector(".cq-bridge-film");
+        const cqBridgeFilmVideo = cqBridgeFilm?.querySelector("video");
+        const cqBridgeFilmCopy = cqBridgeFilm?.querySelector("div");
+        const cqBridgeFilmHeadline = cqBridgeFilm?.querySelector("b");
+        const cqBox = (element) => {
+          const box = element?.getBoundingClientRect();
+          return box ? { left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: box.width, height: box.height } : null;
+        };
+        const chongqingTablet = cqBridgeTrack ? {
+          stylesheet: [...document.styleSheets].some((sheet) => sheet.href?.includes("chongqing-tablet-fix.css")),
+          bridgeHeight: cqBridge ? getComputedStyle(cqBridge).height : null,
+          stickyPosition: cqBridgeSticky ? getComputedStyle(cqBridgeSticky).position : null,
+          trackDisplay: getComputedStyle(cqBridgeTrack).display,
+          trackTransform: getComputedStyle(cqBridgeTrack).transform,
+          header: cqBox(cqBridgeHeader),
+          heading: cqBox(cqBridgeHeading),
+          firstArticle: cqBox(cqBridgeArticles[0]),
+          articles: cqBridgeArticles.map(cqBox),
+          filmVideo: cqBox(cqBridgeFilmVideo),
+          filmCopy: cqBox(cqBridgeFilmCopy),
+          filmHeadline: cqBox(cqBridgeFilmHeadline),
+          filmColumns: cqBridgeFilm ? getComputedStyle(cqBridgeFilm).gridTemplateColumns : null
+        } : null;
+
         const unreadyMedia = [...document.querySelectorAll("img,video")]
           .filter((element) => element.tagName === "IMG" ? !element.complete || element.naturalWidth === 0 : element.readyState === 0)
           .map((element) => element.currentSrc || element.src)
@@ -125,6 +155,7 @@ try {
           } : null,
           hangzhouMobile,
           hangzhouTablet,
+          chongqingTablet,
           unreadyMedia,
           video: video ? { paused: video.paused, muted: video.muted, playsInline: video.playsInline, readyState: video.readyState, display: getComputedStyle(video).display } : null
         };
@@ -184,11 +215,36 @@ try {
           }
         }
       }
+      if (route === "/be-a-viewer/chongqing/" && ["tablet", "ipad-css-landscape"].includes(name)) {
+        const cq = item.chongqingTablet;
+        if (!cq) errors.push(`${name} ${route}: Chongqing tablet bridge metrics missing`);
+        else {
+          if (!cq.stylesheet) errors.push(`${name} ${route}: Chongqing tablet repair stylesheet not loaded`);
+          if (cq.stickyPosition === "sticky" || cq.stickyPosition === "fixed") errors.push(`${name} ${route}: bridge chapter is still sticky on tablet (${cq.stickyPosition})`);
+          if (cq.trackDisplay !== "grid") errors.push(`${name} ${route}: bridge track is ${cq.trackDisplay}, expected grid`);
+          if (cq.trackTransform !== "none") errors.push(`${name} ${route}: desktop bridge transform is still active (${cq.trackTransform})`);
+          if (!cq.header || !cq.firstArticle || cq.firstArticle.top < cq.header.bottom + 18) {
+            errors.push(`${name} ${route}: bridge headline still collides with the first image`);
+          }
+          if (cq.articles.length !== 6) errors.push(`${name} ${route}: expected 6 bridge cards, found ${cq.articles.length}`);
+          for (const [index, box] of cq.articles.entries()) {
+            if (!box || box.width < 160 || box.height < 260) errors.push(`${name} ${route}: bridge card ${index + 1} collapsed`);
+            if (box && (box.left < -1 || box.right > item.clientWidth + 1)) errors.push(`${name} ${route}: bridge card ${index + 1} escapes viewport ${box.left}/${box.right}/${item.clientWidth}`);
+          }
+          if (!cq.filmVideo || !cq.filmCopy || cq.filmCopy.top < cq.filmVideo.bottom - 2) errors.push(`${name} ${route}: bridge film remains a cramped tablet split layout`);
+          if (cq.filmHeadline && cq.filmHeadline.right > item.clientWidth + 1) errors.push(`${name} ${route}: bridge film headline clips off-screen ${cq.filmHeadline.right}/${item.clientWidth}`);
+        }
+      }
       results.push(item);
 
       if (route === "/" || (name === "desktop" && ["/radar/", "/cities/", "/essays/", "/research/", "/data/", "/index/"].includes(route)) || (route === "/be-a-viewer/hangzhou/" && ["mobile", "ipad-css-landscape"].includes(name))) {
         const label = route === "/" ? "home" : route.replaceAll("/", "") || "home";
         await page.screenshot({ path: join(evidenceDirectory, `fix-${label}-${name}.png`), fullPage: false });
+      }
+      if (route === "/be-a-viewer/chongqing/" && ["tablet", "ipad-css-landscape"].includes(name)) {
+        await page.evaluate(() => document.querySelector(".cq-bridges")?.scrollIntoView({ block: "start" }));
+        await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+        await page.screenshot({ path: join(evidenceDirectory, `fix-be-a-viewer-chongqing-${name}.png`), fullPage: false });
       }
       await page.close();
     }
