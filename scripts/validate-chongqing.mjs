@@ -43,14 +43,14 @@ requireText(enhance, /cable-car-v2\.webp\.b64/, "enhancement must load supplied 
 requireText(enhance, /Sixteen more frames/, "expanded supplied archive must expose 16 frames");
 requireText(enhance, /cq-motion-lab/, "missing motion studies");
 requireText(enhance, /cq-expanded/, "missing expanded archive");
-requireText(enhance, /\.controls = true/, "transit video must expose Safari controls");
+requireText(enhance, /transit\.controls = true/, "transit video must expose Safari controls");
 requireText(localCss, /\.cq-atlas-grid/, "missing supplied archive grid layout");
 requireText(localCss, /max-width:760px/, "missing mobile local-media layout");
 requireText(css, /@media \(max-width:1180px\)/, "missing tablet breakpoint");
 requireText(css, /@media \(max-width:760px\)/, "missing mobile breakpoint");
 requireText(css, /@media \(prefers-reduced-motion:reduce\)/, "missing reduced-motion treatment");
-requireText(loader, /chongqing-enhance\.js\?v=20260828-cq-v4/, "loader must use current enhancement chain");
-requireText(loader, /chongqing-core\.js\?v=20260828-cq-v4/, "loader must preserve core interactions");
+requireText(loader, /chongqing-enhance\.js\?v=20260828-cq-v5/, "loader must bust Chongqing enhancement cache");
+requireText(loader, /chongqing-core\.js\?v=20260828-cq-v5/, "loader must bust Chongqing core cache");
 requireText(core, /IntersectionObserver/, "missing IntersectionObserver lifecycle");
 requireText(core, /translate3d/, "missing horizontal bridge scrollytelling");
 requireText(viewer, /CHONGQING/, "Cities viewer must know Chongqing");
