@@ -6,6 +6,20 @@ Chongqing is treated as a **vertical city**, not as a cyberpunk spectacle. The p
 
 The signature instrument is a persistent **altimeter**. It makes elevation legible without pretending to provide survey-grade measurements: the values are narrative markers tied to chapters, while the river remains the visual zero line.
 
+## cq12 editorial recomposition
+
+Mode: redesign · preserve. GALOK’s dark field-note navigation, oxide red, monospaced evidence labels and oversized grotesk remain protected. The old rhythm repeated a chapter headline, a large empty scene, then a small media block too often. The revised page gives each chapter one job: the hero carries night scale; terrain carries the diagram; transit carries a single moving frame; bridges carry lateral travel; food carries heat and table scale; the archive carries documentary density.
+
+| Dial | Setting | Consequence |
+| --- | --- | --- |
+| Visual variance | 7 / 10 | Asymmetric magazine spreads, cut image edges, and varied media spans replace alternating blocks. |
+| Motion intensity | 5 / 10 | Four existing scroll scenes remain; ordinary image chapters stay still. |
+| Information density | 5 / 10 | Long inert scroll distances are reduced; captions stay attached to evidence. |
+| Asset dependence | 9 / 10 | Supplied photography and video stay central; no decorative substitute imagery. |
+| Brand fidelity | 9 / 10 | Route, nav, title, media, accessibility and existing field-note voice remain intact. |
+
+The motion rule follows the page’s purpose: scrolling moves terrain, rail state, bridge travel and descent; it does not animate every photograph. Reduced-motion keeps the reading order and media controls intact.
+
 ## Narrative sequence
 
 | Chapter | Spatial device | Editorial claim |

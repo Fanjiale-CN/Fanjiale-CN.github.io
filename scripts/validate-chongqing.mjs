@@ -29,7 +29,7 @@ requireText(html, /t20190628_8614214\.html/, "missing Chongqing intangible-herit
 requireText(html, /t20221013_11182901\.html/, "missing Chongqing xiaomian source");
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
 requireText(html, /Contemporary photography \/ Pexels contributors/, "missing contemporary photography credit");
-requireText(html, /chongqing\.css\?v=20260828-cq11/, "page must bust the expanded Chongqing stylesheet cache");
+requireText(html, /chongqing\.css\?v=20260828-cq12/, "page must bust the Chongqing editorial stylesheet cache");
 requireText(html, /chongqing\.js\?v=20260828-cq09/, "page must keep the repaired Chongqing loader cache key");
 
 requireText(html, /<source src="\/assets\/video\/chongqing\/hero-night-hd\.mp4" type="video\/mp4">/, "hero must use the supplied high-definition landscape video");
