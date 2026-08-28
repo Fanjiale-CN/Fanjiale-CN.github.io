@@ -1,0 +1,59 @@
+name: Chongqing Release Builder
+
+on:
+  push:
+    branches:
+      - work/chongqing-pack-expansion
+
+permissions:
+  contents: write
+
+concurrency:
+  group: chongqing-release-builder
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: ${{ !contains(github.event.head_commit.message, '[cq-built]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: work/chongqing-pack-expansion
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Apply prepared Chongqing text payload
+        run: |
+          set -euo pipefail
+          base64 -d .cq-build/text-payload.b64 > /tmp/chongqing-text.tar.gz
+          tar -xzf /tmp/chongqing-text.tar.gz -C .
+
+      - name: Install release tools
+        run: npm ci --ignore-scripts
+
+      - name: Run release build and lightweight gates
+        run: npm run release
+
+      - name: Commit validated release output
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            be-a-viewer/chongqing/index.html \
+            be-a-viewer/chongqing/chongqing.css \
+            be-a-viewer/chongqing/media-manifest.json \
+            scripts/validate-chongqing.mjs \
+            assets/be-a-viewer/chongqing/hotpot-ninegrid.webp \
+            assets/be-a-viewer/chongqing/hotpot-table.webp \
+            assets/be-a-viewer/chongqing/small-noodles.webp \
+            sitemap.xml feed.xml index/search-catalog.json pagefind
+          git diff --cached --quiet && exit 0
+          git commit -m "Expand Chongqing supplied-media story [cq-built]"
+          git push origin HEAD:work/chongqing-pack-expansion
