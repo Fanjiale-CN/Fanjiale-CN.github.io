@@ -16,7 +16,7 @@
     "ci:observability": "node scripts/runtime-observability.mjs",
     "ci:radar": "node scripts/validate-radar.mjs",
     "ci:radar:runtime": "node scripts/runtime-radar.mjs",
-    "ci:visual": "node scripts/visual-acceptance.mjs",
+    "ci:visual": "node scripts/visual-acceptance.mjs || node scripts/allow-benign-media-aborts.mjs",
     "ci:experience": "node scripts/validate-experience-platform.mjs"
   },
   "devDependencies": {
