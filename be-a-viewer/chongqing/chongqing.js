@@ -7,7 +7,7 @@
     document.head.appendChild(script);
   };
 
-  load("/be-a-viewer/chongqing/chongqing-enhance.js?v=20260828-cq-v2", () => {
-    load("/be-a-viewer/chongqing/chongqing-core.js?v=20260828-cq-v2");
+  load("/be-a-viewer/chongqing/chongqing-enhance.js?v=20260828-cq-v3", () => {
+    load("/be-a-viewer/chongqing/chongqing-core.js?v=20260828-cq-v3");
   });
 })();
