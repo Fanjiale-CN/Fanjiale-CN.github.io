@@ -9,6 +9,7 @@ const loaderPath = join(root, "be-a-viewer/chongqing/chongqing.js");
 const corePath = join(root, "be-a-viewer/chongqing/chongqing-core.js");
 const enhancePath = join(root, "be-a-viewer/chongqing/chongqing-enhance.js");
 const enhanceCssPath = join(root, "be-a-viewer/chongqing/chongqing-enhance.css");
+const viewerPath = join(root, "be-a-viewer/viewer.js");
 const designPath = join(root, "be-a-viewer/chongqing/DESIGN.md");
 
 const html = readFileSync(pagePath, "utf8");
@@ -17,6 +18,7 @@ const loader = readFileSync(loaderPath, "utf8");
 const core = readFileSync(corePath, "utf8");
 const enhance = readFileSync(enhancePath, "utf8");
 const enhanceCss = readFileSync(enhanceCssPath, "utf8");
+const viewer = readFileSync(viewerPath, "utf8");
 const design = readFileSync(designPath, "utf8");
 
 const errors = [];
@@ -49,8 +51,8 @@ requireText(css, /\.cq-history-rail img\{[^}]*object-fit:contain/s, "historical 
 requireText(css, /\.cq-bridge-track img\{[^}]*object-fit:cover/s, "desktop bridge visual rule missing");
 requireText(css, /max-width:760px[\s\S]*\.cq-bridge-track img\{[^}]*object-fit:contain/s, "mobile bridge images must avoid forced crop");
 
-requireText(loader, /chongqing-enhance\.js/, "loader must mount Chongqing media enhancements");
-requireText(loader, /chongqing-core\.js/, "loader must preserve Chongqing core interactions");
+requireText(loader, /chongqing-enhance\.js\?v=20260828-cq-v3/, "loader must bust Chongqing media cache");
+requireText(loader, /chongqing-core\.js\?v=20260828-cq-v3/, "loader must preserve Chongqing core interactions");
 requireText(core, /IntersectionObserver/, "missing IntersectionObserver lifecycle");
 requireText(core, /prefers-reduced-motion: reduce/, "missing reduced-motion JS guard");
 requireText(core, /translate3d/, "missing horizontal bridge scrollytelling");
@@ -62,13 +64,18 @@ requireText(enhance, /\.playsInline = true/, "enhanced videos must support inlin
 requireText(enhance, /\.preload = "metadata"/, "enhanced videos must avoid fragile preload-none playback");
 requireText(enhance, /cq-motion-lab/, "missing expanded motion-study section");
 requireText(enhance, /cq-expanded/, "missing expanded Chongqing field material");
-const motionClips = [...enhance.matchAll(/videos\.pexels\.com\/video-files\//g)].length;
-if (motionClips < 8) errors.push(`expected at least 8 video source references across hero, transit and motion studies, found ${motionClips}`);
+const verifiedDownloads = [...enhance.matchAll(/pexels\.com\/download\/video\//g)].length;
+if (verifiedDownloads < 6) errors.push(`expected at least 6 verified Pexels download routes, found ${verifiedDownloads}`);
 const expandedPhotos = [...enhance.matchAll(/images\.pexels\.com\/photos\//g)].length;
 if (expandedPhotos < 12) errors.push(`expected at least 12 enhanced photo/poster references, found ${expandedPhotos}`);
 requireText(enhanceCss, /\.skip-link:focus-visible/, "Safari skip link must use focus-visible");
 requireText(enhanceCss, /\.skip-link:focus:not\(:focus-visible\)/, "touch focus must keep skip link hidden");
 requireText(enhanceCss, /max-width:760px[\s\S]*cq-motion-card/s, "enhanced media requires a mobile layout");
+
+requireText(viewer, /data\.city = "CHONGQING"/, "Cities viewer must mount a Chongqing hero slide");
+requireText(viewer, /data\.cityChoice = "chongqing"/, "Cities index must mount a Chongqing selector entry");
+requireText(viewer, /\/be-a-viewer\/chongqing\//, "Cities index must link to Chongqing story");
+requireText(viewer, /data\.cityVisual = "chongqing"/, "Cities index must mount Chongqing preview art");
 
 requireText(design, /No generic neon\/cyberpunk Chongqing treatment\./, "DESIGN.md must reject generic cyberpunk treatment");
 requireText(design, /Desktop keeps the fixed altimeter/, "DESIGN.md missing responsive altimeter rule");
@@ -77,4 +84,4 @@ if (errors.length) {
   console.error(errors.map((item) => `ERROR ${item}`).join("\n"));
   process.exit(1);
 }
-console.log(`Chongqing city validation passed: ${externalImages.length} static documentary images plus enhanced motion/field media, vertical narrative, Safari controls, responsive layouts and reduced-motion rules.`);
+console.log(`Chongqing city validation passed: ${externalImages.length} static documentary images plus verified motion media, Cities entry, Safari controls, responsive layouts and reduced-motion rules.`);
