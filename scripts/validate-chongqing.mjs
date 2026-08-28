@@ -21,6 +21,7 @@ requireText(html, /Li Ziba station sits on floors 6–7/, "missing verified Li Z
 requireText(html, /24 October 1987/, "missing verified cableway date");
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
 requireText(html, /user-supplied Chongqing archive/i, "missing supplied-archive credit");
+requireText(html, /chongqing\.js\?v=20260828-cq06/, "page must bust the outer Chongqing loader cache");
 
 const runtime = `${html}\n${core}\n${enhance}`;
 if (/pexels\.com|videos\.pexels|images\.pexels/i.test(runtime)) errors.push("Chongqing runtime must not depend on Pexels");
@@ -49,8 +50,9 @@ requireText(localCss, /max-width:760px/, "missing mobile local-media layout");
 requireText(css, /@media \(max-width:1180px\)/, "missing tablet breakpoint");
 requireText(css, /@media \(max-width:760px\)/, "missing mobile breakpoint");
 requireText(css, /@media \(prefers-reduced-motion:reduce\)/, "missing reduced-motion treatment");
-requireText(loader, /chongqing-enhance\.js\?v=20260828-cq-v5/, "loader must bust Chongqing enhancement cache");
-requireText(loader, /chongqing-core\.js\?v=20260828-cq-v5/, "loader must bust Chongqing core cache");
+requireText(loader, /chongqing-enhance\.js\?v=20260828-cq-v6/, "loader must bust Chongqing enhancement cache");
+requireText(loader, /chongqing-core\.js\?v=20260828-cq-v6/, "loader must bust Chongqing core cache");
+requireText(enhance, /const VERSION = "20260828-cq-v6"/, "enhancement asset cache version must match loader");
 requireText(core, /IntersectionObserver/, "missing IntersectionObserver lifecycle");
 requireText(core, /translate3d/, "missing horizontal bridge scrollytelling");
 requireText(viewer, /CHONGQING/, "Cities viewer must know Chongqing");

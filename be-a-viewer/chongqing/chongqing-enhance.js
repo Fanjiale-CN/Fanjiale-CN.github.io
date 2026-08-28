@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = "20260828-cq-v5";
+  const VERSION = "20260828-cq-v6";
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const addStylesheet = (href, marker) => {
