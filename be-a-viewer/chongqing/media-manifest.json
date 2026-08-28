@@ -1,24 +1,213 @@
 {
   "source": "Be a viewer Chongqing .zip",
+  "packFileCount": 46,
+  "packAssetsUsed": 37,
+  "packUtilization": 0.8043,
   "assets": [
-    { "path": "assets/be-a-viewer/chongqing/urban-canyon.webp", "source": "pexels-liuuu-_61-2383408-23879113.jpg", "sha256": "72be4cfa8b8f69548f5f8fcc4a99b0e960e519381eca18ef0d43467ee8fbe818" },
-    { "path": "assets/be-a-viewer/chongqing/mist-height.webp", "source": "pexels-liuuu-_61-2383408-33709193.jpg", "sha256": "5fb57cd2540966c42a9c7de8f4a7dbefc869e4726fe36e3cdaba42ade6c164fd" },
-    { "path": "assets/be-a-viewer/chongqing/river-tower.webp", "source": "pexels-citrus-m-516412392-32709736.jpg", "sha256": "b1bc60323fa4875daf9b213f46f954a06fc4c7c3e5fd89ecd6ec9b717a1118f3" },
-    { "path": "assets/be-a-viewer/chongqing/monorail-buildings.webp", "source": "pexels-sam-zheng-2147574978-29775115.jpg", "sha256": "ac992ce6e01704ada10ee6e180847df4aea86d73912038052c09053bc53a28ae" },
-    { "path": "assets/be-a-viewer/chongqing/stairs.webp", "source": "ethan_zhan-black-and-white-3798175_1920.jpg", "sha256": "c9e6e60919160af2323b145b098e3cb398c956d619d65889b55fb37a5dd7ce5d" },
-    { "path": "assets/be-a-viewer/chongqing/yangtze-cityscape.webp", "source": "pexels-liuuu-_61-2383408-37968488.jpg", "sha256": "09727cb53cc21e04660910c64f2825b595105c173db8ac7e988a6c4480862ae0" },
-    { "path": "assets/be-a-viewer/chongqing/red-bridge.webp", "source": "pexels-dinoe-xu-1261776177-28883787.jpg", "sha256": "17a8fcde77555007b1f55acc2fb1ff2f1f020b6b39fc10b93a59f26e60ce7dbd" },
-    { "path": "assets/be-a-viewer/chongqing/bridge-skyline.webp", "source": "pexels-rasd-2015151-19225936.jpg", "sha256": "7796d9e132ed7c57fbac64769ae2959d4c9e14f3265468dc2a9beebb643fcb79" },
-    { "path": "assets/be-a-viewer/chongqing/bridge-structure.webp", "source": "pexels-sharrrrrk-12500597.jpg", "sha256": "a6d873d3533214833d78bb277486c80fee81d68ec45502527e184fc1c57c3c2d" },
-    { "path": "assets/be-a-viewer/chongqing/bridge-network.webp", "source": "pexels-zekai-zhu-214984943-11827002.jpg", "sha256": "5ee62b900c15a370c61ccafc3253c5768aef07a36a947a1db6ebc8caf381207d" },
-    { "path": "assets/be-a-viewer/chongqing/night-grid.webp", "source": "pexels-ainc-t-76908403-34947071.jpg", "sha256": "83c1ebb22f36c98cee2208dbfd3403eccda5296f6591848508a5e0b1a4188592" },
-    { "path": "assets/be-a-viewer/chongqing/monorail-city.webp", "source": "pexels-zekai-zhu-214984943-11826996.jpg", "sha256": "636ebd6d71bf3b7706a5281ec9045affd11b05518d9750fb111eba13aad7e722" },
-    { "path": "assets/be-a-viewer/chongqing/street-food.webp", "source": "pexels-mingche-lee-2072368-36034214.jpg", "sha256": "6f19c8e169ecfb1943409fbebe1a4d0d898b97e2233a023120b0b4ebe7587756" },
-    { "path": "assets/be-a-viewer/chongqing/old-roofs.webp", "source": "pexels-martin-shen-lee-368299552-34205541.jpg", "sha256": "88000d32321bdd27776e3621bbd936f51bd125a48f4c49015d598cc2f1bb1c10" },
-    { "path": "assets/be-a-viewer/chongqing/river-dusk.webp", "source": "pexels-anita-fan-342796132-14062542.jpg", "sha256": "196eefe8a712dc6accd1f31938958e3ca129f801bbb8c1e8197aa80b6aa4ac06" },
-    { "path": "assets/be-a-viewer/chongqing/hongyadong-night.webp", "source": "pexels-teddy-5790221.jpg", "sha256": "0f79b7eea553533b48e36de98c2a8fe0efee2aa2656f4d7bda5867d2b2acbe17" },
-    { "path": "assets/video/chongqing/rail.mp4", "source": "16544239_1920_1080_60fps.mp4", "sha256": "847b9ace583504ac6265530c79dc48a9b0166a4315b1831fde3822cd520c435b" },
-    { "path": "assets/video/chongqing/train-red-bridge.mp4", "source": "14537310_1920_1080_60fps.mp4", "sha256": "2544023af7b292946a7cbeb78f68f5262958b8f8cbf2ee10d0ad54b258925053" },
-    { "path": "assets/video/chongqing/bridge-skyline.mp4", "source": "14497440_1920_1080_30fps.mp4", "sha256": "7803b1d86f1aa6ecab0e13265405805d64732bf3b1a246aa6a47b4f6f849387c" }
+    {
+      "path": "assets/be-a-viewer/chongqing/urban-canyon.webp",
+      "source": "pexels-liuuu-_61-2383408-23879113.jpg",
+      "sha256": "72be4cfa8b8f69548f5f8fcc4a99b0e960e519381eca18ef0d43467ee8fbe818"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/mist-height.webp",
+      "source": "pexels-liuuu-_61-2383408-33709193.jpg",
+      "sha256": "5fb57cd2540966c42a9c7de8f4a7dbefc869e4726fe36e3cdaba42ade6c164fd"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/river-tower.webp",
+      "source": "pexels-citrus-m-516412392-32709736.jpg",
+      "sha256": "b1bc60323fa4875daf9b213f46f954a06fc4c7c3e5fd89ecd6ec9b717a1118f3"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/monorail-buildings.webp",
+      "source": "pexels-sam-zheng-2147574978-29775115.jpg",
+      "sha256": "ac992ce6e01704ada10ee6e180847df4aea86d73912038052c09053bc53a28ae"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/stairs.webp",
+      "source": "ethan_zhan-black-and-white-3798175_1920.jpg",
+      "sha256": "c9e6e60919160af2323b145b098e3cb398c956d619d65889b55fb37a5dd7ce5d"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/yangtze-cityscape.webp",
+      "source": "pexels-liuuu-_61-2383408-37968488.jpg",
+      "sha256": "09727cb53cc21e04660910c64f2825b595105c173db8ac7e988a6c4480862ae0"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/red-bridge.webp",
+      "source": "pexels-dinoe-xu-1261776177-28883787.jpg",
+      "sha256": "17a8fcde77555007b1f55acc2fb1ff2f1f020b6b39fc10b93a59f26e60ce7dbd"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/bridge-skyline.webp",
+      "source": "pexels-rasd-2015151-19225936.jpg",
+      "sha256": "7796d9e132ed7c57fbac64769ae2959d4c9e14f3265468dc2a9beebb643fcb79"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/bridge-structure.webp",
+      "source": "pexels-sharrrrrk-12500597.jpg",
+      "sha256": "a6d873d3533214833d78bb277486c80fee81d68ec45502527e184fc1c57c3c2d"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/bridge-network.webp",
+      "source": "pexels-zekai-zhu-214984943-11827002.jpg",
+      "sha256": "5ee62b900c15a370c61ccafc3253c5768aef07a36a947a1db6ebc8caf381207d"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/night-grid.webp",
+      "source": "pexels-ainc-t-76908403-34947071.jpg",
+      "sha256": "83c1ebb22f36c98cee2208dbfd3403eccda5296f6591848508a5e0b1a4188592"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/monorail-city.webp",
+      "source": "pexels-zekai-zhu-214984943-11826996.jpg",
+      "sha256": "636ebd6d71bf3b7706a5281ec9045affd11b05518d9750fb111eba13aad7e722"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/street-food.webp",
+      "source": "pexels-mingche-lee-2072368-36034214.jpg",
+      "sha256": "6f19c8e169ecfb1943409fbebe1a4d0d898b97e2233a023120b0b4ebe7587756"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/old-roofs.webp",
+      "source": "pexels-martin-shen-lee-368299552-34205541.jpg",
+      "sha256": "88000d32321bdd27776e3621bbd936f51bd125a48f4c49015d598cc2f1bb1c10"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/river-dusk.webp",
+      "source": "pexels-anita-fan-342796132-14062542.jpg",
+      "sha256": "196eefe8a712dc6accd1f31938958e3ca129f801bbb8c1e8197aa80b6aa4ac06"
+    },
+    {
+      "path": "assets/be-a-viewer/chongqing/hongyadong-night.webp",
+      "source": "pexels-teddy-5790221.jpg",
+      "sha256": "0f79b7eea553533b48e36de98c2a8fe0efee2aa2656f4d7bda5867d2b2acbe17"
+    },
+    {
+      "path": "assets/video/chongqing/rail.mp4",
+      "source": "16544239_1920_1080_60fps.mp4",
+      "sha256": "847b9ace583504ac6265530c79dc48a9b0166a4315b1831fde3822cd520c435b"
+    },
+    {
+      "path": "assets/video/chongqing/train-red-bridge.mp4",
+      "source": "14537310_1920_1080_60fps.mp4",
+      "sha256": "2544023af7b292946a7cbeb78f68f5262958b8f8cbf2ee10d0ad54b258925053"
+    },
+    {
+      "path": "assets/video/chongqing/bridge-skyline.mp4",
+      "source": "14497440_1920_1080_30fps.mp4",
+      "sha256": "7803b1d86f1aa6ecab0e13265405805d64732bf3b1a246aa6a47b4f6f849387c"
+    },
+    {
+      "source": "Wikimedia Commons / Chongqing Xiaomian with fried eggs.jpg",
+      "url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chongqing_Xiaomian_with_fried_eggs.jpg?width=1600",
+      "remote": true
+    },
+    {
+      "source": "Wikimedia Commons / Red House hot pot Chongqing.jpg",
+      "url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Red_House_hot_pot_Chongqing.jpg?width=1400",
+      "remote": true
+    },
+    {
+      "source": "Wikimedia Commons / 九宫格火锅.jpg",
+      "url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E7%81%AB%E9%94%85.jpg?width=1600",
+      "remote": true
+    },
+    {
+      "source": "pexels-jaqor-34135679.jpg",
+      "url": "https://images.pexels.com/photos/34135679/pexels-photo-34135679.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "remote": true
+    },
+    {
+      "source": "pexels-tizzy-30700752.jpg",
+      "url": "https://images.pexels.com/photos/30700752/pexels-photo-30700752.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "remote": true
+    },
+    {
+      "source": "pexels-dragon-c-326720821-30764159.jpg",
+      "url": "https://images.pexels.com/photos/30764159/pexels-photo-30764159.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-muhamad-guruh-budi-hartono-430167744-30243948.jpg",
+      "url": "https://images.pexels.com/photos/30243948/pexels-photo-30243948.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-zhengyang-tian-2152549665-35981799.jpg",
+      "url": "https://images.pexels.com/photos/35981799/pexels-photo-35981799.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-sharrrrrk-12500652.jpg",
+      "url": "https://images.pexels.com/photos/12500652/pexels-photo-12500652.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "remote": true
+    },
+    {
+      "source": "pexels-whisky-13564765.jpg",
+      "url": "https://images.pexels.com/photos/13564765/pexels-photo-13564765.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "remote": true
+    },
+    {
+      "source": "pexels-zekai-zhu-214984943-11827006.jpg",
+      "url": "https://images.pexels.com/photos/11827006/pexels-photo-11827006.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-guillaume-kremer-2161367145-38901127.jpg",
+      "url": "https://images.pexels.com/photos/38901127/pexels-photo-38901127.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "remote": true
+    },
+    {
+      "source": "pexels-lin-2156561570-35439687.jpg",
+      "url": "https://images.pexels.com/photos/35439687/pexels-photo-35439687.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-liuuu-_61-2383408-35430510.jpg",
+      "url": "https://images.pexels.com/photos/35430510/pexels-photo-35430510.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-tinny-hu-109766654-11506718.jpg",
+      "url": "https://images.pexels.com/photos/11506718/pexels-photo-11506718.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-tinny-hu-109766654-13045521.jpg",
+      "url": "https://images.pexels.com/photos/13045521/pexels-photo-13045521.jpeg?auto=compress&cs=tinysrgb&w=1400",
+      "remote": true
+    },
+    {
+      "source": "pexels-tinny-hu-109766654-13045522.jpg",
+      "url": "https://images.pexels.com/photos/13045522/pexels-photo-13045522.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-zekai-zhu-214984943-11827012.jpg",
+      "url": "https://images.pexels.com/photos/11827012/pexels-photo-11827012.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-zekai-zhu-214984943-11827014.jpg",
+      "url": "https://images.pexels.com/photos/11827014/pexels-photo-11827014.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "pexels-zekai-zhu-214984943-11826841.jpg",
+      "url": "https://images.pexels.com/photos/11826841/pexels-photo-11826841.jpeg?auto=compress&cs=tinysrgb&w=1800",
+      "remote": true
+    },
+    {
+      "source": "14537301_1920_1080_60fps 2.mp4",
+      "url": "https://videos.pexels.com/video-files/14537301/14537301-hd_1920_1080_60fps.mp4",
+      "remote": true
+    },
+    {
+      "source": "14537318_1920_1080_60fps.mp4",
+      "url": "https://videos.pexels.com/video-files/14537318/14537318-hd_1920_1080_60fps.mp4",
+      "remote": true
+    }
   ]
 }
