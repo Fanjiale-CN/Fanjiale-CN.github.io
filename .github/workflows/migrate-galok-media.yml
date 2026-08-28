@@ -32,17 +32,24 @@ jobs:
     needs: validate-confirmation
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      TZ: Asia/Shanghai
+      GALOK_RELEASE_TIMEZONE: Asia/Shanghai
     steps:
       - name: Check out main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
+          cache: npm
+
+      - name: Install repository tools
+        run: npm ci --ignore-scripts
 
       - name: Show migration plan
         run: node scripts/migrate-media-edge.mjs
@@ -66,15 +73,23 @@ jobs:
       - name: Verify published objects
         run: node scripts/migrate-media-edge.mjs --verify
 
+      - name: Refresh generated discovery assets
+        run: npm run build:discovery
+
+      - name: Run release preflight on rewritten site
+        run: node scripts/release-check.mjs
+
       - name: Commit verified reference changes
         run: |
-          if git diff --quiet && test ! -f reports/media-edge-migration-result.json; then
-            echo "No reference changes to commit."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -u
-          git add reports/media-edge-migration-result.json
+          git add sitemap.xml feed.xml index/search-catalog.json pagefind reports/media-edge-migration-result.json
+          if git diff --cached --quiet; then
+            echo "No reference changes to commit."
+            exit 0
+          fi
           git commit -m "Migrate production media to R2"
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
