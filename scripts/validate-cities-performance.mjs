@@ -9,7 +9,7 @@ const check = (condition, message) => {
 
 const hub = read("cities/index.html");
 const hubVideos = [...hub.matchAll(/<video\b[^>]*data-viewer-video[^>]*>/g)].map((match) => match[0]);
-check(hubVideos.length === 6, `expected 6 hub videos, found ${hubVideos.length}`);
+check(hubVideos.length === 7, `expected 7 hub videos, found ${hubVideos.length}`);
 hubVideos.forEach((tag, index) => {
   check(/\bpreload="none"/.test(tag), `hub video ${index + 1} is not poster-first`);
   check(/\bdata-src="/.test(tag), `hub video ${index + 1} has no lazy desktop source`);
