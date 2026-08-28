@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 
@@ -8,8 +8,6 @@ const html = read("be-a-viewer/chongqing/index.html");
 const css = read("be-a-viewer/chongqing/chongqing.css");
 const loader = read("be-a-viewer/chongqing/chongqing.js");
 const core = read("be-a-viewer/chongqing/chongqing-core.js");
-const enhance = read("be-a-viewer/chongqing/chongqing-enhance.js");
-const localCss = read("be-a-viewer/chongqing/chongqing-local.css");
 const viewer = read("be-a-viewer/viewer.js");
 const design = read("be-a-viewer/chongqing/DESIGN.md");
 const errors = [];
@@ -20,39 +18,46 @@ for (const id of ["terrain","levels","stairs","transit","bridges","old-chongqing
 requireText(html, /Li Ziba station sits on floors 6–7/, "missing verified Li Ziba fact");
 requireText(html, /24 October 1987/, "missing verified cableway date");
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
-requireText(html, /user-supplied Chongqing archive/i, "missing supplied-archive credit");
-requireText(html, /chongqing\.js\?v=20260828-cq06/, "page must bust the outer Chongqing loader cache");
+requireText(html, /Contemporary photography \/ Pexels contributors/, "missing contemporary photography credit");
+requireText(html, /chongqing\.js\?v=20260828-cq07/, "page must bust the repaired Chongqing loader cache");
 
-const runtime = `${html}\n${core}\n${enhance}`;
-if (/pexels\.com|videos\.pexels|images\.pexels/i.test(runtime)) errors.push("Chongqing runtime must not depend on Pexels");
-if (/Chongqing%20Changjiang%20Cableway\.jpg/.test(core)) errors.push("core must not override the cableway image");
+if (/src="https:\/\/(?:images|videos)\.pexels\.com/i.test(html)) errors.push("contemporary Chongqing media must be self-hosted");
+if (/data:image\/gif|cq-local-slice|\.webp\.b64/i.test(html)) errors.push("page must not use low-resolution atlas placeholders");
+if (/chongqing-enhance/.test(loader)) errors.push("loader must not inject the retired low-resolution enhancement layer");
 
-for (const path of [
+const videoPaths = [
   "assets/video/chongqing/rail.mp4",
   "assets/video/chongqing/train-red-bridge.mp4",
-  "assets/video/chongqing/bridge-skyline.mp4",
-  "assets/be-a-viewer/chongqing/field-atlas-v2.webp.b64",
-  "assets/be-a-viewer/chongqing/cable-car-v2.webp.b64",
-  "be-a-viewer/chongqing/chongqing-local.css"
-]) if (!existsSync(join(root, path))) errors.push(`missing supplied Chongqing asset: ${path}`);
+  "assets/video/chongqing/bridge-skyline.mp4"
+];
+const imagePaths = [
+  "urban-canyon.webp", "mist-height.webp", "river-tower.webp", "monorail-buildings.webp",
+  "stairs.webp", "cableway.webp", "red-bridge.webp", "bridge-skyline.webp",
+  "bridge-structure.webp", "bridge-network.webp", "night-grid.webp", "monorail-city.webp",
+  "street-food.webp", "old-roofs.webp", "river-dusk.webp", "hongyadong-night.webp"
+].map((name) => `assets/be-a-viewer/chongqing/${name}`);
+for (const path of [...videoPaths, ...imagePaths]) {
+  const absolute = join(root, path);
+  if (!existsSync(absolute)) errors.push(`missing repaired Chongqing asset: ${path}`);
+}
+for (const path of videoPaths) {
+  const absolute = join(root, path);
+  if (existsSync(absolute) && statSync(absolute).size < 500_000) errors.push(`Chongqing video is truncated or undersized: ${path}`);
+}
+for (const path of imagePaths) {
+  const absolute = join(root, path);
+  if (existsSync(absolute) && statSync(absolute).size < 80_000) errors.push(`Chongqing image is undersized: ${path}`);
+}
 
 requireText(html, /\/assets\/video\/chongqing\/rail\.mp4/, "hero must use local rail video");
 requireText(html, /\/assets\/video\/chongqing\/train-red-bridge\.mp4/, "transit must use local bridge train video");
-requireText(html, /\/assets\/video\/chongqing\/bridge-skyline\.mp4/, "bridge chapter must use local skyline video");
-requireText(enhance, /field-atlas-v2\.webp\.b64/, "enhancement must load supplied photo atlas");
-requireText(enhance, /cable-car-v2\.webp\.b64/, "enhancement must load supplied cableway photo");
-requireText(enhance, /Sixteen more frames/, "expanded supplied archive must expose 16 frames");
-requireText(enhance, /cq-motion-lab/, "missing motion studies");
-requireText(enhance, /cq-expanded/, "missing expanded archive");
-requireText(enhance, /transit\.controls = true/, "transit video must expose Safari controls");
-requireText(localCss, /\.cq-atlas-grid/, "missing supplied archive grid layout");
-requireText(localCss, /max-width:760px/, "missing mobile local-media layout");
+requireText(html, /poster="\/assets\/be-a-viewer\/chongqing\/monorail-buildings\.webp"/, "hero must expose a sharp poster fallback");
+requireText(html, /poster="\/assets\/be-a-viewer\/chongqing\/monorail-city\.webp"/, "transit must expose a sharp poster fallback");
 requireText(css, /@media \(max-width:1180px\)/, "missing tablet breakpoint");
 requireText(css, /@media \(max-width:760px\)/, "missing mobile breakpoint");
 requireText(css, /@media \(prefers-reduced-motion:reduce\)/, "missing reduced-motion treatment");
-requireText(loader, /chongqing-enhance\.js\?v=20260828-cq-v6/, "loader must bust Chongqing enhancement cache");
-requireText(loader, /chongqing-core\.js\?v=20260828-cq-v6/, "loader must bust Chongqing core cache");
-requireText(enhance, /const VERSION = "20260828-cq-v6"/, "enhancement asset cache version must match loader");
+requireText(css, /min-width:761px[^}]*max-width:1180px[\s\S]*?\.cq-bridges\{height:auto\}/, "tablet bridge chapter must use the stable grid layout");
+requireText(loader, /chongqing-core\.js\?v=20260828-cq-v7/, "loader must bust Chongqing core cache");
 requireText(core, /IntersectionObserver/, "missing IntersectionObserver lifecycle");
 requireText(core, /translate3d/, "missing horizontal bridge scrollytelling");
 requireText(viewer, /CHONGQING/, "Cities viewer must know Chongqing");
@@ -63,4 +68,4 @@ if (errors.length) {
   console.error(errors.map((item) => `ERROR ${item}`).join("\n"));
   process.exit(1);
 }
-console.log("Chongqing city validation passed: supplied contemporary archive, local Safari-compatible motion, Commons history, responsive layouts and no Pexels runtime dependency.");
+console.log("Chongqing city validation passed: sharp self-hosted photography, decodable local motion, Commons history and stable responsive layouts.");
