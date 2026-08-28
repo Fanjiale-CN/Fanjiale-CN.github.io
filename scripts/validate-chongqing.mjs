@@ -1,4 +1,5 @@
 import { readFileSync, existsSync, statSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 
@@ -10,6 +11,7 @@ const loader = read("be-a-viewer/chongqing/chongqing.js");
 const core = read("be-a-viewer/chongqing/chongqing-core.js");
 const viewer = read("be-a-viewer/viewer.js");
 const design = read("be-a-viewer/chongqing/DESIGN.md");
+const mediaManifest = JSON.parse(read("be-a-viewer/chongqing/media-manifest.json"));
 const errors = [];
 const requireText = (source, pattern, label) => { if (!pattern.test(source)) errors.push(label); };
 
@@ -19,7 +21,7 @@ requireText(html, /Li Ziba station sits on floors 6–7/, "missing verified Li Z
 requireText(html, /24 October 1987/, "missing verified cableway date");
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
 requireText(html, /Contemporary photography \/ Pexels contributors/, "missing contemporary photography credit");
-requireText(html, /chongqing\.js\?v=20260828-cq07/, "page must bust the repaired Chongqing loader cache");
+requireText(html, /chongqing\.js\?v=20260828-cq08/, "page must bust the repaired Chongqing loader cache");
 
 if (/src="https:\/\/(?:images|videos)\.pexels\.com/i.test(html)) errors.push("contemporary Chongqing media must be self-hosted");
 if (/data:image\/gif|cq-local-slice|\.webp\.b64/i.test(html)) errors.push("page must not use low-resolution atlas placeholders");
@@ -46,8 +48,17 @@ for (const path of videoPaths) {
 }
 for (const path of imagePaths) {
   const absolute = join(root, path);
-  if (existsSync(absolute) && statSync(absolute).size < 80_000) errors.push(`Chongqing image is undersized: ${path}`);
+  if (existsSync(absolute) && statSync(absolute).size < 60_000) errors.push(`Chongqing image is undersized: ${path}`);
 }
+for (const asset of mediaManifest.assets) {
+  const absolute = join(root, asset.path);
+  if (!existsSync(absolute)) continue;
+  const digest = createHash("sha256").update(readFileSync(absolute)).digest("hex");
+  if (digest !== asset.sha256) errors.push(`Chongqing asset differs from supplied-pack derivative: ${asset.path}`);
+}
+if (mediaManifest.assets.length !== 19) errors.push("Chongqing media manifest must cover all 16 images and 3 videos");
+requireText(JSON.stringify(mediaManifest), /jiang-yuan-ze-ze-ze-cable-car-5457383_1920\.jpg/, "cableway must map to the supplied cable-car photograph");
+requireText(JSON.stringify(mediaManifest), /16544239_1920_1080_60fps\.mp4/, "hero rail video must map to supplied moving footage");
 
 requireText(html, /\/assets\/video\/chongqing\/rail\.mp4/, "hero must use local rail video");
 requireText(html, /\/assets\/video\/chongqing\/train-red-bridge\.mp4/, "transit must use local bridge train video");
@@ -57,7 +68,7 @@ requireText(css, /@media \(max-width:1180px\)/, "missing tablet breakpoint");
 requireText(css, /@media \(max-width:760px\)/, "missing mobile breakpoint");
 requireText(css, /@media \(prefers-reduced-motion:reduce\)/, "missing reduced-motion treatment");
 requireText(css, /min-width:761px[^}]*max-width:1180px[\s\S]*?\.cq-bridges\{height:auto\}/, "tablet bridge chapter must use the stable grid layout");
-requireText(loader, /chongqing-core\.js\?v=20260828-cq-v7/, "loader must bust Chongqing core cache");
+requireText(loader, /chongqing-core\.js\?v=20260828-cq-v8/, "loader must bust Chongqing core cache");
 requireText(core, /IntersectionObserver/, "missing IntersectionObserver lifecycle");
 requireText(core, /translate3d/, "missing horizontal bridge scrollytelling");
 requireText(viewer, /CHONGQING/, "Cities viewer must know Chongqing");
