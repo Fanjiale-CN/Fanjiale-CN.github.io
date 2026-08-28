@@ -1,6 +1,7 @@
 (() => {
   const loadStyle = (href) => {
-    if ([...document.styleSheets].some((sheet) => sheet.href?.includes("chongqing-tablet-fix.css"))) return;
+    const pathname = href.split("?")[0];
+    if ([...document.styleSheets].some((sheet) => sheet.href?.includes(pathname))) return;
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = href;
@@ -15,5 +16,7 @@
   };
 
   loadStyle("/be-a-viewer/chongqing/chongqing-tablet-fix.css?v=20260829-cq01");
+  loadStyle("/be-a-viewer/chongqing/chongqing-atlas-editorial.css?v=20260829-cq02");
   load("/be-a-viewer/chongqing/chongqing-core.js?v=20260828-cq-v9");
+  load("/be-a-viewer/chongqing/chongqing-atlas-editorial.js?v=20260829-cq02");
 })();
