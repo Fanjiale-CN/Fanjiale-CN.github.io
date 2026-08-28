@@ -8,6 +8,7 @@ const root = process.cwd();
 const origin = "https://www.galok.me";
 const pagefindSource = join(tmpdir(), "galok-pagefind-source");
 const excludedDirectories = new Set([".git", "node_modules", "pagefind", "_research-source", "archive", "qa", "video", "artifacts"]);
+const releaseTimezone = process.env.GALOK_RELEASE_TIMEZONE || "Asia/Shanghai";
 
 function escapeXml(value) {
   return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;");
@@ -53,7 +54,32 @@ function walk(directory, result = []) {
   return result;
 }
 
+function releaseDate() {
+  const override = (process.env.GALOK_RELEASE_DATE || "").trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(override)) return override;
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: releaseTimezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(new Date());
+  const part = (type) => parts.find((item) => item.type === type)?.value;
+  return `${part("year")}-${part("month")}-${part("day")}`;
+}
+
+function hasWorkingTreeChange(relativePath) {
+  try {
+    return Boolean(execFileSync("git", ["status", "--porcelain=v1", "--", relativePath], {
+      cwd: root,
+      encoding: "utf8"
+    }).trim());
+  } catch {
+    return false;
+  }
+}
+
 function lastModified(relativePath) {
+  if (hasWorkingTreeChange(relativePath)) return releaseDate();
   try {
     const date = execFileSync("git", ["log", "-1", "--format=%cs", "--", relativePath], { cwd: root, encoding: "utf8" }).trim();
     if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return date;
