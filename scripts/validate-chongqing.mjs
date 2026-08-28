@@ -21,7 +21,7 @@ requireText(html, /Li Ziba station sits on floors 6–7/, "missing verified Li Z
 requireText(html, /24 October 1987/, "missing verified cableway date");
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
 requireText(html, /Contemporary photography \/ Pexels contributors/, "missing contemporary photography credit");
-requireText(html, /chongqing\.js\?v=20260828-cq08/, "page must bust the repaired Chongqing loader cache");
+requireText(html, /chongqing\.js\?v=20260828-cq09/, "page must bust the repaired Chongqing loader cache");
 
 if (/src="https:\/\/(?:images|videos)\.pexels\.com/i.test(html)) errors.push("contemporary Chongqing media must be self-hosted");
 if (/data:image\/gif|cq-local-slice|\.webp\.b64/i.test(html)) errors.push("page must not use low-resolution atlas placeholders");
@@ -34,7 +34,7 @@ const videoPaths = [
 ];
 const imagePaths = [
   "urban-canyon.webp", "mist-height.webp", "river-tower.webp", "monorail-buildings.webp",
-  "stairs.webp", "cableway.webp", "red-bridge.webp", "bridge-skyline.webp",
+  "stairs.webp", "yangtze-cityscape.webp", "red-bridge.webp", "bridge-skyline.webp",
   "bridge-structure.webp", "bridge-network.webp", "night-grid.webp", "monorail-city.webp",
   "street-food.webp", "old-roofs.webp", "river-dusk.webp", "hongyadong-night.webp"
 ].map((name) => `assets/be-a-viewer/chongqing/${name}`);
@@ -57,7 +57,8 @@ for (const asset of mediaManifest.assets) {
   if (digest !== asset.sha256) errors.push(`Chongqing asset differs from supplied-pack derivative: ${asset.path}`);
 }
 if (mediaManifest.assets.length !== 19) errors.push("Chongqing media manifest must cover all 16 images and 3 videos");
-requireText(JSON.stringify(mediaManifest), /jiang-yuan-ze-ze-ze-cable-car-5457383_1920\.jpg/, "cableway must map to the supplied cable-car photograph");
+requireText(JSON.stringify(mediaManifest), /pexels-liuuu-_61-2383408-37968488\.jpg/, "Yangtze cityscape must map to the supplied replacement photograph");
+if (/cableway\.webp/.test(html) || existsSync(join(root, "assets/be-a-viewer/chongqing/cableway.webp"))) errors.push("retired cableway image must be removed");
 requireText(JSON.stringify(mediaManifest), /16544239_1920_1080_60fps\.mp4/, "hero rail video must map to supplied moving footage");
 
 requireText(html, /\/assets\/video\/chongqing\/rail\.mp4/, "hero must use local rail video");
@@ -68,7 +69,7 @@ requireText(css, /@media \(max-width:1180px\)/, "missing tablet breakpoint");
 requireText(css, /@media \(max-width:760px\)/, "missing mobile breakpoint");
 requireText(css, /@media \(prefers-reduced-motion:reduce\)/, "missing reduced-motion treatment");
 requireText(css, /min-width:761px[^}]*max-width:1180px[\s\S]*?\.cq-bridges\{height:auto\}/, "tablet bridge chapter must use the stable grid layout");
-requireText(loader, /chongqing-core\.js\?v=20260828-cq-v8/, "loader must bust Chongqing core cache");
+requireText(loader, /chongqing-core\.js\?v=20260828-cq-v9/, "loader must bust Chongqing core cache");
 requireText(core, /IntersectionObserver/, "missing IntersectionObserver lifecycle");
 requireText(core, /translate3d/, "missing horizontal bridge scrollytelling");
 requireText(viewer, /CHONGQING/, "Cities viewer must know Chongqing");
