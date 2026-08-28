@@ -6,6 +6,57 @@ const announceCity = (value) => {
 };
 
 (() => {
+  const mountChongqingEntry = () => {
+    if (!GALOK_CITIES.chongqing) return;
+    const heroStage = document.querySelector("[data-viewer-hero-stage]");
+    const dotGroup = document.querySelector(".viewer-hero-dots");
+    if (heroStage && !heroStage.querySelector('[data-city="CHONGQING"]')) {
+      const slide = document.createElement("figure");
+      slide.className = "viewer-hero-slide";
+      slide.dataset.viewerSlide = "";
+      slide.dataset.city = "CHONGQING";
+      slide.dataset.kicker = "Ground level undefined";
+      slide.dataset.copy = "Two rivers set the baseline. Streets, rail and buildings keep climbing above it.";
+      slide.dataset.place = "YUZHONG PENINSULA";
+      slide.dataset.coordinate = "29.5630° N";
+      slide.dataset.number = "07";
+      slide.dataset.region = "SOUTHWEST";
+      slide.dataset.subject = "VERTICAL";
+      slide.innerHTML = `<video data-viewer-video muted playsinline preload="none" poster="https://images.pexels.com/photos/29775115/pexels-photo-29775115.jpeg?auto=compress&cs=tinysrgb&w=1600" data-src="https://www.pexels.com/download/video/34315145/" data-mobile-src="https://www.pexels.com/download/video/34315145/"></video>`;
+      heroStage.appendChild(slide);
+    }
+    if (dotGroup && !dotGroup.querySelector('[aria-label="Show Chongqing"]')) {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.dataset.viewerDot = "6";
+      dot.setAttribute("aria-label", "Show Chongqing");
+      dot.setAttribute("aria-pressed", "false");
+      dot.textContent = "07";
+      dotGroup.appendChild(dot);
+    }
+
+    const selector = document.querySelector("[data-city-selector]");
+    const list = selector?.querySelector(".city-selector-list");
+    const visual = selector?.querySelector(".city-selector-visual");
+    if (list && !list.querySelector('[data-city-choice="chongqing"]')) {
+      const link = document.createElement("a");
+      link.href = "/be-a-viewer/chongqing/";
+      link.dataset.cityChoice = "chongqing";
+      link.dataset.status = "available";
+      link.innerHTML = `<span>07</span><strong>CHONGQING</strong><small>AVAILABLE</small>`;
+      list.appendChild(link);
+    }
+    if (visual && !visual.querySelector('[data-city-visual="chongqing"]')) {
+      const figure = document.createElement("figure");
+      figure.dataset.cityVisual = "chongqing";
+      figure.innerHTML = `<img src="https://images.pexels.com/photos/29775115/pexels-photo-29775115.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" width="1600" height="1067" loading="lazy">`;
+      const caption = visual.querySelector(".city-selector-caption");
+      visual.insertBefore(figure, caption || null);
+    }
+  };
+
+  mountChongqingEntry();
+
   const reducedMotionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
   const mobileMedia = window.matchMedia("(max-width: 760px)");
   let reducedMotion = reducedMotionMedia.matches;
