@@ -96,7 +96,7 @@ body.nav-open .beijing-site-nav {
 }
 
 .beijing-hero-media {
-  z-index: -3;
+  z-index: 0;
   background: var(--bj-ink) url("https://media.galok.me/cities/beijing/beijing-hero-poster--b135511e06f4.jpg") center / cover no-repeat;
 }
 
@@ -109,7 +109,7 @@ body.nav-open .beijing-site-nav {
 }
 
 .beijing-hero-shade {
-  z-index: -2;
+  z-index: 1;
   background:
     linear-gradient(180deg, rgba(12, 15, 14, .52) 0%, rgba(12, 15, 14, .08) 31%, rgba(12, 15, 14, .12) 53%, rgba(12, 15, 14, .82) 100%),
     linear-gradient(90deg, rgba(12, 15, 14, .48), rgba(12, 15, 14, 0) 58%);
@@ -118,6 +118,7 @@ body.nav-open .beijing-site-nav {
 
 .beijing-hero-meta {
   position: absolute;
+  z-index: 2;
   top: clamp(102px, 14vh, 152px);
   left: var(--bj-gutter);
   right: var(--bj-gutter);
@@ -134,6 +135,7 @@ body.nav-open .beijing-site-nav {
 
 .beijing-hero-beats {
   position: absolute;
+  z-index: 2;
   left: var(--bj-gutter);
   right: var(--bj-gutter);
   bottom: clamp(116px, 16vh, 172px);
@@ -178,6 +180,7 @@ body.nav-open .beijing-site-nav {
 
 .beijing-hero-footer {
   position: absolute;
+  z-index: 2;
   left: var(--bj-gutter);
   right: var(--bj-gutter);
   bottom: max(24px, env(safe-area-inset-bottom));
@@ -443,7 +446,7 @@ body.nav-open .beijing-site-nav {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 1;
   background:
     linear-gradient(90deg, rgba(8, 11, 10, .82) 0%, rgba(8, 11, 10, .22) 55%, rgba(8, 11, 10, .08) 100%),
     linear-gradient(180deg, rgba(8, 11, 10, .04) 46%, rgba(8, 11, 10, .72) 100%);
@@ -452,7 +455,7 @@ body.nav-open .beijing-site-nav {
 .beijing-axis-panel > img {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -479,6 +482,7 @@ body.nav-open .beijing-site-nav {
 
 .beijing-axis-panel > div {
   position: absolute;
+  z-index: 2;
   left: var(--bj-gutter);
   bottom: clamp(46px, 6vw, 86px);
   width: min(620px, calc(100% - var(--bj-gutter) * 2));
@@ -954,19 +958,21 @@ body.nav-open .beijing-site-nav {
 }
 
 .beijing-edge > img {
-  z-index: -3;
+  z-index: 0;
   object-fit: cover;
   object-position: center;
 }
 
 .beijing-edge-shade {
-  z-index: -2;
+  z-index: 1;
   background:
     linear-gradient(180deg, rgba(8, 11, 10, .55), rgba(8, 11, 10, .08) 48%, rgba(8, 11, 10, .74)),
     linear-gradient(90deg, rgba(8, 11, 10, .58), rgba(8, 11, 10, 0) 66%);
 }
 
 .beijing-edge header {
+  position: relative;
+  z-index: 2;
   max-width: 1000px;
 }
 
@@ -979,6 +985,8 @@ body.nav-open .beijing-site-nav {
 }
 
 .beijing-edge-links {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;

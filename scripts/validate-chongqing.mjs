@@ -29,34 +29,32 @@ requireText(html, /t20190628_8614214\.html/, "missing Chongqing intangible-herit
 requireText(html, /t20221013_11182901\.html/, "missing Chongqing xiaomian source");
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
 requireText(html, /Contemporary photography \/ Pexels contributors/, "missing contemporary photography credit");
-requireText(html, /chongqing\.css\?v=20260828-cq10/, "page must bust the expanded Chongqing stylesheet cache");
+requireText(html, /chongqing\.css\?v=20260828-cq11/, "page must bust the expanded Chongqing stylesheet cache");
 requireText(html, /chongqing\.js\?v=20260828-cq09/, "page must keep the repaired Chongqing loader cache key");
 
-requireText(html, /16544239-hd_1920_1080_60fps\.mp4/, "hero must use the supplied full-HD landscape source");
-requireText(html, /<source src="\/assets\/video\/chongqing\/rail\.mp4" type="video\/mp4">/, "hero must retain a local fallback video");
-requireText(html, /src="\/assets\/video\/chongqing\/train-red-bridge\.mp4"/, "transit must use local bridge-train video");
-requireText(html, /src="\/assets\/video\/chongqing\/bridge-skyline\.mp4"/, "bridge motion must use local skyline video");
-requireText(html, /poster="\/assets\/be-a-viewer\/chongqing\/monorail-buildings\.webp"/, "hero must expose a sharp local poster fallback");
+requireText(html, /<source src="\/assets\/video\/chongqing\/hero-night-hd\.mp4" type="video\/mp4">/, "hero must use the supplied high-definition landscape video");
+requireText(html, /<source media="\(max-width: 760px\)" src="\/assets\/video\/chongqing\/hero-vertical-hd\.mp4"/, "hero must provide a supplied mobile video");
+requireText(html, /src="\/assets\/video\/chongqing\/train-red-bridge-hd\.mp4"/, "transit must use local bridge-train video");
+requireText(html, /src="\/assets\/video\/chongqing\/bridge-skyline-motion-hd\.mp4"/, "bridge motion must use local skyline video");
+requireText(html, /poster="\/assets\/be-a-viewer\/chongqing\/hongyadong-night\.webp"/, "hero must expose a sharp local poster fallback");
 requireText(html, /poster="\/assets\/be-a-viewer\/chongqing\/monorail-city\.webp"/, "transit must expose a sharp local poster fallback");
 
-for (const foodUrl of [
-  "Special:Redirect/file/%E4%B9%9D%E5%AE%AB%E6%A0%BC%E7%81%AB%E9%94%85.jpg",
-  "Special:Redirect/file/Red_House_hot_pot_Chongqing.jpg",
-  "Special:Redirect/file/Chongqing_Xiaomian_with_fried_eggs.jpg"
-]) requireText(html, new RegExp(foodUrl), `missing food image in narrative: ${foodUrl}`);
+for (const foodAsset of ["maodu-hotpot.webp", "xiaomian.webp", "street-food.webp"]) {
+  requireText(html, new RegExp(foodAsset), `missing supplied food image in narrative: ${foodAsset}`);
+}
 
 if (/data:image\/gif|cq-local-slice|\.webp\.b64/i.test(html)) errors.push("page must not use low-resolution atlas placeholders");
 if (/chongqing-enhance/.test(loader)) errors.push("loader must not inject the retired low-resolution enhancement layer");
-if (/pexels-mg-shawn-659091984-28452850\.jpg|CHENGDUDONG/i.test(JSON.stringify(mediaManifest) + html)) errors.push("Chengdu East Station image must not appear on the Chongqing page");
-if (/jiang-yuan-ze-ze-ze-cable-car-5457383_1920\.jpg|cableway\.webp/.test(JSON.stringify(mediaManifest) + html)) errors.push("rejected cableway portrait must stay removed");
+const activeMediaSources = JSON.stringify(mediaManifest.assets);
+if (/pexels-mg-shawn-659091984-28452850\.jpg|CHENGDUDONG/i.test(activeMediaSources + html)) errors.push("Chengdu East Station image must not appear on the Chongqing page");
+if (/jiang-yuan-ze-ze-ze-cable-car-5457383_1920\.jpg|cableway\.webp/.test(activeMediaSources + html)) errors.push("rejected cableway portrait must stay removed");
 
 if (mediaManifest.packFileCount !== 46) errors.push("Chongqing source-pack inventory must record 46 real media files");
-if (mediaManifest.packAssetsUsed < 37) errors.push("Chongqing page must use at least 37 of the 46 supplied media files");
-if (mediaManifest.packUtilization < 0.80) errors.push("Chongqing source-pack utilization must remain above 80%");
-if (mediaManifest.assets.length !== 41) errors.push("Chongqing media manifest must cover 41 used assets including the user replacement");
+if (mediaManifest.packAssetsUsed < 42) errors.push("Chongqing page must use at least 42 of the 46 supplied media files");
+if (mediaManifest.packUtilization < 0.90) errors.push("Chongqing source-pack utilization must remain above 90%");
+if (mediaManifest.assets.length !== 43) errors.push("Chongqing media manifest must cover 42 supplied assets and the user replacement");
 
 const localAssets = mediaManifest.assets.filter((asset) => !asset.remote);
-const remoteAssets = mediaManifest.assets.filter((asset) => asset.remote);
 for (const asset of localAssets) {
   const absolute = join(root, asset.path);
   if (!existsSync(absolute)) { errors.push(`missing Chongqing local asset: ${asset.path}`); continue; }
@@ -66,18 +64,12 @@ for (const asset of localAssets) {
   if (digest !== asset.sha256) errors.push(`Chongqing local asset differs from manifest: ${asset.path}`);
   if (!html.includes(`/${asset.path}`)) errors.push(`manifested Chongqing local asset is unused in page: ${asset.path}`);
 }
-for (const asset of remoteAssets) {
-  if (!/^https:\/\/(?:images|videos)\.pexels\.com\//.test(asset.url || "") && !/^https:\/\/commons\.wikimedia\.org\/wiki\/Special:Redirect\/file\//.test(asset.url || "")) errors.push(`unsupported remote Chongqing asset URL: ${asset.source}`);
-  if (!html.includes(asset.url)) errors.push(`manifested supplied-pack remote asset is unused in page: ${asset.source}`);
+for (const source of ["14537318_1920_1080_60fps.mp4", "212366.mp4"]) {
+  requireText(JSON.stringify(mediaManifest), new RegExp(source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `missing source-pack mapping: ${source}`);
 }
 
-for (const source of [
-  "14537301_1920_1080_60fps 2.mp4",
-  "14537318_1920_1080_60fps.mp4"
-]) requireText(JSON.stringify(mediaManifest), new RegExp(source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `missing source-pack mapping: ${source}`);
-
-requireText(html, /14537301-hd_1920_1080_60fps\.mp4/, "missing supplied red-truss bridge motion");
-requireText(html, /14537318-hd_1920_1080_60fps\.mp4/, "missing supplied bridge skyline motion");
+requireText(html, /red-bridge-motion-hd\.mp4/, "missing supplied red-bridge motion");
+requireText(html, /bridge-skyline-motion-hd\.mp4/, "missing supplied bridge skyline motion");
 requireText(css, /@media \(max-width:1180px\)/, "missing tablet breakpoint");
 requireText(css, /@media \(max-width:760px\)/, "missing mobile breakpoint");
 requireText(css, /@media \(prefers-reduced-motion:reduce\)/, "missing reduced-motion treatment");
