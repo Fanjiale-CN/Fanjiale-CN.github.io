@@ -1,0 +1,53 @@
+name: Chongqing Clean Preflight
+
+on:
+  push:
+    branches:
+      - work/chongqing-clean-release
+
+permissions:
+  contents: write
+
+concurrency:
+  group: chongqing-clean-preflight
+  cancel-in-progress: true
+
+jobs:
+  release:
+    if: ${{ !contains(github.event.head_commit.message, '[cq-clean-built]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: work/chongqing-clean-release
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Restore prepared Chongqing files
+        run: |
+          set -euo pipefail
+          cat .cq-stage/c00 .cq-stage/c01 .cq-stage/c02 .cq-stage/c03 .cq-stage/c04 .cq-stage/c05 .cq-stage/c06 .cq-stage/c07 .cq-stage/c08 > /tmp/chongqing-v2.b64
+          base64 -d /tmp/chongqing-v2.b64 > /tmp/chongqing-v2.tar.gz
+          gzip -t /tmp/chongqing-v2.tar.gz
+          tar -xzf /tmp/chongqing-v2.tar.gz -C .
+          rm -rf .cq-stage
+
+      - name: Install release tools
+        run: npm ci --ignore-scripts
+
+      - name: Run release
+        run: npm run release
+
+      - name: Commit release output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "Expand Chongqing supplied-media story [cq-clean-built]"
+          git push origin HEAD:work/chongqing-clean-release
