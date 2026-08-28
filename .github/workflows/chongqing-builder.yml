@@ -31,8 +31,7 @@ jobs:
       - name: Apply prepared Chongqing text payload
         run: |
           set -euo pipefail
-          base64 -d .cq-build/text-payload.b64 > /tmp/chongqing-text.tar.gz
-          tar -xzf /tmp/chongqing-text.tar.gz -C .
+          tar -xzf .cq-build/text-payload.tar.gz -C .
 
       - name: Install release tools
         run: npm ci --ignore-scripts
