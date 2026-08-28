@@ -68,27 +68,50 @@ function removeAnalytics(html) {
   return next.replace(/^[\t ]+$/gm, "");
 }
 
+function validPublicMarkup(html) {
+  const starts = (html.match(/<!-- GALOK_OBSERVABILITY_START -->/g) || []).length;
+  const ends = (html.match(/<!-- GALOK_OBSERVABILITY_END -->/g) || []).length;
+  const gtagSources = (html.match(/googletagmanager\.com\/gtag\/js\?id=G-2Y8N04VXYG/g) || []).length;
+  const configs = (html.match(/gtag\s*\(\s*["']config["']\s*,\s*["']G-2Y8N04VXYG["']\s*\)/g) || []).length;
+  const clarity = (html.match(/["']y7uoedckle["']/g) || []).length;
+  const cloudflare = (html.match(/static\.cloudflareinsights\.com\/beacon\.min\.js/g) || []).length;
+  const tokens = (html.match(/661a632fda6543c7ba4c14b93e9a9452/g) || []).length;
+  const clients = (html.match(/\/assets\/observability\.js\?v=20260825/g) || []).length;
+  return starts === 1 && ends === 1 && gtagSources === 1 && configs === 1 && clarity === 1 && cloudflare === 1 && tokens === 1 && clients === 1;
+}
+
+function hasAnyObservability(html) {
+  return /G-2Y8N04VXYG|y7uoedckle|cloudflareinsights\.com|GALOK_OBSERVABILITY_START|\/assets\/observability\.js\?v=20260825/.test(html);
+}
+
 const publicPages = publicFiles();
 const changed = [];
 const invalid = [];
 for (const file of walk(root)) {
   const before = readFileSync(file, "utf8");
+  const path = relative(root, file);
+
+  if (checkOnly) {
+    if (publicPages.has(file)) {
+      if (!validPublicMarkup(before)) invalid.push(path);
+    } else if (hasAnyObservability(before)) {
+      invalid.push(path);
+    }
+    continue;
+  }
+
   const clean = removeAnalytics(before);
   const next = publicPages.has(file) ? clean.replace(/<\/head>/i, `${block}\n</head>`) : clean;
-  const path = relative(root, file);
   if (publicPages.has(file)) {
-    const gtagSources = (next.match(/googletagmanager\.com\/gtag\/js\?id=G-2Y8N04VXYG/g) || []).length;
-    const configs = (next.match(/gtag\("config", "G-2Y8N04VXYG"\)/g) || []).length;
-    const clarity = (next.match(/"y7uoedckle"/g) || []).length;
-    const cloudflare = (next.match(/static\.cloudflareinsights\.com\/beacon\.min\.js/g) || []).length;
-    if (gtagSources !== 1 || configs !== 1 || clarity !== 1 || cloudflare !== 1 || !next.includes(`"token":"${cloudflareWebAnalyticsToken}"`) || !next.includes('/assets/observability.js?v=20260825')) invalid.push(path);
-  } else if (/G-2Y8N04VXYG|y7uoedckle|cloudflareinsights\.com|GALOK_OBSERVABILITY_START/.test(next)) invalid.push(path);
+    if (!validPublicMarkup(next)) invalid.push(path);
+  } else if (hasAnyObservability(next)) {
+    invalid.push(path);
+  }
   if (next !== before) {
     changed.push(path);
-    if (!checkOnly) writeFileSync(file, next);
+    writeFileSync(file, next);
   }
 }
 
 if (invalid.length) throw new Error(`Observability markup invalid: ${invalid.join(", ")}`);
-if (checkOnly && changed.length) throw new Error(`Observability markup is out of sync: ${changed.join(", ")}`);
-console.log(`${checkOnly ? "Observability markup verified" : "Observability markup synchronized"}: ${publicPages.size} public pages.`);
+console.log(`${checkOnly ? "Observability markup verified" : "Observability markup synchronized"}: ${publicPages.size} public pages${checkOnly ? "" : `; ${changed.length} files updated`}.`);
