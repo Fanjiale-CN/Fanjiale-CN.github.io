@@ -23,6 +23,13 @@
   {
     "type": "city",
     "label": "Cities",
+    "title": "Chongqing — Ground Level Undefined",
+    "excerpt": "Chongqing through terrain, stacked streets, monorail, bridges, old photographs and life above two rivers.",
+    "url": "/be-a-viewer/chongqing/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
     "title": "Hangzhou — The Lake Sets the Pace",
     "excerpt": "Hangzhou through water, rain and the words of Bai Juyi, Su Shi, Liu Yong and Zhang Dai.",
     "url": "/be-a-viewer/hangzhou/"

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Chongqing — Ground Level Undefined</title>
+  <desc id="desc">Galok editorial cover for Chongqing with two rivers, contour lines and an altitude scale.</desc>
+  <rect width="1200" height="630" fill="#090d0f"/>
+  <g fill="none" stroke="#536d6c" stroke-width="3" opacity="0.9">
+    <path d="M-80 160C210 210 370 245 555 365C705 462 872 485 1280 520"/>
+    <path d="M-40 500C225 460 392 420 555 365C750 300 930 205 1260 80"/>
+  </g>
+  <g fill="none" stroke="#d7d2c7" stroke-width="1" opacity="0.22">
+    <ellipse cx="790" cy="278" rx="330" ry="112"/>
+    <ellipse cx="790" cy="278" rx="270" ry="90"/>
+    <ellipse cx="790" cy="278" rx="210" ry="68"/>
+    <ellipse cx="790" cy="278" rx="150" ry="46"/>
+  </g>
+  <rect x="70" y="70" width="4" height="490" fill="#d84b38"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#ece8df">
+    <text x="105" y="118" font-size="22" font-weight="700" letter-spacing="4">GALOK / BE A VIEWER</text>
+    <text x="105" y="278" font-size="112" font-weight="700" letter-spacing="-7">CHONGQING</text>
+    <text x="105" y="352" font-size="54" font-weight="700" letter-spacing="-2">GROUND LEVEL</text>
+    <text x="105" y="414" font-size="54" font-weight="700" letter-spacing="-2">UNDEFINED.</text>
+    <text x="105" y="520" font-size="18" letter-spacing="3" opacity="0.68">29.5630° N / 106.5516° E</text>
+  </g>
+  <g font-family="monospace" fill="#ece8df" font-size="16" letter-spacing="2">
+    <text x="1060" y="108">315 M</text>
+    <text x="1060" y="314">248 M</text>
+    <text x="1060" y="525">174 M</text>
+  </g>
+  <line x1="1030" y1="96" x2="1030" y2="530" stroke="#d84b38" stroke-width="2"/>
+</svg>
