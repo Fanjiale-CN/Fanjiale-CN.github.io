@@ -7,6 +7,7 @@ const root = fileURLToPath(new URL("../", import.meta.url));
 const read = (path) => readFileSync(join(root, path), "utf8");
 const html = read("be-a-viewer/chongqing/index.html");
 const css = read("be-a-viewer/chongqing/chongqing.css");
+const tabletFix = read("be-a-viewer/chongqing/chongqing-tablet-fix.css");
 const loader = read("be-a-viewer/chongqing/chongqing.js");
 const core = read("be-a-viewer/chongqing/chongqing-core.js");
 const viewer = read("be-a-viewer/viewer.js");
@@ -30,6 +31,7 @@ requireText(html, /t20221013_11182901\.html/, "missing Chongqing xiaomian source
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
 requireText(html, /Contemporary photography \/ Pexels contributors/, "missing contemporary photography credit");
 requireText(html, /chongqing\.css\?v=20260828-cq12/, "page must bust the Chongqing editorial stylesheet cache");
+requireText(html, /chongqing-tablet-fix\.css\?v=20260829-cq01/, "page must load the final Chongqing tablet repair stylesheet");
 requireText(html, /chongqing\.js\?v=20260828-cq09/, "page must keep the repaired Chongqing loader cache key");
 
 requireText(html, /<source src="\/assets\/video\/chongqing\/hero-night-hd\.mp4" type="video\/mp4">/, "hero must use the supplied high-definition landscape video");
@@ -74,6 +76,11 @@ requireText(css, /@media \(max-width:1180px\)/, "missing tablet breakpoint");
 requireText(css, /@media \(max-width:760px\)/, "missing mobile breakpoint");
 requireText(css, /@media \(prefers-reduced-motion:reduce\)/, "missing reduced-motion treatment");
 requireText(css, /min-width:761px[^}]*max-width:1180px[\s\S]*?\.cq-bridges\{height:auto\}/, "tablet bridge chapter must use the stable grid layout");
+requireText(tabletFix, /@media \(min-width: 761px\) and \(max-width: 1180px\)/, "tablet repair stylesheet must target iPad/tablet widths");
+requireText(tabletFix, /\.cq-bridge-track\s*\{[\s\S]*?grid-template-columns:\s*repeat\(12/, "tablet bridge repair must use the editorial 12-column grid");
+requireText(tabletFix, /transform:\s*none\s*!important/, "tablet bridge repair must disable desktop horizontal transforms");
+requireText(tabletFix, /\.cq-bridge-film\s*\{[\s\S]*?grid-template-columns:\s*1fr/, "tablet bridge film must stack before the mobile breakpoint");
+requireText(loader, /chongqing-tablet-fix\.css\?v=20260829-cq01/, "loader must keep a tablet repair stylesheet fallback");
 requireText(loader, /chongqing-core\.js\?v=20260828-cq-v9/, "loader must keep the repaired Chongqing core cache key");
 requireText(core, /IntersectionObserver/, "missing IntersectionObserver lifecycle");
 requireText(core, /translate3d/, "missing horizontal bridge scrollytelling");
