@@ -3,6 +3,11 @@
   const mobile = window.matchMedia("(max-width: 760px)");
   const altimeter = document.querySelector("[data-cq-altimeter]");
   const altitudeReadout = document.querySelector("[data-cq-altitude-readout]");
+  const cableImage = document.querySelector(".cq-cable img");
+  if (cableImage) {
+    cableImage.src = "https://commons.wikimedia.org/wiki/Special:Redirect/file/Chongqing%20Changjiang%20Cableway.jpg?width=1600";
+    cableImage.alt = "Chongqing Yangtze River Cableway suspended above the river";
+  }
   let frame = 0;
 
   const loadVideo = (video) => {
