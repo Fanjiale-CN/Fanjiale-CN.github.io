@@ -24,6 +24,11 @@
     dataKey: "hz-mobile-repair"
   });
   attachStyle({
+    href: "/be-a-viewer/hangzhou/hangzhou-tablet.css?v=20260828-ipad-repair",
+    media: "(min-width: 761px) and (max-width: 1180px), (min-width: 1181px) and (max-width: 1366px) and (pointer: coarse)",
+    dataKey: "hz-tablet-repair"
+  });
+  attachStyle({
     href: "/be-a-viewer/hangzhou/hangzhou-history.css?v=20260828-hz36",
     dataKey: "hz-history-style"
   });

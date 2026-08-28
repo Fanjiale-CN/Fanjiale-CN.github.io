@@ -15,6 +15,7 @@ const checks = [
   ["Xiamen historical archive", "validate-xiamen-history.mjs", []],
   ["Shenzhen history and growth", "validate-shenzhen-history.mjs", []],
   ["Hangzhou mobile layout", "validate-hangzhou-mobile.mjs", []],
+  ["Hangzhou tablet layout", "validate-hangzhou-tablet.mjs", []],
   ["Hangzhou historical archive", "validate-hangzhou-history.mjs", []]
 ];
 

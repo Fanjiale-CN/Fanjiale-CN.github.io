@@ -9,6 +9,7 @@ const chrome = process.env.CHROME_PATH;
 const viewports = [
   ["mobile", 390, 844],
   ["tablet", 768, 1024],
+  ["ipad-css-landscape", 1024, 768],
   ["laptop", 1280, 720],
   ["desktop", 1440, 900],
   ["source-desktop", 1348, 926],
@@ -71,6 +72,7 @@ try {
         const hzNight = document.querySelector(".hz-night-triptych");
         const hzNightFigure = hzNight?.querySelector("figure");
         const hzNightImage = hzNightFigure?.querySelector("img");
+        const hzNightImages = [...(hzNight?.querySelectorAll("img") ?? [])];
         const hzPosterImage = document.querySelector(".hz-poster img");
         const hzCityGrid = document.querySelector(".hz-city-grid");
         const hzCityPortrait = document.querySelector(".hz-city-portrait");
@@ -90,6 +92,12 @@ try {
           posterHeight: hzPosterImage?.getBoundingClientRect().height ?? null,
           cityPortraitWidth: hzCityPortrait?.getBoundingClientRect().width ?? null,
           cityContentWidth: contentWidth(hzCityGrid)
+        } : null;
+        const hangzhouTablet = hzNight ? {
+          stylesheet: [...document.styleSheets].some((sheet) => sheet.href?.includes("hangzhou-tablet.css")),
+          nightObjectFits: hzNightImages.map((image) => getComputedStyle(image).objectFit),
+          nightAspectRatios: hzNightImages.map((image) => getComputedStyle(image).aspectRatio),
+          posterHeight: hzPosterImage?.getBoundingClientRect().height ?? null
         } : null;
 
         const unreadyMedia = [...document.querySelectorAll("img,video")]
@@ -116,6 +124,7 @@ try {
             gridWidth: shanghaiHistoryCard15GridBox.width
           } : null,
           hangzhouMobile,
+          hangzhouTablet,
           unreadyMedia,
           video: video ? { paused: video.paused, muted: video.muted, playsInline: video.playsInline, readyState: video.readyState, display: getComputedStyle(video).display } : null
         };
@@ -160,9 +169,24 @@ try {
           }
         }
       }
+      if (route === "/be-a-viewer/hangzhou/" && name === "ipad-css-landscape") {
+        if (!item.hangzhouTablet) errors.push(`${name} ${route}: Hangzhou iPad layout metrics missing`);
+        else {
+          if (!item.hangzhouTablet.stylesheet) errors.push(`${name} ${route}: Hangzhou iPad repair stylesheet not loaded`);
+          if (item.hangzhouTablet.nightObjectFits.length !== 3 || item.hangzhouTablet.nightObjectFits.some((value) => value !== "contain")) {
+            errors.push(`${name} ${route}: night images are still cropped ${item.hangzhouTablet.nightObjectFits.join(",")}`);
+          }
+          if (item.hangzhouTablet.nightAspectRatios.length !== 3 || item.hangzhouTablet.nightAspectRatios.some((value) => value !== "auto")) {
+            errors.push(`${name} ${route}: night images still have forced aspect ratios ${item.hangzhouTablet.nightAspectRatios.join(",")}`);
+          }
+          if (item.hangzhouTablet.posterHeight !== null && item.hangzhouTablet.posterHeight > height * .75) {
+            errors.push(`${name} ${route}: poster exceeds iPad viewport budget ${item.hangzhouTablet.posterHeight}/${height}`);
+          }
+        }
+      }
       results.push(item);
 
-      if (route === "/" || (name === "desktop" && ["/radar/", "/cities/", "/essays/", "/research/", "/data/", "/index/"].includes(route)) || (route === "/be-a-viewer/hangzhou/" && name === "mobile")) {
+      if (route === "/" || (name === "desktop" && ["/radar/", "/cities/", "/essays/", "/research/", "/data/", "/index/"].includes(route)) || (route === "/be-a-viewer/hangzhou/" && ["mobile", "ipad-css-landscape"].includes(name))) {
         const label = route === "/" ? "home" : route.replaceAll("/", "") || "home";
         await page.screenshot({ path: join(evidenceDirectory, `fix-${label}-${name}.png`), fullPage: false });
       }

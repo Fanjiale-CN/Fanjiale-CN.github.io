@@ -1,0 +1,141 @@
+/* Hangzhou iPad/tablet composition repair / 2026-08-28
+   Preserve source framing on touch tablets and stop desktop crop ratios leaking into iPad layouts. */
+
+@media (min-width: 761px) and (max-width: 1180px),
+       (min-width: 1181px) and (max-width: 1366px) and (pointer: coarse) {
+  .hangzhou-page-body,
+  .hz-main {
+    overflow-x: hidden;
+  }
+
+  .hz-main img,
+  .hz-main video {
+    max-width: 100%;
+  }
+
+  /* Two-row editorial night spread: landscape frames left, pavilion portrait right. */
+  .hz-night-triptych {
+    min-height: 0;
+    padding-bottom: clamp(4.5rem, 7vw, 7rem);
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.28fr);
+    grid-template-rows: auto auto;
+    align-items: start;
+    gap: clamp(1.4rem, 2.5vw, 2.6rem);
+  }
+
+  .hz-night-triptych figure:nth-child(1),
+  .hz-night-triptych figure:nth-child(2),
+  .hz-night-triptych figure:nth-child(3) {
+    width: 100%;
+    margin: 0 !important;
+    align-self: auto;
+  }
+
+  .hz-night-triptych figure:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    margin-top: clamp(1.5rem, 4vw, 3.5rem) !important;
+  }
+
+  .hz-night-triptych figure:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .hz-night-triptych figure:nth-child(3) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .hz-night-triptych figure:nth-child(1) img,
+  .hz-night-triptych figure:nth-child(2) img,
+  .hz-night-triptych figure:nth-child(3) img {
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    object-position: center;
+  }
+
+  /* Printed note keeps the two-column idea but caps the tall poster to the viewport. */
+  .hz-poster {
+    min-height: 0;
+    padding: clamp(4.5rem, 7vw, 7rem) var(--hz-pad);
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, .62fr);
+    align-items: center;
+    gap: clamp(2.2rem, 4vw, 4.5rem);
+  }
+
+  .hz-poster-copy h2 {
+    font-size: clamp(3.8rem, 7.3vw, 6.8rem);
+  }
+
+  .hz-poster-copy > p:not(.hz-eyebrow) {
+    width: 100%;
+    margin: clamp(2rem, 3vw, 3rem) 0;
+  }
+
+  .hz-poster figure {
+    min-width: 0;
+    margin: 0;
+    display: grid;
+    justify-items: center;
+  }
+
+  .hz-poster img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 72svh;
+    max-height: 72dvh;
+    object-fit: contain;
+    box-shadow: .85rem .85rem 0 rgba(11, 20, 21, .08);
+  }
+
+  .hz-poster figcaption {
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Portrait iPads need one more fold so the poster and night sequence stay readable. */
+@media (min-width: 761px) and (max-width: 920px) {
+  .hz-night-triptych {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .hz-night-triptych figure:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: min(68vw, 31rem);
+    justify-self: center;
+  }
+
+  .hz-night-triptych figure:nth-child(1) {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0 !important;
+  }
+
+  .hz-night-triptych figure:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .hz-poster {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .hz-poster figure {
+    width: min(72vw, 32rem);
+    justify-self: center;
+  }
+
+  .hz-poster img {
+    max-height: 62svh;
+    max-height: 62dvh;
+  }
+}
