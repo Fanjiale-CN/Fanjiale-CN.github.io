@@ -162,6 +162,56 @@
   will-change: transform;
 }
 
+/* Research 003 uses a field photograph as its cover: the title sits in the
+   quiet lower-left margin, leaving the crossing itself legible. */
+.research-index-page .research003-index-cover { position: relative; isolation: isolate; }
+
+.research-index-page .research003-index-cover::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(9, 14, 13, 0.02) 28%, rgba(9, 14, 13, 0.12) 54%, rgba(7, 11, 10, 0.78) 100%);
+}
+
+.research-index-page .research003-index-cover img { object-position: center 61%; }
+
+.research-index-page .research003-index-cover figcaption {
+  position: absolute;
+  z-index: 2;
+  right: clamp(18px, 2.4vw, 34px);
+  bottom: clamp(18px, 2.4vw, 34px);
+  left: clamp(18px, 2.4vw, 34px);
+  display: grid;
+  gap: 10px;
+  color: #fffdf6;
+}
+
+.research-index-page .research003-index-cover small,
+.research-index-page .research003-index-cover span {
+  font-family: var(--font-ui);
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.research-index-page .research003-index-cover b {
+  max-width: 7ch;
+  font-family: var(--font-serif);
+  font-size: clamp(2.7rem, 4.6vw, 5.7rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.78;
+}
+
+.research-index-page .research003-index-cover span {
+  color: rgba(255, 253, 246, 0.78);
+  font-size: 0.56rem;
+}
+
 .research-index-page .research-index-card:hover figure img,
 .research-index-page .research-index-card:focus-visible figure img {
   filter: saturate(0.98) contrast(1.02);
@@ -286,6 +336,7 @@
   .research-index-page .research-index-card figure,
   .research-index-page .research-index-entry--secondary .research-index-card figure { aspect-ratio: 4 / 3; }
   .research-index-page .research-index-card > div { padding: 22px 0 24px; }
+  .research-index-page .research003-index-cover b { font-size: clamp(2.55rem, 12vw, 4.5rem); }
   .research-index-page .research-index-card h2,
   .research-index-page .research-index-entry--secondary .research-index-card h2 { max-width: 10.5ch; margin: 31px 0 19px; font-size: clamp(3rem, 14.2vw, 4.55rem); line-height: 0.84; }
   .research-index-page .research-index-card > div > p { max-width: 31ch; font-size: clamp(1.06rem, 4.8vw, 1.25rem); line-height: 1.28; }

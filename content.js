@@ -80,7 +80,7 @@ window.GALOK_CONTENT = {
       classification: "Working Paper",
       method: "Digital ethnography",
       field: "China / Gaming / Intimacy / Platform Labor",
-      cover: { src: "/research/love-by-the-hour/og-card.svg", alt: "A typographic cover for Galok Research 003, Love by the Hour" },
+      cover: { src: "/research/love-by-the-hour/media/cover-crossing.jpg", alt: "Two people crossing a rain-darkened city street marked by yellow lines" },
       tags: "research working paper china gaming paid intimacy fandom platform labor"
     }
   ],
