@@ -1,0 +1,49 @@
+name: Chongqing Literary Preflight
+
+on:
+  push:
+    branches:
+      - work/chongqing-literary-redesign-20260829
+
+permissions:
+  contents: write
+
+concurrency:
+  group: chongqing-literary-preflight
+  cancel-in-progress: true
+
+jobs:
+  release:
+    if: ${{ !contains(github.event.head_commit.message, '[cq-literary-built]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: work/chongqing-literary-redesign-20260829
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install release tools
+        run: npm ci --ignore-scripts
+
+      - name: Apply literary redesign
+        run: node scripts/patch-chongqing-literary.mjs
+
+      - name: Run release
+        run: npm run release
+
+      - name: Commit validated redesign
+        run: |
+          rm -f scripts/patch-chongqing-literary.mjs
+          rm -f .github/workflows/chongqing-literary-preflight.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "Redesign writers on Chongqing [cq-literary-built]"
+          git push origin HEAD:work/chongqing-literary-redesign-20260829
