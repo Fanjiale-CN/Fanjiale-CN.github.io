@@ -75,13 +75,7 @@ jobs:
           if 'from "node:child_process"' not in text:
               text = text.replace('import { readFileSync } from "node:fs";\n', 'import { readFileSync } from "node:fs";\nimport { execFileSync } from "node:child_process";\n', 1)
           marker = 'const errors = [];\n'
-          syntax_gate = '''const errors = [];
-try {
-  execFileSync(process.execPath, ["--check", join(root, "be-a-viewer/xian/xian-time.js")], { stdio: "pipe" });
-} catch (error) {
-  errors.push(`Xi'an time-strata JavaScript syntax check failed: ${error.stderr?.toString()?.trim() || error.message}`);
-}
-'''
+          syntax_gate = 'const errors = [];\ntry {\n  execFileSync(process.execPath, ["--check", join(root, "be-a-viewer/xian/xian-time.js")], { stdio: "pipe" });\n} catch (error) {\n  errors.push(`Xi\\'an time-strata JavaScript syntax check failed: ${error.stderr?.toString()?.trim() || error.message}`);\n}\n'
           if 'time-strata JavaScript syntax check failed' not in text:
               if marker not in text:
                   raise SystemExit("validator errors marker not found")
