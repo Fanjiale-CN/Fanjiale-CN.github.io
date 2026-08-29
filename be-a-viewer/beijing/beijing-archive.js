@@ -1,7 +1,7 @@
 (() => {
   const target = document.querySelector("[data-axis-explorer]");
   if (!target || document.querySelector("[data-beijing-archive]")) return;
-  const VERSION = "20260828-expand24";
+  const VERSION = "20260829-history-cache-fix";
   const stylesheet = document.createElement("link");
   stylesheet.rel = "stylesheet";
   stylesheet.href = `/be-a-viewer/beijing/beijing-archive.css?v=${VERSION}`;
@@ -43,7 +43,7 @@
       if (!response.ok) return;
       const data = await response.json();
       const items = Array.isArray(data.items) ? data.items.filter(validItem).slice(0, 30) : [];
-      if (items.length < 20) return;
+      if (items.length < 2) return;
       const firstYear = Math.min(...items.map((item) => item.yearStart));
       const lastYear = Math.max(...items.map((item) => item.yearEnd));
       const section = document.createElement("section");
