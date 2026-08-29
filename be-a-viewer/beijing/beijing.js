@@ -301,7 +301,7 @@
   }
 
   const archiveModule = document.createElement("script");
-  archiveModule.src = "/be-a-viewer/beijing/beijing-archive.js?v=20260829-history-cache-fix";
+  archiveModule.src = "/be-a-viewer/beijing/beijing-archive.js?v=20260830-beijing-cinema1";
   archiveModule.defer = true;
   document.head.append(archiveModule);
 })();
