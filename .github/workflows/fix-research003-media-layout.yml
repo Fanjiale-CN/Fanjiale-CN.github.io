@@ -73,7 +73,7 @@ jobs:
 
           editorial_path = Path('research/love-by-the-hour/search003-editorial.css')
           editorial = editorial_path.read_text(encoding='utf-8')
-          repair = '''\n/* 2026-08-29 tablet/media repair */\n.s003-editorial-photo--cover img{aspect-ratio:3/2;object-position:center 48%}\n@media(min-width:761px) and (max-width:1366px){\n  body.search003-paper-page .research-manuscript>.s003-editorial-photo--wide{width:min(100%,1120px);max-width:1120px;margin-left:auto;margin-right:auto;transform:none}\n  body.search003-paper-page .research-manuscript>.s003-editorial-photo--wide img{width:100%;max-width:none;max-height:760px}\n  body.search003-paper-page .research-manuscript>.s003-figure{width:min(100%,980px);max-width:980px;margin-left:auto;margin-right:auto}\n}\n'''
+          repair = '''\n/* 2026-08-29 tablet/media repair */\n.s003-editorial-photo--cover img{aspect-ratio:3/2;object-position:center 48%}\n@media(min-width:761px) and (max-width:1366px){\n  html.research-paper-root body.search003-paper-page .research-manuscript>.s003-editorial-photo--wide{width:min(100%,1120px)!important;max-width:1120px!important;margin-left:auto!important;margin-right:auto!important;transform:none!important}\n  html.research-paper-root body.search003-paper-page .research-manuscript>.s003-editorial-photo--wide img{width:100%;max-width:none;max-height:760px}\n  html.research-paper-root body.search003-paper-page .research-manuscript>.s003-figure{width:min(100%,980px)!important;max-width:980px!important;margin-left:auto!important;margin-right:auto!important}\n}\n'''
           if '2026-08-29 tablet/media repair' not in editorial:
               editorial += repair
           editorial_path.write_text(editorial, encoding='utf-8')
@@ -122,6 +122,10 @@ jobs:
           await page.setViewport({width:1194,height:834,deviceScaleFactor:1});
           await page.goto('http://127.0.0.1:4173/research/love-by-the-hour/',{waitUntil:'networkidle0'});
           await page.waitForSelector('[data-editorial-runway] img');
+          await page.$eval('[data-editorial-traffic]', el => el.scrollIntoView({block:'center'}));
+          await page.waitForFunction(() => document.querySelector('[data-editorial-traffic] img')?.naturalWidth > 0, {timeout:5000});
+          await page.$eval('[data-editorial-runway]', el => el.scrollIntoView({block:'center'}));
+          await new Promise(resolve => setTimeout(resolve, 150));
           const result = await page.evaluate(() => {
             const box = sel => { const el=document.querySelector(sel); if(!el) return null; const r=el.getBoundingClientRect(); return {left:r.left,right:r.right,width:r.width}; };
             const natural = sel => { const img=document.querySelector(sel); return img ? {w:img.naturalWidth,h:img.naturalHeight,complete:img.complete} : null; };
@@ -143,7 +147,7 @@ jobs:
             if(!b || b.width < 900) throw new Error(`${name} remains constrained: ${JSON.stringify(b)}`);
             if(b.left < -1 || b.right > result.viewport + 1) throw new Error(`${name} overflows viewport: ${JSON.stringify(b)}`);
           }
-          if(!result.darkHeadingColor || /rgb\((?:1[0-2]|[0-9]),/.test(result.darkHeadingColor)) throw new Error(`dark heading contrast still bad: ${result.darkHeadingColor}`);
+          if(result.darkHeadingColor !== 'rgb(244, 241, 232)') throw new Error(`dark heading contrast still bad: ${result.darkHeadingColor}`);
           await browser.close();
           NODE
 
