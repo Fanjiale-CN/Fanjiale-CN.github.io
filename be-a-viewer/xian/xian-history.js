@@ -1,7 +1,7 @@
 (() => {
   const target = document.querySelector(".xian-wall");
   if (!target || document.querySelector("[data-xian-history]")) return;
-  const VERSION = "20260829-history-cache-fix";
+  const VERSION = "20260829-strata2";
   const stylesheet = document.createElement("link");
   stylesheet.rel = "stylesheet";
   stylesheet.href = `/be-a-viewer/xian/xian-history.css?v=${VERSION}`;
@@ -60,4 +60,4 @@
   mount();
 })();
 
-void import("/be-a-viewer/xian/xian-time.js?v=20260829-strata1").catch(() => {});
+void import("/be-a-viewer/xian/xian-time.js?v=20260829-strata2").catch(() => {});
