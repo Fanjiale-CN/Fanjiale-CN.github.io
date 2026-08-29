@@ -3,9 +3,11 @@ import fs from 'node:fs';
 const indexPath = 'be-a-viewer/chongqing/index.html';
 const literaryCssPath = 'be-a-viewer/literary-city.css';
 const oldCssPath = 'be-a-viewer/chongqing/chongqing-literature.css';
+const validatorPath = 'scripts/validate-chongqing.mjs';
 
 let html = fs.readFileSync(indexPath, 'utf8');
 let literaryCss = fs.readFileSync(literaryCssPath, 'utf8');
+let validator = fs.readFileSync(validatorPath, 'utf8');
 
 html = html.replace(/\s*<link rel="stylesheet" href="\/be-a-viewer\/chongqing\/chongqing-literature\.css[^>]*>\n?/, '\n  <link rel="stylesheet" href="/be-a-viewer/literary-city.css?v=cities-in-words-20260829cq">\n');
 
@@ -36,8 +38,18 @@ if (!html.includes('/be-a-viewer/literary-city.js')) {
 const cqCss = `\n\n/* Chongqing / City in Words — fog paper, old roofs, wartime signal red */\n.literary-city--chongqing {\n  --lit-bg: #d5d5cf;\n  --lit-paper: #eee9df;\n  --lit-ink: #202321;\n  --lit-muted: #626761;\n  --lit-line: rgba(32, 35, 33, .25);\n  --lit-accent: #b33b2f;\n}\n.literary-city--chongqing .literary-plate img { --lit-plate-ratio: 4 / 3; object-position: center 44%; }\n.literary-series--six { grid-template-columns: repeat(6, minmax(0, 1fr)); }\n`;
 if (!literaryCss.includes('.literary-city--chongqing')) literaryCss += cqCss;
 
+validator = validator.replace(
+  '["terrain","levels","stairs","transit","bridges","food","field-atlas","old-chongqing","literature","river","night"]',
+  '["terrain","levels","stairs","transit","bridges","food","field-atlas","old-chongqing","writers-chongqing","river","night"]'
+);
+validator = validator.replace(
+  /requireText\(html, \/chongqing-literature\\\.css[\s\S]*?missing literary Chongqing work: \$\{work\}`\);\n\}/,
+  `requireText(html, /literary-city\\.css\\?v=cities-in-words-20260829cq/, "page must load the shared literary-city stylesheet");\nrequireText(html, /literary-city\\.js\\?v=cities-in-words-20260829cq/, "page must load the shared literary-city motion system");\nrequireText(html, /class="literary-city literary-city--chongqing"/, "missing Chongqing literary reader skin");\nrequireText(html, /data-literary-city/, "Chongqing literary reader must use shared reveal lifecycle");\nrequireText(html, /class="literary-series literary-series--six"/, "missing six-city literary series navigation");\nrequireText(html, /class="literary-plate"/, "missing Chongqing literary plate");\nrequireText(html, /class="literary-colophon"/, "missing Chongqing literary colophon");\nfor (const work of ["巴金[\\s\\S]*?《寒夜》", "张恨水[\\s\\S]*?《八十一梦》", "老舍[\\s\\S]*?《残雾》"]) {\n  requireText(html, new RegExp(work), \`missing literary Chongqing work: \${work}\`);\n}`
+);
+
 fs.writeFileSync(indexPath, html);
 fs.writeFileSync(literaryCssPath, literaryCss);
+fs.writeFileSync(validatorPath, validator);
 if (fs.existsSync(oldCssPath)) fs.rmSync(oldCssPath);
 
 console.log('Chongqing literary section rebuilt on shared literary-city system.');
