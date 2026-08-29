@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-25",
+  "updated": "2026-08-30",
   "cities": [
     {
       "id": "beijing",
@@ -74,6 +74,36 @@
         { "name": "West Lake", "kind": "CITY ENTRY", "coordinates": [120.1420, 30.2229], "href": "/be-a-viewer/hangzhou/", "note": "Lake, mist and the deliberate pace of a chapter." },
         { "name": "Qinghefang", "kind": "FIELD NOTE", "coordinates": [120.1730, 30.2301], "href": "/be-a-viewer/hangzhou/", "note": "Commerce, weather and a close street." },
         { "name": "Qianjiang New City", "kind": "PHOTO", "coordinates": [120.2176, 30.2407], "href": "/be-a-viewer/hangzhou/", "note": "The newer skyline across the water." }
+      ]
+    },
+    {
+      "id": "shenzhen",
+      "number": "06",
+      "name": "SHENZHEN",
+      "region": "SOUTH CHINA",
+      "route": "/be-a-viewer/shenzhen/",
+      "summary": "Bay, crossing, street, ridge and light across a city that changes register by the hour.",
+      "center": [114.0579, 22.5431],
+      "zoom": 10.6,
+      "points": [
+        { "name": "Shenzhen Bay", "kind": "CITY ENTRY", "coordinates": [113.9570, 22.5290], "href": "/be-a-viewer/shenzhen/#bay", "note": "The city begins horizontally across water." },
+        { "name": "Luohu", "kind": "CROSSING", "coordinates": [114.1177, 22.5315], "href": "/be-a-viewer/shenzhen/#crossing", "note": "Rail, rain and an older tempo at the border." },
+        { "name": "Wutong Ridge", "kind": "RIDGE", "coordinates": [114.2145, 22.5834], "href": "/be-a-viewer/shenzhen/#ridge", "note": "The skyline gives way to a mountain line at dusk." }
+      ]
+    },
+    {
+      "id": "chongqing",
+      "number": "07",
+      "name": "CHONGQING",
+      "region": "SOUTHWEST",
+      "route": "/be-a-viewer/chongqing/",
+      "summary": "Two rivers, stacked streets, transit and bridges inside a city that has to be read in section.",
+      "center": [106.5516, 29.5630],
+      "zoom": 11.0,
+      "points": [
+        { "name": "Hongyadong", "kind": "CITY ENTRY", "coordinates": [106.5790, 29.5625], "href": "/be-a-viewer/chongqing/", "note": "River edge, tower wall and the vertical city after dark." },
+        { "name": "Liziba Station", "kind": "TRANSIT", "coordinates": [106.5517, 29.5527], "href": "/be-a-viewer/chongqing/#transit", "note": "Line 2 turns building section into ordinary transport." },
+        { "name": "Yangtze River Cableway", "kind": "CROSSING", "coordinates": [106.5830, 29.5564], "href": "/be-a-viewer/chongqing/", "note": "A river crossing suspended inside the skyline." }
       ]
     }
   ]
