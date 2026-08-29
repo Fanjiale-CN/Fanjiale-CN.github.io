@@ -189,4 +189,4 @@ document.querySelectorAll("[data-current-year]").forEach((node) => {
   node.textContent = new Date().getFullYear();
 });
 
-void import("/be-a-viewer/xian/xian-history.js?v=20260830-cinema1").catch((error) => console.error("Xi’an history module failed", error));
+void import("/be-a-viewer/xian/xian-history.js?v=20260830-cinema2").catch((error) => console.error("Xi’an history module failed", error));

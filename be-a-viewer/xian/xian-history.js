@@ -1,7 +1,7 @@
 (() => {
   const target = document.querySelector(".xian-wall");
   if (!target || document.querySelector("[data-xian-history]")) return;
-  const VERSION = "20260830-cinema1";
+  const VERSION = "20260830-cinema2";
   const stylesheet = document.createElement("link");
   stylesheet.rel = "stylesheet";
   stylesheet.href = `/be-a-viewer/xian/xian-history.css?v=${VERSION}`;
@@ -60,4 +60,4 @@
   mount();
 })();
 
-void import("/be-a-viewer/xian/xian-time.js?v=20260830-cinema1").catch((error) => console.error("Xi’an time module failed", error));
+void import("/be-a-viewer/xian/xian-time.js?v=20260830-cinema2").catch((error) => console.error("Xi’an time module failed", error));

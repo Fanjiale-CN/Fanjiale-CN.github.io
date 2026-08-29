@@ -1,4 +1,4 @@
-const VERSION = "20260830-cinema1";
+const VERSION = "20260830-cinema2";
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const compact = window.matchMedia("(max-width: 820px)");
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
@@ -13,132 +13,132 @@ const commons = (file, width = 1920) =>
 
 const steps = [
   {
-    chapter: "NOW", year: "2025", era: "XI’AN / PRESENT", mark: "今",
-    title: "Start at the gate.", copy: "永宁门仍然站在城市中心。接下来，画面会沿着真实遗址、考古现场与历史摄影向后退。",
+    chapter: "NOW", year: "2025", era: "XI’AN / PRESENT", mark: "NOW",
+    title: "Start at the gate.", copy: "Yongning Gate still stands at the centre of Xi’an. From here, the sequence moves backward through surviving sites, archaeological excavations, and historical photography.",
     image: "https://media.galok.me/cities/xian/city-wall-skyline--7eda7148ec5d.jpeg",
     source: "GALOK / XI’AN FIELD FRAME", rights: "GALOK city media",
     href: "https://www.galok.me/be-a-viewer/xian/", tone: "present", fit: "cover", scale: 1.05, x: 0, y: 0
   },
   {
-    chapter: "ORIGIN", year: "c. 4800 BCE", era: "BANPO / NEOLITHIC", mark: "半",
-    title: "Before the capital, there was a settlement.", copy: "半坡遗址留下房址、窑穴与聚落痕迹。城市还没有出现，人已经在这片土地上长期生活。",
+    chapter: "ORIGIN", year: "c. 4800 BCE", era: "BANPO / NEOLITHIC", mark: "BANPO",
+    title: "Before the capital, there was a settlement.", copy: "Banpo preserves house foundations, kilns, and traces of settlement. There was no city yet, but people had already been living on this ground for generations.",
     image: commons("Banpo.jpg"), source: "WIKIMEDIA COMMONS / EECC", rights: "Public domain",
     href: "https://commons.wikimedia.org/wiki/File:Banpo.jpg", tone: "relic", fit: "cover", scale: 1.03, x: 0, y: 0
   },
   {
-    chapter: "ZHOU", year: "c. 1046 BCE", era: "FENG / WESTERN ZHOU", mark: "周",
-    title: "The capital moves onto the plain.", copy: "丰京车马坑把西周都城从文字重新拉回地面。木车已经腐朽，轮廓、马骨与土层仍在。",
+    chapter: "ZHOU", year: "c. 1046 BCE", era: "FENG / WESTERN ZHOU", mark: "ZHOU",
+    title: "The capital moves onto the plain.", copy: "The Fengjing carriage pit brings the Western Zhou capital back from text into physical ground. The wooden vehicles are gone; wheel traces, horse bones, and soil layers remain.",
     image: commons("Western Zhou dynasty Carriages pit2 Xi'an.JPG"), source: "WIKIMEDIA COMMONS / DANIELINBLUE", rights: "CC BY-SA 3.0",
     href: "https://commons.wikimedia.org/wiki/File:Western_Zhou_dynasty_Carriages_pit2_Xi%27an.JPG", tone: "relic", fit: "cover", scale: 1.06, x: 0, y: 1
   },
   {
-    chapter: "QIN", year: "221 BCE", era: "QIN / LINTONG", mark: "秦",
-    title: "A hill holds an unopened world.", copy: "秦始皇陵的封土仍然存在。镜头先停在地表，再进入已经被发现的地下军阵。",
+    chapter: "QIN", year: "221 BCE", era: "QIN / LINTONG", mark: "QIN",
+    title: "A hill holds an unopened world.", copy: "The burial mound of Qin Shi Huang still rises above the plain. The camera pauses at the surface before descending into the parts of the underground complex that have been uncovered.",
     image: commons("秦始皇帝陵·秦始皇陵·西安臨潼·（封土正北側）.jpg"), source: "WIKIMEDIA COMMONS / LEGOLAS1024", rights: "CC BY-SA 4.0",
     href: "https://commons.wikimedia.org/wiki/File:%E7%A7%A6%E5%A7%8B%E7%9A%87%E5%B8%9D%E9%99%B5%C2%B7%E7%A7%A6%E5%A7%8B%E7%9A%87%E9%99%B5%C2%B7%E8%A5%BF%E5%AE%89%E8%87%A8%E6%BD%BC%C2%B7%EF%BC%88%E5%B0%81%E5%9C%9F%E6%AD%A3%E5%8C%97%E5%81%B4%EF%BC%89.jpg",
     tone: "relic", fit: "cover", scale: 1.08, x: 0, y: 1
   },
   {
-    chapter: "QIN", year: "1974 →", era: "TERRACOTTA ARMY / PIT 1", mark: "俑",
-    title: "The underground army enters the light.", copy: "一号坑把规模一次性摊开。滚动继续时，镜头从军阵远景逐渐推进到陶俑本身。",
+    chapter: "QIN", year: "1974 →", era: "TERRACOTTA ARMY / PIT 1", mark: "QIN",
+    title: "The underground army enters the light.", copy: "Pit 1 reveals the army at full scale. As the page moves, the view advances from the massed formation toward the terracotta figures themselves.",
     image: commons("Terracotta Army, View of Pit 1.jpg"), source: "WIKIMEDIA COMMONS / JEAN-MARIE HULLOT", rights: "CC BY 3.0",
     href: "https://commons.wikimedia.org/wiki/File:Terracotta_Army,_View_of_Pit_1.jpg", tone: "relic", fit: "cover", scale: 1.04, x: 0, y: 0
   },
   {
-    chapter: "QIN", year: "221–206 BCE", era: "TERRACOTTA ARMY / DETAIL", mark: "俑",
-    title: "One army. Thousands of faces.", copy: "近景让宏大的军阵重新变成人的尺度：发髻、甲片、姿态和表情都存在差异。",
+    chapter: "QIN", year: "221–206 BCE", era: "TERRACOTTA ARMY / DETAIL", mark: "QIN",
+    title: "One army. Thousands of faces.", copy: "Close views bring the army back to human scale: hairstyles, armour plates, postures, and expressions all vary from figure to figure.",
     image: commons("Teracotta army pit 1 20090717-12.JPG", 1600), source: "WIKIMEDIA COMMONS / HANS A. ROSBACH", rights: "CC BY-SA 3.0",
     href: "https://commons.wikimedia.org/wiki/File:Teracotta_army_pit_1_20090717-12.JPG", tone: "relic", fit: "cover", scale: 1.12, x: 0, y: 4
   },
   {
-    chapter: "HAN", year: "206 BCE →", era: "HAN CHANG’AN / WEIYANG", mark: "汉",
-    title: "The palace is gone. Its scale is not.", copy: "未央宫前殿只剩巨大的台基与地形。建筑消失以后，尺度反而成为最直接的证据。",
+    chapter: "HAN", year: "206 BCE →", era: "HAN CHANG’AN / WEIYANG", mark: "HAN",
+    title: "The palace is gone. Its scale is not.", copy: "Only the vast platform and terrain of Weiyang Palace’s Front Hall remain. Once the architecture disappears, scale becomes the clearest evidence.",
     image: commons("Weiyang Palace site.JPG"), source: "WIKIMEDIA COMMONS / DANIELINBLUE", rights: "CC BY-SA 3.0",
     href: "https://commons.wikimedia.org/wiki/File:Weiyang_Palace_site.JPG", tone: "relic", fit: "cover", scale: 1.06, x: 0, y: 0
   },
   {
-    chapter: "HAN", year: "153 BCE →", era: "HAN YANGLING / UNDERGROUND", mark: "陵",
-    title: "An empire reduced to daily life.", copy: "汉阳陵的陪葬坑里出现侍从、动物与日常生活的缩影。地下世界从军队变成了社会。",
+    chapter: "HAN", year: "153 BCE →", era: "HAN YANGLING / UNDERGROUND", mark: "HAN",
+    title: "An empire reduced to daily life.", copy: "The burial pits at Yangling contain attendants, animals, and miniature fragments of everyday life. The underground world shifts from an army to a society.",
     image: commons("Yangling 01.jpg"), source: "WIKIMEDIA COMMONS / BRÜCKE-OSTEUROPA", rights: "CC BY-SA 3.0",
     href: "https://commons.wikimedia.org/wiki/File:Yangling_01.jpg", tone: "relic", fit: "cover", scale: 1.08, x: 0, y: 1
   },
   {
-    chapter: "SUI", year: "582 →", era: "DAXING / MINGDE GATE SITE", mark: "隋",
-    title: "A new capital is drawn on new ground.", copy: "明德门遗址属于隋大兴—唐长安城体系。这里承担从汉长安向隋唐长安的转场。",
+    chapter: "SUI", year: "582 →", era: "DAXING / MINGDE GATE SITE", mark: "SUI",
+    title: "A new capital is drawn on new ground.", copy: "The Mingde Gate site belongs to the Sui Daxing–Tang Chang’an urban system. It bridges the move from Han Chang’an to the capital of the Sui and Tang.",
     image: commons("隋大兴唐长安城遗址-明德门 2023-09-30 10.jpg"), source: "WIKIMEDIA COMMONS / KCX36", rights: "CC BY-SA 4.0",
     href: "https://commons.wikimedia.org/wiki/File:%E9%9A%8B%E5%A4%A7%E5%85%B4%E5%94%90%E9%95%BF%E5%AE%89%E5%9F%8E%E9%81%97%E5%9D%80-%E6%98%8E%E5%BE%B7%E9%97%A8_2023-09-30_10.jpg",
     tone: "relic", fit: "cover", scale: 1.06, x: 0, y: 0
   },
   {
-    chapter: "TANG", year: "618–907", era: "DÁMÍNG PALACE / HANYUAN HALL", mark: "唐",
-    title: "The palace returns as a horizon.", copy: "含元殿遗址让唐长安重新获得尺度。台基、坡道和远景足以让镜头停留，不需要复原图。",
+    chapter: "TANG", year: "618–907", era: "DÁMÍNG PALACE / HANYUAN HALL", mark: "TANG",
+    title: "The palace returns as a horizon.", copy: "The Hanyuan Hall site restores the scale of Tang Chang’an. Platforms, ramps, and the distant horizon are enough; no reconstruction is needed.",
     image: commons("Daming Palace Hanyuan Hall Site.jpg"), source: "WIKIMEDIA COMMONS / DANIELINBLUE", rights: "CC BY-SA 3.0",
     href: "https://commons.wikimedia.org/wiki/File:Daming_Palace_Hanyuan_Hall_Site.jpg", tone: "relic", fit: "cover", scale: 1.04, x: 0, y: 0
   },
   {
-    chapter: "TANG", year: "1911", era: "GIANT WILD GOOSE PAGODA / ARCHIVE", mark: "塔",
-    title: "Photography finally reaches the monument.", copy: "大雁塔的历史第一次从遗址摄影切换到真正的历史摄影。画面介质本身开始成为时间的一部分。",
+    chapter: "TANG", year: "1911", era: "GIANT WILD GOOSE PAGODA / ARCHIVE", mark: "PAGODA",
+    title: "Photography finally reaches the monument.", copy: "At the Giant Wild Goose Pagoda, the sequence shifts from present-day photographs of ancient remains to an actual historical photograph. The medium itself now becomes part of the timeline.",
     image: commons("西安府大雁塔.jpg", 1600), source: "WIKIMEDIA COMMONS / EIGHTEEN CAPITALS OF CHINA", rights: "Public domain",
     href: "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E5%A4%A7%E9%9B%81%E5%A1%94.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
   },
   {
-    chapter: "MING", year: "14th c. →", era: "XI’AN CITY WALL / SURVIVAL", mark: "城",
-    title: "The city contracts behind a wall.", copy: "明代城墙把后来的西安旧城重新收紧。它比隋唐长安小得多，却成为今天最清晰的城市历史边界。",
+    chapter: "MING", year: "14th c. →", era: "XI’AN CITY WALL / SURVIVAL", mark: "CITY",
+    title: "The city contracts behind a wall.", copy: "The Ming wall pulled the later city of Xi’an into a tighter enclosure. It was far smaller than Sui–Tang Chang’an, yet it remains the clearest historical boundary in the city today.",
     image: commons("1 xian city wall 2011.jpg"), source: "WIKIMEDIA COMMONS / CHENSIYUAN", rights: "GFDL / CC BY-SA",
     href: "https://commons.wikimedia.org/wiki/File:1_xian_city_wall_2011.jpg", tone: "present", fit: "cover", scale: 1.04, x: 0, y: 0
   },
   {
-    chapter: "ARCHIVE", year: "1907", era: "DUANLI GATE / HISTORICAL PHOTO", mark: "影",
-    title: "The past starts photographing itself.", copy: "从这一段开始，网页不再依赖今天拍摄的遗址。1907年的城门直接把观看者送进当时的西安。",
+    chapter: "ARCHIVE", year: "1907", era: "DUANLI GATE / HISTORICAL PHOTO", mark: "ARCHIVE",
+    title: "The past starts photographing itself.", copy: "From here, the sequence no longer depends on photographs taken in the present. A 1907 image of the gate takes us directly into the Xi’an seen by that camera.",
     image: commons("Duan Li Men, Xi'an, 1907.jpg", 1600), source: "WIKIMEDIA COMMONS / ÉDOUARD CHAVANNES", rights: "Public domain",
     href: "https://commons.wikimedia.org/wiki/File:Duan_Li_Men,_Xi%27an,_1907.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
   },
   {
-    chapter: "ARCHIVE", year: "c. 1908", era: "CITY WALL / JOHN SHIELDS", mark: "影",
-    title: "A wall before traffic and neon.", copy: "约1908年的城墙照片保留了道路、地貌与城体的关系。画面保持原比例，不把档案裁成普通网页背景。",
+    chapter: "ARCHIVE", year: "c. 1908", era: "CITY WALL / JOHN SHIELDS", mark: "ARCHIVE",
+    title: "A wall before traffic and neon.", copy: "This photograph from around 1908 preserves the relationship between road, terrain, and wall. Its original proportions are kept intact rather than cropped into a generic web background.",
     image: commons("Xi'an walls.jpg", 1800), source: "WIKIMEDIA COMMONS / JOHN SHIELDS", rights: "Public domain",
     href: "https://commons.wikimedia.org/wiki/File:Xi%27an_walls.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
   },
   {
-    chapter: "ARCHIVE", year: "1911", era: "PRIVATE COURTYARD / XI’AN", mark: "院",
-    title: "History moves indoors.", copy: "旧庭院把时间线从宫殿、城墙和政权拉回普通生活空间。历史在门槛、树影和砖地上继续。",
+    chapter: "ARCHIVE", year: "1911", era: "PRIVATE COURTYARD / XI’AN", mark: "1911",
+    title: "History moves indoors.", copy: "The courtyard shifts the timeline away from palaces, walls, and regimes toward ordinary domestic space. History continues across thresholds, tree shadows, and brick paving.",
     image: commons("西安府私人庭院.jpg", 1800), source: "WIKIMEDIA COMMONS / EIGHTEEN CAPITALS OF CHINA", rights: "Public domain",
     href: "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E7%A7%81%E4%BA%BA%E5%BA%AD%E9%99%A2.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
   },
   {
-    chapter: "1936", year: "12 DEC 1936", era: "XI’AN INCIDENT / ZHANG RESIDENCE", mark: "事",
-    title: "A house becomes a national political scene.", copy: "这一章使用西安事变旧址的真实摄影，让地点承担历史，不用来源和版权都不稳定的网络旧照拼贴。",
+    chapter: "1936", year: "12 DEC 1936", era: "XI’AN INCIDENT / ZHANG RESIDENCE", mark: "1936",
+    title: "A house becomes a national political scene.", copy: "This chapter uses the surviving site of the Xi’an Incident and lets the place carry the history, avoiding unstable or poorly licensed historical image collages.",
     image: commons("Former Residence of Zhang Xueliang 張學良故居 - panoramio.jpg"), source: "WIKIMEDIA COMMONS / LIENYUAN LEE", rights: "CC BY-SA",
     href: "https://commons.wikimedia.org/wiki/File:Former_Residence_of_Zhang_Xueliang_%E5%BC%B5%E5%AD%B8%E8%89%AF%E6%95%85%E5%B1%85_-_panoramio.jpg",
     tone: "archive-site", fit: "cover", scale: 1.04, x: 0, y: 0
   },
   {
-    chapter: "1950s", year: "1959", era: "PUBLIC LIFE / PARADE", mark: "城",
-    title: "The city begins to spill beyond the old wall.", copy: "1959年的城市公共生活留下真实历史摄影。分辨率有限，所以这一镜只短暂停留，不做过度放大。",
+    chapter: "1950s", year: "1959", era: "PUBLIC LIFE / PARADE", mark: "CITY",
+    title: "The city begins to spill beyond the old wall.", copy: "A 1959 photograph records public life in the city. Its source image is modest in resolution, so the shot stays brief and avoids aggressive enlargement.",
     image: commons("China 10th Anniversary Parade in Xi'an.jpg", 1200), source: "WIKIMEDIA COMMONS / 10TH ANNIVERSARY COLLECTION", rights: "Public domain",
     href: "https://commons.wikimedia.org/wiki/File:China_10th_Anniversary_Parade_in_Xi%27an.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
   },
   {
-    chapter: "1980s", year: "1985", era: "XI’AN / SOUTH AERIAL VIEW", mark: "八",
-    title: "Colour returns.", copy: "1985年的航拍把城墙、道路和新城区放进同一张彩色照片。摄影介质开始接近今天。",
+    chapter: "1980s", year: "1985", era: "XI’AN / SOUTH AERIAL VIEW", mark: "1985",
+    title: "Colour returns.", copy: "The 1985 aerial view places the wall, roads, and expanding districts in one colour frame. The photographic medium is beginning to resemble the present.",
     image: commons("Xi'an aerial view 1985.jpg", 1600), source: "WIKIMEDIA COMMONS / PIECEOFMETALWORK", rights: "CC BY-SA 4.0",
     href: "https://commons.wikimedia.org/wiki/File:Xi%27an_aerial_view_1985.jpg", tone: "late-archive", fit: "cover", scale: 1.06, x: 0, y: 0
   },
   {
-    chapter: "1990s", year: "1996", era: "STREET / MARKET", mark: "街",
-    title: "The archive becomes ordinary again.", copy: "市场、人群与街道把历史从纪念性建筑拉回日常。此时的西安已经越来越像记忆里的现代城市。",
+    chapter: "1990s", year: "1996", era: "STREET / MARKET", mark: "1996",
+    title: "The archive becomes ordinary again.", copy: "Markets, crowds, and streets return the archive to ordinary life. By the mid-1990s, Xi’an already looks increasingly like the modern city held in living memory.",
     image: commons("1996 -253-27 Xian market (5068475729).jpg", 1600), source: "WIKIMEDIA COMMONS / 1996 CITY RECORD", rights: "Open license · source record",
     href: "https://commons.wikimedia.org/wiki/File:1996_-253-27_Xian_market_(5068475729).jpg", tone: "late-archive", fit: "cover", scale: 1.04, x: 0, y: 0
   },
   {
-    chapter: "2000s", year: "2006", era: "CENTRAL XI’AN / STREET", mark: "路",
-    title: "Digital Xi’an arrives.", copy: "早期数码摄影把招牌、车辆和街道完整留下。画面的清晰度提高，历史与今天之间只剩一个很短的距离。",
+    chapter: "2000s", year: "2006", era: "CENTRAL XI’AN / STREET", mark: "2006",
+    title: "Digital Xi’an arrives.", copy: "Early digital photography records signs, vehicles, and street life with new clarity. The visual distance between archive and present has become very short.",
     image: commons("Xian street 2006.JPG", 1800), source: "WIKIMEDIA COMMONS / DON-KUN", rights: "CC BY 3.0",
     href: "https://commons.wikimedia.org/wiki/File:Xian_street_2006.JPG", tone: "digital", fit: "cover", scale: 1.04, x: 0, y: 0
   },
   {
-    chapter: "NOW", year: "2025", era: "YONGNINGMEN / RETURN", mark: "今",
-    title: "Return to the gate.", copy: "三千多年的都城史没有留下一座完整城市。它留下的是一层又一层仍然可以被看见、被经过的现场。",
+    chapter: "NOW", year: "2025", era: "YONGNINGMEN / RETURN", mark: "NOW",
+    title: "Return to the gate.", copy: "More than three millennia of capital history did not leave one complete city behind. It left layers of places that can still be seen, crossed, and inhabited.",
     image: "https://media.galok.me/cities/xian/city-wall-skyline--7eda7148ec5d.jpeg",
     source: "GALOK / XI’AN FIELD FRAME", rights: "GALOK city media",
     href: "https://www.galok.me/be-a-viewer/xian/", tone: "present", fit: "cover", scale: 1.08, x: 0, y: 0
@@ -162,8 +162,8 @@ if (anchor && !document.querySelector("[data-xian-time-root]")) {
       <div class="xian-time-intro__grid">
         <h2 id="xian-time-title">SCROLL<br>THROUGH<br>XI’AN.</h2>
         <div>
-          <p>从半坡、西周、秦汉与隋唐遗址，到20世纪真正的历史摄影，再回到今天。这里不复原一座不存在的城市，只观看真实留下来的东西。</p>
-          <span>向下滚动 · 照片就是时间轴</span>
+          <p>From Banpo, the Western Zhou, Qin and Han, through the Sui–Tang capital, into twentieth-century historical photography and back to the present. Nothing here invents a vanished city; the sequence looks only at what has genuinely survived.</p>
+          <span>SCROLL DOWN · PHOTOGRAPHS ARE THE TIMELINE</span>
         </div>
       </div>
     </header>
@@ -216,7 +216,7 @@ if (anchor && !document.querySelector("[data-xian-time-root]")) {
 
     <footer class="xian-time-outro xian-time-reveal">
       <p>THE CITY DID NOT KEEP ONE AGE.</p>
-      <h3>它把很多时代留在了同一片土地上。</h3>
+      <h3>IT LEFT MANY AGES ON THE SAME GROUND.</h3>
       <a href="#arrival">CONTINUE TO XI’AN ↓</a>
     </footer>
 
