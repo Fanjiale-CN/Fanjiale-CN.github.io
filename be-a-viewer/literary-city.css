@@ -405,3 +405,16 @@
   }
   .literary-series { scroll-behavior: auto; }
 }
+
+
+/* Chongqing / City in Words — fog paper, old roofs, wartime signal red */
+.literary-city--chongqing {
+  --lit-bg: #d5d5cf;
+  --lit-paper: #eee9df;
+  --lit-ink: #202321;
+  --lit-muted: #626761;
+  --lit-line: rgba(32, 35, 33, .25);
+  --lit-accent: #b33b2f;
+}
+.literary-city--chongqing .literary-plate img { --lit-plate-ratio: 4 / 3; object-position: center 44%; }
+.literary-series--six { grid-template-columns: repeat(6, minmax(0, 1fr)); }
