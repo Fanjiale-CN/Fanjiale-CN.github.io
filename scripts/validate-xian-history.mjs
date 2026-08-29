@@ -31,7 +31,7 @@ for (const item of manifest.items || []) {
 for (const marker of ["xian-history.json", "xian-history.css", "data-xian-history", "allowedCategories", "blocked8964", "slice(0, 30)"]) if (!renderer.includes(marker)) errors.push(`Xi'an history renderer marker missing: ${marker}`);
 if (!xianJs.includes("xian-history.js")) errors.push("Xi'an page does not load the historical archive renderer");
 if (!renderer.includes("xian-time.js?v=20260829-strata1")) errors.push("Xi'an historical renderer must load the time-strata module");
-for (const marker of ["data-xian-time-root", "PEEL<br>XI’AN BACK", "IntersectionObserver", "requestAnimationFrame", "data-xian-time-frame-a", "data-xian-time-frame-b", "Map%20VI", "Map%20IV", "Map%20III", "Map%20V", "PUBLIC DOMAIN"]) {
+for (const marker of ["data-xian-time-root", "PEEL<br>XI’AN BACK", "IntersectionObserver", "requestAnimationFrame", "data-xian-time-frame-a", "data-xian-time-frame-b", "Ancient%20and%20Modern%20%28VI%29", "Ancient%20and%20Modern%20%28IV%29", "Ancient%20and%20Modern%20%28III%29", "Ancient%20and%20Modern%20%28V%29", "PUBLIC DOMAIN"]) {
   if (!timeJs.includes(marker)) errors.push(`Xi'an time-strata marker missing: ${marker}`);
 }
 for (const marker of [".xian-time-stage", "position: sticky", ".xian-time-frame.is-visible", "@media (max-width: 820px)", "prefers-reduced-motion"]) {
