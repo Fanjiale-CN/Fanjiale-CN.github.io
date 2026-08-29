@@ -59,3 +59,5 @@
   }
   mount();
 })();
+
+void import("/be-a-viewer/xian/xian-time.js?v=20260829-strata1").catch(() => {});
