@@ -12,12 +12,12 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          node-version: '24'
           cache: npm
       - name: Bust Xi'an asset cache keys
         run: |
@@ -60,7 +60,7 @@ jobs:
           time.write_text(text.replace('const VERSION = "20260829-strata1";', f'const VERSION = "{NEW}";', 1))
           PY
       - name: Install release tools
-        run: npm ci
+        run: npm ci --ignore-scripts
       - name: Run release
         run: npm run release
       - name: Commit validated cache bust
