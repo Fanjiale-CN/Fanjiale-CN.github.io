@@ -1,0 +1,73 @@
+name: Xi'an Cache Bust Preflight
+
+on:
+  push:
+    branches:
+      - work/xian-cache-bust-20260829
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Bust Xi'an asset cache keys
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          NEW = "20260829-strata2"
+
+          index = Path("be-a-viewer/xian/index.html")
+          text = index.read_text()
+          old = 'src="/be-a-viewer/xian/xian.js?v=20260829-history-cache-fix"'
+          new = f'src="/be-a-viewer/xian/xian.js?v={NEW}"'
+          if old not in text:
+              raise SystemExit("index.html xian.js cache key not found")
+          index.write_text(text.replace(old, new, 1))
+
+          xian = Path("be-a-viewer/xian/xian.js")
+          text = xian.read_text()
+          old = 'void import("/be-a-viewer/xian/xian-history.js?v=20260829-history-cache-fix").catch(() => {});'
+          new = f'void import("/be-a-viewer/xian/xian-history.js?v={NEW}").catch(() => {{}});'
+          if old not in text:
+              raise SystemExit("xian.js history import cache key not found")
+          xian.write_text(text.replace(old, new, 1))
+
+          history = Path("be-a-viewer/xian/xian-history.js")
+          text = history.read_text()
+          if 'const VERSION = "20260829-history-cache-fix";' not in text:
+              raise SystemExit("xian-history.js VERSION not found")
+          text = text.replace('const VERSION = "20260829-history-cache-fix";', f'const VERSION = "{NEW}";', 1)
+          old = 'void import("/be-a-viewer/xian/xian-time.js?v=20260829-strata1").catch(() => {});'
+          new = f'void import("/be-a-viewer/xian/xian-time.js?v={NEW}").catch(() => {{}});'
+          if old not in text:
+              raise SystemExit("xian-history.js time import cache key not found")
+          history.write_text(text.replace(old, new, 1))
+
+          time = Path("be-a-viewer/xian/xian-time.js")
+          text = time.read_text()
+          if 'const VERSION = "20260829-strata1";' not in text:
+              raise SystemExit("xian-time.js VERSION not found")
+          time.write_text(text.replace('const VERSION = "20260829-strata1";', f'const VERSION = "{NEW}";', 1))
+          PY
+      - name: Install release tools
+        run: npm ci
+      - name: Run release
+        run: npm run release
+      - name: Commit validated cache bust
+        run: |
+          rm -f .github/workflows/xian-cache-bust-preflight.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Finalize Xi'an cache bust [xian-cache-final]"
+          git push origin HEAD:work/xian-cache-bust-20260829
