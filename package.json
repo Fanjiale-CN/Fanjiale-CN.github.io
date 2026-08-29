@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate-site.mjs",
-    "release": "npm run build:discovery && node scripts/release-check.mjs",
+    "prepare": "node scripts/install-git-hooks.mjs",
+    "release:core": "node scripts/release-check.mjs",
+    "check:generated-clean": "git diff --exit-code -- feed.xml sitemap.xml index/search-catalog.json pagefind/",
+    "release": "npm run build:discovery && npm run release:core && npm run check:generated-clean",
     "ci:links": "node scripts/validate-runtime-links.mjs",
     "ci:budget": "node scripts/check-resource-budgets.mjs",
     "ci:runtime": "node scripts/runtime-accessibility.mjs",
