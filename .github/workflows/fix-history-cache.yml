@@ -75,6 +75,9 @@ jobs:
           print("History cache-chain repair applied to Beijing and Xi'an.")
           PY
 
+      - name: Sync site shell
+        run: node scripts/sync-site-shell.mjs
+
       - name: Run full release preflight
         run: npm run release
 
