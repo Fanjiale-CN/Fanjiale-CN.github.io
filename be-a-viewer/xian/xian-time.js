@@ -1,4 +1,4 @@
-const VERSION = "20260829-strata2";
+const VERSION = "20260829-strata3";
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const compact = window.matchMedia("(max-width: 820px)");
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
@@ -144,7 +144,7 @@ if (!anchor || document.querySelector("[data-xian-time-root]")) {
 
       <div class="xian-time-steps">
         ${steps.map((step, index) => `
-          <article class="xian-time-step${index === 0 ? " is-active" : "}" data-xian-time-step="${index}">
+          <article class="xian-time-step${index === 0 ? " is-active" : ""}" data-xian-time-step="${index}">
             <span>${String(index + 1).padStart(2, "0")} / ${step.era}</span>
             <b>${step.year}</b>
             <h3>${step.title}</h3>
