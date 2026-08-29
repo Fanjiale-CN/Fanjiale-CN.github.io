@@ -23,66 +23,39 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-
           OLD = "20260829-strata2"
           NEW = "20260829-strata3"
 
-          index = Path("be-a-viewer/xian/index.html")
-          text = index.read_text()
-          old = f'src="/be-a-viewer/xian/xian.js?v={OLD}"'
-          new = f'src="/be-a-viewer/xian/xian.js?v={NEW}"'
-          if old not in text:
-              raise SystemExit("index cache key not found")
-          index.write_text(text.replace(old, new, 1))
+          replacements = {
+              "be-a-viewer/xian/index.html": [
+                  (f'src="/be-a-viewer/xian/xian.js?v={OLD}"', f'src="/be-a-viewer/xian/xian.js?v={NEW}"')
+              ],
+              "be-a-viewer/xian/xian.js": [
+                  (f'void import("/be-a-viewer/xian/xian-history.js?v={OLD}").catch(() => {{}});', f'void import("/be-a-viewer/xian/xian-history.js?v={NEW}").catch((error) => console.error("Xi’an history module failed", error));')
+              ],
+              "be-a-viewer/xian/xian-history.js": [
+                  (f'const VERSION = "{OLD}";', f'const VERSION = "{NEW}";'),
+                  (f'void import("/be-a-viewer/xian/xian-time.js?v={OLD}").catch(() => {{}});', f'void import("/be-a-viewer/xian/xian-time.js?v={NEW}").catch((error) => console.error("Xi’an time module failed", error));')
+              ],
+              "be-a-viewer/xian/xian-time.js": [
+                  (f'const VERSION = "{OLD}";', f'const VERSION = "{NEW}";'),
+                  ('${index === 0 ? " is-active" : "}', '${index === 0 ? " is-active" : ""}')
+              ],
+              "scripts/validate-xian-history.mjs": [
+                  (f'xian-time.js?v={OLD}', f'xian-time.js?v={NEW}')
+              ]
+          }
 
-          xian = Path("be-a-viewer/xian/xian.js")
-          text = xian.read_text()
-          old = f'void import("/be-a-viewer/xian/xian-history.js?v={OLD}").catch(() => {{}});'
-          new = f'void import("/be-a-viewer/xian/xian-history.js?v={NEW}").catch((error) => console.error("Xi’an history module failed", error));'
-          if old not in text:
-              raise SystemExit("xian history import cache key not found")
-          xian.write_text(text.replace(old, new, 1))
-
-          history = Path("be-a-viewer/xian/xian-history.js")
-          text = history.read_text()
-          if f'const VERSION = "{OLD}";' not in text:
-              raise SystemExit("history VERSION not found")
-          text = text.replace(f'const VERSION = "{OLD}";', f'const VERSION = "{NEW}";', 1)
-          old = f'void import("/be-a-viewer/xian/xian-time.js?v={OLD}").catch(() => {{}});'
-          new = f'void import("/be-a-viewer/xian/xian-time.js?v={NEW}").catch((error) => console.error("Xi’an time module failed", error));'
-          if old not in text:
-              raise SystemExit("history time import cache key not found")
-          history.write_text(text.replace(old, new, 1))
-
-          time = Path("be-a-viewer/xian/xian-time.js")
-          text = time.read_text()
-          if f'const VERSION = "{OLD}";' not in text:
-              raise SystemExit("time VERSION not found")
-          text = text.replace(f'const VERSION = "{OLD}";', f'const VERSION = "{NEW}";', 1)
-          bad = '${index === 0 ? " is-active" : "}'
-          good = '${index === 0 ? " is-active" : ""}'
-          if bad not in text:
-              raise SystemExit("known malformed time-step template not found")
-          time.write_text(text.replace(bad, good, 1))
-
-          validator = Path("scripts/validate-xian-history.mjs")
-          text = validator.read_text()
-          old = f'xian-time.js?v={OLD}'
-          new = f'xian-time.js?v={NEW}'
-          if old not in text:
-              raise SystemExit("validator cache marker not found")
-          text = text.replace(old, new, 1)
-          if 'from "node:child_process"' not in text:
-              text = text.replace('import { readFileSync } from "node:fs";\n', 'import { readFileSync } from "node:fs";\nimport { execFileSync } from "node:child_process";\n', 1)
-          marker = 'const errors = [];\n'
-          syntax_gate = 'const errors = [];\ntry {\n  execFileSync(process.execPath, ["--check", join(root, "be-a-viewer/xian/xian-time.js")], { stdio: "pipe" });\n} catch (error) {\n  errors.push(`Xi\\'an time-strata JavaScript syntax check failed: ${error.stderr?.toString()?.trim() || error.message}`);\n}\n'
-          if 'time-strata JavaScript syntax check failed' not in text:
-              if marker not in text:
-                  raise SystemExit("validator errors marker not found")
-              text = text.replace(marker, syntax_gate, 1)
-          validator.write_text(text)
+          for filename, pairs in replacements.items():
+              path = Path(filename)
+              text = path.read_text()
+              for old, new in pairs:
+                  if old not in text:
+                      raise SystemExit(f"missing expected patch marker in {filename}: {old}")
+                  text = text.replace(old, new, 1)
+              path.write_text(text)
           PY
-      - name: Check Xi'an JavaScript syntax before dependencies
+      - name: Check Xi'an JavaScript syntax
         run: |
           node --check be-a-viewer/xian/xian-time.js
           node --check be-a-viewer/xian/xian-history.js
