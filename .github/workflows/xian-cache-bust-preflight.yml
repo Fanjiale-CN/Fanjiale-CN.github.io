@@ -58,6 +58,14 @@ jobs:
           if 'const VERSION = "20260829-strata1";' not in text:
               raise SystemExit("xian-time.js VERSION not found")
           time.write_text(text.replace('const VERSION = "20260829-strata1";', f'const VERSION = "{NEW}";', 1))
+
+          validator = Path("scripts/validate-xian-history.mjs")
+          text = validator.read_text()
+          old = 'xian-time.js?v=20260829-strata1'
+          new = f'xian-time.js?v={NEW}'
+          if old not in text:
+              raise SystemExit("Xi'an validator cache marker not found")
+          validator.write_text(text.replace(old, new, 1))
           PY
       - name: Install release tools
         run: npm ci --ignore-scripts
