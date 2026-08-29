@@ -30,7 +30,7 @@ for (const item of manifest.items || []) {
 }
 for (const marker of ["xian-history.json", "xian-history.css", "data-xian-history", "allowedCategories", "blocked8964", "slice(0, 30)"]) if (!renderer.includes(marker)) errors.push(`Xi'an history renderer marker missing: ${marker}`);
 if (!xianJs.includes("xian-history.js")) errors.push("Xi'an page does not load the historical archive renderer");
-if (!renderer.includes("xian-time.js?v=20260830-cinema1")) errors.push("Xi'an historical renderer must load the cinematic archive module");
+if (!renderer.includes("xian-time.js?v=20260830-cinema2")) errors.push("Xi'an historical renderer must load the cinematic archive module");
 for (const marker of ["data-xian-time-root", "GALOK CINEMATIC ARCHIVE", "SCROLL<br>THROUGH<br>XI’AN", "IntersectionObserver", "requestAnimationFrame", "data-xian-time-frame-a", "data-xian-time-frame-b", "data-xian-time-open-archive", "Banpo.jpg", "Western Zhou dynasty Carriages", "Terracotta Army, View of Pit 1.jpg", "Weiyang Palace site.JPG", "Daming Palace Hanyuan Hall Site.jpg", "Xi'an walls.jpg"]) {
   if (!timeJs.includes(marker)) errors.push(`Xi'an cinematic archive marker missing: ${marker}`);
 }
