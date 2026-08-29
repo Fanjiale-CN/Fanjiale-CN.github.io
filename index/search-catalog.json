@@ -205,6 +205,20 @@
   {
     "type": "research",
     "label": "Research",
+    "title": "Love by the Hour — GALOK RESEARCH 003",
+    "excerpt": "An exploratory digital-ethnographic study of emotional consumption, paid intimacy, fan identity, membership and organizational infrastructure in China’s gaming companion economy.",
+    "url": "/research/love-by-the-hour/"
+  },
+  {
+    "type": "research",
+    "label": "Research",
+    "title": "Visual Evidence — Love by the Hour",
+    "excerpt": "Interactive evidence visualizations for Galok Research 003: Love by the Hour.",
+    "url": "/research/love-by-the-hour/visuals/"
+  },
+  {
+    "type": "research",
+    "label": "Research",
     "title": "Who Captures Growth? — GALOK RESEARCH 001",
     "excerpt": "A full-length independent research paper on how China",
     "url": "/research/who-captures-growth/"
