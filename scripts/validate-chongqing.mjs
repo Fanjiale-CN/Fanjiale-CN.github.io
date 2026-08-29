@@ -17,7 +17,7 @@ const errors = [];
 const requireText = (source, pattern, label) => { if (!pattern.test(source)) errors.push(label); };
 
 requireText(html, /<title>Chongqing — Ground Level Undefined \| GALOK<\/title>/, "missing Chongqing title");
-for (const id of ["terrain","levels","stairs","transit","bridges","food","field-atlas","old-chongqing","river","night"]) {
+for (const id of ["terrain","levels","stairs","transit","bridges","food","field-atlas","old-chongqing","literature","river","night"]) {
   requireText(html, new RegExp(`id="${id}"`), `missing ${id} chapter`);
 }
 requireText(html, /Li Ziba station sits on floors 6–7/, "missing verified Li Ziba fact");
@@ -30,7 +30,14 @@ requireText(html, /t20190628_8614214\.html/, "missing Chongqing intangible-herit
 requireText(html, /t20221013_11182901\.html/, "missing Chongqing xiaomian source");
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
 requireText(html, /Contemporary photography \/ Pexels contributors/, "missing contemporary photography credit");
-requireText(html, /chongqing\.css\?v=20260828-cq12/, "page must bust the Chongqing editorial stylesheet cache");
+requireText(html, /chongqing\.css\?v=20260829-cq13/, "page must bust the Chongqing editorial stylesheet cache");
+requireText(html, /chongqing-literature\.css\?v=20260829-cq13/, "page must load the literary Chongqing stylesheet");
+for (const work of ["COLD\\s*<br>NIGHT", "EIGHTY-ONE\\s*<br>DREAMS", "REMNANT\\s*<br>FOG"]) {
+  requireText(html, new RegExp(work), `missing literary Chongqing work: ${work}`);
+}
+for (const source of ["xinhuanet\\.com\\/politics\\/2015-07\\/30\\/c_1116085764", "big5\\.cctv\\.com\\/gate", "wyb\\.chinawriter\\.com\\.cn"]) {
+  requireText(html, new RegExp(source), `missing literary source: ${source}`);
+}
 requireText(html, /chongqing-tablet-fix\.css\?v=20260829-cq01/, "page must load the final Chongqing tablet repair stylesheet");
 requireText(html, /chongqing\.js\?v=20260828-cq09/, "page must keep the repaired Chongqing loader cache key");
 

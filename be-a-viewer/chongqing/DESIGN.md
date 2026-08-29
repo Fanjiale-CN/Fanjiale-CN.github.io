@@ -32,8 +32,9 @@ The motion rule follows the page’s purpose: scrolling moves terrain, rail stat
 | 05 / Bridge City | vertical scroll drives horizontal travel | Bridges stitch separated levels and banks. |
 | 06 / Vertical Life | ordinary uses stack by height | The spectacular section is daily life. |
 | 07 / Old Chungking | archival rail | The slope predates the skyline. |
-| 08 / Descend | altitude falls toward the river | The city stays above the viewer. |
-| 09 / After Dark | light arrives after structure | Night is the final layer, not the premise. |
+| 08 / Written City | three uneven literary plates | The city is remembered through a household, a newspaper and a stage. |
+| 09 / Descend | altitude falls toward the river | The city stays above the viewer. |
+| 10 / After Dark | light arrives after structure | Night is the final layer, not the premise. |
 
 ## Palette
 
@@ -59,6 +60,7 @@ The motion rule follows the page’s purpose: scrolling moves terrain, rail stat
 - IntersectionObserver handles reveal state, media lifecycle and narrative altitude.
 - Videos pause offscreen and when the document is hidden.
 - Reduced-motion mode removes sticky translation and autoplay.
+- The literary chapter uses the existing reveal cadence only: reading stays ahead of motion.
 
 ## Responsive behaviour
 

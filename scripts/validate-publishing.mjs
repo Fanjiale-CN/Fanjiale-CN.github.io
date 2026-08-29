@@ -55,7 +55,9 @@ function textOnly(markup) {
   return markup.replace(/<[^>]+>/g, " ").replace(/&(?:nbsp|amp|quot|#39);/g, " ").replace(/\s+/g, " ").trim();
 }
 
-const htmlFiles = walk(root, (file) => file.endsWith(".html"));
+// Research 003 stores manuscript chapters as fetched document fragments. They are
+// deliberately not standalone publishable pages and therefore have no canonical.
+const htmlFiles = walk(root, (file) => file.endsWith(".html") && !file.replaceAll("\\", "/").includes("/research/love-by-the-hour/content/"));
 const indexed = [];
 const inbound = new Map();
 const canonicals = new Map();
