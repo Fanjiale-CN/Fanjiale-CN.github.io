@@ -5,6 +5,8 @@ const root = fileURLToPath(new URL("../", import.meta.url));
 const manifest = JSON.parse(readFileSync(join(root, "be-a-viewer/xian/xian-history.json"), "utf8"));
 const renderer = readFileSync(join(root, "be-a-viewer/xian/xian-history.js"), "utf8");
 const xianJs = readFileSync(join(root, "be-a-viewer/xian/xian.js"), "utf8");
+const timeJs = readFileSync(join(root, "be-a-viewer/xian/xian-time.js"), "utf8");
+const timeCss = readFileSync(join(root, "be-a-viewer/xian/xian-time.css"), "utf8");
 const errors = [];
 const currentYear = new Date().getUTCFullYear();
 const allowedCategories = new Set(["architecture", "street-life", "landscape"]);
@@ -28,5 +30,12 @@ for (const item of manifest.items || []) {
 }
 for (const marker of ["xian-history.json", "xian-history.css", "data-xian-history", "allowedCategories", "blocked8964", "slice(0, 30)"]) if (!renderer.includes(marker)) errors.push(`Xi'an history renderer marker missing: ${marker}`);
 if (!xianJs.includes("xian-history.js")) errors.push("Xi'an page does not load the historical archive renderer");
+if (!renderer.includes("xian-time.js?v=20260829-strata1")) errors.push("Xi'an historical renderer must load the time-strata module");
+for (const marker of ["data-xian-time-root", "PEEL<br>XI’AN BACK", "IntersectionObserver", "requestAnimationFrame", "data-xian-time-frame-a", "data-xian-time-frame-b", "Map%20VI", "Map%20IV", "Map%20III", "Map%20V", "PUBLIC DOMAIN"]) {
+  if (!timeJs.includes(marker)) errors.push(`Xi'an time-strata marker missing: ${marker}`);
+}
+for (const marker of [".xian-time-stage", "position: sticky", ".xian-time-frame.is-visible", "@media (max-width: 820px)", "prefers-reduced-motion"]) {
+  if (!timeCss.includes(marker)) errors.push(`Xi'an time-strata CSS marker missing: ${marker}`);
+}
 if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
-console.log(`Xi'an historical archive validation passed: ${manifest.items.length} records, 20-30 range, relaxed historical-topic policy with 8964 guard.`);
+console.log(`Xi'an historical archive validation passed: ${manifest.items.length} records plus the six-step scroll-through-time reader.`);
