@@ -1,4 +1,4 @@
-const VERSION = "20260829-strata3";
+const VERSION = "20260830-cinema1";
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const compact = window.matchMedia("(max-width: 820px)");
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
@@ -8,162 +8,232 @@ stylesheet.rel = "stylesheet";
 stylesheet.href = `/be-a-viewer/xian/xian-time.css?v=${VERSION}`;
 document.head.append(stylesheet);
 
+const commons = (file, width = 1920) =>
+  `https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(file)}?width=${width}`;
+
+const steps = [
+  {
+    chapter: "NOW", year: "2025", era: "XI’AN / PRESENT", mark: "今",
+    title: "Start at the gate.", copy: "永宁门仍然站在城市中心。接下来，画面会沿着真实遗址、考古现场与历史摄影向后退。",
+    image: "https://media.galok.me/cities/xian/city-wall-skyline--7eda7148ec5d.jpeg",
+    source: "GALOK / XI’AN FIELD FRAME", rights: "GALOK city media",
+    href: "https://www.galok.me/be-a-viewer/xian/", tone: "present", fit: "cover", scale: 1.05, x: 0, y: 0
+  },
+  {
+    chapter: "ORIGIN", year: "c. 4800 BCE", era: "BANPO / NEOLITHIC", mark: "半",
+    title: "Before the capital, there was a settlement.", copy: "半坡遗址留下房址、窑穴与聚落痕迹。城市还没有出现，人已经在这片土地上长期生活。",
+    image: commons("Banpo.jpg"), source: "WIKIMEDIA COMMONS / EECC", rights: "Public domain",
+    href: "https://commons.wikimedia.org/wiki/File:Banpo.jpg", tone: "relic", fit: "cover", scale: 1.03, x: 0, y: 0
+  },
+  {
+    chapter: "ZHOU", year: "c. 1046 BCE", era: "FENG / WESTERN ZHOU", mark: "周",
+    title: "The capital moves onto the plain.", copy: "丰京车马坑把西周都城从文字重新拉回地面。木车已经腐朽，轮廓、马骨与土层仍在。",
+    image: commons("Western Zhou dynasty Carriages pit2 Xi'an.JPG"), source: "WIKIMEDIA COMMONS / DANIELINBLUE", rights: "CC BY-SA 3.0",
+    href: "https://commons.wikimedia.org/wiki/File:Western_Zhou_dynasty_Carriages_pit2_Xi%27an.JPG", tone: "relic", fit: "cover", scale: 1.06, x: 0, y: 1
+  },
+  {
+    chapter: "QIN", year: "221 BCE", era: "QIN / LINTONG", mark: "秦",
+    title: "A hill holds an unopened world.", copy: "秦始皇陵的封土仍然存在。镜头先停在地表，再进入已经被发现的地下军阵。",
+    image: commons("秦始皇帝陵·秦始皇陵·西安臨潼·（封土正北側）.jpg"), source: "WIKIMEDIA COMMONS / LEGOLAS1024", rights: "CC BY-SA 4.0",
+    href: "https://commons.wikimedia.org/wiki/File:%E7%A7%A6%E5%A7%8B%E7%9A%87%E5%B8%9D%E9%99%B5%C2%B7%E7%A7%A6%E5%A7%8B%E7%9A%87%E9%99%B5%C2%B7%E8%A5%BF%E5%AE%89%E8%87%A8%E6%BD%BC%C2%B7%EF%BC%88%E5%B0%81%E5%9C%9F%E6%AD%A3%E5%8C%97%E5%81%B4%EF%BC%89.jpg",
+    tone: "relic", fit: "cover", scale: 1.08, x: 0, y: 1
+  },
+  {
+    chapter: "QIN", year: "1974 →", era: "TERRACOTTA ARMY / PIT 1", mark: "俑",
+    title: "The underground army enters the light.", copy: "一号坑把规模一次性摊开。滚动继续时，镜头从军阵远景逐渐推进到陶俑本身。",
+    image: commons("Terracotta Army, View of Pit 1.jpg"), source: "WIKIMEDIA COMMONS / JEAN-MARIE HULLOT", rights: "CC BY 3.0",
+    href: "https://commons.wikimedia.org/wiki/File:Terracotta_Army,_View_of_Pit_1.jpg", tone: "relic", fit: "cover", scale: 1.04, x: 0, y: 0
+  },
+  {
+    chapter: "QIN", year: "221–206 BCE", era: "TERRACOTTA ARMY / DETAIL", mark: "俑",
+    title: "One army. Thousands of faces.", copy: "近景让宏大的军阵重新变成人的尺度：发髻、甲片、姿态和表情都存在差异。",
+    image: commons("Teracotta army pit 1 20090717-12.JPG", 1600), source: "WIKIMEDIA COMMONS / HANS A. ROSBACH", rights: "CC BY-SA 3.0",
+    href: "https://commons.wikimedia.org/wiki/File:Teracotta_army_pit_1_20090717-12.JPG", tone: "relic", fit: "cover", scale: 1.12, x: 0, y: 4
+  },
+  {
+    chapter: "HAN", year: "206 BCE →", era: "HAN CHANG’AN / WEIYANG", mark: "汉",
+    title: "The palace is gone. Its scale is not.", copy: "未央宫前殿只剩巨大的台基与地形。建筑消失以后，尺度反而成为最直接的证据。",
+    image: commons("Weiyang Palace site.JPG"), source: "WIKIMEDIA COMMONS / DANIELINBLUE", rights: "CC BY-SA 3.0",
+    href: "https://commons.wikimedia.org/wiki/File:Weiyang_Palace_site.JPG", tone: "relic", fit: "cover", scale: 1.06, x: 0, y: 0
+  },
+  {
+    chapter: "HAN", year: "153 BCE →", era: "HAN YANGLING / UNDERGROUND", mark: "陵",
+    title: "An empire reduced to daily life.", copy: "汉阳陵的陪葬坑里出现侍从、动物与日常生活的缩影。地下世界从军队变成了社会。",
+    image: commons("Yangling 01.jpg"), source: "WIKIMEDIA COMMONS / BRÜCKE-OSTEUROPA", rights: "CC BY-SA 3.0",
+    href: "https://commons.wikimedia.org/wiki/File:Yangling_01.jpg", tone: "relic", fit: "cover", scale: 1.08, x: 0, y: 1
+  },
+  {
+    chapter: "SUI", year: "582 →", era: "DAXING / MINGDE GATE SITE", mark: "隋",
+    title: "A new capital is drawn on new ground.", copy: "明德门遗址属于隋大兴—唐长安城体系。这里承担从汉长安向隋唐长安的转场。",
+    image: commons("隋大兴唐长安城遗址-明德门 2023-09-30 10.jpg"), source: "WIKIMEDIA COMMONS / KCX36", rights: "CC BY-SA 4.0",
+    href: "https://commons.wikimedia.org/wiki/File:%E9%9A%8B%E5%A4%A7%E5%85%B4%E5%94%90%E9%95%BF%E5%AE%89%E5%9F%8E%E9%81%97%E5%9D%80-%E6%98%8E%E5%BE%B7%E9%97%A8_2023-09-30_10.jpg",
+    tone: "relic", fit: "cover", scale: 1.06, x: 0, y: 0
+  },
+  {
+    chapter: "TANG", year: "618–907", era: "DÁMÍNG PALACE / HANYUAN HALL", mark: "唐",
+    title: "The palace returns as a horizon.", copy: "含元殿遗址让唐长安重新获得尺度。台基、坡道和远景足以让镜头停留，不需要复原图。",
+    image: commons("Daming Palace Hanyuan Hall Site.jpg"), source: "WIKIMEDIA COMMONS / DANIELINBLUE", rights: "CC BY-SA 3.0",
+    href: "https://commons.wikimedia.org/wiki/File:Daming_Palace_Hanyuan_Hall_Site.jpg", tone: "relic", fit: "cover", scale: 1.04, x: 0, y: 0
+  },
+  {
+    chapter: "TANG", year: "1911", era: "GIANT WILD GOOSE PAGODA / ARCHIVE", mark: "塔",
+    title: "Photography finally reaches the monument.", copy: "大雁塔的历史第一次从遗址摄影切换到真正的历史摄影。画面介质本身开始成为时间的一部分。",
+    image: commons("西安府大雁塔.jpg", 1600), source: "WIKIMEDIA COMMONS / EIGHTEEN CAPITALS OF CHINA", rights: "Public domain",
+    href: "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E5%A4%A7%E9%9B%81%E5%A1%94.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
+  },
+  {
+    chapter: "MING", year: "14th c. →", era: "XI’AN CITY WALL / SURVIVAL", mark: "城",
+    title: "The city contracts behind a wall.", copy: "明代城墙把后来的西安旧城重新收紧。它比隋唐长安小得多，却成为今天最清晰的城市历史边界。",
+    image: commons("1 xian city wall 2011.jpg"), source: "WIKIMEDIA COMMONS / CHENSIYUAN", rights: "GFDL / CC BY-SA",
+    href: "https://commons.wikimedia.org/wiki/File:1_xian_city_wall_2011.jpg", tone: "present", fit: "cover", scale: 1.04, x: 0, y: 0
+  },
+  {
+    chapter: "ARCHIVE", year: "1907", era: "DUANLI GATE / HISTORICAL PHOTO", mark: "影",
+    title: "The past starts photographing itself.", copy: "从这一段开始，网页不再依赖今天拍摄的遗址。1907年的城门直接把观看者送进当时的西安。",
+    image: commons("Duan Li Men, Xi'an, 1907.jpg", 1600), source: "WIKIMEDIA COMMONS / ÉDOUARD CHAVANNES", rights: "Public domain",
+    href: "https://commons.wikimedia.org/wiki/File:Duan_Li_Men,_Xi%27an,_1907.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
+  },
+  {
+    chapter: "ARCHIVE", year: "c. 1908", era: "CITY WALL / JOHN SHIELDS", mark: "影",
+    title: "A wall before traffic and neon.", copy: "约1908年的城墙照片保留了道路、地貌与城体的关系。画面保持原比例，不把档案裁成普通网页背景。",
+    image: commons("Xi'an walls.jpg", 1800), source: "WIKIMEDIA COMMONS / JOHN SHIELDS", rights: "Public domain",
+    href: "https://commons.wikimedia.org/wiki/File:Xi%27an_walls.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
+  },
+  {
+    chapter: "ARCHIVE", year: "1911", era: "PRIVATE COURTYARD / XI’AN", mark: "院",
+    title: "History moves indoors.", copy: "旧庭院把时间线从宫殿、城墙和政权拉回普通生活空间。历史在门槛、树影和砖地上继续。",
+    image: commons("西安府私人庭院.jpg", 1800), source: "WIKIMEDIA COMMONS / EIGHTEEN CAPITALS OF CHINA", rights: "Public domain",
+    href: "https://commons.wikimedia.org/wiki/File:%E8%A5%BF%E5%AE%89%E5%BA%9C%E7%A7%81%E4%BA%BA%E5%BA%AD%E9%99%A2.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
+  },
+  {
+    chapter: "1936", year: "12 DEC 1936", era: "XI’AN INCIDENT / ZHANG RESIDENCE", mark: "事",
+    title: "A house becomes a national political scene.", copy: "这一章使用西安事变旧址的真实摄影，让地点承担历史，不用来源和版权都不稳定的网络旧照拼贴。",
+    image: commons("Former Residence of Zhang Xueliang 張學良故居 - panoramio.jpg"), source: "WIKIMEDIA COMMONS / LIENYUAN LEE", rights: "CC BY-SA",
+    href: "https://commons.wikimedia.org/wiki/File:Former_Residence_of_Zhang_Xueliang_%E5%BC%B5%E5%AD%B8%E8%89%AF%E6%95%85%E5%B1%85_-_panoramio.jpg",
+    tone: "archive-site", fit: "cover", scale: 1.04, x: 0, y: 0
+  },
+  {
+    chapter: "1950s", year: "1959", era: "PUBLIC LIFE / PARADE", mark: "城",
+    title: "The city begins to spill beyond the old wall.", copy: "1959年的城市公共生活留下真实历史摄影。分辨率有限，所以这一镜只短暂停留，不做过度放大。",
+    image: commons("China 10th Anniversary Parade in Xi'an.jpg", 1200), source: "WIKIMEDIA COMMONS / 10TH ANNIVERSARY COLLECTION", rights: "Public domain",
+    href: "https://commons.wikimedia.org/wiki/File:China_10th_Anniversary_Parade_in_Xi%27an.jpg", tone: "archive", fit: "contain", scale: 1.0, x: 0, y: 0
+  },
+  {
+    chapter: "1980s", year: "1985", era: "XI’AN / SOUTH AERIAL VIEW", mark: "八",
+    title: "Colour returns.", copy: "1985年的航拍把城墙、道路和新城区放进同一张彩色照片。摄影介质开始接近今天。",
+    image: commons("Xi'an aerial view 1985.jpg", 1600), source: "WIKIMEDIA COMMONS / PIECEOFMETALWORK", rights: "CC BY-SA 4.0",
+    href: "https://commons.wikimedia.org/wiki/File:Xi%27an_aerial_view_1985.jpg", tone: "late-archive", fit: "cover", scale: 1.06, x: 0, y: 0
+  },
+  {
+    chapter: "1990s", year: "1996", era: "STREET / MARKET", mark: "街",
+    title: "The archive becomes ordinary again.", copy: "市场、人群与街道把历史从纪念性建筑拉回日常。此时的西安已经越来越像记忆里的现代城市。",
+    image: commons("1996 -253-27 Xian market (5068475729).jpg", 1600), source: "WIKIMEDIA COMMONS / 1996 CITY RECORD", rights: "Open license · source record",
+    href: "https://commons.wikimedia.org/wiki/File:1996_-253-27_Xian_market_(5068475729).jpg", tone: "late-archive", fit: "cover", scale: 1.04, x: 0, y: 0
+  },
+  {
+    chapter: "2000s", year: "2006", era: "CENTRAL XI’AN / STREET", mark: "路",
+    title: "Digital Xi’an arrives.", copy: "早期数码摄影把招牌、车辆和街道完整留下。画面的清晰度提高，历史与今天之间只剩一个很短的距离。",
+    image: commons("Xian street 2006.JPG", 1800), source: "WIKIMEDIA COMMONS / DON-KUN", rights: "CC BY 3.0",
+    href: "https://commons.wikimedia.org/wiki/File:Xian_street_2006.JPG", tone: "digital", fit: "cover", scale: 1.04, x: 0, y: 0
+  },
+  {
+    chapter: "NOW", year: "2025", era: "YONGNINGMEN / RETURN", mark: "今",
+    title: "Return to the gate.", copy: "三千多年的都城史没有留下一座完整城市。它留下的是一层又一层仍然可以被看见、被经过的现场。",
+    image: "https://media.galok.me/cities/xian/city-wall-skyline--7eda7148ec5d.jpeg",
+    source: "GALOK / XI’AN FIELD FRAME", rights: "GALOK city media",
+    href: "https://www.galok.me/be-a-viewer/xian/", tone: "present", fit: "cover", scale: 1.08, x: 0, y: 0
+  }
+];
+
 const anchor = document.querySelector("#arrival") || document.querySelector(".xian-editorial-section");
-if (!anchor || document.querySelector("[data-xian-time-root]")) {
-  // Page structure changed or the module is already mounted.
-} else {
-  const maps = {
-    republic: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Lo-yang%20and%20Ch%27ang-an%20Ancient%20and%20Modern%20%28VI%29.jpg?width=1916",
-    tang: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Lo-yang%20and%20Ch%27ang-an%20Ancient%20and%20Modern%20%28IV%29.jpg?width=1800",
-    han: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Lo-yang%20and%20Ch%27ang-an%20Ancient%20and%20Modern%20%28III%29.jpg?width=1800",
-    compare: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Lo-yang%20and%20Ch%27ang-an%20Ancient%20and%20Modern%20%28V%29.jpg?width=1600"
-  };
-
-  const steps = [
-    {
-      year: "2026",
-      era: "XI’AN / NOW",
-      mark: "今",
-      label: "THE PRESENT CITY",
-      title: "Start with the wall as a landmark, not a boundary.",
-      copy: "Modern Xi’an spreads far beyond the Ming-era walled core. The old rectangle still organises the centre, while the metropolitan city has long escaped it.",
-      source: "GALOK / FIELD FRAME",
-      image: "https://media.galok.me/cities/xian/city-wall-skyline--7eda7148ec5d.jpeg",
-      kind: "photo",
-      scale: 1.06,
-      x: 0,
-      y: 0
-    },
-    {
-      year: "1935",
-      era: "REPUBLIC / MAP VI",
-      mark: "民",
-      label: "THE WALLED CITY",
-      title: "The modern centre contracts back inside the fortifications.",
-      copy: "Herrmann and Westermann’s 1935 atlas records Republican Xi’an together with its Ming and Qing fortifications, gates, schools, courts, police headquarters and post office.",
-      source: "HISTORICAL & COMMERCIAL ATLAS OF CHINA / PUBLIC DOMAIN",
-      image: maps.republic,
-      kind: "map",
-      scale: 1.02,
-      x: 0,
-      y: 0
-    },
-    {
-      year: "MING–QING",
-      era: "WALLED CORE / SAME GROUND",
-      mark: "城",
-      label: "THE RECTANGLE HARDENS",
-      title: "Zoom in. The wall becomes the whole frame.",
-      copy: "The 1935 sheet preserves the inherited Ming–Qing urban enclosure. Scroll slowly here: the map stays the same while the camera tightens around the fortifications that still define central Xi’an today.",
-      source: "MAP VI / CAMERA CROP BY GALOK",
-      image: maps.republic,
-      kind: "map",
-      scale: 1.34,
-      x: 0,
-      y: 1
-    },
-    {
-      year: "SUI / TANG",
-      era: "CHANG’AN / MAP IV",
-      mark: "唐",
-      label: "THE CAPITAL OPENS SOUTH",
-      title: "The city suddenly becomes much larger than the later wall.",
-      copy: "The atlas separates outer city, imperial city and palace city, and marks the Big and Small Wild Goose Pagodas. The gridded capital pushes far south of the later Xi’an core.",
-      source: "1935 ATLAS / MAP IV / PUBLIC DOMAIN",
-      image: maps.tang,
-      kind: "map",
-      scale: 1.02,
-      x: 0,
-      y: 0
-    },
-    {
-      year: "c. 200 BCE",
-      era: "HAN CHANG’AN / MAP III",
-      mark: "汉",
-      label: "THE CAPITAL SHIFTS NORTHWEST",
-      title: "Chang’an moves again.",
-      copy: "On the Han sheet, palace compounds including Weiyang and Changle dominate a different urban footprint. The later Ming–Qing centre is no longer the centre of the story.",
-      source: "1935 ATLAS / MAP III / PUBLIC DOMAIN",
-      image: maps.han,
-      kind: "map",
-      scale: 1.03,
-      x: -1,
-      y: 0
-    },
-    {
-      year: "2200+ YEARS",
-      era: "OVERLAP / MAP V",
-      mark: "叠",
-      label: "ONE NAME, SEVERAL CITIES",
-      title: "Put the layers on one sheet.",
-      copy: "The comparative atlas places Qin, Han, Sui–Tang and Republican locations together. Xi’an did not simply expand from one fixed centre: different capitals occupied different footprints across the same wider plain.",
-      source: "1935 ATLAS / MAP V / PUBLIC DOMAIN",
-      image: maps.compare,
-      kind: "map",
-      scale: 1.0,
-      x: 0,
-      y: 0
-    }
-  ];
-
+if (anchor && !document.querySelector("[data-xian-time-root]")) {
+  const chapters = [...new Set(steps.map((step) => step.chapter))];
   const section = document.createElement("section");
-  section.className = "xian-time";
+  section.className = "xian-time xian-cinema";
   section.id = "xian-time";
   section.dataset.xianTimeRoot = "";
   section.setAttribute("aria-labelledby", "xian-time-title");
   section.innerHTML = `
     <header class="xian-time-intro xian-time-reveal">
-      <p class="xian-time-kicker">CITY STRATA / 2026 → c. 200 BCE</p>
-      <div class="xian-time-intro-grid">
-        <h2 id="xian-time-title">PEEL<br>XI’AN BACK.</h2>
+      <div class="xian-time-intro__meta">
+        <span>GALOK CINEMATIC ARCHIVE / XI’AN</span>
+        <span>${steps.length} VISUAL CUTS</span>
+      </div>
+      <div class="xian-time-intro__grid">
+        <h2 id="xian-time-title">SCROLL<br>THROUGH<br>XI’AN.</h2>
         <div>
-          <p>Scroll backward through the city. The present metropolis contracts to the walled core; Tang Chang’an opens south; Han Chang’an shifts northwest.</p>
-          <span>向下滚动 / 两千多年一层层退场</span>
+          <p>从半坡、西周、秦汉与隋唐遗址，到20世纪真正的历史摄影，再回到今天。这里不复原一座不存在的城市，只观看真实留下来的东西。</p>
+          <span>向下滚动 · 照片就是时间轴</span>
         </div>
       </div>
-      <div class="xian-time-rule" aria-hidden="true"><span>NOW</span><i></i><span>1935</span><i></i><span>TANG</span><i></i><span>HAN</span></div>
     </header>
+
+    <nav class="xian-time-chapters" aria-label="Xi’an cinematic archive chapters">
+      ${chapters.map((chapter) => {
+        const index = steps.findIndex((step) => step.chapter === chapter);
+        return `<button type="button" data-xian-time-jump="${index}"><span>${chapter}</span></button>`;
+      }).join("")}
+      <button type="button" class="xian-time-archive-button" data-xian-time-open-archive>ARCHIVE +</button>
+    </nav>
 
     <div class="xian-time-story" data-xian-time-story>
       <div class="xian-time-stage" data-xian-time-stage>
-        <div class="xian-time-media">
-          <img class="xian-time-frame xian-time-frame--a is-visible" data-xian-time-frame-a src="${steps[0].image}" alt="2026 Xi’an city wall and skyline">
+        <div class="xian-time-media" data-xian-time-media>
+          <img class="xian-time-frame xian-time-frame--a is-visible" data-xian-time-frame-a src="${steps[0].image}" alt="Modern Xi’an city wall and skyline">
           <img class="xian-time-frame xian-time-frame--b" data-xian-time-frame-b alt="">
-          <div class="xian-time-vignette" aria-hidden="true"></div>
-          <div class="xian-time-grid" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <b class="xian-time-mark" data-xian-time-mark aria-hidden="true">今</b>
+          <div class="xian-time-shutter" aria-hidden="true"></div>
+          <div class="xian-time-grain" aria-hidden="true"></div>
+          <b class="xian-time-mark" data-xian-time-mark aria-hidden="true">${steps[0].mark}</b>
         </div>
+
         <div class="xian-time-readout" aria-live="polite">
-          <div><span data-xian-time-era>XI’AN / NOW</span><b data-xian-time-year>2026</b></div>
-          <strong data-xian-time-label>THE PRESENT CITY</strong>
-          <small data-xian-time-source>GALOK / FIELD FRAME</small>
+          <div class="xian-time-readout__top">
+            <span data-xian-time-era>${steps[0].era}</span>
+            <button type="button" data-xian-time-current-source>VIEW SOURCE ↗</button>
+          </div>
+          <b data-xian-time-year>${steps[0].year}</b>
+          <strong data-xian-time-title>${steps[0].title}</strong>
+          <small data-xian-time-source>${steps[0].source} · ${steps[0].rights}</small>
+        </div>
+
+        <div class="xian-time-counter" aria-hidden="true">
+          <span data-xian-time-count>01</span><i></i><span>${String(steps.length).padStart(2, "0")}</span>
         </div>
         <div class="xian-time-progress" aria-hidden="true"><i data-xian-time-progress></i></div>
-        <p class="xian-time-credit">HISTORICAL MAP SEQUENCE · HERRMANN & WESTERMANN · 1935 · PUBLIC DOMAIN</p>
       </div>
 
       <div class="xian-time-steps">
         ${steps.map((step, index) => `
-          <article class="xian-time-step${index === 0 ? " is-active" : ""}" data-xian-time-step="${index}">
+          <article class="xian-time-step${index === 0 ? " is-active" : ""}" id="xian-time-step-${index}" data-xian-time-step="${index}">
             <span>${String(index + 1).padStart(2, "0")} / ${step.era}</span>
             <b>${step.year}</b>
             <h3>${step.title}</h3>
             <p>${step.copy}</p>
-            <small>${step.source}</small>
+            <a href="${step.href}" target="_blank" rel="noopener noreferrer">${step.source} · ${step.rights} ↗</a>
           </article>`).join("")}
       </div>
     </div>
 
-    <footer class="xian-time-sources xian-time-reveal">
-      <div><p>MAP SOURCES / RIGHTS</p><strong>One atlas gives the transitions a single visual grammar.</strong></div>
-      <div>
-        <a href="https://commons.wikimedia.org/wiki/File:Lo-yang_and_Ch%27ang-an_Ancient_and_Modern_(VI).jpg" target="_blank" rel="noreferrer">1935 / Republican Xi’an + Ming–Qing fortifications ↗</a>
-        <a href="https://commons.wikimedia.org/wiki/File:Lo-yang_and_Ch%27ang-an_Ancient_and_Modern_(IV).jpg" target="_blank" rel="noreferrer">1935 / Sui–Tang Chang’an ↗</a>
-        <a href="https://commons.wikimedia.org/wiki/File:Lo-yang_and_Ch%27ang-an_Ancient_and_Modern_(III).jpg" target="_blank" rel="noreferrer">1935 / Han Chang’an ↗</a>
-        <a href="https://commons.wikimedia.org/wiki/File:Lo-yang_and_Ch%27ang-an_Ancient_and_Modern_(V).jpg" target="_blank" rel="noreferrer">1935 / Comparative Xi’an–Chang’an sheet ↗</a>
-      </div>
-      <p>Albert Herrmann & Georg Westermann · Historical and Commercial Atlas of China · public domain. Historical romanisation is retained inside the original maps.</p>
+    <footer class="xian-time-outro xian-time-reveal">
+      <p>THE CITY DID NOT KEEP ONE AGE.</p>
+      <h3>它把很多时代留在了同一片土地上。</h3>
+      <a href="#arrival">CONTINUE TO XI’AN ↓</a>
     </footer>
+
+    <dialog class="xian-time-archive" data-xian-time-archive aria-labelledby="xian-time-archive-title">
+      <div class="xian-time-archive__head">
+        <div><span>SECOND LAYER / SOURCES</span><h3 id="xian-time-archive-title">ARCHIVE</h3></div>
+        <button type="button" data-xian-time-close-archive aria-label="Close archive">CLOSE ×</button>
+      </div>
+      <div class="xian-time-archive__list">
+        ${steps.map((step, index) => `
+          <a href="${step.href}" target="_blank" rel="noopener noreferrer">
+            <span>${String(index + 1).padStart(2, "0")} · ${step.year}</span>
+            <strong>${step.era}</strong>
+            <small>${step.source}<br>${step.rights}</small>
+          </a>`).join("")}
+      </div>
+    </dialog>
   `;
 
   anchor.parentNode.insertBefore(section, anchor);
@@ -171,101 +241,136 @@ if (!anchor || document.querySelector("[data-xian-time-root]")) {
   const heroEnter = document.querySelector(".xian-hero > a");
   if (heroEnter) {
     heroEnter.href = "#xian-time";
-    heroEnter.innerHTML = 'SCROLL BACK IN TIME <span aria-hidden="true">↓</span>';
+    heroEnter.innerHTML = 'ENTER THE ARCHIVE <span aria-hidden="true">↓</span>';
   }
 
   const story = section.querySelector("[data-xian-time-story]");
+  const stage = section.querySelector("[data-xian-time-stage]");
+  const media = section.querySelector("[data-xian-time-media]");
   const stepNodes = [...section.querySelectorAll("[data-xian-time-step]")];
   const frameA = section.querySelector("[data-xian-time-frame-a]");
   const frameB = section.querySelector("[data-xian-time-frame-b]");
   const yearNode = section.querySelector("[data-xian-time-year]");
   const eraNode = section.querySelector("[data-xian-time-era]");
-  const labelNode = section.querySelector("[data-xian-time-label]");
+  const titleNode = section.querySelector("[data-xian-time-title]");
   const sourceNode = section.querySelector("[data-xian-time-source]");
   const markNode = section.querySelector("[data-xian-time-mark]");
+  const countNode = section.querySelector("[data-xian-time-count]");
   const progressNode = section.querySelector("[data-xian-time-progress]");
+  const sourceButton = section.querySelector("[data-xian-time-current-source]");
+  const archive = section.querySelector("[data-xian-time-archive]");
 
   let activeFrame = frameA;
-let inactiveFrame = frameB;
-let activeStep = 0;
-let activeImage = steps[0].image;
-let pendingImage = "";
-let mediaToken = 0;
-let animationFrame = 0;
+  let inactiveFrame = frameB;
+  let activeStep = 0;
+  let activeImage = steps[0].image;
+  let pendingImage = "";
+  let mediaToken = 0;
+  let animationFrame = 0;
 
   function applyFrameStyle(node, step) {
     if (!node) return;
-    node.dataset.kind = step.kind;
+    node.dataset.tone = step.tone;
+    node.dataset.fit = step.fit;
     node.style.setProperty("--xian-time-scale", String(step.scale ?? 1));
     node.style.setProperty("--xian-time-x", `${step.x ?? 0}%`);
     node.style.setProperty("--xian-time-y", `${step.y ?? 0}%`);
   }
 
   applyFrameStyle(activeFrame, steps[0]);
+  media.dataset.tone = steps[0].tone;
 
   function preloadAround(index) {
     [steps[index - 1], steps[index + 1]].filter(Boolean).forEach((step) => {
       const image = new Image();
+      image.decoding = "async";
       image.src = step.image;
     });
   }
 
   function setFrame(step) {
-  const next = step.image;
-  if (next === activeImage) {
-    mediaToken += 1;
-    pendingImage = "";
-    applyFrameStyle(activeFrame, step);
-    return;
-  }
-  if (next === pendingImage) {
+    const next = step.image;
+    media.dataset.tone = step.tone;
+    if (next === activeImage) {
+      mediaToken += 1;
+      pendingImage = "";
+      applyFrameStyle(activeFrame, step);
+      return;
+    }
+    if (next === pendingImage) {
+      applyFrameStyle(inactiveFrame, step);
+      return;
+    }
+
+    const token = ++mediaToken;
+    pendingImage = next;
+    inactiveFrame.src = next;
+    inactiveFrame.alt = `${step.year} — ${step.era}`;
     applyFrameStyle(inactiveFrame, step);
-    return;
+
+    const reveal = () => {
+      if (token !== mediaToken || pendingImage !== next) return;
+      inactiveFrame.classList.add("is-visible");
+      activeFrame.classList.remove("is-visible");
+      [activeFrame, inactiveFrame] = [inactiveFrame, activeFrame];
+      activeImage = next;
+      pendingImage = "";
+    };
+
+    if (inactiveFrame.complete) requestAnimationFrame(reveal);
+    else inactiveFrame.addEventListener("load", reveal, { once: true });
   }
-
-  const token = ++mediaToken;
-  pendingImage = next;
-  inactiveFrame.src = next;
-  inactiveFrame.alt = `${step.year} — ${step.label}`;
-  applyFrameStyle(inactiveFrame, step);
-
-  const reveal = () => {
-    if (token !== mediaToken || pendingImage !== next) return;
-    inactiveFrame.classList.add("is-visible");
-    activeFrame.classList.remove("is-visible");
-    [activeFrame, inactiveFrame] = [inactiveFrame, activeFrame];
-    activeImage = next;
-    pendingImage = "";
-  };
-
-  if (inactiveFrame.complete) requestAnimationFrame(reveal);
-  else inactiveFrame.addEventListener("load", reveal, { once: true });
-}
 
   function setStep(index) {
-    const safeIndex = clamp(index, 0, steps.length - 1);
+    const safeIndex = clamp(Number(index) || 0, 0, steps.length - 1);
     const step = steps[safeIndex];
     activeStep = safeIndex;
     stepNodes.forEach((node, nodeIndex) => node.classList.toggle("is-active", nodeIndex === safeIndex));
-    if (yearNode) yearNode.textContent = step.year;
-    if (eraNode) eraNode.textContent = step.era;
-    if (labelNode) labelNode.textContent = step.label;
-    if (sourceNode) sourceNode.textContent = step.source;
-    if (markNode) markNode.textContent = step.mark;
+    section.querySelectorAll("[data-xian-time-jump]").forEach((button) => {
+      const chapterIndex = Number(button.dataset.xianTimeJump);
+      const chapter = steps[chapterIndex]?.chapter;
+      button.classList.toggle("is-active", chapter === step.chapter);
+    });
+    yearNode.textContent = step.year;
+    eraNode.textContent = step.era;
+    titleNode.textContent = step.title;
+    sourceNode.textContent = `${step.source} · ${step.rights}`;
+    markNode.textContent = step.mark;
+    countNode.textContent = String(safeIndex + 1).padStart(2, "0");
+    sourceButton.dataset.href = step.href;
     setFrame(step);
     preloadAround(safeIndex);
   }
 
-  if (stepNodes.length && "IntersectionObserver" in window) {
+  if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting)
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (visible) setStep(Number(visible.target.dataset.xianTimeStep));
-    }, { rootMargin: "-34% 0px -34% 0px", threshold: [0, .1, .35, .65] });
-    stepNodes.forEach((step) => observer.observe(step));
+    }, { rootMargin: "-31% 0px -31% 0px", threshold: [0, .12, .32, .58] });
+    stepNodes.forEach((node) => observer.observe(node));
   } else {
     setStep(0);
   }
+
+  section.querySelectorAll("[data-xian-time-jump]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = stepNodes[Number(button.dataset.xianTimeJump)];
+      target?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: compact.matches ? "center" : "center" });
+    });
+  });
+
+  sourceButton?.addEventListener("click", () => {
+    const href = sourceButton.dataset.href;
+    if (href) window.open(href, "_blank", "noopener,noreferrer");
+  });
+
+  section.querySelector("[data-xian-time-open-archive]")?.addEventListener("click", () => archive?.showModal());
+  section.querySelector("[data-xian-time-close-archive]")?.addEventListener("click", () => archive?.close());
+  archive?.addEventListener("click", (event) => {
+    if (event.target === archive) archive.close();
+  });
 
   function updateProgress() {
     animationFrame = 0;
@@ -273,8 +378,13 @@ let animationFrame = 0;
     const rect = story.getBoundingClientRect();
     const travel = Math.max(1, rect.height - window.innerHeight);
     const progress = clamp(-rect.top / travel);
-    if (progressNode) progressNode.style.transform = `scaleX(${progress})`;
+    progressNode.style.transform = `scaleX(${progress})`;
     section.style.setProperty("--xian-time-depth", progress.toFixed(4));
+
+    if (!reducedMotion && stage && activeFrame) {
+      const local = clamp((window.innerHeight * .5 - stepNodes[activeStep].getBoundingClientRect().top) / Math.max(1, stepNodes[activeStep].offsetHeight));
+      activeFrame.style.setProperty("--xian-time-ken", `${(local - .5) * 1.4}%`);
+    }
   }
 
   function requestProgressUpdate() {
@@ -299,6 +409,4 @@ let animationFrame = 0;
     }, { rootMargin: "0px 0px -8% 0px", threshold: .06 });
     revealNodes.forEach((node) => revealObserver.observe(node));
   }
-
-  compact.addEventListener?.("change", () => setStep(activeStep));
 }
