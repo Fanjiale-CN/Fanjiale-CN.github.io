@@ -1,0 +1,108 @@
+name: Xi'an Syntax Fix Preflight
+
+on:
+  push:
+    branches:
+      - work/xian-syntax-fix-20260829
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Fix Xi'an time reader and bust cache keys
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          OLD = "20260829-strata2"
+          NEW = "20260829-strata3"
+
+          index = Path("be-a-viewer/xian/index.html")
+          text = index.read_text()
+          old = f'src="/be-a-viewer/xian/xian.js?v={OLD}"'
+          new = f'src="/be-a-viewer/xian/xian.js?v={NEW}"'
+          if old not in text:
+              raise SystemExit("index cache key not found")
+          index.write_text(text.replace(old, new, 1))
+
+          xian = Path("be-a-viewer/xian/xian.js")
+          text = xian.read_text()
+          old = f'void import("/be-a-viewer/xian/xian-history.js?v={OLD}").catch(() => {{}});'
+          new = f'void import("/be-a-viewer/xian/xian-history.js?v={NEW}").catch((error) => console.error("Xi’an history module failed", error));'
+          if old not in text:
+              raise SystemExit("xian history import cache key not found")
+          xian.write_text(text.replace(old, new, 1))
+
+          history = Path("be-a-viewer/xian/xian-history.js")
+          text = history.read_text()
+          if f'const VERSION = "{OLD}";' not in text:
+              raise SystemExit("history VERSION not found")
+          text = text.replace(f'const VERSION = "{OLD}";', f'const VERSION = "{NEW}";', 1)
+          old = f'void import("/be-a-viewer/xian/xian-time.js?v={OLD}").catch(() => {{}});'
+          new = f'void import("/be-a-viewer/xian/xian-time.js?v={NEW}").catch((error) => console.error("Xi’an time module failed", error));'
+          if old not in text:
+              raise SystemExit("history time import cache key not found")
+          history.write_text(text.replace(old, new, 1))
+
+          time = Path("be-a-viewer/xian/xian-time.js")
+          text = time.read_text()
+          if f'const VERSION = "{OLD}";' not in text:
+              raise SystemExit("time VERSION not found")
+          text = text.replace(f'const VERSION = "{OLD}";', f'const VERSION = "{NEW}";', 1)
+          bad = '${index === 0 ? " is-active" : "}'
+          good = '${index === 0 ? " is-active" : ""}'
+          if bad not in text:
+              raise SystemExit("known malformed time-step template not found")
+          time.write_text(text.replace(bad, good, 1))
+
+          validator = Path("scripts/validate-xian-history.mjs")
+          text = validator.read_text()
+          old = f'xian-time.js?v={OLD}'
+          new = f'xian-time.js?v={NEW}'
+          if old not in text:
+              raise SystemExit("validator cache marker not found")
+          text = text.replace(old, new, 1)
+          if 'from "node:child_process"' not in text:
+              text = text.replace('import { readFileSync } from "node:fs";\n', 'import { readFileSync } from "node:fs";\nimport { execFileSync } from "node:child_process";\n', 1)
+          marker = 'const errors = [];\n'
+          syntax_gate = '''const errors = [];
+try {
+  execFileSync(process.execPath, ["--check", join(root, "be-a-viewer/xian/xian-time.js")], { stdio: "pipe" });
+} catch (error) {
+  errors.push(`Xi'an time-strata JavaScript syntax check failed: ${error.stderr?.toString()?.trim() || error.message}`);
+}
+'''
+          if 'time-strata JavaScript syntax check failed' not in text:
+              if marker not in text:
+                  raise SystemExit("validator errors marker not found")
+              text = text.replace(marker, syntax_gate, 1)
+          validator.write_text(text)
+          PY
+      - name: Check Xi'an JavaScript syntax before dependencies
+        run: |
+          node --check be-a-viewer/xian/xian-time.js
+          node --check be-a-viewer/xian/xian-history.js
+          node --check be-a-viewer/xian/xian.js
+          node --check be-a-viewer/xian/xian-motion.js
+      - name: Install release tools
+        run: npm ci --ignore-scripts
+      - name: Run release
+        run: npm run release
+      - name: Commit validated Xi'an syntax fix
+        run: |
+          rm -f .github/workflows/xian-syntax-fix-preflight.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Finalize Xi'an time reader syntax fix [xian-syntax-final]"
+          git push origin HEAD:work/xian-syntax-fix-20260829
