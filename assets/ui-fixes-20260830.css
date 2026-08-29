@@ -1,0 +1,84 @@
+/* GALOK screenshot fixes — 2026-08-30
+   Scope: Beijing hero navigation, sticky essay chrome, and View-series glyph rendering. */
+
+/* Beijing: keep the hero navigation legible without turning the sky into a flat grey bar. */
+.beijing-page-body .beijing-site-nav {
+  color: #f4f1e9;
+  border-bottom-color: rgba(244, 241, 233, .18);
+  background: linear-gradient(
+    180deg,
+    rgba(8, 11, 10, .68) 0%,
+    rgba(8, 11, 10, .36) 58%,
+    rgba(8, 11, 10, .10) 100%
+  );
+  -webkit-backdrop-filter: blur(4px) saturate(110%);
+  backdrop-filter: blur(4px) saturate(110%);
+  box-shadow: none;
+}
+
+.beijing-page-body .beijing-site-nav .brand,
+.beijing-page-body .beijing-site-nav .nav-links a {
+  color: inherit;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, .42);
+}
+
+.beijing-page-body .beijing-site-nav.is-scrolled,
+body.nav-open.beijing-page-body .beijing-site-nav {
+  color: #111413;
+  border-bottom-color: rgba(17, 20, 19, .18);
+  background: rgba(244, 241, 233, .975);
+  -webkit-backdrop-filter: blur(16px) saturate(118%);
+  backdrop-filter: blur(16px) saturate(118%);
+  box-shadow: 0 1px 0 rgba(17, 20, 19, .05);
+}
+
+.beijing-page-body .beijing-site-nav.is-scrolled .brand,
+.beijing-page-body .beijing-site-nav.is-scrolled .nav-links a,
+body.nav-open.beijing-page-body .beijing-site-nav .brand,
+body.nav-open.beijing-page-body .beijing-site-nav .nav-links a {
+  text-shadow: none;
+}
+
+/* Platform essay: the chapter strip ends around 156px from the viewport top.
+   Keep the sticky FRAME card below that footprint instead of letting both layers collide. */
+@media (min-width: 1101px) {
+  body.article-body .article-aside {
+    top: 178px;
+    max-height: calc(100vh - 198px);
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+
+  body.article-body .article-content h2 {
+    scroll-margin-top: 184px;
+  }
+}
+
+/* View-series seal: the bundled seal font contains the simplified glyph.
+   Safari was falling back for the traditional glyph, producing a plain black/Ming character. */
+.glyph-draw[data-glyph="視"] {
+  position: relative;
+  color: transparent !important;
+  font-family: "Galok Glyph Display", "Galok HK Ming", serif !important;
+  font-weight: 400 !important;
+}
+
+.glyph-draw[data-glyph="視"]::after {
+  content: "视";
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: var(--glyph-color, var(--accent, #9e2a2b));
+  font-family: "Galok Glyph Display", "Galok HK Ming", serif;
+  font-weight: 400;
+  line-height: inherit;
+  text-align: inherit;
+}
+
+@media (max-width: 1100px) {
+  body.article-body .article-aside {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
