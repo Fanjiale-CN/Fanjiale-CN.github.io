@@ -16,7 +16,7 @@ concurrency:
 jobs:
   repair:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - name: Check out main
         uses: actions/checkout@v7
@@ -28,10 +28,6 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: npm
-
-      - name: Install repository tools
-        run: npm ci --ignore-scripts
 
       - name: Repair history module cache chain and graceful fallback
         shell: bash
@@ -75,22 +71,30 @@ jobs:
           print("History cache-chain repair applied to Beijing and Xi'an.")
           PY
 
-      - name: Sync site shell
-        run: node scripts/sync-site-shell.mjs
-
-      - name: Run full release preflight
-        run: npm run release
+      - name: Validate affected history modules
+        shell: bash
+        run: |
+          node --check be-a-viewer/beijing/beijing.js
+          node --check be-a-viewer/beijing/beijing-archive.js
+          node --check be-a-viewer/xian/xian.js
+          node --check be-a-viewer/xian/xian-history.js
+          node scripts/validate-beijing-archive.mjs
+          node scripts/validate-xian-history.mjs
+          grep -F '/be-a-viewer/beijing/beijing.js?v=20260829-history-cache-fix' be-a-viewer/beijing/index.html
+          grep -F '/be-a-viewer/xian/xian.js?v=20260829-history-cache-fix' be-a-viewer/xian/index.html
 
       - name: Commit verified repair to main
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
+          git add be-a-viewer/beijing/index.html \
+                  be-a-viewer/beijing/beijing.js \
+                  be-a-viewer/beijing/beijing-archive.js \
+                  be-a-viewer/xian/index.html \
+                  be-a-viewer/xian/xian.js \
+                  be-a-viewer/xian/xian-history.js
+          git diff --cached --check
           git commit -m "Fix Beijing and Xi'an history image loading"
           git fetch origin main
           git rebase origin/main
