@@ -13,6 +13,7 @@ function walk(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     if ([".git", "node_modules", "artifacts"].includes(entry.name)) return [];
     const file = join(directory, entry.name);
+    if (entry.isDirectory() && file.replaceAll("\\", "/").endsWith("/research/love-by-the-hour/content")) return [];
     return entry.isDirectory() ? walk(file) : entry.name.endsWith(".html") ? [file] : [];
   });
 }
@@ -51,7 +52,18 @@ function collectIds(html, source) {
 const pages = new Map();
 for (const file of walk(root)) {
   const html = readFileSync(file, "utf8");
-  pages.set(routeFor(file), { file, html, noindex: /<meta\b[^>]*\bname=["']robots["'][^>]*\bcontent=["'][^"']*\bnoindex\b/i.test(html), ids: collectIds(html, relative(root, file).replaceAll("\\", "/")) });
+  const source = relative(root, file).replaceAll("\\", "/");
+  const ids = collectIds(html, source);
+  const parts = html.match(/\bdata-parts=["']([^"']+)["']/i)?.[1]?.split(",") ?? [];
+  for (const part of parts) {
+    const fragment = join(root, part.trim().replace(/^\/+/, ""));
+    if (!statSyncSafe(fragment)) { errors.push(`${source}: missing runtime fragment ${part.trim()}`); continue; }
+    for (const id of collectIds(readFileSync(fragment, "utf8"), relative(root, fragment).replaceAll("\\", "/"))) {
+      if (ids.has(id)) errors.push(`${source}: duplicate runtime fragment id #${id}`);
+      ids.add(id);
+    }
+  }
+  pages.set(routeFor(file), { file, html, noindex: /<meta\b[^>]*\bname=["']robots["'][^>]*\bcontent=["'][^"']*\bnoindex\b/i.test(html), ids });
 }
 
 for (const [route, page] of pages) {

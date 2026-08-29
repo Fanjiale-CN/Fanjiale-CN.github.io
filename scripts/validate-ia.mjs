@@ -82,7 +82,7 @@ for (const essay of content.essays) {
 
 const researchIndex = readFileSync(join(root, "research/index.html"), "utf8");
 const researchCards = [...researchIndex.matchAll(/class=["'][^"']*research-index-card\b/g)].length;
-if (researchCards !== 2) errors.push(`research/index.html: expected 2 formal papers, found ${researchCards}`);
+if (researchCards !== content.research.length) errors.push(`research/index.html: expected ${content.research.length} research works, found ${researchCards}`);
 
 const archiveScript = readFileSync(join(root, "archive-system.js"), "utf8");
 if (/type: ["']Research["'][^\n]+href: ["']\/data\//.test(archiveScript)) {
@@ -113,4 +113,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`IA validation passed: ${navPages} primary-nav pages, 12 essays, 2 research papers, canonical View/Frame/Observe taxonomy.`);
+console.log(`IA validation passed: ${navPages} primary-nav pages, 12 essays, ${content.research.length} research works, canonical View/Frame/Observe taxonomy.`);

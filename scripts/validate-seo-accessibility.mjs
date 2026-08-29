@@ -15,6 +15,7 @@ function walk(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     if ([".git", "node_modules"].includes(entry.name)) return [];
     const full = join(dir, entry.name);
+    if (entry.isDirectory() && full.replaceAll("\\", "/").endsWith("/research/love-by-the-hour/content")) return [];
     return entry.isDirectory() ? walk(full) : entry.name.endsWith(".html") ? [full] : [];
   });
 }

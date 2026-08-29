@@ -68,6 +68,20 @@ window.GALOK_CONTENT = {
       field: "China / Franchising / Foodservice / Gross Flows",
       cover: { src: "https://media.galok.me/research/002/research-002-cover--6dc193a5fa21.jpg", alt: "A shopping-mall interior layered with glass reflections, pedestrians and large advertising portraits" },
       tags: "research empirical china franchising foodservice store turnover gross flows"
+    },
+    {
+      issue: 3,
+      code: "GALOK RESEARCH 003",
+      title: "Love by the Hour",
+      subtitle: "Emotional Consumption, Paid Intimacy, and Fan Identity in China's Gaming Companion Economy",
+      description: "An exploratory digital-ethnographic study of emotional consumption, paid intimacy, fan identity and organizational infrastructure in China's gaming companion economy.",
+      url: "/research/love-by-the-hour/",
+      date: "2026",
+      classification: "Working Paper",
+      method: "Digital ethnography",
+      field: "China / Gaming / Intimacy / Platform Labor",
+      cover: { src: "/research/love-by-the-hour/og-card.svg", alt: "A typographic cover for Galok Research 003, Love by the Hour" },
+      tags: "research working paper china gaming paid intimacy fandom platform labor"
     }
   ],
   series: {

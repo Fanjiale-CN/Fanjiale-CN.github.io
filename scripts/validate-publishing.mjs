@@ -189,7 +189,7 @@ for (const city of content.cities.filter((item) => item.href)) {
 
 const essayPages = indexed.filter(({ source }) => source.startsWith("essays/") && source !== "essays/index.html");
 if (essayPages.length !== content.essays.length) errors.push(`content.js: ${content.essays.length} essays, but ${essayPages.length} indexable essay pages`);
-const researchPages = indexed.filter(({ source }) => source.startsWith("research/") && source !== "research/index.html");
+const researchPages = indexed.filter(({ source }) => /^research\/[^/]+\/index\.html$/.test(source));
 if (researchPages.length !== content.research.length) errors.push(`content.js: ${content.research.length} research papers, but ${researchPages.length} indexable research pages`);
 const openCityCount = content.cities.filter((city) => city.href).length;
 const cityPages = indexed.filter(({ source }) => /^be-a-viewer\/[^/]+\/index\.html$/.test(source));

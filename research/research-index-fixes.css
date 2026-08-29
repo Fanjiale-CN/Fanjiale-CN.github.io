@@ -3,6 +3,10 @@
 .research-index-page .research-index-main,
 .research-index-page .research-index-main * { box-sizing: border-box; }
 
+/* Research index metadata needs a quieter tone without falling below the
+   readable contrast threshold against the paper background. */
+.research-index-page { --research-muted: #596565; }
+
 .research-index-page .research-index-main {
   width: min(1520px, calc(100% - 72px));
   overflow: clip;

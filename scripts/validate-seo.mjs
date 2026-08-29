@@ -11,6 +11,7 @@ function walk(dir, predicate) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if ([".git", "node_modules", "pagefind"].includes(entry.name)) continue;
     const fullPath = join(dir, entry.name);
+    if (entry.isDirectory() && fullPath.replaceAll("\\", "/").endsWith("/research/love-by-the-hour/content")) continue;
     if (entry.isDirectory()) files.push(...walk(fullPath, predicate));
     else if (predicate(fullPath)) files.push(fullPath);
   }
