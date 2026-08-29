@@ -1,0 +1,94 @@
+name: One-shot Beijing and Xi'an history cache repair
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fix-history-cache.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: galok-history-cache-repair
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install repository tools
+        run: npm ci --ignore-scripts
+
+      - name: Repair history module cache chain and graceful fallback
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              "be-a-viewer/beijing/index.html": [
+                  ("/be-a-viewer/beijing/beijing.js?v=cities-performance-20260824", "/be-a-viewer/beijing/beijing.js?v=20260829-history-cache-fix"),
+              ],
+              "be-a-viewer/xian/index.html": [
+                  ("/be-a-viewer/xian/xian.js?v=17", "/be-a-viewer/xian/xian.js?v=20260829-history-cache-fix"),
+              ],
+              "be-a-viewer/beijing/beijing.js": [
+                  ("/be-a-viewer/beijing/beijing-archive.js?v=20260827-datepolicy", "/be-a-viewer/beijing/beijing-archive.js?v=20260829-history-cache-fix"),
+              ],
+              "be-a-viewer/xian/xian.js": [
+                  ("/be-a-viewer/xian/xian-history.js?v=20260827-datepolicy", "/be-a-viewer/xian/xian-history.js?v=20260829-history-cache-fix"),
+              ],
+              "be-a-viewer/beijing/beijing-archive.js": [
+                  ('const VERSION = "20260828-expand24";', 'const VERSION = "20260829-history-cache-fix";'),
+                  ("if (items.length < 20) return;", "if (items.length < 2) return;"),
+              ],
+              "be-a-viewer/xian/xian-history.js": [
+                  ('const VERSION = "20260828-expand24";', 'const VERSION = "20260829-history-cache-fix";'),
+                  ("if (items.length < 20) return;", "if (items.length < 4) return;"),
+              ],
+          }
+
+          for filename, pairs in replacements.items():
+              path = Path(filename)
+              text = path.read_text(encoding="utf-8")
+              for old, new in pairs:
+                  count = text.count(old)
+                  if count != 1:
+                      raise SystemExit(f"{filename}: expected exactly one occurrence of {old!r}, found {count}")
+                  text = text.replace(old, new, 1)
+              path.write_text(text, encoding="utf-8")
+
+          print("History cache-chain repair applied to Beijing and Xi'an.")
+          PY
+
+      - name: Run full release preflight
+        run: npm run release
+
+      - name: Commit verified repair to main
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Fix Beijing and Xi'an history image loading"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
