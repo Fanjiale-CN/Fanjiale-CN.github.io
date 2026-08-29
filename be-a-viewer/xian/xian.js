@@ -189,4 +189,4 @@ document.querySelectorAll("[data-current-year]").forEach((node) => {
   node.textContent = new Date().getFullYear();
 });
 
-void import("/be-a-viewer/xian/xian-history.js?v=20260829-history-cache-fix").catch(() => {});
+void import("/be-a-viewer/xian/xian-history.js?v=20260829-strata2").catch(() => {});

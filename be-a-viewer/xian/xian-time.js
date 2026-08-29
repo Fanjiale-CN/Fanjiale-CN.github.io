@@ -1,4 +1,4 @@
-const VERSION = "20260829-strata1";
+const VERSION = "20260829-strata2";
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const compact = window.matchMedia("(max-width: 820px)");
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
