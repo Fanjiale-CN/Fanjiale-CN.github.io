@@ -90,6 +90,11 @@
     script.defer = true;
     document.head.append(script);
   };
+
+  if (route.startsWith("/essays/") || route === "/be-a-viewer/beijing/") {
+    appendStylesheet("/assets/ui-fixes-20260830.css?v=1");
+  }
+
   const readerMarkup = (id, label, title, copy, context) => `<section class="reader-contact" aria-labelledby="${id}" data-reader-contact data-reader-contact-context="${context}"><header class="reader-contact-head"><p>${label}</p><div><h2 id="${id}">${title}</h2><p>${copy}</p></div></header><div class="reader-contact-body" data-reader-contact-body><p class="reader-contact-note">Reader desk loading.</p></div></section>`;
   const readerDesk = {
     "/about/": ["reader-contact-about-title", "Reader desk / 01", "Corrections.<br>Sources. <em>Notes.</em>", "Found an error, a source, a contradiction or a collaboration lead? Send it to Galok’s reader desk.", "About page"],
