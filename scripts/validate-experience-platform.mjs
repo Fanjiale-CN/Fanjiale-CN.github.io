@@ -8,9 +8,13 @@ const requireMatch = (source, expression, message) => {
 };
 
 const atlas = JSON.parse(read("data/city-atlas.json"));
-const expectedCities = ["beijing", "shanghai", "xian", "xiamen", "hangzhou"];
+const expectedCities = ["beijing", "shanghai", "xian", "xiamen", "hangzhou", "shenzhen", "chongqing"];
 if (!Array.isArray(atlas.cities) || atlas.cities.length !== expectedCities.length) {
-  throw new Error("City Atlas must have exactly five published city records.");
+  throw new Error(`City Atlas must have exactly ${expectedCities.length} published city records.`);
+}
+const atlasIds = atlas.cities.map((entry) => entry.id);
+if (new Set(atlasIds).size !== atlasIds.length) {
+  throw new Error("City Atlas city IDs must be unique.");
 }
 for (const id of expectedCities) {
   const city = atlas.cities.find((entry) => entry.id === id);
