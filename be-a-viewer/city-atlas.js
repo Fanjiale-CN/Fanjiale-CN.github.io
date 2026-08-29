@@ -5,6 +5,7 @@
   const mapElement = root.querySelector("[data-city-atlas-map]");
   const status = root.querySelector("[data-city-atlas-status]");
   const nav = root.querySelector("[data-city-atlas-nav]");
+  const deck = root.querySelector(".city-atlas-deck");
   const card = {
     meta: root.querySelector("[data-city-atlas-meta]"),
     title: root.querySelector("[data-city-atlas-title]"),
@@ -104,6 +105,7 @@
       const payload = await response.json();
       records = Array.isArray(payload.cities) ? payload.cities : [];
       if (!records.length) throw new Error("Atlas has no records");
+      if (deck) deck.textContent = `${records.length} open city stories, placed as an editorial index. Each red point leads back to a chapter, image or moving frame in Galok.`;
       map = new maplibregl.Map({
         container: mapElement,
         style: "https://tiles.openfreemap.org/styles/liberty",
