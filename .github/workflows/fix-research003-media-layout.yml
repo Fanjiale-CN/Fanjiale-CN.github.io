@@ -1,0 +1,160 @@
+name: One-shot Research 003 media and layout repair
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/fix-research003-media-layout.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: research003-media-layout-repair
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Replace broken editorial assets with local JPEGs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p research/love-by-the-hour/media
+          UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Safari/605.1.15'
+          curl --fail --location --retry 3 --user-agent "$UA" \
+            'https://images.pexels.com/photos/33519955/pexels-photo-33519955.jpeg?auto=compress&cs=tinysrgb&w=1600' \
+            -o research/love-by-the-hour/media/cover-crossing.jpg
+          curl --fail --location --retry 3 --user-agent "$UA" \
+            'https://images.pexels.com/photos/11347831/pexels-photo-11347831.jpeg?auto=compress&cs=tinysrgb&w=1600' \
+            -o research/love-by-the-hour/media/city-traffic.jpg
+          file research/love-by-the-hour/media/cover-crossing.jpg | grep -E 'JPEG|image data'
+          file research/love-by-the-hour/media/city-traffic.jpg | grep -E 'JPEG|image data'
+          test "$(wc -c < research/love-by-the-hour/media/cover-crossing.jpg)" -gt 30000
+          test "$(wc -c < research/love-by-the-hour/media/city-traffic.jpg)" -gt 30000
+          rm -f research/love-by-the-hour/media/cover-crossing.svg research/love-by-the-hour/media/city-traffic.svg
+
+      - name: Repair iPad layout, image references, and dark chart contrast
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          js_path = Path('research/love-by-the-hour/search003.js')
+          js = js_path.read_text(encoding='utf-8')
+          replacements = [
+              ('search003-editorial.css?v=20260829a', 'search003-editorial.css?v=20260829b'),
+              ('/research/love-by-the-hour/media/cover-crossing.svg', '/research/love-by-the-hour/media/cover-crossing.jpg'),
+              ('/research/love-by-the-hour/media/city-traffic.svg', '/research/love-by-the-hour/media/city-traffic.jpg'),
+          ]
+          for old, new in replacements:
+              if old not in js:
+                  raise SystemExit(f'missing expected JS marker: {old}')
+              js = js.replace(old, new, 1)
+          if js.count('wal_172619 / Pixabay') < 2:
+              raise SystemExit('expected two legacy Pixabay attributions')
+          js = js.replace('wal_172619 / Pixabay', 'Da Na / Pexels', 1)
+          js = js.replace('wal_172619 / Pixabay', 'Picas Joe / Pexels', 1)
+          js_path.write_text(js, encoding='utf-8')
+
+          editorial_path = Path('research/love-by-the-hour/search003-editorial.css')
+          editorial = editorial_path.read_text(encoding='utf-8')
+          repair = '''\n/* 2026-08-29 tablet/media repair */\n.s003-editorial-photo--cover img{aspect-ratio:3/2;object-position:center 48%}\n@media(min-width:761px) and (max-width:1366px){\n  body.search003-paper-page .research-manuscript>.s003-editorial-photo--wide{width:min(100%,1120px);max-width:1120px;margin-left:auto;margin-right:auto;transform:none}\n  body.search003-paper-page .research-manuscript>.s003-editorial-photo--wide img{width:100%;max-width:none;max-height:760px}\n  body.search003-paper-page .research-manuscript>.s003-figure{width:min(100%,980px);max-width:980px;margin-left:auto;margin-right:auto}\n}\n'''
+          if '2026-08-29 tablet/media repair' not in editorial:
+              editorial += repair
+          editorial_path.write_text(editorial, encoding='utf-8')
+
+          css_path = Path('research/love-by-the-hour/search003.css')
+          css = css_path.read_text(encoding='utf-8')
+          contrast = '''\n/* 2026-08-29 dark figure contrast repair */\n.s003-figure--dark .s003-figure__head h4,.s003-figure--dark .s003-figure__head h5{color:#f4f1e8}\n.s003-figure--dark .s003-dark-detail strong{color:#f4f1e8}\n.s003-figure--dark .s003-event-card.is-selected{border-color:#d8b86f;background:#1b1d1e}\n.s003-figure--dark .s003-dark-block.abuse{background:#d46672}\n.s003-figure--dark .s003-dark-block.gift{background:#d5b15f}\n'''
+          if '2026-08-29 dark figure contrast repair' not in css:
+              css += contrast
+          css_path.write_text(css, encoding='utf-8')
+
+          index_path = Path('research/love-by-the-hour/index.html')
+          index = index_path.read_text(encoding='utf-8')
+          version_pairs = [
+              ('search003.css?v=20260829b', 'search003.css?v=20260829c'),
+              ('search003-editorial.css?v=20260829a', 'search003-editorial.css?v=20260829b'),
+              ('search003.js?v=20260829c', 'search003.js?v=20260829d'),
+          ]
+          for old, new in version_pairs:
+              if old not in index:
+                  raise SystemExit(f'missing expected index marker: {old}')
+              index = index.replace(old, new, 1)
+          index_path.write_text(index, encoding='utf-8')
+          PY
+
+      - name: Install browser test tools
+        run: npm ci --ignore-scripts
+
+      - name: Validate Research 003 at iPad landscape width
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check research/love-by-the-hour/search003.js
+          git diff --check
+          node scripts/serve-static.mjs >/tmp/galok-r003-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID || true' EXIT
+          for i in 1 2 3 4 5; do
+            curl --fail --silent http://127.0.0.1:4173/research/love-by-the-hour/ >/dev/null && break
+            sleep 1
+          done
+          node --input-type=module <<'NODE'
+          import puppeteer from 'puppeteer-core';
+          const browser = await puppeteer.launch({executablePath:'/usr/bin/google-chrome',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+          const page = await browser.newPage();
+          await page.setViewport({width:1194,height:834,deviceScaleFactor:1});
+          await page.goto('http://127.0.0.1:4173/research/love-by-the-hour/',{waitUntil:'networkidle0'});
+          await page.waitForSelector('[data-editorial-runway] img');
+          const result = await page.evaluate(() => {
+            const box = sel => { const el=document.querySelector(sel); if(!el) return null; const r=el.getBoundingClientRect(); return {left:r.left,right:r.right,width:r.width}; };
+            const natural = sel => { const img=document.querySelector(sel); return img ? {w:img.naturalWidth,h:img.naturalHeight,complete:img.complete} : null; };
+            const heading=document.querySelector('.s003-figure--dark .s003-figure__head h4');
+            return {
+              viewport: innerWidth,
+              cover:natural('[data-editorial-cover] img'),
+              traffic:natural('[data-editorial-traffic] img'),
+              trafficBox:box('[data-editorial-traffic]'),
+              runwayBox:box('[data-editorial-runway]'),
+              darkFigure:box('.s003-figure--dark'),
+              darkHeadingColor:heading ? getComputedStyle(heading).color : null
+            };
+          });
+          console.log(JSON.stringify(result,null,2));
+          if(!result.cover?.complete || result.cover.w < 600) throw new Error('cover image did not load');
+          if(!result.traffic?.complete || result.traffic.w < 600) throw new Error('traffic image did not load');
+          for(const [name,b] of Object.entries({traffic:result.trafficBox,runway:result.runwayBox,dark:result.darkFigure})){
+            if(!b || b.width < 900) throw new Error(`${name} remains constrained: ${JSON.stringify(b)}`);
+            if(b.left < -1 || b.right > result.viewport + 1) throw new Error(`${name} overflows viewport: ${JSON.stringify(b)}`);
+          }
+          if(!result.darkHeadingColor || /rgb\((?:1[0-2]|[0-9]),/.test(result.darkHeadingColor)) throw new Error(`dark heading contrast still bad: ${result.darkHeadingColor}`);
+          await browser.close();
+          NODE
+
+      - name: Commit verified Research 003 repair to main
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A research/love-by-the-hour
+          git diff --cached --check
+          git commit -m 'Fix Research 003 images, tablet layout, and chart contrast'
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
