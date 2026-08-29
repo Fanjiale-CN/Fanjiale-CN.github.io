@@ -7,6 +7,7 @@ const root = fileURLToPath(new URL("../", import.meta.url));
 const read = (path) => readFileSync(join(root, path), "utf8");
 const html = read("be-a-viewer/chongqing/index.html");
 const css = read("be-a-viewer/chongqing/chongqing.css");
+const literaryCss = read("be-a-viewer/literary-city.css");
 const tabletFix = read("be-a-viewer/chongqing/chongqing-tablet-fix.css");
 const loader = read("be-a-viewer/chongqing/chongqing.js");
 const core = read("be-a-viewer/chongqing/chongqing-core.js");
@@ -17,7 +18,7 @@ const errors = [];
 const requireText = (source, pattern, label) => { if (!pattern.test(source)) errors.push(label); };
 
 requireText(html, /<title>Chongqing — Ground Level Undefined \| GALOK<\/title>/, "missing Chongqing title");
-for (const id of ["terrain","levels","stairs","transit","bridges","food","field-atlas","old-chongqing","literature","river","night"]) {
+for (const id of ["terrain","levels","stairs","transit","bridges","food","field-atlas","old-chongqing","writers-chongqing","river","night"]) {
   requireText(html, new RegExp(`id="${id}"`), `missing ${id} chapter`);
 }
 requireText(html, /Li Ziba station sits on floors 6–7/, "missing verified Li Ziba fact");
@@ -31,13 +32,21 @@ requireText(html, /t20221013_11182901\.html/, "missing Chongqing xiaomian source
 requireText(html, /Category:Historical_photographs_of_Chongqing/, "missing historical archive source");
 requireText(html, /Contemporary photography \/ Pexels contributors/, "missing contemporary photography credit");
 requireText(html, /chongqing\.css\?v=20260829-cq13/, "page must bust the Chongqing editorial stylesheet cache");
-requireText(html, /chongqing-literature\.css\?v=20260829-cq13/, "page must load the literary Chongqing stylesheet");
-for (const work of ["COLD\\s*<br>NIGHT", "EIGHTY-ONE\\s*<br>DREAMS", "REMNANT\\s*<br>FOG"]) {
-  requireText(html, new RegExp(work), `missing literary Chongqing work: ${work}`);
+requireText(html, /literary-city\.css\?v=cities-in-words-20260829cq/, "page must load the shared literary-city stylesheet");
+requireText(html, /literary-city\.js\?v=cities-in-words-20260829cq/, "page must load the shared literary-city motion system");
+requireText(html, /class="literary-city literary-city--chongqing"/, "missing Chongqing literary reader skin");
+requireText(html, /data-literary-city/, "Chongqing literary reader must use shared reveal lifecycle");
+requireText(html, /class="literary-series literary-series--six"/, "missing six-city literary series navigation");
+requireText(html, /class="literary-plate"/, "missing Chongqing literary plate");
+requireText(html, /class="literary-colophon"/, "missing Chongqing literary colophon");
+for (const work of ["巴金", "《寒夜》", "张恨水", "《八十一梦》", "老舍", "《残雾》"]) {
+  requireText(html, new RegExp(work), `missing literary Chongqing work token: ${work}`);
 }
 for (const source of ["xinhuanet\\.com\\/politics\\/2015-07\\/30\\/c_1116085764", "big5\\.cctv\\.com\\/gate", "wyb\\.chinawriter\\.com\\.cn"]) {
   requireText(html, new RegExp(source), `missing literary source: ${source}`);
 }
+requireText(literaryCss, /\.literary-city--chongqing\s*\{/, "shared literary stylesheet must define Chongqing skin");
+requireText(literaryCss, /\.literary-series--six\s*\{/, "shared literary stylesheet must support six-city navigation");
 requireText(html, /chongqing-tablet-fix\.css\?v=20260829-cq01/, "page must load the final Chongqing tablet repair stylesheet");
 requireText(html, /chongqing\.js\?v=20260828-cq09/, "page must keep the repaired Chongqing loader cache key");
 
@@ -99,4 +108,4 @@ if (errors.length) {
   console.error(errors.map((item) => `ERROR ${item}`).join("\n"));
   process.exit(1);
 }
-console.log(`Chongqing city validation passed: ${mediaManifest.packAssetsUsed}/${mediaManifest.packFileCount} supplied media used, HD hero sources, food culture, history and stable responsive layouts.`);
+console.log(`Chongqing city validation passed: ${mediaManifest.packAssetsUsed}/${mediaManifest.packFileCount} supplied media used, shared literary reader, HD hero sources, food culture, history and stable responsive layouts.`);
