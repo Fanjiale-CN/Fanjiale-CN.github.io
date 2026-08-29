@@ -186,10 +186,12 @@ if (!anchor || document.querySelector("[data-xian-time-root]")) {
   const progressNode = section.querySelector("[data-xian-time-progress]");
 
   let activeFrame = frameA;
-  let inactiveFrame = frameB;
-  let activeStep = 0;
-  let currentImage = steps[0].image;
-  let animationFrame = 0;
+let inactiveFrame = frameB;
+let activeStep = 0;
+let activeImage = steps[0].image;
+let pendingImage = "";
+let mediaToken = 0;
+let animationFrame = 0;
 
   function applyFrameStyle(node, step) {
     if (!node) return;
@@ -209,25 +211,36 @@ if (!anchor || document.querySelector("[data-xian-time-root]")) {
   }
 
   function setFrame(step) {
-    if (step.image === currentImage) {
-      applyFrameStyle(activeFrame, step);
-      return;
-    }
-
-    currentImage = step.image;
-    inactiveFrame.src = step.image;
-    inactiveFrame.alt = `${step.year} — ${step.label}`;
-    applyFrameStyle(inactiveFrame, step);
-
-    const reveal = () => {
-      inactiveFrame.classList.add("is-visible");
-      activeFrame.classList.remove("is-visible");
-      [activeFrame, inactiveFrame] = [inactiveFrame, activeFrame];
-    };
-
-    if (inactiveFrame.complete) requestAnimationFrame(reveal);
-    else inactiveFrame.addEventListener("load", reveal, { once: true });
+  const next = step.image;
+  if (next === activeImage) {
+    mediaToken += 1;
+    pendingImage = "";
+    applyFrameStyle(activeFrame, step);
+    return;
   }
+  if (next === pendingImage) {
+    applyFrameStyle(inactiveFrame, step);
+    return;
+  }
+
+  const token = ++mediaToken;
+  pendingImage = next;
+  inactiveFrame.src = next;
+  inactiveFrame.alt = `${step.year} — ${step.label}`;
+  applyFrameStyle(inactiveFrame, step);
+
+  const reveal = () => {
+    if (token !== mediaToken || pendingImage !== next) return;
+    inactiveFrame.classList.add("is-visible");
+    activeFrame.classList.remove("is-visible");
+    [activeFrame, inactiveFrame] = [inactiveFrame, activeFrame];
+    activeImage = next;
+    pendingImage = "";
+  };
+
+  if (inactiveFrame.complete) requestAnimationFrame(reveal);
+  else inactiveFrame.addEventListener("load", reveal, { once: true });
+}
 
   function setStep(index) {
     const safeIndex = clamp(index, 0, steps.length - 1);
