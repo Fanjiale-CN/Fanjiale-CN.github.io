@@ -1,0 +1,111 @@
+name: Xi'an Time Race Fix
+
+on:
+  push:
+    branches:
+      - work/xian-time-strata-20260829
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: ${{ !contains(github.event.head_commit.message, '[xian-race-built]') }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: work/xian-time-strata-20260829
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Patch crossfade lifecycle
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('be-a-viewer/xian/xian-time.js')
+          s = p.read_text()
+          old_vars = '''  let activeFrame = frameA;
+            let inactiveFrame = frameB;
+            let activeStep = 0;
+            let currentImage = steps[0].image;
+            let animationFrame = 0;'''.replace('    ', '')
+          new_vars = '''  let activeFrame = frameA;
+            let inactiveFrame = frameB;
+            let activeStep = 0;
+            let activeImage = steps[0].image;
+            let pendingImage = "";
+            let mediaToken = 0;
+            let animationFrame = 0;'''.replace('    ', '')
+          old_frame = '''  function setFrame(step) {
+            if (step.image === currentImage) {
+              applyFrameStyle(activeFrame, step);
+              return;
+            }
+
+            currentImage = step.image;
+            inactiveFrame.src = step.image;
+            inactiveFrame.alt = `${step.year} — ${step.label}`;
+            applyFrameStyle(inactiveFrame, step);
+
+            const reveal = () => {
+              inactiveFrame.classList.add("is-visible");
+              activeFrame.classList.remove("is-visible");
+              [activeFrame, inactiveFrame] = [inactiveFrame, activeFrame];
+            };
+
+            if (inactiveFrame.complete) requestAnimationFrame(reveal);
+            else inactiveFrame.addEventListener("load", reveal, { once: true });
+          }'''.replace('    ', '')
+          new_frame = '''  function setFrame(step) {
+            const next = step.image;
+            if (next === activeImage) {
+              mediaToken += 1;
+              pendingImage = "";
+              applyFrameStyle(activeFrame, step);
+              return;
+            }
+            if (next === pendingImage) {
+              applyFrameStyle(inactiveFrame, step);
+              return;
+            }
+
+            const token = ++mediaToken;
+            pendingImage = next;
+            inactiveFrame.src = next;
+            inactiveFrame.alt = `${step.year} — ${step.label}`;
+            applyFrameStyle(inactiveFrame, step);
+
+            const reveal = () => {
+              if (token !== mediaToken || pendingImage !== next) return;
+              inactiveFrame.classList.add("is-visible");
+              activeFrame.classList.remove("is-visible");
+              [activeFrame, inactiveFrame] = [inactiveFrame, activeFrame];
+              activeImage = next;
+              pendingImage = "";
+            };
+
+            if (inactiveFrame.complete) requestAnimationFrame(reveal);
+            else inactiveFrame.addEventListener("load", reveal, { once: true });
+          }'''.replace('    ', '')
+          if old_vars not in s or old_frame not in s:
+              raise SystemExit('Expected Xi\'an time-strata blocks were not found')
+          s = s.replace(old_vars, new_vars).replace(old_frame, new_frame)
+          p.write_text(s)
+          PY
+          grep -q 'let mediaToken = 0' be-a-viewer/xian/xian-time.js
+          grep -q 'token !== mediaToken' be-a-viewer/xian/xian-time.js
+      - name: Install release tools
+        run: npm ci --ignore-scripts
+      - name: Run release
+        run: npm run release
+      - name: Commit validated lifecycle fix
+        run: |
+          rm -f .github/workflows/xian-time-race-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Harden Xi'an time strata [xian-race-built]"
+          git push origin HEAD:work/xian-time-strata-20260829
