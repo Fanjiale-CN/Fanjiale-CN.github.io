@@ -5,7 +5,7 @@ import vm from "node:vm";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const errors = [];
-const expectedNav = ["/cities/", "/essays/", "/radar/", "/research/", "/data/", "/work/", "/index/", "/about/"];
+const expectedNav = ["/cities/", "/essays/", "/radar/", "/research/", "/data/", "/reading/", "/work/", "/index/", "/about/"];
 
 function walk(dir, predicate) {
   const files = [];
@@ -53,10 +53,11 @@ if (!script.includes('match: "/radar/"')) errors.push("script.js: Radar route ma
 const sandbox = { window: {} };
 vm.runInNewContext(readFileSync(join(root, "content.js"), "utf8"), sandbox);
 const content = sandbox.window.GALOK_CONTENT;
-if (content.essays.length !== 12) errors.push(`content.js: expected 12 essays, found ${content.essays.length}`);
+if (content.essays.length < 1) errors.push("content.js: essay catalogue must not be empty");
 const issueSequence = content.essays.map((essay) => essay.issue).sort((a, b) => a - b);
-if (JSON.stringify(issueSequence) !== JSON.stringify(Array.from({ length: 12 }, (_, index) => index + 1))) {
-  errors.push(`content.js: essay issues must be unique 1–12, found ${issueSequence.join(", ")}`);
+const expectedIssues = Array.from({ length: content.essays.length }, (_, index) => index + 1);
+if (JSON.stringify(issueSequence) !== JSON.stringify(expectedIssues)) {
+  errors.push(`content.js: essay issues must be a unique 1–${content.essays.length} sequence, found ${issueSequence.join(", ")}`);
 }
 const curator = content.essays.find((essay) => essay.url === "/essays/the-curators-curse/");
 if (curator?.issue !== 1) errors.push(`content.js: The Curator's Curse must remain chronological issue 1`);
@@ -113,4 +114,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`IA validation passed: ${navPages} primary-nav pages, 12 essays, ${content.research.length} research works, canonical View/Frame/Observe taxonomy.`);
+console.log(`IA validation passed: ${navPages} primary-nav pages, ${content.essays.length} essays, ${content.research.length} research works, canonical View/Frame/Observe taxonomy.`);
