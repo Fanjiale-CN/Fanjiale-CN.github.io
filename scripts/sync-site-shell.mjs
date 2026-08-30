@@ -27,6 +27,7 @@ function currentHref(file) {
   if (path.startsWith("radar/")) return "/radar/";
   if (path.startsWith("research/")) return "/research/";
   if (path === "data/index.html") return "/data/";
+  if (path.startsWith("reading/")) return "/reading/";
   if (path === "work/index.html") return "/work/";
   if (path === "index/index.html") return "/index/";
   if (path === "about/index.html") return "/about/";

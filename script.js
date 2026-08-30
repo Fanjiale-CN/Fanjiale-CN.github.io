@@ -944,6 +944,7 @@
       { href: "/radar/", label: "Radar", match: "/radar/" },
       { href: "/research/", label: "Research", match: "/research/" },
       { href: "/data/", label: "Data", match: "/data/" },
+      { href: "/reading/", label: "Reading", match: "/reading/" },
       { href: "/work/", label: "Work", matches: ["/work/", "/works/"] },
       { href: "/index/", label: "Index", matches: ["/index/", "/archive/", "/postcards/"] },
       { href: "/about/", label: "About", match: "/about/" }

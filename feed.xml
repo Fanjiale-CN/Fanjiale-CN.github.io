@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-  <title>Galok — Essays and Research</title>
+  <title>Galok — Essays, Research and Reading</title>
   <link>https://www.galok.me/</link>
-  <description>Economic observation, city memory and independent empirical research from Galok.</description>
+  <description>Economic observation, city memory, historical reading and independent empirical research from Galok.</description>
   <language>en</language>
   <managingEditor>editor@galok.me (Galok)</managingEditor>
   <lastBuildDate>Sun, 30 Aug 2026 12:00:00 GMT</lastBuildDate>
@@ -20,7 +20,7 @@
     <link>https://www.galok.me/essays/china-in-more-than-one-number/</link>
     <guid isPermaLink="true">https://www.galok.me/essays/china-in-more-than-one-number/</guid>
     <pubDate>Sun, 30 Aug 2026 12:00:00 GMT</pubDate>
-    <description>A data-led essay on why China</description>
+    <description>A data-led essay on why China&apos;s production, prices, property and household experience can move in different directions.</description>
     <author>editor@galok.me (Galok)</author>
   </item>
   <item>

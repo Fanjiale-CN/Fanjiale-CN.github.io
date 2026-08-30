@@ -63,6 +63,7 @@ function expectedNav(path) {
   if (path.startsWith("radar/")) return "Radar";
   if (path.startsWith("research/")) return "Research";
   if (path === "data/index.html") return "Data";
+  if (path.startsWith("reading/")) return "Reading";
   if (path === "work/index.html") return "Work";
   if (path === "index/index.html") return "Index";
   if (path === "about/index.html") return "About";

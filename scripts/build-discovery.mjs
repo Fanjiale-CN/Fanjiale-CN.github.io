@@ -34,13 +34,14 @@ function typeFor(relativePath) {
   if (relativePath.startsWith("radar/")) return "radar";
   if (relativePath.startsWith("research/")) return "research";
   if (relativePath.startsWith("data/")) return "data";
+  if (relativePath.startsWith("reading/")) return "reading";
   if (relativePath.startsWith("visual-notes/")) return "visual";
   if (relativePath.startsWith("work/") || relativePath.startsWith("design/") || relativePath.startsWith("postcards/")) return "project";
   return "site";
 }
 
 function typeLabel(type) {
-  return ({ city: "Cities", essay: "Essays", radar: "Radar", research: "Research", data: "Data", project: "Projects", visual: "Visual Notes", site: "Galok" })[type];
+  return ({ city: "Cities", essay: "Essays", radar: "Radar", research: "Research", data: "Data", reading: "Reading", project: "Projects", visual: "Visual Notes", site: "Galok" })[type];
 }
 
 function walk(directory, result = []) {
@@ -107,8 +108,8 @@ function rssDate(value, fallback) {
 
 function priorityFor(route) {
   if (route === "/") return ["1.0", "weekly"];
-  if (["/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/"].includes(route)) return ["0.9", "weekly"];
-  if (route.startsWith("/essays/") || route.startsWith("/research/")) return ["0.9", "monthly"];
+  if (["/cities/", "/essays/", "/radar/", "/research/", "/data/", "/reading/", "/index/"].includes(route)) return ["0.9", "weekly"];
+  if (route.startsWith("/essays/") || route.startsWith("/research/") || route.startsWith("/reading/")) return ["0.9", "monthly"];
   return ["0.7", "monthly"];
 }
 
@@ -151,7 +152,7 @@ function buildSitemap(pages) {
 
 function buildFeed(pages) {
   const entries = pages
-    .filter((page) => (page.type === "essay" || page.type === "research") && !["/essays/", "/research/"].includes(page.route))
+    .filter((page) => (page.type === "essay" || page.type === "research" || page.type === "reading") && !["/essays/", "/research/", "/reading/"].includes(page.route))
     .map((page) => {
       const schema = readJsonLd(page.html) || {};
       const published = rssDate(schema.datePublished, page.lastmod);
@@ -160,7 +161,7 @@ function buildFeed(pages) {
     .sort((a, b) => b.published - a.published);
   const items = entries.map((entry) => `  <item>\n    <title>${escapeXml(entry.title)}</title>\n    <link>${escapeXml(entry.canonical)}</link>\n    <guid isPermaLink="true">${escapeXml(entry.canonical)}</guid>\n    <pubDate>${entry.published.toUTCString()}</pubDate>\n    <description>${escapeXml(entry.description)}</description>\n    <author>editor@galok.me (Galok)</author>\n  </item>`);
   const latest = entries[0]?.published || new Date();
-  writeFileSync(join(root, "feed.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>Galok — Essays and Research</title>\n  <link>${origin}/</link>\n  <description>Economic observation, city memory and independent empirical research from Galok.</description>\n  <language>en</language>\n  <managingEditor>editor@galok.me (Galok)</managingEditor>\n  <lastBuildDate>${latest.toUTCString()}</lastBuildDate>\n${items.join("\n")}\n</channel>\n</rss>\n`);
+  writeFileSync(join(root, "feed.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>Galok — Essays, Research and Reading</title>\n  <link>${origin}/</link>\n  <description>Economic observation, city memory, historical reading and independent empirical research from Galok.</description>\n  <language>en</language>\n  <managingEditor>editor@galok.me (Galok)</managingEditor>\n  <lastBuildDate>${latest.toUTCString()}</lastBuildDate>\n${items.join("\n")}\n</channel>\n</rss>\n`);
 }
 
 function buildSearchSources(pages) {
