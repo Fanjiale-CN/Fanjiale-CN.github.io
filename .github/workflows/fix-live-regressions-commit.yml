@@ -1,0 +1,102 @@
+name: Commit live UI regression fixes
+on:
+  push:
+    branches: [fix/live-regressions-20260830]
+    paths: [.github/workflows/fix-live-regressions-commit.yml]
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Patch cache and navigation regressions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          def read(p): return Path(p).read_text(encoding='utf-8')
+          def write(p,s): Path(p).write_text(s,encoding='utf-8')
+          def rep(p,a,b,n=1):
+              s=read(p); c=s.count(a)
+              if c != n: raise SystemExit(f'{p}: expected {n} occurrence(s), found {c}: {a!r}')
+              write(p,s.replace(a,b))
+
+          rep('be-a-viewer/city-atlas.js',
+              'fetch("/data/city-atlas.json", { cache: "force-cache" })',
+              'fetch("/data/city-atlas.json?v=20260830-livefix", { cache: "no-store" })')
+
+          p='be-a-viewer/viewer.css'; s=read(p)
+          marker='.viewer-site-nav .brand-mark {\n  filter: none;\n}\n'
+          extra='''\n.viewer-site-nav.is-scrolled {\n  color: #111719;\n  background: rgba(248, 249, 247, 0.96);\n  border-bottom-color: rgba(17, 23, 25, 0.12);\n}\n\n.viewer-site-nav.is-scrolled .brand,\n.viewer-site-nav.is-scrolled .nav-links a {\n  color: #111719;\n}\n\n.viewer-site-nav.is-scrolled .brand-lockup small {\n  color: rgba(17, 23, 25, 0.62);\n}\n'''
+          if '.viewer-site-nav.is-scrolled {' not in s:
+              if marker not in s: raise SystemExit('viewer nav marker missing')
+              write(p,s.replace(marker,marker+extra,1))
+
+          rep('assets/observability.js','Five open city stories, placed as an editorial index.','Seven open city stories, placed as an editorial index.')
+          rep('assets/observability.js','/be-a-viewer/city-atlas.css?v=upgrade05-20260825','/be-a-viewer/city-atlas.css?v=20260830-livefix')
+          rep('assets/observability.js','/be-a-viewer/city-atlas.js?v=upgrade05-20260825','/be-a-viewer/city-atlas.js?v=20260830-livefix')
+
+          rep('cities/index.html','/be-a-viewer/viewer.css?v=ia-20260823-autoplay','/be-a-viewer/viewer.css?v=20260830-livefix')
+          rep('cities/index.html','/assets/observability.js?v=20260825','/assets/observability.js?v=20260830-livefix')
+
+          rep('research/love-by-the-hour/visuals/index.html','/research/love-by-the-hour/search003.css?v=20260829b','/research/love-by-the-hour/search003.css?v=20260830-livefix')
+          rep('research/love-by-the-hour/visuals/index.html','/assets/observability.js?v=20260825','/assets/observability.js?v=20260830-livefix')
+          rep('research/love-by-the-hour/visuals/index.html','/research/love-by-the-hour/search003-data.js?v=20260829b','/research/love-by-the-hour/search003-data.js?v=20260830-livefix')
+          rep('research/love-by-the-hour/visuals/index.html','/research/love-by-the-hour/search003-display-en.js?v=20260830a','/research/love-by-the-hour/search003-display-en.js?v=20260830-livefix')
+          rep('research/love-by-the-hour/visuals/index.html','/research/love-by-the-hour/search003.js?v=20260829b','/research/love-by-the-hour/search003.js?v=20260830-livefix')
+
+          write('_headers','''/cities/\n  Cache-Control: public, max-age=0, must-revalidate\n\n/research/love-by-the-hour/visuals/\n  Cache-Control: public, max-age=0, must-revalidate\n\n/data/city-atlas.json\n  Cache-Control: public, max-age=0, must-revalidate\n''')
+          PY
+      - name: Verify the three reported regressions
+        run: |
+          node --check research/love-by-the-hour/search003-display-en.js
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'; import vm from 'node:vm';
+          const atlas=JSON.parse(fs.readFileSync('data/city-atlas.json','utf8'));
+          for(const id of ['shenzhen','chongqing']) if(!atlas.cities.some(c=>c.id===id)) throw new Error(`City Atlas missing ${id}`);
+          const ac=fs.readFileSync('be-a-viewer/city-atlas.js','utf8');
+          if(ac.includes('force-cache') || !ac.includes('city-atlas.json?v=20260830-livefix')) throw new Error('City Atlas stale-cache fix missing');
+          const css=fs.readFileSync('be-a-viewer/viewer.css','utf8');
+          if(!/\.viewer-site-nav\.is-scrolled\s*\{[^}]*color:\s*#111719/s.test(css)) throw new Error('Cities nav contrast fix missing');
+          const cities=fs.readFileSync('cities/index.html','utf8');
+          if(!cities.includes('viewer.css?v=20260830-livefix') || !cities.includes('observability.js?v=20260830-livefix')) throw new Error('Cities asset cache bust missing');
+          const visuals=fs.readFileSync('research/love-by-the-hour/visuals/index.html','utf8');
+          if(!visuals.includes('search003-display-en.js?v=20260830-livefix')) throw new Error('Research 003 overlay cache bust missing');
+          const ctx={window:{}}; ctx.window.window=ctx.window; vm.createContext(ctx);
+          vm.runInContext(fs.readFileSync('research/love-by-the-hour/search003-data.js','utf8'),ctx);
+          vm.runInContext(fs.readFileSync('research/love-by-the-hour/search003-display-en.js','utf8'),ctx);
+          const d=ctx.window.SEARCH003_DATA, visible=[];
+          for(const a of d.accounts) visible.push(a.name,a.followersLabel,a.membersLabel,a.size,a.orgLabel,a.monetization,a.acquisition);
+          for(const f of d.features||[]) visible.push(f.label);
+          for(const r of d.orgBySize||[]) visible.push(r.size);
+          for(const p of d.pricing||[]) visible.push(p.type,p.item);
+          for(const t of d.timeline||[]) visible.push(t.label,t.time,t.detail);
+          for(const p of d.paths||[]) visible.push(p.title,...p.stages,...p.accounts);
+          const bad=visible.filter(x=>/[\u3400-\u9fff]/u.test(String(x??'')));
+          if(bad.length) throw new Error(`Research 003 still has visible CJK: ${JSON.stringify(bad)}`);
+          console.log('Targeted regression checks passed.');
+          NODE
+      - name: Install CI tools
+        run: npm ci --ignore-scripts
+      - name: Run release checks
+        run: |
+          npm run ci:experience
+          npm run validate
+          npm run ci:links
+          npm run build:discovery
+          npm run release:core
+      - name: Commit tested fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _headers be-a-viewer/city-atlas.js be-a-viewer/viewer.css assets/observability.js cities/index.html research/love-by-the-hour/search003-display-en.js research/love-by-the-hour/visuals/index.html feed.xml sitemap.xml index/search-catalog.json pagefind
+          git rm -f .github/workflows/fix-live-regressions-once.yml .github/workflows/fix-live-regressions-retry.yml .github/workflows/debug-search003-en.yml .github/workflows/fix-live-regressions-final.yml .github/workflows/fix-live-regressions-commit.yml
+          git commit -m "Fix live city and Research 003 regressions"
+          git push origin HEAD:fix/live-regressions-20260830
