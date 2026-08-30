@@ -5,7 +5,7 @@
       kicker: "81 BCE / CHANG'AN",
       title: '鹽鐵論',
       copy: 'A court argument over how a state pays for ambition, who captures commercial profit and who bears the cost.',
-      meta: '001 / SOURCE AUDIT'
+      meta: '001 / OPENING NOTE LIVE'
     },
     guanzi: {
       className: 'reading-preview-plate--guanzi',
@@ -73,6 +73,13 @@
   }
 
   document.querySelectorAll('img[data-commons-title]').forEach((img) => loadCommonsThumbnail(img));
+
+  const openingLink = document.querySelector('.reading-feature-intro a[href="#source-shelf"]');
+  if (openingLink) {
+    openingLink.href = '/reading/salt-and-iron/';
+    openingLink.innerHTML = 'Read Opening Note <span aria-hidden="true">↗</span>';
+    openingLink.setAttribute('aria-label', 'Read Reading 001 opening note: Salt and Iron');
+  }
 
   const previewPlate = document.querySelector('[data-reading-preview-plate]');
   const previewKicker = document.querySelector('[data-reading-preview-kicker]');
