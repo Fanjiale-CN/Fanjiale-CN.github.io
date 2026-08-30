@@ -1,0 +1,38 @@
+name: Publish Data desk v1 once
+on:
+  push:
+    branches:
+      - publish/data-desk-v1-20260830
+    paths:
+      - .github/workflows/publish-data-desk-v1-once.yml
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install CI tools
+        run: npm ci
+      - name: Verify Data split
+        run: |
+          node -e "const fs=require('fs');const d=fs.readFileSync('data/index.html','utf8');const e=fs.readFileSync('essays/china-in-more-than-one-number/index.html','utf8');const c=fs.readFileSync('content.js','utf8');if(!d.includes('Numbers first.')||d.includes('data-longform')||!d.includes('data-data-search'))process.exit(1);if(!e.includes('DATA INSIGHT / ESSAY')||!e.includes('Open the Data desk'))process.exit(1);if(!c.includes('/essays/china-in-more-than-one-number/')||!c.includes('issue: 13'))process.exit(1);console.log('Data split verified')"
+      - name: Build discovery
+        run: npm run build:discovery
+      - name: Run release core
+        run: npm run release:core
+      - name: Commit generated assets
+        run: |
+          rm -f .github/workflows/publish-data-desk-v1-once.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Finalize Data desk v1 discovery assets'
+          git push origin HEAD:publish/data-desk-v1-20260830
