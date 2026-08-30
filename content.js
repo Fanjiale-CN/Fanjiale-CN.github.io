@@ -6,6 +6,7 @@ window.GALOK_CONTENT = {
       { href: "/radar/", label: "Radar" },
       { href: "/research/", label: "Research" },
       { href: "/data/", label: "Data" },
+      { href: "/reading/", label: "Reading" },
       { href: "/work/", label: "Work" },
       { href: "/index/", label: "Index" },
       { href: "/about/", label: "About" }
@@ -18,6 +19,7 @@ window.GALOK_CONTENT = {
         { href: "/research/", label: "Research" },
         { href: "/themes/", label: "Themes" },
         { href: "/data/", label: "Data" },
+        { href: "/reading/", label: "Reading" },
         { href: "/work/", label: "Work" },
         { href: "/index/", label: "Index" },
         { href: "/about/", label: "About" }

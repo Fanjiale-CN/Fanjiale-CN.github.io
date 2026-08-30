@@ -15,7 +15,7 @@ const viewports = [
   ["source-desktop", 1348, 926],
   ["ipad-landscape", 2048, 1536]
 ];
-const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/data/", "/index/", "/about/", "/be-a-viewer/shanghai/", "/be-a-viewer/hangzhou/", "/be-a-viewer/chongqing/"];
+const routes = ["/", "/cities/", "/essays/", "/radar/", "/research/", "/data/", "/reading/", "/index/", "/about/", "/be-a-viewer/shanghai/", "/be-a-viewer/hangzhou/", "/be-a-viewer/chongqing/"];
 const errors = [];
 const results = [];
 const evidenceDirectory = process.env.VISUAL_EVIDENCE_DIR

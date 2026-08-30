@@ -196,6 +196,13 @@
     "url": "/radar/"
   },
   {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Reading",
+    "excerpt": "Reading by Galok puts Chinese historical texts beside modern questions, with editions, context, source trails and the limits of comparison kept visible.",
+    "url": "/reading/"
+  },
+  {
     "type": "research",
     "label": "Research",
     "title": "Research",
