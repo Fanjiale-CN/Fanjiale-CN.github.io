@@ -26,7 +26,7 @@ const block = `${marker}
     })(window, document, "clarity", "script", "${clarityId}");
   </script>
   <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${cloudflareWebAnalyticsToken}"}'></script>
-  <script defer src="/assets/observability.js?v=20260825"></script>
+  <script defer src="/assets/observability.js?v=20260830-livefix"></script>
   ${endMarker}`;
 
 function walk(directory, files = []) {
@@ -76,12 +76,12 @@ function validPublicMarkup(html) {
   const clarity = (html.match(/["']y7uoedckle["']/g) || []).length;
   const cloudflare = (html.match(/static\.cloudflareinsights\.com\/beacon\.min\.js/g) || []).length;
   const tokens = (html.match(/661a632fda6543c7ba4c14b93e9a9452/g) || []).length;
-  const clients = (html.match(/\/assets\/observability\.js\?v=20260825/g) || []).length;
+  const clients = (html.match(/\/assets\/observability\.js\?v=20260830-livefix/g) || []).length;
   return starts === 1 && ends === 1 && gtagSources === 1 && configs === 1 && clarity === 1 && cloudflare === 1 && tokens === 1 && clients === 1;
 }
 
 function hasAnyObservability(html) {
-  return /G-2Y8N04VXYG|y7uoedckle|cloudflareinsights\.com|GALOK_OBSERVABILITY_START|\/assets\/observability\.js\?v=20260825/.test(html);
+  return /G-2Y8N04VXYG|y7uoedckle|cloudflareinsights\.com|GALOK_OBSERVABILITY_START|\/assets\/observability\.js\?v=20260830-livefix/.test(html);
 }
 
 const publicPages = publicFiles();

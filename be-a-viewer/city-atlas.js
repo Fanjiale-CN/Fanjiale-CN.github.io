@@ -98,7 +98,7 @@
     try {
       setStatus("LOADING ATLAS");
       const [response, maplibregl] = await Promise.all([
-        fetch("/data/city-atlas.json", { cache: "force-cache" }),
+        fetch("/data/city-atlas.json?v=20260830-livefix", { cache: "no-store" }),
         Promise.all([loadStyle(), loadScript()]).then(([, library]) => library)
       ]);
       if (!response.ok) throw new Error("Atlas data unavailable");
