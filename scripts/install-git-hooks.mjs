@@ -2,6 +2,11 @@ import { existsSync, writeFileSync, chmodSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 
+if (process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true") {
+  console.log("[hooks] CI detected; skipping local pre-push hook installation.");
+  process.exit(0);
+}
+
 const gitDirResult = spawnSync("git", ["rev-parse", "--git-dir"], {
   encoding: "utf8",
   stdio: ["ignore", "pipe", "ignore"]
