@@ -1,0 +1,56 @@
+name: Build Reading v1 once
+
+on:
+  push:
+    branches:
+      - feat/reading-v1-20260830
+    paths:
+      - .github/workflows/build-reading-v1-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Integrate Reading
+        run: node scripts/apply-reading-v1.mjs
+      - name: Install CI tools
+        run: npm ci --ignore-scripts
+      - name: Verify Reading structure
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('reading/index.html','utf8');
+          const css=fs.readFileSync('reading/reading.css','utf8');
+          const js=fs.readFileSync('reading/reading.js','utf8');
+          const index=fs.readFileSync('index/index.html','utf8');
+          const discovery=fs.readFileSync('scripts/build-discovery.mjs','utf8');
+          if(!html.includes('ANCIENT TEXTS / MODERN QUESTIONS')) throw new Error('Reading hero missing');
+          if(!html.includes('SOURCE SHELF')||!html.includes('HOW WE READ')) throw new Error('Reading evidence sections missing');
+          if(!css.includes('.reading-feature')||!css.includes('@media(max-width:620px)')) throw new Error('Reading responsive styles missing');
+          if(!js.includes('loadCommonsThumbnail')||!js.includes('data-reading-preview')) throw new Error('Reading interactions missing');
+          if(!index.includes('data-archive-filter="reading"')||!index.includes('Enter Reading →')) throw new Error('Archive integration missing');
+          if(!discovery.includes('reading: "Reading"')||!discovery.includes('page.type === "reading"')) throw new Error('Discovery integration missing');
+          console.log('Reading targeted checks passed');
+          NODE
+      - name: Build discovery
+        run: npm run build:discovery
+      - name: Run release core
+        run: npm run release:core
+      - name: Commit tested Reading v1
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Integrate Reading archive v1'
+          git push origin HEAD:feat/reading-v1-20260830
