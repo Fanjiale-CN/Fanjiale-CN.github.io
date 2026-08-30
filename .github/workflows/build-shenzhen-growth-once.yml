@@ -1,0 +1,189 @@
+name: Build Shenzhen growth carousel once
+on:
+  push:
+    branches: [feat/shenzhen-growth-carousel-20260830]
+    paths: [.github/workflows/build-shenzhen-growth-once.yml]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Build growth carousel
+        run: |
+          cat > /tmp/shenzhen-growth-section.html <<'HTML'
+          <section class="sz-growth" id="growth-archive" aria-labelledby="sz-growth-title" data-sz-growth>
+            <header class="sz-growth-head">
+              <div><span>ARCHIVE / 12 FRAMES</span><b>1898—2026</b></div>
+              <div><p>SHENZHEN / GROWTH RECORD</p><h2 id="sz-growth-title">A CITY<br>GROWS.</h2></div>
+              <p class="sz-growth-deck">Swipe one frame at a time. The sequence follows the border, the first special-zone years, construction, finance, expansion and the present skyline.</p>
+            </header>
+            <div class="sz-growth-shell">
+              <div class="sz-growth-toolbar" aria-label="Growth archive controls">
+                <button type="button" data-sz-growth-prev aria-label="Previous historical image">←</button>
+                <span><b data-sz-growth-current>01</b> / 12</span>
+                <button type="button" data-sz-growth-next aria-label="Next historical image">→</button>
+              </div>
+              <div class="sz-growth-track" tabindex="0" role="region" aria-label="Shenzhen historical image carousel" data-sz-growth-track>
+                <article class="sz-growth-slide is-current" data-year="1898">
+                  <figure class="sz-growth-frame sz-growth-frame--contain"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Map_of_The_Convention_for_the_Extension_of_Hong_Kong_Territory_in_1898_-_2.jpg" alt="1898 boundary map showing the Shenzhen River, Lo Wu and surrounding places" loading="eager" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>01 / BORDER</span><strong>1898</strong><h3>THE LINE BEFORE THE CITY.</h3><p>The convention map fixes the Shenzhen River as a border and records place names that still structure the city today.</p><small><a href="https://commons.wikimedia.org/wiki/File:Map_of_The_Convention_for_the_Extension_of_Hong_Kong_Territory_in_1898_-_2.jpg" target="_blank" rel="noreferrer">UNKNOWN AUTHOR / PUBLIC DOMAIN ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="1978">
+                  <figure class="sz-growth-frame"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Luohu_1978_02.jpg" alt="Luohu railway border crossing to Hong Kong in March 1978" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>02 / CROSSING</span><strong>1978</strong><h3>LUOHU, BEFORE THE LEAP.</h3><p>Rail, customs and the Hong Kong crossing already give Shenzhen a metropolitan direction before the special economic zone begins.</p><small><a href="https://commons.wikimedia.org/wiki/File:Luohu_1978_02.jpg" target="_blank" rel="noreferrer">LBM1948 / CC BY-SA 4.0 ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="1979">
+                  <figure class="sz-growth-frame sz-growth-frame--contain"><img src="https://eoimages.gsfc.nasa.gov/images/imagerecords/7000/7949/pearlriver_l3_1979292_lrg.jpg" alt="Landsat 3 false-color view of the Pearl River Delta on 19 October 1979" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>03 / LAND</span><strong>1979</strong><h3>MOSTLY GREEN.</h3><p>Landsat records a delta with little urbanization. Shenzhen is still a small interruption in a much larger landscape of vegetation and water.</p><small><a href="https://science.nasa.gov/earth/earth-observatory/urbanization-of-the-pearl-river-delta-7949/" target="_blank" rel="noreferrer">USGS / NASA LANDSAT · PUBLIC DOMAIN ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="1982">
+                  <figure class="sz-growth-frame"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Shenchen_in_1982.jpg" alt="Street scene in Shenzhen in 1982" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>04 / STREET</span><strong>1982</strong><h3>THE SPECIAL ZONE AT STREET LEVEL.</h3><p>Signs, traffic and low-rise blocks show a city already changing, while the skyline has barely started.</p><small><a href="https://commons.wikimedia.org/wiki/File:Shenchen_in_1982.jpg" target="_blank" rel="noreferrer">ROBERT SCHEDIWY / CC BY-SA 3.0 ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="1986">
+                  <figure class="sz-growth-frame sz-growth-frame--contain"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/1986深圳经济特区总体规划_3457.jpg" alt="1986 general plan for the Shenzhen Special Economic Zone" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>05 / PLAN</span><strong>1986</strong><h3>GROWTH BECOMES A DIAGRAM.</h3><p>The special-zone plan formalizes a linear, grouped urban structure. The city is no longer an experiment without a map.</p><small><a href="https://commons.wikimedia.org/wiki/File:1986深圳经济特区总体规划_3457.jpg" target="_blank" rel="noreferrer">CANGMINZHO / CC BY-SA 4.0 ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="1988">
+                  <figure class="sz-growth-frame sz-growth-frame--contain"><img src="https://eoimages.gsfc.nasa.gov/images/imagerecords/86000/86603/prd_tm_1988329_lrg.jpg" alt="Landsat 5 view of the Pearl River Delta on 24 November 1988" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>06 / DELTA</span><strong>1988</strong><h3>THE FOOTPRINT SPREADS.</h3><p>From orbit, new built surfaces are beginning to interrupt the agricultural and river landscape around Shenzhen and the wider delta.</p><small><a href="https://science.nasa.gov/earth/earth-observatory/the-worlds-largest-urban-area-86603/" target="_blank" rel="noreferrer">USGS / NASA LANDSAT · PUBLIC DOMAIN ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="1991">
+                  <figure class="sz-growth-frame"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/People_snapped_up_stocks_in_Shenzhen_in_the_1990s.jpg" alt="People crowding to buy stocks in Shenzhen in 1991" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>07 / MARKET</span><strong>1991</strong><h3>THE CITY LEARNS PRICE.</h3><p>The stock rush turns reform into a physical scene: queues, bodies and money compressed into one frame.</p><small><a href="https://commons.wikimedia.org/wiki/File:People_snapped_up_stocks_in_Shenzhen_in_the_1990s.jpg" target="_blank" rel="noreferrer">THISISIVOR / PUBLIC DOMAIN ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="1996">
+                  <figure class="sz-growth-frame"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/1996年_深圳老街附近_-_panoramio.jpg" alt="Street near Shenzhen Laojie in 1996" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>08 / OLD STREET</span><strong>1996</strong><h3>DENSITY ARRIVES BEFORE POLISH.</h3><p>By the mid-1990s, the older commercial streets are packed with signs, traffic and the visual noise of a city moving faster than its surfaces can settle.</p><small><a href="https://commons.wikimedia.org/wiki/File:1996年_深圳老街附近_-_panoramio.jpg" target="_blank" rel="noreferrer">WANGHONGLIU / CC BY-SA 3.0 ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="2000">
+                  <figure class="sz-growth-frame"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/2000年_深圳南山前海_qian_hai_-_panoramio.jpg" alt="Qianhai in Nanshan, Shenzhen on 16 December 2000" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>09 / QIANHAI</span><strong>2000</strong><h3>BEFORE THE NEW CENTRE.</h3><p>Qianhai is still open, low and unfinished. Its later skyline is almost impossible to infer from this photograph.</p><small><a href="https://commons.wikimedia.org/wiki/File:2000年_深圳南山前海_qian_hai_-_panoramio.jpg" target="_blank" rel="noreferrer">WANGHONGLIU / CC BY-SA 3.0 ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="2010">
+                  <figure class="sz-growth-frame"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/SZ_深圳福田區_Shenzhen_Futian_District_市民中心廣場_Civic_Centre_Shiminzhongxin_Aug-2010.jpg" alt="Shenzhen Civic Center and Futian central district in August 2010" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>10 / FUTIAN</span><strong>2010</strong><h3>THE CENTRE LOOKS FINISHED.</h3><p>Civic architecture, plazas and towers give Shenzhen a metropolitan centre that reads as deliberate rather than provisional.</p><small><a href="https://commons.wikimedia.org/wiki/File:SZ_深圳福田區_Shenzhen_Futian_District_市民中心廣場_Civic_Centre_Shiminzhongxin_Aug-2010.jpg" target="_blank" rel="noreferrer">WENGCHUKSYIUA / CC BY-SA 3.0 ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="2014">
+                  <figure class="sz-growth-frame sz-growth-frame--contain"><img src="https://eoimages.gsfc.nasa.gov/images/imagerecords/86000/86603/prd_oli_2014320_lrg.jpg" alt="Landsat 8 view of the Pearl River Delta on 16 November 2014" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>11 / MEGALOPOLIS</span><strong>2014</strong><h3>THE CITY MERGES WITH THE DELTA.</h3><p>The orbital view now shows a continuous urban field. Shenzhen has become one node inside a much larger Pearl River Delta metropolis.</p><small><a href="https://science.nasa.gov/earth/earth-observatory/the-worlds-largest-urban-area-86603/" target="_blank" rel="noreferrer">USGS / NASA LANDSAT · PUBLIC DOMAIN ↗</a></small></div>
+                </article>
+                <article class="sz-growth-slide" data-year="2026">
+                  <figure class="sz-growth-frame"><img src="/assets/be-a-viewer/shenzhen/video/shenzhen-night-poster.jpg" alt="Contemporary Shenzhen skyline at night" loading="lazy" decoding="async"></figure>
+                  <div class="sz-growth-meta"><span>12 / PRESENT</span><strong>2026</strong><h3>THE EXPERIMENT BECOMES THE VIEW.</h3><p>The final frame returns to the city at eye level: towers, light and infrastructure where earlier images showed border, vegetation and open ground.</p><small>GALOK FIELD FILM / PEXELS</small></div>
+                </article>
+              </div>
+              <div class="sz-growth-progress" aria-hidden="true"><i data-sz-growth-progress></i></div>
+              <p class="sz-growth-hint">SWIPE / DRAG / ← →</p>
+            </div>
+          </section>
+          HTML
+
+          cat > be-a-viewer/shenzhen/shenzhen-growth.css <<'CSS'
+          .sz-growth{padding:clamp(5rem,9vw,9rem) 0;background:#0a1012;color:#f3efe6;border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12)}
+          .sz-growth-head{padding:0 var(--sz-pad) clamp(3rem,6vw,6rem);display:grid;grid-template-columns:18% 48% 1fr;gap:0;align-items:end}
+          .sz-growth-head>div:first-child{align-self:start;padding-top:.75rem;border-top:1px solid rgba(255,255,255,.34);font:700 .58rem/1.6 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.12em;text-transform:uppercase}.sz-growth-head>div:first-child span,.sz-growth-head>div:first-child b{display:block}.sz-growth-head>div:first-child b{margin-top:.6rem;color:#79c9cd}
+          .sz-growth-head>div:nth-child(2){padding-left:1.5rem}.sz-growth-head>div:nth-child(2) p{margin:0 0 1rem;color:#79c9cd;font:700 .6rem/1 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.12em}.sz-growth-head h2{margin:0;font-size:clamp(4rem,10vw,11rem);font-weight:520;line-height:.78;letter-spacing:-.075em}.sz-growth-deck{margin:0;padding:1rem 0 0 1.5rem;border-top:1px solid rgba(255,255,255,.28);border-left:1px solid rgba(255,255,255,.18);font-size:clamp(.95rem,1.35vw,1.25rem);line-height:1.55;color:#c8c5bd}
+          .sz-growth-shell{position:relative}.sz-growth-track{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;touch-action:pan-x pan-y;cursor:grab}.sz-growth-track::-webkit-scrollbar{display:none}.sz-growth-track.is-dragging{cursor:grabbing;scroll-behavior:auto;user-select:none}
+          .sz-growth-slide{position:relative;flex:0 0 100%;width:100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;display:grid;grid-template-columns:minmax(0,1fr) minmax(18rem,27%);background:#0a1012;border-right:1px solid rgba(255,255,255,.12)}
+          .sz-growth-frame{min-width:0;height:min(74vw,78svh);margin:0;background:#06090a;overflow:hidden}.sz-growth-frame img{width:100%;height:100%;display:block;object-fit:cover;filter:saturate(.78) contrast(1.05);transition:filter 260ms ease}.sz-growth-slide.is-current .sz-growth-frame img{filter:saturate(.9) contrast(1.04)}.sz-growth-frame--contain{padding:clamp(1rem,3vw,3rem)}.sz-growth-frame--contain img{object-fit:contain}
+          .sz-growth-meta{min-width:0;padding:clamp(2rem,4vw,4rem) var(--sz-pad) 2rem clamp(1.5rem,3vw,3rem);display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.18)}.sz-growth-meta>span{color:#79c9cd;font:700 .57rem/1 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.12em}.sz-growth-meta>strong{display:block;margin:auto 0 1rem;font-size:clamp(4rem,8vw,8rem);font-weight:520;line-height:.82;letter-spacing:-.07em}.sz-growth-meta h3{margin:0;padding-top:1rem;border-top:1px solid rgba(255,255,255,.32);font-size:clamp(1.45rem,2.5vw,2.8rem);font-weight:540;line-height:1.02;letter-spacing:-.035em}.sz-growth-meta p{margin:1.3rem 0 0;color:#bbb8b0;font-size:.95rem;line-height:1.55}.sz-growth-meta small{margin-top:2rem;color:#787f80;font:600 .5rem/1.5 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.08em}.sz-growth-meta small a{color:inherit;text-decoration:none}.sz-growth-meta small a:hover,.sz-growth-meta small a:focus-visible{color:#fff}
+          .sz-growth-toolbar{position:absolute;z-index:4;top:1rem;right:var(--sz-pad);display:flex;align-items:center;background:rgba(8,13,15,.78);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2)}.sz-growth-toolbar button{width:3rem;height:3rem;border:0;background:transparent;color:#fff;font-size:1.15rem;cursor:pointer}.sz-growth-toolbar button:disabled{opacity:.25;cursor:default}.sz-growth-toolbar span{min-width:5.2rem;text-align:center;font:700 .58rem/1 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.12em}.sz-growth-toolbar button:focus-visible,.sz-growth-track:focus-visible{outline:2px solid #79c9cd;outline-offset:3px}
+          .sz-growth-progress{height:2px;margin:1.35rem var(--sz-pad) 0;background:rgba(255,255,255,.14);overflow:hidden}.sz-growth-progress i{display:block;width:8.333%;height:100%;background:#79c9cd;transform-origin:left center;transition:transform 220ms ease}.sz-growth-hint{margin:.8rem var(--sz-pad) 0;text-align:right;color:#70797b;font:600 .52rem/1 ui-monospace,"SFMono-Regular",Consolas,monospace;letter-spacing:.12em}
+          @media(max-width:900px){.sz-growth-head{grid-template-columns:1fr;gap:2.5rem}.sz-growth-head>div:nth-child(2),.sz-growth-deck{padding-left:0}.sz-growth-deck{border-left:0}.sz-growth-slide{grid-template-columns:1fr}.sz-growth-frame{height:min(86svh,108vw)}.sz-growth-meta{min-height:18rem;padding:1.4rem var(--sz-pad) 1.8rem;border-left:0;border-top:1px solid rgba(255,255,255,.18)}.sz-growth-meta>strong{margin:1.4rem 0 .8rem}.sz-growth-toolbar{top:.75rem;right:.75rem}.sz-growth-progress{margin-left:.75rem;margin-right:.75rem}.sz-growth-hint{margin-right:.75rem}.sz-growth-frame--contain{padding:1rem}}
+          @media(max-width:560px){.sz-growth{padding-top:4rem}.sz-growth-head h2{font-size:clamp(3.7rem,20vw,6.5rem)}.sz-growth-frame{height:70svh}.sz-growth-meta{min-height:21rem}.sz-growth-meta h3{font-size:1.55rem}.sz-growth-toolbar span{min-width:4.5rem}.sz-growth-toolbar button{width:2.75rem;height:2.75rem}}
+          @media(prefers-reduced-motion:reduce){.sz-growth-track{scroll-behavior:auto}.sz-growth-progress i,.sz-growth-frame img{transition:none}}
+          CSS
+
+          cat > be-a-viewer/shenzhen/shenzhen-growth.js <<'JS'
+          (()=>{
+            const root=document.querySelector('[data-sz-growth]'); if(!root)return;
+            const track=root.querySelector('[data-sz-growth-track]'); const slides=[...track.querySelectorAll('.sz-growth-slide')];
+            const prev=root.querySelector('[data-sz-growth-prev]'); const next=root.querySelector('[data-sz-growth-next]'); const current=root.querySelector('[data-sz-growth-current]'); const progress=root.querySelector('[data-sz-growth-progress]');
+            let index=0,dragging=false,startX=0,startLeft=0,raf=0;
+            const clamp=n=>Math.max(0,Math.min(slides.length-1,n));
+            const update=(n)=>{index=clamp(n);slides.forEach((s,i)=>s.classList.toggle('is-current',i===index));current.textContent=String(index+1).padStart(2,'0');prev.disabled=index===0;next.disabled=index===slides.length-1;progress.style.transform=`scaleX(${index+1})`;};
+            const go=n=>{index=clamp(n);track.scrollTo({left:slides[index].offsetLeft,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});update(index)};
+            prev.addEventListener('click',()=>go(index-1)); next.addEventListener('click',()=>go(index+1));
+            track.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();go(index-1)}else if(e.key==='ArrowRight'){e.preventDefault();go(index+1)}else if(e.key==='Home'){e.preventDefault();go(0)}else if(e.key==='End'){e.preventDefault();go(slides.length-1)}});
+            track.addEventListener('scroll',()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{const center=track.scrollLeft+track.clientWidth/2;let best=0,dist=Infinity;slides.forEach((s,i)=>{const d=Math.abs((s.offsetLeft+s.offsetWidth/2)-center);if(d<dist){dist=d;best=i}});if(best!==index)update(best)})},{passive:true});
+            track.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;dragging=true;startX=e.clientX;startLeft=track.scrollLeft;track.classList.add('is-dragging');track.setPointerCapture(e.pointerId)});
+            track.addEventListener('pointermove',e=>{if(!dragging)return;track.scrollLeft=startLeft-(e.clientX-startX)});
+            const endDrag=e=>{if(!dragging)return;dragging=false;track.classList.remove('is-dragging');try{track.releasePointerCapture(e.pointerId)}catch{};go(Math.round(track.scrollLeft/Math.max(track.clientWidth,1)))};
+            track.addEventListener('pointerup',endDrag);track.addEventListener('pointercancel',endDrag);track.addEventListener('dragstart',e=>e.preventDefault());
+            update(0);
+          })();
+          JS
+
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('be-a-viewer/shenzhen/index.html')
+          s=p.read_text(encoding='utf-8')
+          css='  <link rel="stylesheet" href="/be-a-viewer/shenzhen/shenzhen-growth.css?v=20260830-growth01">\n'
+          if 'shenzhen-growth.css' not in s:
+              marker='  <link rel="stylesheet" href="/be-a-viewer/shenzhen/shenzhen.css?v=city-frequency-20260826">\n'
+              if marker not in s: raise SystemExit('Shenzhen stylesheet marker missing')
+              s=s.replace(marker,marker+css,1)
+          if 'id="growth-archive"' not in s:
+              marker='    <section class="sz-film-note"'
+              i=s.find(marker)
+              if i<0: raise SystemExit('film-note insertion marker missing')
+              section=Path('/tmp/shenzhen-growth-section.html').read_text(encoding='utf-8')
+              s=s[:i]+section+'\n\n'+s[i:]
+          if 'shenzhen-growth.js' not in s:
+              marker='  <script defer src="/be-a-viewer/shenzhen/shenzhen.js?v=20260826-frequency05"></script>'
+              if marker not in s:
+                  marker='  <script defer src="/be-a-viewer/shenzhen/shenzhen.js?v=20260826-frequency04"></script>'
+              if marker not in s:
+                  marker='  <script defer src="/be-a-viewer/shenzhen/shenzhen.js?v=20260826-frequency03"></script>'
+              if marker not in s:
+                  marker='  <script defer src="/be-a-viewer/shenzhen/shenzhen.js?v=20260826-frequency02"></script>'
+              if marker not in s:
+                  marker='  <script defer src="/be-a-viewer/shenzhen/shenzhen.js?v=20260826-frequency01"></script>'
+              if marker not in s:
+                  # current production version may differ; insert before the first Shenzhen script
+                  marker='  <script defer src="/be-a-viewer/shenzhen/shenzhen.js'
+                  i=s.find(marker)
+                  if i<0: raise SystemExit('Shenzhen script marker missing')
+                  s=s[:i]+'  <script defer src="/be-a-viewer/shenzhen/shenzhen-growth.js?v=20260830-growth01"></script>\n'+s[i:]
+              else:
+                  s=s.replace(marker,'  <script defer src="/be-a-viewer/shenzhen/shenzhen-growth.js?v=20260830-growth01"></script>\n'+marker,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Verify targeted carousel
+        run: |
+          node --check be-a-viewer/shenzhen/shenzhen-growth.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          h=Path('be-a-viewer/shenzhen/index.html').read_text(encoding='utf-8')
+          assert h.count('class="sz-growth-slide') == 12, h.count('class="sz-growth-slide')
+          years=re.findall(r'data-year="(\d{4})"',h)
+          assert years==['1898','1978','1979','1982','1986','1988','1991','1996','2000','2010','2014','2026'],years
+          assert 'scroll-snap-type:x mandatory' in Path('be-a-viewer/shenzhen/shenzhen-growth.css').read_text(encoding='utf-8')
+          assert 'data-sz-growth-track' in h and 'shenzhen-growth.js?v=20260830-growth01' in h
+          print('Shenzhen growth carousel targeted checks passed.')
+          PY
+      - name: Install CI tools
+        run: npm ci --ignore-scripts
+      - name: Generate discovery and run release core
+        run: |
+          npm run build:discovery
+          npm run release:core
+      - name: Commit tested carousel
+        run: |
+          rm .github/workflows/build-shenzhen-growth-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add Shenzhen growth image carousel"
+          git push origin HEAD:feat/shenzhen-growth-carousel-20260830
