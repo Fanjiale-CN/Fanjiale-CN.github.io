@@ -950,14 +950,26 @@
       { href: "/about/", label: "About", match: "/about/" }
     ];
     const currentPath = window.location.pathname;
-    links.replaceChildren(...primaryLinks.map((item) => {
-      const link = document.createElement("a");
-      link.href = item.href;
-      link.textContent = item.label;
+    const staticLinks = Array.from(links.querySelectorAll("a"));
+    const staticHrefs = new Set(staticLinks.map((link) => link.getAttribute("href")));
+    const staticNavComplete = primaryLinks.every((item) => staticHrefs.has(item.href));
+
+    if (!staticNavComplete) {
+      links.replaceChildren(...primaryLinks.map((item) => {
+        const link = document.createElement("a");
+        link.href = item.href;
+        link.textContent = item.label;
+        return link;
+      }));
+    }
+
+    links.querySelectorAll("a").forEach((link) => {
+      link.removeAttribute("aria-current");
+      const item = primaryLinks.find((candidate) => candidate.href === link.getAttribute("href"));
+      if (!item) return;
       const matches = item.matches || [item.match];
       if (matches.some((match) => currentPath.startsWith(match))) link.setAttribute("aria-current", "page");
-      return link;
-    }));
+    });
     links.id = "primary-navigation-links";
 
     if (!brand.querySelector(".brand-lockup")) {
