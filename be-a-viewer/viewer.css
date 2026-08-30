@@ -25,6 +25,21 @@
   filter: none;
 }
 
+.viewer-site-nav.is-scrolled {
+  color: #111719;
+  background: rgba(248, 249, 247, 0.96);
+  border-bottom-color: rgba(17, 23, 25, 0.12);
+}
+
+.viewer-site-nav.is-scrolled .brand,
+.viewer-site-nav.is-scrolled .nav-links a {
+  color: #111719;
+}
+
+.viewer-site-nav.is-scrolled .brand-lockup small {
+  color: rgba(17, 23, 25, 0.62);
+}
+
 .viewer-hero {
   position: relative;
   min-height: 100svh;

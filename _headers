@@ -1,0 +1,11 @@
+/cities/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/research/love-by-the-hour/visuals/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/data/city-atlas.json
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/observability.js
+  Cache-Control: public, max-age=0, must-revalidate
