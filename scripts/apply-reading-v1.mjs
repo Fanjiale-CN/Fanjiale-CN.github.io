@@ -8,27 +8,31 @@ function replaceOnce(value, from, to, label){
   return value.replace(from, to);
 }
 
-const topPages = [
-  'index.html',
-  'cities/index.html',
-  'essays/index.html',
-  'radar/index.html',
-  'research/index.html',
-  'data/index.html',
-  'work/index.html',
-  'index/index.html',
-  'about/index.html'
-];
+// The global site shell is generated from content.js. Reading must enter that
+// source of truth first; sync-site-shell.mjs then materializes it everywhere.
+let content = read('content.js');
+content = replaceOnce(
+  content,
+  '      { href: "/data/", label: "Data" },\n      { href: "/work/", label: "Work" },',
+  '      { href: "/data/", label: "Data" },\n      { href: "/reading/", label: "Reading" },\n      { href: "/work/", label: "Work" },',
+  'primary Reading navigation'
+);
+content = replaceOnce(
+  content,
+  '        { href: "/data/", label: "Data" },\n        { href: "/work/", label: "Work" },',
+  '        { href: "/data/", label: "Data" },\n        { href: "/reading/", label: "Reading" },\n        { href: "/work/", label: "Work" },',
+  'footer Reading navigation'
+);
+write('content.js', content);
 
-for (const path of topPages) {
-  let html = read(path);
-  if (!html.includes('href="/reading/"')) {
-    const match = html.match(/(<a href="\/data\/"[^>]*>Data<\/a>)(<a href="\/work\/"[^>]*>Work<\/a>)/);
-    if (!match) throw new Error(`Reading integration: nav anchor pair missing in ${path}`);
-    html = html.replace(match[0], `${match[1]}<a href="/reading/">Reading</a>${match[2]}`);
-  }
-  write(path, html);
-}
+let shell = read('scripts/sync-site-shell.mjs');
+shell = replaceOnce(
+  shell,
+  '  if (path === "data/index.html") return "/data/";\n  if (path === "work/index.html") return "/work/";',
+  '  if (path === "data/index.html") return "/data/";\n  if (path.startsWith("reading/")) return "/reading/";\n  if (path === "work/index.html") return "/work/";',
+  'Reading current-navigation mapping'
+);
+write('scripts/sync-site-shell.mjs', shell);
 
 let indexHtml = read('index/index.html');
 indexHtml = indexHtml
@@ -81,4 +85,4 @@ visual = replaceOnce(visual,
   'Reading visual route');
 write('scripts/visual-acceptance.mjs', visual);
 
-console.log('Reading v1 integrated into navigation, discovery, search filters and runtime checks.');
+console.log('Reading v1 integrated into shell source, archive, discovery and runtime checks.');
