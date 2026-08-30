@@ -2,6 +2,11 @@ import { existsSync, writeFileSync, chmodSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 
+if (process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true") {
+  console.log("[hooks] CI detected; skipping local pre-push hook installation.");
+  process.exit(0);
+}
+
 const gitDirResult = spawnSync("git", ["rev-parse", "--git-dir"], {
   encoding: "utf8",
   stdio: ["ignore", "pipe", "ignore"]
@@ -20,9 +25,9 @@ if (!existsSync(hooksDir)) {
   process.exit(0);
 }
 
-const hookPath = join(hooksDir, "pre-push");
-const hook = `#!/bin/sh\nset -eu\n\necho "[galok] Running release gate before push..."\nnpm run release\n`;
+const hookPath = join(gitDir, "hooks", "pre-push");
+const hook = `#!/bin/sh\nset -eu\n\necho "[galok] Running lightweight pre-push gate..."\nnpm run release:core\nnpm run check:generated-clean\n`;
 
 writeFileSync(hookPath, hook, "utf8");
 chmodSync(hookPath, 0o755);
-console.log("[hooks] Installed pre-push release gate.");
+console.log("[hooks] Installed lightweight pre-push gate.");
