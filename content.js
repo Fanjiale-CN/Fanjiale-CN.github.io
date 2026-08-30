@@ -303,5 +303,22 @@ window.GALOK_CONTENT = {
       },
       excerpt: "China's platform internet no longer only creates desire. It trains consumers, cities and brands to prove that desire can survive inspection."
     }
+    ,{
+      series: "frame",
+      anchor: "\u6846",
+      issue: 13,
+      deck: "One economy, several measurements, different directions.",
+      title: "China, in More Than One Number",
+      date: "2026",
+      readingTime: "12 min",
+      url: "/essays/china-in-more-than-one-number/",
+      maturity: "growing",
+      cover: {
+        src: "https://media.galok.me/shared/editorial/data/household-line-zine--313d77ad5263.webp",
+        alt: "The Household Line — Galok data edition cover"
+      },
+      excerpt: "GDP grew, prices barely moved and property investment fell. This essay asks what each measure sees — and what it misses."
+    }
+
   ]
 };

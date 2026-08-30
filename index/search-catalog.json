@@ -73,7 +73,7 @@
     "type": "data",
     "label": "Data",
     "title": "Data",
-    "excerpt": "A source-auditable reading of China",
+    "excerpt": "Galok Data: a source-led desk for China",
     "url": "/data/"
   },
   {
@@ -96,6 +96,13 @@
     "title": "When AI goes silent - Galok",
     "excerpt": "When AI goes silent: a Galok View essay on real-time censorship infrastructure and deployment-layer control.",
     "url": "/essays/ai-goes-silent-censorship-infrastructure/"
+  },
+  {
+    "type": "essay",
+    "label": "Essays",
+    "title": "China, in More Than One Number",
+    "excerpt": "A data-led essay on why China",
+    "url": "/essays/china-in-more-than-one-number/"
   },
   {
     "type": "essay",
