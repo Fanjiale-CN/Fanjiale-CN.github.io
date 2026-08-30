@@ -50,7 +50,7 @@ write("scripts/validate-seo-accessibility.mjs", seoA11y);
 // Reading index rows are interactive controls, so keep native button semantics.
 let reading = read("reading/index.html");
 reading = reading
-  .replace('https://commons.wikimedia.org/wiki/Special:Redirect/file/042_S-114_W._Han_Wu_Zhu%2C_Han_Wudi%2C_140-87%2C_25.5mm.jpg', 'https://media.galok.me/cities/xian/night-market--cd963a454540.jpeg')
+  .replaceAll('https://commons.wikimedia.org/wiki/Special:Redirect/file/042_S-114_W._Han_Wu_Zhu%2C_Han_Wudi%2C_140-87%2C_25.5mm.jpg', 'https://media.galok.me/cities/xian/night-market--cd963a454540.jpeg')
   .replace('<div class="reading-index-table" role="table" aria-label="Reading index">', '<div class="reading-index-table" aria-label="Reading index">')
   .replace('<div class="reading-index-row reading-index-row--head" role="row"><span role="columnheader">NO.</span><span role="columnheader">TEXT</span><span role="columnheader">PERIOD</span><span role="columnheader">QUESTION</span><span role="columnheader">STATE</span></div>', '<div class="reading-index-row reading-index-row--head"><span>NO.</span><span>TEXT</span><span>PERIOD</span><span>QUESTION</span><span>STATE</span></div>')
   .replaceAll(' type="button" role="row" data-reading-preview=', ' type="button" data-reading-preview=')
