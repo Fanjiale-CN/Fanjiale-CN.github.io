@@ -23,7 +23,9 @@ jobs:
           node-version: 24
           cache: npm
       - name: Integrate Reading
-        run: node scripts/apply-reading-v1.mjs
+        run: |
+          node scripts/apply-reading-v1.mjs
+          node scripts/sync-site-shell.mjs
       - name: Install CI tools
         run: npm ci --ignore-scripts
       - name: Verify Reading structure
@@ -34,12 +36,17 @@ jobs:
           const css=fs.readFileSync('reading/reading.css','utf8');
           const js=fs.readFileSync('reading/reading.js','utf8');
           const index=fs.readFileSync('index/index.html','utf8');
+          const content=fs.readFileSync('content.js','utf8');
+          const shell=fs.readFileSync('scripts/sync-site-shell.mjs','utf8');
           const discovery=fs.readFileSync('scripts/build-discovery.mjs','utf8');
           if(!html.includes('ANCIENT TEXTS / MODERN QUESTIONS')) throw new Error('Reading hero missing');
           if(!html.includes('SOURCE SHELF')||!html.includes('HOW WE READ')) throw new Error('Reading evidence sections missing');
+          if(!html.includes('href="/reading/" aria-current="page"')) throw new Error('Reading current nav state missing');
           if(!css.includes('.reading-feature')||!css.includes('@media(max-width:620px)')) throw new Error('Reading responsive styles missing');
           if(!js.includes('loadCommonsThumbnail')||!js.includes('data-reading-preview')) throw new Error('Reading interactions missing');
           if(!index.includes('data-archive-filter="reading"')||!index.includes('Enter Reading →')) throw new Error('Archive integration missing');
+          if(!content.includes('{ href: "/reading/", label: "Reading" }')) throw new Error('Shell source missing Reading');
+          if(!shell.includes('path.startsWith("reading/")')) throw new Error('Reading current section mapping missing');
           if(!discovery.includes('reading: "Reading"')||!discovery.includes('page.type === "reading"')) throw new Error('Discovery integration missing');
           console.log('Reading targeted checks passed');
           NODE
