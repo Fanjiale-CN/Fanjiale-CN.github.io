@@ -35,6 +35,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Simplify Reading landing and promote index"
+      - name: Normalize discovery against committed source dates
+        run: |
+          npm run build:discovery
+          git add feed.xml sitemap.xml index/search-catalog.json pagefind
+          if ! git diff --cached --quiet; then
+            git commit --amend --no-edit
+          fi
       - name: Run requested release gate
         run: npm run release
       - name: Remove one-time helpers
