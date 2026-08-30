@@ -11,7 +11,6 @@
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=repair-20260827">
   <link rel="stylesheet" href="/reading/reading.css?v=20260830c">
-  <link rel="stylesheet" href="/reading/reading-library.css?v=20260830c">
 
   <meta property="og:title" content="Reading — Galok">
   <meta property="og:description" content="Ancient texts, modern questions. Editions, context and source trails stay attached to the argument.">
@@ -55,7 +54,7 @@
         </div>
         <div class="reading-feature-intro">
           <p><i>Yantie Lun</i> began with a court argument over fiscal policy, salt, iron and the reach of government. Reading starts there, then keeps the distance between Han institutions and the present visible.</p>
-          <a href="#reading-library">Enter the library <span aria-hidden="true">↓</span></a>
+          <a href="#reading-index">Browse the index <span aria-hidden="true">↓</span></a>
         </div>
         <div class="reading-feature-status" aria-label="Current research status">
           <span>TEXT</span><b>鹽鐵論</b>
@@ -78,34 +77,33 @@
       </figure>
     </header>
 
-    <section class="reading-library" id="reading-library" aria-labelledby="reading-library-title">
-      <header class="reading-library-head">
-        <p>01 / LIBRARY</p>
-        <div>
-          <h2 id="reading-library-title">Choose a text.</h2>
-          <span>Each text has its own reading room. Finished notes, open dossiers and future paths can grow there without crowding the main Reading page.</span>
-        </div>
+    <section class="reading-index" id="reading-index" aria-labelledby="reading-index-title">
+      <header class="reading-section-head">
+        <p>01 / READING INDEX</p>
+        <div><h2 id="reading-index-title">A cold index under the magazine cover.</h2><span>The issue number is publication metadata. The text, period and question are the durable coordinates.</span></div>
       </header>
-      <div class="reading-library-stage">
-        <div class="reading-library-shelf" aria-label="Reading library shelf">
-          <a class="reading-volume reading-volume--active" href="/reading/salt-and-iron/" aria-label="Open Yantie Lun reading room">
-            <span class="reading-volume-top"><span>READING / 001</span><span>81 BCE / CHANG'AN</span></span>
-            <span class="reading-volume-title"><strong>鹽鐵論</strong><b>YANTIE LUN</b><small>Salt, iron, fiscal pressure and the reach of the Western Han state.</small></span>
-            <span class="reading-volume-foot"><span>OPEN DOSSIER</span><strong>ENTER READING ROOM ↗</strong></span>
+      <div class="reading-index-layout">
+        <div class="reading-index-table" aria-label="Reading index">
+          <div class="reading-index-row reading-index-row--head"><span>NO.</span><span>TEXT</span><span>PERIOD</span><span>QUESTION</span><span>STATE</span></div>
+          <a class="reading-index-row is-active" href="/reading/salt-and-iron/" data-reading-preview="salt">
+            <span>001</span><span><b>YANTIELUN</b><small>鹽鐵論 / Salt &amp; Iron</small></span><span>81 BCE</span><span>State / Market</span><span>Open dossier ↗</span>
           </a>
-          <article class="reading-volume reading-volume--guanzi reading-volume--queued" aria-label="Guanzi reading room in research queue">
-            <span class="reading-volume-top"><span>UP NEXT</span><span>TEXT LAYERS</span></span>
-            <span class="reading-volume-title"><strong>管子</strong><b>GUANZI</b><small>Prices, grain, hoarding and the Light &amp; Heavy chapters.</small></span>
-            <span class="reading-volume-foot"><span>RESEARCH QUEUE</span><strong>ROOM NOT OPEN</strong></span>
-          </article>
-          <article class="reading-volume reading-volume--dongjing reading-volume--queued" aria-label="Dongjing Meng Hua Lu reading room in research queue">
-            <span class="reading-volume-top"><span>UP NEXT</span><span>12TH C. / KAIFENG</span></span>
-            <span class="reading-volume-title"><strong>東京夢華錄</strong><b>DONGJING MENG HUA LU</b><small>Night markets, services and the commercial density of a remembered capital.</small></span>
-            <span class="reading-volume-foot"><span>RESEARCH QUEUE</span><strong>ROOM NOT OPEN</strong></span>
-          </article>
+          <button class="reading-index-row" type="button" data-reading-preview="guanzi">
+            <span>—</span><span><b>GUANZI</b><small>管子 / Light &amp; Heavy</small></span><span>Text layers</span><span>Market / Price</span><span>Research queue</span>
+          </button>
+          <button class="reading-index-row" type="button" data-reading-preview="dongjing">
+            <span>—</span><span><b>DONGJING MENG HUA LU</b><small>東京夢華錄 / Eastern Capital</small></span><span>12th c.</span><span>City / People</span><span>Research queue</span>
+          </button>
         </div>
+        <aside class="reading-index-preview" aria-live="polite">
+          <div class="reading-preview-plate reading-preview-plate--salt" data-reading-preview-plate>
+            <span class="reading-preview-kicker" data-reading-preview-kicker>81 BCE / CHANG'AN</span>
+            <strong data-reading-preview-title>鹽鐵論</strong>
+            <p data-reading-preview-copy>A court argument over how a state pays for ambition, who captures commercial profit and who bears the cost.</p>
+            <small data-reading-preview-meta>001 / SOURCE AUDIT</small>
+          </div>
+        </aside>
       </div>
-      <div class="reading-library-note"><span>LIBRARY / TEXT FIRST</span><span>One shelf on the homepage. Each book gets its own room.</span></div>
     </section>
 
     <section class="reading-time" aria-labelledby="reading-time-title">
@@ -148,38 +146,9 @@
       </div>
     </section>
 
-    <section class="reading-index" id="reading-index" aria-labelledby="reading-index-title">
-      <header class="reading-section-head">
-        <p>04 / READING INDEX</p>
-        <div><h2 id="reading-index-title">A cold index under the magazine cover.</h2><span>The issue number is publication metadata. The text, period and question are the durable coordinates.</span></div>
-      </header>
-      <div class="reading-index-layout">
-        <div class="reading-index-table" aria-label="Reading index">
-          <div class="reading-index-row reading-index-row--head"><span>NO.</span><span>TEXT</span><span>PERIOD</span><span>QUESTION</span><span>STATE</span></div>
-          <a class="reading-index-row is-active" href="/reading/salt-and-iron/" data-reading-preview="salt">
-            <span>001</span><span><b>YANTIELUN</b><small>鹽鐵論 / Salt &amp; Iron</small></span><span>81 BCE</span><span>State / Market</span><span>Open dossier ↗</span>
-          </a>
-          <button class="reading-index-row" type="button" data-reading-preview="guanzi">
-            <span>—</span><span><b>GUANZI</b><small>管子 / Light &amp; Heavy</small></span><span>Text layers</span><span>Market / Price</span><span>Research queue</span>
-          </button>
-          <button class="reading-index-row" type="button" data-reading-preview="dongjing">
-            <span>—</span><span><b>DONGJING MENG HUA LU</b><small>東京夢華錄 / Eastern Capital</small></span><span>12th c.</span><span>City / People</span><span>Research queue</span>
-          </button>
-        </div>
-        <aside class="reading-index-preview" aria-live="polite">
-          <div class="reading-preview-plate reading-preview-plate--salt" data-reading-preview-plate>
-            <span class="reading-preview-kicker" data-reading-preview-kicker>81 BCE / CHANG'AN</span>
-            <strong data-reading-preview-title>鹽鐵論</strong>
-            <p data-reading-preview-copy>A court argument over how a state pays for ambition, who captures commercial profit and who bears the cost.</p>
-            <small data-reading-preview-meta>001 / SOURCE AUDIT</small>
-          </div>
-        </aside>
-      </div>
-    </section>
-
     <section class="reading-sources" id="source-shelf" aria-labelledby="source-shelf-title">
       <header class="reading-section-head">
-        <p>05 / SOURCE SHELF</p>
+        <p>04 / SOURCE SHELF</p>
         <div><h2 id="source-shelf-title">Look at the evidence before the argument.</h2><span>Scans, maps and objects remain individually attributable. Reading never turns a source into anonymous decoration.</span></div>
       </header>
       <div class="reading-source-grid">
@@ -214,7 +183,7 @@
     </section>
 
     <section class="reading-method" aria-labelledby="reading-method-title">
-      <header><p>06 / HOW WE READ</p><h2 id="reading-method-title">Five checks before analogy.</h2></header>
+      <header><p>05 / HOW WE READ</p><h2 id="reading-method-title">Five checks before analogy.</h2></header>
       <ol>
         <li><span>TEXT</span><div><b>What does the source actually say?</b><p>Lock the passage, edition and textual witness before interpretation.</p></div></li>
         <li><span>CONTEXT</span><div><b>What problem existed then?</b><p>Reconstruct the institution, dispute and material conditions around the passage.</p></div></li>
