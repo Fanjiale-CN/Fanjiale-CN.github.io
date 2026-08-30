@@ -1,3 +1,4 @@
+# one-time retry: stable discovery verifier
 name: Reading index-first release gate once
 
 on:
