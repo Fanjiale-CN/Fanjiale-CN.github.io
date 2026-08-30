@@ -1,0 +1,107 @@
+name: Fix live UI regressions once
+on:
+  push:
+    branches: [fix/live-regressions-20260830]
+    paths: [.github/workflows/fix-live-regressions-once.yml]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: github.event.head_commit.message == 'Add one-shot live regression fixer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Patch regressions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          def read(p): return Path(p).read_text(encoding="utf-8")
+          def write(p,s): Path(p).write_text(s,encoding="utf-8")
+          def rep(p,a,b,n=1):
+              s=read(p); c=s.count(a)
+              if c != n: raise SystemExit(f"{p} expected {n} x {a!r}, found {c}")
+              write(p,s.replace(a,b))
+
+          rep("be-a-viewer/city-atlas.js",
+              'fetch("/data/city-atlas.json", { cache: "force-cache" })',
+              'fetch("/data/city-atlas.json?v=20260830-livefix", { cache: "no-store" })')
+
+          p="be-a-viewer/viewer.css"; s=read(p)
+          marker='.viewer-site-nav .brand-mark {\n  filter: none;\n}\n'
+          extra='\n.viewer-site-nav.is-scrolled {\n  color: #111719;\n  background: rgba(248, 249, 247, 0.96);\n  border-bottom-color: rgba(17, 23, 25, 0.12);\n}\n\n.viewer-site-nav.is-scrolled .brand,\n.viewer-site-nav.is-scrolled .nav-links a {\n  color: #111719;\n}\n\n.viewer-site-nav.is-scrolled .brand-lockup small {\n  color: rgba(17, 23, 25, 0.62);\n}\n'
+          if ".viewer-site-nav.is-scrolled" not in s:
+              if marker not in s: raise SystemExit("viewer nav marker missing")
+              write(p,s.replace(marker,marker+extra,1))
+
+          rep("assets/observability.js","Five open city stories, placed as an editorial index.","Seven open city stories, placed as an editorial index.")
+          rep("assets/observability.js","/be-a-viewer/city-atlas.css?v=upgrade05-20260825","/be-a-viewer/city-atlas.css?v=20260830-livefix")
+          rep("assets/observability.js","/be-a-viewer/city-atlas.js?v=upgrade05-20260825","/be-a-viewer/city-atlas.js?v=20260830-livefix")
+          rep("cities/index.html","/be-a-viewer/viewer.css?v=ia-20260823-autoplay","/be-a-viewer/viewer.css?v=20260830-livefix")
+          rep("cities/index.html","/assets/observability.js?v=20260825","/assets/observability.js?v=20260830-livefix")
+
+          p="research/love-by-the-hour/search003-display-en.js"; s=read(p)
+          replacements={'认清野核差距 (Know the Jungle-Core Gap)': 'Know the Jungle-Core Gap', '王者荣耀陌路 (Honor of Kings · Moluo)': 'Honor of Kings · Moluo', '王者荣耀有痕 (Honor of Kings · Youhen)': 'Honor of Kings · Youhen', '王者荣耀赖神 (Honor of Kings · Lai Shen)': 'Honor of Kings · Lai Shen', '王者荣耀桑杰 (Honor of Kings · Sangjie)': 'Honor of Kings · Sangjie', '王者荣耀六尾 (Honor of Kings · Liuwei)': 'Honor of Kings · Liuwei', '李知恩（王者荣耀） (Li Zhien · Honor of Kings)': 'Li Zhien · Honor of Kings', '王者荣耀林七 (Honor of Kings · Lin Qi)': 'Honor of Kings · Lin Qi', '噢噢诸葛 (Aoao Zhuge)': 'Aoao Zhuge', '噢噢声演九厅 (Aoao Voice Acting Hall 9)': 'Aoao Voice Acting Hall 9', '心态（国一韩信） (Xintai · No. 1 Han Xin in China)': 'Xintai · No. 1 Han Xin in China', '香妈 (Xiang Ma)': 'Xiang Ma', '辉酱·温柔主播 (Hui-chan · Gentle Streamer)': 'Hui-chan · Gentle Streamer', '宇文诺 (Yuwen Nuo)': 'Yuwen Nuo', '阿木 (A Mu)': 'A Mu', '王者荣耀伊… (Honor of Kings · Yi…)': 'Honor of Kings · Yi…', '长恨 (Changhen)': 'Changhen', 'Short video / livestream → 小窝群 (Xiaowo group) → focal/private contact → AQ-club → admin → order group': 'Short video / livestream → Xiaowo group → focal/private contact → AQ club → admin → order group', 'Profile → companion/carry service → 汇玩工作室 (Huiwan Studio)': 'Profile → companion/carry service → Huiwan Studio', "'亲吻':'亲吻 (Kiss)'": "'亲吻':'Kiss'", "'比心兔兔':'比心兔兔 (Heart-gesture Bunny)'": "'比心兔兔':'Heart-gesture Bunny'", "'跑车':'跑车 (Sports Car)'": "'跑车':'Sports Car'", 'After a viewer sends “云中秘境 (Cloud Realm),” the streamer quickly shifts to a softer thank-you register, uses the nickname “希宝 (Xi-bao),” and repeats the thanks.': 'After a viewer sends the “Cloud Realm” gift, the streamer quickly shifts to a softer thank-you register, uses an affectionate nickname, and repeats the thanks.', 'A moderator replies, “主播愿意带，你管？ (The streamer wants to carry them—why do you care?),” ordinary viewers also attack the critic, and a moderator subsequently removes the user.': 'A moderator tells the critic that the streamer chooses whom to carry; ordinary viewers also attack the critic, and a moderator subsequently removes the user.', "'小窝群 (Xiaowo group)'": "'Xiaowo group'", "['陌路 (Moluo)','有痕 (Youhen)','心态 (Xintai)','桑杰 (Sangjie)']": "['Moluo','Youhen','Xintai','Sangjie']", "['认清野核差距 (Know the Jungle-Core Gap)','辉酱·温柔主播 (Hui-chan · Gentle Streamer)','长恨 (Changhen)']": "['Know the Jungle-Core Gap','Hui-chan · Gentle Streamer','Changhen']"}
+          for a,b in replacements.items():
+              if a not in s: raise SystemExit(f"translation source missing: {a}")
+              s=s.replace(a,b)
+          write(p,s)
+
+          rep("research/love-by-the-hour/visuals/index.html","/research/love-by-the-hour/search003.css?v=20260829b","/research/love-by-the-hour/search003.css?v=20260830-livefix")
+          rep("research/love-by-the-hour/visuals/index.html","/assets/observability.js?v=20260825","/assets/observability.js?v=20260830-livefix")
+          rep("research/love-by-the-hour/visuals/index.html","/research/love-by-the-hour/search003-data.js?v=20260829b","/research/love-by-the-hour/search003-data.js?v=20260830-livefix")
+          rep("research/love-by-the-hour/visuals/index.html","/research/love-by-the-hour/search003-display-en.js?v=20260830a","/research/love-by-the-hour/search003-display-en.js?v=20260830-livefix")
+          rep("research/love-by-the-hour/visuals/index.html","/research/love-by-the-hour/search003.js?v=20260829b","/research/love-by-the-hour/search003.js?v=20260830-livefix")
+
+          write("_headers",'/cities/\n  Cache-Control: public, max-age=0, must-revalidate\n\n/research/love-by-the-hour/visuals/\n  Cache-Control: public, max-age=0, must-revalidate\n\n/data/city-atlas.json\n  Cache-Control: public, max-age=0, must-revalidate\n')
+          PY
+      - name: Verify targeted fixes
+        run: |
+          node --check research/love-by-the-hour/search003-display-en.js
+          node --input-type=module <<'NODE'
+          import fs from "node:fs"; import vm from "node:vm";
+          const atlas=JSON.parse(fs.readFileSync("data/city-atlas.json","utf8"));
+          for(const id of ["shenzhen","chongqing"]) if(!atlas.cities.some(c=>c.id===id)) throw new Error(`missing ${id}`);
+          const ac=fs.readFileSync("be-a-viewer/city-atlas.js","utf8");
+          if(ac.includes("force-cache")||!ac.includes("city-atlas.json?v=20260830-livefix")) throw new Error("atlas cache fix missing");
+          const css=fs.readFileSync("be-a-viewer/viewer.css","utf8");
+          if(!/\.viewer-site-nav\.is-scrolled\s*\{[^}]*color:\s*#111719/s.test(css)) throw new Error("cities nav contrast fix missing");
+          const c=fs.readFileSync("cities/index.html","utf8");
+          if(!c.includes("viewer.css?v=20260830-livefix")||!c.includes("observability.js?v=20260830-livefix")) throw new Error("cities cache bust missing");
+          const v=fs.readFileSync("research/love-by-the-hour/visuals/index.html","utf8");
+          if(!v.includes("search003-display-en.js?v=20260830-livefix")) throw new Error("research cache bust missing");
+          const ctx={window:{}}; ctx.window.window=ctx.window; vm.createContext(ctx);
+          vm.runInContext(fs.readFileSync("research/love-by-the-hour/search003-data.js","utf8"),ctx);
+          vm.runInContext(fs.readFileSync("research/love-by-the-hour/search003-display-en.js","utf8"),ctx);
+          const d=ctx.window.SEARCH003_DATA, visible=[];
+          for(const a of d.accounts) visible.push(a.name,a.followersLabel,a.membersLabel,a.size,a.orgLabel,a.monetization,a.acquisition);
+          for(const f of d.features||[]) visible.push(f.label);
+          for(const r of d.orgBySize||[]) visible.push(r.size);
+          for(const p of d.pricing||[]) visible.push(p.type,p.item);
+          for(const t of d.timeline||[]) visible.push(t.label,t.time,t.detail);
+          for(const p of d.paths||[]) visible.push(p.title,...p.stages,...p.accounts);
+          if(visible.some(x=>/[\u3400-\u9fff]/u.test(String(x??"")))) throw new Error("Research 003 has visible CJK text");
+          NODE
+      - name: Install CI tools
+        run: npm ci --ignore-scripts
+      - name: Validate
+        run: |
+          npm run ci:experience
+          npm run validate
+          npm run ci:links
+          npm run build:discovery
+          npm run release:core
+      - name: Commit fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _headers be-a-viewer/city-atlas.js be-a-viewer/viewer.css assets/observability.js cities/index.html research/love-by-the-hour/search003-display-en.js research/love-by-the-hour/visuals/index.html feed.xml sitemap.xml index/search-catalog.json pagefind
+          git rm .github/workflows/fix-live-regressions-once.yml
+          git commit -m "Fix live city and Research 003 regressions"
+          git push origin HEAD:fix/live-regressions-20260830
