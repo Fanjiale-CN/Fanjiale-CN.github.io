@@ -1,8 +1,10 @@
 name: Build Data desk v1 once
 on:
   push:
-    branches: [feat/data-desk-v1-20260830]
-    paths: [.github/workflows/build-data-desk-v1-once.yml]
+    branches:
+      - feat/data-desk-v1-20260830
+    paths:
+      - .github/workflows/build-data-desk-v1-once.yml
 permissions:
   contents: write
 jobs:
@@ -17,239 +19,18 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: Split Data desk from analysis article
+      - name: Materialize split
+        run: python scripts/build-data-desk-v1.py
+      - name: Verify split
         run: |
-          mkdir -p essays/china-in-more-than-one-number
-          cp data/index.html essays/china-in-more-than-one-number/index.html
-          python - <<'PY'
-          from pathlib import Path
-
-          essay_path = Path('essays/china-in-more-than-one-number/index.html')
-          essay = essay_path.read_text()
-          essay = essay.replace('https://www.galok.me/data/', 'https://www.galok.me/essays/china-in-more-than-one-number/')
-          essay = essay.replace('<title>Data — Galok</title>', '<title>China, in More Than One Number — Galok</title>')
-          essay = essay.replace('A source-auditable reading of China\'s growth, household life, employment, property, public finance and external balance.', 'A data-led essay on why China\'s production, prices, property and household experience can move in different directions.')
-          essay = essay.replace('<meta property="og:title" content="Data — Galok">', '<meta property="og:title" content="China, in More Than One Number — Galok">')
-          essay = essay.replace('<meta name="twitter:title" content="Data — Galok">', '<meta name="twitter:title" content="China, in More Than One Number — Galok">')
-          essay = essay.replace('<a href="/essays/">Essays</a>', '<a href="/essays/" aria-current="page">Essays</a>')
-          essay = essay.replace('<a href="/data/" aria-current="page">Data</a>', '<a href="/data/">Data</a>')
-          essay = essay.replace('<main class="data-page-main" id="top" tabindex="-1">', '<main class="data-page-main" id="top" tabindex="-1"><aside class="data-essay-origin"><span>DATA INSIGHT / ESSAY</span><a href="/data/">Open the Data desk →</a></aside>')
-          essay = essay.replace('</head>', '<style>.data-essay-origin{display:flex;justify-content:space-between;gap:20px;margin:32px 0 0;padding:12px 0;border-block:1px solid #1c1a17;font:700 .68rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em}.data-essay-origin a{color:inherit;text-underline-offset:3px}@media(max-width:700px){.data-essay-origin{margin-top:18px;flex-direction:column}}</style></head>')
-          essay_path.write_text(essay)
-
-          content_path = Path('content.js')
-          content = content_path.read_text()
-          if '/essays/china-in-more-than-one-number/' not in content:
-              marker = '\n  ]\n};'
-              entry = '''
-    ,{
-      series: "frame",
-      anchor: "\\u6846",
-      issue: 13,
-      deck: "One economy, several measurements, different directions.",
-      title: "China, in More Than One Number",
-      date: "2026",
-      readingTime: "12 min",
-      url: "/essays/china-in-more-than-one-number/",
-      maturity: "growing",
-      cover: {
-        src: "https://media.galok.me/shared/editorial/data/household-line-zine--313d77ad5263.webp",
-        alt: "The Household Line — Galok data edition cover"
-      },
-      excerpt: "GDP grew, prices barely moved and property investment fell. This essay asks what each measure sees — and what it misses."
-    }
-'''
-              idx = content.rfind(marker)
-              if idx == -1:
-                  raise SystemExit('could not locate end of essays array')
-              content = content[:idx] + entry + content[idx:]
-              content_path.write_text(content)
-          PY
-
-          cat > data/index.html <<'HTML'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-            <meta name="theme-color" content="#f2efe5">
-            <meta name="description" content="Galok Data: a source-led desk for China's macroeconomy, households, property, labor, fiscal data and external balance.">
-            <link rel="canonical" href="https://www.galok.me/data/">
-            <title>Data — Galok</title>
-            <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
-            <link rel="stylesheet" href="/styles.css?v=repair-20260827">
-            <link rel="stylesheet" href="/data/data-desk-v1.css?v=20260830a">
-            <meta property="og:title" content="Data — Galok">
-            <meta property="og:description" content="Indicators, definitions, sources and related analysis from the Galok data desk.">
-            <meta property="og:type" content="website">
-            <meta property="og:url" content="https://www.galok.me/data/">
-            <meta property="og:image" content="https://media.galok.me/shared/editorial/data/household-line-zine--313d77ad5263.webp">
-            <meta name="twitter:card" content="summary_large_image">
-            <meta name="twitter:title" content="Data — Galok">
-            <meta name="twitter:description" content="Indicators, definitions, sources and related analysis from the Galok data desk.">
-            <meta name="twitter:image" content="https://media.galok.me/shared/editorial/data/household-line-zine--313d77ad5263.webp">
-            <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Data — Galok","description":"Source-led indicators and datasets","url":"https://www.galok.me/data/","inLanguage":"en","publisher":{"@type":"Organization","name":"Galok","url":"https://www.galok.me/"}}</script>
-            <!-- GALOK_OBSERVABILITY_START -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Y8N04VXYG"></script>
-            <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-2Y8N04VXYG");</script>
-            <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","y7uoedckle");</script>
-            <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"661a632fda6543c7ba4c14b93e9a9452"}'></script>
-            <script defer src="/assets/observability.js?v=20260830-livefix"></script>
-            <!-- GALOK_OBSERVABILITY_END -->
-          </head>
-          <body class="data-desk-page">
-            <a class="skip-link" href="#data-main">Skip to main content</a>
-            <nav class="site-nav" aria-label="Primary navigation"><div class="nav-inner"><a class="brand" href="/"><img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span></a><div class="nav-links"><a href="/cities/">Cities</a><a href="/essays/">Essays</a><a href="/radar/">Radar</a><a href="/research/">Research</a><a href="/data/" aria-current="page">Data</a><a href="/work/">Work</a><a href="/index/">Index</a><a href="/about/">About</a></div></div></nav>
-
-            <main class="data-desk" id="data-main" tabindex="-1">
-              <header class="data-desk-hero">
-                <div class="data-desk-id"><span>GALOK DATA</span><b>CHINA / 2025</b></div>
-                <div class="data-desk-title"><p>SOURCE-LED INDICATORS</p><h1>Numbers first.<br><em>Reading second.</em></h1></div>
-                <p class="data-desk-intro">A compact desk for macro, household, property, labor and fiscal indicators. Definitions and source paths stay attached to the number; longer arguments live in Essays.</p>
-              </header>
-
-              <section class="data-desk-latest" aria-labelledby="latest-title">
-                <header><p>01 / LATEST</p><h2 id="latest-title">Current signals.</h2><span>Annual 2025 releases / latest published values on this desk</span></header>
-                <div class="data-latest-grid">
-                  <article class="data-latest-primary"><span>REAL GDP</span><strong>+5.0%</strong><p>Annual real growth</p><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS · 28 Feb 2026 ↗</a></article>
-                  <article><span>CPI</span><strong>≈0%</strong><p>Consumer prices</p><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article><span>PPI</span><strong>−2.6%</strong><p>Producer prices</p><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article><span>RETAIL SALES</span><strong>+3.7%</strong><p>Annual growth</p><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article><span>PROPERTY INVESTMENT</span><strong>−17.2%</strong><p>Annual growth</p><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html">NBS · 19 Jan 2026 ↗</a></article>
-                  <article><span>PRIVATE INVESTMENT</span><strong>−6.4%</strong><p>Annual growth</p><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962326.html">NBS · 19 Jan 2026 ↗</a></article>
-                  <article><span>URBAN UNEMPLOYMENT</span><strong>5.2%</strong><p>2025 average surveyed rate</p><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article><span>YOUTH 16–24</span><strong>16.9%</strong><p>Nov 2025 · non-student urban</p><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962330.html">NBS · 19 Jan 2026 ↗</a></article>
-                </div>
-              </section>
-
-              <section class="data-desk-explore" aria-labelledby="explore-title">
-                <header><p>02 / EXPLORE</p><div><h2 id="explore-title">Find a series.</h2><p>Search by indicator or narrow the desk by subject. Version one keeps the catalog deliberately small: every row must have a definition and a source before it appears here.</p></div></header>
-                <div class="data-search-row">
-                  <label for="data-search">SEARCH THE DESK</label>
-                  <input id="data-search" type="search" placeholder="GDP, youth unemployment, property…" autocomplete="off" data-data-search>
-                </div>
-                <div class="data-filter-row" role="group" aria-label="Filter data series">
-                  <button type="button" class="is-active" data-data-filter="all" aria-pressed="true">All</button>
-                  <button type="button" data-data-filter="macro" aria-pressed="false">Macro</button>
-                  <button type="button" data-data-filter="households" aria-pressed="false">Households</button>
-                  <button type="button" data-data-filter="property" aria-pressed="false">Property</button>
-                  <button type="button" data-data-filter="labor" aria-pressed="false">Labor</button>
-                  <button type="button" data-data-filter="fiscal" aria-pressed="false">Fiscal</button>
-                </div>
-                <div class="data-series-head" aria-hidden="true"><span>SERIES</span><span>LATEST</span><span>FREQUENCY</span><span>SOURCE</span></div>
-                <div class="data-series-list" data-data-series-list>
-                  <article data-series data-category="macro" data-search-text="real gdp gross domestic product growth macro production"><div><small>MACRO / 001</small><h3>Real GDP growth</h3><p>Year-on-year change in real gross domestic product.</p></div><strong>+5.0%</strong><span>Annual</span><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article data-series data-category="macro" data-search-text="cpi consumer prices inflation macro"><div><small>MACRO / 002</small><h3>Consumer prices</h3><p>Annual change in the consumer price index.</p></div><strong>≈0%</strong><span>Annual</span><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article data-series data-category="macro" data-search-text="ppi producer prices factories macro"><div><small>MACRO / 003</small><h3>Producer prices</h3><p>Annual change in producer prices for industrial products.</p></div><strong>−2.6%</strong><span>Annual</span><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article data-series data-category="households" data-search-text="retail sales households consumption spending"><div><small>HOUSEHOLDS / 001</small><h3>Retail sales</h3><p>Annual growth in total retail sales of consumer goods.</p></div><strong>+3.7%</strong><span>Annual</span><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article data-series data-category="property" data-search-text="property real estate investment housing"><div><small>PROPERTY / 001</small><h3>Property investment</h3><p>Annual change in national real-estate development investment.</p></div><strong>−17.2%</strong><span>Annual</span><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962324.html">NBS ↗</a></article>
-                  <article data-series data-category="macro" data-search-text="private investment fixed asset business macro"><div><small>MACRO / 004</small><h3>Private investment</h3><p>Annual change in private fixed-asset investment.</p></div><strong>−6.4%</strong><span>Annual</span><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962326.html">NBS ↗</a></article>
-                  <article data-series data-category="labor" data-search-text="urban surveyed unemployment jobs labor"><div><small>LABOR / 001</small><h3>Urban surveyed unemployment</h3><p>Average surveyed unemployment rate in urban areas.</p></div><strong>5.2%</strong><span>Annual avg.</span><a href="https://www.stats.gov.cn/sj/zxfbhjd/202602/t20260228_1962662.html">NBS ↗</a></article>
-                  <article data-series data-category="labor" data-search-text="youth unemployment 16 24 labor jobs non-student"><div><small>LABOR / 002</small><h3>Youth unemployment, 16–24</h3><p>Urban non-student unemployment rate; method differs from the pre-2023 series.</p></div><strong>16.9%</strong><span>Monthly</span><a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962330.html">NBS ↗</a></article>
-                  <article data-series data-category="fiscal" data-search-text="public budget revenue fiscal government"><div><small>FISCAL / 001</small><h3>Public-budget revenue</h3><p>Annual change in national general public budget revenue.</p></div><strong>−1.7%</strong><span>Annual</span><a href="https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/202601/t20260130_3983013.htm">MOF ↗</a></article>
-                </div>
-                <p class="data-empty" hidden data-data-empty>No matching series.</p>
-              </section>
-
-              <section class="data-desk-analysis" aria-labelledby="analysis-title">
-                <header><p>03 / RELATED ANALYSIS</p><h2 id="analysis-title">The argument lives elsewhere.</h2></header>
-                <a class="data-analysis-card" href="/essays/china-in-more-than-one-number/">
-                  <figure><img src="https://media.galok.me/shared/editorial/data/household-line-zine--313d77ad5263.webp" width="900" height="1500" loading="lazy" decoding="async" alt="The Household Line — Galok data edition cover"></figure>
-                  <div><small>DATA INSIGHT / ESSAY</small><h3>China, in More Than One Number</h3><p>GDP grew. Consumer prices barely moved. Property investment fell. The essay asks what each measure sees, where the measurements disagree and what those gaps mean.</p><span>READ IN ESSAYS →</span></div>
-                </a>
-              </section>
-
-              <section class="data-desk-method" aria-labelledby="method-title">
-                <p>04 / DESK RULES</p><div><h2 id="method-title">What belongs here.</h2><p>Published statistics, definitions, units, update dates and source links. Interpretation longer than a short methodology note moves to Essays. Numbered empirical papers remain in Research.</p></div>
-              </section>
-            </main>
-
-            <footer class="footer"><div class="footer-inner"><span>Galok / Data</span><a href="/">Home</a></div></footer>
-            <script src="/script.js?v=batch4-engineering-20260824"></script>
-            <script src="/data/data-desk-v1.js?v=20260830a"></script>
-          </body>
-          </html>
-          HTML
-
-          cat > data/data-desk-v1.css <<'CSS'
-          .data-desk-page{--paper:#f2efe5;--ink:#151719;--muted:#69675f;--rule:#c8c4b8;--red:#a72b26;--blue:#315f76;margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-sans,"Helvetica Neue",Arial,sans-serif)}
-          .data-desk-page *{box-sizing:border-box}.data-desk-page .site-nav{color:var(--ink);background:rgba(242,239,229,.95);border-bottom-color:var(--rule)}
-          .data-desk{width:min(1480px,calc(100% - 64px));margin:0 auto;padding:clamp(38px,5vw,76px) 0 140px}
-          .data-desk-hero{display:grid;grid-template-columns:18% minmax(0,1fr) 30%;gap:0;align-items:end;min-height:440px;padding:32px 0 56px;border-bottom:1px solid var(--ink)}
-          .data-desk-id{align-self:start;padding-top:10px;border-top:1px solid var(--ink);font:700 .66rem/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.11em}.data-desk-id span,.data-desk-id b{display:block}.data-desk-id b{color:var(--red)}
-          .data-desk-title{padding-left:28px}.data-desk-title p{margin:0 0 14px;color:var(--red);font:700 .66rem/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em}.data-desk-title h1{margin:0;font-size:clamp(4rem,8vw,9rem);font-weight:560;line-height:.82;letter-spacing:-.07em}.data-desk-title h1 em{font-family:Georgia,serif;font-weight:400}
-          .data-desk-intro{margin:0;padding:18px 0 0 24px;border-top:1px solid var(--rule);border-left:1px solid var(--rule);color:var(--muted);font-family:Georgia,serif;font-size:clamp(1rem,1.3vw,1.2rem);line-height:1.6}
-          .data-desk-latest,.data-desk-explore,.data-desk-analysis{padding:clamp(76px,8vw,120px) 0;border-bottom:1px solid var(--ink)}
-          .data-desk-latest>header,.data-desk-explore>header,.data-desk-analysis>header{display:grid;grid-template-columns:18% minmax(0,1fr) 30%;align-items:end;margin-bottom:36px}.data-desk-latest>header p,.data-desk-explore>header>p,.data-desk-analysis>header p,.data-desk-method>p{margin:0;color:var(--red);font:700 .65rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em}.data-desk-latest h2,.data-desk-explore h2,.data-desk-analysis h2,.data-desk-method h2{margin:0;font-size:clamp(2.4rem,4vw,5rem);font-weight:560;letter-spacing:-.055em;line-height:.95}.data-desk-latest>header>span{color:var(--muted);font-size:.78rem;line-height:1.5}
-          .data-latest-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ink);border-left:1px solid var(--rule)}.data-latest-grid article{min-height:210px;padding:20px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;flex-direction:column}.data-latest-grid article span{font-size:.67rem;font-weight:800;letter-spacing:.1em}.data-latest-grid article strong{margin-top:auto;font-family:Georgia,serif;font-size:clamp(2.1rem,3vw,4rem);font-weight:400;letter-spacing:-.04em}.data-latest-grid article p{margin:6px 0 18px;color:var(--muted);font-size:.82rem}.data-latest-grid article a{color:inherit;font-size:.68rem;text-underline-offset:3px}.data-latest-grid .data-latest-primary{grid-column:span 2;background:var(--ink);color:var(--paper)}.data-latest-grid .data-latest-primary strong{font-size:clamp(4rem,7vw,8rem);color:#e7675d}.data-latest-grid .data-latest-primary p{color:#c8c4b8}
-          .data-desk-explore>header>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.55fr);gap:42px;align-items:end}.data-desk-explore>header>div p{margin:0;color:var(--muted);font-family:Georgia,serif;line-height:1.6}
-          .data-search-row{display:grid;grid-template-columns:18% 1fr;align-items:center;margin:46px 0 20px}.data-search-row label{font:700 .64rem/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.11em}.data-search-row input{width:100%;border:0;border-bottom:2px solid var(--ink);border-radius:0;background:transparent;padding:14px 0;font:500 clamp(1.35rem,2vw,2rem)/1.2 inherit;color:var(--ink);outline:none}.data-search-row input:focus{border-bottom-color:var(--red)}
-          .data-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 36px 18%}.data-filter-row button{border:1px solid var(--rule);background:transparent;color:var(--ink);padding:9px 13px;font:700 .65rem/1 inherit;letter-spacing:.06em;cursor:pointer}.data-filter-row button.is-active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-          .data-series-head,.data-series-list article{display:grid;grid-template-columns:minmax(0,1fr) 150px 150px 120px;gap:24px;align-items:center}.data-series-head{padding:10px 0;border-bottom:1px solid var(--ink);font-size:.6rem;font-weight:800;letter-spacing:.1em}.data-series-list article{min-height:122px;padding:18px 0;border-bottom:1px solid var(--rule)}.data-series-list small{color:var(--red);font-size:.6rem;font-weight:800;letter-spacing:.09em}.data-series-list h3{margin:5px 0 6px;font-size:1.18rem}.data-series-list p{margin:0;color:var(--muted);font-family:Georgia,serif;font-size:.88rem;line-height:1.45}.data-series-list strong{font-family:Georgia,serif;font-size:1.8rem;font-weight:400}.data-series-list>article>span{color:var(--muted);font-size:.78rem}.data-series-list a{color:inherit;font-size:.72rem;text-underline-offset:3px}.data-series-list article[hidden]{display:none}.data-empty{margin:30px 0 0 18%;color:var(--muted)}
-          .data-analysis-card{display:grid;grid-template-columns:minmax(250px,32%) 1fr;min-height:420px;border:1px solid var(--ink);color:inherit;text-decoration:none}.data-analysis-card figure{margin:0;overflow:hidden;background:#d8d2c4}.data-analysis-card img{width:100%;height:100%;display:block;object-fit:cover}.data-analysis-card>div{padding:clamp(28px,5vw,72px);display:flex;flex-direction:column}.data-analysis-card small{color:var(--red);font-weight:800;letter-spacing:.1em}.data-analysis-card h3{max-width:760px;margin:18px 0;font-family:Georgia,serif;font-size:clamp(2.7rem,5vw,6.5rem);font-weight:400;letter-spacing:-.055em;line-height:.9}.data-analysis-card p{max-width:64ch;color:var(--muted);font-family:Georgia,serif;font-size:1.04rem;line-height:1.65}.data-analysis-card span{margin-top:auto;font-size:.72rem;font-weight:800;letter-spacing:.08em}
-          .data-desk-method{display:grid;grid-template-columns:18% 1fr;padding:72px 0 0}.data-desk-method>div{display:grid;grid-template-columns:minmax(0,.7fr) minmax(280px,.5fr);gap:70px}.data-desk-method p:last-child{margin:0;color:var(--muted);font-family:Georgia,serif;font-size:1.02rem;line-height:1.65}
-          @media(max-width:960px){.data-desk{width:min(100% - 36px,1480px)}.data-desk-hero{grid-template-columns:1fr;min-height:0;gap:30px}.data-desk-title{padding-left:0}.data-desk-title h1{font-size:clamp(4rem,15vw,7rem)}.data-desk-intro{padding-left:0;border-left:0}.data-desk-latest>header,.data-desk-explore>header,.data-desk-analysis>header{grid-template-columns:1fr;gap:16px}.data-desk-explore>header>div{grid-template-columns:1fr;gap:14px}.data-latest-grid{grid-template-columns:repeat(2,1fr)}.data-search-row{grid-template-columns:1fr;gap:12px}.data-filter-row{margin-left:0}.data-series-head,.data-series-list article{grid-template-columns:minmax(0,1fr) 120px 100px}.data-series-head span:last-child,.data-series-list article>a{display:none}.data-desk-method{grid-template-columns:1fr;gap:18px}.data-desk-method>div{grid-template-columns:1fr;gap:20px}}
-          @media(max-width:620px){.data-desk{width:calc(100% - 28px);padding-top:20px}.data-desk-title h1{font-size:18vw}.data-latest-grid{grid-template-columns:1fr}.data-latest-grid .data-latest-primary{grid-column:auto}.data-latest-grid article{min-height:170px}.data-series-head{display:none}.data-series-list article{grid-template-columns:1fr auto;gap:8px 16px;padding:20px 0}.data-series-list article>span{grid-column:1}.data-series-list article>a{display:block;grid-column:2;grid-row:2}.data-analysis-card{grid-template-columns:1fr}.data-analysis-card figure{height:300px}.data-analysis-card h3{font-size:11vw}.data-desk-method{padding-top:54px}}
-          CSS
-
-          cat > data/data-desk-v1.js <<'JS'
-          (() => {
-            const input = document.querySelector('[data-data-search]');
-            const cards = [...document.querySelectorAll('[data-series]')];
-            const buttons = [...document.querySelectorAll('[data-data-filter]')];
-            const empty = document.querySelector('[data-data-empty]');
-            if (!input || !cards.length) return;
-            let category = 'all';
-            const apply = () => {
-              const q = input.value.trim().toLowerCase();
-              let shown = 0;
-              cards.forEach((card) => {
-                const categoryMatch = category === 'all' || card.dataset.category === category;
-                const searchMatch = !q || (card.dataset.searchText || card.textContent).toLowerCase().includes(q);
-                card.hidden = !(categoryMatch && searchMatch);
-                if (!card.hidden) shown += 1;
-              });
-              if (empty) empty.hidden = shown !== 0;
-            };
-            input.addEventListener('input', apply);
-            buttons.forEach((button) => button.addEventListener('click', () => {
-              category = button.dataset.dataFilter || 'all';
-              buttons.forEach((item) => { const active = item === button; item.classList.toggle('is-active', active); item.setAttribute('aria-pressed', String(active)); });
-              apply();
-            }));
-          })();
-          JS
-
-          rm -f .github/workflows/build-data-desk-v1-once.yml
-
-      - name: Verify Data desk split
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const data = fs.readFileSync('data/index.html','utf8');
-          const essay = fs.readFileSync('essays/china-in-more-than-one-number/index.html','utf8');
-          const content = fs.readFileSync('content.js','utf8');
-          const css = fs.readFileSync('data/data-desk-v1.css','utf8');
-          const js = fs.readFileSync('data/data-desk-v1.js','utf8');
-          const checks = [
-            ['data desk hero', data.includes('Numbers first.')],
-            ['data search', data.includes('data-data-search') && js.includes('dataFilter')],
-            ['data no longform', !data.includes('data-longform') && !data.includes('THE CLAIM')],
-            ['related analysis', data.includes('/essays/china-in-more-than-one-number/')],
-            ['essay route', essay.includes('DATA INSIGHT / ESSAY') && essay.includes('Open the Data desk')],
-            ['essay nav', essay.includes('href="/essays/" aria-current="page"')],
-            ['essay catalog', content.includes('/essays/china-in-more-than-one-number/') && content.includes('issue: 13')],
-            ['responsive css', css.includes('@media(max-width:620px)')]
-          ];
-          for (const [name, ok] of checks) { if (!ok) throw new Error(`failed: ${name}`); console.log(`ok: ${name}`); }
-          NODE
+          node -e "const fs=require('fs');const d=fs.readFileSync('data/index.html','utf8');const e=fs.readFileSync('essays/china-in-more-than-one-number/index.html','utf8');const c=fs.readFileSync('content.js','utf8');if(!d.includes('Numbers first.')||d.includes('data-longform')||!d.includes('data-data-search'))process.exit(1);if(!e.includes('DATA INSIGHT / ESSAY')||!e.includes('Open the Data desk'))process.exit(1);if(!c.includes('/essays/china-in-more-than-one-number/')||!c.includes('issue: 13'))process.exit(1);console.log('targeted split checks passed')"
       - name: Install CI tools
         run: npm ci
-      - name: Generate discovery and run release core
-        run: |
-          npm run build:discovery
-          npm run release:core
-      - name: Commit tested Data desk v1
+      - name: Build discovery
+        run: npm run build:discovery
+      - name: Run release core
+        run: npm run release:core
+      - name: Commit tested v1
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
