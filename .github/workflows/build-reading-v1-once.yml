@@ -1,4 +1,4 @@
-name: Build Reading v1 once
+name: Build Reading v1 finalizer
 
 on:
   push:
