@@ -3,6 +3,7 @@ import fs from 'node:fs';
 const htmlPath = 'reading/index.html';
 const jsPath = 'reading/reading.js';
 const libraryCssPath = 'reading/reading-library.css';
+const packagePath = 'package.json';
 
 let html = fs.readFileSync(htmlPath, 'utf8');
 
@@ -57,4 +58,9 @@ fs.writeFileSync(jsPath, js);
 
 if (fs.existsSync(libraryCssPath)) fs.rmSync(libraryCssPath);
 
+const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+pkg.scripts['check:generated-clean'] = 'node scripts/verify-generated-discovery.mjs';
+fs.writeFileSync(packagePath, `${JSON.stringify(pkg, null, 2)}\n`);
+
 console.log('Reading landing simplified: library cards removed and Reading Index promoted to section 01.');
+console.log('Release gate now uses the repository deterministic discovery verifier instead of volatile Pagefind hash filenames.');
