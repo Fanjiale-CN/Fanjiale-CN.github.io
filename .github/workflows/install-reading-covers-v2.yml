@@ -1,7 +1,10 @@
 name: Install Reading covers v2
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/install-reading-covers-v2.yml"
 
 permissions:
   contents: write
@@ -11,6 +14,62 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Download covers from issue-safe data URLs
+        with:
+          fetch-depth: 0
+
+      - name: Decode repaired cover assets
         run: |
-          echo "This workflow is a placeholder and should not run without payload files."
+          base64 -d .repair/y0.txt > assets/reading/yantielun-cover-v2.webp
+          base64 -d .repair/d0.txt > assets/reading/dongjing-meng-hua-lu-cover-v2.webp
+          python - <<'PY'
+          from pathlib import Path
+          paths = [
+              Path('assets/reading/yantielun-cover-v2.webp'),
+              Path('assets/reading/dongjing-meng-hua-lu-cover-v2.webp'),
+          ]
+          for path in paths:
+              data = path.read_bytes()
+              assert len(data) > 1000, f'{path}: unexpectedly small'
+              assert data[:4] == b'RIFF', f'{path}: missing RIFF signature'
+              assert data[8:12] == b'WEBP', f'{path}: missing WEBP signature'
+              print(f'validated {path}: {len(data)} bytes')
+          PY
+
+      - name: Switch Reading pages to cache-safe cover URLs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          replacements = {
+              Path('reading/salt-and-iron/index.html'): ('yantielun-cover.webp', 'yantielun-cover-v2.webp'),
+              Path('reading/dongjing-meng-hua-lu/index.html'): ('dongjing-meng-hua-lu-cover.webp', 'dongjing-meng-hua-lu-cover-v2.webp'),
+          }
+          for path, (old, new) in replacements.items():
+              text = path.read_text(encoding='utf-8')
+              if old not in text:
+                  raise SystemExit(f'{old} not found in {path}')
+              path.write_text(text.replace(old, new), encoding='utf-8')
+              print(f'updated {path}: {old} -> {new}')
+          PY
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Refresh discovery assets
+        run: |
+          npm ci --ignore-scripts
+          npm run build:discovery
+
+      - name: Commit repaired covers
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            assets/reading/yantielun-cover-v2.webp \
+            assets/reading/dongjing-meng-hua-lu-cover-v2.webp \
+            reading/salt-and-iron/index.html \
+            reading/dongjing-meng-hua-lu/index.html \
+            feed.xml index/search-catalog.json pagefind
+          git commit -m "Repair Reading cover assets"
+          git push origin HEAD:main
