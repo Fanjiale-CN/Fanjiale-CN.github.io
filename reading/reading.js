@@ -43,23 +43,40 @@
   if (dongjingArchive) {
     const currentDrawer = dongjingArchive.querySelector('#volume-2');
     const progress = currentDrawer?.querySelector('.dj-drawer-progress');
-    if (progress) progress.textContent = '1 / 8';
+    const drawerSubtitle = currentDrawer?.querySelector('.dj-drawer-title small');
+    if (progress) progress.textContent = '2 / 8';
+    if (drawerSubtitle) drawerSubtitle.textContent = 'IN PROGRESS / ENTRY 09 NEXT';
 
     const rows = [...(currentDrawer?.querySelectorAll('.dj-drawer-entry') || [])];
-    const row08 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '08');
-    if (row08 && row08.tagName !== 'A') {
-      const link = document.createElement('a');
-      link.className = row08.className.replace(/\bis-queued\b/g, '').trim();
-      link.href = '/reading/dongjing-meng-hua-lu/08/';
-      link.innerHTML = row08.innerHTML;
-      row08.replaceWith(link);
+
+    function makeLive(number, href, noteText, timeText) {
+      const row = rows.find((item) => item.firstElementChild?.textContent?.trim() === number);
+      if (!row) return null;
+      let link = row;
+      if (row.tagName !== 'A') {
+        link = document.createElement('a');
+        link.className = row.className.replace(/\bis-queued\b/g, '').trim();
+        link.href = href;
+        link.innerHTML = row.innerHTML;
+        row.replaceWith(link);
+      } else {
+        link.href = href;
+      }
       const note = link.querySelector('.dj-drawer-entry-note');
       const state = link.querySelector('.dj-drawer-entry-state');
       const time = link.querySelector('.dj-drawer-entry-time');
-      if (note) note.textContent = 'Offices, envoy lodging, jewelers, markets and food share one remembered route.';
+      if (note) note.textContent = noteText;
       if (state) state.textContent = 'LIVE';
-      if (time) time.textContent = '≈ 12 MIN';
+      if (time) time.textContent = timeText;
+      return link;
     }
+
+    makeLive('07', '/reading/dongjing-meng-hua-lu/07/', 'Barriers, controlled movement, imperial drains and Xuanhe-period planting.', '≈ 8 MIN');
+    makeLive('08', '/reading/dongjing-meng-hua-lu/08/', 'Offices, envoy lodging, jewelers, markets and food share one remembered route.', '≈ 12 MIN');
+
+    const row09 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '09');
+    const state09 = row09?.querySelector('.dj-drawer-entry-state');
+    if (state09) state09.textContent = 'NEXT';
   }
 
   const previewData = {
