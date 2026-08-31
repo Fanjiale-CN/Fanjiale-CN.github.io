@@ -1,6 +1,6 @@
 /* Dongjing Meng Hua Lu — city-memory reading system, 2026-08-31 */
 @font-face{font-family:"Galok Qiji";src:url("/assets/fonts/qiji-reading-title.woff2?v=20260831b") format("woff2");font-style:normal;font-weight:400;font-display:swap}
-@font-face{font-family:"Galok Reading Serif TW";src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260831f") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Galok Reading Serif TW";src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260831g") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 :root{--dj-paper:#f2ede0;--dj-ink:#171713;--dj-muted:#716b60;--dj-rule:#c9c0b0;--dj-red:#a22d28;--dj-jade:#254f47;--dj-gold:#b59150;--dj-soft:#e5ddcf;--dj-night:#151715}
 .dongjing-page{margin:0;background:var(--dj-paper);color:var(--dj-ink);font-family:var(--font-sans,"Helvetica Neue",Arial,sans-serif)}
 .dongjing-page *{box-sizing:border-box}.dongjing-page ::selection{background:var(--dj-red);color:#fff}.dongjing-page a{color:inherit}.dongjing-page .site-nav{background:rgba(242,237,224,.96);border-bottom:1px solid var(--dj-rule);color:var(--dj-ink);backdrop-filter:blur(12px)}
