@@ -1,0 +1,63 @@
+name: Install Reading covers
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/install-reading-covers.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install book covers
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          # Yantie Lun
+          p = Path('reading/salt-and-iron/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('https://media.galok.me/cities/xian/night-market--cd963a454540.jpeg', 'https://www.galok.me/assets/reading/yantielun-cover.webp')
+          old = '''      <figure class="reading-room-source" data-commons-figure>
+        <div class="reading-source-paper" aria-hidden="true"><div class="reading-source-columns"><span>鹽鐵論</span><span>本議第一</span><span>力耕第二</span><span>通有第三</span><span>錯幣第四</span><span>禁耕第五</span></div></div>
+        <img alt="Digitized printed page from a Ming-era edition of Yantie Lun" data-commons-title="File:NLC892-411999030778-149199 鹽鐵論 第1冊.pdf" data-commons-width="1100" fetchpriority="high" decoding="async">
+        <figcaption><span><b>TEXT WITNESS</b> 《鹽鐵論》 / Ming printed edition</span><span>National Library of China digitization</span><a href="https://commons.wikimedia.org/wiki/File:NLC892-411999030778-149199_%E9%B9%BD%E9%90%B5%E8%AB%96_%E7%AC%AC1%E5%86%8A.pdf">Open the scan / Public domain ↗</a></figcaption>
+      </figure>'''
+          new = '''      <figure class="reading-room-source reading-room-cover-frame">
+        <img src="/assets/reading/yantielun-cover.webp" alt="AI-generated Galok Reading cover artwork for Yantie Lun" fetchpriority="high" decoding="async" style="opacity:1;object-fit:contain;object-position:center;background:#e9e0d0;">
+        <figcaption><span><b>COVER ART / GALOK READING</b> 《鹽鐵論》</span><span>AI-generated cover artwork for this Reading project. Editorial interpretation; not a historical reproduction.</span></figcaption>
+      </figure>'''
+          if old not in s:
+              raise SystemExit('Yantie Lun hero pattern not found')
+          s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+
+          # Dongjing Meng Hua Lu
+          p = Path('reading/dongjing-meng-hua-lu/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('https://commons.wikimedia.org/wiki/Special:Redirect/file/Alongtheriver_QingMing.jpg', 'https://www.galok.me/assets/reading/dongjing-meng-hua-lu-cover.webp', 1)
+          if '<meta name="twitter:image"' not in s:
+              s = s.replace('<meta name="twitter:card" content="summary_large_image">', '<meta name="twitter:card" content="summary_large_image">\n  <meta name="twitter:image" content="https://www.galok.me/assets/reading/dongjing-meng-hua-lu-cover.webp">', 1)
+          old = '''      <figure class="dj-room-art" data-commons-figure><img data-commons-title="File:Along the River During the Qingming Festival (detail of original).jpg" data-commons-width="1800" alt="Wooden bridge and urban traffic detail from Along the River During the Qingming Festival, attributed to Zhang Zeduan" fetchpriority="high" decoding="async"><figcaption><span>VISUAL WITNESS / 《清明上河圖》 / BRIDGE DETAIL</span><a href="https://commons.wikimedia.org/wiki/File:Along_the_River_During_the_Qingming_Festival_(detail_of_original).jpg">Wikimedia Commons / 3600 × 1800 public-domain detail ↗</a></figcaption></figure>'''
+          new = '''      <figure class="dj-room-art dj-room-cover-frame"><img src="/assets/reading/dongjing-meng-hua-lu-cover.webp" alt="AI-generated Galok Reading cover artwork for Dongjing Meng Hua Lu" fetchpriority="high" decoding="async" style="object-fit:contain;object-position:center;filter:none;background:#0d2a20;"><figcaption><span>COVER ART / GALOK READING / AI-GENERATED</span><span>Editorial interpretation created for this Reading project; not a historical reproduction.</span></figcaption></figure>'''
+          if old not in s:
+              raise SystemExit('Dongjing hero pattern not found')
+          s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit cover integration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reading/salt-and-iron/index.html reading/dongjing-meng-hua-lu/index.html
+          git commit -m "Use AI-generated Reading covers"
+          git push origin HEAD:main
