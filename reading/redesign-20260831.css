@@ -129,7 +129,7 @@
   .reading-page .reading-term-card h3{font-size:1.65rem}
 }
 
-/* ---------- Yantie Lun book map: one continuous register ---------- */
+/* ---------- Yantie Lun book map: volume-level register ---------- */
 .reading-room-page .reading-room-map{
   display:block;
   border-left:0;
@@ -138,10 +138,10 @@
 .reading-room-page .reading-room-map article{
   min-height:0;
   display:grid;
-  grid-template-columns:150px minmax(0,1fr) 118px;
+  grid-template-columns:130px minmax(0,1fr) 110px;
   gap:24px;
-  align-items:start;
-  padding:18px 0;
+  align-items:center;
+  padding:17px 0;
   border-right:0;
   border-bottom:1px solid var(--rr-rule);
   background:transparent;
@@ -149,7 +149,6 @@
 }
 .reading-room-page .reading-room-map article:hover{background:rgba(255,255,255,.16)}
 .reading-room-page .reading-room-map small{
-  padding-top:5px;
   color:var(--rr-red);
   font-size:.56rem;
   line-height:1.35;
@@ -157,14 +156,13 @@
 }
 .reading-room-page .reading-room-map h3{
   margin:0;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(1.22rem,1.65vw,1.72rem);
-  font-weight:400;
-  line-height:1.22;
-  letter-spacing:-.022em;
+  font-family:var(--font-sans,"Helvetica Neue",Arial,sans-serif);
+  font-size:clamp(.92rem,1.15vw,1.08rem);
+  font-weight:720;
+  line-height:1.2;
+  letter-spacing:.045em;
 }
 .reading-room-page .reading-room-map p{
-  align-self:center;
   margin:0;
   color:var(--rr-muted);
   text-align:right;
@@ -181,8 +179,8 @@
   content:"";
   position:absolute;
   left:0;
-  top:17px;
-  bottom:17px;
+  top:14px;
+  bottom:14px;
   width:3px;
   background:var(--rr-red);
 }
@@ -191,17 +189,17 @@
 .reading-room-page .reading-room-map article.is-active small{padding-left:14px}
 
 @media(max-width:900px){
-  .reading-room-page .reading-room-map article{grid-template-columns:122px minmax(0,1fr) 92px;gap:18px}
-  .reading-room-page .reading-room-map h3{font-size:1.28rem}
+  .reading-room-page .reading-room-map article{grid-template-columns:112px minmax(0,1fr) 86px;gap:18px}
+  .reading-room-page .reading-room-map h3{font-size:.96rem}
 }
 @media(max-width:620px){
   .reading-room-page .reading-room-map article{
-    grid-template-columns:94px minmax(0,1fr);
+    grid-template-columns:82px minmax(0,1fr);
     gap:8px 14px;
-    padding:16px 0;
+    padding:15px 0;
   }
-  .reading-room-page .reading-room-map article.is-active:before{top:14px;bottom:14px}
-  .reading-room-page .reading-room-map h3{font-size:1.14rem;line-height:1.25}
+  .reading-room-page .reading-room-map article.is-active:before{top:12px;bottom:12px}
+  .reading-room-page .reading-room-map h3{font-size:.92rem;line-height:1.25}
   .reading-room-page .reading-room-map p{grid-column:2;text-align:left}
   .reading-room-page .reading-room-map article.is-active small{padding-left:10px}
 }
