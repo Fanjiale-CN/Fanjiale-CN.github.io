@@ -16,11 +16,6 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
       - name: Update Dongjing reading room
         run: |
           python - <<'PY'
@@ -34,13 +29,11 @@ jobs:
           s=s.replace('<footer class="dj-footer"><span>READING / 003 / 3 OF 86 LIVE</span>', '<footer class="dj-footer"><span>READING / 003 / 5 OF 86 LIVE</span>')
           p.write_text(s)
           PY
-      - name: Refresh discovery assets
-        run: npm run build:discovery
       - name: Commit final Reading updates
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add reading/dongjing-meng-hua-lu/index.html feed.xml search-catalog.json pagefind 2>/dev/null || true
+          git add reading/dongjing-meng-hua-lu/index.html
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Publish Dongjing entries 04 and 05"
           git push origin HEAD:main
