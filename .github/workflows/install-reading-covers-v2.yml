@@ -19,8 +19,8 @@ jobs:
 
       - name: Decode repaired cover assets
         run: |
-          base64 -d .repair/y0.txt > assets/reading/yantielun-cover-v2.webp
-          base64 -d .repair/d0.txt > assets/reading/dongjing-meng-hua-lu-cover-v2.webp
+          base64 -d .repair/y1.txt > assets/reading/yantielun-cover-v2.webp
+          base64 -d .repair/d1.txt > assets/reading/dongjing-meng-hua-lu-cover-v2.webp
           python - <<'PY'
           from pathlib import Path
           paths = [
