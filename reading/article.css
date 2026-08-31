@@ -9,3 +9,18 @@
 @media(max-width:760px){.reading-article{width:calc(100% - 28px);padding-bottom:80px}.reading-article-hero{display:block;min-height:0}.reading-article-hero-copy{min-height:70svh;padding:24px 0 34px;border-right:0}.reading-article-meta{font-size:.55rem}.reading-article-title{margin:80px 0 34px}.reading-article-title h1{font-size:clamp(3.7rem,16vw,6rem)}.reading-article-deck{display:block}.reading-article-deck a{display:inline-block;margin-top:22px}.reading-article-hero-source{height:68svh;border-top:1px solid var(--reading-ink)}.reading-article-body{display:block;padding:68px 0}.reading-article-side{position:static;margin-bottom:36px;padding-bottom:14px;border-bottom:1px solid var(--reading-rule)}.reading-article-prose>p:first-child{font-size:1.35rem}.reading-primary-text blockquote{font-size:clamp(1.65rem,8vw,2.5rem)}.reading-article-notes{margin-top:56px}.reading-article-footer{display:block;padding:34px 0}.reading-article-footer div{display:block;margin-top:18px}.reading-article-footer a{display:inline-block;margin-top:18px}}
 @media(max-width:460px){.reading-article{width:calc(100% - 22px)}.reading-article-hero-copy{min-height:74svh}.reading-article-title h1{font-size:clamp(3.2rem,16vw,4.9rem)}.reading-primary-text{margin:38px 0}.reading-primary-text blockquote{padding:26px 0 22px}.reading-callout{margin-inline:-11px;padding:24px 20px}.reading-article-notes{padding:18px}}
 @media(prefers-reduced-motion:reduce){.reading-article-hero-source img{transition:none}}
+
+/* GenRyu Serif TW trial — ButTaiwan / SIL OFL 1.1. */
+@font-face{
+  font-family:"Galok Reading Serif TW";
+  src:url("/assets/fonts/genryu-reading-tw.woff2") format("woff2");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+
+.reading-article-page .reading-article-hero-source .reading-source-columns,
+.reading-article-page .reading-primary-text blockquote[lang="zh-Hant"]{
+  font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC","PMingLiU",serif;
+  font-synthesis:none;
+}

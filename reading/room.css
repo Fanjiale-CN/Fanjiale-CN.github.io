@@ -13,3 +13,17 @@
 @media(max-width:760px){.reading-room{width:calc(100% - 28px);padding-bottom:70px}.reading-room-hero{display:block;min-height:0}.reading-room-hero-copy{min-height:70svh;padding:24px 0 34px;border-right:0}.reading-room-title{margin:70px 0 34px}.reading-room-title h1{font-size:clamp(5.6rem,27vw,9rem)}.reading-room-title h2{font-size:clamp(2.5rem,11vw,4rem)}.reading-room-deck{display:block}.reading-room-actions{justify-content:flex-start;margin-top:24px}.reading-room-source{height:66svh;border-top:1px solid var(--rr-ink)}.reading-room-section{padding:68px 0}.reading-room-section-head{display:block;margin-bottom:30px}.reading-room-section-head>p{margin-bottom:24px}.reading-room-section-head>div{display:block}.reading-room-section-head span{display:block;margin-top:18px}.reading-room-toc-row{grid-template-columns:42px 1fr 86px;gap:14px;min-height:118px}.reading-room-toc-row .reading-room-note{display:none}.reading-room-toc-row .reading-room-time{display:none}.reading-room-progress{display:block}.reading-room-progress-note{margin-top:36px}.reading-room-bar{grid-template-columns:105px 1fr 48px}.reading-room-map{grid-template-columns:1fr}.reading-room-people{display:block}.reading-room-person{min-height:0;padding:26px 0;border-right:0;border-bottom:1px solid var(--rr-rule)}.reading-room-person+.reading-room-person{padding-left:0}.reading-room-person h3{margin:42px 0 12px}.reading-room-sources{grid-template-columns:1fr}.reading-room-closed{display:block}.reading-room-closed>span{display:block;margin-bottom:20px}.reading-room-footer{display:block}.reading-room-footer a{display:inline-block;margin-top:16px}}
 @media(max-width:460px){.reading-room{width:calc(100% - 22px)}.reading-room-title h1{font-size:clamp(4.8rem,25vw,7.2rem)}.reading-room-meta{font-size:.54rem}.reading-room-toc-row h3{font-size:1rem}.reading-room-toc-row small{font-size:.78rem}.reading-room-state{font-size:.52rem!important}}
 @media(prefers-reduced-motion:reduce){.reading-room-source img{transition:none}}
+
+/* GenRyu Serif TW trial — ButTaiwan / SIL OFL 1.1. */
+@font-face{
+  font-family:"Galok Reading Serif TW";
+  src:url("/assets/fonts/genryu-reading-tw.woff2") format("woff2");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+
+.reading-room-page .reading-room-source .reading-source-columns{
+  font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC","PMingLiU",serif;
+  font-synthesis:none;
+}
