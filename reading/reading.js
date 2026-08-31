@@ -19,10 +19,10 @@
         <aside class="reading-term-card">
           <p class="reading-term-kicker">TERM NOTE / 释名</p>
           <h3>Dongjing Meng Hua Lu<sup>*</sup><span>東京夢華錄</span></h3>
-          <p class="reading-term-en"><b>English.</b> “Dongjing” (东京) here means Bianjing — present-day Kaifeng, capital of the Northern Song dynasty. It is not Tokyo, Japan. Northern Song China named four capitals by cardinal direction: Kaifeng as the Eastern Capital, Luoyang as the Western Capital, and two others as Southern and Northern Capitals. Japan adopted “Tokyo” — literally “Eastern Capital” — for its own city centuries later, under the same naming logic.</p>
+          <p class="reading-term-en"><b>English.</b> “Dongjing” (东京) here means Bianjing — present-day Kaifeng, capital of the Northern Song dynasty. It is not Tokyo, Japan. Northern Song China used directional capital names: Kaifeng as the Eastern Capital, Luoyang as the Western Capital, with Southern and Northern Capitals elsewhere. Edo was renamed Tokyo — literally “Eastern Capital” — in 1868, using the same East Asian directional-capital vocabulary.</p>
           <details class="reading-term-jp">
             <summary>日本語</summary>
-            <p>ここでの「東京」は日本の東京ではなく、北宋の都・開封（汴京）を指す。北宋は方位によって都を呼び分けており、開封は「東京」、洛陽は「西京」とされた。日本の「東京」という名称は、後にこの命名法にならって採用されたものである。</p>
+            <p>ここでの「東京」は日本の東京ではなく、北宋の都・開封（汴京）を指す。北宋では方位を用いた都城名が使われ、開封は「東京」、洛陽は「西京」とされた。日本では1868年に江戸が「東の都」を意味する「東京」へ改称され、同じ東アジアの方位＋「京」という語彙が用いられている。</p>
           </details>
         </aside>`;
     }
