@@ -1,0 +1,83 @@
+name: Fix Reading map and font
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fix-reading-map-font.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix-reading:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Patch Reading typography and book map
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          article = Path('reading/article.css')
+          css = article.read_text(encoding='utf-8')
+          css = css.replace('src:url("/assets/fonts/genryu-reading-tw.woff2") format("woff2");', 'src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260831d") format("woff2");')
+          css = css.replace('font-weight:500;line-height:1.55;letter-spacing:.02em', 'font-weight:400;line-height:1.55;letter-spacing:.02em')
+          old = '''.reading-article-page .reading-article-hero-source .reading-source-columns,\n.reading-article-page .reading-primary-text blockquote[lang="zh-Hant"]{\n  font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC","PMingLiU",serif;\n  font-synthesis:none;\n}'''
+          new = '''.reading-article-page .reading-article-hero-source .reading-source-columns,\n.reading-article-page .reading-primary-text blockquote[lang="zh-Hant"]{\n  font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC","PMingLiU",serif;\n  font-weight:400;\n  font-synthesis:none;\n}\n.reading-article-page .reading-article-hero-source .reading-source-columns span:first-child{font-weight:400}'''
+          if old in css:
+              css = css.replace(old, new)
+          article.write_text(css, encoding='utf-8')
+
+          room = Path('reading/room.css')
+          css = room.read_text(encoding='utf-8')
+          css = css.replace('src:url("/assets/fonts/genryu-reading-tw.woff2") format("woff2");', 'src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260831d") format("woff2");')
+          marker = '.reading-room-page .reading-room-source .reading-source-columns span:first-child{font-weight:400}'
+          if marker not in css:
+              css += '\n' + marker + '\n'
+          room.write_text(css, encoding='utf-8')
+
+          for chapter in ('01','02','03','04'):
+              path = Path(f'reading/salt-and-iron/{chapter}/index.html')
+              text = path.read_text(encoding='utf-8')
+              text = re.sub(r'/reading/article\.css\?v=[^\"]+', '/reading/article.css?v=20260831c', text)
+              path.write_text(text, encoding='utf-8')
+
+          index = Path('reading/salt-and-iron/index.html')
+          text = index.read_text(encoding='utf-8')
+          text = re.sub(r'/reading/room\.css\?v=[^\"]+', '/reading/room.css?v=20260831c', text)
+          text = re.sub(r'/reading/redesign-20260831\.css\?v=[^\"]+', '/reading/redesign-20260831.css?v=20260831d', text)
+          text = text.replace(
+              '<header class="reading-room-section-head"><p>02 / BOOK MAP</p><div><h2 id="book-map-title">Ten volumes, one continuous index.</h2><span>Volume boundaries remain visible without turning every group into a poster. The chapter order stays exactly where the source book puts it.</span></div></header>',
+              '<header class="reading-room-section-head"><p>02 / BOOK MAP</p><div><h2 id="book-map-title">Ten volumes, sixty chapters.</h2><span>The chapter list above is the working table of contents for the open volume. This map shows only the book\'s ten-volume structure and completion.</span></div></header>'
+          )
+          start = text.index('      <div class="reading-room-map">')
+          end = text.index('      </div>\n    </section>', start) + len('      </div>')
+          new_map = '''      <div class="reading-room-map">
+        <article class="is-active"><small>VOLUME I</small><h3>CHAPTERS 01–06</h3><p>4 / 6 LIVE</p></article>
+        <article><small>VOLUME II</small><h3>CHAPTERS 07–12</h3><p>0 / 6</p></article>
+        <article><small>VOLUME III</small><h3>CHAPTERS 13–15</h3><p>0 / 3</p></article>
+        <article><small>VOLUME IV</small><h3>CHAPTERS 16–19</h3><p>0 / 4</p></article>
+        <article><small>VOLUME V</small><h3>CHAPTERS 20–28</h3><p>0 / 9</p></article>
+        <article><small>VOLUME VI</small><h3>CHAPTERS 29–36</h3><p>0 / 8</p></article>
+        <article><small>VOLUME VII</small><h3>CHAPTERS 37–42</h3><p>0 / 6</p></article>
+        <article><small>VOLUME VIII</small><h3>CHAPTERS 43–48</h3><p>0 / 6</p></article>
+        <article><small>VOLUME IX</small><h3>CHAPTERS 49–54</h3><p>0 / 6</p></article>
+        <article><small>VOLUME X</small><h3>CHAPTERS 55–60</h3><p>0 / 6</p></article>
+      </div>'''
+          text = text[:start] + new_map + text[end:]
+          index.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reading/article.css reading/room.css reading/salt-and-iron/01/index.html reading/salt-and-iron/02/index.html reading/salt-and-iron/03/index.html reading/salt-and-iron/04/index.html reading/salt-and-iron/index.html
+          git commit -m "Fix Reading font cache and separate book map"
+          git push origin HEAD:main
