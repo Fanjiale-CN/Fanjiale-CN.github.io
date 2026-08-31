@@ -1,10 +1,21 @@
 (() => {
   const redesignStylesheet = document.createElement('link');
   redesignStylesheet.rel = 'stylesheet';
-  redesignStylesheet.href = '/reading/redesign-20260831.css?v=20260831b';
+  redesignStylesheet.href = '/reading/redesign-20260831.css?v=20260831c';
   document.head.append(redesignStylesheet);
 
   if (document.body.classList.contains('reading-page')) {
+    const titleLabels = {
+      salt: '<span class="reading-book-title-zh" lang="zh-Hant">鹽鐵論</span> / Salt &amp; Iron',
+      guanzi: '<span class="reading-book-title-zh" lang="zh-Hant">管子</span> / Light &amp; Heavy',
+      dongjing: '<span class="reading-book-title-zh" lang="zh-Hant">東京夢華錄</span> / Eastern Capital'
+    };
+
+    Object.entries(titleLabels).forEach(([key, label]) => {
+      const subtitle = document.querySelector(`[data-reading-preview="${key}"] small`);
+      if (subtitle) subtitle.innerHTML = label;
+    });
+
     const dongjingTitle = document.querySelector('[data-reading-preview="dongjing"] b');
     if (dongjingTitle && !dongjingTitle.dataset.termMarked) {
       dongjingTitle.textContent = 'DONGJING MENG HUA LU*';
@@ -18,7 +29,7 @@
       indexPreview.innerHTML = `
         <aside class="reading-term-card">
           <p class="reading-term-kicker">TERM NOTE / 释名</p>
-          <h3>Dongjing Meng Hua Lu<sup>*</sup><span>東京夢華錄</span></h3>
+          <h3>Dongjing Meng Hua Lu<sup>*</sup><span class="reading-book-title-zh" lang="zh-Hant">東京夢華錄</span></h3>
           <p class="reading-term-en"><b>English.</b> “Dongjing” (东京) here means Bianjing — present-day Kaifeng, capital of the Northern Song dynasty. It is not Tokyo, Japan. Northern Song China used directional capital names: Kaifeng as the Eastern Capital, Luoyang as the Western Capital, with Southern and Northern Capitals elsewhere. Edo was renamed Tokyo — literally “Eastern Capital” — in 1868, using the same East Asian directional-capital vocabulary.</p>
           <details class="reading-term-jp">
             <summary>日本語</summary>
