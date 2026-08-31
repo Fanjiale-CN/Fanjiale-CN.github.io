@@ -17,27 +17,35 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
           index = Path('reading/index.html')
           text = index.read_text(encoding='utf-8')
-          old = '''          <button class="reading-index-row" type="button" data-reading-preview="dongjing">
-            <span>—</span><span><b>DONGJING MENG HUA LU</b><small>東京夢華錄 / Eastern Capital</small></span><span>12th c.</span><span>City / People</span><span>Research queue</span>
-          </button>'''
-          new = '''          <a class="reading-index-row is-active" href="/reading/dongjing-meng-hua-lu/" data-reading-preview="dongjing">
+          pattern = r'<button class="reading-index-row" type="button" data-reading-preview="dongjing">\s*<span>—</span><span><b>DONGJING MENG HUA LU</b><small>東京夢華錄 / Eastern Capital</small></span><span>12th c\.</span><span>City / People</span><span>Research queue</span>\s*</button>'
+          replacement = '''<a class="reading-index-row is-active" href="/reading/dongjing-meng-hua-lu/" data-reading-preview="dongjing">
             <span>003</span><span><b>DONGJING MENG HUA LU</b><small>東京夢華錄 / Eastern Capital</small></span><span>1147</span><span>City / People</span><span>Open dossier ↗</span>
           </a>'''
-          if old not in text:
-              raise SystemExit('Dongjing index row not found')
-          text = text.replace(old, new)
-          text = text.replace('<article class="reading-time-item is-research">\n          <div class="reading-time-date"><strong>12th</strong><span>C.</span></div>\n          <div class="reading-time-place"><span>KAIFENG</span><small>NORTHERN SONG MEMORY</small></div>\n          <div class="reading-time-copy"><small>RESEARCH QUEUE</small><h3>Dongjing Meng Hua Lu</h3>', '<article class="reading-time-item is-current" id="reading-003">\n          <div class="reading-time-date"><strong>1147</strong><span>CE</span></div>\n          <div class="reading-time-place"><span>KAIFENG</span><small>NORTHERN SONG MEMORY</small></div>\n          <div class="reading-time-copy"><small>003 / ACTIVE DOSSIER</small><h3>Dongjing Meng Hua Lu</h3>')
-          text = text.replace('<article><span>03</span><h3>CITY</h3><p>Streets, consumption, services, movement and the material routines of urban life.</p><small>003 QUEUED</small></article>', '<article><span>03</span><h3>CITY</h3><p>Streets, consumption, services, movement and the material routines of urban life.</p><small>003 ACTIVE</small></article>')
+          text, count = re.subn(pattern, replacement, text, count=1)
+          if count != 1:
+              raise SystemExit(f'Dongjing index row replacements: {count}')
+
+          timeline = r'<article class="reading-time-item is-research">\s*<div class="reading-time-date"><strong>12th</strong><span>C\.</span></div>\s*<div class="reading-time-place"><span>KAIFENG</span><small>NORTHERN SONG MEMORY</small></div>\s*<div class="reading-time-copy"><small>RESEARCH QUEUE</small><h3>Dongjing Meng Hua Lu</h3>'
+          timeline_repl = '''<article class="reading-time-item is-current" id="reading-003">
+          <div class="reading-time-date"><strong>1147</strong><span>CE</span></div>
+          <div class="reading-time-place"><span>KAIFENG</span><small>NORTHERN SONG MEMORY</small></div>
+          <div class="reading-time-copy"><small>003 / ACTIVE DOSSIER</small><h3>Dongjing Meng Hua Lu</h3>'''
+          text, count = re.subn(timeline, timeline_repl, text, count=1)
+          if count != 1:
+              raise SystemExit(f'Dongjing timeline replacements: {count}')
+
+          text = text.replace('<small>003 QUEUED</small>', '<small>003 ACTIVE</small>', 1)
           index.write_text(text, encoding='utf-8')
 
           js = Path('reading/reading.js')
-          text = js.read_text(encoding='utf-8')
-          text = text.replace("meta: 'RESEARCH QUEUE / CITY + PEOPLE'", "meta: '003 / OPEN DOSSIER / CITY + PEOPLE'")
-          text = text.replace("copy: 'A research path into night markets, services, consumption and the ordinary commercial density of a capital city.'", "copy: 'Ten volumes and eighty-six entries reconstruct Northern Song Kaifeng through walls, waterways, streets, markets, food, festivals and ordinary urban life.'")
-          js.write_text(text, encoding='utf-8')
+          js_text = js.read_text(encoding='utf-8')
+          js_text = js_text.replace("meta: 'RESEARCH QUEUE / CITY + PEOPLE'", "meta: '003 / OPEN DOSSIER / CITY + PEOPLE'")
+          js_text = js_text.replace("copy: 'A research path into night markets, services, consumption and the ordinary commercial density of a capital city.'", "copy: 'Ten volumes and eighty-six entries reconstruct Northern Song Kaifeng through walls, waterways, streets, markets, food, festivals and ordinary urban life.'")
+          js.write_text(js_text, encoding='utf-8')
           PY
       - name: Commit patch
         run: |
