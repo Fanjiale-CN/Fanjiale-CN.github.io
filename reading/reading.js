@@ -1,4 +1,33 @@
 (() => {
+  const redesignStylesheet = document.createElement('link');
+  redesignStylesheet.rel = 'stylesheet';
+  redesignStylesheet.href = '/reading/redesign-20260831.css?v=20260831b';
+  document.head.append(redesignStylesheet);
+
+  if (document.body.classList.contains('reading-page')) {
+    const dongjingTitle = document.querySelector('[data-reading-preview="dongjing"] b');
+    if (dongjingTitle && !dongjingTitle.dataset.termMarked) {
+      dongjingTitle.textContent = 'DONGJING MENG HUA LU*';
+      dongjingTitle.dataset.termMarked = 'true';
+    }
+
+    const indexPreview = document.querySelector('.reading-index-preview');
+    if (indexPreview) {
+      indexPreview.setAttribute('aria-live', 'off');
+      indexPreview.setAttribute('aria-label', 'Term note for Dongjing Meng Hua Lu');
+      indexPreview.innerHTML = `
+        <aside class="reading-term-card">
+          <p class="reading-term-kicker">TERM NOTE / 释名</p>
+          <h3>Dongjing Meng Hua Lu<sup>*</sup><span>東京夢華錄</span></h3>
+          <p class="reading-term-en"><b>English.</b> “Dongjing” (东京) here means Bianjing — present-day Kaifeng, capital of the Northern Song dynasty. It is not Tokyo, Japan. Northern Song China named four capitals by cardinal direction: Kaifeng as the Eastern Capital, Luoyang as the Western Capital, and two others as Southern and Northern Capitals. Japan adopted “Tokyo” — literally “Eastern Capital” — for its own city centuries later, under the same naming logic.</p>
+          <details class="reading-term-jp">
+            <summary>日本語</summary>
+            <p>ここでの「東京」は日本の東京ではなく、北宋の都・開封（汴京）を指す。北宋は方位によって都を呼び分けており、開封は「東京」、洛陽は「西京」とされた。日本の「東京」という名称は、後にこの命名法にならって採用されたものである。</p>
+          </details>
+        </aside>`;
+    }
+  }
+
   const previewData = {
     salt: {
       className: 'reading-preview-plate--salt',
@@ -93,12 +122,14 @@
     previewRows.forEach((button) => button.classList.toggle('is-active', button === row));
   }
 
-  previewRows.forEach((row) => {
-    const activate = () => selectPreview(row.dataset.readingPreview, row);
-    row.addEventListener('click', activate);
-    row.addEventListener('mouseenter', activate);
-    row.addEventListener('focus', activate);
-  });
+  if (previewPlate) {
+    previewRows.forEach((row) => {
+      const activate = () => selectPreview(row.dataset.readingPreview, row);
+      row.addEventListener('click', activate);
+      row.addEventListener('mouseenter', activate);
+      row.addEventListener('focus', activate);
+    });
+  }
 
   const dialog = document.querySelector('[data-reading-dialog]');
   const dialogMedia = document.querySelector('[data-reading-dialog-media]');
