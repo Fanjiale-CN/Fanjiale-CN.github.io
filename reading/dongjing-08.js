@@ -1,4 +1,9 @@
 (() => {
+  const fontFix = document.createElement('link');
+  fontFix.rel = 'stylesheet';
+  fontFix.href = '/reading/dongjing-08-fontfix.css?v=20260831a';
+  document.head.append(fontFix);
+
   const sections = [...document.querySelectorAll('[data-corridor-focus]')];
   const nodes = [...document.querySelectorAll('[data-corridor-node]')];
   if (!sections.length || !nodes.length) return;
