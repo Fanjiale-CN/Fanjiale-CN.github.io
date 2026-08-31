@@ -203,3 +203,30 @@
   .reading-room-page .reading-room-map p{grid-column:2;text-align:left}
   .reading-room-page .reading-room-map article.is-active small{padding-left:10px}
 }
+
+/* Reading cover sharpness fix — keep low-resolution repair assets at native CSS size. */
+.reading-room-page .reading-room-cover-frame{
+  display:grid;
+  place-items:center;
+  padding:28px 28px 92px;
+  background:#e9e0d0;
+}
+.reading-room-page .reading-room-source.reading-room-cover-frame img{
+  position:relative;
+  inset:auto;
+  width:auto;
+  height:auto;
+  max-width:min(100%,360px);
+  max-height:calc(76svh - 118px);
+  object-fit:contain;
+  object-position:center;
+  opacity:1;
+  transform:none;
+}
+@media(max-width:760px){
+  .reading-room-page .reading-room-cover-frame{padding:24px 20px 90px}
+  .reading-room-page .reading-room-source.reading-room-cover-frame img{
+    max-width:min(100%,360px);
+    max-height:calc(66svh - 112px);
+  }
+}

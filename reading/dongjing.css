@@ -30,3 +30,29 @@
 @media(max-width:760px){.dj-shell{width:calc(100% - 28px);padding-bottom:70px}.dj-room-hero,.dj-entry-hero{display:block;min-height:0}.dj-room-copy,.dj-entry-copy{min-height:68svh;padding:24px 0 34px;border-right:0}.dj-room-title,.dj-entry-title{margin:72px 0 34px}.dj-room-title h1{font-size:clamp(5rem,25vw,8.2rem)}.dj-entry-title h1{font-size:clamp(4.6rem,22vw,7.5rem)}.dj-room-title h2,.dj-entry-title h2{font-size:clamp(2.6rem,11vw,4.2rem)}.dj-room-deck,.dj-entry-deck{display:block}.dj-room-actions{justify-content:flex-start;margin-top:22px}.dj-room-art,.dj-entry-source{height:66svh;border-top:1px solid var(--dj-ink)}.dj-section{padding:68px 0}.dj-section-head{display:block;margin-bottom:30px}.dj-section-head>p{margin-bottom:22px}.dj-section-head>div{display:block}.dj-section-head span{display:block;margin-top:18px}.dj-toc-row{grid-template-columns:42px 1fr 80px;gap:13px;min-height:108px}.dj-toc-row .dj-note,.dj-toc-row .dj-time{display:none}.dj-book-map article{grid-template-columns:96px 1fr 72px;gap:13px}.dj-scroll-window img{height:210px;width:330%;transform:translateX(-38%)}.dj-scroll-caption,.dj-term-note{display:block}.dj-scroll-caption>p,.dj-term-note>small{display:block;margin-bottom:13px}.dj-scroll-caption div{display:block}.dj-source-grid{grid-template-columns:1fr}.dj-entry-body{display:block;padding:68px 0}.dj-entry-side{position:static;margin-bottom:36px;padding-bottom:15px;border-bottom:1px solid var(--dj-rule)}.dj-entry-notes{margin-top:50px}.dj-visual-witness-head,.dj-visual-witness figcaption{display:block}.dj-visual-witness-head p,.dj-visual-witness figcaption b{display:block;margin-bottom:10px}.dj-visual-witness figcaption div{display:block}.dj-entry-nav{grid-template-columns:1fr}}
 @media(max-width:460px){.dj-shell{width:calc(100% - 22px)}.dj-room-title h1{font-size:clamp(4.3rem,23vw,6.6rem)}.dj-entry-title h1{font-size:clamp(4rem,21vw,6rem)}.dj-text-unit blockquote{font-size:clamp(1.4rem,6.7vw,2rem)}.dj-analysis{padding:20px 18px 6px}.dj-book-map article{grid-template-columns:82px 1fr 60px}}
 @media(prefers-reduced-motion:reduce){.dj-entry-source img{transition:none}}
+
+/* Reading cover sharpness fix — the temporary v2 asset is 300px wide, so never upscale it. */
+.dongjing-page .dj-room-cover-frame{
+  display:grid;
+  place-items:center;
+  padding:28px 28px 92px;
+  background:#0d2a20;
+}
+.dongjing-page .dj-room-cover-frame:after{display:none}
+.dongjing-page .dj-room-cover-frame img{
+  width:auto;
+  height:auto;
+  max-width:min(100%,300px);
+  max-height:calc(78svh - 118px);
+  object-fit:contain;
+  object-position:center;
+  filter:none;
+  transform:none;
+}
+@media(max-width:760px){
+  .dongjing-page .dj-room-cover-frame{padding:24px 20px 90px}
+  .dongjing-page .dj-room-cover-frame img{
+    max-width:min(100%,300px);
+    max-height:calc(68svh - 112px);
+  }
+}
