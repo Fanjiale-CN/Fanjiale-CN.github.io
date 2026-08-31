@@ -2,10 +2,10 @@
    Direction: archive ledger / editorial contents, not poster tiles. */
 
 /* Qiji title face — Lingdong Huang / SIL OFL 1.1.
-   Keep it scoped to ancient-book display titles; body copy stays in the Reading text system. */
+   A fixed web subset keeps only the Chinese book-title glyphs used by Reading. */
 @font-face{
   font-family:"Galok Qiji";
-  src:url("https://github.com/LingDong-/qiji-font/releases/download/0.0.4/qiji.woff2") format("woff2");
+  src:url("https://webfont.shenzilong.cn/api?font=%E4%BB%A4%E4%B8%9C%E9%BD%90%E4%BC%8B%E5%A4%8D%E5%88%BB%E4%BD%93&text=%E9%B9%BD%E9%90%B5%E8%AB%96%E7%AE%A1%E5%AD%90%E6%9D%B1%E4%BA%AC%E5%A4%A2%E8%8F%AF%E9%8C%84&outType=woff2") format("woff2");
   font-style:normal;
   font-weight:400;
   font-display:swap;
