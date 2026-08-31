@@ -21,7 +21,7 @@ jobs:
       - name: Apply Reading depth pass
         run: node scripts/deepen-reading-0102.mjs
       - name: Refresh discovery assets
-        run: npm run discovery:build
+        run: npm run build:discovery
       - name: Commit content and generated assets
         run: |
           git config user.name 'github-actions[bot]'
