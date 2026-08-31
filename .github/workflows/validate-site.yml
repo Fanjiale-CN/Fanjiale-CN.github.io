@@ -24,6 +24,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install Reading font validator
+        run: python -m pip install --disable-pip-version-check "fonttools[woff]" brotli
+
+      - name: Enforce Reading font cmap coverage
+        id: reading_font
+        continue-on-error: true
+        run: python scripts/check-reading-font-coverage.py
+
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -119,6 +127,7 @@ jobs:
       - name: Write readable report
         if: always()
         env:
+          GALOK_GATE_READING_FONT: ${{ steps.reading_font.outcome }}
           GALOK_GATE_NATIVE: ${{ steps.native.outcome }}
           GALOK_GATE_EXPERIENCE: ${{ steps.experience.outcome }}
           GALOK_GATE_LINKS: ${{ steps.links.outcome }}
@@ -143,6 +152,7 @@ jobs:
       - name: Enforce release gates
         if: always()
         run: |
+          test "${{ steps.reading_font.outcome }}" = "success"
           test "${{ steps.native.outcome }}" = "success"
           test "${{ steps.experience.outcome }}" = "success"
           test "${{ steps.links.outcome }}" = "success"
