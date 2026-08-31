@@ -1,0 +1,123 @@
+name: Vendor GenRyu Reading trial
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/vendor-genryu-reading-trial.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  vendor-font:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install font tooling
+        run: python -m pip install --disable-pip-version-check "fonttools[woff]" brotli
+
+      - name: Fetch official GenRyu TW Regular
+        run: |
+          curl --fail --location --retry 3 \
+            "https://raw.githubusercontent.com/ButTaiwan/genryu-font/v2.100/otf/TW/GenRyuMin2TW-R.otf" \
+            --output /tmp/genryu-tw-regular.otf
+
+      - name: Build Reading character corpus
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          chars = set("，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　")
+          for path in Path("reading").rglob("*.html"):
+              text = path.read_text(encoding="utf-8", errors="ignore")
+              for ch in text:
+                  cp = ord(ch)
+                  if (
+                      0x3400 <= cp <= 0x4DBF
+                      or 0x4E00 <= cp <= 0x9FFF
+                      or 0xF900 <= cp <= 0xFAFF
+                      or 0x20000 <= cp <= 0x2FA1F
+                  ):
+                      chars.add(ch)
+          Path("/tmp/genryu-reading-chars.txt").write_text("".join(sorted(chars)), encoding="utf-8")
+          print(f"Reading corpus: {len(chars)} unique CJK/punctuation characters")
+          PY
+
+      - name: Build Galok GenRyu subset
+        run: |
+          mkdir -p assets/fonts
+          pyftsubset /tmp/genryu-tw-regular.otf \
+            --text-file=/tmp/genryu-reading-chars.txt \
+            --output-file=/tmp/genryu-reading-tw.woff2 \
+            --flavor=woff2 \
+            --layout-features='*' \
+            --glyph-names \
+            --symbol-cmap \
+            --legacy-cmap \
+            --notdef-glyph \
+            --notdef-outline \
+            --recommended-glyphs
+
+          python - <<'PY'
+          from fontTools.ttLib import TTFont
+          src = "/tmp/genryu-reading-tw.woff2"
+          out = "assets/fonts/genryu-reading-tw.woff2"
+          font = TTFont(src)
+          names = font["name"]
+          replacements = {
+              1: "Galok Reading Serif TW",
+              2: "Regular",
+              4: "Galok Reading Serif TW Regular",
+              6: "GalokReadingSerifTW-Regular",
+              16: "Galok Reading Serif TW",
+              17: "Regular",
+          }
+          for name_id, value in replacements.items():
+              for platform_id, encoding_id, language_id in ((3, 1, 0x409), (1, 0, 0)):
+                  names.setName(value, name_id, platform_id, encoding_id, language_id)
+          font.flavor = "woff2"
+          font.save(out)
+          PY
+
+          curl --fail --location --retry 3 \
+            "https://raw.githubusercontent.com/ButTaiwan/genryu-font/v2.100/SIL_Open_Font_License_1.1.txt" \
+            --output assets/fonts/genryu-reading-tw.LICENSE.txt
+
+          ls -lh assets/fonts/genryu-reading-tw.woff2
+
+      - name: Apply GenRyu to Reading classical text
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          font_face = '''\n/* GenRyu Serif TW trial — ButTaiwan / SIL OFL 1.1. */\n@font-face{\n  font-family:"Galok Reading Serif TW";\n  src:url("/assets/fonts/genryu-reading-tw.woff2") format("woff2");\n  font-style:normal;\n  font-weight:400;\n  font-display:swap;\n}\n'''
+
+          article = Path("reading/article.css")
+          css = article.read_text(encoding="utf-8")
+          marker = "/* GenRyu Serif TW trial"
+          if marker not in css:
+              css += font_face + '''\n.reading-article-page .reading-article-hero-source .reading-source-columns,\n.reading-article-page .reading-primary-text blockquote[lang="zh-Hant"]{\n  font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC","PMingLiU",serif;\n  font-synthesis:none;\n}\n'''
+              article.write_text(css, encoding="utf-8")
+
+          room = Path("reading/room.css")
+          css = room.read_text(encoding="utf-8")
+          if marker not in css:
+              css += font_face + '''\n.reading-room-page .reading-room-source .reading-source-columns{\n  font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC","PMingLiU",serif;\n  font-synthesis:none;\n}\n'''
+              room.write_text(css, encoding="utf-8")
+          PY
+
+      - name: Commit GenRyu trial
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/fonts/genryu-reading-tw.woff2 assets/fonts/genryu-reading-tw.LICENSE.txt reading/article.css reading/room.css
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git commit -m "Try GenRyu Serif TW in Reading"
+          git push origin HEAD:main
