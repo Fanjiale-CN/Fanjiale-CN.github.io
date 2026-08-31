@@ -1,0 +1,87 @@
+name: Fix Reading cover sharpness once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fix-reading-cover-sharpness-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Constrain Reading covers to native display size
+        run: |
+          cat >> reading/redesign-20260831.css <<'CSS'
+
+          /* Reading cover sharpness fix — keep low-resolution repair assets at native CSS size. */
+          .reading-room-page .reading-room-cover-frame{
+            display:grid;
+            place-items:center;
+            padding:28px 28px 92px;
+            background:#e9e0d0;
+          }
+          .reading-room-page .reading-room-source.reading-room-cover-frame img{
+            position:relative;
+            inset:auto;
+            width:auto;
+            height:auto;
+            max-width:min(100%,360px);
+            max-height:calc(76svh - 118px);
+            object-fit:contain;
+            object-position:center;
+            opacity:1;
+            transform:none;
+          }
+          @media(max-width:760px){
+            .reading-room-page .reading-room-cover-frame{padding:24px 20px 90px}
+            .reading-room-page .reading-room-source.reading-room-cover-frame img{
+              max-width:min(100%,360px);
+              max-height:calc(66svh - 112px);
+            }
+          }
+          CSS
+
+          cat >> reading/dongjing.css <<'CSS'
+
+          /* Reading cover sharpness fix — the temporary v2 asset is 300px wide, so never upscale it. */
+          .dongjing-page .dj-room-cover-frame{
+            display:grid;
+            place-items:center;
+            padding:28px 28px 92px;
+            background:#0d2a20;
+          }
+          .dongjing-page .dj-room-cover-frame:after{display:none}
+          .dongjing-page .dj-room-cover-frame img{
+            width:auto;
+            height:auto;
+            max-width:min(100%,300px);
+            max-height:calc(78svh - 118px);
+            object-fit:contain;
+            object-position:center;
+            filter:none;
+            transform:none;
+          }
+          @media(max-width:760px){
+            .dongjing-page .dj-room-cover-frame{padding:24px 20px 90px}
+            .dongjing-page .dj-room-cover-frame img{
+              max-width:min(100%,300px);
+              max-height:calc(68svh - 112px);
+            }
+          }
+          CSS
+
+      - name: Commit sharpness fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reading/redesign-20260831.css reading/dongjing.css
+          git commit -m "Fix Reading cover sharpness"
+          git push origin HEAD:main
