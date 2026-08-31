@@ -1,0 +1,16 @@
+name: Install Reading covers v2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Download covers from issue-safe data URLs
+        run: |
+          echo "This workflow is a placeholder and should not run without payload files."
