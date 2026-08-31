@@ -1,0 +1,96 @@
+name: Rebuild GenRyu for Dongjing
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/rebuild-genryu-dongjing.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild-font:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install font tooling
+        run: python -m pip install --disable-pip-version-check "fonttools[woff]" brotli
+
+      - name: Fetch official GenRyu TW Regular
+        run: |
+          curl --fail --location --retry 3 \
+            "https://raw.githubusercontent.com/ButTaiwan/genryu-font/v2.100/otf/TW/GenRyuMin2TW-R.otf" \
+            --output /tmp/genryu-tw-regular.otf
+
+      - name: Build complete Reading character corpus
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          chars = set("，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　")
+          for path in Path("reading").rglob("*.html"):
+              text = path.read_text(encoding="utf-8", errors="ignore")
+              for ch in text:
+                  cp = ord(ch)
+                  if (
+                      0x3400 <= cp <= 0x4DBF
+                      or 0x4E00 <= cp <= 0x9FFF
+                      or 0xF900 <= cp <= 0xFAFF
+                      or 0x20000 <= cp <= 0x2FA1F
+                  ):
+                      chars.add(ch)
+          Path("/tmp/genryu-reading-chars.txt").write_text("".join(sorted(chars)), encoding="utf-8")
+          print(f"Reading corpus: {len(chars)} unique CJK/punctuation characters")
+          PY
+
+      - name: Rebuild Galok GenRyu subset
+        run: |
+          pyftsubset /tmp/genryu-tw-regular.otf \
+            --text-file=/tmp/genryu-reading-chars.txt \
+            --output-file=/tmp/genryu-reading-tw.woff2 \
+            --flavor=woff2 \
+            --layout-features='*' \
+            --glyph-names \
+            --symbol-cmap \
+            --legacy-cmap \
+            --notdef-glyph \
+            --notdef-outline \
+            --recommended-glyphs
+
+          python - <<'PY'
+          from fontTools.ttLib import TTFont
+          src = "/tmp/genryu-reading-tw.woff2"
+          out = "assets/fonts/genryu-reading-tw.woff2"
+          font = TTFont(src)
+          names = font["name"]
+          replacements = {
+              1: "Galok Reading Serif TW",
+              2: "Regular",
+              4: "Galok Reading Serif TW Regular",
+              6: "GalokReadingSerifTW-Regular",
+              16: "Galok Reading Serif TW",
+              17: "Regular",
+          }
+          for name_id, value in replacements.items():
+              for platform_id, encoding_id, language_id in ((3, 1, 0x409), (1, 0, 0)):
+                  names.setName(value, name_id, platform_id, encoding_id, language_id)
+          font.flavor = "woff2"
+          font.save(out)
+          PY
+          ls -lh assets/fonts/genryu-reading-tw.woff2
+
+      - name: Commit refreshed subset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/fonts/genryu-reading-tw.woff2
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git commit -m "Expand GenRyu subset for Dongjing Meng Hua Lu"
+          git push origin HEAD:main
