@@ -39,6 +39,29 @@
     }
   }
 
+  const dongjingArchive = document.querySelector('[data-volume-archive]');
+  if (dongjingArchive) {
+    const currentDrawer = dongjingArchive.querySelector('#volume-2');
+    const progress = currentDrawer?.querySelector('.dj-drawer-progress');
+    if (progress) progress.textContent = '1 / 8';
+
+    const rows = [...(currentDrawer?.querySelectorAll('.dj-drawer-entry') || [])];
+    const row08 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '08');
+    if (row08 && row08.tagName !== 'A') {
+      const link = document.createElement('a');
+      link.className = row08.className.replace(/\bis-queued\b/g, '').trim();
+      link.href = '/reading/dongjing-meng-hua-lu/08/';
+      link.innerHTML = row08.innerHTML;
+      row08.replaceWith(link);
+      const note = link.querySelector('.dj-drawer-entry-note');
+      const state = link.querySelector('.dj-drawer-entry-state');
+      const time = link.querySelector('.dj-drawer-entry-time');
+      if (note) note.textContent = 'Offices, envoy lodging, jewelers, markets and food share one remembered route.';
+      if (state) state.textContent = 'LIVE';
+      if (time) time.textContent = '≈ 12 MIN';
+    }
+  }
+
   const previewData = {
     salt: {
       className: 'reading-preview-plate--salt',
