@@ -58,8 +58,8 @@
       className: 'reading-preview-plate--dongjing',
       kicker: '12TH C. / KAIFENG REMEMBERED',
       title: '東京夢華錄',
-      copy: 'A research path into night markets, services, consumption and the ordinary commercial density of a capital city.',
-      meta: 'RESEARCH QUEUE / CITY + PEOPLE'
+      copy: 'Ten volumes and eighty-six entries reconstruct Northern Song Kaifeng through walls, waterways, streets, markets, food, festivals and ordinary urban life.',
+      meta: '003 / OPEN DOSSIER / CITY + PEOPLE'
     }
   };
 
