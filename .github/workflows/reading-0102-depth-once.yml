@@ -1,0 +1,38 @@
+name: Reading 01-02 depth pass once
+on:
+  push:
+    branches: [feat/reading-0102-deeper-interpretation-20260831]
+    paths: ['.github/workflows/reading-0102-depth-once.yml']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: feat/reading-0102-deeper-interpretation-20260831
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+      - name: Apply Reading depth pass
+        run: node scripts/deepen-reading-0102.mjs
+      - name: Refresh discovery assets
+        run: npm run discovery:build
+      - name: Commit content and generated assets
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add reading/salt-and-iron/01/index.html reading/salt-and-iron/02/index.html reading/salt-and-iron/index.html reading/note.css pagefind index/search-catalog.json sitemap.xml feed.xml
+          git commit -m 'Deepen Yantie Lun chapters 01 and 02' || true
+      - name: Run release gate
+        run: npm run release
+      - name: Remove one-time helpers
+        run: |
+          git rm scripts/deepen-reading-0102.mjs .github/workflows/reading-0102-depth-once.yml
+          git commit -m 'Remove one-time Reading depth helpers'
+      - name: Push validated branch
+        run: git push origin HEAD:feat/reading-0102-deeper-interpretation-20260831
