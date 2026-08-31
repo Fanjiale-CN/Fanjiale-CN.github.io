@@ -1,0 +1,46 @@
+name: Finalize Dongjing 04 05 once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/finalize-dongjing-04-05-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Update Dongjing reading room
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('reading/dongjing-meng-hua-lu/index.html')
+          s=p.read_text()
+          s=s.replace('<article class="dj-toc-row is-pending"><span>04</span><div><h3>Imperial Palace<small lang="zh-Hant">大內</small></h3></div><span class="dj-note">Palace gates, halls, court movement and the market around imperial demand.</span><span class="dj-state">NEXT</span><span class="dj-time">—</span></article>', '<a class="dj-toc-row is-live" href="/reading/dongjing-meng-hua-lu/04/"><span>04</span><div><h3>Imperial Palace<small lang="zh-Hant">大內</small></h3></div><span class="dj-note">Palace gates, audience halls, government offices, guarded supply routes and the Donghua Gate market.</span><span class="dj-state">LIVE</span><span class="dj-time">≈ 18 MIN</span></a>')
+          s=s.replace('<article class="dj-toc-row is-pending"><span>05</span><div><h3>Inner Offices<small lang="zh-Hant">內諸司</small></h3></div><span class="dj-note">Institutions and service offices embedded inside the palace system.</span><span class="dj-state">PLANNED</span><span class="dj-time">—</span></article>', '<a class="dj-toc-row is-live" href="/reading/dongjing-meng-hua-lu/05/"><span>05</span><div><h3>Inner Departments<small lang="zh-Hant">內諸司</small></h3></div><span class="dj-note">Writing, reception, security, treasuries, the Six Palace Bureaus, medicine and specialist court service.</span><span class="dj-state">LIVE</span><span class="dj-time">≈ 10 MIN</span></a>')
+          s=s.replace('<article class="dj-toc-row is-pending"><span>06</span><div><h3>Outer Offices<small lang="zh-Hant">外諸司</small></h3></div><span class="dj-note">Warehouses, workshops, supplies and the administrative metabolism outside the palace.</span><span class="dj-state">PLANNED</span><span class="dj-time">—</span></article>', '<article class="dj-toc-row is-pending"><span>06</span><div><h3>Outer Departments<small lang="zh-Hant">外諸司</small></h3></div><span class="dj-note">Warehouses, workshops, animals, fuel, grain depots and the administrative metabolism outside the palace.</span><span class="dj-state">NEXT</span><span class="dj-time">—</span></article>')
+          s=s.replace('<p>3 / 6 LIVE</p>', '<p>5 / 6 LIVE</p>', 1)
+          s=s.replace('<footer class="dj-footer"><span>READING / 003 / 3 OF 86 LIVE</span>', '<footer class="dj-footer"><span>READING / 003 / 5 OF 86 LIVE</span>')
+          p.write_text(s)
+          PY
+      - name: Refresh discovery assets
+        run: npm run build:discovery
+      - name: Commit final Reading updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reading/dongjing-meng-hua-lu/index.html feed.xml search-catalog.json pagefind 2>/dev/null || true
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Publish Dongjing entries 04 and 05"
+          git push origin HEAD:main
