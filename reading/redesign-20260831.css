@@ -1,6 +1,25 @@
 /* Reading index + Yantie Lun book-map cleanup, 2026-08-31.
    Direction: archive ledger / editorial contents, not poster tiles. */
 
+/* Qiji title face — Lingdong Huang / SIL OFL 1.1.
+   Keep it scoped to ancient-book display titles; body copy stays in the Reading text system. */
+@font-face{
+  font-family:"Galok Qiji";
+  src:url("https://github.com/LingDong-/qiji-font/releases/download/0.0.4/qiji.woff2") format("woff2");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+.reading-page .reading-book-title-zh,
+.reading-page .reading-term-card h3 span,
+.reading-room-page .reading-room-title h1{
+  font-family:"Galok Qiji","Songti SC","STSong","Noto Serif CJK TC","Noto Serif CJK SC",serif;
+  font-weight:400;
+  font-synthesis:none;
+}
+.reading-page .reading-book-title-zh{letter-spacing:.05em}
+.reading-room-page .reading-room-title h1{letter-spacing:.075em}
+
 /* ---------- Reading index: compact catalogue + margin note ---------- */
 .reading-page .reading-index-layout{
   grid-template-columns:minmax(0,1fr) minmax(300px,360px);
@@ -56,10 +75,9 @@
   display:block;
   margin-top:9px;
   color:var(--reading-muted);
-  font-family:"Songti SC","STSong","Noto Serif CJK SC",serif;
   font-size:.66em;
-  font-weight:500;
-  letter-spacing:.03em;
+  font-weight:400;
+  letter-spacing:.06em;
 }
 .reading-page .reading-term-en,
 .reading-page .reading-term-jp p{
