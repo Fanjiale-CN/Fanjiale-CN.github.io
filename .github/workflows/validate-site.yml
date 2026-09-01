@@ -78,6 +78,12 @@ jobs:
           cat /tmp/galok-static-server.log
           exit 1
 
+      - name: Verify Reading display font resolution
+        env:
+          BASE_URL: http://127.0.0.1:4173
+          CHROME_PATH: /usr/bin/google-chrome
+        run: node scripts/runtime-reading-display-font.mjs
+
       - name: Run browser accessibility audit
         id: runtime_a11y
         continue-on-error: true
