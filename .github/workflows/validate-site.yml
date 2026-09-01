@@ -164,3 +164,12 @@ jobs:
           test "${{ steps.runtime_radar.outcome }}" = "success"
           test "${{ steps.visual.outcome }}" = "success"
           test "${{ steps.lighthouse.outcome }}" = "success"
+      - name: Verify production routes after deployment
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && success()
+        env:
+          BASE_URL: https://www.galok.me
+          RELEASE_SHA: ${{ github.sha }}
+          MAX_ATTEMPTS: "20"
+          RETRY_DELAY_MS: "15000"
+        run: node scripts/verify-production-routes.mjs
+

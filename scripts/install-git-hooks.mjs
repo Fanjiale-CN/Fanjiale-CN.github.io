@@ -26,8 +26,13 @@ if (!existsSync(hooksDir)) {
 }
 
 const hookPath = join(gitDir, "hooks", "pre-push");
-const hook = `#!/bin/sh\nset -eu\n\necho "[galok] Running lightweight pre-push gate..."\nnpm run release:core\nnpm run check:generated-clean\n`;
+const hook = `#!/bin/sh
+set -eu
+
+echo "[galok] Running full release gate..."
+npm run release
+`;
 
 writeFileSync(hookPath, hook, "utf8");
 chmodSync(hookPath, 0o755);
-console.log("[hooks] Installed lightweight pre-push gate.");
+console.log("[hooks] Installed full release gate pre-push hook.");
