@@ -203,6 +203,27 @@
     "url": "/reading/"
   },
   {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Panlou East Streets — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu Entry 12, Panlou East Streets: the Ghost Market before dawn, branching streets, tea, medicine, wine, ovens and horse trading.",
+    "url": "/reading/dongjing-meng-hua-lu/12/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Wine Houses — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu Entry 13, Wine Houses: Rendian",
+    "url": "/reading/dongjing-meng-hua-lu/13/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Food & Fruit — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu Entry 14, Food and Fruit: the table as a market of workers, intermediaries, performers, vendors, made-to-order dishes and regional goods.",
+    "url": "/reading/dongjing-meng-hua-lu/14/"
+  },
+  {
     "type": "research",
     "label": "Research",
     "title": "Research",

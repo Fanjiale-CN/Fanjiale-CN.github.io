@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail CI when the Galok Reading serif font cannot render the current Reading CJK corpus."""
+"""Fail CI when the Galok Reading serif stack cannot render the current Reading CJK corpus."""
 
 from __future__ import annotations
 
@@ -12,93 +12,70 @@ from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parents[1]
 READING_ROOT = ROOT / "reading"
-FONT_PATH = ROOT / "assets" / "fonts" / "genryu-reading-tw.woff2"
-
-# Punctuation deliberately expected from the Reading serif subset.
+SERIF_PATHS = [
+    ROOT / "assets" / "fonts" / "genryu-reading-tw.woff2",
+    ROOT / "assets" / "fonts" / "hanamin-reading-rare.woff2",
+]
 REQUIRED_PUNCTUATION = set("，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　")
 
 
 def is_cjk(ch: str) -> bool:
     cp = ord(ch)
-    return (
-        0x3400 <= cp <= 0x4DBF
-        or 0x4E00 <= cp <= 0x9FFF
-        or 0xF900 <= cp <= 0xFAFF
-        or 0x20000 <= cp <= 0x2FA1F
-    )
+    return 0x3400 <= cp <= 0x4DBF or 0x4E00 <= cp <= 0x9FFF or 0xF900 <= cp <= 0xFAFF or 0x20000 <= cp <= 0x2FA1F
 
 
 class VisibleTextParser(HTMLParser):
-    """Collect visible text while ignoring script/style/template contents."""
-
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.skip_depth = 0
         self.parts: list[str] = []
-
     def handle_starttag(self, tag: str, attrs) -> None:
-        if tag in {"script", "style", "template", "noscript"}:
-            self.skip_depth += 1
-
+        if tag in {"script", "style", "template", "noscript"}: self.skip_depth += 1
     def handle_endtag(self, tag: str) -> None:
-        if tag in {"script", "style", "template", "noscript"} and self.skip_depth:
-            self.skip_depth -= 1
-
+        if tag in {"script", "style", "template", "noscript"} and self.skip_depth: self.skip_depth -= 1
     def handle_data(self, data: str) -> None:
-        if not self.skip_depth:
-            self.parts.append(data)
+        if not self.skip_depth: self.parts.append(data)
 
 
 def collect_corpus() -> tuple[set[str], dict[str, set[str]]]:
     corpus = set(REQUIRED_PUNCTUATION)
     sources: dict[str, set[str]] = defaultdict(set)
-
     for path in sorted(READING_ROOT.rglob("*.html")):
-        parser = VisibleTextParser()
-        parser.feed(path.read_text(encoding="utf-8", errors="ignore"))
-        visible = "".join(parser.parts)
+        parser = VisibleTextParser(); parser.feed(path.read_text(encoding="utf-8", errors="ignore"))
         rel = str(path.relative_to(ROOT))
-        for ch in visible:
+        for ch in "".join(parser.parts):
             if is_cjk(ch) or ch in REQUIRED_PUNCTUATION:
-                corpus.add(ch)
-                sources[ch].add(rel)
-
+                corpus.add(ch); sources[ch].add(rel)
     return corpus, sources
 
 
-def font_codepoints() -> set[int]:
-    font = TTFont(FONT_PATH)
-    cmap: set[int] = set()
-    for table in font["cmap"].tables:
-        cmap.update(table.cmap.keys())
+def font_codepoints(path: Path) -> set[int]:
+    font = TTFont(path); cmap: set[int] = set()
+    for table in font["cmap"].tables: cmap.update(table.cmap.keys())
     return cmap
 
 
 def main() -> int:
-    if not FONT_PATH.exists():
-        print(f"ERROR: Reading font missing: {FONT_PATH.relative_to(ROOT)}")
+    missing_files = [path for path in SERIF_PATHS if not path.exists()]
+    if missing_files:
+        for path in missing_files: print(f"ERROR: Reading font missing: {path.relative_to(ROOT)}")
+        print("Run: python scripts/build-reading-font-subsets.py")
         return 1
-
-    corpus, sources = collect_corpus()
-    cmap = font_codepoints()
+    corpus, sources = collect_corpus(); cmap: set[int] = set()
+    for path in SERIF_PATHS: cmap.update(font_codepoints(path))
     missing = sorted((ch for ch in corpus if ord(ch) not in cmap), key=ord)
-
-    covered = len(corpus) - len(missing)
-    coverage = (covered / len(corpus) * 100) if corpus else 100.0
+    covered = len(corpus) - len(missing); coverage = (covered / len(corpus) * 100) if corpus else 100.0
     print(f"Reading CJK corpus: {len(corpus)} characters")
-    print(f"GenRyu cmap coverage: {covered}/{len(corpus)} ({coverage:.4f}%)")
-
+    print(f"Reading serif stack coverage: {covered}/{len(corpus)} ({coverage:.4f}%)")
     if missing:
-        print("\nERROR: Reading font coverage must be 100%. Missing glyphs:")
+        print("\nERROR: Reading serif stack coverage must be 100%. Missing glyphs:")
         for ch in missing:
             where = ", ".join(sorted(sources.get(ch, {"required punctuation set"})))
             print(f"  {ch}  U+{ord(ch):04X}  {where}")
-        print("\nRebuild assets/fonts/genryu-reading-tw.woff2 from the official GenRyu TW Regular source before release.")
+        print("\nRebuild the GenRyu + HanaMin Reading subsets before release.")
         return 1
-
-    print("PASS: Reading font cmap coverage is 100%.")
+    print("PASS: Reading serif stack cmap coverage is 100%.")
     return 0
 
 
-if __name__ == "__main__":
-    sys.exit(main())
+if __name__ == "__main__": sys.exit(main())
