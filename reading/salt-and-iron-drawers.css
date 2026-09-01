@@ -1,4 +1,5 @@
 /* Yantie Lun — volume drawer archive, adapted from the Dongjing Reading Room pattern. */
+@font-face{font-family:"Galok Reading Serif Yantie Drawer";src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260901-yantie-drawer") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 .reading-volume-archive{padding-top:clamp(78px,8vw,126px)}
 .reading-drawer-stack{border-top:1px solid var(--rr-ink)}
 .reading-volume-drawer{position:relative;border-bottom:1px solid var(--rr-rule)}
@@ -28,7 +29,7 @@
 .reading-drawer-entry:hover{background:rgba(255,255,255,.18)}
 .reading-drawer-entry>span:first-child{color:var(--rr-red);font:760 .62rem/1 ui-monospace,SFMono-Regular,Consolas,monospace}
 .reading-drawer-entry-title strong{display:block;font-size:1rem;line-height:1.3}
-.reading-drawer-entry-title small{display:block;margin-top:4px;color:var(--rr-muted);font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC",serif;font-size:.88rem;font-weight:400;font-synthesis:none}
+.reading-drawer-entry-title small{display:block;margin-top:4px;color:var(--rr-muted);font-family:"Galok Reading Serif Yantie Drawer","Galok Reading Serif TW","Noto Serif TC","Songti TC",serif;font-size:.88rem;font-weight:400;font-synthesis:none}
 .reading-drawer-entry-note{color:var(--rr-muted);font-family:Georgia,"Times New Roman",serif;font-size:.84rem;line-height:1.46}
 .reading-drawer-entry-state,.reading-drawer-entry-time{font:760 .54rem/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.07em}
 .reading-drawer-entry-state{color:var(--rr-red)}
