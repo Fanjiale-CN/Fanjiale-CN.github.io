@@ -1,0 +1,42 @@
+name: Patch Reading Volume II 10-11
+
+on:
+  push:
+    paths:
+      - ".github/workflows/patch-reading-volume2-10-11.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch Reading Room progress
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('reading/reading.js')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("if (progress) progress.textContent = '3 / 8';", "if (progress) progress.textContent = '5 / 8';")
+          s = s.replace("if (drawerSubtitle) drawerSubtitle.textContent = 'IN PROGRESS / ENTRY 10 NEXT';", "if (drawerSubtitle) drawerSubtitle.textContent = 'IN PROGRESS / ENTRY 12 NEXT';")
+          old = """    makeLive('09', '/reading/dongjing-meng-hua-lu/09/', 'Nightlife, schools, state medicine, ritual, military institutions and gate traffic share one southward axis.', '≈ 15 MIN');\n\n    const row10 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '10');\n    const state10 = row10?.querySelector('.dj-drawer-entry-state');\n    if (state10) state10.textContent = 'NEXT';"""
+          new = """    makeLive('09', '/reading/dongjing-meng-hua-lu/09/', 'Nightlife, schools, state medicine, ritual, military institutions and gate traffic share one southward axis.', '≈ 15 MIN');\n    makeLive('10', '/reading/dongjing-meng-hua-lu/10/', 'Seasonal food, live cooking, packaging, prices, late-night hours and the excavated Zhouqiao district.', '≈ 14 MIN');\n    makeLive('11', '/reading/dongjing-meng-hua-lu/11/', 'One market changes inventory from the fifth watch to evening before spilling into the wazi entertainment network.', '≈ 16 MIN');\n\n    const row12 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '12');\n    const state12 = row12?.querySelector('.dj-drawer-entry-state');\n    if (state12) state12.textContent = 'NEXT';"""
+          if old not in s:
+              raise SystemExit('Expected Volume II block not found')
+          s = s.replace(old, new)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Remove one-shot workflow
+        run: rm .github/workflows/patch-reading-volume2-10-11.yml
+      - name: Commit patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reading/reading.js .github/workflows/patch-reading-volume2-10-11.yml
+          git commit -m "feat(reading): mark Entries 10 and 11 live [skip ci]"
+          git push
