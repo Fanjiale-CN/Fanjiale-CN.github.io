@@ -1,0 +1,28 @@
+name: Temporary Yantie Font Artifact
+
+on:
+  push:
+    branches:
+      - feat/yantie-volume-drawers
+
+permissions:
+  contents: read
+
+jobs:
+  build-font:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+      - name: Install font tools
+        run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
+      - name: Build Reading font subsets
+        run: python scripts/build-reading-font-subsets.py
+      - name: Verify coverage
+        run: python scripts/check-reading-font-coverage.py
+      - name: Upload GenRyu artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: yantie-genryu-subset
+          path: assets/fonts/genryu-reading-tw.woff2
+          if-no-files-found: error
