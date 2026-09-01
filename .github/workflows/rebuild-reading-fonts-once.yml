@@ -1,64 +1,75 @@
-name: Rebuild Reading Artifacts
+name: Verify Reading Artifacts
 
 on:
-  push:
+  pull_request:
+    branches: [main]
     paths:
       - "reading/**/*.html"
+      - "reading/**/*.css"
+      - "reading/**/*.js"
+      - "assets/fonts/**"
       - "scripts/build-reading-font-subsets.py"
       - "scripts/check-reading-font-coverage.py"
       - "scripts/build-discovery.mjs"
+      - "scripts/verify-generated-discovery.mjs"
       - "scripts/runtime-discovery-search.mjs"
       - "scripts/validate-discovery.mjs"
       - ".github/workflows/rebuild-reading-fonts-once.yml"
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: reading-artifacts-${{ github.ref }}
+  group: verify-reading-artifacts-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  rebuild:
-    if: github.actor != 'github-actions[bot]'
+  verify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout branch
+      - name: Checkout pull request
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
       - name: Install font tools
         run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
+
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
+
       - name: Install site tools
         run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Build Reading font subsets
+
+      - name: Rebuild Reading font subsets in CI workspace
         run: python scripts/build-reading-font-subsets.py
-      - name: Verify Reading serif stack
+
+      - name: Verify Reading serif stack coverage
         run: python scripts/check-reading-font-coverage.py
-      - name: Rebuild discovery assets
-        run: npm run build:discovery
-      - name: Commit generated Reading artifacts
+
+      - name: Verify committed font artifacts are current
         run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
+          git diff --exit-code -- \
             assets/fonts/genryu-reading-tw.woff2 \
             assets/fonts/qiji-reading-title.woff2 \
-            assets/fonts/hanamin-reading-rare.woff2 \
-            sitemap.xml \
-            feed.xml \
-            index/search-catalog.json \
-            pagefind
-          if git diff --cached --quiet; then
-            echo "No generated Reading artifact changes."
-            exit 0
-          fi
-          git commit -m "chore(reading): rebuild fonts and discovery"
-          git push
+            assets/fonts/hanamin-reading-rare.woff2
+
+      - name: Rebuild and verify discovery assets
+        run: |
+          npm run build:discovery
+          node scripts/verify-generated-discovery.mjs
+
+      - name: Explain stale-artifact failures
+        if: failure()
+        run: |
+          echo "Reading artifacts are validation outputs, not bot-authored commits."
+          echo "Before pushing a Reading change, run:"
+          echo "  python scripts/build-reading-font-subsets.py"
+          echo "  python scripts/check-reading-font-coverage.py"
+          echo "  npm run build:discovery"
+          echo "  node scripts/verify-generated-discovery.mjs"
