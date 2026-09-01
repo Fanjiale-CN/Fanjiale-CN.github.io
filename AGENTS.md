@@ -23,6 +23,8 @@ Required order:
 
 Do not create one-off `*-preflight.yml`, `work/*-preflight.yml`, or task-specific GitHub Actions workflows just to modify, materialize, validate, or push a feature.
 
+Any workflow that must mutate repository contents must work on an isolated branch and open a pull request; never push generated or migrated content directly to `main`.
+
 Do not embed large scripts, compressed blobs, gzip/base64 payloads, or opaque generated code in workflow environment variables. Put executable logic in readable files under `scripts/` and call those files from the stable workflow or package scripts.
 
 Do not give a validation-only workflow `contents: write`. Use read-only permissions unless the workflow genuinely has to write repository contents.
