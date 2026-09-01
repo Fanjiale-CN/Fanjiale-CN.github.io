@@ -1,0 +1,56 @@
+name: Temporary Generate Dongjing V3 15-17 Artifacts
+
+on:
+  push:
+    branches:
+      - work/dongjing-volume3-15-17
+    paths:
+      - '.github/workflows/tmp-generate-dongjing-v3-1517.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v7
+        with:
+          ref: work/dongjing-volume3-15-17
+          fetch-depth: 0
+
+      - name: Install font tools
+        run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install site tools
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Build and verify Reading fonts
+        run: |
+          python scripts/build-reading-font-subsets.py
+          python scripts/check-reading-font-coverage.py
+
+      - name: Build and verify discovery
+        run: |
+          npm run build:discovery
+          node scripts/verify-generated-discovery.mjs
+
+      - name: Commit generated artifacts to feature branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/fonts/genryu-reading-tw.woff2 assets/fonts/qiji-reading-title.woff2 assets/fonts/hanamin-reading-rare.woff2 feed.xml search-catalog.json pagefind
+          if git diff --cached --quiet; then
+            echo "No generated artifact changes."
+            exit 0
+          fi
+          git commit -m "chore(reading): refresh Volume III artifacts"
+          git push origin HEAD:work/dongjing-volume3-15-17
