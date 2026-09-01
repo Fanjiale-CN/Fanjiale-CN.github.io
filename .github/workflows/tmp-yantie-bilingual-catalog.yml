@@ -1,0 +1,165 @@
+name: Temporary Yantie Bilingual Catalogue
+
+on:
+  push:
+    branches:
+      - feat/yantie-bilingual-chapter-titles
+    paths:
+      - '.github/workflows/tmp-yantie-bilingual-catalog.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+        with:
+          ref: feat/yantie-bilingual-chapter-titles
+          fetch-depth: 0
+
+      - name: Build static bilingual volume catalogue
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('reading/salt-and-iron/index.html')
+          text = path.read_text(encoding='utf-8')
+
+          volumes = {
+            1: [
+              (1,'本議','Ben Yi / Original Debate','live','The opening conference: hardship, war finance, commerce, junshu and pingzhun.','≈ 22 MIN'),
+              (2,'力耕','Li Geng / Farming','live','Agriculture, reserves, relief, trade, luxury goods and competing routes to wealth.','≈ 16 MIN'),
+              (3,'通有','Tong You / Circulation','live','Cities, geography, trade routes, circulation and the distribution of abundance.','≈ 17 MIN'),
+              (4,'錯幣','Cuo Bi / Coinage','live','Money, private minting, state control, wealth concentration and monetary trust.','≈ 18 MIN'),
+              (5,'禁耕','Jin Geng / Restricting Private Production','next','Power over salt and iron, private wealth and the costs of official control.','—'),
+              (6,'復古','Fu Gu / Returning to the Old','planned','A closing argument for Volume I over precedent, institutions and political memory.','—'),
+            ],
+            2: [(7,'非鞅','Fei Yang / In Criticism of Shang Yang'),(8,'晁錯','Chao Cuo / Chao Cuo'),(9,'刺權','Ci Quan / Taunting the Puissant'),(10,'刺復','Ci Fu / Thrust and Parry'),(11,'論儒','Lun Ru / Discoursing on Confucians'),(12,'憂邊','You Bian / Frontiers, the Great Concern')],
+            3: [(13,'園池','Yuan Chi / Parks and Ponds'),(14,'輕重','Qing Zhong / The Ratio of Production'),(15,'未通','Wei Tong / Undeveloped Wealth')],
+            4: [(16,'地廣','Di Guang / Territorial Expansion'),(17,'貧富','Pin Fu / The Poor and the Rich'),(18,'毀學','Hui Xue / Vilifying the Learned'),(19,'褒賢','Bao Xian / Extolling the Worthy')],
+            5: [(20,'相刺','Xiang Ci / Mutual Recriminations'),(21,'殊路','Shu Lu / How Ways Diverge'),(22,'訟賢','Song Xian / Impeaching the Worthy'),(23,'遵道','Zun Dao / Pursuing the Way'),(24,'論誹','Lun Fei / Assertions and Aspersions'),(25,'孝養','Xiao Yang / Filial Piety and Filial Support'),(26,'刺議','Ci Yi / Cutting Exchanges'),(27,'利議','Li Yi / Shrill Polemics'),(28,'國疾','Guo Ji / On National Ills')],
+            6: [(29,'散不足','San Bu Zu / Luxurious Life Leading to Insufficiencies'),(30,'救匱','Jiu Kui / Remedies for Deficiency'),(31,'箴石','Zhen Shi / The Diagnostics Stone for Government'),(32,'除狹','Chu Xia / On Escaping Narrow-mindedness'),(33,'疾貪','Ji Tan / Taking Corruption Seriously'),(34,'後刑','Hou Xing / The Minor Importance of the Penal Law'),(35,'授時','Shou Shi / Observing the Seasons'),(36,'水旱','Shui Han / Flood and Drought')],
+            7: [(37,'崇禮','Chong Li / Holding High the Rituals'),(38,'備胡','Bei Hu / On Preparedness against the Steppe Peoples'),(39,'執務','Zhi Wu / Holding High the Most Important Tasks'),(40,'能言','Neng Yan / Talking about Matters without Completing Them'),(41,'取下','Qu Xia / On the Fairness to Take Taxes from Those Below'),(42,'擊之','Ji Zhi / Making War against the Steppe Peoples')],
+            8: [(43,'結和','Jie He / Concluding Peace with the Steppe Peoples'),(44,'誅秦','Zhu Qin / About the Failure of the Qin Dynasty'),(45,'伐功','Fa Gong / The Advantage of Expansionist Politics'),(46,'西域','Xi Yu / The Usefulness of the Protectorate of the Western Territories'),(47,'世務','Shi Wu / The Political Challenges of the Present Age'),(48,'和親','He Qin / Appeasement by Marriage Alliance')],
+            9: [(49,'繇役','Yao Yi / On Tax and Corvée Labour'),(50,'險固','Xian Gu / On Border Defence'),(51,'論勇','Lun Yong / About the Use of Military Bravery'),(52,'論功','Lun Gong / About the Use of Military Force'),(53,'論鄒','Lun Zou / About Zou Yan’s Theory of Governing the Empire'),(54,'論菑','Lun Zai / About Natural Disasters')],
+            10: [(55,'刑德','Xing De / Administration by the Penal Law and Government by Virtue'),(56,'申韓','Shen Han / The Doctrines of Shen Buhai and Han Fei'),(57,'周秦','Zhou Qin / The Government Styles of Zhou and Qin'),(58,'詔聖','Zhao Sheng / Exhortation to Follow the Path of the Saints'),(59,'大論','Da Lun / Summary'),(60,'雜論','Za Lun / Miscellaneous Notes to the Book')],
+          }
+          roman = {1:'I',2:'II',3:'III',4:'IV',5:'V',6:'VI',7:'VII',8:'VIII',9:'IX',10:'X'}
+
+          def row(item):
+              n, zh, en, *rest = item
+              if rest:
+                  state, note, time = rest
+                  tag = 'a' if state == 'live' else 'div'
+                  href = f' href="/reading/salt-and-iron/{n:02d}/"' if state == 'live' else ''
+                  state_label = {'live':'LIVE','next':'NEXT','planned':'PLANNED'}[state]
+                  cls = 'reading-drawer-entry' + ('' if state == 'live' else ' is-queued')
+                  return f'              <{tag} class="{cls}"{href}><span>{n:02d}</span><span class="reading-drawer-entry-title"><span class="reading-drawer-entry-zh" lang="zh-Hant">{zh}</span><strong>{en}</strong></span><span class="reading-drawer-entry-note">{note}</span><span class="reading-drawer-entry-state">{state_label}</span><span class="reading-drawer-entry-time">{time}</span></{tag}>'
+              return f'              <div class="reading-drawer-entry reading-drawer-entry--catalogue is-queued"><span>{n:02d}</span><span class="reading-drawer-entry-title"><span class="reading-drawer-entry-zh" lang="zh-Hant">{zh}</span><strong>{en}</strong></span><span class="reading-drawer-entry-state">QUEUED</span><span class="reading-drawer-entry-time">—</span></div>'
+
+          def volume(i):
+              items = volumes[i]
+              a, b = items[0][0], items[-1][0]
+              if i == 1:
+                  cls, opened = 'reading-volume-drawer is-current', ' open'
+                  title = 'OPENING ARGUMENTS'
+                  small = 'IN PROGRESS / POLICY + AGRICULTURE + TRADE + MONEY'
+                  progress = '4 / 6'
+                  intro = '<div class="reading-drawer-panel-intro"><h3>The debate opens by defining the state’s economic problem.</h3><p>The first four chapters move from fiscal necessity to farming, circulation and money. Chapters 05–06 remain next in the working sequence.</p></div>'
+              else:
+                  cls, opened = 'reading-volume-drawer', ''
+                  title = f'CHAPTERS {a:02d}–{b:02d}'
+                  small = f'QUEUED / {len(items)} CHAPTERS'
+                  progress = f'0 / {len(items)}'
+                  intro = f'<div class="reading-drawer-panel-intro reading-drawer-panel-intro--catalogue"><h3>Volume {roman[i]}.</h3><p>All {len(items)} source chapter titles are listed here. Reading pages remain queued until research and edition checking are complete.</p></div>'
+              rows = '\n'.join(row(item) for item in items)
+              return f'''        <details class="{cls}" id="volume-{i}" data-yantie-volume-drawer{opened}>
+          <summary><span class="reading-drawer-number">{roman[i]}</span><span class="reading-drawer-title"><b>{title}</b><small>{small}</small></span><span class="reading-drawer-range">{a:02d}–{b:02d}</span><span class="reading-drawer-progress">{progress}</span><span class="reading-drawer-status" aria-hidden="true"></span></summary>
+          <div class="reading-drawer-panel">
+            {intro}
+            <div class="reading-drawer-entries">
+{rows}
+            </div>
+          </div>
+        </details>'''
+
+          archive = '''    <section class="reading-room-section reading-volume-archive" id="volume-archive" aria-labelledby="archive-title" data-yantie-volume-archive>
+      <header class="reading-room-section-head"><p>01 / VOLUME ARCHIVE</p><div><h2 id="archive-title">Ten volumes. Sixty chapter titles.</h2><span>Every volume now carries its full bilingual source table of contents. Chinese chapter titles use the same display face as Dongjing Meng Hua Lu; English labels stay in the existing Reading hierarchy.</span></div></header>
+      <div class="reading-drawer-stack">
+''' + '\n'.join(volume(i) for i in range(1, 11)) + '''
+      </div>
+    </section>
+
+'''
+
+          start = text.index('    <section class="reading-room-section reading-volume-archive"')
+          end = text.index('    <section class="reading-room-section" id="reading-status"')
+          text = text[:start] + archive + text[end:]
+          text = text.replace('/reading/salt-and-iron-drawers.css?v=20260901a', '/reading/salt-and-iron-drawers.css?v=20260901b')
+          path.write_text(text, encoding='utf-8')
+
+          # Keep the title font deterministic: Qiji gets every Yantie chapter title,
+          # while GenRyu remains a complete fallback for the same title corpus.
+          build = Path('scripts/build-reading-font-subsets.py')
+          src = build.read_text(encoding='utf-8')
+          yantie_titles = '本議力耕通有錯幣禁耕復古非鞅晁錯刺權刺復論儒憂邊園池輕重未通地廣貧富毀學褒賢相刺殊路訟賢遵道論誹孝養刺議利議國疾散不足救匱箴石除狹疾貪後刑授時水旱崇禮備胡執務能言取下擊之結和誅秦伐功西域世務和親繇役險固論勇論功論鄒論菑刑德申韓周秦詔聖大論雜論'
+          marker = '    "潘樓東街巷酒樓飲食果子"\n)'
+          if yantie_titles not in src:
+              src = src.replace(marker, f'    "潘樓東街巷酒樓飲食果子"\n    "{yantie_titles}"\n)')
+          corpus_marker = 'def reading_characters() -> set[str]:\n    chars = set(REQUIRED_PUNCTUATION)\n'
+          if 'chars.update(TITLE_TEXT)' not in src:
+              src = src.replace(corpus_marker, corpus_marker + '    chars.update(TITLE_TEXT)\n')
+          build.write_text(src, encoding='utf-8')
+
+          # Sanity-check the static archive before font work.
+          from html.parser import HTMLParser
+          class Counter(HTMLParser):
+              def __init__(self):
+                  super().__init__(); self.details = 0; self.zh = 0
+              def handle_starttag(self, tag, attrs):
+                  d = dict(attrs)
+                  if tag == 'details' and 'data-yantie-volume-drawer' in d: self.details += 1
+                  if 'class' in d and 'reading-drawer-entry-zh' in d['class'].split(): self.zh += 1
+          c = Counter(); c.feed(text)
+          assert c.details == 10, c.details
+          assert c.zh == 60, c.zh
+          PY
+
+      - name: Install font tools
+        run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
+
+      - name: Rebuild Reading font subsets
+        run: python scripts/build-reading-font-subsets.py
+
+      - name: Verify Reading serif coverage
+        run: python scripts/check-reading-font-coverage.py
+
+      - name: Verify Qiji covers all Yantie chapter titles
+        run: |
+          python - <<'PY'
+          from fontTools.ttLib import TTFont
+          titles = set('本議力耕通有錯幣禁耕復古非鞅晁錯刺權刺復論儒憂邊園池輕重未通地廣貧富毀學褒賢相刺殊路訟賢遵道論誹孝養刺議利議國疾散不足救匱箴石除狹疾貪後刑授時水旱崇禮備胡執務能言取下擊之結和誅秦伐功西域世務和親繇役險固論勇論功論鄒論菑刑德申韓周秦詔聖大論雜論')
+          font = TTFont('assets/fonts/qiji-reading-title.woff2')
+          cmap = set()
+          for table in font['cmap'].tables:
+              cmap.update(table.cmap.keys())
+          missing = sorted(ch for ch in titles if ord(ch) not in cmap)
+          if missing:
+              raise SystemExit('Qiji missing Yantie title glyphs: ' + ' '.join(missing))
+          print(f'Qiji Yantie title coverage: {len(titles)}/{len(titles)}')
+          PY
+
+      - name: Commit catalogue and font artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reading/salt-and-iron/index.html scripts/build-reading-font-subsets.py assets/fonts/genryu-reading-tw.woff2 assets/fonts/qiji-reading-title.woff2 assets/fonts/hanamin-reading-rare.woff2
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+            exit 0
+          fi
+          git commit -m "feat(reading): publish bilingual Yantie chapter catalogue"
+          git push origin HEAD:feat/yantie-bilingual-chapter-titles
