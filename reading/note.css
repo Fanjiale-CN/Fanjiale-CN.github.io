@@ -21,3 +21,15 @@
   font-synthesis:none;
 }
 .reading-note-page .reading-article-hero-source .reading-source-columns span:first-child{font-weight:400}
+
+/* 2026-09-02 visual pass: finish the title hierarchy, navigation labels and chapter progress. */
+.reading-note-page .reading-article-title .reading-note-zh{margin-top:22px;color:var(--reading-ink,#161616);font-size:clamp(2rem,3.35vw,3.9rem);line-height:.94;letter-spacing:.07em}
+.reading-note-progress{position:relative;gap:14px;width:max-content;margin-top:28px;padding:7px 0}
+.reading-note-progress:before{content:"";position:absolute;left:5px;right:5px;top:50%;height:1px;background:#b9b1a4;transform:translateY(-50%)}
+.reading-note-progress span{position:relative;z-index:1;width:10px;height:10px;background:var(--reading-paper,#f3efe4);box-shadow:0 0 0 4px var(--reading-paper,#f3efe4)}
+.reading-note-progress span.is-live{background:#a52d28}
+.reading-note-progress span.is-current{width:13px;height:13px;background:#a52d28;border:2px solid var(--reading-paper,#f3efe4);outline:0;box-shadow:0 0 0 1px #a52d28,0 0 0 5px var(--reading-paper,#f3efe4)}
+.reading-note-nav small{font-family:"Galok Qiji Reading Notes",var(--font-sans,"Helvetica Neue",Arial,sans-serif);font-size:clamp(.68rem,.8vw,.78rem);font-weight:400;line-height:1.2;letter-spacing:.07em;font-synthesis:none}
+.reading-note-nav strong{font-size:clamp(1.05rem,1.45vw,1.35rem);line-height:1.15}
+.reading-note-nav a:hover small{color:#a52d28}
+@media(max-width:760px){.reading-note-page .reading-article-title .reading-note-zh{font-size:clamp(1.85rem,8.5vw,3rem)}}

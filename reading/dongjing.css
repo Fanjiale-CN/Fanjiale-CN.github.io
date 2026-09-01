@@ -56,3 +56,14 @@
     max-height:calc(68svh - 112px);
   }
 }
+
+/* 2026-09-02 Reading navigation normalization: old entry templates use the same display hierarchy as Volume III. */
+.dj-entry-nav small{
+  font-family:"Galok Qiji",var(--font-sans,"Helvetica Neue",Arial,sans-serif);
+  font-size:clamp(.68rem,.8vw,.78rem);
+  font-weight:400;
+  line-height:1.2;
+  letter-spacing:.07em;
+  font-synthesis:none;
+}
+.dj-entry-nav a:hover small{color:var(--dj-red)}
