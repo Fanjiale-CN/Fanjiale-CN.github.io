@@ -1,6 +1,6 @@
 name: Rebuild Reading Font Subsets Once
 
-# Re-run marker: Entry 09 added to the Reading corpus.
+# Re-run marker: Entries 10 and 11 added to the Reading corpus.
 on:
   push:
     paths:
