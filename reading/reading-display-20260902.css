@@ -1,0 +1,76 @@
+/* Reading display typography hotfix — 2026-09-02
+   Latin display text must use a Latin-capable editorial face.
+   Qiji is intentionally a CJK-only subset and must never be first in a Latin stack. */
+
+:root{
+  --reading-display-latin:"Galok Bagnard","Galok Gambetta","EB Garamond",Georgia,"Times New Roman",serif;
+  --reading-display-cjk:"Galok Qiji","Galok Qiji V3 1517","Galok Qiji Reading Notes","Galok Reading Serif TW","Galok Reading Serif V3 1517","Songti TC","STSong","Noto Serif TC",serif;
+}
+
+/* Previous / Next — never fall back to Helvetica/Heiti. */
+.dongjing-page .dj-entry-nav small,
+.dongjing-page .dj-entry-nav strong,
+.dongjing-page .dj-v3-entry-nav small,
+.dongjing-page .dj-v3-entry-nav strong,
+.reading-note-page .reading-note-nav small,
+.reading-note-page .reading-note-nav strong{
+  font-family:var(--reading-display-latin);
+  font-weight:400;
+  font-synthesis:none;
+}
+
+.dongjing-page .dj-entry-nav strong,
+.dongjing-page .dj-v3-entry-nav strong{
+  font-family:"Galok Bagnard","Galok Qiji","Galok Qiji V3 1517","Galok Reading Serif TW","Galok Reading Serif V3 1517",Georgia,"Songti TC",serif;
+}
+
+/* Volume III embedded diagrams / explanatory UI: display typography, not body UI sans. */
+.dj15-page :is(.dj15-strip,.dj15-evidence) :is(small,b,span),
+.dj16-page :is(.dj16-route,.dj16-fourfold) :is(small,b,span),
+.dj17-page :is(.dj17-landing,.dj17-people) :is(small,b,span),
+.dj17-page .dj17-next :is(small,strong,em){
+  font-family:var(--reading-display-latin);
+  font-weight:400;
+  font-synthesis:none;
+}
+
+.dj15-page :is(.dj15-strip,.dj15-evidence) :lang(zh-Hant),
+.dj16-page :is(.dj16-route,.dj16-fourfold) :lang(zh-Hant),
+.dj17-page :is(.dj17-landing,.dj17-people,.dj17-next) :lang(zh-Hant){
+  font-family:var(--reading-display-cjk)!important;
+  font-weight:400!important;
+  font-synthesis:none;
+}
+
+.dj15-page .dj15-strip small,
+.dj16-page :is(.dj16-route,.dj16-fourfold) small,
+.dj17-page :is(.dj17-landing,.dj17-people) small{
+  font-size:clamp(.72rem,.9vw,.86rem);
+  line-height:1.12;
+  letter-spacing:.06em;
+}
+
+.dj15-page .dj15-strip b,
+.dj16-page :is(.dj16-route,.dj16-fourfold) b,
+.dj17-page .dj17-people b{
+  font-size:clamp(1.45rem,2.5vw,2.65rem);
+  line-height:.94;
+  letter-spacing:-.018em;
+}
+
+.dj17-page .dj17-landing b{
+  font-size:clamp(1.75rem,3.25vw,3.7rem);
+  line-height:.9;
+  letter-spacing:-.022em;
+}
+.dj17-page .dj17-landing span{
+  font-size:clamp(1.18rem,1.75vw,1.72rem);
+  line-height:1.25;
+}
+
+/* Yantie Lun: Chinese chapter title remains the CJK display face. */
+.reading-note-page .reading-article-title .reading-note-zh{
+  font-family:var(--reading-display-cjk)!important;
+  font-weight:400!important;
+  font-synthesis:none;
+}
