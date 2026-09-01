@@ -44,8 +44,8 @@
     const currentDrawer = dongjingArchive.querySelector('#volume-2');
     const progress = currentDrawer?.querySelector('.dj-drawer-progress');
     const drawerSubtitle = currentDrawer?.querySelector('.dj-drawer-title small');
-    if (progress) progress.textContent = '3 / 8';
-    if (drawerSubtitle) drawerSubtitle.textContent = 'IN PROGRESS / ENTRY 10 NEXT';
+    if (progress) progress.textContent = '5 / 8';
+    if (drawerSubtitle) drawerSubtitle.textContent = 'IN PROGRESS / ENTRY 12 NEXT';
 
     const rows = [...(currentDrawer?.querySelectorAll('.dj-drawer-entry') || [])];
 
@@ -74,10 +74,12 @@
     makeLive('07', '/reading/dongjing-meng-hua-lu/07/', 'Barriers, controlled movement, imperial drains and Xuanhe-period planting.', '≈ 8 MIN');
     makeLive('08', '/reading/dongjing-meng-hua-lu/08/', 'Offices, envoy lodging, jewelers, markets and food share one remembered route.', '≈ 12 MIN');
     makeLive('09', '/reading/dongjing-meng-hua-lu/09/', 'Nightlife, schools, state medicine, ritual, military institutions and gate traffic share one southward axis.', '≈ 15 MIN');
+    makeLive('10', '/reading/dongjing-meng-hua-lu/10/', 'Seasonal food, live cooking, packaging, prices, late-night hours and the excavated Zhouqiao district.', '≈ 14 MIN');
+    makeLive('11', '/reading/dongjing-meng-hua-lu/11/', 'One market changes inventory from the fifth watch to evening before spilling into the wazi entertainment network.', '≈ 16 MIN');
 
-    const row10 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '10');
-    const state10 = row10?.querySelector('.dj-drawer-entry-state');
-    if (state10) state10.textContent = 'NEXT';
+    const row12 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '12');
+    const state12 = row12?.querySelector('.dj-drawer-entry-state');
+    if (state12) state12.textContent = 'NEXT';
   }
 
   const previewData = {
