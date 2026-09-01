@@ -1,0 +1,101 @@
+/* Dongjing Meng Hua Lu — Entry 09 / Zhuque Gate south axis */
+@font-face{font-family:"Galok Qiji Entry09";src:url("/assets/fonts/qiji-reading-title.woff2?v=20260901a") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Galok Reading Serif Entry09";src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260901a") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+
+.dj09-page{--dj09-paper:#f2ede0;--dj09-ink:#171713;--dj09-muted:#716b60;--dj09-rule:#c9c0b0;--dj09-red:#a22d28;--dj09-jade:#254f47;--dj09-soft:#e7dfd1}
+.dj09-page :lang(zh-Hant){font-family:"Galok Reading Serif Entry09","Songti TC","STSong","Noto Serif TC",serif;font-weight:400;font-synthesis:none}
+.dj09-page .dj-entry-title .dj-title-zh{font-family:"Galok Qiji Entry09","Galok Reading Serif Entry09","Songti TC",serif!important;font-weight:400!important;font-synthesis:none}
+.dj09-page .dj-entry-title h1{font-size:clamp(4.1rem,7.4vw,8.2rem);letter-spacing:.04em;max-width:8em}
+.dj09-page .dj-entry-title h2{max-width:9ch}
+
+.dj09-axis{padding:clamp(72px,8vw,122px) 0;border-bottom:1px solid var(--dj09-ink)}
+.dj09-axis-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.5fr);gap:54px;align-items:end;margin-bottom:46px}
+.dj09-axis-head small{display:block;margin-bottom:20px;color:var(--dj09-red);font:760 .58rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em}
+.dj09-axis-head h2{margin:0;max-width:900px;font-size:clamp(3rem,5.3vw,6.2rem);font-weight:590;line-height:.88;letter-spacing:-.055em}
+.dj09-axis-head>p{max-width:56ch;margin:0;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:1rem;line-height:1.62}
+
+.dj09-axis-map{position:relative;display:grid;grid-template-columns:minmax(220px,.8fr) 72px minmax(300px,1.35fr);gap:0;border-top:1px solid var(--dj09-ink);border-bottom:1px solid var(--dj09-ink)}
+.dj09-axis-map:before{content:"";position:absolute;left:calc(minmax(220px,.8fr));display:none}
+.dj09-route-labels{display:grid;grid-template-rows:repeat(4,minmax(190px,1fr));border-left:1px solid var(--dj09-rule)}
+.dj09-route-band{padding:24px 22px;border-bottom:1px solid var(--dj09-rule);transition:background-color .2s ease}
+.dj09-route-band:last-child{border-bottom:0}
+.dj09-route-band small{display:block;margin-bottom:36px;color:var(--dj09-red);font:760 .53rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj09-route-band b{display:block;font-size:clamp(1.45rem,2vw,2.15rem);font-weight:650;line-height:1.05;letter-spacing:-.02em}
+.dj09-route-band span{display:block;margin-top:10px;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.82rem;line-height:1.45}
+.dj09-route-band.is-active{background:rgba(162,45,40,.055)}
+
+.dj09-spine{position:relative;border-left:1px solid var(--dj09-rule);border-right:1px solid var(--dj09-rule);background:linear-gradient(90deg,transparent calc(50% - 1px),var(--dj09-red) calc(50% - 1px),var(--dj09-red) calc(50% + 1px),transparent calc(50% + 1px))}
+.dj09-spine i{position:absolute;left:50%;width:13px;height:13px;transform:translate(-50%,-50%);border:2px solid var(--dj09-red);background:var(--dj09-paper);border-radius:50%;transition:background-color .2s ease,transform .2s ease}
+.dj09-spine i:nth-child(1){top:12.5%}.dj09-spine i:nth-child(2){top:37.5%}.dj09-spine i:nth-child(3){top:62.5%}.dj09-spine i:nth-child(4){top:87.5%}
+.dj09-spine i.is-active{background:var(--dj09-red);transform:translate(-50%,-50%) scale(1.22)}
+
+.dj09-stop-lists{display:grid;grid-template-rows:repeat(4,minmax(190px,1fr));border-right:1px solid var(--dj09-rule)}
+.dj09-stop-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-bottom:1px solid var(--dj09-rule)}
+.dj09-stop-group:last-child{border-bottom:0}
+.dj09-stop{padding:23px 24px;border-right:1px solid var(--dj09-rule);min-width:0;transition:background-color .2s ease}
+.dj09-stop:nth-child(even){border-right:0}
+.dj09-stop small{display:block;margin-bottom:30px;color:var(--dj09-red);font:760 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em}
+.dj09-stop b{display:block;font-family:"Galok Reading Serif Entry09","Songti TC",serif;font-size:1.08rem;font-weight:400;line-height:1.28;font-synthesis:none}
+.dj09-stop span{display:block;margin-top:7px;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.74rem;line-height:1.4}
+.dj09-stop.is-active{background:rgba(162,45,40,.045)}
+.dj09-axis-note{display:grid;grid-template-columns:180px 1fr;gap:48px;padding-top:18px;color:var(--dj09-muted)}
+.dj09-axis-note small{color:var(--dj09-red);font:760 .55rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj09-axis-note p{max-width:78ch;margin:0;font-family:Georgia,"Times New Roman",serif;font-size:.9rem;line-height:1.6}
+
+.dj09-reading-section{scroll-margin-top:120px}
+.dj09-text-unit{margin:28px 0 22px;border-top:1px solid var(--dj09-ink);border-bottom:1px solid var(--dj09-ink)}
+.dj09-text-unit header{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--dj09-rule);font:760 .57rem/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj09-text-unit header span:first-child{color:var(--dj09-red)}
+.dj09-text-unit blockquote{margin:0;padding:30px 0 26px;font-family:"Galok Reading Serif Entry09","Songti TC","STSong","Noto Serif TC",serif;font-size:clamp(1.45rem,2.15vw,2.25rem);font-weight:400;line-height:1.66;letter-spacing:.018em;font-synthesis:none}
+.dj09-text-unit footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:11px 0;border-top:1px solid var(--dj09-rule);color:var(--dj09-muted);font:700 .55rem/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em}
+.dj09-text-unit footer a{text-decoration:none}.dj09-text-unit footer a:hover{color:var(--dj09-red)}
+
+.dj09-medicine{display:grid;grid-template-columns:150px 1fr;gap:30px;margin:32px 0 10px;padding:24px;border:1px solid var(--dj09-rule);background:rgba(255,255,255,.1)}
+.dj09-medicine-mark{display:grid;place-items:center;min-height:150px;border:1px solid var(--dj09-red);color:var(--dj09-red);font-family:"Galok Qiji Entry09","Galok Reading Serif Entry09",serif;font-size:clamp(2.7rem,5vw,5.2rem);writing-mode:vertical-rl;letter-spacing:.08em}
+.dj09-medicine-copy small{display:block;margin-bottom:18px;color:var(--dj09-red);font:760 .56rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+.dj09-medicine-copy h3{margin:0 0 12px;font-size:clamp(1.8rem,2.8vw,3rem);line-height:1;letter-spacing:-.04em}
+.dj09-medicine-copy p{margin:0;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.94rem;line-height:1.65}
+
+.dj09-later{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:center;margin:32px 0 10px;padding:20px 0;border-top:1px solid var(--dj09-rule);border-bottom:1px solid var(--dj09-rule)}
+.dj09-later small{color:var(--dj09-red);font:760 .55rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj09-later b{font-family:"Galok Reading Serif Entry09","Songti TC",serif;font-size:1.28rem;font-weight:400;font-synthesis:none}
+.dj09-later a{text-decoration:none;font:760 .55rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.07em;border-bottom:1px solid var(--dj09-rule)}
+.dj09-later a:hover{color:var(--dj09-red);border-color:var(--dj09-red)}
+
+.dj09-variant{margin:24px 0;border-top:1px solid var(--dj09-rule);border-bottom:1px solid var(--dj09-rule)}
+.dj09-variant summary{cursor:pointer;padding:14px 0;color:var(--dj09-red);font:760 .57rem/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em;list-style:none}
+.dj09-variant summary::-webkit-details-marker{display:none}.dj09-variant summary:after{content:"+";float:right;color:var(--dj09-ink);font-size:.9rem}.dj09-variant[open] summary:after{content:"−"}
+.dj09-variant p{margin:0;padding:0 0 16px;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.92rem;line-height:1.62}
+.dj09-variant p span{color:var(--dj09-ink);font-family:"Galok Reading Serif Entry09","Songti TC",serif;font-synthesis:none}
+
+.dj09-gate-ending{margin-top:clamp(72px,8vw,118px);border-top:1px solid var(--dj09-ink);border-bottom:1px solid var(--dj09-ink)}
+.dj09-gate-ending header{display:grid;grid-template-columns:180px 1fr;gap:48px;padding:18px 0;border-bottom:1px solid var(--dj09-rule)}
+.dj09-gate-ending header small{color:var(--dj09-red);font:760 .55rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj09-gate-ending header p{margin:0;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.9rem;line-height:1.55}
+.dj09-gate-rules{display:grid;grid-template-columns:1fr 1fr}
+.dj09-gate-rule{min-height:310px;padding:38px;border-right:1px solid var(--dj09-rule);display:flex;flex-direction:column;justify-content:space-between}
+.dj09-gate-rule:last-child{border-right:0}
+.dj09-gate-rule small{color:var(--dj09-red);font:760 .56rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+.dj09-gate-rule blockquote{margin:0;font-family:"Galok Qiji Entry09","Galok Reading Serif Entry09",serif;font-size:clamp(2.6rem,4.7vw,5.5rem);font-weight:400;line-height:1.05;letter-spacing:.04em;font-synthesis:none}
+.dj09-gate-rule p{max-width:46ch;margin:26px 0 0;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.9rem;line-height:1.55}
+.dj09-gate-rule--pig{background:rgba(162,45,40,.045)}
+.dj09-gate-rule--pig blockquote{color:var(--dj09-red)}
+
+@media(max-width:1000px){
+  .dj09-axis-head{grid-template-columns:1fr;gap:22px}
+  .dj09-axis-map{grid-template-columns:180px 54px 1fr}
+  .dj09-stop-group{grid-template-columns:1fr 1fr}
+  .dj09-axis-note{grid-template-columns:1fr;gap:10px}
+  .dj09-gate-ending header{grid-template-columns:1fr;gap:10px}
+}
+@media(max-width:760px){
+  .dj09-page .dj-entry-title h1{font-size:clamp(3rem,14vw,5.4rem);line-height:.9}
+  .dj09-axis{padding:64px 0}
+  .dj09-axis-map{grid-template-columns:1fr 36px;overflow:hidden}
+  .dj09-route-labels{grid-column:1;grid-row:1}.dj09-spine{grid-column:2;grid-row:1}.dj09-stop-lists{grid-column:1/-1;grid-row:2;border-left:1px solid var(--dj09-rule);margin-top:22px}
+  .dj09-route-band{min-height:150px}.dj09-stop-group{grid-template-columns:1fr 1fr}.dj09-stop{min-height:130px}
+  .dj09-medicine{grid-template-columns:1fr}.dj09-medicine-mark{writing-mode:horizontal-tb;min-height:100px}
+  .dj09-later{grid-template-columns:1fr;gap:10px}
+  .dj09-gate-rules{grid-template-columns:1fr}.dj09-gate-rule{border-right:0;border-bottom:1px solid var(--dj09-rule);min-height:260px}.dj09-gate-rule:last-child{border-bottom:0}
+}
+@media(prefers-reduced-motion:reduce){.dj09-route-band,.dj09-spine i,.dj09-stop{transition:none}}
