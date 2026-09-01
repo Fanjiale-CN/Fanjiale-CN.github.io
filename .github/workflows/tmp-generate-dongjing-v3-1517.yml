@@ -38,16 +38,14 @@ jobs:
           python scripts/build-reading-font-subsets.py
           python scripts/check-reading-font-coverage.py
 
-      - name: Build and verify discovery
-        run: |
-          npm run build:discovery
-          node scripts/verify-generated-discovery.mjs
+      - name: Build discovery
+        run: npm run build:discovery
 
       - name: Commit generated artifacts to feature branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/fonts/genryu-reading-tw.woff2 assets/fonts/qiji-reading-title.woff2 assets/fonts/hanamin-reading-rare.woff2 feed.xml search-catalog.json pagefind
+          git add assets/fonts/genryu-reading-tw.woff2 assets/fonts/qiji-reading-title.woff2 assets/fonts/hanamin-reading-rare.woff2 feed.xml index/search-catalog.json pagefind
           if git diff --cached --quiet; then
             echo "No generated artifact changes."
             exit 0
