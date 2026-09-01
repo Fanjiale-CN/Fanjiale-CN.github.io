@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - feat/yantie-volume-drawers
+    paths:
+      - '.github/workflows/tmp-yantie-font-artifact.yml'
+      - 'reading/salt-and-iron/**'
+      - 'reading/salt-and-iron-drawers.css'
+      - 'reading/salt-and-iron-drawers.js'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-font:
@@ -14,15 +19,22 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v7
+        with:
+          ref: feat/yantie-volume-drawers
       - name: Install font tools
         run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
       - name: Build Reading font subsets
         run: python scripts/build-reading-font-subsets.py
       - name: Verify coverage
         run: python scripts/check-reading-font-coverage.py
-      - name: Upload GenRyu artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: yantie-genryu-subset
-          path: assets/fonts/genryu-reading-tw.woff2
-          if-no-files-found: error
+      - name: Commit regenerated GenRyu subset
+        run: |
+          if git diff --quiet -- assets/fonts/genryu-reading-tw.woff2; then
+            echo "GenRyu subset already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/fonts/genryu-reading-tw.woff2
+          git commit -m "chore(reading): refresh serif subset for Yantie drawer"
+          git push origin HEAD:feat/yantie-volume-drawers
