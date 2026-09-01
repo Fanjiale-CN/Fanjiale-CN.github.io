@@ -7,6 +7,13 @@
     "url": "/"
   },
   {
+    "type": "site",
+    "label": "Galok",
+    "title": "About",
+    "excerpt": "Galok is a personal magazine of economic observation and city memory, published through essays, photography, data and moving image.",
+    "url": "/about/"
+  },
+  {
     "type": "city",
     "label": "Cities",
     "title": "Beijing — The City Along an Axis",
@@ -54,6 +61,13 @@
     "title": "Xi’an — Terracotta Army and China’s Ancient Capital",
     "excerpt": "Explore Xi’an through its imperial history, the Terracotta Army, the ancient city wall and the modern city beyond them.",
     "url": "/be-a-viewer/xian/"
+  },
+  {
+    "type": "city",
+    "label": "Cities",
+    "title": "Cities / BE A VIEWER",
+    "excerpt": "Cities / BE A VIEWER enters Chinese cities through moving images, close observation and independent visual stories.",
+    "url": "/cities/"
   },
   {
     "type": "data",
