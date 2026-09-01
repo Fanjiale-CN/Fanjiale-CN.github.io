@@ -7,13 +7,6 @@
     "url": "/"
   },
   {
-    "type": "site",
-    "label": "Galok",
-    "title": "About",
-    "excerpt": "Galok is a personal magazine of economic observation and city memory, published through essays, photography, data and moving image.",
-    "url": "/about/"
-  },
-  {
     "type": "city",
     "label": "Cities",
     "title": "Beijing — The City Along an Axis",
@@ -61,13 +54,6 @@
     "title": "Xi’an — Terracotta Army and China’s Ancient Capital",
     "excerpt": "Explore Xi’an through its imperial history, the Terracotta Army, the ancient city wall and the modern city beyond them.",
     "url": "/be-a-viewer/xian/"
-  },
-  {
-    "type": "city",
-    "label": "Cities",
-    "title": "Cities / BE A VIEWER",
-    "excerpt": "Cities / BE A VIEWER enters Chinese cities through moving images, close observation and independent visual stories.",
-    "url": "/cities/"
   },
   {
     "type": "data",
@@ -201,6 +187,27 @@
     "title": "Reading",
     "excerpt": "Reading by Galok puts Chinese historical texts beside modern questions, with editions, context, source trails and the limits of comparison kept visible.",
     "url": "/reading/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Panlou East Streets — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu Entry 12, Panlou East Streets: the Ghost Market before dawn, branching streets, tea, medicine, wine, ovens and horse trading.",
+    "url": "/reading/dongjing-meng-hua-lu/12/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Wine Houses — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu Entry 13, Wine Houses: Rendian",
+    "url": "/reading/dongjing-meng-hua-lu/13/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Food & Fruit — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu Entry 14, Food and Fruit: the table as a market of workers, intermediaries, performers, vendors, made-to-order dishes and regional goods.",
+    "url": "/reading/dongjing-meng-hua-lu/14/"
   },
   {
     "type": "research",
