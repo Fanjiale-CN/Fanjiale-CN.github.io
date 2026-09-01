@@ -4,12 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       confirm:
-        description: Type MIGRATE_GALOK_MEDIA to upload and switch production media references
+        description: Type MIGRATE_GALOK_MEDIA to upload media and prepare a review PR
         required: true
         type: string
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: galok-r2-media-migration
@@ -41,6 +42,14 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+
+      - name: Create isolated migration branch
+        env:
+          BRANCH_NAME: ops/r2-media-migration-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          git fetch origin main
+          git checkout -b "$BRANCH_NAME" origin/main
+          echo "BRANCH_NAME=$BRANCH_NAME" >> "$GITHUB_ENV"
 
       - name: Set up Node.js
         uses: actions/setup-node@v7
@@ -80,6 +89,9 @@ jobs:
         run: node scripts/release-check.mjs
 
       - name: Commit verified reference changes
+        id: commit
+        env:
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -87,9 +99,17 @@ jobs:
           git add sitemap.xml feed.xml index/search-catalog.json pagefind reports/media-edge-migration-result.json
           if git diff --cached --quiet; then
             echo "No reference changes to commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "Migrate production media to R2"
-          git fetch origin main
-          git rebase origin/main
-          git push origin HEAD:main
+          git push --set-upstream origin HEAD:"$BRANCH_NAME"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Open migration pull request
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+        run: |
+          gh pr create             --base main             --head "$BRANCH_NAME"             --title "ops: review R2 media migration"             --body "This PR contains the verified production media reference changes prepared by the manual R2 migration workflow. Merge only after the required site validation and production deployment checks pass."
