@@ -44,8 +44,8 @@
     const currentDrawer = dongjingArchive.querySelector('#volume-2');
     const progress = currentDrawer?.querySelector('.dj-drawer-progress');
     const drawerSubtitle = currentDrawer?.querySelector('.dj-drawer-title small');
-    if (progress) progress.textContent = '2 / 8';
-    if (drawerSubtitle) drawerSubtitle.textContent = 'IN PROGRESS / ENTRY 09 NEXT';
+    if (progress) progress.textContent = '3 / 8';
+    if (drawerSubtitle) drawerSubtitle.textContent = 'IN PROGRESS / ENTRY 10 NEXT';
 
     const rows = [...(currentDrawer?.querySelectorAll('.dj-drawer-entry') || [])];
 
@@ -73,10 +73,11 @@
 
     makeLive('07', '/reading/dongjing-meng-hua-lu/07/', 'Barriers, controlled movement, imperial drains and Xuanhe-period planting.', '≈ 8 MIN');
     makeLive('08', '/reading/dongjing-meng-hua-lu/08/', 'Offices, envoy lodging, jewelers, markets and food share one remembered route.', '≈ 12 MIN');
+    makeLive('09', '/reading/dongjing-meng-hua-lu/09/', 'Nightlife, schools, state medicine, ritual, military institutions and gate traffic share one southward axis.', '≈ 15 MIN');
 
-    const row09 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '09');
-    const state09 = row09?.querySelector('.dj-drawer-entry-state');
-    if (state09) state09.textContent = 'NEXT';
+    const row10 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '10');
+    const state10 = row10?.querySelector('.dj-drawer-entry-state');
+    if (state10) state10.textContent = 'NEXT';
   }
 
   const previewData = {
