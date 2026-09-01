@@ -1,0 +1,22 @@
+/* Reading rare-glyph fallback — HanaMinB subset.
+   Loaded after entry-specific CSS so unsupported historical characters do not fall through
+   to Safari/system sans fonts. */
+@font-face{
+  font-family:"Galok Rare Serif";
+  src:url("/assets/fonts/hanamin-reading-rare.woff2?v=20260901a") format("woff2");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap
+}
+.dj12-page :lang(zh-Hant),
+.dj12-page .dj12-text-unit blockquote,
+.dj13-page :lang(zh-Hant),
+.dj13-page .dj13-text-unit blockquote,
+.dj14-page :lang(zh-Hant),
+.dj14-page .dj14-text-unit blockquote,
+.dj14-page .dj14-ticker,
+.dj14-page .dj14-role b,
+.dj14-page .dj14-center span{
+  font-family:"Galok Reading Serif TW","Galok Reading Serif Entry12","Galok Reading Serif Entry13","Galok Reading Serif Entry14","Galok Rare Serif","Songti TC","STSong","Noto Serif TC",serif;
+  font-synthesis:none
+}

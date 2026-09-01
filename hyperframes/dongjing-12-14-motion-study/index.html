@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Review-only motion study for Galok Reading Entries 12–14.">
+  <link rel="canonical" href="https://www.galok.me/hyperframes/dongjing-12-14-motion-study/">
+  <title>Dongjing 12–14 Motion Study — Galok</title>
+  <style>
+    :root{--paper:#f2ede0;--ink:#171713;--red:#a22d28;--jade:#254f47;--night:#151715;--muted:#716b60}
+    *{box-sizing:border-box}html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+    .skip-link{position:absolute;left:-9999px}.skip-link:focus{left:20px;top:20px;z-index:99;background:#fff;padding:12px}
+    [data-composition-id="dongjing-12-14-study"]{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper)}
+    .scene{position:absolute;inset:0;width:100%;height:100%;padding:110px 130px;display:flex;flex-direction:column;justify-content:space-between}
+    .scene header{display:flex;justify-content:space-between;border-bottom:1px solid;padding-bottom:18px;font:700 20px/1 monospace;letter-spacing:.1em}
+    .scene h1{margin:0;font-size:138px;line-height:.86;letter-spacing:-.065em;max-width:1500px}.scene p{max-width:900px;font:34px/1.45 Georgia,serif;color:var(--muted)}
+    .night{background:var(--night);color:#eee7d8}.night p{color:#aaa396}.night header{border-color:#565149}
+    .axis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid currentColor}.axis div{min-height:260px;padding:30px;border-right:1px solid}.axis div:last-child{border-right:0}.axis small{color:var(--red);font:700 18px monospace}.axis b{display:block;margin-top:90px;font-size:44px}
+    .building{display:grid;gap:0;border:1px solid}.building div{padding:28px;border-bottom:1px solid;font-size:36px}.building div:last-child{border:0}.building span{float:right;color:var(--red);font:700 18px monospace}
+    .orbit{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}.orbit div{padding:30px;border-top:2px solid var(--red);font-size:30px}.orbit b{display:block;margin-top:28px;font-size:46px}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#study">Skip to motion study</a>
+  <div id="study" data-composition-id="dongjing-12-14-study" data-width="1920" data-height="1080" data-start="0" data-duration="24" data-track-index="0">
+    <section class="scene" id="scene-cover" data-start="0" data-duration="5" data-track-index="1"><header><span>GALOK READING / MOTION STUDY</span><span>11 → 14</span></header><div><h1>DISTRICT → BUILDING → TABLE</h1><p>A review-only study for the narrowing scale of Volume II. Production pages do not load HyperFrames.</p></div></section>
+    <section class="scene night" id="scene-12" data-start="5" data-duration="6" data-track-index="1"><header><span>12 / 潘樓東街巷</span><span>AFTER DARK</span></header><div><h1>THE DISTRICT BRANCHES.</h1><div class="axis"><div><small>五更</small><b>GHOST MARKET</b></div><div><small>EAST</small><b>TEA + MEDICINE</b></div><div><small>SOUTH</small><b>OVENS + NIGHT MARKET</b></div><div><small>NORTH</small><b>HORSES + WINE</b></div></div></div></section>
+    <section class="scene" id="scene-13" data-start="11" data-duration="6" data-track-index="1"><header><span>13 / 酒樓</span><span>ANATOMY</span></header><div><h1>ENTER THE WINE HOUSE.</h1><div class="building"><div>飛橋欄檻 <span>UPPER TOWERS</span></div><div>小閤子 <span>PRIVATE ROOMS</span></div><div>南北天井 <span>COURTYARDS</span></div><div>主廊槏面 <span>MAIN CORRIDOR</span></div><div>綵樓歡門 <span>STREET FRONT</span></div></div></div></section>
+    <section class="scene" id="scene-14" data-start="17" data-duration="7" data-track-index="1"><header><span>14 / 飲食果子</span><span>SERVICE ECOLOGY</span></header><div><h1>THE TABLE IS A MARKET.</h1><div class="orbit"><div><small>HOUSE</small><b>茶飯量酒博士</b></div><div><small>INTERMEDIARY</small><b>閑漢 / 廝波</b></div><div><small>PERFORMANCE</small><b>劄客</b></div><div><small>HAWKERS</small><b>撒暫</b></div></div></div></section>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    tl.from("#scene-cover h1",{y:50,opacity:0,duration:.6,ease:"power3.out"},0)
+      .from("#scene-12 h1",{y:40,opacity:0,duration:.5,ease:"power3.out"},5)
+      .from("#scene-12 .axis div",{y:24,opacity:0,duration:.35,stagger:.08,ease:"power2.out"},5.25)
+      .from("#scene-13 .building div",{x:-24,opacity:0,duration:.35,stagger:.07,ease:"power2.out"},11.3)
+      .from("#scene-14 .orbit div",{y:24,opacity:0,duration:.35,stagger:.08,ease:"power2.out"},17.3);
+    window.__timelines["dongjing-12-14-study"] = tl;
+  </script>
+</body>
+</html>

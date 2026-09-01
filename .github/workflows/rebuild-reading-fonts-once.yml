@@ -1,135 +1,64 @@
-name: Rebuild Reading Font Subsets Once
+name: Rebuild Reading Artifacts
 
-# Re-run marker: Entries 10 and 11 after unsupported glyph cleanup.
 on:
   push:
     paths:
+      - "reading/**/*.html"
+      - "scripts/build-reading-font-subsets.py"
+      - "scripts/check-reading-font-coverage.py"
+      - "scripts/build-discovery.mjs"
+      - "scripts/runtime-discovery-search.mjs"
+      - "scripts/validate-discovery.mjs"
       - ".github/workflows/rebuild-reading-fonts-once.yml"
 
 permissions:
   contents: write
 
+concurrency:
+  group: reading-artifacts-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   rebuild:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout branch
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
       - name: Install font tools
-        run: python -m pip install --upgrade fonttools brotli
-
-      - name: Download official font sources
-        run: |
-          set -euo pipefail
-          curl -L --fail --retry 3 \
-            -o /tmp/GenRyuMin2TW-R.otf \
-            https://raw.githubusercontent.com/ButTaiwan/genryu-font/master/otf/TW/GenRyuMin2TW-R.otf
-          curl -L --fail --retry 3 \
-            -o /tmp/qiji-combo.ttf \
-            https://github.com/LingDong-/qiji-font/releases/download/0.0.4/qiji-combo.ttf
-
-      - name: Build Reading character sets
-        run: |
-          python - <<'PY'
-          from html.parser import HTMLParser
-          from pathlib import Path
-
-          root = Path('reading')
-          punctuation = set('，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　')
-
-          def is_cjk(ch):
-              cp = ord(ch)
-              return (
-                  0x3400 <= cp <= 0x4DBF
-                  or 0x4E00 <= cp <= 0x9FFF
-                  or 0xF900 <= cp <= 0xFAFF
-                  or 0x20000 <= cp <= 0x2FA1F
-              )
-
-          class Parser(HTMLParser):
-              def __init__(self):
-                  super().__init__(convert_charrefs=True)
-                  self.skip = 0
-                  self.parts = []
-              def handle_starttag(self, tag, attrs):
-                  if tag in {'script','style','template','noscript'}:
-                      self.skip += 1
-              def handle_endtag(self, tag):
-                  if tag in {'script','style','template','noscript'} and self.skip:
-                      self.skip -= 1
-              def handle_data(self, data):
-                  if not self.skip:
-                      self.parts.append(data)
-
-          chars = set(punctuation)
-          for path in root.rglob('*.html'):
-              p = Parser()
-              p.feed(path.read_text(encoding='utf-8', errors='ignore'))
-              for ch in ''.join(p.parts):
-                  if is_cjk(ch) or ch in punctuation:
-                      chars.add(ch)
-
-          Path('/tmp/reading-chars.txt').write_text(''.join(sorted(chars, key=ord)), encoding='utf-8')
-
-          title_text = (
-              '鹽鐵論管子東京夢華錄'
-              '東都外城舊京城河道大內內諸司外諸司御街'
-              '宣德樓前省府宮宇朱雀門外街巷州橋夜市東角樓街巷'
-              '潘樓東街巷酒樓飲食果子'
-          )
-          Path('/tmp/reading-title-chars.txt').write_text(title_text, encoding='utf-8')
-          PY
-
-      - name: Subset GenRyu body serif
-        run: |
-          pyftsubset /tmp/GenRyuMin2TW-R.otf \
-            --text-file=/tmp/reading-chars.txt \
-            --output-file=assets/fonts/genryu-reading-tw.woff2 \
-            --flavor=woff2 \
-            --layout-features='*' \
-            --glyph-names \
-            --symbol-cmap \
-            --legacy-cmap \
-            --notdef-glyph \
-            --notdef-outline \
-            --recommended-glyphs \
-            --name-IDs='*' \
-            --name-legacy \
-            --name-languages='*'
-
-      - name: Subset Qiji display face
-        run: |
-          pyftsubset /tmp/qiji-combo.ttf \
-            --text-file=/tmp/reading-title-chars.txt \
-            --output-file=assets/fonts/qiji-reading-title.woff2 \
-            --flavor=woff2 \
-            --layout-features='*' \
-            --glyph-names \
-            --symbol-cmap \
-            --legacy-cmap \
-            --notdef-glyph \
-            --notdef-outline \
-            --recommended-glyphs \
-            --name-IDs='*' \
-            --name-legacy \
-            --name-languages='*'
-
-      - name: Verify 100% Reading CJK coverage
+        run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install site tools
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Build Reading font subsets
+        run: python scripts/build-reading-font-subsets.py
+      - name: Verify Reading serif stack
         run: python scripts/check-reading-font-coverage.py
-
-      - name: Commit regenerated subsets
+      - name: Rebuild discovery assets
+        run: npm run build:discovery
+      - name: Commit generated Reading artifacts
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/fonts/genryu-reading-tw.woff2 assets/fonts/qiji-reading-title.woff2
+          git add \
+            assets/fonts/genryu-reading-tw.woff2 \
+            assets/fonts/qiji-reading-title.woff2 \
+            assets/fonts/hanamin-reading-rare.woff2 \
+            sitemap.xml \
+            feed.xml \
+            index/search-catalog.json \
+            pagefind
           if git diff --cached --quiet; then
-            echo "No font changes."
+            echo "No generated Reading artifact changes."
             exit 0
           fi
-          git commit -m "fix(reading): refresh Chinese font coverage [skip ci]"
+          git commit -m "chore(reading): rebuild fonts and discovery"
           git push

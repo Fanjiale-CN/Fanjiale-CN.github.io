@@ -20,7 +20,9 @@
     "ci:radar": "node scripts/validate-radar.mjs",
     "ci:radar:runtime": "node scripts/runtime-radar.mjs",
     "ci:visual": "node scripts/visual-acceptance.mjs || node scripts/allow-benign-media-aborts.mjs",
-    "ci:experience": "node scripts/validate-experience-platform.mjs"
+    "ci:experience": "node scripts/validate-experience-platform.mjs",
+    "build:reading-fonts": "python scripts/build-reading-font-subsets.py",
+    "check:reading-fonts": "python scripts/check-reading-font-coverage.py"
   },
   "devDependencies": {
     "@axe-core/puppeteer": "^4.13.0",

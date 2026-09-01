@@ -9,7 +9,10 @@ const tests = [
   ["Galaxy SOHO", "/be-a-viewer/beijing/", "city"],
   ["鼓浪屿", "/be-a-viewer/xiamen/", "city"],
   ["source-visible ledger", "/radar/", "radar"],
-  ["youth unemployment", "/data/", "data"]
+  ["youth unemployment", "/data/", "data"],
+  ["Ghost Market", "/reading/dongjing-meng-hua-lu/12/", "reading"],
+  ["zhengdian", "/reading/dongjing-meng-hua-lu/13/", "reading"],
+  ["劄客", "/reading/dongjing-meng-hua-lu/14/", "reading"]
 ];
 
 const browser = await puppeteer.launch({ executablePath: chromePath, headless: true, args: ["--no-sandbox"] });
