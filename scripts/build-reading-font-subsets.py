@@ -26,6 +26,7 @@ TITLE_TEXT = (
     "東都外城舊京城河道大內內諸司外諸司御街"
     "宣德樓前省府宮宇朱雀門外街巷州橋夜市東角樓街巷"
     "潘樓東街巷酒樓飲食果子"
+    "本議力耕通有錯幣禁耕復古非鞅晁錯刺權刺復論儒憂邊園池輕重未通地廣貧富毀學褒賢相刺殊路訟賢遵道論誹孝養刺議利議國疾散不足救匱箴石除狹疾貪後刑授時水旱崇禮備胡執務能言取下擊之結和誅秦伐功西域世務和親繇役險固論勇論功論鄒論菑刑德申韓周秦詔聖大論雜論"
 )
 
 
@@ -60,6 +61,7 @@ class VisibleTextParser(HTMLParser):
 
 def reading_characters() -> set[str]:
     chars = set(REQUIRED_PUNCTUATION)
+    chars.update(TITLE_TEXT)
     for path in sorted(READING_ROOT.rglob("*.html")):
         parser = VisibleTextParser()
         parser.feed(path.read_text(encoding="utf-8", errors="ignore"))
