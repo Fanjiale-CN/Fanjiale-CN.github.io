@@ -78,24 +78,37 @@ function priorityFor(route) {
   if (route.startsWith("/essays/") || route.startsWith("/research/") || route.startsWith("/reading/")) return ["0.9", "monthly"];
   return ["0.7", "monthly"];
 }
+function isDirectoryIndex(relativePath) {
+  return relativePath === "index.html" || relativePath.endsWith("/index.html");
+}
+function preferCanonicalCandidate(candidate, existing) {
+  if (!existing) return true;
+  if (candidate.indexable !== existing.indexable) return candidate.indexable;
+  if (candidate.searchable !== existing.searchable) return candidate.searchable;
+  if (isDirectoryIndex(candidate.relativePath) !== isDirectoryIndex(existing.relativePath)) return isDirectoryIndex(candidate.relativePath);
+  return candidate.relativePath.length > existing.relativePath.length;
+}
 function discoverPages() {
-  const seenCanonicals = new Map(); const pages = [];
+  const canonicalPages = new Map();
   for (const path of walk(root).sort()) {
     const relativePath = relative(root, path).split(sep).join("/");
     if (relativePath === "404.html" || relativePath.includes("_archive")) continue;
     const html = readFileSync(path, "utf8");
     const canonical = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1];
-    if (!canonical || !canonical.startsWith(`${origin}/`) || seenCanonicals.has(canonical)) continue;
-    seenCanonicals.set(canonical, relativePath);
+    if (!canonical || !canonical.startsWith(`${origin}/`)) continue;
     const robots = metaContent(html, "robots").toLowerCase();
     const noindex = robots.includes("noindex");
     const explicitSearch = metaContent(html, "galok:search").toLowerCase() === "include";
-    const indexable = !noindex; const searchable = indexable || explicitSearch;
+    const indexable = !noindex;
+    const searchable = indexable || explicitSearch;
     const title = decodeHtml(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "Galok").replace(/\s+[—|]\s+GALOK$/i, "");
-    const description = decodeHtml(metaContent(html, "description")); const route = new URL(canonical).pathname;
-    pages.push({ relativePath, route, canonical, html, title, description, type: typeFor(relativePath), lastmod: lastModified(relativePath), indexable, searchable });
+    const description = decodeHtml(metaContent(html, "description"));
+    const route = new URL(canonical).pathname;
+    const candidate = { relativePath, route, canonical, html, title, description, type: typeFor(relativePath), lastmod: lastModified(relativePath), indexable, searchable };
+    const existing = canonicalPages.get(canonical);
+    if (preferCanonicalCandidate(candidate, existing)) canonicalPages.set(canonical, candidate);
   }
-  return pages.sort((a, b) => a.route.localeCompare(b.route));
+  return [...canonicalPages.values()].sort((a, b) => a.route.localeCompare(b.route));
 }
 function buildSitemap(pages) {
   const rows = pages.map((page) => { const [priority, changefreq] = priorityFor(page.route); return `  <url>\n    <loc>${escapeXml(page.canonical)}</loc>\n    <lastmod>${page.lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`; });
