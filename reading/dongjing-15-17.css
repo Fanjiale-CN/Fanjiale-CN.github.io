@@ -65,3 +65,46 @@
   letter-spacing:.025em;
   font-synthesis:none;
 }
+
+/* 2026-09-02 visual pass 2: remove heavy fallback labels and push compact diagrams into the Reading display hierarchy. */
+.dj15-page .dj15-strip b,
+.dj16-page .dj16-route b,
+.dj16-page .dj16-fourfold b,
+.dj17-page .dj17-landing b,
+.dj17-page .dj17-people b{
+  font-family:"Galok Qiji V3 1517",var(--font-sans,"Helvetica Neue",Arial,sans-serif);
+  font-weight:400;
+  letter-spacing:.015em;
+  font-synthesis:none;
+}
+.dj15-page .dj15-strip small,
+.dj16-page .dj16-route small,
+.dj16-page .dj16-fourfold small,
+.dj17-page .dj17-landing small,
+.dj17-page .dj17-people small{
+  font-family:"Galok Qiji V3 1517",var(--font-sans,"Helvetica Neue",Arial,sans-serif);
+  font-size:clamp(.64rem,.78vw,.76rem);
+  font-weight:400;
+  line-height:1.15;
+  letter-spacing:.065em;
+  font-synthesis:none;
+}
+.dj15-page .dj15-strip span,
+.dj16-page .dj16-route span,
+.dj16-page .dj16-fourfold span,
+.dj17-page .dj17-landing span,
+.dj17-page .dj17-people span{
+  font-size:clamp(1.05rem,1.4vw,1.5rem);
+  line-height:1.28;
+}
+.dj17-page .dj17-landing b{font-size:clamp(1.55rem,2.9vw,3.3rem);line-height:.9}
+.dj17-page .dj17-landing span{font-size:clamp(1.1rem,1.5vw,1.58rem);line-height:1.28}
+.dj-v3-entry-nav small{
+  font-family:"Galok Qiji V3 1517",var(--font-sans,"Helvetica Neue",Arial,sans-serif);
+  font-size:clamp(.68rem,.8vw,.78rem);
+  font-weight:400;
+  line-height:1.2;
+  letter-spacing:.07em;
+  font-synthesis:none;
+}
+.dj-v3-entry-nav strong{font-size:clamp(1.3rem,2.15vw,2.15rem)}
