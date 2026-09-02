@@ -2,6 +2,7 @@ name: Reading Typography Maintenance
 
 on:
   workflow_dispatch:
+  # Bootstrap trigger for this migration branch only; removed before merge.
   push:
     branches:
       - work/reading-source-han-unification
