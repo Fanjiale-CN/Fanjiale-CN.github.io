@@ -43,6 +43,9 @@ jobs:
         run: |
           python scripts/migrate-reading-source-han.py
           rm -f scripts/migrate-reading-source-han.py
+          # The permanent PR validation workflow is edited separately through the GitHub API.
+          # Keep it out of the runner-generated commit so the Actions token never needs workflows permission.
+          git checkout HEAD -- .github/workflows/rebuild-reading-fonts-once.yml
 
       - name: Build canonical Reading fonts from official sources
         run: python scripts/build-reading-font-subsets.py
