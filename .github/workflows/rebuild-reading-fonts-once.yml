@@ -1,69 +1,46 @@
-name: Verify Reading Artifacts
+name: TEMP Build Reading Canonical Fonts
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "reading/**/*.html"
-      - "reading/**/*.css"
-      - "reading/**/*.js"
-      - "assets/fonts/**"
-      - "scripts/check-reading-font-coverage.py"
-      - "scripts/reading-display-glyphs.txt"
-      - "scripts/build-reading-font-subsets.py"
-      - "scripts/build-discovery.mjs"
-      - "scripts/run-discovery-build.mjs"
-      - "assets/fonts/qijic-reading-fixed-*.woff2"
-      - "assets/fonts/genryu-reading-fixed-v3.woff2"
-      - "scripts/verify-generated-discovery.mjs"
-      - "scripts/runtime-discovery-search.mjs"
-      - "scripts/validate-discovery.mjs"
-      - ".github/workflows/rebuild-reading-fonts-once.yml"
-  workflow_dispatch:
+  push:
+    branches:
+      - tmp/reading-canonical-build-20260902
 
 permissions:
-  contents: read
-
-concurrency:
-  group: verify-reading-artifacts-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  contents: write
 
 jobs:
-  verify:
+  build:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout pull request
+      - name: Checkout helper branch
         uses: actions/checkout@v7
         with:
+          ref: tmp/reading-canonical-build-20260902
           fetch-depth: 0
 
       - name: Install font tools
         run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
 
-      - name: Set up Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
+      - name: Build and validate three canonical Reading fonts
+        run: python scripts/helper-rebuild-reading-canonical.py
 
-      - name: Install site tools
-        run: npm ci --ignore-scripts --no-audit --no-fund
-
-      - name: Verify semantic Reading font coverage
-        run: python scripts/check-reading-font-coverage.py
-
-      - name: Rebuild and verify discovery assets
+      - name: Prove only canonical font binaries changed
         run: |
-          npm run build:discovery
-          node scripts/verify-generated-discovery.mjs
+          git status --short
+          test -f assets/fonts/genryu-reading-tw.woff2
+          test -f assets/fonts/qiji-reading-title.woff2
+          test -f assets/fonts/hanamin-reading-rare.woff2
 
-      - name: Explain Reading artifact failures
-        if: failure()
+      - name: Commit generated canonical fonts to helper branch
         run: |
-          echo "Reading uses fixed font assets; routine content must not create supplement fonts."
-          echo "Before pushing a Reading change, run:"
-          echo "  npm run check:reading-fonts"
-          echo "  npm run build:discovery"
-          echo "  node scripts/verify-generated-discovery.mjs"
-          echo "If font coverage is genuinely missing, update the relevant fixed/base font in one typography-maintenance commit."
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- \
+            assets/fonts/genryu-reading-tw.woff2 \
+            assets/fonts/qiji-reading-title.woff2 \
+            assets/fonts/hanamin-reading-rare.woff2
+          git diff --cached --exit-code && { echo "ERROR: canonical build produced no changes"; exit 1; } || true
+          git commit -m "chore(temp): build canonical Reading fonts [skip ci]"
+          git push origin HEAD:tmp/reading-canonical-build-20260902
