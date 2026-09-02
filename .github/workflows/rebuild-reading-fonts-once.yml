@@ -8,10 +8,13 @@ on:
       - "reading/**/*.css"
       - "reading/**/*.js"
       - "assets/fonts/**"
-      - "scripts/build-reading-font-subsets.py"
-      - "scripts/build-reading-font-supplements.py"
       - "scripts/check-reading-font-coverage.py"
+      - "scripts/reading-display-glyphs.txt"
+      - "scripts/build-reading-font-subsets.py"
       - "scripts/build-discovery.mjs"
+      - "scripts/run-discovery-build.mjs"
+      - "assets/fonts/qijic-reading-fixed-*.woff2"
+      - "assets/fonts/genryu-reading-fixed-v3.woff2"
       - "scripts/verify-generated-discovery.mjs"
       - "scripts/runtime-discovery-search.mjs"
       - "scripts/validate-discovery.mjs"
@@ -47,7 +50,7 @@ jobs:
       - name: Install site tools
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Verify frozen Reading fonts and cumulative supplements
+      - name: Verify semantic Reading font coverage
         run: python scripts/check-reading-font-coverage.py
 
       - name: Rebuild and verify discovery assets
@@ -58,9 +61,9 @@ jobs:
       - name: Explain Reading artifact failures
         if: failure()
         run: |
-          echo "Routine Reading content changes must not rebuild the frozen base fonts."
+          echo "Reading uses fixed font assets; routine content must not create supplement fonts."
           echo "Before pushing a Reading change, run:"
-          echo "  npm run build:reading-fonts"
           echo "  npm run check:reading-fonts"
           echo "  npm run build:discovery"
           echo "  node scripts/verify-generated-discovery.mjs"
+          echo "If font coverage is genuinely missing, update the relevant fixed/base font in one typography-maintenance commit."

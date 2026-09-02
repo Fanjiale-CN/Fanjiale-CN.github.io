@@ -12,7 +12,7 @@
     "ci:budget": "node scripts/check-resource-budgets.mjs",
     "ci:runtime": "node scripts/runtime-accessibility.mjs",
     "ci:report": "node scripts/write-ci-report.mjs",
-    "build:discovery": "node scripts/build-discovery.mjs && pagefind --site /tmp/galok-pagefind-source --output-path pagefind",
+    "build:discovery": "node scripts/run-discovery-build.mjs && pagefind --site /tmp/galok-pagefind-source --output-path pagefind",
     "ci:search": "node scripts/runtime-discovery-search.mjs",
     "ci:indexnow": "node scripts/notify-indexnow.mjs",
     "sync:observability": "node scripts/sync-observability.mjs",
@@ -22,7 +22,7 @@
     "ci:visual:base": "node scripts/visual-acceptance.mjs || node scripts/allow-benign-media-aborts.mjs",
     "ci:visual": "npm run ci:visual:base && node scripts/runtime-reading-visual.mjs",
     "ci:experience": "node scripts/validate-experience-platform.mjs",
-    "build:reading-fonts": "python scripts/build-reading-font-supplements.py",
+    "maintenance:reading-fonts": "python scripts/build-reading-font-subsets.py",
     "check:reading-fonts": "python scripts/check-reading-font-coverage.py"
   },
   "devDependencies": {
