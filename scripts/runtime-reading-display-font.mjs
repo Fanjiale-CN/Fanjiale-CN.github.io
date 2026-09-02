@@ -22,7 +22,7 @@ async function inspect(route, selectors) {
     const output = {
       stylesheets: [...document.styleSheets].map((sheet) => sheet.href).filter(Boolean),
       bagnardReady: document.fonts.check('16px "Galok Bagnard"', "PREVIOUS FOOD SOUP STEAMED BUNS"),
-      sourceHanReady: document.fonts.check('16px "Galok Source Han Serif TC"', "相國寺內萬姓交易 大內前州橋東街巷 本議 力耕"),
+      sourceHanReady: document.fonts.check('16px "Galok Source Han Serif TC"', "相國寺內萬姓交易 大內前州橋東街巷 本議 力耕 東京 釋名 卷三"),
       qijicBookTitleReady: document.fonts.check('16px "Galok QIJIC Book Title"', "東京夢華錄 鹽鐵論 管子"),
       nodes: {}
     };
@@ -57,23 +57,28 @@ try {
     entryTitle: ".dj-entry-title .dj-title-zh",
     primaryText: ".dj-v3-text-unit blockquote",
     thresholdChinese: ".dj18-threshold em[lang='zh-Hant']",
-    previous: ".dj-v3-entry-nav small"
+    previous: ".dj-v3-entry-nav small",
+    mixedEntryKicker: ".dj-entry-title p",
+    witnessCaption: ".dj-entry-source figcaption"
   });
   if (!entry18.stylesheets.some((href) => href.includes("reading-type-system.css"))) {
     failures.push("Dongjing 18: canonical reading-type-system.css is not loaded");
   }
   if (!entry18.sourceHanReady) failures.push("Dongjing 18: Galok Source Han Serif TC is not available after document.fonts.ready");
   if (!entry18.bagnardReady) failures.push("Dongjing 18: Galok Bagnard is not available after document.fonts.ready");
-  for (const key of ["entryTitle", "primaryText", "thresholdChinese"]) expectFamily(entry18, "Dongjing 18", key, "Galok Source Han Serif TC");
+  for (const key of ["entryTitle", "primaryText", "thresholdChinese", "mixedEntryKicker", "witnessCaption"]) expectFamily(entry18, "Dongjing 18", key, "Galok Source Han Serif TC");
   expectFamily(entry18, "Dongjing 18", "previous", "Galok Bagnard");
 
   const dongjingRoom = await inspect("/reading/dongjing-meng-hua-lu/", {
     bookTitle: ".reading-book-title-zh",
-    drawerChinese: ".dj-drawer-entry-title small[lang='zh-Hant']"
+    drawerChinese: ".dj-drawer-entry-title small[lang='zh-Hant']",
+    termLabel: ".dj-term-note > small",
+    termBody: ".dj-term-note p",
+    coverCaption: ".dj-room-art figcaption"
   });
   if (!dongjingRoom.qijicBookTitleReady) failures.push("Dongjing room: Galok QIJIC Book Title is not available after document.fonts.ready");
   expectFamily(dongjingRoom, "Dongjing room", "bookTitle", "Galok QIJIC Book Title");
-  expectFamily(dongjingRoom, "Dongjing room", "drawerChinese", "Galok Source Han Serif TC");
+  for (const key of ["drawerChinese", "termLabel", "termBody", "coverCaption"]) expectFamily(dongjingRoom, "Dongjing room", key, "Galok Source Han Serif TC");
 
   const yantieRoom = await inspect("/reading/salt-and-iron/", {
     bookTitle: ".reading-book-title-zh",
@@ -95,7 +100,7 @@ try {
     console.error("Reading typography regression detected:\n" + failures.map((item) => `- ${item}`).join("\n"));
     process.exitCode = 1;
   } else {
-    console.log("PASS: Source Han Serif TC resolves all ordinary Chinese; QIJIC is limited to explicit book titles; Bagnard remains Latin display.");
+    console.log("PASS: Source Han Serif TC resolves ordinary and mixed-label Chinese; QIJIC is limited to explicit book titles; Latin display families remain intact.");
     console.log(JSON.stringify({ entry18, dongjingRoom, yantieRoom, yantieChapter }, null, 2));
   }
 } finally {
