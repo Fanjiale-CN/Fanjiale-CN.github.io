@@ -1,4 +1,4 @@
-name: TEMP Finalize Reading Canonical Tree
+name: TEMP Promote Dongjing Entry 18
 
 on:
   push:
@@ -9,10 +9,10 @@ permissions:
   contents: write
 
 jobs:
-  finalize:
+  promote:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - name: Checkout helper branch
         uses: actions/checkout@v7
@@ -20,76 +20,83 @@ jobs:
           ref: tmp/reading-canonical-build-20260902
           fetch-depth: 0
 
-      - name: Install font tools
-        run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
-
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
 
-      - name: Install site tools
-        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install tools
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          python -m pip install --disable-pip-version-check --upgrade fonttools brotli
 
-      - name: Finalize canonical Reading tree
-        run: python scripts/helper-finalize-reading.py
-
-      - name: Fix checker self-scan
+      - name: Promote Entry 18 and connect Volume III navigation
         run: |
           python - <<'PY'
           from pathlib import Path
-          p = Path('scripts/check-reading-font-coverage.py')
-          s = p.read_text(encoding='utf-8')
-          old = '''        for path in base.rglob("*"):\n            if not path.is_file() or path.suffix.lower() not in {".html", ".css", ".js", ".mjs", ".py", ".yml", ".yaml"}:\n'''
-          new = '''        for path in base.rglob("*"):\n            if path.resolve() == Path(__file__).resolve():\n                continue\n            if not path.is_file() or path.suffix.lower() not in {".html", ".css", ".js", ".mjs", ".py", ".yml", ".yaml"}:\n'''
-          if s.count(old) != 1:
-              raise SystemExit('checker self-scan patch target mismatch')
-          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              s = p.read_text(encoding='utf-8')
+              if s.count(old) != 1:
+                  raise SystemExit(f'{path}: expected one match for {old!r}, got {s.count(old)}')
+              p.write_text(s.replace(old, new, 1), encoding='utf-8')
+
+          entry18 = Path('reading/dongjing-meng-hua-lu/18/index.html')
+          s = entry18.read_text(encoding='utf-8')
+          marker = '  <meta name="robots" content="noindex,follow">\n'
+          search_meta = '  <meta name="galok:search" content="include">\n'
+          if search_meta not in s:
+              if marker not in s:
+                  raise SystemExit('Entry 18 robots marker missing')
+              s = s.replace(marker, marker + search_meta, 1)
+          if s.count('<span>REVIEW</span>') != 1:
+              raise SystemExit('Entry 18 REVIEW marker mismatch')
+          s = s.replace('<span>REVIEW</span>', '<span>LIVE</span>', 1)
+          entry18.write_text(s, encoding='utf-8')
+
+          room = 'reading/dongjing-meng-hua-lu/index.html'
+          replace_once(room, 'VOLUME III / 3 OF 13', 'VOLUME III / 4 OF 13')
+          replace_once(room, 'Ten volumes. Seventeen entries live.', 'Ten volumes. Eighteen entries live.')
+          replace_once(room, '<b>HOW THE CITY WORKS</b><small>IN PROGRESS / SPECIALISTS + STATE + ARRIVAL</small>', '<b>HOW THE CITY WORKS</b><small>IN PROGRESS / SPECIALISTS + STATE + ARRIVAL + TEMPLE MARKET</small>')
+          replace_once(room, '<span class="dj-drawer-progress">3 / 13</span>', '<span class="dj-drawer-progress">4 / 13</span>')
+          replace_once(room, 'Volume III begins with medical specialization, the western government edge and a lodging corridor for arrivals. Next, the reader walks through Xiangguo Temple into a periodic market system.', 'Volume III begins with medical specialization, the western government edge and a lodging corridor for arrivals, then walks through Xiangguo Temple as a periodic market layered inside a religious complex.')
+          old18 = '<div class="dj-drawer-entry is-queued"><span>18</span><span class="dj-drawer-entry-title"><strong>Xiangguo Temple Market</strong><small lang="zh-Hant">相國寺內萬姓交易</small></span><span class="dj-drawer-entry-note">Periodic trade moves gate by gate through a religious complex.</span><span class="dj-drawer-entry-state">NEXT</span><span class="dj-drawer-entry-time">—</span></div>'
+          new18 = '<a class="dj-drawer-entry" href="/reading/dongjing-meng-hua-lu/18/"><span>18</span><span class="dj-drawer-entry-title"><strong>Xiangguo Temple Market</strong><small lang="zh-Hant">相國寺內萬姓交易</small></span><span class="dj-drawer-entry-note">Periodic trade moves gate by gate through a religious complex without erasing its ritual core.</span><span class="dj-drawer-entry-state">LIVE</span><span class="dj-drawer-entry-time">≈ 24 MIN</span></a>'
+          replace_once(room, old18, new18)
+
+          entry17 = 'reading/dongjing-meng-hua-lu/17/index.html'
+          oldnav = '<span><small>NEXT / QUEUED</small><strong>18 / 相國寺內萬姓交易</strong></span>'
+          newnav = '<a href="/reading/dongjing-meng-hua-lu/18/"><small>NEXT</small><strong>18 / 相國寺內萬姓交易</strong></a>'
+          replace_once(entry17, oldnav, newnav)
           PY
 
-      - name: Keep helper workflow out of generated commit
-        run: |
-          git checkout HEAD -- .github/workflows/rebuild-reading-fonts-once.yml
-          rm -rf scripts/__pycache__
+      - name: Keep temporary workflow out of content commit
+        run: git checkout HEAD -- .github/workflows/rebuild-reading-fonts-once.yml
 
-      - name: Verify canonical blob hashes are unchanged
-        run: |
-          test "$(git hash-object assets/fonts/genryu-reading-tw.woff2)" = "8cce61b0a81aef63fddf5bc83d08bc64a9c289dc"
-          test "$(git hash-object assets/fonts/qiji-reading-title.woff2)" = "122f8a4b46e8f52433a58a0e071d1cfeb0252d70"
-          test "$(git hash-object assets/fonts/hanamin-reading-rare.woff2)" = "b7dce39cd84dd60f02a75518f164ea9f0c66360e"
-
-      - name: Verify Python and JavaScript syntax
-        run: |
-          python -m py_compile scripts/check-reading-font-coverage.py scripts/build-reading-font-subsets.py
-          node --check reading/dongjing-08.js
-          rm -rf scripts/__pycache__
-
-      - name: Verify canonical Reading font coverage
+      - name: Verify typography remains valid
         run: python scripts/check-reading-font-coverage.py
 
-      - name: Rebuild discovery assets
+      - name: Rebuild discovery for newly live Entry 18
         run: npm run build:discovery
 
-      - name: Commit finalized content tree locally
+      - name: Commit promoted content locally
         run: |
           rm -rf scripts/__pycache__
-          git status --short
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git diff --cached --quiet && { echo "ERROR: finalizer produced no changes"; exit 1; }
-          git commit -m "chore(temp): finalize canonical Reading content [skip ci]"
+          git diff --cached --quiet && { echo "ERROR: promotion produced no changes"; exit 1; }
+          git commit -m "chore(temp): promote Dongjing Entry 18 [skip ci]"
 
-      - name: Verify discovery is reproducible from committed tree
+      - name: Verify generated discovery is reproducible
         run: node scripts/verify-generated-discovery.mjs
 
-      - name: Re-verify canonical hashes after commit
+      - name: Confirm Entry 18 is now searchable
         run: |
-          test "$(git hash-object assets/fonts/genryu-reading-tw.woff2)" = "8cce61b0a81aef63fddf5bc83d08bc64a9c289dc"
-          test "$(git hash-object assets/fonts/qiji-reading-title.woff2)" = "122f8a4b46e8f52433a58a0e071d1cfeb0252d70"
-          test "$(git hash-object assets/fonts/hanamin-reading-rare.woff2)" = "b7dce39cd84dd60f02a75518f164ea9f0c66360e"
-          test -z "$(git status --porcelain)"
+          test "$(node -e "const d=require('./index/search-catalog.json'); console.log(d.some(x=>String(x.url||'').includes('/reading/dongjing-meng-hua-lu/18/')) ? 'yes' : 'no')")" = "yes"
+          git status --porcelain
 
-      - name: Push finalized content tree to helper branch
+      - name: Push promoted content to helper branch
         run: git push origin HEAD:tmp/reading-canonical-build-20260902
