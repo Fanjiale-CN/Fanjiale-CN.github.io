@@ -20,7 +20,8 @@ const numericEntries = readdirSync(dongjingRoot, { withFileTypes: true })
   .sort((a, b) => a - b);
 
 const latestEntries = numericEntries.slice(-2).map((entry) => `/reading/dongjing-meng-hua-lu/${String(entry).padStart(2, "0")}/`);
-const routes = ["/reading/dongjing-meng-hua-lu/", ...latestEntries];
+const roomRoute = "/reading/dongjing-meng-hua-lu/";
+const routes = [roomRoute, ...latestEntries];
 const viewports = [
   ["mobile", 390, 844],
   ["tablet", 768, 1024],
@@ -37,9 +38,13 @@ const browser = await puppeteer.launch({
 });
 
 const isLocalRequest = (url) => url.startsWith(baseUrl);
-const routeLabel = (route) => route === "/reading/dongjing-meng-hua-lu/"
+const routeLabel = (route) => route === roomRoute
   ? "dongjing-room"
   : `dongjing-${route.split("/").filter(Boolean).at(-1)}`;
+
+const expectedChineseFamily = (route) => route === roomRoute
+  ? "Galok QIJIC Book Title"
+  : "Galok Source Han Serif TC";
 
 try {
   for (const [viewportName, width, height] of viewports) {
@@ -125,7 +130,8 @@ try {
       if (!response?.ok()) failures.push(`${viewportName} ${route}: HTTP ${result.status}`);
       if (metrics.mainHeight <= 0) failures.push(`${viewportName} ${route}: main content is not visible`);
       if (metrics.scrollWidth > metrics.clientWidth + 1) failures.push(`${viewportName} ${route}: horizontal overflow ${metrics.scrollWidth}/${metrics.clientWidth}`);
-      if (!metrics.zhFont?.includes("Galok QIJIC Reading")) failures.push(`${viewportName} ${route}: Chinese display did not resolve to QIJIC (${metrics.zhFont ?? "missing"})`);
+      const expectedZh = expectedChineseFamily(route);
+      if (!metrics.zhFont?.includes(expectedZh)) failures.push(`${viewportName} ${route}: Chinese display expected ${expectedZh}, got ${metrics.zhFont ?? "missing"}`);
       if (!metrics.latinFont?.includes("Galok Bagnard")) failures.push(`${viewportName} ${route}: Latin display did not resolve to Bagnard (${metrics.latinFont ?? "missing"})`);
       if (failedRequests.length) failures.push(`${viewportName} ${route}: failed local requests ${failedRequests.join(" | ")}`);
       if (pageErrors.length) failures.push(`${viewportName} ${route}: page errors ${pageErrors.join(" | ")}`);
@@ -153,6 +159,6 @@ if (failures.length) {
   console.error("Reading visual acceptance failed:\n" + failures.map((failure) => `- ${failure}`).join("\n"));
   process.exitCode = 1;
 } else {
-  console.log(`PASS: Reading visual acceptance covered ${routes.length} routes across ${viewports.length} viewports.`);
+  console.log(`PASS: Reading visual acceptance covered ${routes.length} routes across ${viewports.length} viewports under the Source Han/QIJIC role split.`);
   console.log(`Evidence: ${evidenceDirectory}`);
 }
