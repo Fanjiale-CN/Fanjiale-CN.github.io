@@ -39,7 +39,9 @@ jobs:
         run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Migrate Reading source tree
-        run: python scripts/migrate-reading-source-han.py
+        run: |
+          python scripts/migrate-reading-source-han.py
+          rm -f scripts/migrate-reading-source-han.py
 
       - name: Build canonical Reading fonts from official sources
         run: python scripts/build-reading-font-subsets.py
@@ -55,7 +57,6 @@ jobs:
 
       - name: Prepare final maintenance tree
         run: |
-          rm -f scripts/migrate-reading-source-han.py
           rm -rf scripts/__pycache__
           git status --short
 
