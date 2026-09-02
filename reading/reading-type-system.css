@@ -143,3 +143,43 @@
 @media (prefers-reduced-motion: reduce) {
   .dongjing-page *, .reading-note-page *, .reading-room-page *, .reading-page * { font-synthesis: none; }
 }
+
+/* Mixed Latin/CJK labels are not allowed to fall through to a platform tofu font.
+   Keep the original Latin texture first; Source Han owns any Chinese glyphs inside it. */
+:root {
+  --reading-mono-mixed: ui-monospace, SFMono-Regular, Consolas, "Galok Source Han Serif TC", "Galok HanaMin Reading", monospace;
+  --reading-serif-mixed: Georgia, "Galok Source Han Serif TC", "Galok HanaMin Reading", "Times New Roman", serif;
+}
+
+.dongjing-page .dj-kicker,
+.dongjing-page .dj-meta,
+.dongjing-page .dj-label,
+.dongjing-page .dj-room-title p,
+.dongjing-page .dj-room-art figcaption,
+.dongjing-page .dj-section-head > p,
+.dongjing-page .dj-toc-row > span:first-child,
+.dongjing-page .dj-toc-row .dj-state,
+.dongjing-page .dj-toc-row .dj-time,
+.dongjing-page .dj-book-map small,
+.dongjing-page .dj-book-map p,
+.dongjing-page .dj-scroll-caption p,
+.dongjing-page .dj-source-card small,
+.dongjing-page .dj-term-note > small,
+.dongjing-page .dj-footer,
+.dongjing-page .dj-entry-title p,
+.dongjing-page .dj-entry-source figcaption,
+.dongjing-page .dj-entry-side p,
+.dongjing-page .dj-entry-side a,
+.dongjing-page .dj-text-unit header {
+  font-family: var(--reading-mono-mixed) !important;
+}
+
+.dongjing-page .dj-room-deck p,
+.dongjing-page .dj-term-note p,
+.dongjing-page .dj-scroll-caption div,
+.dongjing-page .dj-source-card p,
+.dongjing-page .dj-entry-deck p,
+.dongjing-page .dj-prose > p:first-child,
+.dongjing-page .dj-translation {
+  font-family: var(--reading-serif-mixed) !important;
+}
