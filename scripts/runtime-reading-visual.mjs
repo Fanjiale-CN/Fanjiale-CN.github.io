@@ -63,7 +63,9 @@ try {
 
       const metrics = await page.evaluate(() => {
         const main = document.querySelector("main");
-        const zhTitle = document.querySelector(".dj-entry-title .dj-title-zh, .dj-room-title .dj-title-zh");
+        const entryChineseTitle = document.querySelector(".dj-entry-title .dj-title-zh");
+        const bookChineseTitle = document.querySelector(".dj-room-title .reading-book-title-zh");
+        const zhTitle = entryChineseTitle ?? bookChineseTitle;
         const latinTitle = document.querySelector(".dj-entry-title h2, .dj-room-title h2");
         const tablist = document.querySelector('[role="tablist"]');
         const tabs = [...document.querySelectorAll('[role="tab"]')];
@@ -75,6 +77,7 @@ try {
           clientWidth: document.documentElement.clientWidth,
           mainHeight: main?.getBoundingClientRect().height ?? 0,
           zhFont: zhTitle ? getComputedStyle(zhTitle).fontFamily : null,
+          chineseTitleRole: entryChineseTitle ? "entry" : (bookChineseTitle ? "book" : null),
           latinFont: latinTitle ? getComputedStyle(latinTitle).fontFamily : null,
           tablist: Boolean(tablist),
           tabs: tabs.length,
@@ -125,7 +128,8 @@ try {
       if (!response?.ok()) failures.push(`${viewportName} ${route}: HTTP ${result.status}`);
       if (metrics.mainHeight <= 0) failures.push(`${viewportName} ${route}: main content is not visible`);
       if (metrics.scrollWidth > metrics.clientWidth + 1) failures.push(`${viewportName} ${route}: horizontal overflow ${metrics.scrollWidth}/${metrics.clientWidth}`);
-      if (!metrics.zhFont?.includes("Galok QIJIC Reading")) failures.push(`${viewportName} ${route}: Chinese display did not resolve to QIJIC (${metrics.zhFont ?? "missing"})`);
+      const expectedChinese = metrics.chineseTitleRole === "book" ? "Galok QIJIC Book Title" : "Galok Source Han Serif TC";
+      if (!metrics.zhFont?.includes(expectedChinese)) failures.push(`${viewportName} ${route}: ${metrics.chineseTitleRole ?? "Chinese"} title expected ${expectedChinese}, got ${metrics.zhFont ?? "missing"}`);
       if (!metrics.latinFont?.includes("Galok Bagnard")) failures.push(`${viewportName} ${route}: Latin display did not resolve to Bagnard (${metrics.latinFont ?? "missing"})`);
       if (failedRequests.length) failures.push(`${viewportName} ${route}: failed local requests ${failedRequests.join(" | ")}`);
       if (pageErrors.length) failures.push(`${viewportName} ${route}: page errors ${pageErrors.join(" | ")}`);
