@@ -9,14 +9,15 @@ on:
       - "reading/**/*.js"
       - "assets/fonts/**"
       - "scripts/check-reading-font-coverage.py"
-      - "scripts/reading-display-glyphs.txt"
       - "scripts/build-reading-font-subsets.py"
       - "scripts/build-discovery.mjs"
       - "scripts/run-discovery-build.mjs"
       - "scripts/verify-generated-discovery.mjs"
       - "scripts/runtime-discovery-search.mjs"
+      - "scripts/runtime-reading-display-font.mjs"
       - "scripts/validate-discovery.mjs"
       - ".github/workflows/rebuild-reading-fonts-once.yml"
+      - ".github/workflows/reading-typography-maintenance.yml"
   workflow_dispatch:
 
 permissions:
@@ -48,7 +49,7 @@ jobs:
       - name: Install site tools
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Verify semantic Reading font coverage
+      - name: Verify unified Reading font coverage
         run: python scripts/check-reading-font-coverage.py
 
       - name: Rebuild and verify discovery assets
@@ -59,9 +60,9 @@ jobs:
       - name: Explain Reading artifact failures
         if: failure()
         run: |
-          echo "Reading uses three canonical font assets with semantic fallback; routine content must not create supplement fonts."
+          echo "Reading typography policy: Source Han Serif TC for all ordinary Chinese; QIJIC only for explicit book-title displays; HanaMin only for rare fallback."
           echo "Before pushing a Reading change, run:"
           echo "  npm run check:reading-fonts"
           echo "  npm run build:discovery"
           echo "  node scripts/verify-generated-discovery.mjs"
-          echo "If font coverage is genuinely missing, rebuild the canonical GenRyu/QIJIC/HanaMin assets in one typography-maintenance commit."
+          echo "If font coverage is genuinely missing, run the manual Reading Typography Maintenance workflow on a feature branch. Do not create supplement or Entry-specific fonts."
