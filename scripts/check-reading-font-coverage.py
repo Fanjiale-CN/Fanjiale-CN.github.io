@@ -9,26 +9,33 @@ from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parents[1]
 READING_ROOT = ROOT / "reading"
+FONT_DIR = ROOT / "assets" / "fonts"
 DISPLAY_MANIFEST = ROOT / "scripts" / "reading-display-glyphs.txt"
-SERIF_PATHS = [
-    ROOT / "assets" / "fonts" / "genryu-reading-fixed-v3.woff2",
-    ROOT / "assets" / "fonts" / "genryu-reading-tw.woff2",
-    ROOT / "assets" / "fonts" / "hanamin-reading-rare.woff2",
-]
-DISPLAY_PATHS = [
-    ROOT / "assets" / "fonts" / "qijic-reading-fixed-extra.woff2",
-    ROOT / "assets" / "fonts" / "qiji-reading-title.woff2",
-]
-LEGACY_ARTIFACTS = [
-    ROOT / "assets" / "fonts" / "genryu-reading-supplement.woff2",
-    ROOT / "assets" / "fonts" / "qiji-reading-supplement.woff2",
-    ROOT / "scripts" / "build-reading-font-supplements.py",
-    ROOT / "reading" / "dongjing-08-fontfix.css",
-]
+GENRYU = FONT_DIR / "genryu-reading-tw.woff2"
+QIJIC = FONT_DIR / "qiji-reading-title.woff2"
+HANAMIN = FONT_DIR / "hanamin-reading-rare.woff2"
+ALLOWED_DISPLAY_SOURCE_FALLBACK = set("䬴𣜰𤊯𤜱")
 REQUIRED_PUNCTUATION = set("，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　")
 PRIMARY_CLASSES = {"dj-columns", "reading-primary-text"}
 SKIP_TAGS = {"script", "style", "template", "noscript"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
+FORBIDDEN_PATHS = [
+    ROOT / "scripts" / "build-reading-font-supplements.py",
+    ROOT / "reading" / "dongjing-08-fontfix.css",
+    ROOT / "reading" / "dongjing-rare-fallback.css",
+    ROOT / "scripts" / "helper-rebuild-reading-canonical.py",
+    ROOT / "scripts" / "helper-finalize-reading.py",
+]
+FORBIDDEN_TEXT = (
+    "genryu-reading-fixed-v3",
+    "qijic-reading-fixed-extra",
+    "genryu-reading-supplement",
+    "qiji-reading-supplement",
+    "dongjing-08-fontfix.css",
+    "dongjing-rare-fallback.css",
+    "Galok Reading Serif V2 Final",
+    "Galok Rare Serif V2 Final",
+)
 
 
 def is_cjk(ch: str) -> bool:
@@ -98,13 +105,6 @@ def font_codepoints(path: Path) -> set[int]:
         raise RuntimeError(f"invalid Reading font asset {path.relative_to(ROOT)}: {exc}") from exc
 
 
-def merged_cmap(paths: list[Path]) -> set[int]:
-    cmap: set[int] = set()
-    for path in paths:
-        cmap.update(font_codepoints(path))
-    return cmap
-
-
 def report_missing(label: str, missing: list[str], sources: dict[str, set[str]]) -> None:
     print(f"\nERROR: {label} coverage must be 100%. Missing glyphs:")
     for ch in missing:
@@ -112,45 +112,87 @@ def report_missing(label: str, missing: list[str], sources: dict[str, set[str]])
         print(f"  {ch}  U+{ord(ch):04X}  {where}")
 
 
+def find_forbidden_artifacts() -> list[Path]:
+    hits = [path for path in FORBIDDEN_PATHS if path.exists()]
+    for pattern in ("*supplement*.woff2", "*fixed*.woff2"):
+        hits.extend(FONT_DIR.glob(pattern))
+    return sorted(set(hits))
+
+
+def find_forbidden_references() -> list[tuple[Path, str]]:
+    hits: list[tuple[Path, str]] = []
+    roots = [READING_ROOT, ROOT / "scripts", ROOT / ".github" / "workflows"]
+    for base in roots:
+        if not base.exists():
+            continue
+        for path in base.rglob("*"):
+            if path.resolve() == Path(__file__).resolve():
+                continue
+            if not path.is_file() or path.suffix.lower() not in {".html", ".css", ".js", ".mjs", ".py", ".yml", ".yaml"}:
+                continue
+            text = path.read_text(encoding="utf-8", errors="ignore")
+            for token in FORBIDDEN_TEXT:
+                if token in text:
+                    hits.append((path, token))
+    return hits
+
+
 def main() -> int:
-    required = SERIF_PATHS + DISPLAY_PATHS + [DISPLAY_MANIFEST]
+    required = [GENRYU, QIJIC, HANAMIN, DISPLAY_MANIFEST]
     missing_files = [path for path in required if not path.exists()]
     if missing_files:
         for path in missing_files:
             print(f"ERROR: Reading typography asset missing: {path.relative_to(ROOT)}")
         return 1
 
-    legacy = [path for path in LEGACY_ARTIFACTS if path.exists()]
+    legacy = find_forbidden_artifacts()
     if legacy:
         for path in legacy:
             print(f"ERROR: legacy Reading font artifact must be removed: {path.relative_to(ROOT)}")
         return 1
 
+    references = find_forbidden_references()
+    if references:
+        for path, token in references:
+            print(f"ERROR: legacy Reading font reference {token!r}: {path.relative_to(ROOT)}")
+        return 1
+
     try:
-        serif_cmap = merged_cmap(SERIF_PATHS)
-        display_cmap = merged_cmap(DISPLAY_PATHS)
+        genryu_cmap = font_codepoints(GENRYU)
+        qijic_cmap = font_codepoints(QIJIC)
+        hanamin_cmap = font_codepoints(HANAMIN)
     except RuntimeError as exc:
         print(f"ERROR: {exc}")
         return 1
 
+    serif_cmap = genryu_cmap | hanamin_cmap
+    display_stack_cmap = qijic_cmap | serif_cmap
     primary, display, primary_sources, display_sources = collect_corpora()
     primary_missing = sorted((ch for ch in primary if ord(ch) not in serif_cmap), key=ord)
-    display_missing = sorted((ch for ch in display if ord(ch) not in display_cmap), key=ord)
+    display_missing = sorted((ch for ch in display if ord(ch) not in display_stack_cmap), key=ord)
+    qijic_fallback = {ch for ch in display if ord(ch) not in qijic_cmap}
+    unexpected_fallback = sorted(qijic_fallback - ALLOWED_DISPLAY_SOURCE_FALLBACK, key=ord)
 
-    print(f"Reading primary-text corpus: {len(primary)} characters")
+    print(f"Reading primary/source corpus: {len(primary)} characters")
     print(f"GenRyu + HanaMin coverage: {len(primary)-len(primary_missing)}/{len(primary)}")
     print(f"Reading display/UI corpus: {len(display)} characters")
-    print(f"Fixed QIJIC coverage: {len(display)-len(display_missing)}/{len(display)}")
+    print(f"QIJIC direct coverage: {len(display)-len(qijic_fallback)}/{len(display)}")
+    print(f"Display stack coverage: {len(display)-len(display_missing)}/{len(display)}")
+    if qijic_fallback:
+        print("Source-glyph display fallback:", " ".join(f"{ch}(U+{ord(ch):04X})" for ch in sorted(qijic_fallback, key=ord)))
 
     if primary_missing:
         report_missing("Reading primary-text serif stack", primary_missing, primary_sources)
     if display_missing:
-        report_missing("Reading QIJIC display/UI stack", display_missing, display_sources)
-    if primary_missing or display_missing:
-        print("\nDo not create supplement fonts. Maintain the fixed assets in one typography commit.")
+        report_missing("Reading display stack", display_missing, display_sources)
+    if unexpected_fallback:
+        report_missing("QIJIC direct display coverage (unexpected fallback)", unexpected_fallback, display_sources)
+        print("Only source-locked glyphs explicitly absent from upstream QIJIC may use the canonical serif fallback.")
+
+    if primary_missing or display_missing or unexpected_fallback:
         return 1
 
-    print("PASS: fixed Reading fonts are valid and semantic Chinese coverage is 100%.")
+    print("PASS: canonical Reading fonts are valid; semantic Chinese coverage is 100% with no supplement fonts.")
     return 0
 
 

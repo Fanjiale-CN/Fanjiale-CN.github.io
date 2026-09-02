@@ -1,28 +1,12 @@
-/* Galok Reading typography — semantic fixed system, 2026-09-02
-   Chinese display/UI: stable QIJIC base + fixed extra.
-   Classical Chinese primary text: GenRyu base + fixed Volume III extension + HanaMin rare fallback.
-   Latin display: existing Bagnard/Gambetta system.
-   Routine Reading content must not create per-entry font faces or supplement fonts. */
-
-@font-face {
-  font-family: "Galok QIJIC Reading Fixed Extra";
-  src: url("/assets/fonts/qijic-reading-fixed-extra.woff2?v=20260902-fixed-4") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
+/* Galok Reading typography — canonical semantic system, 2026-09-02
+   Chinese display/UI: QIJIC. Four source-locked glyphs absent from QIJIC fall through
+   the same canonical GenRyu/HanaMin source stack; no supplement or per-entry font exists.
+   Classical Chinese primary text: GenRyu + HanaMin rare fallback.
+   Latin display: existing Bagnard/Gambetta system. */
 
 @font-face {
   font-family: "Galok QIJIC Reading";
-  src: url("/assets/fonts/qiji-reading-title.woff2?v=20260902-fixed-4") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Galok Reading Serif V3 Fixed";
-  src: url("/assets/fonts/genryu-reading-fixed-v3.woff2?v=20260902-fixed-4") format("woff2");
+  src: url("/assets/fonts/qiji-reading-title.woff2?v=20260902-canonical-1") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -30,7 +14,7 @@
 
 @font-face {
   font-family: "Galok Reading Serif TW";
-  src: url("/assets/fonts/genryu-reading-tw.woff2?v=20260902-fixed-3") format("woff2");
+  src: url("/assets/fonts/genryu-reading-tw.woff2?v=20260902-canonical-1") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -38,7 +22,7 @@
 
 @font-face {
   font-family: "Galok HanaMin Reading";
-  src: url("/assets/fonts/hanamin-reading-rare.woff2?v=20260902-fixed-3") format("woff2");
+  src: url("/assets/fonts/hanamin-reading-rare.woff2?v=20260902-canonical-1") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -46,16 +30,19 @@
 
 :root {
   --reading-display-latin: "Galok Bagnard", "Galok Gambetta", "EB Garamond", Georgia, "Times New Roman", serif;
-  --reading-display-cjk: "Galok QIJIC Reading Fixed Extra", "Galok QIJIC Reading", "Songti TC", STSong, "Noto Serif TC", serif;
-  --reading-display-mixed: "Galok Bagnard", "Galok QIJIC Reading Fixed Extra", "Galok QIJIC Reading", "Galok Gambetta", Georgia, "Times New Roman", serif;
-  --reading-primary-cjk: "Galok Reading Serif V3 Fixed", "Galok Reading Serif TW", "Galok HanaMin Reading", "Songti TC", STSong, "Noto Serif TC", serif;
+  --reading-display-cjk: "Galok QIJIC Reading", "Galok Reading Serif TW", "Galok HanaMin Reading", "Songti TC", STSong, "Noto Serif TC", serif;
+  --reading-display-mixed: "Galok Bagnard", "Galok QIJIC Reading", "Galok Reading Serif TW", "Galok HanaMin Reading", "Galok Gambetta", Georgia, "Times New Roman", serif;
+  --reading-primary-cjk: "Galok Reading Serif TW", "Galok HanaMin Reading", "Songti TC", STSong, "Noto Serif TC", serif;
 }
 
 /* Default Chinese in Reading is display/UI Chinese. */
 .dongjing-page :where(:lang(zh-Hans), :lang(zh-Hant)),
 .reading-room-page :where(:lang(zh-Hans), :lang(zh-Hant)),
 .reading-page :where(:lang(zh-Hans), :lang(zh-Hant)),
-.reading-note-page :where(:lang(zh-Hans), :lang(zh-Hant)) {
+.reading-note-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dj14-page .dj14-ticker,
+.dj14-page .dj14-role b,
+.dj14-page .dj14-center span {
   font-family: var(--reading-display-cjk) !important;
   font-weight: 400 !important;
   font-synthesis: none;
