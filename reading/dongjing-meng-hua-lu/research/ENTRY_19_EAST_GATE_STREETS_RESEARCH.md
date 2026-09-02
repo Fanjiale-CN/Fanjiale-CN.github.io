@@ -20,7 +20,7 @@ Core transition:
 
 Entry 18 shows differentiated commerce inside Xiangguo Temple. Entry 19 shows how the east-gate frontage immediately opens into a denser urban register of shops, food, entertainment, craft work, medicine, lodging, wine, offices and named lanes.
 
-The page is not a precise map. It is a **textual street register / fan-out network** based on direction words and sequence.
+The page is a **textual street register / fan-out network** based on direction words and sequence. It deliberately avoids claiming measured geometry.
 
 ## Primary witnesses / comparison
 
@@ -65,7 +65,7 @@ Secure reading:
 - South and north side lanes add entertainment, embroidery work and a strong southern-food presence.
 - The text names a preserved-ginger shop farther north.
 
-Do not describe this as modern zoning. The text gives adjacency and sequence, not parcel boundaries.
+Treat this as adjacency and textual sequence. Do not assign parcel boundaries, equal distances or modern coordinates.
 
 ### 19B / NORTH, THEN TURN EAST
 
@@ -105,9 +105,9 @@ Secure reading:
 
 Keep proper names visible where identification is uncertain.
 
-Do not modernize:
+Avoid over-modernizing:
 
-- `妓館` into a single modern legal / occupational category beyond “courtesan / entertainment houses” without a note;
+- `妓館` beyond “courtesan / entertainment houses” without a note;
 - `五寺三監` into a modern ministry complex;
 - `車輅院` into a generic transport department without institutional research;
 - `正店` into a modern bar / chain restaurant.
@@ -171,6 +171,6 @@ Before promotion to LIVE:
 3. Entry 19 is excluded from internal search while REVIEW;
 4. mobile / tablet / desktop visual evidence is clean;
 5. no horizontal overflow;
-6. no fake-map implication;
+6. no false measured-map implication;
 7. TEXT DETECTIVE variants remain visible;
 8. Entry 18 → 19 navigation and Reading Room progress are updated only at LIVE promotion.
