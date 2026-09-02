@@ -5,6 +5,10 @@
   "scripts": {
     "validate": "node scripts/validate-site.mjs",
     "prepare": "node scripts/install-git-hooks.mjs",
+    "galok:prepare": "node scripts/galok-prepare.mjs",
+    "galok:preflight": "node scripts/galok-preflight.mjs",
+    "check:package-contract": "node scripts/check-package-contract.mjs",
+    "check:workflow-policy": "node scripts/validate-workflow-policy.mjs",
     "release:core": "node scripts/release-check.mjs",
     "check:generated-clean": "node scripts/verify-generated-discovery.mjs",
     "release": "npm run build:discovery && npm run release:core && npm run check:generated-clean",

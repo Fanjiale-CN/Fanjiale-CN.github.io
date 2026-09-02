@@ -37,11 +37,8 @@ const lighthouse = manifest.map((run) => {
 });
 
 const gates = [
-  ["Repository validators", process.env.GALOK_GATE_NATIVE],
-  ["Experience platform", process.env.GALOK_GATE_EXPERIENCE],
-  ["HTML / links / R2", process.env.GALOK_GATE_LINKS],
-  ["Resource budget", process.env.GALOK_GATE_BUDGET],
-  ["Discovery regeneration", process.env.GALOK_GATE_DISCOVERY],
+  ["Fast preflight", process.env.GALOK_GATE_FAST],
+  ["Reading runtime font", process.env.GALOK_GATE_RUNTIME_FONT],
   ["Runtime accessibility", process.env.GALOK_GATE_A11Y],
   ["Archive search", process.env.GALOK_GATE_SEARCH],
   ["Runtime observability", process.env.GALOK_GATE_OBSERVABILITY],
@@ -49,6 +46,7 @@ const gates = [
   ["Visual acceptance", process.env.GALOK_GATE_VISUAL],
   ["Lighthouse", process.env.GALOK_GATE_LIGHTHOUSE]
 ];
+
 const reportedGates = gates.filter(([, status]) => status);
 const failedGates = reportedGates.filter(([, status]) => status !== "success");
 const lighthouseComplete = expectedLighthouseReports > 0 && lighthouse.length === expectedLighthouseReports;
@@ -72,6 +70,8 @@ const gateLabel = (status) => status === "success" ? "PASS" : status ? "FAIL" : 
 
 const summary = [
   "# Galok CI report",
+  "",
+  "Fast deterministic gates run before any browser/Lighthouse work. A fast-gate failure stops the expensive runtime phase immediately.",
   "",
   "| Check | Result | Detail |",
   "| --- | --- | --- |",

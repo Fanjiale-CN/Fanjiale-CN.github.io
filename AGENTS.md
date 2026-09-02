@@ -1,67 +1,55 @@
-# Galok development and main push standard
+# Galok agent contract
 
-These rules apply to every coding agent, automation, and manual development session in this repository.
+This file is the repository entry point for every coding agent, Work session, Codex task, automation, and manual development session.
 
-## Main branch release rule
+The goal is simple: source changes must arrive at GitHub as a complete release candidate, not as a partial change that relies on GitHub Actions to discover missing generated files.
 
-`main` must only receive a commit after the repository release gate passes locally.
+## Mandatory development sequence
 
-Required order:
+1. Never develop directly on `main`. Create or reuse a feature/fix/chore branch.
+2. Read `docs/engineering/DEVELOPMENT_STANDARD.md`.
+3. Read the domain standard for the area you will touch:
+   - routes, search, Pagefind, feed, sitemap, Index → `docs/engineering/DISCOVERY_STANDARD.md`
+   - Reading Chinese typography or fonts → `docs/engineering/TYPOGRAPHY_STANDARD.md`
+   - workflows, CI, release gates → `docs/engineering/CI_STANDARD.md`
+   - any failure or red Action → `docs/engineering/FAILURE_PLAYBOOK.md`
+4. Make source changes only. Do not invent a task-specific workflow to perform normal development.
+5. Before committing, run `npm run galok:prepare`.
+6. Review `git diff` and `git status --short`. Source changes and deterministic generated artifacts belong in the same commit.
+7. Commit the complete candidate.
+8. Run `npm run galok:preflight`.
+9. Push the feature branch only after preflight passes. The installed pre-push hook runs the same preflight and blocks an invalid push.
+10. Open or update a pull request. Do not merge while required checks are red.
+11. When CI fails, diagnose the first real failed gate. Never weaken, bypass, delete, or replace a validator merely to obtain green CI.
 
-1. Make the intended source changes.
-2. Run `npm ci` in a fresh environment. This also installs the repository pre-push hook.
-3. Run `npm run build:discovery` after any change that can affect routes, canonical URLs, search, feeds, sitemap, Pagefind, or indexable content.
-4. Stage all intended source changes and every generated discovery file that belongs to the change.
-5. Run `npm run release`.
-6. If `npm run release` changes `feed.xml`, `sitemap.xml`, `index/search-catalog.json`, or anything under `pagefind/`, the release gate must fail. Stage the generated changes, rerun the gate, and do not continue until it exits successfully.
-7. Inspect `git status --short`. Only intended files may remain.
-8. Commit once.
-9. Push `main`. The installed pre-push hook runs `npm run release` again and blocks the push if the release gate fails.
-10. GitHub Actions remains the authoritative full browser, visual, accessibility, runtime, and Lighthouse validation after push.
+## Non-negotiable release rules
 
-## Reading font policy
+- `main` is merge-only for normal development. No direct human/agent push to `main`.
+- Pagefind, `feed.xml`, `sitemap.xml`, `index/search-catalog.json`, and other deterministic discovery outputs must be generated before commit and land atomically with the source change that caused them.
+- Routine Reading work must not rebuild large frozen base font binaries. Glyph absence in the preferred face is not a failure when the canonical fallback stack resolves it.
+- A font failure means the complete project-owned fallback stack cannot resolve a required glyph, a required font asset is invalid/missing, or the semantic font policy was violated.
+- Do not create `tmp`, `once`, `preflight`, `retry`, installer, or task-specific GitHub Actions workflows. Reusable logic belongs under `scripts/`.
+- Do not embed large base64/gzip/zlib payloads or large executable programs in workflow YAML.
+- Validation workflows are read-only. The only repository-writing operational workflow currently approved is the isolated R2 media migration workflow, which writes to a new branch and opens a PR.
+- `package.json` and `package-lock.json` are one contract. Dependency changes must update both.
+- Generated diffs are evidence, not noise. Never ignore or discard them without understanding why they changed.
 
-The large Reading base fonts are frozen release assets. Routine article or entry work must not rewrite `assets/fonts/genryu-reading-tw.woff2`, `assets/fonts/qiji-reading-title.woff2`, or `assets/fonts/hanamin-reading-rare.woff2`.
+## Stable commands
 
-Reading growth uses cumulative supplement fonts instead:
+- Prepare a candidate: `npm run galok:prepare`
+- Verify a committed candidate before push: `npm run galok:preflight`
+- Lightweight release validators: `npm run release:core`
+- Discovery rebuild: `npm run build:discovery`
+- Reading font coverage: `npm run check:reading-fonts`
+- Workflow policy: `npm run check:workflow-policy`
+- Package/lock contract: `npm run check:package-contract`
 
-- `assets/fonts/genryu-reading-supplement.woff2`
-- `assets/fonts/qiji-reading-supplement.woff2`
+## Failure discipline
 
-After adding or changing visible Chinese text in Reading, run `npm run build:reading-fonts`, then `npm run check:reading-fonts`. `build:reading-fonts` updates only the cumulative supplements from the frozen base snapshot. If the builder reports a new character absent from both GenRyu and the frozen HanaMin fallback, stop and add an explicit rare-font supplement rather than weakening coverage.
+Use `docs/engineering/FAILURE_PREVENTION_MATRIX.md` for the historical failure classes and their permanent controls.
 
-The base-font rebuild script is maintenance-only. Do not run `scripts/build-reading-font-subsets.py` during ordinary content development and do not use a base-font binary diff as a routine CI gate.
+A retry is appropriate only for a proven transient platform/network condition. Re-running deterministic failures such as stale Pagefind artifacts, invalid YAML, missing glyph coverage, lockfile mismatch, broken metadata, or failed validators without changing the cause is forbidden.
 
-## Forbidden workflow patterns
+## Prompting Work / Codex
 
-Do not create one-off `*-preflight.yml`, `work/*-preflight.yml`, or task-specific GitHub Actions workflows just to modify, materialize, validate, or push a feature.
-
-Any workflow that must mutate repository contents must work on an isolated branch and open a pull request; never push generated or migrated content directly to `main`.
-
-Do not embed large scripts, compressed blobs, gzip/base64 payloads, or opaque generated code in workflow environment variables. Put executable logic in readable files under `scripts/` and call those files from the stable workflow or package scripts.
-
-Do not give a validation-only workflow `contents: write`. Use read-only permissions unless the workflow genuinely has to write repository contents.
-
-Do not push `main` after only running an individual validator. `npm run release` is the minimum local release gate.
-
-Do not ignore a dirty generated-discovery diff. A changed route, canonical URL, feed entry, sitemap entry, search catalog entry, or Pagefind output must be committed together with the source change that caused it.
-
-Do not bypass, disable, delete, or replace the pre-push release guard to get a commit through.
-
-## Stable CI architecture
-
-Use repository scripts as the single source of development logic. Keep GitHub Actions small and readable: checkout, install dependencies, call repository scripts, publish reports.
-
-Temporary feature logic belongs in normal source or `scripts/`, never in encoded YAML payloads.
-
-The local release gate is intentionally lighter than the final GitHub Actions suite. Full browser, visual, accessibility, runtime, Radar, search, and Lighthouse checks remain in GitHub Actions.
-
-## Failure handling
-
-If `npm run release` fails, stop the push and fix the failing gate.
-
-If the failure is `check:generated-clean`, run or inspect `npm run build:discovery`, stage the resulting generated files, and rerun `npm run release`.
-
-If `check:reading-fonts` fails, regenerate the cumulative supplement fonts and fix any genuinely unsupported glyphs. Do not rebuild the frozen base fonts or relax the coverage requirement to make CI green.
-
-If GitHub Actions fails after a successful local gate, inspect the exact failed job and fix the root cause. Do not create a temporary workflow to work around it.
+Use the maintained prompts in `docs/engineering/WORK_CODEX_PROMPTS.md`. They encode this contract and must not be replaced by ad-hoc instructions that permit direct-main pushes, temporary workflows, skipped generation, or validator bypasses.
