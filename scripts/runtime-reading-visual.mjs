@@ -40,6 +40,12 @@ const isLocalRequest = (url) => url.startsWith(baseUrl);
 const routeLabel = (route) => route === "/reading/dongjing-meng-hua-lu/"
   ? "dongjing-room"
   : `dongjing-${route.split("/").filter(Boolean).at(-1)}`;
+const featureSelectorForRoute = (route) => {
+  if (route.endsWith("/18/")) return "#thresholds";
+  if (route.endsWith("/19/")) return "#register";
+  if (route.endsWith("/20/")) return "#network";
+  return null;
+};
 
 try {
   for (const [viewportName, width, height] of viewports) {
@@ -103,12 +109,6 @@ try {
             visiblePanels: panels.filter((panel) => !panel.hidden).length
           };
         });
-        const feature = await page.$("#thresholds");
-        if (feature) {
-          await feature.evaluate((element) => element.scrollIntoView({ block: "start" }));
-          await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
-          await page.screenshot({ path: join(evidenceDirectory, `reading-${label}-${viewportName}-feature.png`), fullPage: false });
-        }
 
         await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
         const reducedMotion = await page.evaluate(() => {
@@ -122,7 +122,21 @@ try {
         interaction.reducedMotion = reducedMotion;
       }
 
-      const result = { route, viewportName, width, height, status: response?.status() ?? null, metrics, interaction, failedRequests, pageErrors, consoleErrors };
+      const featureSelector = featureSelectorForRoute(route);
+      let featureCaptured = false;
+      if (featureSelector) {
+        const feature = await page.$(featureSelector);
+        if (!feature) {
+          failures.push(`${viewportName} ${route}: expected feature selector ${featureSelector} is missing`);
+        } else {
+          await feature.evaluate((element) => element.scrollIntoView({ block: "start" }));
+          await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+          await page.screenshot({ path: join(evidenceDirectory, `reading-${label}-${viewportName}-feature.png`), fullPage: false });
+          featureCaptured = true;
+        }
+      }
+
+      const result = { route, viewportName, width, height, status: response?.status() ?? null, metrics, interaction, featureSelector, featureCaptured, failedRequests, pageErrors, consoleErrors };
       results.push(result);
 
       if (!response?.ok()) failures.push(`${viewportName} ${route}: HTTP ${result.status}`);
