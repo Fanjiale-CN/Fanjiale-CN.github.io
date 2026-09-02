@@ -35,6 +35,19 @@ jobs:
       - name: Finalize canonical Reading tree
         run: python scripts/helper-finalize-reading.py
 
+      - name: Fix checker self-scan
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('scripts/check-reading-font-coverage.py')
+          s = p.read_text(encoding='utf-8')
+          old = '''        for path in base.rglob("*"):\n            if not path.is_file() or path.suffix.lower() not in {".html", ".css", ".js", ".mjs", ".py", ".yml", ".yaml"}:\n'''
+          new = '''        for path in base.rglob("*"):\n            if path.resolve() == Path(__file__).resolve():\n                continue\n            if not path.is_file() or path.suffix.lower() not in {".html", ".css", ".js", ".mjs", ".py", ".yml", ".yaml"}:\n'''
+          if s.count(old) != 1:
+              raise SystemExit('checker self-scan patch target mismatch')
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+
       - name: Verify canonical blob hashes are unchanged
         run: |
           test "$(git hash-object assets/fonts/genryu-reading-tw.woff2)" = "8cce61b0a81aef63fddf5bc83d08bc64a9c289dc"
