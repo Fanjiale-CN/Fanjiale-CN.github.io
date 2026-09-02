@@ -26,6 +26,7 @@ QIJI_URL = "https://github.com/LingDong-/qiji-font/releases/download/0.0.4/qiji-
 HANAMIN_URL = "https://github.com/cjkvi/HanaMinAFDKO/releases/download/8.030/HanaMinB.otf"
 
 BOOK_TITLE_CLASS = "reading-book-title-zh"
+BOOK_TITLE_RESERVE = set("東京夢華錄鹽鐵論管子")
 REQUIRED_PUNCTUATION = set("，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　")
 SKIP_TAGS = {"script", "style", "template", "noscript"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
@@ -72,7 +73,7 @@ class ReadingTextParser(HTMLParser):
 
 def collect_corpora() -> tuple[set[str], set[str]]:
     source_han = set(REQUIRED_PUNCTUATION)
-    book_titles: set[str] = set()
+    book_titles = set(BOOK_TITLE_RESERVE)
     for path in sorted(READING_ROOT.rglob("*.html")):
         parser = ReadingTextParser()
         parser.feed(path.read_text(encoding="utf-8", errors="ignore"))
@@ -83,7 +84,7 @@ def collect_corpora() -> tuple[set[str], set[str]]:
             if is_cjk(ch) or ch in REQUIRED_PUNCTUATION:
                 source_han.add(ch)
     if not book_titles:
-        raise RuntimeError("No .reading-book-title-zh CJK corpus found; book-title semantics are missing")
+        raise RuntimeError("No QIJIC book-title corpus found")
     return source_han, book_titles
 
 
@@ -174,7 +175,7 @@ def main() -> int:
         book_title_missing = sorted(ch for ch in book_title_chars if ord(ch) not in qiji_cmap)
         if book_title_missing:
             raise RuntimeError(
-                "QIJIC must directly cover every explicit book-title glyph: "
+                "QIJIC must directly cover every explicit/reserved book-title glyph: "
                 + " ".join(f"{ch}(U+{ord(ch):04X})" for ch in book_title_missing)
             )
 
