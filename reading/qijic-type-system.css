@@ -1,11 +1,28 @@
-/* Reading display type system — 2026-09-02
-   One source of truth for non-body Reading typography.
-   Chinese display text uses the supplied QIJIC source; Latin and numerals use
-   Bagnard first because QIJIC contains no Latin glyphs. */
+/* Galok Reading typography — canonical semantic system, 2026-09-02
+   Chinese display/UI: QIJIC. Four source-locked glyphs absent from QIJIC fall through
+   the same canonical GenRyu/HanaMin source stack; no supplement or per-entry font exists.
+   Classical Chinese primary text: GenRyu + HanaMin rare fallback.
+   Latin display: existing Bagnard/Gambetta system. */
 
 @font-face {
   font-family: "Galok QIJIC Reading";
-  src: url("/assets/fonts/qiji-reading-title.woff2?v=20260902-qijic-system") format("woff2");
+  src: url("/assets/fonts/qiji-reading-title.woff2?v=20260902-canonical-1") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galok Reading Serif TW";
+  src: url("/assets/fonts/genryu-reading-tw.woff2?v=20260902-canonical-1") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galok HanaMin Reading";
+  src: url("/assets/fonts/hanamin-reading-rare.woff2?v=20260902-canonical-1") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -13,15 +30,72 @@
 
 :root {
   --reading-display-latin: "Galok Bagnard", "Galok Gambetta", "EB Garamond", Georgia, "Times New Roman", serif;
-  --reading-display-cjk: "Galok QIJIC Reading", "Galok Qiji", "Galok Reading Serif TW", "Songti TC", STSong, "Noto Serif TC", serif;
-  --reading-display-mixed: "Galok Bagnard", "Galok QIJIC Reading", "Galok Gambetta", "Galok Reading Serif TW", Georgia, "Times New Roman", serif;
+  --reading-display-cjk: "Galok QIJIC Reading", "Galok Reading Serif TW", "Galok HanaMin Reading", "Songti TC", STSong, "Noto Serif TC", serif;
+  --reading-display-mixed: "Galok Bagnard", "Galok QIJIC Reading", "Galok Reading Serif TW", "Galok HanaMin Reading", "Galok Gambetta", Georgia, "Times New Roman", serif;
+  --reading-primary-cjk: "Galok Reading Serif TW", "Galok HanaMin Reading", "Songti TC", STSong, "Noto Serif TC", serif;
 }
 
-/* Reading 001: Chinese title layers are QIJIC; paired Latin stays editorial,
-   never a system sans fallback. */
+/* Default Chinese in Reading is display/UI Chinese. */
+.dongjing-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-room-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-note-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dj14-page .dj14-ticker,
+.dj14-page .dj14-role b,
+.dj14-page .dj14-center span {
+  font-family: var(--reading-display-cjk) !important;
+  font-weight: 400 !important;
+  font-synthesis: none;
+}
+
+/* Classical source text is the only Chinese exception. */
+.dongjing-page blockquote:where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-note-page blockquote:where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-note-page .reading-primary-text,
+.reading-note-page .reading-primary-text :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj-entry-source .dj-columns {
+  font-family: var(--reading-primary-cjk) !important;
+  font-weight: 400 !important;
+  font-synthesis: none;
+}
+
+/* Source labels inside otherwise-primary blocks remain display copy. */
+.dongjing-page .dj-entry-source .dj-columns span:first-child {
+  font-family: var(--reading-display-cjk) !important;
+}
+
+/* Legacy entries with untagged diagram labels are normalized here. */
+.dj07-page .dj07-lane b,
+.dj08-page .dj08-node b,
+.dj08-page .dj08-menu-strip span,
+.dj08-page .dj08-variant p span,
+.dj09-page .dj09-stop b,
+.dj09-page .dj09-medicine-mark,
+.dj09-page .dj09-later b,
+.dj09-page .dj09-variant p span {
+  font-family: var(--reading-display-cjk) !important;
+  font-weight: 400 !important;
+  font-synthesis: none;
+}
+
+.dj07-page .dj07-source-full blockquote,
+.dj08-page .dj08-source-line blockquote,
+.dj09-page .dj09-text-unit blockquote,
+.dj09-page .dj09-gate-rule blockquote {
+  font-family: var(--reading-primary-cjk) !important;
+  font-weight: 400 !important;
+  font-synthesis: none;
+}
+
+/* Reading Room and article titles. */
+.dongjing-page .dj-room-title .dj-title-zh,
+.dongjing-page .dj-entry-title .dj-title-zh,
 .reading-room-page .reading-room-title h1,
+.reading-page .reading-room-title h1,
 .reading-room-page .reading-room-map h3,
+.reading-page .reading-room-map h3,
 .reading-room-page .reading-drawer-entry-title .reading-drawer-entry-zh,
+.reading-page .reading-drawer-entry-title .reading-drawer-entry-zh,
 .reading-note-page .reading-article-title .reading-note-zh {
   font-family: var(--reading-display-cjk) !important;
   font-weight: 400 !important;
@@ -29,12 +103,28 @@
   letter-spacing: .055em;
 }
 
-.reading-room-page .reading-room-title h1 {
-  line-height: .88;
+.dongjing-page .dj-room-title h2,
+.dongjing-page .dj-entry-title h2,
+.dongjing-page .dj-v3-section-head h2,
+.reading-room-page .reading-room-title h2,
+.reading-page .reading-room-title h2,
+.reading-note-page .reading-article-title h1 {
+  font-family: var(--reading-display-latin) !important;
+  font-weight: 400 !important;
+  font-synthesis: none;
 }
 
-.reading-room-page .reading-room-title h2,
-.reading-note-page .reading-article-title h1,
+.dongjing-page .dj-room-title .dj-title-zh,
+.dongjing-page .dj-entry-title .dj-title-zh { line-height: .9; }
+.reading-room-page .reading-room-title h1,
+.reading-page .reading-room-title h1 { line-height: .88; }
+.dongjing-page .dj-v3-section-head h2 { line-height: .93; letter-spacing: -.042em; }
+
+/* Previous/Next and mixed-script editorial controls keep Latin typography while Chinese resolves to QIJIC. */
+.dongjing-page .dj-entry-nav small,
+.dongjing-page .dj-entry-nav strong,
+.dongjing-page .dj-v3-entry-nav small,
+.dongjing-page .dj-v3-entry-nav strong,
 .reading-note-page .reading-note-nav small,
 .reading-note-page .reading-note-nav strong {
   font-family: var(--reading-display-mixed) !important;
@@ -42,110 +132,37 @@
   font-synthesis: none;
 }
 
-.reading-note-page .reading-note-nav small {
-  font-size: clamp(.7rem, .82vw, .8rem) !important;
-  letter-spacing: .075em;
-}
-
-.reading-note-page .reading-note-nav strong {
-  font-size: clamp(1.08rem, 1.45vw, 1.42rem) !important;
-  line-height: 1.12;
-}
-
-/* Dongjing: titles, diagrams and exit controls share one mixed display stack.
-   Long translation and primary-text blocks deliberately keep their reading face. */
-.dongjing-page .dj-entry-title h2,
-.dongjing-page .dj-entry-nav small,
-.dongjing-page .dj-entry-nav strong,
-.dongjing-page .dj-v3-entry-nav small,
-.dongjing-page .dj-v3-entry-nav strong,
+/* Explanatory diagrams / visual systems. */
 .dongjing-page .dj15-strip :is(small, b, span),
+.dongjing-page .dj15-evidence :is(small, b, span),
 .dongjing-page .dj16-route :is(small, b, span),
 .dongjing-page .dj16-fourfold :is(small, b, span),
 .dongjing-page .dj17-landing :is(small, b, span),
 .dongjing-page .dj17-people :is(small, b, span),
-.dongjing-page .dj17-next :is(small, strong, em) {
+.dongjing-page .dj17-next :is(small, strong, em),
+.dongjing-page .dj18-threshold :is(small, b, span, em, h3),
+.dongjing-page .dj18-layer-grid :is(small, b, span),
+.dongjing-page .dj18-variant-table :is(small, b, span, td, th),
+.dongjing-page .dj18-exit :is(small, strong, em, span) {
   font-family: var(--reading-display-mixed) !important;
   font-weight: 400 !important;
   font-synthesis: none;
 }
 
-.dongjing-page .dj-entry-title .dj-title-zh,
-.dongjing-page .dj15-strip :lang(zh-Hant),
-.dongjing-page .dj16-route :lang(zh-Hant),
-.dongjing-page .dj16-fourfold :lang(zh-Hant),
-.dongjing-page .dj17-landing :lang(zh-Hant),
-.dongjing-page .dj17-people :lang(zh-Hant),
-.dongjing-page .dj17-next :lang(zh-Hant) {
+.dongjing-page .dj15-strip :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj15-evidence :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj16-route :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj16-fourfold :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj17-landing :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj17-people :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj17-next :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj18-threshold :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj18-layer-grid :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj18-variant-table :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj18-exit :where(:lang(zh-Hans), :lang(zh-Hant)) {
   font-family: var(--reading-display-cjk) !important;
-  font-weight: 400 !important;
-  font-synthesis: none;
-}
-
-.dongjing-page .dj-entry-title .dj-title-zh {
-  line-height: .9;
-  letter-spacing: .052em;
-}
-
-.dongjing-page .dj-v3-section-head h2 {
-  font-family: var(--reading-display-latin) !important;
-  font-weight: 400 !important;
-  line-height: .93;
-  letter-spacing: -.042em;
-}
-
-.dongjing-page .dj15-strip small,
-.dongjing-page .dj16-route small,
-.dongjing-page .dj16-fourfold small,
-.dongjing-page .dj17-landing small,
-.dongjing-page .dj17-people small,
-.dongjing-page .dj-v3-entry-nav small {
-  font-size: clamp(.7rem, .84vw, .82rem) !important;
-  line-height: 1.15;
-  letter-spacing: .07em;
-}
-
-.dongjing-page .dj15-strip b,
-.dongjing-page .dj16-route b,
-.dongjing-page .dj16-fourfold b,
-.dongjing-page .dj17-people b {
-  font-size: clamp(1.5rem, 2.5vw, 2.65rem) !important;
-  line-height: .96;
-  letter-spacing: -.012em;
-}
-
-.dongjing-page .dj17-landing b {
-  font-size: clamp(1.85rem, 3.2vw, 3.55rem) !important;
-  line-height: .93;
-  letter-spacing: -.016em;
-}
-
-.dongjing-page .dj15-strip span,
-.dongjing-page .dj16-route span,
-.dongjing-page .dj16-fourfold span,
-.dongjing-page .dj17-landing span,
-.dongjing-page .dj17-people span {
-  font-size: clamp(1.05rem, 1.42vw, 1.54rem) !important;
-  line-height: 1.3;
-}
-
-@media (max-width: 760px) {
-  .dongjing-page .dj17-landing b {
-    font-size: clamp(1.75rem, 8.4vw, 2.6rem) !important;
-  }
-
-  .dongjing-page .dj15-strip b,
-  .dongjing-page .dj16-route b,
-  .dongjing-page .dj16-fourfold b,
-  .dongjing-page .dj17-people b {
-    font-size: clamp(1.55rem, 7.5vw, 2.35rem) !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dongjing-page *,
-  .reading-note-page *,
-  .reading-room-page * {
-    font-synthesis: none;
-  }
+  .dongjing-page *, .reading-note-page *, .reading-room-page *, .reading-page * { font-synthesis: none; }
 }

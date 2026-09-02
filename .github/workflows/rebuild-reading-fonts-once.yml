@@ -8,9 +8,11 @@ on:
       - "reading/**/*.css"
       - "reading/**/*.js"
       - "assets/fonts/**"
-      - "scripts/build-reading-font-subsets.py"
       - "scripts/check-reading-font-coverage.py"
+      - "scripts/reading-display-glyphs.txt"
+      - "scripts/build-reading-font-subsets.py"
       - "scripts/build-discovery.mjs"
+      - "scripts/run-discovery-build.mjs"
       - "scripts/verify-generated-discovery.mjs"
       - "scripts/runtime-discovery-search.mjs"
       - "scripts/validate-discovery.mjs"
@@ -46,30 +48,20 @@ jobs:
       - name: Install site tools
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Rebuild Reading font subsets in CI workspace
-        run: python scripts/build-reading-font-subsets.py
-
-      - name: Verify Reading serif stack coverage
+      - name: Verify semantic Reading font coverage
         run: python scripts/check-reading-font-coverage.py
-
-      - name: Verify committed font artifacts are current
-        run: |
-          git diff --exit-code -- \
-            assets/fonts/genryu-reading-tw.woff2 \
-            assets/fonts/qiji-reading-title.woff2 \
-            assets/fonts/hanamin-reading-rare.woff2
 
       - name: Rebuild and verify discovery assets
         run: |
           npm run build:discovery
           node scripts/verify-generated-discovery.mjs
 
-      - name: Explain stale-artifact failures
+      - name: Explain Reading artifact failures
         if: failure()
         run: |
-          echo "Reading artifacts are validation outputs, not bot-authored commits."
+          echo "Reading uses three canonical font assets with semantic fallback; routine content must not create supplement fonts."
           echo "Before pushing a Reading change, run:"
-          echo "  python scripts/build-reading-font-subsets.py"
-          echo "  python scripts/check-reading-font-coverage.py"
+          echo "  npm run check:reading-fonts"
           echo "  npm run build:discovery"
           echo "  node scripts/verify-generated-discovery.mjs"
+          echo "If font coverage is genuinely missing, rebuild the canonical GenRyu/QIJIC/HanaMin assets in one typography-maintenance commit."

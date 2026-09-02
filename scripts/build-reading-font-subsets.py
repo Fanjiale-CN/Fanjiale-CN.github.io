@@ -1,34 +1,29 @@
 #!/usr/bin/env python3
-"""Build stable Galok Reading font subsets from official upstream sources."""
-
+"""Maintenance-only builder for the three canonical Galok Reading fonts."""
 from __future__ import annotations
 
-import argparse
-from html.parser import HTMLParser
-from pathlib import Path
+import hashlib
 import subprocess
 import tempfile
 import urllib.request
+from html.parser import HTMLParser
+from pathlib import Path
 
 from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parents[1]
 READING_ROOT = ROOT / "reading"
 FONT_DIR = ROOT / "assets" / "fonts"
+DISPLAY_MANIFEST = ROOT / "scripts" / "reading-display-glyphs.txt"
 
 GENRYU_URL = "https://raw.githubusercontent.com/ButTaiwan/genryu-font/master/otf/TW/GenRyuMin2TW-R.otf"
 QIJI_URL = "https://github.com/LingDong-/qiji-font/releases/download/0.0.4/qiji-combo.ttf"
 HANAMIN_URL = "https://github.com/cjkvi/HanaMinAFDKO/releases/download/8.030/HanaMinB.otf"
 
 REQUIRED_PUNCTUATION = set("，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　")
-TITLE_TEXT = (
-    "鹽鐵論管子東京夢華錄"
-    "東都外城舊京城河道大內內諸司外諸司御街"
-    "宣德樓前省府宮宇朱雀門外街巷州橋夜市東角樓街巷"
-    "潘樓東街巷酒樓飲食果子"
-    "馬行街北諸醫鋪大內西右掖門外街巷大內前州橋東街巷"
-    "本議力耕通有錯幣禁耕復古非鞅晁錯刺權刺復論儒憂邊園池輕重未通地廣貧富毀學褒賢相刺殊路訟賢遵道論誹孝養刺議利議國疾散不足救匱箴石除狹疾貪後刑授時水旱崇禮備胡執務能言取下擊之結和誅秦伐功西域世務和親繇役險固論勇論功論鄒論菑刑德申韓周秦詔聖大論雜論"
-)
+PRIMARY_CLASSES = {"dj-columns", "reading-primary-text"}
+SKIP_TAGS = {"script", "style", "template", "noscript"}
+VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
 
 
 def is_cjk(ch: str) -> bool:
@@ -41,127 +36,171 @@ def is_cjk(ch: str) -> bool:
     )
 
 
-class VisibleTextParser(HTMLParser):
+class ReadingTextParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
-        self.skip_depth = 0
-        self.parts: list[str] = []
+        self.stack: list[tuple[bool, bool]] = []
+        self.primary_parts: list[str] = []
+        self.display_parts: list[str] = []
+
+    def _state(self) -> tuple[bool, bool]:
+        return self.stack[-1] if self.stack else (False, False)
 
     def handle_starttag(self, tag: str, attrs) -> None:
-        if tag in {"script", "style", "template", "noscript"}:
-            self.skip_depth += 1
+        parent_skip, parent_primary = self._state()
+        attr_map = {key: value for key, value in attrs}
+        classes = set((attr_map.get("class") or "").split())
+        lang = (attr_map.get("lang") or "").lower()
+        starts_primary = (tag == "blockquote" and lang.startswith("zh")) or bool(classes & PRIMARY_CLASSES)
+        if tag not in VOID_TAGS:
+            self.stack.append((parent_skip or tag in SKIP_TAGS, parent_primary or starts_primary))
 
     def handle_endtag(self, tag: str) -> None:
-        if tag in {"script", "style", "template", "noscript"} and self.skip_depth:
-            self.skip_depth -= 1
+        if tag not in VOID_TAGS and self.stack:
+            self.stack.pop()
 
     def handle_data(self, data: str) -> None:
-        if not self.skip_depth:
-            self.parts.append(data)
+        skip, primary = self._state()
+        if skip:
+            return
+        (self.primary_parts if primary else self.display_parts).append(data)
 
 
-def reading_characters() -> set[str]:
-    chars = set(REQUIRED_PUNCTUATION)
-    chars.update(TITLE_TEXT)
+def collect_corpora() -> tuple[set[str], set[str]]:
+    primary = set(REQUIRED_PUNCTUATION)
+    display: set[str] = set()
     for path in sorted(READING_ROOT.rglob("*.html")):
-        parser = VisibleTextParser()
+        parser = ReadingTextParser()
         parser.feed(path.read_text(encoding="utf-8", errors="ignore"))
-        for ch in "".join(parser.parts):
+        for ch in "".join(parser.primary_parts):
             if is_cjk(ch) or ch in REQUIRED_PUNCTUATION:
-                chars.add(ch)
-    return chars
+                primary.add(ch)
+        for ch in "".join(parser.display_parts):
+            if is_cjk(ch):
+                display.add(ch)
+    if DISPLAY_MANIFEST.exists():
+        display.update(ch for ch in DISPLAY_MANIFEST.read_text(encoding="utf-8") if is_cjk(ch))
+    return primary, display
 
 
 def font_codepoints(path: Path) -> set[int]:
     font = TTFont(path)
-    result: set[int] = set()
+    cmap: set[int] = set()
     for table in font["cmap"].tables:
-        result.update(table.cmap.keys())
-    return result
+        cmap.update(table.cmap.keys())
+    font.close()
+    return cmap
+
+
+def family_names(path: Path) -> list[str]:
+    font = TTFont(path)
+    out: set[str] = set()
+    for rec in font["name"].names:
+        if rec.nameID in (1, 4, 6):
+            try:
+                out.add(rec.toUnicode())
+            except Exception:
+                pass
+    font.close()
+    return sorted(out)
 
 
 def download(url: str, destination: Path) -> Path:
     print(f"Downloading {url}")
-    with urllib.request.urlopen(url, timeout=120) as response:
+    with urllib.request.urlopen(url, timeout=180) as response:
         destination.write_bytes(response.read())
     return destination
 
 
-def source_or_download(value: str | None, url: str, destination: Path) -> Path:
-    if value:
-        path = Path(value).expanduser().resolve()
-        if not path.exists():
-            raise FileNotFoundError(path)
-        return path
-    return download(url, destination)
+def subset(source: Path, chars: set[str], output: Path) -> None:
+    if not chars:
+        raise RuntimeError(f"Refusing to build empty subset for {output.name}")
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", delete=False, suffix=".txt") as handle:
+        handle.write("".join(sorted(chars, key=ord)))
+        text_path = Path(handle.name)
+    try:
+        subprocess.run(
+            [
+                "pyftsubset",
+                str(source),
+                f"--text-file={text_path}",
+                f"--output-file={output}",
+                "--flavor=woff2",
+                "--layout-features=*",
+                "--glyph-names",
+                "--symbol-cmap",
+                "--legacy-cmap",
+                "--notdef-glyph",
+                "--notdef-outline",
+                "--recommended-glyphs",
+                "--name-IDs=*",
+                "--name-legacy",
+                "--name-languages=*",
+            ],
+            check=True,
+        )
+    finally:
+        text_path.unlink(missing_ok=True)
 
 
-def subset(source: Path, text_file: Path, output: Path) -> None:
-    output.parent.mkdir(parents=True, exist_ok=True)
-    subprocess.run(
-        [
-            "pyftsubset",
-            str(source),
-            f"--text-file={text_file}",
-            f"--output-file={output}",
-            "--flavor=woff2",
-            "--layout-features=*",
-            "--glyph-names",
-            "--symbol-cmap",
-            "--legacy-cmap",
-            "--notdef-glyph",
-            "--notdef-outline",
-            "--recommended-glyphs",
-            "--name-IDs=*",
-            "--name-legacy",
-            "--name-languages=*",
-        ],
-        check=True,
-    )
+def git_blob_sha(path: Path) -> str:
+    data = path.read_bytes()
+    return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--genryu-source")
-    parser.add_argument("--qiji-source")
-    parser.add_argument("--hanamin-source")
-    args = parser.parse_args()
+    primary, display = collect_corpora()
+    print(f"Primary/source corpus: {len(primary)} chars")
+    print(f"Display/UI corpus: {len(display)} chars")
 
-    chars = reading_characters()
-    print(f"Reading corpus: {len(chars)} characters")
-
-    with tempfile.TemporaryDirectory(prefix="galok-reading-fonts-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="galok-canonical-fonts-") as tmp:
         tmpdir = Path(tmp)
-        genryu = source_or_download(args.genryu_source, GENRYU_URL, tmpdir / "GenRyuMin2TW-R.otf")
-        qiji = source_or_download(args.qiji_source, QIJI_URL, tmpdir / "qiji-combo.ttf")
-        hanamin = source_or_download(args.hanamin_source, HANAMIN_URL, tmpdir / "HanaMinB.otf")
+        genryu = download(GENRYU_URL, tmpdir / "GenRyuMin2TW-R.otf")
+        qiji = download(QIJI_URL, tmpdir / "qiji-combo.ttf")
+        hanamin = download(HANAMIN_URL, tmpdir / "HanaMinB.otf")
 
-        body_chars = tmpdir / "reading-chars.txt"
-        body_chars.write_text("".join(sorted(chars, key=ord)), encoding="utf-8")
-        title_chars = tmpdir / "reading-title-chars.txt"
-        title_chars.write_text(TITLE_TEXT, encoding="utf-8")
+        print("GenRyu source:", genryu.stat().st_size, family_names(genryu))
+        print("QIJIC source:", qiji.stat().st_size, family_names(qiji))
+        print("HanaMin source:", hanamin.stat().st_size, family_names(hanamin))
 
         genryu_cmap = font_codepoints(genryu)
-        rare = {ch for ch in chars if ord(ch) not in genryu_cmap}
+        qiji_cmap = font_codepoints(qiji)
         hanamin_cmap = font_codepoints(hanamin)
-        unsupported = sorted(ch for ch in rare if ord(ch) not in hanamin_cmap)
-        if unsupported:
-            formatted = ", ".join(f"{ch} U+{ord(ch):04X}" for ch in unsupported)
-            raise RuntimeError(f"HanaMinB also lacks required Reading characters: {formatted}")
 
-        rare_chars = tmpdir / "reading-rare-chars.txt"
-        rare_chars.write_text("".join(sorted(rare, key=ord)), encoding="utf-8")
+        display_source_fallback = {ch for ch in display if ord(ch) not in qiji_cmap}
+        serif_needed = primary | display_source_fallback
+        rare = {ch for ch in serif_needed if ord(ch) not in genryu_cmap}
+        hana_unsupported = sorted(ch for ch in rare if ord(ch) not in hanamin_cmap)
+        if hana_unsupported:
+            raise RuntimeError("HanaMin source also lacks primary chars: " + " ".join(f"{ch}(U+{ord(ch):04X})" for ch in hana_unsupported))
 
-        subset(genryu, body_chars, FONT_DIR / "genryu-reading-tw.woff2")
-        subset(qiji, title_chars, FONT_DIR / "qiji-reading-title.woff2")
-        subset(hanamin, rare_chars, FONT_DIR / "hanamin-reading-rare.woff2")
+        FONT_DIR.mkdir(parents=True, exist_ok=True)
+        genryu_out = FONT_DIR / "genryu-reading-tw.woff2"
+        qiji_out = FONT_DIR / "qiji-reading-title.woff2"
+        hana_out = FONT_DIR / "hanamin-reading-rare.woff2"
 
-        print(f"GenRyu subset: {FONT_DIR / 'genryu-reading-tw.woff2'}")
-        print(f"Qiji subset: {FONT_DIR / 'qiji-reading-title.woff2'}")
-        print(f"HanaMin rare fallback: {len(rare)} characters -> {FONT_DIR / 'hanamin-reading-rare.woff2'}")
-        if rare:
-            print("Rare fallback characters:", " ".join(sorted(rare, key=ord)))
+        subset(genryu, serif_needed - rare, genryu_out)
+        subset(qiji, display - display_source_fallback, qiji_out)
+        subset(hanamin, rare, hana_out)
 
+        gen_out_cmap = font_codepoints(genryu_out)
+        qiji_out_cmap = font_codepoints(qiji_out)
+        hana_out_cmap = font_codepoints(hana_out)
+
+        serif_stack = gen_out_cmap | hana_out_cmap
+        display_stack = qiji_out_cmap | serif_stack
+        primary_missing = sorted(ch for ch in primary if ord(ch) not in serif_stack)
+        display_missing = sorted(ch for ch in display if ord(ch) not in display_stack)
+        if primary_missing or display_missing:
+            raise RuntimeError(f"Post-build coverage failure: primary={primary_missing!r} display={display_missing!r}")
+
+        for path in (genryu_out, qiji_out, hana_out):
+            cmap = font_codepoints(path)
+            print(f"CANONICAL {path.relative_to(ROOT)} size={path.stat().st_size} cmap={len(cmap)} git_blob={git_blob_sha(path)} sha256={hashlib.sha256(path.read_bytes()).hexdigest()}")
+
+        if display_source_fallback:
+            print("QIJIC source fallback glyphs:", " ".join(f"{ch}(U+{ord(ch):04X})" for ch in sorted(display_source_fallback, key=ord)))
+        print(f"PASS: primary {len(primary)}/{len(primary)}, display stack {len(display)}/{len(display)}, QIJIC direct {len(display)-len(display_source_fallback)}/{len(display)}, rare fallback {len(rare)}")
     return 0
 
 

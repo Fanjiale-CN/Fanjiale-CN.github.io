@@ -1,9 +1,4 @@
 (() => {
-  const fontFix = document.createElement('link');
-  fontFix.rel = 'stylesheet';
-  fontFix.href = '/reading/dongjing-08-fontfix.css?v=20260831a';
-  document.head.append(fontFix);
-
   const translations = {
     court: 'Before Xuande Tower … near the east side were the eight seats of the two administrations; on the west was the Department of State Affairs.',
     institutions: 'From in front of the imperial palace the Imperial Avenue ran south; Jingling East Palace stood to the left and the West Palace to the right.',
