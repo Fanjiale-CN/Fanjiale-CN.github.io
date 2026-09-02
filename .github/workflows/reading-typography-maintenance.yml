@@ -2,6 +2,14 @@ name: Reading Typography Maintenance
 
 on:
   workflow_dispatch:
+  # TEMPORARY development trigger for Entry 19 font-corpus refresh only.
+  # This push trigger is removed immediately after the runner commits the canonical fonts.
+  push:
+    branches:
+      - work/dongjing-volume3-19-20-sourcehan
+    paths:
+      - ".github/workflows/reading-typography-maintenance.yml"
+      - "reading/dongjing-meng-hua-lu/19/**"
 
 permissions:
   contents: write
@@ -12,7 +20,7 @@ concurrency:
 
 jobs:
   rebuild:
-    if: github.ref_name != 'main'
+    if: github.ref_name != 'main' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
