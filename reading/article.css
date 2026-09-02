@@ -11,16 +11,10 @@
 @media(prefers-reduced-motion:reduce){.reading-article-hero-source img{transition:none}}
 
 /* GenRyu Serif TW trial — ButTaiwan / SIL OFL 1.1. */
-@font-face{
-  font-family:"Galok Reading Serif TW";
-  src:url("/assets/fonts/genryu-reading-tw.woff2") format("woff2");
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-}
+
 
 .reading-article-page .reading-article-hero-source .reading-source-columns,
 .reading-article-page .reading-primary-text blockquote[lang="zh-Hant"]{
-  font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC","PMingLiU",serif;
+  font-family:var(--reading-cjk);
   font-synthesis:none;
 }

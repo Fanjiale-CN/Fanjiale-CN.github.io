@@ -1,10 +1,10 @@
 /* Dongjing Meng Hua Lu — Entry 09 / Zhuque Gate south axis */
-@font-face{font-family:"Galok Qiji Entry09";src:url("/assets/fonts/qiji-reading-title.woff2?v=20260901a") format("woff2");font-style:normal;font-weight:400;font-display:swap}
-@font-face{font-family:"Galok Reading Serif Entry09";src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260901a") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+
+
 
 .dj09-page{--dj09-paper:#f2ede0;--dj09-ink:#171713;--dj09-muted:#716b60;--dj09-rule:#c9c0b0;--dj09-red:#a22d28;--dj09-jade:#254f47;--dj09-soft:#e7dfd1}
-.dj09-page :lang(zh-Hant){font-family:"Galok Reading Serif Entry09","Songti TC","STSong","Noto Serif TC",serif;font-weight:400;font-synthesis:none}
-.dj09-page .dj-entry-title .dj-title-zh{font-family:"Galok Qiji Entry09","Galok Reading Serif Entry09","Songti TC",serif!important;font-weight:400!important;font-synthesis:none}
+.dj09-page :lang(zh-Hant){font-family:var(--reading-cjk);font-weight:400;font-synthesis:none}
+.dj09-page .dj-entry-title .dj-title-zh{font-family:var(--reading-cjk);font-weight:400!important;font-synthesis:none}
 .dj09-page .dj-entry-title h1{font-size:clamp(4.1rem,7.4vw,8.2rem);letter-spacing:.04em;max-width:8em}
 .dj09-page .dj-entry-title h2{max-width:9ch}
 
@@ -35,7 +35,7 @@
 .dj09-stop{padding:23px 24px;border-right:1px solid var(--dj09-rule);min-width:0;transition:background-color .2s ease}
 .dj09-stop:nth-child(even){border-right:0}
 .dj09-stop small{display:block;margin-bottom:30px;color:var(--dj09-red);font:760 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em}
-.dj09-stop b{display:block;font-family:"Galok Reading Serif Entry09","Songti TC",serif;font-size:1.08rem;font-weight:400;line-height:1.28;font-synthesis:none}
+.dj09-stop b{display:block;font-family:var(--reading-cjk);font-size:1.08rem;font-weight:400;line-height:1.28;font-synthesis:none}
 .dj09-stop span{display:block;margin-top:7px;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.74rem;line-height:1.4}
 .dj09-stop.is-active{background:rgba(162,45,40,.045)}
 .dj09-axis-note{display:grid;grid-template-columns:180px 1fr;gap:48px;padding-top:18px;color:var(--dj09-muted)}
@@ -46,19 +46,19 @@
 .dj09-text-unit{margin:28px 0 22px;border-top:1px solid var(--dj09-ink);border-bottom:1px solid var(--dj09-ink)}
 .dj09-text-unit header{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--dj09-rule);font:760 .57rem/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
 .dj09-text-unit header span:first-child{color:var(--dj09-red)}
-.dj09-text-unit blockquote{margin:0;padding:30px 0 26px;font-family:"Galok Reading Serif Entry09","Songti TC","STSong","Noto Serif TC",serif;font-size:clamp(1.45rem,2.15vw,2.25rem);font-weight:400;line-height:1.66;letter-spacing:.018em;font-synthesis:none}
+.dj09-text-unit blockquote{margin:0;padding:30px 0 26px;font-family:var(--reading-cjk);font-size:clamp(1.45rem,2.15vw,2.25rem);font-weight:400;line-height:1.66;letter-spacing:.018em;font-synthesis:none}
 .dj09-text-unit footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:11px 0;border-top:1px solid var(--dj09-rule);color:var(--dj09-muted);font:700 .55rem/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em}
 .dj09-text-unit footer a{text-decoration:none}.dj09-text-unit footer a:hover{color:var(--dj09-red)}
 
 .dj09-medicine{display:grid;grid-template-columns:150px 1fr;gap:30px;margin:32px 0 10px;padding:24px;border:1px solid var(--dj09-rule);background:rgba(255,255,255,.1)}
-.dj09-medicine-mark{display:grid;place-items:center;min-height:150px;border:1px solid var(--dj09-red);color:var(--dj09-red);font-family:"Galok Qiji Entry09","Galok Reading Serif Entry09",serif;font-size:clamp(2.7rem,5vw,5.2rem);writing-mode:vertical-rl;letter-spacing:.08em}
+.dj09-medicine-mark{display:grid;place-items:center;min-height:150px;border:1px solid var(--dj09-red);color:var(--dj09-red);font-family:var(--reading-cjk);font-size:clamp(2.7rem,5vw,5.2rem);writing-mode:vertical-rl;letter-spacing:.08em}
 .dj09-medicine-copy small{display:block;margin-bottom:18px;color:var(--dj09-red);font:760 .56rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
 .dj09-medicine-copy h3{margin:0 0 12px;font-size:clamp(1.8rem,2.8vw,3rem);line-height:1;letter-spacing:-.04em}
 .dj09-medicine-copy p{margin:0;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.94rem;line-height:1.65}
 
 .dj09-later{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:center;margin:32px 0 10px;padding:20px 0;border-top:1px solid var(--dj09-rule);border-bottom:1px solid var(--dj09-rule)}
 .dj09-later small{color:var(--dj09-red);font:760 .55rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
-.dj09-later b{font-family:"Galok Reading Serif Entry09","Songti TC",serif;font-size:1.28rem;font-weight:400;font-synthesis:none}
+.dj09-later b{font-family:var(--reading-cjk);font-size:1.28rem;font-weight:400;font-synthesis:none}
 .dj09-later a{text-decoration:none;font:760 .55rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.07em;border-bottom:1px solid var(--dj09-rule)}
 .dj09-later a:hover{color:var(--dj09-red);border-color:var(--dj09-red)}
 
@@ -66,7 +66,7 @@
 .dj09-variant summary{cursor:pointer;padding:14px 0;color:var(--dj09-red);font:760 .57rem/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em;list-style:none}
 .dj09-variant summary::-webkit-details-marker{display:none}.dj09-variant summary:after{content:"+";float:right;color:var(--dj09-ink);font-size:.9rem}.dj09-variant[open] summary:after{content:"−"}
 .dj09-variant p{margin:0;padding:0 0 16px;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.92rem;line-height:1.62}
-.dj09-variant p span{color:var(--dj09-ink);font-family:"Galok Reading Serif Entry09","Songti TC",serif;font-synthesis:none}
+.dj09-variant p span{color:var(--dj09-ink);font-family:var(--reading-cjk);font-synthesis:none}
 
 .dj09-gate-ending{margin-top:clamp(72px,8vw,118px);border-top:1px solid var(--dj09-ink);border-bottom:1px solid var(--dj09-ink)}
 .dj09-gate-ending header{display:grid;grid-template-columns:180px 1fr;gap:48px;padding:18px 0;border-bottom:1px solid var(--dj09-rule)}
@@ -76,7 +76,7 @@
 .dj09-gate-rule{min-height:310px;padding:38px;border-right:1px solid var(--dj09-rule);display:flex;flex-direction:column;justify-content:space-between}
 .dj09-gate-rule:last-child{border-right:0}
 .dj09-gate-rule small{color:var(--dj09-red);font:760 .56rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
-.dj09-gate-rule blockquote{margin:0;font-family:"Galok Qiji Entry09","Galok Reading Serif Entry09",serif;font-size:clamp(2.6rem,4.7vw,5.5rem);font-weight:400;line-height:1.05;letter-spacing:.04em;font-synthesis:none}
+.dj09-gate-rule blockquote{margin:0;font-family:var(--reading-cjk);font-size:clamp(2.6rem,4.7vw,5.5rem);font-weight:400;line-height:1.05;letter-spacing:.04em;font-synthesis:none}
 .dj09-gate-rule p{max-width:46ch;margin:26px 0 0;color:var(--dj09-muted);font-family:Georgia,"Times New Roman",serif;font-size:.9rem;line-height:1.55}
 .dj09-gate-rule--pig{background:rgba(162,45,40,.045)}
 .dj09-gate-rule--pig blockquote{color:var(--dj09-red)}

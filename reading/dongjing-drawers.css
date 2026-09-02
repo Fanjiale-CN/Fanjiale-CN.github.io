@@ -30,7 +30,7 @@
 .dj-drawer-entry:hover{background:rgba(255,255,255,.18)}
 .dj-drawer-entry>span:first-child{color:var(--dj-red);font:760 .62rem/1 ui-monospace,SFMono-Regular,Consolas,monospace}
 .dj-drawer-entry-title strong{display:block;font-size:1rem;line-height:1.3}
-.dj-drawer-entry-title small{display:block;margin-top:4px;color:var(--dj-muted);font-family:"Galok Reading Serif TW","Noto Serif TC","Songti TC",serif;font-size:.88rem;font-weight:400;font-synthesis:none}
+.dj-drawer-entry-title small{display:block;margin-top:4px;color:var(--dj-muted);font-family:var(--reading-cjk);font-size:.88rem;font-weight:400;font-synthesis:none}
 .dj-drawer-entry-note{color:var(--dj-muted);font-family:Georgia,"Times New Roman",serif;font-size:.84rem;line-height:1.46}
 .dj-drawer-entry-state,.dj-drawer-entry-time{font:760 .54rem/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.07em}
 .dj-drawer-entry-state{color:var(--dj-red)}
