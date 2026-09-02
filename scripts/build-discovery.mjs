@@ -110,20 +110,18 @@ function validDate(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value || "") ? value : "";
 }
 function lastModified(relativePath, canonical, html) {
-  const schema = readJsonLd(html) || {};
-  const explicitModified = validDate(schema.dateModified);
-  if (explicitModified) return explicitModified;
   if (hasWorkingTreeChange(relativePath)) return releaseDate();
   const committed = committedSitemapDates.get(canonical);
   if (committed) return committed;
-  return stablePathDate(relativePath) || validDate(schema.datePublished) || releaseDate();
+  const schema = readJsonLd(html) || {};
+  return validDate(schema.dateModified) || stablePathDate(relativePath) || validDate(schema.datePublished) || releaseDate();
 }
 function publicationDate(page, schema) {
   const explicit = validDate(schema.datePublished);
-  if (explicit) return explicit;
+  if (hasWorkingTreeChange(page.relativePath) && explicit) return explicit;
   const committed = committedFeedDates.get(page.canonical);
   if (committed) return committed;
-  return page.lastmod;
+  return explicit || page.lastmod;
 }
 function rssDate(value) {
   return new Date(`${value}T12:00:00Z`);
