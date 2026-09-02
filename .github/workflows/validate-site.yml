@@ -44,6 +44,9 @@ jobs:
       - name: Verify stable workflow policy
         run: npm run check:workflow-policy
 
+      - name: Verify repository hygiene
+        run: npm run check:hygiene
+
       - name: Verify Reading canonical font-stack coverage
         run: python scripts/check-reading-font-coverage.py
 
