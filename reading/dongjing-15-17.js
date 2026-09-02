@@ -1,4 +1,16 @@
 (() => {
+  if (document.body.classList.contains('dj19-page')) {
+    const queued = document.querySelector('.dj-v3-entry-nav span');
+    if (queued?.textContent.includes('20 / 上清宮')) {
+      const link = document.createElement('a');
+      link.href = '/reading/dongjing-meng-hua-lu/20/';
+      link.innerHTML = '<small>NEXT</small><strong>20 / 上清宮</strong>';
+      queued.replaceWith(link);
+    }
+    const status = document.querySelector('.dj19-exit em');
+    if (status) status.textContent = 'LIVE / Continue to the citywide sacred network';
+  }
+
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = [...document.querySelectorAll('[data-dj-v3-reveal], [data-dj15-node], [data-dj16-node], [data-dj17-node]')];
   if (!items.length) return;
