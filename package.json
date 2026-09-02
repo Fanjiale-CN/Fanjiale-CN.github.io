@@ -9,6 +9,7 @@
     "galok:preflight": "node scripts/galok-preflight.mjs",
     "check:package-contract": "node scripts/check-package-contract.mjs",
     "check:workflow-policy": "node scripts/validate-workflow-policy.mjs",
+    "check:discovery-clock": "node scripts/check-discovery-clock-independence.mjs",
     "release:core": "node scripts/release-check.mjs",
     "check:generated-clean": "node scripts/verify-generated-discovery.mjs",
     "release": "npm run build:discovery && npm run release:core && npm run check:generated-clean",

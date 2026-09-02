@@ -28,7 +28,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 24.20.0
           cache: npm
 
       - name: Install CI tools
@@ -51,6 +51,9 @@ jobs:
         run: |
           npm run build:discovery
           node scripts/verify-generated-discovery.mjs
+
+      - name: Prove discovery is independent of wall-clock date
+        run: npm run check:discovery-clock
 
       - name: Run lightweight release validators
         run: npm run release:core

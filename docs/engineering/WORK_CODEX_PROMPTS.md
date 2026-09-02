@@ -18,6 +18,7 @@ Hard rules:
 - Do not create a temporary/once/preflight/retry/installer GitHub Actions workflow.
 - Do not bypass, weaken, delete, or replace validators to make CI green.
 - Do not hand-edit deterministic generated discovery files as the primary fix.
+- Committed Discovery output must be independent of wall-clock time, timezone boundaries, runner mtimes, and synthetic PR merge timestamps.
 - Do not rebuild frozen base fonts for routine content.
 - A preferred-font glyph miss is allowed if the canonical project-owned fallback stack resolves it.
 - package.json and package-lock.json must remain synchronized.
@@ -68,11 +69,12 @@ Required method:
 3. Read the exact failed step/log and classify it using the failure matrix.
 4. Decide whether the failure is deterministic or transient.
 5. For deterministic failures, do not rerun unchanged. Fix the root cause on the feature branch.
-6. Never create a one-off workflow, weaken a validator, lower a threshold, discard generated diffs, or push main directly.
-7. Run `npm run galok:prepare` if the fix can affect HTML/routes/metadata/discovery/observability.
-8. Commit source + generated artifacts atomically.
-9. Run `npm run galok:preflight`.
-10. Push branch, then verify the new GitHub run.
+6. If the same SHA differs between runs, compare runner version, Node/runtime version, wall-clock/timezone boundary, generated dates, locale/order, filesystem mtimes, and synthetic merge refs before calling it transient.
+7. Never create a one-off workflow, weaken a validator, lower a threshold, discard generated diffs, or push main directly.
+8. Run `npm run galok:prepare` if the fix can affect HTML/routes/metadata/discovery/observability.
+9. Commit source + generated artifacts atomically.
+10. Run `npm run galok:preflight`.
+11. Push branch, then verify the new GitHub run.
 
 Return a concise root-cause report:
 - first failed stage
@@ -114,11 +116,12 @@ This task changes Galok's engineering governance.
 Read all files under docs/engineering/ plus AGENTS.md before editing.
 
 A governance change must:
-- explain which historical failure class it addresses
+- explain which historical or newly discovered failure class it addresses
 - implement machine enforcement when feasible
 - keep normal feature development off main
 - keep workflows stable and small
 - avoid duplicate validators/workflows
+- make committed outputs reproducible across wall-clock time and runner variation
 - update documentation and automation together
 - preserve a clear rollback path
 

@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdirSync, readdirSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { tmpdir } from "node:os";
 
@@ -15,6 +15,9 @@ function escapeXml(value) {
 }
 function decodeHtml(value = "") {
   return value.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, "\"").replace(/&#39;/g, "'").replace(/\s+/g, " ").trim();
+}
+function decodeXml(value = "") {
+  return value.replace(/&amp;/g, "&").replace(/&quot;/g, "\"").replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 }
 function metaContent(html, name) {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -38,8 +41,10 @@ function typeLabel(type) {
 function walk(directory, result = []) {
   for (const entry of readdirSync(directory)) {
     if (excludedDirectories.has(entry)) continue;
-    const path = join(directory, entry); const stats = statSync(path);
-    if (stats.isDirectory()) walk(path, result); else if (entry.endsWith(".html")) result.push(path);
+    const path = join(directory, entry);
+    const stats = statSync(path);
+    if (stats.isDirectory()) walk(path, result);
+    else if (entry.endsWith(".html")) result.push(path);
   }
   return result;
 }
@@ -51,31 +56,78 @@ function releaseDate() {
   return `${part("year")}-${part("month")}-${part("day")}`;
 }
 function hasWorkingTreeChange(relativePath) {
-  try { return Boolean(execFileSync("git", ["status", "--porcelain=v1", "--", relativePath], { cwd: root, encoding: "utf8" }).trim()); } catch { return false; }
-}
-function lastModified(relativePath) {
-  if (hasWorkingTreeChange(relativePath)) return releaseDate();
   try {
-    // Discovery artifacts are release outputs.  GitHub validates a synthetic
-    // PR merge whose per-path ancestry can differ from the branch checkout, so
-    // path-level history makes the same release generate different RSS dates.
-    // Anchor clean artifacts to the release commit instead.
-    const date = execFileSync("git", ["log", "-1", "--format=%cs", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
+    return Boolean(execFileSync("git", ["status", "--porcelain=v1", "--", relativePath], { cwd: root, encoding: "utf8" }).trim());
+  } catch {
+    return false;
+  }
+}
+function readHeadFile(relativePath) {
+  try {
+    return execFileSync("git", ["show", `HEAD:${relativePath}`], { cwd: root, encoding: "utf8" });
+  } catch {
+    const path = join(root, relativePath);
+    return existsSync(path) ? readFileSync(path, "utf8") : "";
+  }
+}
+function parseCommittedSitemapDates() {
+  const dates = new Map();
+  const xml = readHeadFile("sitemap.xml");
+  for (const match of xml.matchAll(/<url>[\s\S]*?<loc>([^<]+)<\/loc>[\s\S]*?<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>[\s\S]*?<\/url>/g)) {
+    dates.set(decodeXml(match[1]), match[2]);
+  }
+  return dates;
+}
+function parseCommittedFeedDates() {
+  const dates = new Map();
+  const xml = readHeadFile("feed.xml");
+  for (const match of xml.matchAll(/<item>[\s\S]*?<guid[^>]*>([^<]+)<\/guid>[\s\S]*?<pubDate>([^<]+)<\/pubDate>[\s\S]*?<\/item>/g)) {
+    const date = new Date(match[2]);
+    if (!Number.isNaN(date.valueOf())) dates.set(decodeXml(match[1]), date.toISOString().slice(0, 10));
+  }
+  return dates;
+}
+function stablePathDate(relativePath) {
+  try {
+    const date = execFileSync("git", ["log", "-1", "--format=%cs", "--", relativePath], { cwd: root, encoding: "utf8" }).trim();
     if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return date;
   } catch {}
-  return statSync(join(root, relativePath)).mtime.toISOString().slice(0, 10);
+  return "";
 }
 function readJsonLd(html) {
   const blocks = [...html.matchAll(/<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
   for (const block of blocks) {
     try {
-      const value = JSON.parse(block[1]); const values = Array.isArray(value) ? value : value["@graph"] || [value];
-      const article = values.find((item) => ["Article", "ScholarlyArticle"].includes(item?.["@type"])); if (article) return article;
+      const value = JSON.parse(block[1]);
+      const values = Array.isArray(value) ? value : value["@graph"] || [value];
+      const article = values.find((item) => ["Article", "ScholarlyArticle"].includes(item?.["@type"]));
+      if (article) return article;
     } catch {}
   }
   return null;
 }
-function rssDate(value, fallback) { if (/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return new Date(`${value}T12:00:00Z`); return new Date(`${fallback}T12:00:00Z`); }
+function validDate(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value || "") ? value : "";
+}
+function lastModified(relativePath, canonical, html) {
+  const schema = readJsonLd(html) || {};
+  const explicitModified = validDate(schema.dateModified);
+  if (explicitModified) return explicitModified;
+  if (hasWorkingTreeChange(relativePath)) return releaseDate();
+  const committed = committedSitemapDates.get(canonical);
+  if (committed) return committed;
+  return stablePathDate(relativePath) || validDate(schema.datePublished) || releaseDate();
+}
+function publicationDate(page, schema) {
+  const explicit = validDate(schema.datePublished);
+  if (explicit) return explicit;
+  const committed = committedFeedDates.get(page.canonical);
+  if (committed) return committed;
+  return page.lastmod;
+}
+function rssDate(value) {
+  return new Date(`${value}T12:00:00Z`);
+}
 function priorityFor(route) {
   if (route === "/") return ["1.0", "weekly"];
   if (["/cities/", "/essays/", "/radar/", "/research/", "/data/", "/reading/", "/index/"].includes(route)) return ["0.9", "weekly"];
@@ -92,9 +144,16 @@ function preferCanonicalCandidate(candidate, existing) {
   if (isDirectoryIndex(candidate.relativePath) !== isDirectoryIndex(existing.relativePath)) return isDirectoryIndex(candidate.relativePath);
   return candidate.relativePath.length > existing.relativePath.length;
 }
+function compareText(a, b) {
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
+const committedSitemapDates = parseCommittedSitemapDates();
+const committedFeedDates = parseCommittedFeedDates();
+
 function discoverPages() {
   const canonicalPages = new Map();
-  for (const path of walk(root).sort()) {
+  for (const path of walk(root).sort(compareText)) {
     const relativePath = relative(root, path).split(sep).join("/");
     if (relativePath === "404.html" || relativePath.includes("_archive")) continue;
     const html = readFileSync(path, "utf8");
@@ -108,38 +167,56 @@ function discoverPages() {
     const title = decodeHtml(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "Galok").replace(/\s+[—|]\s+GALOK$/i, "");
     const description = decodeHtml(metaContent(html, "description"));
     const route = new URL(canonical).pathname;
-    const candidate = { relativePath, route, canonical, html, title, description, type: typeFor(relativePath), lastmod: lastModified(relativePath), indexable, searchable };
+    const candidate = { relativePath, route, canonical, html, title, description, type: typeFor(relativePath), lastmod: lastModified(relativePath, canonical, html), indexable, searchable };
     const existing = canonicalPages.get(canonical);
     if (preferCanonicalCandidate(candidate, existing)) canonicalPages.set(canonical, candidate);
   }
-  return [...canonicalPages.values()].sort((a, b) => a.route.localeCompare(b.route));
+  return [...canonicalPages.values()].sort((a, b) => compareText(a.route, b.route));
 }
 function buildSitemap(pages) {
-  const rows = pages.map((page) => { const [priority, changefreq] = priorityFor(page.route); return `  <url>\n    <loc>${escapeXml(page.canonical)}</loc>\n    <lastmod>${page.lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`; });
+  const rows = pages.map((page) => {
+    const [priority, changefreq] = priorityFor(page.route);
+    return `  <url>\n    <loc>${escapeXml(page.canonical)}</loc>\n    <lastmod>${page.lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+  });
   writeFileSync(join(root, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.join("\n")}\n</urlset>\n`);
 }
 function buildFeed(pages) {
-  const entries = pages.filter((page) => (page.type === "essay" || page.type === "research" || page.type === "reading") && !["/essays/", "/research/", "/reading/"].includes(page.route)).map((page) => { const schema = readJsonLd(page.html) || {}; const published = rssDate(schema.datePublished, page.lastmod); return { ...page, title: schema.headline || page.title, description: schema.description || page.description, published }; }).sort((a, b) => b.published - a.published);
+  const entries = pages.filter((page) => (page.type === "essay" || page.type === "research" || page.type === "reading") && !["/essays/", "/research/", "/reading/"].includes(page.route)).map((page) => {
+    const schema = readJsonLd(page.html) || {};
+    const published = rssDate(publicationDate(page, schema));
+    return { ...page, title: schema.headline || page.title, description: schema.description || page.description, published };
+  }).sort((a, b) => (b.published - a.published) || compareText(a.route, b.route));
   const items = entries.map((entry) => `  <item>\n    <title>${escapeXml(entry.title)}</title>\n    <link>${escapeXml(entry.canonical)}</link>\n    <guid isPermaLink="true">${escapeXml(entry.canonical)}</guid>\n    <pubDate>${entry.published.toUTCString()}</pubDate>\n    <description>${escapeXml(entry.description)}</description>\n    <author>editor@galok.me (Galok)</author>\n  </item>`);
-  const latest = entries[0]?.published || new Date();
+  const latest = entries[0]?.published || rssDate("1970-01-01");
   writeFileSync(join(root, "feed.xml"), `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0">\n<channel>\n  <title>Galok — Essays, Research and Reading</title>\n  <link>${origin}/</link>\n  <description>Economic observation, city memory, historical reading and independent empirical research from Galok.</description>\n  <language>en</language>\n  <managingEditor>editor@galok.me (Galok)</managingEditor>\n  <lastBuildDate>${latest.toUTCString()}</lastBuildDate>\n${items.join("\n")}\n</channel>\n</rss>\n`);
 }
 function buildSearchSources(pages) {
-  rmSync(pagefindSource, { recursive: true, force: true }); rmSync(join(root, "pagefind"), { recursive: true, force: true }); mkdirSync(pagefindSource, { recursive: true }); mkdirSync(join(root, "pagefind"), { recursive: true });
-  const catalog = []; const searchablePages = pages.filter((page) => page.searchable && page.route !== "/index/");
+  rmSync(pagefindSource, { recursive: true, force: true });
+  rmSync(join(root, "pagefind"), { recursive: true, force: true });
+  mkdirSync(pagefindSource, { recursive: true });
+  mkdirSync(join(root, "pagefind"), { recursive: true });
+  const catalog = [];
+  const searchablePages = pages.filter((page) => page.searchable && page.route !== "/index/");
   for (const page of searchablePages) {
-    const destination = join(pagefindSource, page.relativePath); mkdirSync(join(destination, ".."), { recursive: true });
+    const destination = join(pagefindSource, page.relativePath);
+    mkdirSync(join(destination, ".."), { recursive: true });
     const filter = `<span data-pagefind-filter="type">${typeLabel(page.type)}</span>`;
     const searchable = page.html.replace(/<main\b([^>]*)>/i, `<main$1 data-pagefind-body>`).replace(/<\/main>/i, `${filter}</main>`).replace(/[\u3400-\u9fff]/g, (character) => `${character} `);
-    writeFileSync(destination, searchable); const stableTimestamp = new Date(`${page.lastmod}T00:00:00Z`); utimesSync(destination, stableTimestamp, stableTimestamp);
+    writeFileSync(destination, searchable);
+    const stableTimestamp = new Date(`${page.lastmod}T00:00:00Z`);
+    utimesSync(destination, stableTimestamp, stableTimestamp);
     catalog.push({ type: page.type, label: typeLabel(page.type), title: page.title, excerpt: page.description, url: page.route });
   }
   writeFileSync(join(root, "index", "search-catalog.json"), `${JSON.stringify(catalog, null, 2)}\n`);
   const sourceHash = createHash("sha256").update(searchablePages.map((page) => `${page.relativePath}\u0000${page.html}`).join("\u0000")).digest("hex");
   writeFileSync(join(root, "pagefind", "build.json"), `${JSON.stringify({ sourceHash, pageCount: searchablePages.length }, null, 2)}\n`);
 }
-const pages = discoverPages(); const indexablePages = pages.filter((page) => page.indexable);
+
+const pages = discoverPages();
+const indexablePages = pages.filter((page) => page.indexable);
 if (!indexablePages.length) throw new Error("Discovery build found no public canonical pages.");
-buildSitemap(indexablePages); buildFeed(indexablePages); buildSearchSources(pages);
+buildSitemap(indexablePages);
+buildFeed(indexablePages);
+buildSearchSources(pages);
 const searchableCount = pages.filter((page) => page.searchable && page.route !== "/index/").length;
 console.log(`Discovery sources ready: ${indexablePages.length} sitemap URLs, ${searchableCount} searchable documents.`);

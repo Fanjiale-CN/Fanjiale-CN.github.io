@@ -25,6 +25,14 @@ The repository policy currently permits these workflows:
 
 Adding or retiring a workflow is an engineering-governance change and must update `scripts/validate-workflow-policy.mjs` intentionally.
 
+## Reproducible CI environment
+
+The authoritative site-validation workflow pins its Node.js patch version rather than using an open-ended major version.
+
+A candidate must not receive materially different validation merely because `actions/setup-node` resolved `24.x` to a different patch release between two runs.
+
+Runner images can still change, so repository-owned deterministic gates must not depend on wall-clock time, filesystem mtimes, locale-sensitive ordering, or other host defaults.
+
 ## Fast phase
 
 The site workflow runs deterministic gates first:
@@ -33,14 +41,15 @@ The site workflow runs deterministic gates first:
 2. stable workflow policy
 3. Reading owned font-stack coverage
 4. discovery rebuild/reproducibility
-5. lightweight release validators
-6. experience validator
-7. HTML/routes/fragments/R2 validation
-8. resource budgets
+5. discovery wall-clock independence
+6. lightweight release validators
+7. experience validator
+8. HTML/routes/fragments/R2 validation
+9. resource budgets
 
 These steps are fail-fast. If one fails, expensive browser/Lighthouse work must not run.
 
-This means a stale Pagefind build produces one clear red step, not a five-minute run followed by a misleading generic release-gate failure.
+This means a stale Pagefind build or time-dependent feed produces one clear red step, not a five-minute run followed by a misleading generic release-gate failure.
 
 ## Runtime phase
 

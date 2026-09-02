@@ -1,6 +1,6 @@
 # Failure Prevention Matrix
 
-This matrix converts the 123 failed GitHub Actions runs audited for 2026-08-24 through 2026-09-01 into permanent engineering controls.
+This matrix converts the 123 failed GitHub Actions runs audited for 2026-08-24 through 2026-09-01 into permanent engineering controls. It also records new failure classes discovered while validating the governance system itself.
 
 Problem fingerprints may overlap; counts are impact frequency, not mutually exclusive totals.
 
@@ -30,6 +30,7 @@ Problem fingerprints may overlap; counts are impact frequency, not mutually excl
 | SCRIPT_SYNTAX | 1 | implementation logic lives in `.mjs/.py` files instead of giant YAML blocks | Node/Python execution + review | fix source script and rerun |
 | ASSET_LOAD | 1 | referenced-asset/resource validation before runtime | link/resource gates | fix path, availability, preload or CORS cause |
 | CF_ROUTE | 1 | deploy and public route verification are distinct steps | operational smoke tests | inspect route propagation/Worker config and HTTP status |
+| DISCOVERY_CLOCK | post-audit | committed feed/sitemap dates cannot derive from runner wall clock or synthetic merge time | `check:discovery-clock` rebuilds at 1999 and 2099 + strict byte-diff gate | fix date provenance; never rerun unchanged across midnight |
 
 ## Coverage principle
 
@@ -48,6 +49,7 @@ The target is not "Actions can never be red."
 The target is:
 
 - stale generated-artifact reds approach zero
+- wall-clock-dependent discovery reds are impossible for a committed candidate
 - font preferred-face misses no longer create false failures
 - temporary-workflow YAML/admission failures approach zero
 - duplicate validation workflows disappear

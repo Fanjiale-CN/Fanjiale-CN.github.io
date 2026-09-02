@@ -32,6 +32,7 @@ if (!isCI) {
 run("Package/lock contract", process.execPath, ["scripts/check-package-contract.mjs"]);
 run("GitHub workflow policy", process.execPath, ["scripts/validate-workflow-policy.mjs"]);
 run("Deterministic discovery + lightweight release gates", "npm", ["run", "release"]);
+run("Discovery wall-clock independence", "npm", ["run", "check:discovery-clock"]);
 run("Experience platform validator", "npm", ["run", "ci:experience"]);
 run("Resource budget", process.execPath, ["scripts/check-resource-budgets.mjs"]);
 run("Observability markup check", process.execPath, ["scripts/sync-observability.mjs", "--check"]);

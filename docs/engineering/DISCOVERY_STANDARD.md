@@ -34,7 +34,45 @@ node scripts/verify-generated-discovery.mjs
 
 must produce no deterministic discovery diff.
 
-If rebuild changes a committed generated file, the candidate is incomplete and must not be pushed.
+The strict committed contract includes:
+
+```text
+sitemap.xml
+feed.xml
+index/search-catalog.json
+pagefind/build.json
+```
+
+If rebuild changes one of those files, the candidate is incomplete and must not be pushed.
+
+## Clock independence
+
+A committed candidate must generate the same Discovery output regardless of when CI happens to run.
+
+This is forbidden:
+
+```text
+same commit
+23:59 → one feed/sitemap date
+00:01 → a different feed/sitemap date
+```
+
+Publication and last-modified dates follow this precedence:
+
+- explicit content metadata where appropriate (`datePublished` / `dateModified`)
+- already committed feed/sitemap dates for unchanged content
+- the candidate release date only for genuinely changed/new working-tree content during preparation
+- stable Git path history only as a fallback
+
+A synthetic PR merge commit, runner clock, timezone boundary, file mtime, or runner image must never silently rewrite committed Discovery output.
+
+CI proves this by rebuilding the same committed candidate under deliberately different synthetic release dates:
+
+```bash
+npm run check:discovery-clock
+```
+
+The check currently uses both `1999-01-01` and `2099-12-31`. Both rebuilds must remain byte-stable.
 
 ## Required workflow
 
@@ -54,7 +92,7 @@ After commit:
 npm run galok:preflight
 ```
 
-Preflight rebuilds discovery again. If the commit is complete, the rebuild is reproducible and clean.
+Preflight rebuilds discovery, verifies the committed output, and proves clock independence. If the commit is complete, every rebuild is reproducible and clean.
 
 ## What changes should make an agent think "Discovery"
 
@@ -88,6 +126,6 @@ source + future index are committed together
 
 ## Failure classes prevented
 
-This standard directly targets the historical `DISCOVERY` family: stale Pagefind output, search catalog drift, sitemap/feed drift, and source hashes/page counts that no longer match the candidate.
+This standard directly targets the historical `DISCOVERY` family: stale Pagefind output, search catalog drift, sitemap/feed drift, source hashes/page counts that no longer match the candidate, plus the post-audit `DISCOVERY_CLOCK` failure where the same commit changed after midnight.
 
 A deterministic discovery failure is not transient. Re-running without updating the commit is useless.
