@@ -166,11 +166,9 @@ def main() -> int:
         qiji_cmap = font_codepoints(qiji)
         hanamin_cmap = font_codepoints(hanamin)
 
-        qiji_unsupported = sorted(ch for ch in display if ord(ch) not in qiji_cmap)
-        if qiji_unsupported:
-            raise RuntimeError("QIJIC source lacks display chars: " + " ".join(f"{ch}(U+{ord(ch):04X})" for ch in qiji_unsupported))
-
-        rare = {ch for ch in primary if ord(ch) not in genryu_cmap}
+        display_source_fallback = {ch for ch in display if ord(ch) not in qiji_cmap}
+        serif_needed = primary | display_source_fallback
+        rare = {ch for ch in serif_needed if ord(ch) not in genryu_cmap}
         hana_unsupported = sorted(ch for ch in rare if ord(ch) not in hanamin_cmap)
         if hana_unsupported:
             raise RuntimeError("HanaMin source also lacks primary chars: " + " ".join(f"{ch}(U+{ord(ch):04X})" for ch in hana_unsupported))
@@ -180,16 +178,18 @@ def main() -> int:
         qiji_out = FONT_DIR / "qiji-reading-title.woff2"
         hana_out = FONT_DIR / "hanamin-reading-rare.woff2"
 
-        subset(genryu, primary - rare, genryu_out)
-        subset(qiji, display, qiji_out)
+        subset(genryu, serif_needed - rare, genryu_out)
+        subset(qiji, display - display_source_fallback, qiji_out)
         subset(hanamin, rare, hana_out)
 
         gen_out_cmap = font_codepoints(genryu_out)
         qiji_out_cmap = font_codepoints(qiji_out)
         hana_out_cmap = font_codepoints(hana_out)
 
-        primary_missing = sorted(ch for ch in primary if ord(ch) not in (gen_out_cmap | hana_out_cmap))
-        display_missing = sorted(ch for ch in display if ord(ch) not in qiji_out_cmap)
+        serif_stack = gen_out_cmap | hana_out_cmap
+        display_stack = qiji_out_cmap | serif_stack
+        primary_missing = sorted(ch for ch in primary if ord(ch) not in serif_stack)
+        display_missing = sorted(ch for ch in display if ord(ch) not in display_stack)
         if primary_missing or display_missing:
             raise RuntimeError(f"Post-build coverage failure: primary={primary_missing!r} display={display_missing!r}")
 
@@ -197,7 +197,9 @@ def main() -> int:
             cmap = font_codepoints(path)
             print(f"CANONICAL {path.relative_to(ROOT)} size={path.stat().st_size} cmap={len(cmap)} git_blob={git_blob_sha(path)} sha256={hashlib.sha256(path.read_bytes()).hexdigest()}")
 
-        print(f"PASS: primary {len(primary)}/{len(primary)}, display {len(display)}/{len(display)}, rare fallback {len(rare)}")
+        if display_source_fallback:
+            print("QIJIC source fallback glyphs:", " ".join(f"{ch}(U+{ord(ch):04X})" for ch in sorted(display_source_fallback, key=ord)))
+        print(f"PASS: primary {len(primary)}/{len(primary)}, display stack {len(display)}/{len(display)}, QIJIC direct {len(display)-len(display_source_fallback)}/{len(display)}, rare fallback {len(rare)}")
     return 0
 
 
