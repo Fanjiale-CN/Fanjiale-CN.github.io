@@ -21,16 +21,26 @@ Required order:
 
 ## Reading font policy
 
-The large Reading base fonts are frozen release assets. Routine article or entry work must not rewrite `assets/fonts/genryu-reading-tw.woff2`, `assets/fonts/qiji-reading-title.woff2`, or `assets/fonts/hanamin-reading-rare.woff2`.
+Reading has one Chinese text system. Do not create separate Chinese font stacks for classical text, UI, diagrams, chapter titles, Simplified Chinese, or Traditional Chinese.
 
-Reading growth uses cumulative supplement fonts instead:
+Canonical runtime rules:
 
-- `assets/fonts/genryu-reading-supplement.woff2`
-- `assets/fonts/qiji-reading-supplement.woff2`
+- **All ordinary Chinese** — Simplified or Traditional, body or UI, classical quotation or modern annotation, chapter title or diagram label — uses `Source Han Serif TC` through `--reading-cjk`.
+- **Only explicit book-title display nodes** use QIJIC. Mark those nodes with `.reading-book-title-zh`. Current book titles are `東京夢華錄`, `鹽鐵論`, and `管子`.
+- **HanaMin** is a last-resort glyph fallback only for characters absent from Source Han Serif TC. It is not a second design face.
+- Latin display remains on the existing Bagnard / Gambetta hierarchy.
 
-After adding or changing visible Chinese text in Reading, run `npm run build:reading-fonts`, then `npm run check:reading-fonts`. `build:reading-fonts` updates only the cumulative supplements from the frozen base snapshot. If the builder reports a new character absent from both GenRyu and the frozen HanaMin fallback, stop and add an explicit rare-font supplement rather than weakening coverage.
+Canonical font assets:
 
-The base-font rebuild script is maintenance-only. Do not run `scripts/build-reading-font-subsets.py` during ordinary content development and do not use a base-font binary diff as a routine CI gate.
+- `assets/fonts/source-han-serif-tc-reading.woff2`
+- `assets/fonts/qiji-reading-title.woff2`
+- `assets/fonts/hanamin-reading-rare.woff2`
+
+The canonical stylesheet is `reading/reading-type-system.css`. Do not reintroduce `qijic-type-system.css`, `reading-display-20260902.css`, GenRyu runtime assets, Entry-specific font families, `fixed` fonts, or `supplement` fonts.
+
+Routine Reading content work must run `npm run check:reading-fonts`. The checker scans the actual Reading HTML corpus. If a new ordinary Chinese glyph is absent from the committed Source Han/HanaMin subset, stop and perform one typography-maintenance rebuild with `scripts/build-reading-font-subsets.py`; do not create a per-entry font. If a future book title is added, mark only the actual book-title display element with `.reading-book-title-zh` and update the book-title reserve/checker deliberately.
+
+`scripts/build-reading-font-subsets.py` is maintenance-only. It downloads the official Source Han Serif TC, QIJIC, and HanaMin sources, rebuilds the canonical subsets, and removes the obsolete GenRyu runtime asset. Do not run it automatically for every content commit.
 
 ## Forbidden workflow patterns
 
@@ -62,6 +72,6 @@ If `npm run release` fails, stop the push and fix the failing gate.
 
 If the failure is `check:generated-clean`, run or inspect `npm run build:discovery`, stage the resulting generated files, and rerun `npm run release`.
 
-If `check:reading-fonts` fails, regenerate the cumulative supplement fonts and fix any genuinely unsupported glyphs. Do not rebuild the frozen base fonts or relax the coverage requirement to make CI green.
+If `check:reading-fonts` fails, inspect the reported glyph and source path. Ordinary Chinese must remain on Source Han Serif TC with HanaMin only for genuinely unsupported rare glyphs; book-title QIJIC coverage must remain direct. Rebuild the three canonical assets in a typography-maintenance commit when needed. Never solve a missing glyph with a supplement, Entry-specific family, or hidden fallback policy.
 
 If GitHub Actions fails after a successful local gate, inspect the exact failed job and fix the root cause. Do not create a temporary workflow to work around it.
