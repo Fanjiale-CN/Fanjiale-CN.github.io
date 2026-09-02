@@ -1,0 +1,145 @@
+/* Galok Reading typography — canonical system
+   Rule: every Chinese glyph in Reading uses Source Han Serif TC, regardless of
+   Simplified/Traditional or content role. The only visual exception is an explicit
+   book-title element (.reading-book-title-zh), which uses QIJIC.
+   HanaMin is a last-resort glyph fallback only for characters absent from Source Han.
+   Latin display remains Bagnard/Gambetta. */
+
+@font-face {
+  font-family: "Galok Source Han Serif TC";
+  src: url("/assets/fonts/source-han-serif-tc-reading.woff2?v=20260902-sourcehan-1") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galok QIJIC Book Title";
+  src: url("/assets/fonts/qiji-reading-title.woff2?v=20260902-booktitle-1") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galok HanaMin Reading";
+  src: url("/assets/fonts/hanamin-reading-rare.woff2?v=20260902-sourcehan-1") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --reading-display-latin: "Galok Bagnard", "Galok Gambetta", "EB Garamond", Georgia, "Times New Roman", serif;
+  --reading-cjk: "Galok Source Han Serif TC", "Galok HanaMin Reading", "Source Han Serif TC", "Noto Serif TC", "Songti TC", STSong, serif;
+  --reading-book-title-cjk: "Galok QIJIC Book Title", "Galok Source Han Serif TC", "Galok HanaMin Reading", serif;
+  --reading-display-mixed: "Galok Bagnard", "Galok Source Han Serif TC", "Galok HanaMin Reading", "Galok Gambetta", Georgia, "Times New Roman", serif;
+}
+
+/* One Chinese face everywhere: Simplified and Traditional, title and body, source and UI. */
+.dongjing-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-room-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-note-page :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page blockquote,
+.reading-note-page blockquote,
+.reading-note-page .reading-primary-text,
+.dongjing-page .dj-entry-source .dj-columns,
+.reading-page .reading-source-columns,
+.reading-room-page .reading-source-columns {
+  font-family: var(--reading-cjk) !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+}
+
+/* The only QIJIC exception: the name of the book when it is presented as a book title. */
+.reading-book-title-zh {
+  font-family: var(--reading-book-title-cjk) !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+  letter-spacing: .055em;
+}
+
+/* Latin editorial display. Chinese inside mixed controls falls through to Source Han. */
+.dongjing-page .dj-room-title h2,
+.dongjing-page .dj-entry-title h2,
+.dongjing-page .dj-v3-section-head h2,
+.reading-room-page .reading-room-title h2,
+.reading-page .reading-room-title h2,
+.reading-note-page .reading-article-title h1 {
+  font-family: var(--reading-display-latin) !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+}
+
+.dongjing-page .dj-entry-nav small,
+.dongjing-page .dj-entry-nav strong,
+.dongjing-page .dj-v3-entry-nav small,
+.dongjing-page .dj-v3-entry-nav strong,
+.reading-note-page .reading-note-nav small,
+.reading-note-page .reading-note-nav strong {
+  font-family: var(--reading-display-mixed) !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+}
+
+/* Legacy entries contain a few untagged Chinese diagram nodes. Normalize them explicitly. */
+.dj07-page .dj07-lane b,
+.dj08-page .dj08-node b,
+.dj08-page .dj08-menu-strip span,
+.dj08-page .dj08-variant p span,
+.dj09-page .dj09-stop b,
+.dj09-page .dj09-medicine-mark,
+.dj09-page .dj09-later b,
+.dj09-page .dj09-variant p span,
+.dj14-page .dj14-ticker,
+.dj14-page .dj14-role b,
+.dj14-page .dj14-center span,
+.dongjing-page .dj15-strip :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj15-evidence :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj16-route :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj16-fourfold :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj17-landing :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj17-people :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj17-next :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj18-threshold :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj18-layer-grid :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj18-variant-table :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj18-exit :where(:lang(zh-Hans), :lang(zh-Hant)) {
+  font-family: var(--reading-cjk) !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+}
+
+/* Preserve the useful sizing from the retired 2026-09-02 display hotfix. */
+.dj15-page .dj15-strip small,
+.dj16-page :is(.dj16-route,.dj16-fourfold) small,
+.dj17-page :is(.dj17-landing,.dj17-people) small {
+  font-size: clamp(.72rem,.9vw,.86rem);
+  line-height: 1.12;
+  letter-spacing: .06em;
+}
+.dj15-page .dj15-strip b,
+.dj16-page :is(.dj16-route,.dj16-fourfold) b,
+.dj17-page .dj17-people b {
+  font-size: clamp(1.45rem,2.5vw,2.65rem);
+  line-height: .94;
+  letter-spacing: -.018em;
+}
+.dj17-page .dj17-landing b {
+  font-size: clamp(1.75rem,3.25vw,3.7rem);
+  line-height: .9;
+  letter-spacing: -.022em;
+}
+.dj17-page .dj17-landing span {
+  font-size: clamp(1.18rem,1.75vw,1.72rem);
+  line-height: 1.25;
+}
+
+.dongjing-page .dj-room-title .reading-book-title-zh { line-height: .9; }
+.reading-room-page .reading-room-title .reading-book-title-zh { line-height: .88; }
+.dongjing-page .dj-v3-section-head h2 { line-height: .93; letter-spacing: -.042em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dongjing-page *, .reading-note-page *, .reading-room-page *, .reading-page * { font-synthesis: none; }
+}
