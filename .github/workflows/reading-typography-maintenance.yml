@@ -2,12 +2,6 @@ name: Reading Typography Maintenance
 
 on:
   workflow_dispatch:
-  # Bootstrap trigger for this migration branch only; removed before merge.
-  push:
-    branches:
-      - work/reading-source-han-unification
-    paths:
-      - ".github/workflows/reading-typography-maintenance.yml"
 
 permissions:
   contents: write
@@ -18,7 +12,7 @@ concurrency:
 
 jobs:
   rebuild:
-    if: github.ref_name != 'main' && github.actor != 'github-actions[bot]'
+    if: github.ref_name != 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -30,55 +24,21 @@ jobs:
       - name: Set up Python font tools
         run: python -m pip install --disable-pip-version-check --upgrade fonttools brotli
 
-      - name: Set up Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-
-      - name: Install site tools
-        run: npm ci --ignore-scripts --no-audit --no-fund
-
-      - name: Migrate Reading source tree
-        run: |
-          python scripts/migrate-reading-source-han.py
-          rm -f scripts/migrate-reading-source-han.py
-          # The permanent PR validation workflow is edited separately through the GitHub API.
-          # Keep it out of the runner-generated commit so the Actions token never needs workflows permission.
-          git checkout HEAD -- .github/workflows/rebuild-reading-fonts-once.yml
-
       - name: Build canonical Reading fonts from official sources
         run: python scripts/build-reading-font-subsets.py
 
       - name: Verify unified Reading font coverage
         run: python scripts/check-reading-font-coverage.py
 
-      - name: Verify JavaScript syntax
-        run: node --check reading/reading.js
-
-      - name: Rebuild discovery assets
-        run: npm run build:discovery
-
-      - name: Prepare final maintenance tree
+      - name: Commit changed canonical fonts when needed
         run: |
           rm -rf scripts/__pycache__
-          git status --short
-
-      - name: Commit generated typography tree locally
-        run: |
+          if git diff --quiet -- assets/fonts/source-han-serif-tc-reading.woff2 assets/fonts/qiji-reading-title.woff2 assets/fonts/hanamin-reading-rare.woff2; then
+            echo "Canonical Reading fonts already match the current corpus."
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --quiet && { echo "ERROR: typography maintenance produced no changes"; exit 1; }
-          git commit -m "fix(reading): unify Chinese typography on Source Han Serif TC [skip ci]"
-
-      - name: Verify discovery is reproducible after commit
-        run: node scripts/verify-generated-discovery.mjs
-
-      - name: Re-verify committed font assets
-        run: |
-          python scripts/check-reading-font-coverage.py
-          git status --porcelain
-
-      - name: Push typography maintenance commit
-        run: git push origin HEAD:${{ github.ref_name }}
+          git add assets/fonts/source-han-serif-tc-reading.woff2 assets/fonts/qiji-reading-title.woff2 assets/fonts/hanamin-reading-rare.woff2
+          git commit -m "chore(reading): refresh canonical typography assets [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}
