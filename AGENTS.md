@@ -2,6 +2,10 @@
 
 These rules apply to every coding agent, automation, and manual development session in this repository.
 
+## Required companion standard
+
+Before changing code, content, design, generated assets, workflows, or deployment configuration, read [GALOK_PROJECT_STANDARD.md](GALOK_PROJECT_STANDARD.md). It defines the shared development environment, branch and PR workflow, design system, Reading font pipeline, Discovery/Pagefind ownership, CI meaning, production verification, and cross-chat handoff format.
+
 ## Main branch release rule
 
 `main` must only receive a commit after the repository release gate passes locally.
