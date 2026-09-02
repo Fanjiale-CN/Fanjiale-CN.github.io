@@ -1,5 +1,10 @@
+@import url("https://fontsapi.zeoseven.com/81/main/result.css");
+
+@font-face{font-family:"Galok Entry20 Serif Patch";src:url("/assets/fonts/entry20-serif-patch.woff2?v=20260903-entry20-fix1") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+
 /* Dongjing Meng Hua Lu — Volume III Entry 20 / Shangqing Palace */
-.dj20-page{--dj20-paper:#e9e4d9;--dj20-ink:#171815;--dj20-muted:#6b695f;--dj20-rule:#b7b0a2;--dj20-jade:#26483e;--dj20-jade-2:#345f51;--dj20-gold:#9c793d;--dj20-rose:#9a5149;--dj20-night:#151a17}
+.dj20-page{--reading-cjk:"Galok Source Han Serif TC","Galok Entry20 Serif Patch","Galok HanaMin Reading","Source Han Serif TC","Noto Serif TC","Songti TC",STSong,serif;--dj20-paper:#e9e4d9;--dj20-ink:#171815;--dj20-muted:#6b695f;--dj20-rule:#b7b0a2;--dj20-jade:#26483e;--dj20-jade-2:#345f51;--dj20-gold:#9c793d;--dj20-rose:#9a5149;--dj20-night:#151a17}
+body.dj20-page .dj-entry-title .dj-title-zh{font-family:"QIJIC",var(--reading-book-title-cjk),var(--reading-cjk)!important;font-weight:400!important;font-synthesis:none!important}
 .dj20-page .dj-entry-title h1{font-size:clamp(4rem,8vw,9rem);line-height:.84;letter-spacing:.06em}
 .dj20-page .dj-entry-title h2,.dj20-network h2,.dj20-cluster h3,.dj20-method strong,.dj20-limit strong,.dj20-variants h3,.dj20-exit strong{font-family:var(--reading-display-latin,"Galok Bagnard","Galok Gambetta",Georgia,serif);font-weight:400;font-synthesis:none}
 .dj20-paper .dj-columns{height:min(54vh,550px)}
