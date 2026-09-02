@@ -124,19 +124,30 @@ try {
 
       const featureSelector = featureSelectorForRoute(route);
       let featureCaptured = false;
+      let featureOffset = null;
       if (featureSelector) {
         const feature = await page.$(featureSelector);
         if (!feature) {
           failures.push(`${viewportName} ${route}: expected feature selector ${featureSelector} is missing`);
         } else {
-          await feature.evaluate((element) => element.scrollIntoView({ block: "start" }));
-          await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+          featureOffset = await page.evaluate((selector) => {
+            const element = document.querySelector(selector);
+            if (!element) return null;
+            document.documentElement.style.scrollBehavior = "auto";
+            document.body.style.scrollBehavior = "auto";
+            const target = Math.max(0, window.scrollY + element.getBoundingClientRect().top - 72);
+            window.scrollTo(0, target);
+            return Math.round(element.getBoundingClientRect().top);
+          }, featureSelector);
+          await new Promise((resolve) => setTimeout(resolve, 180));
+          featureOffset = await page.evaluate((selector) => Math.round(document.querySelector(selector)?.getBoundingClientRect().top ?? -9999), featureSelector);
           await page.screenshot({ path: join(evidenceDirectory, `reading-${label}-${viewportName}-feature.png`), fullPage: false });
           featureCaptured = true;
+          if (featureOffset < 40 || featureOffset > 100) failures.push(`${viewportName} ${route}: feature ${featureSelector} landed at ${featureOffset}px instead of the expected header-safe band`);
         }
       }
 
-      const result = { route, viewportName, width, height, status: response?.status() ?? null, metrics, interaction, featureSelector, featureCaptured, failedRequests, pageErrors, consoleErrors };
+      const result = { route, viewportName, width, height, status: response?.status() ?? null, metrics, interaction, featureSelector, featureCaptured, featureOffset, failedRequests, pageErrors, consoleErrors };
       results.push(result);
 
       if (!response?.ok()) failures.push(`${viewportName} ${route}: HTTP ${result.status}`);
