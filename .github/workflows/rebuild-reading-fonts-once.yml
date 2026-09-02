@@ -9,10 +9,12 @@ on:
       - "reading/**/*.js"
       - "assets/fonts/**"
       - "scripts/build-reading-font-subsets.py"
+      - "scripts/build-reading-font-supplements.py"
       - "scripts/check-reading-font-coverage.py"
       - "scripts/build-discovery.mjs"
       - "scripts/verify-generated-discovery.mjs"
       - "scripts/runtime-discovery-search.mjs"
+      - "scripts/validate-discovery.mjs"
       - ".github/workflows/rebuild-reading-fonts-once.yml"
   workflow_dispatch:
 
@@ -45,44 +47,20 @@ jobs:
       - name: Install site tools
         run: npm ci --ignore-scripts --no-audit --no-fund
 
-      - name: Rebuild Reading font subsets in CI workspace
-        id: rebuild_fonts
-        run: python scripts/build-reading-font-subsets.py
-
-      - name: Verify Reading serif stack coverage
+      - name: Verify frozen Reading fonts and cumulative supplements
         run: python scripts/check-reading-font-coverage.py
-
-      - name: Verify committed font artifacts are current
-        id: current_fonts
-        run: |
-          git diff --exit-code -- \
-            assets/fonts/genryu-reading-tw.woff2 \
-            assets/fonts/qiji-reading-title.woff2 \
-            assets/fonts/hanamin-reading-rare.woff2
-
-      - name: Upload rebuilt Reading fonts for repair
-        if: failure() && steps.rebuild_fonts.outcome == 'success' && steps.current_fonts.outcome == 'failure'
-        uses: actions/upload-artifact@v7
-        with:
-          name: reading-font-rebuild
-          path: |
-            assets/fonts/genryu-reading-tw.woff2
-            assets/fonts/qiji-reading-title.woff2
-            assets/fonts/hanamin-reading-rare.woff2
-          if-no-files-found: error
-          retention-days: 3
 
       - name: Rebuild and verify discovery assets
         run: |
           npm run build:discovery
           node scripts/verify-generated-discovery.mjs
 
-      - name: Explain stale-artifact failures
+      - name: Explain Reading artifact failures
         if: failure()
         run: |
-          echo "Reading artifacts are validation outputs, not bot-authored commits."
+          echo "Routine Reading content changes must not rebuild the frozen base fonts."
           echo "Before pushing a Reading change, run:"
-          echo "  python scripts/build-reading-font-subsets.py"
-          echo "  python scripts/check-reading-font-coverage.py"
+          echo "  npm run build:reading-fonts"
+          echo "  npm run check:reading-fonts"
           echo "  npm run build:discovery"
           echo "  node scripts/verify-generated-discovery.mjs"

@@ -19,6 +19,19 @@ Required order:
 9. Push `main`. The installed pre-push hook runs `npm run release` again and blocks the push if the release gate fails.
 10. GitHub Actions remains the authoritative full browser, visual, accessibility, runtime, and Lighthouse validation after push.
 
+## Reading font policy
+
+The large Reading base fonts are frozen release assets. Routine article or entry work must not rewrite `assets/fonts/genryu-reading-tw.woff2`, `assets/fonts/qiji-reading-title.woff2`, or `assets/fonts/hanamin-reading-rare.woff2`.
+
+Reading growth uses cumulative supplement fonts instead:
+
+- `assets/fonts/genryu-reading-supplement.woff2`
+- `assets/fonts/qiji-reading-supplement.woff2`
+
+After adding or changing visible Chinese text in Reading, run `npm run build:reading-fonts`, then `npm run check:reading-fonts`. `build:reading-fonts` updates only the cumulative supplements from the frozen base snapshot. If the builder reports a new character absent from both GenRyu and the frozen HanaMin fallback, stop and add an explicit rare-font supplement rather than weakening coverage.
+
+The base-font rebuild script is maintenance-only. Do not run `scripts/build-reading-font-subsets.py` during ordinary content development and do not use a base-font binary diff as a routine CI gate.
+
 ## Forbidden workflow patterns
 
 Do not create one-off `*-preflight.yml`, `work/*-preflight.yml`, or task-specific GitHub Actions workflows just to modify, materialize, validate, or push a feature.
@@ -48,5 +61,7 @@ The local release gate is intentionally lighter than the final GitHub Actions su
 If `npm run release` fails, stop the push and fix the failing gate.
 
 If the failure is `check:generated-clean`, run or inspect `npm run build:discovery`, stage the resulting generated files, and rerun `npm run release`.
+
+If `check:reading-fonts` fails, regenerate the cumulative supplement fonts and fix any genuinely unsupported glyphs. Do not rebuild the frozen base fonts or relax the coverage requirement to make CI green.
 
 If GitHub Actions fails after a successful local gate, inspect the exact failed job and fix the root cause. Do not create a temporary workflow to work around it.

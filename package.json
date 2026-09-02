@@ -22,7 +22,7 @@
     "ci:visual:base": "node scripts/visual-acceptance.mjs || node scripts/allow-benign-media-aborts.mjs",
     "ci:visual": "npm run ci:visual:base && node scripts/runtime-reading-visual.mjs",
     "ci:experience": "node scripts/validate-experience-platform.mjs",
-    "build:reading-fonts": "python scripts/build-reading-font-subsets.py",
+    "build:reading-fonts": "python scripts/build-reading-font-supplements.py",
     "check:reading-fonts": "python scripts/check-reading-font-coverage.py"
   },
   "devDependencies": {

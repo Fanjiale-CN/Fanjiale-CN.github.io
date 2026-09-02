@@ -1,7 +1,27 @@
 /* Reading display type system — 2026-09-02
    One source of truth for non-body Reading typography.
    Chinese display text uses the supplied QIJIC source; Latin and numerals use
-   Bagnard first because QIJIC contains no Latin glyphs. */
+   Bagnard first because QIJIC contains no Latin glyphs.
+
+   Base Reading fonts are frozen. Routine content growth is served by the
+   cumulative supplement faces below so adding a page does not rewrite the
+   large base WOFF2 files. */
+
+@font-face {
+  font-family: "Galok QIJIC Reading Supplement";
+  src: url("/assets/fonts/qiji-reading-supplement.woff2?v=20260902-supplement-1") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Galok Reading Serif Supplement";
+  src: url("/assets/fonts/genryu-reading-supplement.woff2?v=20260902-supplement-1") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
 
 @font-face {
   font-family: "Galok QIJIC Reading";
@@ -13,8 +33,16 @@
 
 :root {
   --reading-display-latin: "Galok Bagnard", "Galok Gambetta", "EB Garamond", Georgia, "Times New Roman", serif;
-  --reading-display-cjk: "Galok QIJIC Reading", "Galok Qiji", "Galok Reading Serif TW", "Songti TC", STSong, "Noto Serif TC", serif;
-  --reading-display-mixed: "Galok Bagnard", "Galok QIJIC Reading", "Galok Gambetta", "Galok Reading Serif TW", Georgia, "Times New Roman", serif;
+  --reading-display-cjk: "Galok QIJIC Reading Supplement", "Galok QIJIC Reading", "Galok Qiji", "Galok Reading Serif Supplement", "Galok Reading Serif TW", "Songti TC", STSong, "Noto Serif TC", serif;
+  --reading-display-mixed: "Galok Bagnard", "Galok QIJIC Reading Supplement", "Galok QIJIC Reading", "Galok Gambetta", "Galok Reading Serif Supplement", "Galok Reading Serif TW", Georgia, "Times New Roman", serif;
+}
+
+/* Entry 18 is the first page after the frozen base-font snapshot. Long Chinese
+   text reaches the small cumulative serif supplement before system fallback. */
+.dj18-page :lang(zh-Hant) {
+  font-family: "Galok Reading Serif Supplement", "Galok Reading Serif TW", "Galok Reading Serif V3 1517", "Galok Rare Serif V3 1517", "Songti TC", STSong, "Noto Serif TC", serif;
+  font-weight: 400;
+  font-synthesis: none;
 }
 
 /* Reading 001: Chinese title layers are QIJIC; paired Latin stays editorial,
