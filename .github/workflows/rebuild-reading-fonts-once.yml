@@ -48,6 +48,11 @@ jobs:
           p.write_text(s.replace(old, new, 1), encoding='utf-8')
           PY
 
+      - name: Keep helper workflow out of generated commit
+        run: |
+          git checkout HEAD -- .github/workflows/rebuild-reading-fonts-once.yml
+          rm -rf scripts/__pycache__
+
       - name: Verify canonical blob hashes are unchanged
         run: |
           test "$(git hash-object assets/fonts/genryu-reading-tw.woff2)" = "8cce61b0a81aef63fddf5bc83d08bc64a9c289dc"
@@ -58,6 +63,7 @@ jobs:
         run: |
           python -m py_compile scripts/check-reading-font-coverage.py scripts/build-reading-font-subsets.py
           node --check reading/dongjing-08.js
+          rm -rf scripts/__pycache__
 
       - name: Verify canonical Reading font coverage
         run: python scripts/check-reading-font-coverage.py
@@ -65,14 +71,15 @@ jobs:
       - name: Rebuild discovery assets
         run: npm run build:discovery
 
-      - name: Commit finalized tree locally
+      - name: Commit finalized content tree locally
         run: |
+          rm -rf scripts/__pycache__
           git status --short
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git diff --cached --quiet && { echo "ERROR: finalizer produced no changes"; exit 1; }
-          git commit -m "chore(temp): finalize canonical Reading tree [skip ci]"
+          git commit -m "chore(temp): finalize canonical Reading content [skip ci]"
 
       - name: Verify discovery is reproducible from committed tree
         run: node scripts/verify-generated-discovery.mjs
@@ -82,7 +89,7 @@ jobs:
           test "$(git hash-object assets/fonts/genryu-reading-tw.woff2)" = "8cce61b0a81aef63fddf5bc83d08bc64a9c289dc"
           test "$(git hash-object assets/fonts/qiji-reading-title.woff2)" = "122f8a4b46e8f52433a58a0e071d1cfeb0252d70"
           test "$(git hash-object assets/fonts/hanamin-reading-rare.woff2)" = "b7dce39cd84dd60f02a75518f164ea9f0c66360e"
-          git status --short
+          test -z "$(git status --porcelain)"
 
-      - name: Push finalized tree to helper branch
+      - name: Push finalized content tree to helper branch
         run: git push origin HEAD:tmp/reading-canonical-build-20260902
