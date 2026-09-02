@@ -62,12 +62,10 @@ jobs:
       - name: Verify canonical Reading font coverage
         run: python scripts/check-reading-font-coverage.py
 
-      - name: Rebuild and verify discovery
-        run: |
-          npm run build:discovery
-          node scripts/verify-generated-discovery.mjs
+      - name: Rebuild discovery assets
+        run: npm run build:discovery
 
-      - name: Commit finalized tree to helper branch
+      - name: Commit finalized tree locally
         run: |
           git status --short
           git config user.name "github-actions[bot]"
@@ -75,4 +73,16 @@ jobs:
           git add -A
           git diff --cached --quiet && { echo "ERROR: finalizer produced no changes"; exit 1; }
           git commit -m "chore(temp): finalize canonical Reading tree [skip ci]"
-          git push origin HEAD:tmp/reading-canonical-build-20260902
+
+      - name: Verify discovery is reproducible from committed tree
+        run: node scripts/verify-generated-discovery.mjs
+
+      - name: Re-verify canonical hashes after commit
+        run: |
+          test "$(git hash-object assets/fonts/genryu-reading-tw.woff2)" = "8cce61b0a81aef63fddf5bc83d08bc64a9c289dc"
+          test "$(git hash-object assets/fonts/qiji-reading-title.woff2)" = "122f8a4b46e8f52433a58a0e071d1cfeb0252d70"
+          test "$(git hash-object assets/fonts/hanamin-reading-rare.woff2)" = "b7dce39cd84dd60f02a75518f164ea9f0c66360e"
+          git status --short
+
+      - name: Push finalized tree to helper branch
+        run: git push origin HEAD:tmp/reading-canonical-build-20260902
