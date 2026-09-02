@@ -13,8 +13,6 @@ on:
       - "scripts/build-reading-font-subsets.py"
       - "scripts/build-discovery.mjs"
       - "scripts/run-discovery-build.mjs"
-      - "assets/fonts/qijic-reading-fixed-*.woff2"
-      - "assets/fonts/genryu-reading-fixed-v3.woff2"
       - "scripts/verify-generated-discovery.mjs"
       - "scripts/runtime-discovery-search.mjs"
       - "scripts/validate-discovery.mjs"
@@ -61,9 +59,9 @@ jobs:
       - name: Explain Reading artifact failures
         if: failure()
         run: |
-          echo "Reading uses fixed font assets; routine content must not create supplement fonts."
+          echo "Reading uses three canonical font assets with semantic fallback; routine content must not create supplement fonts."
           echo "Before pushing a Reading change, run:"
           echo "  npm run check:reading-fonts"
           echo "  npm run build:discovery"
           echo "  node scripts/verify-generated-discovery.mjs"
-          echo "If font coverage is genuinely missing, update the relevant fixed/base font in one typography-maintenance commit."
+          echo "If font coverage is genuinely missing, rebuild the canonical GenRyu/QIJIC/HanaMin assets in one typography-maintenance commit."
