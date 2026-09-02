@@ -25,14 +25,14 @@ if (!existsSync(hooksDir)) {
   process.exit(0);
 }
 
-const hookPath = join(gitDir, "hooks", "pre-push");
+const hookPath = join(hooksDir, "pre-push");
 const hook = `#!/bin/sh
 set -eu
 
-echo "[galok] Running full release gate..."
-npm run release
+echo "[galok] Running canonical pre-push preflight..."
+npm run galok:preflight
 `;
 
 writeFileSync(hookPath, hook, "utf8");
 chmodSync(hookPath, 0o755);
-console.log("[hooks] Installed full release gate pre-push hook.");
+console.log("[hooks] Installed canonical Galok pre-push preflight.");

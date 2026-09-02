@@ -20,65 +20,73 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v7
+      - name: Checkout candidate
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.20.0
+          cache: npm
+
+      - name: Install CI tools
+        run: npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Install Reading font validator
         run: python -m pip install --disable-pip-version-check "fonttools[woff]" brotli
 
-      - name: Enforce Reading font cmap coverage
-        id: reading_font
-        continue-on-error: true
+      # FAST GATES: deterministic and cheap. Any failure here stops browser/Lighthouse work.
+      - name: Verify package and lockfile contract
+        run: npm run check:package-contract
+
+      - name: Verify stable workflow policy
+        run: npm run check:workflow-policy
+
+      - name: Verify Reading canonical font-stack coverage
         run: python scripts/check-reading-font-coverage.py
 
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-
-      - name: Install CI tools
-        run: npm ci --ignore-scripts
-
-      - name: Build and verify discovery assets
-        id: discovery
-        continue-on-error: true
+      - name: Rebuild and verify discovery assets
         run: |
           npm run build:discovery
           node scripts/verify-generated-discovery.mjs
 
-      - name: Run repository validators first
-        id: native
-        continue-on-error: true
-        run: node scripts/validate-site.mjs
+      - name: Prove discovery is independent of wall-clock date
+        run: npm run check:discovery-clock
+
+      - name: Run lightweight release validators
+        run: npm run release:core
 
       - name: Validate City Atlas and reader contact platform
-        id: experience
-        continue-on-error: true
         run: npm run ci:experience
 
       - name: Validate HTML, routes, fragments and R2 media
-        id: links
-        continue-on-error: true
-        run: node scripts/validate-runtime-links.mjs
+        run: npm run ci:links
 
       - name: Enforce resource budgets
         id: budget
-        continue-on-error: true
-        run: node scripts/check-resource-budgets.mjs
+        run: npm run ci:budget
 
+      - name: Mark fast gates complete
+        id: fast_complete
+        run: echo "complete=true" >> "$GITHUB_OUTPUT"
+
+      # RUNTIME GATES: only run after every deterministic fast gate passed.
       - name: Start static site server
         run: |
           node scripts/serve-static.mjs > /tmp/galok-static-server.log 2>&1 &
           echo $! > /tmp/galok-static-server.pid
           for attempt in 1 2 3 4 5; do
-            curl --fail --silent http://127.0.0.1:4173/ && exit 0
+            curl --fail --silent http://127.0.0.1:4173/ > /dev/null && exit 0
             sleep 1
           done
           cat /tmp/galok-static-server.log
           exit 1
 
       - name: Verify Reading display font resolution
+        id: runtime_font
+        continue-on-error: true
         env:
           BASE_URL: http://127.0.0.1:4173
           CHROME_PATH: /usr/bin/google-chrome
@@ -130,15 +138,11 @@ jobs:
         continue-on-error: true
         run: npx lhci autorun
 
-      - name: Write readable report
-        if: always()
+      - name: Write readable runtime report
+        if: always() && steps.fast_complete.outcome == 'success'
         env:
-          GALOK_GATE_READING_FONT: ${{ steps.reading_font.outcome }}
-          GALOK_GATE_NATIVE: ${{ steps.native.outcome }}
-          GALOK_GATE_EXPERIENCE: ${{ steps.experience.outcome }}
-          GALOK_GATE_LINKS: ${{ steps.links.outcome }}
-          GALOK_GATE_BUDGET: ${{ steps.budget.outcome }}
-          GALOK_GATE_DISCOVERY: ${{ steps.discovery.outcome }}
+          GALOK_GATE_FAST: success
+          GALOK_GATE_RUNTIME_FONT: ${{ steps.runtime_font.outcome }}
           GALOK_GATE_A11Y: ${{ steps.runtime_a11y.outcome }}
           GALOK_GATE_SEARCH: ${{ steps.runtime_search.outcome }}
           GALOK_GATE_OBSERVABILITY: ${{ steps.runtime_observability.outcome }}
@@ -148,28 +152,25 @@ jobs:
         run: node scripts/write-ci-report.mjs
 
       - name: Upload CI reports
-        if: always()
+        if: always() && steps.fast_complete.outcome == 'success'
         uses: actions/upload-artifact@v7
         with:
           name: galok-ci-report
           path: artifacts/ci
           if-no-files-found: warn
 
-      - name: Enforce release gates
-        if: always()
-        run: |
-          test "${{ steps.reading_font.outcome }}" = "success"
-          test "${{ steps.native.outcome }}" = "success"
-          test "${{ steps.experience.outcome }}" = "success"
-          test "${{ steps.links.outcome }}" = "success"
-          test "${{ steps.budget.outcome }}" = "success"
-          test "${{ steps.discovery.outcome }}" = "success"
-          test "${{ steps.runtime_a11y.outcome }}" = "success"
-          test "${{ steps.runtime_search.outcome }}" = "success"
-          test "${{ steps.runtime_observability.outcome }}" = "success"
-          test "${{ steps.runtime_radar.outcome }}" = "success"
-          test "${{ steps.visual.outcome }}" = "success"
-          test "${{ steps.lighthouse.outcome }}" = "success"
+      - name: Enforce runtime release gates with failure list
+        if: always() && steps.fast_complete.outcome == 'success'
+        env:
+          GALOK_GATE_RUNTIME_FONT: ${{ steps.runtime_font.outcome }}
+          GALOK_GATE_A11Y: ${{ steps.runtime_a11y.outcome }}
+          GALOK_GATE_SEARCH: ${{ steps.runtime_search.outcome }}
+          GALOK_GATE_OBSERVABILITY: ${{ steps.runtime_observability.outcome }}
+          GALOK_GATE_RADAR: ${{ steps.runtime_radar.outcome }}
+          GALOK_GATE_VISUAL: ${{ steps.visual.outcome }}
+          GALOK_GATE_LIGHTHOUSE: ${{ steps.lighthouse.outcome }}
+        run: node scripts/enforce-ci-gates.mjs
+
       - name: Verify production routes after deployment
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && success()
         env:
@@ -178,4 +179,3 @@ jobs:
           MAX_ATTEMPTS: "20"
           RETRY_DELAY_MS: "15000"
         run: node scripts/verify-production-routes.mjs
-
