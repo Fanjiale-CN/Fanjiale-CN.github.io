@@ -56,11 +56,11 @@ function hasWorkingTreeChange(relativePath) {
 function lastModified(relativePath) {
   if (hasWorkingTreeChange(relativePath)) return releaseDate();
   try {
-    // PR validation checks out GitHub's synthetic merge commit.  Without
-    // --first-parent, history simplification can pick a different side of that
-    // merge than the checked-in release artifacts, changing RSS dates despite
-    // identical source files.  Follow the release line consistently instead.
-    const date = execFileSync("git", ["log", "--first-parent", "-1", "--format=%cs", "--", relativePath], { cwd: root, encoding: "utf8" }).trim();
+    // Discovery artifacts are release outputs.  GitHub validates a synthetic
+    // PR merge whose per-path ancestry can differ from the branch checkout, so
+    // path-level history makes the same release generate different RSS dates.
+    // Anchor clean artifacts to the release commit instead.
+    const date = execFileSync("git", ["log", "-1", "--format=%cs", "HEAD"], { cwd: root, encoding: "utf8" }).trim();
     if (/^\d{4}-\d{2}-\d{2}$/.test(date)) return date;
   } catch {}
   return statSync(join(root, relativePath)).mtime.toISOString().slice(0, 10);
