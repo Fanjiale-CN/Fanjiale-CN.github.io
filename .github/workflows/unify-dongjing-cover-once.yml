@@ -1,0 +1,140 @@
+name: Unify Dongjing Covers Once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/unify-dongjing-cover-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  unify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Pillow
+        run: python -m pip install --quiet pillow
+
+      - name: Replace all Dongjing cover surfaces
+        run: |
+          python - <<'PY'
+          import io
+          import json
+          import pathlib
+          import re
+          import urllib.parse
+          import urllib.request
+          from PIL import Image
+
+          repo = pathlib.Path('.')
+          title = 'File:NLC892-411999019980-71179 幽蘭居士東京夢華錄 第1冊.pdf'
+          params = urllib.parse.urlencode({
+              'action': 'query',
+              'format': 'json',
+              'prop': 'imageinfo',
+              'iiprop': 'url|mime',
+              'iiurlwidth': '1200',
+              'titles': title,
+          })
+          api = f'https://commons.wikimedia.org/w/api.php?{params}'
+          req = urllib.request.Request(api, headers={'User-Agent': 'Galok-Reading-Cover-Unifier/1.0'})
+          with urllib.request.urlopen(req, timeout=60) as response:
+              payload = json.load(response)
+          page = next(iter(payload['query']['pages'].values()))
+          info = page['imageinfo'][0]
+          thumb_url = info.get('thumburl') or info['url']
+          img_req = urllib.request.Request(thumb_url, headers={'User-Agent': 'Galok-Reading-Cover-Unifier/1.0'})
+          with urllib.request.urlopen(img_req, timeout=60) as response:
+              raw = response.read()
+          image = Image.open(io.BytesIO(raw)).convert('RGB')
+
+          assets = repo / 'assets' / 'reading'
+          assets.mkdir(parents=True, exist_ok=True)
+          for name in ('dongjing-meng-hua-lu-cover-v2.webp', 'dongjing-meng-hua-lu-cover.webp'):
+              image.save(assets / name, 'WEBP', quality=90, method=6)
+
+          canonical = 'https://www.galok.me/assets/reading/dongjing-meng-hua-lu-cover-v2.webp'
+          local_cover = '/assets/reading/dongjing-meng-hua-lu-cover-v2.webp'
+          root = repo / 'reading' / 'dongjing-meng-hua-lu'
+
+          for path in sorted(root.rglob('index.html')):
+              text = path.read_text(encoding='utf-8')
+              text = re.sub(
+                  r'<meta property="og:image" content="[^"]*">',
+                  f'<meta property="og:image" content="{canonical}">',
+                  text,
+              )
+              if '<meta name="twitter:image"' in text:
+                  text = re.sub(
+                      r'<meta name="twitter:image" content="[^"]*">',
+                      f'<meta name="twitter:image" content="{canonical}">',
+                      text,
+                  )
+              elif '<meta name="twitter:card" content="summary_large_image">' in text:
+                  text = text.replace(
+                      '<meta name="twitter:card" content="summary_large_image">',
+                      '<meta name="twitter:card" content="summary_large_image">\n  '
+                      f'<meta name="twitter:image" content="{canonical}">',
+                      1,
+                  )
+
+              text = text.replace(
+                  'https://commons.wikimedia.org/wiki/Special:Redirect/file/NLC892-411999019980-71179_幽蘭居士東京夢華錄_第1冊.pdf',
+                  local_cover,
+              )
+              text = text.replace(
+                  'https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/NLC892-411999019980-71179_%E5%B9%BD%E8%98%AD%E5%B1%85%E5%A3%AB%E6%9D%B1%E4%BA%AC%E5%A4%A2%E8%8F%AF%E9%8C%84_%E7%AC%AC1%E5%86%8A.pdf&amp;width=1102',
+                  canonical,
+              )
+              text = text.replace(
+                  'AI-generated Galok Reading cover artwork for Dongjing Meng Hua Lu',
+                  'Public-domain scanned cover of Youlan Jushi Dongjing Meng Hua Lu',
+              )
+              text = text.replace(
+                  'COVER ART / GALOK READING / AI-GENERATED',
+                  'BOOK COVER / PUBLIC-DOMAIN WITNESS',
+              )
+              text = text.replace(
+                  'Editorial interpretation created for this Reading project; not a historical reproduction.',
+                  'Public-domain historical scan / National Library of China / Wikimedia Commons.',
+              )
+
+              if path == root / 'index.html':
+                  text = re.sub(
+                      r'<figure class="dj-room-art dj-room-cover-frame"[^>]*>.*?</figure>',
+                      '<figure class="dj-room-art dj-room-cover-frame">'
+                      f'<img src="{local_cover}" alt="Public-domain scanned cover of Youlan Jushi Dongjing Meng Hua Lu" fetchpriority="high" decoding="async" style="object-fit:contain;object-position:center;filter:none;background:#111;">'
+                      '<figcaption><span>BOOK COVER / <span lang="zh-Hant">《幽蘭居士東京夢華錄》</span></span><span>Public-domain historical scan / National Library of China / Wikimedia Commons</span><a href="https://commons.wikimedia.org/wiki/File:NLC892-411999019980-71179_%E5%B9%BD%E8%98%AD%E5%B1%85%E5%A3%AB%E6%9D%B1%E4%BA%AC%E5%A4%A2%E8%8F%AF%E9%8C%84_%E7%AC%AC1%E5%86%8A.pdf">Open source ↗</a></figcaption>'
+                      '</figure>',
+                      text,
+                      count=1,
+                      flags=re.S,
+                  )
+
+              path.write_text(text, encoding='utf-8')
+
+          workflow = repo / '.github' / 'workflows' / 'unify-dongjing-cover-once.yml'
+          if workflow.exists():
+              workflow.unlink()
+          PY
+
+      - name: Commit unified cover
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/reading/dongjing-meng-hua-lu-cover.webp assets/reading/dongjing-meng-hua-lu-cover-v2.webp reading/dongjing-meng-hua-lu .github/workflows/unify-dongjing-cover-once.yml
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "fix(reading): unify all Dongjing covers"
+          git push origin HEAD:main
