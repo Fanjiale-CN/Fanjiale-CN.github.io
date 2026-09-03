@@ -53,6 +53,38 @@ Galok is a living field that grows like a plant, not a finished product. People 
 - City pages may retain distinct palettes and hero treatments, while navigation, captions, chapter controls and exit paths remain consistent.
 - Project pages explain intent, role, decisions, material and result. They do not rely on images alone.
 
+## External design reference library
+
+Galok keeps an external reference library at `design-references/awesome-design-md`, installed as a pinned Git submodule from `VoltAgent/awesome-design-md`.
+
+### Authority order
+
+1. This root `DESIGN.md` defines Galok's visual identity and has final authority.
+2. Section- or feature-specific Galok design documentation may refine these rules for a bounded context.
+3. Files inside `design-references/` are research material. They provide patterns and vocabulary only.
+
+### Agent workflow
+
+Before a substantial UI change:
+
+1. Read this file.
+2. Inspect the existing page and its shared components/tokens.
+3. If external references would materially help, inspect only the relevant `DESIGN.md` files under `design-references/awesome-design-md/design-md/`.
+4. Extract transferable principles such as spacing rhythm, hierarchy, typography roles, image treatment, responsive behavior, motion limits, and anti-patterns.
+5. Translate those principles into Galok tokens and components. Keep third-party branding, proprietary font assumptions, logos, signature brand colors, and distinctive branded compositions out of Galok.
+6. If a new reusable rule emerges, document it in Galok's own design documentation so future agents do not need to reconstruct the decision from external references.
+
+### Recommended reference map
+
+- **Long-form editorial / Reading:** `wired`, selectively `theverge`.
+- **Whitespace and image hierarchy:** `apple`.
+- **Precision UI, hairlines and restrained states:** `linear.app`, `vercel`.
+- **Data and research surfaces:** `ibm`.
+- **Content organization:** `notion`.
+- **Cinematic visual chapters:** `runwayml`, selectively `ferrari`.
+
+The reference library is an ingredient shelf. Galok's visual language remains authored here.
+
 ## Reference logic
 
 - [Maggie Appleton's digital-garden ethos](https://maggieappleton.com/garden-history) supports a personal, non-template taxonomy and the planted/growing/evergreen maturity language: Galok groups work by the way Galok thinks, rather than copying a portfolio menu.
