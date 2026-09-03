@@ -5,7 +5,8 @@
   const eventNames = new Set([
     "essay_open", "research_open", "city_open", "postcard_open",
     "archive_search", "archive_result_open", "research_toc_use",
-    "city_video_play", "city_video_pause", "city_atlas_node_open", "external_link_open"
+    "city_video_play", "city_video_pause", "city_atlas_node_open", "external_link_open",
+    "support_open"
   ]);
   const lastEvents = new Map();
 
@@ -14,6 +15,7 @@
   const pageKind = () => {
     if (route.startsWith("/essays/") && route !== "/essays/") return "essay";
     if (route.startsWith("/research/") && route !== "/research/") return "research";
+    if (route.startsWith("/reading/") && route !== "/reading/") return "reading";
     if (route.startsWith("/be-a-viewer/")) return "city";
     if (route.startsWith("/postcards/")) return "postcard";
     return "site";
@@ -53,6 +55,15 @@
       window.galokTrack("postcard_open", {
         city: text(document.querySelector("[data-postcard-city]")?.textContent, 48),
         title: text(document.querySelector("[data-postcard-title]")?.textContent, 96)
+      });
+    }
+
+    const support = target.closest("[data-galok-support]");
+    if (support) {
+      window.galokTrack("support_open", {
+        surface: support.dataset.galokSupport || "unknown",
+        page_kind: kind,
+        route
       });
     }
 
@@ -110,6 +121,53 @@
       appendScript("/assets/reader-contact.js?v=upgrade05-20260825");
     }
   }
+
+  const supportUrl = "https://ko-fi.com/galok";
+  const supportMarkup = (surface) => `
+    <section class="galok-support" aria-labelledby="galok-support-title" data-galok-support-panel="${surface}">
+      <div class="galok-support__inner">
+        <p class="galok-support__eyebrow">Support / Independent work</p>
+        <div class="galok-support__copy">
+          <h2 id="galok-support-title">Keep Galok independent.</h2>
+          <p>Research, archives, photography and long-form publishing take time. If this work was useful, you can help fund the next piece.</p>
+          <a class="galok-support__action" href="${supportUrl}" target="_blank" rel="noreferrer" data-galok-support="${surface}">Support this work <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>`;
+
+  const parts = route.split("/").filter(Boolean);
+  const isEssayDetail = parts[0] === "essays" && parts.length >= 2;
+  const isResearchDetail = parts[0] === "research" && parts.length >= 2;
+  const isReadingDetail = parts[0] === "reading" && parts.length >= 3;
+  const supportSurface = isEssayDetail ? "essay-end" : isResearchDetail ? "research-end" : isReadingDetail ? "reading-end" : null;
+
+  if (supportSurface && !document.querySelector("[data-galok-support-panel]")) {
+    const main = document.querySelector("main");
+    if (main) {
+      main.insertAdjacentHTML("beforeend", supportMarkup(supportSurface));
+      appendStylesheet("/assets/support.css?v=20260904");
+    }
+  }
+
+  if (route === "/about/" && !document.querySelector("[data-galok-support-panel]")) {
+    const contact = document.querySelector(".about-contact");
+    if (contact) {
+      contact.insertAdjacentHTML("beforebegin", supportMarkup("about"));
+      appendStylesheet("/assets/support.css?v=20260904");
+    }
+  }
+
+  const footerTargets = [
+    document.querySelector(".footer-directory .footer-column:last-of-type"),
+    document.querySelector("footer.field-footer .footer-inner > div:nth-child(2)"),
+    document.querySelector(".about-footer > div")
+  ].filter(Boolean);
+  footerTargets.forEach((target) => {
+    if (target.querySelector(`a[href="${supportUrl}"]`)) return;
+    target.insertAdjacentHTML("beforeend", `<a href="${supportUrl}" target="_blank" rel="noreferrer" data-galok-support="footer">Support</a>`);
+  });
+  if (footerTargets.length) appendStylesheet("/assets/support.css?v=20260904");
+
   if (route === "/cities/" && !document.querySelector("[data-city-atlas]")) {
     const selector = document.querySelector("[data-city-selector]");
     if (selector) {
