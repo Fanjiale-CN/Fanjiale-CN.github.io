@@ -11,6 +11,18 @@
     if (status) status.textContent = 'LIVE / Continue to the citywide sacred network';
   }
 
+  if (document.body.classList.contains('dj20-page')) {
+    const queued = document.querySelector('.dj-v3-entry-nav span');
+    if (queued?.textContent.includes('21 / 馬行街鋪席')) {
+      const link = document.createElement('a');
+      link.href = '/reading/dongjing-meng-hua-lu/21/';
+      link.innerHTML = '<small>NEXT</small><strong>21 / 馬行街鋪席</strong>';
+      queued.replaceWith(link);
+    }
+    const status = document.querySelector('.dj20-exit em');
+    if (status) status.textContent = 'LIVE / Continue to prepared food and the night-market clock';
+  }
+
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = [...document.querySelectorAll('[data-dj-v3-reveal], [data-dj15-node], [data-dj16-node], [data-dj17-node]')];
   if (!items.length) return;
