@@ -1,0 +1,74 @@
+name: Ensure Dongjing Cover Metadata Once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ensure-dongjing-cover-meta-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  ensure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Normalize cover metadata on every Dongjing page
+        run: |
+          python - <<'PY'
+          import pathlib
+          import re
+
+          root = pathlib.Path('reading/dongjing-meng-hua-lu')
+          canonical = 'https://www.galok.me/assets/reading/dongjing-meng-hua-lu-cover-v2.webp'
+
+          pages = sorted(root.rglob('index.html'))
+          for path in pages:
+              text = path.read_text(encoding='utf-8')
+
+              og = f'<meta property="og:image" content="{canonical}">'
+              if '<meta property="og:image"' in text:
+                  text = re.sub(r'<meta property="og:image" content="[^"]*">', og, text, count=1)
+              else:
+                  m = re.search(r'(<meta property="og:url" content="[^"]*">)', text)
+                  if not m:
+                      raise SystemExit(f'Missing og:url in {path}')
+                  text = text[:m.end()] + '\n  ' + og + text[m.end():]
+
+              card = '<meta name="twitter:card" content="summary_large_image">'
+              if '<meta name="twitter:card"' in text:
+                  text = re.sub(r'<meta name="twitter:card" content="[^"]*">', card, text, count=1)
+              else:
+                  text = text.replace(og, og + '\n  ' + card, 1)
+
+              tw = f'<meta name="twitter:image" content="{canonical}">'
+              if '<meta name="twitter:image"' in text:
+                  text = re.sub(r'<meta name="twitter:image" content="[^"]*">', tw, text, count=1)
+              else:
+                  text = text.replace(card, card + '\n  ' + tw, 1)
+
+              path.write_text(text, encoding='utf-8')
+
+          for path in pages:
+              text = path.read_text(encoding='utf-8')
+              if f'<meta property="og:image" content="{canonical}">' not in text:
+                  raise SystemExit(f'OG cover not unified: {path}')
+              if f'<meta name="twitter:image" content="{canonical}">' not in text:
+                  raise SystemExit(f'Twitter cover not unified: {path}')
+              if '<meta name="twitter:card" content="summary_large_image">' not in text:
+                  raise SystemExit(f'Twitter card not unified: {path}')
+
+          workflow = pathlib.Path('.github/workflows/ensure-dongjing-cover-meta-once.yml')
+          workflow.unlink()
+          print(f'Unified metadata on {len(pages)} Dongjing HTML pages.')
+          PY
+      - name: Commit metadata cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reading/dongjing-meng-hua-lu .github/workflows/ensure-dongjing-cover-meta-once.yml
+          git commit -m "fix(reading): finish Dongjing cover unification"
+          git push origin HEAD:main
