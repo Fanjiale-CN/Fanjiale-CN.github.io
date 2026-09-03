@@ -1,0 +1,106 @@
+/* Dongjing Meng Hua Lu — whole-book recalibration layer, 2026-09-04.
+   Scope: entries 01–07, 10–13, 15. The layer makes chronology, collation,
+   memory and evidence limits visible without flattening each entry into one template. */
+
+.dj-audit-layer{
+  --dja-paper:#eee9dd;
+  --dja-paper-deep:#e3dccd;
+  --dja-ink:#171713;
+  --dja-muted:#6a675f;
+  --dja-rule:#b7b0a2;
+  --dja-jade:#315b50;
+  --dja-red:#9e332d;
+  width:min(1180px,calc(100% - 40px));
+  margin:clamp(28px,5vw,72px) auto clamp(42px,7vw,92px);
+  padding:clamp(22px,3.2vw,42px);
+  color:var(--dja-ink);
+  background:
+    linear-gradient(90deg,rgba(23,23,19,.025) 1px,transparent 1px) 0 0/32px 100%,
+    var(--dja-paper);
+  border-top:4px solid var(--dja-ink);
+  border-bottom:1px solid var(--dja-rule);
+  box-sizing:border-box;
+}
+
+.dj-audit-layer.is-critical{border-top-color:var(--dja-red)}
+.dj-audit-layer.is-aftermath{border-top-color:var(--dja-jade)}
+
+.dj-audit-head{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);
+  gap:clamp(28px,5vw,72px);
+  align-items:end;
+  padding-bottom:28px;
+  border-bottom:1px solid var(--dja-rule);
+}
+
+.dj-audit-head small,
+.dj-audit-card small,
+.dj-audit-inline small,
+.dj-audit-source span,
+.dj-audit-timeline small,
+.dj-audit-timeline>div>span{
+  font:700 .67rem/1.25 ui-monospace,SFMono-Regular,Consolas,monospace;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.dj-audit-head small{display:block;margin-bottom:16px;color:var(--dja-red)}
+.dj-audit-head h2{margin:0;max-width:19ch;font-family:var(--reading-display-latin,Georgia,serif);font-size:clamp(2rem,4.1vw,4.8rem);font-weight:500;line-height:.96;letter-spacing:-.035em}
+.dj-audit-head p{margin:0;max-width:55ch;color:var(--dja-muted);font-family:var(--reading-display-latin,Georgia,serif);font-size:clamp(.94rem,1.25vw,1.08rem);line-height:1.6}
+
+.dj-audit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid var(--dja-rule)}
+.dj-audit-card{min-width:0;padding:30px 28px 34px 0;border-right:1px solid var(--dja-rule)}
+.dj-audit-card+ .dj-audit-card{padding-left:28px}
+.dj-audit-card:last-child{border-right:0}
+.dj-audit-card small{display:block;margin-bottom:22px;color:var(--dja-jade)}
+.dj-audit-layer.is-critical .dj-audit-card:first-child small,.dj-audit-layer.is-aftermath .dj-audit-card:nth-child(2) small{color:var(--dja-red)}
+.dj-audit-card strong{display:block;margin-bottom:14px;font-family:var(--reading-cjk,var(--reading-display-latin,Georgia,serif));font-size:clamp(1.08rem,1.7vw,1.42rem);font-weight:600;line-height:1.22}
+.dj-audit-card p{margin:0;color:var(--dja-muted);font-family:var(--reading-display-latin,Georgia,serif);font-size:.92rem;line-height:1.66}
+
+.dj-audit-timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:30px;border:1px solid var(--dja-rule);background:rgba(255,255,255,.12)}
+.dj-audit-timeline>div{position:relative;min-height:132px;padding:20px 20px 22px;border-right:1px solid var(--dja-rule)}
+.dj-audit-timeline>div:last-child{border-right:0}
+.dj-audit-timeline>div>span{display:block;margin-bottom:28px;color:var(--dja-red)}
+.dj-audit-timeline small{display:block;margin-bottom:8px;color:var(--dja-muted)}
+.dj-audit-timeline b{display:block;font-family:var(--reading-cjk,var(--reading-display-latin,Georgia,serif));font-size:.98rem;font-weight:600;line-height:1.35}
+
+.dj-audit-source{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;align-items:baseline;margin-top:28px;padding-top:20px;border-top:1px solid var(--dja-rule)}
+.dj-audit-source span{color:var(--dja-red)}
+.dj-audit-source b{font-family:var(--reading-display-latin,Georgia,serif);font-size:.82rem;font-weight:600;line-height:1.45}
+.dj-audit-source small{grid-column:2;color:var(--dja-muted);font-family:var(--reading-display-latin,Georgia,serif);font-size:.74rem;line-height:1.5}
+
+.dj-audit-inline{margin:18px 0 28px;padding:20px 22px;background:var(--dja-paper-deep,#e3dccd);border-left:4px solid var(--dja-red,#9e332d)}
+.dj-audit-inline small{display:block;margin-bottom:10px;color:var(--dja-red,#9e332d)}
+.dj-audit-inline strong{display:block;font-family:var(--reading-cjk,Georgia,serif);font-size:clamp(1rem,1.6vw,1.3rem);font-weight:600;line-height:1.5}
+.dj-audit-inline p{max-width:72ch;margin:10px 0 0;color:var(--dja-muted,#6a675f);font-family:var(--reading-display-latin,Georgia,serif);font-size:.86rem;line-height:1.6}
+
+.dj15-sign-node{background:rgba(49,91,80,.055)}
+.dj15-sign-node small{color:var(--dja-jade,#315b50)!important}
+
+@media(max-width:860px){
+  .dj-audit-layer{width:min(100% - 24px,1180px);padding:22px 18px}
+  .dj-audit-head{grid-template-columns:1fr;gap:20px}
+  .dj-audit-head h2{max-width:16ch}
+  .dj-audit-grid{grid-template-columns:1fr}
+  .dj-audit-card,.dj-audit-card+ .dj-audit-card{padding:24px 0;border-right:0;border-bottom:1px solid var(--dja-rule)}
+  .dj-audit-card:last-child{border-bottom:0}
+  .dj-audit-timeline{grid-template-columns:1fr 1fr}
+  .dj-audit-timeline>div:nth-child(2){border-right:0}
+  .dj-audit-timeline>div:nth-child(-n+2){border-bottom:1px solid var(--dja-rule)}
+  .dj-audit-source{grid-template-columns:1fr}
+  .dj-audit-source small{grid-column:1}
+}
+
+@media(max-width:520px){
+  .dj-audit-layer{margin-top:22px;padding:20px 16px}
+  .dj-audit-head h2{font-size:2.15rem}
+  .dj-audit-timeline{grid-template-columns:1fr}
+  .dj-audit-timeline>div{min-height:0;border-right:0;border-bottom:1px solid var(--dja-rule)}
+  .dj-audit-timeline>div:last-child{border-bottom:0}
+  .dj-audit-timeline>div>span{margin-bottom:18px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .dj-audit-layer *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}

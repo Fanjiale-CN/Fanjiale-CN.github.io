@@ -1,8 +1,14 @@
 (() => {
-  const redesignStylesheet = document.createElement('link');
-  redesignStylesheet.rel = 'stylesheet';
-  redesignStylesheet.href = '/reading/redesign-20260831.css?v=20260831c';
-  document.head.append(redesignStylesheet);
+  const loadStylesheet = (href, id) => {
+    if (id && document.getElementById(id)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    if (id) link.id = id;
+    document.head.append(link);
+  };
+
+  loadStylesheet('/reading/redesign-20260831.css?v=20260831c', 'reading-redesign-20260831');
 
   if (document.body.classList.contains('reading-page')) {
     const titleLabels = {
@@ -39,49 +45,6 @@
     }
   }
 
-  const dongjingArchive = document.querySelector('[data-volume-archive]');
-  if (dongjingArchive) {
-    const currentDrawer = dongjingArchive.querySelector('#volume-2');
-    const progress = currentDrawer?.querySelector('.dj-drawer-progress');
-    const drawerSubtitle = currentDrawer?.querySelector('.dj-drawer-title small');
-    if (progress) progress.textContent = '5 / 8';
-    if (drawerSubtitle) drawerSubtitle.textContent = 'IN PROGRESS / ENTRY 12 NEXT';
-
-    const rows = [...(currentDrawer?.querySelectorAll('.dj-drawer-entry') || [])];
-
-    function makeLive(number, href, noteText, timeText) {
-      const row = rows.find((item) => item.firstElementChild?.textContent?.trim() === number);
-      if (!row) return null;
-      let link = row;
-      if (row.tagName !== 'A') {
-        link = document.createElement('a');
-        link.className = row.className.replace(/\bis-queued\b/g, '').trim();
-        link.href = href;
-        link.innerHTML = row.innerHTML;
-        row.replaceWith(link);
-      } else {
-        link.href = href;
-      }
-      const note = link.querySelector('.dj-drawer-entry-note');
-      const state = link.querySelector('.dj-drawer-entry-state');
-      const time = link.querySelector('.dj-drawer-entry-time');
-      if (note) note.textContent = noteText;
-      if (state) state.textContent = 'LIVE';
-      if (time) time.textContent = timeText;
-      return link;
-    }
-
-    makeLive('07', '/reading/dongjing-meng-hua-lu/07/', 'Barriers, controlled movement, imperial drains and Xuanhe-period planting.', '≈ 8 MIN');
-    makeLive('08', '/reading/dongjing-meng-hua-lu/08/', 'Offices, envoy lodging, jewelers, markets and food share one remembered route.', '≈ 12 MIN');
-    makeLive('09', '/reading/dongjing-meng-hua-lu/09/', 'Nightlife, schools, state medicine, ritual, military institutions and gate traffic share one southward axis.', '≈ 15 MIN');
-    makeLive('10', '/reading/dongjing-meng-hua-lu/10/', 'Seasonal food, live cooking, packaging, prices, late-night hours and the excavated Zhouqiao district.', '≈ 14 MIN');
-    makeLive('11', '/reading/dongjing-meng-hua-lu/11/', 'One market changes inventory from the fifth watch to evening before spilling into the wazi entertainment network.', '≈ 16 MIN');
-
-    const row12 = rows.find((row) => row.firstElementChild?.textContent?.trim() === '12');
-    const state12 = row12?.querySelector('.dj-drawer-entry-state');
-    if (state12) state12.textContent = 'NEXT';
-  }
-
   const previewData = {
     salt: {
       className: 'reading-preview-plate--salt',
@@ -99,10 +62,10 @@
     },
     dongjing: {
       className: 'reading-preview-plate--dongjing',
-      kicker: '12TH C. / KAIFENG REMEMBERED',
+      kicker: '1147 / KAIFENG IN MEMORY',
       title: '東京夢華錄',
-      copy: 'Ten volumes and eighty-six entries reconstruct Northern Song Kaifeng through walls, waterways, streets, markets, food, festivals and ordinary urban life.',
-      meta: '003 / OPEN DOSSIER / CITY + PEOPLE'
+      copy: 'Ten volumes and eighty-six entries reconstruct a lost Northern Song capital through remembered walls, waterways, streets, markets, food, festivals and ordinary urban life.',
+      meta: '003 / OPEN DOSSIER / CITY + MEMORY'
     }
   };
 
@@ -233,4 +196,13 @@
   dialog?.addEventListener('click', (event) => {
     if (event.target === dialog) dialog.close();
   });
+
+  const auditData = document.createElement('script');
+  auditData.src = '/reading/dongjing-audit-data-20260904.js?v=20260904a';
+  auditData.onload = () => {
+    const auditRuntime = document.createElement('script');
+    auditRuntime.src = '/reading/dongjing-audit-20260904.js?v=20260904a';
+    document.head.append(auditRuntime);
+  };
+  document.head.append(auditData);
 })();
