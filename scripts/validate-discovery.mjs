@@ -31,6 +31,10 @@ for (const type of ["city", "essay", "radar", "research", "data", "project", "vi
 for (const route of ["/reading/dongjing-meng-hua-lu/12/", "/reading/dongjing-meng-hua-lu/13/", "/reading/dongjing-meng-hua-lu/14/"]) {
   if (!catalog.some((entry) => entry.url === route && entry.type === "reading")) fail(`search catalog is missing ${route}`);
 }
+for (let entry = 20; entry <= 27; entry += 1) {
+  const route = `/reading/dongjing-meng-hua-lu/${entry}/`;
+  if (!catalog.some((item) => item.url === route && item.type === "reading")) fail(`search catalog is missing ${route}`);
+}
 if (!existsSync(join(root, "pagefind", "pagefind.js"))) fail("Pagefind client bundle is missing");
 if (!existsSync(join(root, "pagefind", "pagefind-entry.json")) && !existsSync(join(root, "pagefind", "entry.json"))) fail("Pagefind search index is missing");
 const pagefindBuild = JSON.parse(read("pagefind/build.json"));

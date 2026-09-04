@@ -4,6 +4,7 @@ const typeLabels = {
   radar: "Radar",
   research: "Research",
   data: "Data",
+  reading: "Reading",
   project: "Projects",
   visual: "Visual Notes",
   site: "Galok"
@@ -18,6 +19,7 @@ const typeForUrl = (url) => {
   if (path.startsWith("/radar/")) return "radar";
   if (path.startsWith("/research/")) return "research";
   if (path.startsWith("/data/")) return "data";
+  if (path.startsWith("/reading/")) return "reading";
   if (path.startsWith("/visual-notes/")) return "visual";
   if (path.startsWith("/work/") || path.startsWith("/design/") || path.startsWith("/postcards/")) return "project";
   return "site";
