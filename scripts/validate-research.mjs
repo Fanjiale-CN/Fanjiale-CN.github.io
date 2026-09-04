@@ -23,7 +23,7 @@ function walk(directory) {
 
 const source = readFileSync(sourcePath, "utf8");
 const page = readFileSync(pagePath, "utf8");
-const hash = createHash("sha256").update(source).digest("hex");
+const hash = createHash("sha256").update(source.replace(/\r\n/g, "\n")).digest("hex");
 
 fail(hash !== expectedHash, `Canonical paper hash changed: ${hash}`);
 fail((source.match(/^\\\[$/gm) || []).length !== 67, "Canonical paper must contain 67 display-math openings");
