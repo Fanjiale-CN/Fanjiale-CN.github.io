@@ -5,7 +5,7 @@
   "scripts": {
     "galok:prepare": "node scripts/publish-first-noop.mjs",
     "galok:preflight": "node scripts/publish-first-noop.mjs",
-    "build:discovery": "node scripts/run-discovery-build.mjs && pagefind --site /tmp/galok-pagefind-source --output-path pagefind",
+    "build:discovery": "node scripts/run-discovery-build.mjs && node scripts/build-pagefind-index.mjs",
     "ci:indexnow": "node scripts/notify-indexnow.mjs",
     "sync:observability": "node scripts/sync-observability.mjs",
     "maintenance:reading-fonts": "python scripts/build-reading-font-subsets.py"

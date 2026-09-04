@@ -16,6 +16,10 @@ function hash(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
+function hashText(path) {
+  return createHash("sha256").update(readFileSync(path, "utf8").replace(/\r\n/g, "\n")).digest("hex");
+}
+
 function fail(condition, message) {
   if (condition) errors.push(message);
 }
@@ -29,7 +33,7 @@ const quadrants = JSON.parse(readFileSync(join(dataRoot, "quadrants.json"), "utf
 const lifecycle = JSON.parse(readFileSync(join(dataRoot, "brand-lifecycle.json"), "utf8"));
 const franchise = JSON.parse(readFileSync(join(dataRoot, "franchise-association.json"), "utf8"));
 
-fail(hash(sourcePath) !== "efd3a8971bbaaf2a8261d27353aff5f9413a4ada35423db7d1c8d3682a4ba346", "Frozen Research 002 manuscript hash changed");
+fail(hashText(sourcePath) !== "efd3a8971bbaaf2a8261d27353aff5f9413a4ada35423db7d1c8d3682a4ba346", "Frozen Research 002 manuscript hash changed");
 fail(hash(coverPath) !== "6dc193a5fa21e6a8c0a73802fde560327cbd75187176fcce89d6e96b2fbe8541", "Official Research 002 cover hash changed");
 fail(hash(replicationPath) !== "cf953de19862bd23c55cda117391a5d1a58a58f9e5cd92f61c9be5191db496a4", "Replication package hash changed");
 

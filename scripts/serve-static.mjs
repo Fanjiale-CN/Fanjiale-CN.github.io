@@ -1,6 +1,6 @@
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
-import { extname, join, normalize, resolve } from "node:path";
+import { extname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("../", import.meta.url)));
@@ -17,7 +17,7 @@ function resolveFile(pathname) {
   const decoded = decodeURIComponent(pathname);
   const relative = decoded.replace(/^\/+/, "");
   const candidate = resolve(root, relative || "index.html");
-  if (!candidate.startsWith(`${root}/`) && candidate !== root) return null;
+  if (candidate !== root && !candidate.startsWith(root + sep)) return null;
   if (existsSync(candidate) && statSync(candidate).isFile()) return candidate;
   if (!extname(relative || "index.html")) {
     const index = join(candidate, "index.html");

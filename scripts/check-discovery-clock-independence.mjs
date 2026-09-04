@@ -5,7 +5,8 @@ const clocks = ["1999-01-01", "2099-12-31"];
 
 function run(label, command, args, env) {
   console.log(`\n[discovery-clock] ${label}`);
-  const result = spawnSync(command, args, { stdio: "inherit", env, encoding: "utf8" });
+  // Windows cannot spawn npm.cmd directly without a shell (EINVAL).
+  const result = spawnSync(command, args, { stdio: "inherit", env, encoding: "utf8", shell: process.platform === "win32" });
   if (result.status !== 0) {
     console.error(`\nDISCOVERY CLOCK INDEPENDENCE FAILED: ${label}`);
     process.exit(result.status || 1);

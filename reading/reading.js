@@ -10,6 +10,26 @@
 
   loadStylesheet('/reading/redesign-20260831.css?v=20260831c', 'reading-redesign-20260831');
 
+  // Shared reveal support: pages that mark content with data-djx-reveal get the
+  // visible state on intersection (or immediately under reduced motion / without
+  // IntersectionObserver). Idempotent beside entry-specific reveal handlers.
+  const revealElements = [...document.querySelectorAll('[data-djx-reveal]')];
+  if (revealElements.length) {
+    const revealAll = () => revealElements.forEach((el) => el.classList.add('is-visible'));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      revealAll();
+    } else {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+      revealElements.forEach((el) => revealObserver.observe(el));
+    }
+  }
+
   if (document.body.classList.contains('reading-page')) {
     const titleLabels = {
       salt: '<span class="reading-book-title-zh" lang="zh-Hant">鹽鐵論</span> / Salt &amp; Iron',

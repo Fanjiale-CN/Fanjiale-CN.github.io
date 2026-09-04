@@ -13,6 +13,7 @@ font outputs together with the content that requires them.
 from __future__ import annotations
 
 import hashlib
+import os
 import subprocess
 import tempfile
 import urllib.request
@@ -25,9 +26,11 @@ ROOT = Path(__file__).resolve().parents[1]
 READING_ROOT = ROOT / "reading"
 FONT_DIR = ROOT / "assets" / "fonts"
 
-SOURCE_HAN_URL = "https://raw.githubusercontent.com/adobe-fonts/source-han-serif/release/OTF/TraditionalChinese/SourceHanSerifTC-Regular.otf"
-QIJI_URL = "https://github.com/LingDong-/qiji-font/releases/download/0.0.4/qiji-combo.ttf"
-HANAMIN_URL = "https://github.com/cjkvi/HanaMinAFDKO/releases/download/8.030/HanaMinB.otf"
+# Source URLs can be overridden per environment (e.g. local file:// mirrors or
+# region-reachable mirrors) without changing the canonical defaults.
+SOURCE_HAN_URL = os.environ.get("GALOK_SOURCE_HAN_URL", "https://raw.githubusercontent.com/adobe-fonts/source-han-serif/release/OTF/TraditionalChinese/SourceHanSerifTC-Regular.otf")
+QIJI_URL = os.environ.get("GALOK_QIJI_URL", "https://github.com/LingDong-/qiji-font/releases/download/0.0.4/qiji-combo.ttf")
+HANAMIN_URL = os.environ.get("GALOK_HANAMIN_URL", "https://github.com/cjkvi/HanaMinAFDKO/releases/download/8.030/HanaMinB.otf")
 
 BOOK_TITLE_RESERVE = set("東京夢華錄鹽鐵論管子")
 REQUIRED_PUNCTUATION = set("，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　")
