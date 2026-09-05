@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""Maintenance-only builder for Galok Reading Chinese fonts.
+"""Reading typography corpus builder (V2 two-layer contract).
 
-Typography contract:
-- ordinary Reading Chinese -> Source Han Serif TC;
-- explicit large book titles -> QIJIC;
-- HanaMin -> last-resort fallback for glyphs absent from Source Han Serif TC.
+Layers:
+- ancient: primary-source Chinese — blockquote, q, .reading-primary-text,
+  .reading-source-columns, .dj-columns. Rendered by Source Han Serif TC,
+  with HanaMin as the rare-glyph fallback.
+- modern: all other Reading Chinese (titles, labels, captions, UI, menus,
+  glossary terms). Rendered by Galok QIJIC Reading; glyphs the QIJIC source
+  lacks fall back to Source Han, which is why the Source Han subset also
+  carries `qiji_missing`.
 
-Normal content work does not run this builder automatically. When a new Reading entry
-introduces uncovered glyphs, run this maintenance command and commit the canonical
-font outputs together with the content that requires them.
+The classification is structural (container-based), so the corpus is
+reproducible from the HTML alone and independent of machine state. Normal
+content work does not run this builder automatically; run it when the
+Reading corpus changes and commit the canonical outputs.
 """
 from __future__ import annotations
 
@@ -34,8 +39,11 @@ HANAMIN_URL = os.environ.get("GALOK_HANAMIN_URL", "https://github.com/cjkvi/Hana
 
 BOOK_TITLE_RESERVE = set("東京夢華錄鹽鐵論管子")
 REQUIRED_PUNCTUATION = set("，。！？；：「」『』（）《》〈〉—…·、〔〕【】﹁﹂﹃﹄　")
-SKIP_TAGS = {"script", "style", "template", "noscript"}
+EXTRA_PUNCTUATION = set("‘’“”―‐‒–′″‰")
+SKIP_TAGS = {"script", "style", "template", "noscript", "title"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
+ANCIENT_TAGS = {"blockquote", "q"}
+ANCIENT_CLASSES = {"reading-primary-text", "reading-source-columns", "dj-columns"}
 
 
 def is_cjk(ch: str) -> bool:
@@ -49,35 +57,79 @@ def is_cjk(ch: str) -> bool:
     )
 
 
-class ReadingTextParser(HTMLParser):
+def is_cjk_punct(ch: str) -> bool:
+    cp = ord(ch)
+    return (
+        0x3000 <= cp <= 0x303F
+        or 0xFF01 <= cp <= 0xFF60
+        or ch in EXTRA_PUNCTUATION
+    )
+
+
+class ReadingLayerParser(HTMLParser):
+    """Splits Reading text into the ancient layer (primary sources) and the
+    modern editorial layer (everything else) by DOM ancestry."""
+
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
-        self.stack: list[bool] = []
-        self.parts: list[str] = []
+        self.skip_depth = 0
+        self.ancient_depth = 0
+        self.ancient: set[str] = set()
+        self.modern: set[str] = set()
+        self.ancient_punct: set[str] = set()
+        self.modern_punct: set[str] = set()
+
+    def _ancient(self, tag: str, attrs) -> bool:
+        if tag in ANCIENT_TAGS:
+            return True
+        classes = dict(attrs).get("class", "").split()
+        return bool(ANCIENT_CLASSES.intersection(classes))
 
     def handle_starttag(self, tag: str, attrs) -> None:
-        parent_skip = self.stack[-1] if self.stack else False
-        if tag not in VOID_TAGS:
-            self.stack.append(parent_skip or tag in SKIP_TAGS)
+        if tag in VOID_TAGS:
+            return
+        if tag in SKIP_TAGS:
+            self.skip_depth += 1
+        elif not self.skip_depth:
+            if self._ancient(tag, attrs):
+                self.ancient_depth += 1
 
     def handle_endtag(self, tag: str) -> None:
-        if tag not in VOID_TAGS and self.stack:
-            self.stack.pop()
+        if tag in VOID_TAGS:
+            return
+        if tag in SKIP_TAGS and self.skip_depth:
+            self.skip_depth -= 1
+        elif not self.skip_depth and self.ancient_depth and self._ancient(tag, attrs=[]):
+            self.ancient_depth -= 1
 
     def handle_data(self, data: str) -> None:
-        if not (self.stack[-1] if self.stack else False):
-            self.parts.append(data)
+        if self.skip_depth:
+            return
+        for ch in data:
+            if is_cjk(ch):
+                (self.ancient if self.ancient_depth else self.modern).add(ch)
+            elif is_cjk_punct(ch):
+                (self.ancient_punct if self.ancient_depth else self.modern_punct).add(ch)
 
 
-def collect_corpus() -> set[str]:
-    chinese = set(REQUIRED_PUNCTUATION)
-    for path in sorted(READING_ROOT.rglob("*.html")):
-        parser = ReadingTextParser()
+def pages() -> list[Path]:
+    return sorted(p for p in READING_ROOT.rglob("*.html"))
+
+
+def collect() -> tuple[set[str], set[str]]:
+    ancient: set[str] = set()
+    modern: set[str] = set()
+    for path in pages():
+        parser = ReadingLayerParser()
         parser.feed(path.read_text(encoding="utf-8", errors="ignore"))
-        for ch in "".join(parser.parts):
-            if is_cjk(ch) or ch in REQUIRED_PUNCTUATION:
-                chinese.add(ch)
-    return chinese
+        ancient |= parser.ancient
+        modern |= parser.modern
+        # Punctuation: each layer carries the punctuation it actually uses,
+        # plus the shared required set as a display/UI reserve.
+        ancient |= parser.ancient_punct | REQUIRED_PUNCTUATION
+        modern |= parser.modern_punct | REQUIRED_PUNCTUATION
+    modern |= BOOK_TITLE_RESERVE
+    return ancient, modern
 
 
 def font_codepoints(path: Path) -> set[int]:
@@ -145,11 +197,14 @@ def git_blob_sha(path: Path) -> str:
     return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
 
 
+def describe(chars: list[str]) -> str:
+    return " ".join(f"{ch}(U+{ord(ch):04X})" for ch in chars)
+
+
 def main() -> int:
-    source_han_chars = collect_corpus()
-    book_title_chars = set(BOOK_TITLE_RESERVE)
-    print(f"Unified Source Han Chinese corpus: {len(source_han_chars)} chars")
-    print(f"QIJIC book-title corpus: {len(book_title_chars)} chars")
+    ancient, modern = collect()
+    print(f"Ancient corpus (primary sources): {len(ancient)} chars")
+    print(f"Modern corpus (editorial layer):  {len(modern)} chars")
 
     with tempfile.TemporaryDirectory(prefix="galok-reading-fonts-") as tmp:
         tmpdir = Path(tmp)
@@ -165,39 +220,46 @@ def main() -> int:
         qiji_cmap = font_codepoints(qiji)
         hanamin_cmap = font_codepoints(hanamin)
 
-        book_title_missing = sorted(ch for ch in book_title_chars if ord(ch) not in qiji_cmap)
-        if book_title_missing:
-            raise RuntimeError(
-                "QIJIC source lacks reserved book-title glyphs: "
-                + " ".join(f"{ch}(U+{ord(ch):04X})" for ch in book_title_missing)
-            )
-
-        rare = {ch for ch in source_han_chars if ord(ch) not in source_han_cmap}
-        hana_unsupported = sorted(ch for ch in rare if ord(ch) not in hanamin_cmap)
+        # Rare ancient glyphs: absent from Source Han, covered by HanaMin.
+        rare = {ch for ch in ancient if ord(ch) not in source_han_cmap}
+        hana_unsupported = sorted((ch for ch in rare if ord(ch) not in hanamin_cmap), key=ord)
         if hana_unsupported:
             raise RuntimeError(
-                "Source Han and HanaMin both lack Reading glyphs: "
-                + " ".join(f"{ch}(U+{ord(ch):04X})" for ch in hana_unsupported)
+                "Source Han and HanaMin both lack ancient Reading glyphs: "
+                + describe(hana_unsupported)
+            )
+
+        # Modern glyphs the QIJIC source itself lacks. They stay modern, but
+        # the Source Han subset must carry them because it is the modern
+        # stack's first fallback.
+        qiji_missing = sorted((ch for ch in modern if ord(ch) not in qiji_cmap), key=ord)
+        unsupported_modern = [ch for ch in qiji_missing if ord(ch) not in source_han_cmap and ord(ch) not in hanamin_cmap]
+        if unsupported_modern:
+            raise RuntimeError(
+                "Modern glyphs missing from QIJIC, Source Han and HanaMin: "
+                + describe(unsupported_modern)
             )
 
         FONT_DIR.mkdir(parents=True, exist_ok=True)
         source_han_out = FONT_DIR / "source-han-serif-tc-reading.woff2"
-        qiji_out = FONT_DIR / "qiji-reading-title.woff2"
+        qiji_out = FONT_DIR / "qiji-reading-modern.woff2"
         hana_out = FONT_DIR / "hanamin-reading-rare.woff2"
 
-        subset(source_han, source_han_chars - rare, source_han_out)
-        subset(qiji, book_title_chars, qiji_out)
+        source_han_chars = (ancient | set(qiji_missing) | REQUIRED_PUNCTUATION) - rare
+        subset(source_han, source_han_chars, source_han_out)
+        subset(qiji, modern, qiji_out)
         subset(hanamin, rare, hana_out)
 
         source_han_out_cmap = font_codepoints(source_han_out)
         qiji_out_cmap = font_codepoints(qiji_out)
         hana_out_cmap = font_codepoints(hana_out)
 
-        reading_stack = source_han_out_cmap | hana_out_cmap
-        chinese_missing = sorted(ch for ch in source_han_chars if ord(ch) not in reading_stack)
-        title_missing = sorted(ch for ch in book_title_chars if ord(ch) not in qiji_out_cmap)
-        if chinese_missing or title_missing:
-            raise RuntimeError(f"Post-build coverage failure: Chinese={chinese_missing!r} book_titles={title_missing!r}")
+        ancient_missing = sorted((ch for ch in ancient if ord(ch) not in source_han_out_cmap and ord(ch) not in hana_out_cmap), key=ord)
+        modern_missing = sorted((ch for ch in modern if ord(ch) not in qiji_out_cmap and ord(ch) not in source_han_out_cmap and ord(ch) not in hana_out_cmap), key=ord)
+        if ancient_missing or modern_missing:
+            raise RuntimeError(
+                f"Post-build coverage failure: ancient={ancient_missing!r} modern={modern_missing!r}"
+            )
 
         for path in (source_han_out, qiji_out, hana_out):
             cmap = font_codepoints(path)
@@ -207,10 +269,16 @@ def main() -> int:
             )
 
         if rare:
-            print("HanaMin rare fallback glyphs:", " ".join(f"{ch}(U+{ord(ch):04X})" for ch in sorted(rare, key=ord)))
+            print("HanaMin ancient fallback glyphs:", describe(sorted(rare, key=ord)))
+        if qiji_missing:
+            print(f"QIJIC source missing {len(qiji_missing)} modern glyph(s), served by Source Han fallback:")
+            print(" ", describe(qiji_missing))
+        modern_direct = len(modern) - len(qiji_missing)
         print(
-            f"PASS: Source Han/HanaMin {len(source_han_chars)}/{len(source_han_chars)}, "
-            f"QIJIC book titles {len(book_title_chars)}/{len(book_title_chars)}, rare fallback {len(rare)}"
+            f"PASS: ancient {len(ancient)}/{len(ancient)} via Source Han+HanaMin, "
+            f"modern {len(modern)}/{len(modern)} via QIJIC "
+            f"({modern_direct} direct, {len(qiji_missing)} Source Han fallback), "
+            f"rare fallback {len(rare)}"
         )
     return 0
 
