@@ -28,7 +28,7 @@ function page(n, cfg) {
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="${cfg.theme}"><meta name="robots" content="noindex,follow"><meta name="galok:search" content="include">
+  <meta name="theme-color" content="${cfg.theme}"><meta name="robots" content="index,follow"><meta name="galok:search" content="include">
   <meta name="description" content="${cfg.desc}">
   <link rel="canonical" href="https://www.galok.me/reading/dongjing-meng-hua-lu/${n}/">
   <title>${cfg.h1en} — Dongjing Meng Hua Lu — Galok</title>

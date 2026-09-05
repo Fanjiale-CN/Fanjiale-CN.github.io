@@ -205,6 +205,90 @@
   {
     "type": "reading",
     "label": "Reading",
+    "title": "Dongjing Meng Hua Lu Reading Room",
+    "excerpt": "Dongjing Meng Hua Lu Reading Room: ten volumes and eighty-six entries on Northern Song Kaifeng, with classical text, translation, visual witnesses and source trails.",
+    "url": "/reading/dongjing-meng-hua-lu/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Dongdu Waicheng — Outer City — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 01, Dongdu Waicheng: the outer city of Northern Song Kaifeng, with complete classical text, working translation, visual witness and interpretation.",
+    "url": "/reading/dongjing-meng-hua-lu/01/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Jiujingcheng — Old City — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 02, Jiujingcheng: the old inner city inside Northern Song Kaifeng, with complete classical text, working translation, archaeological checks and a historical map witness.",
+    "url": "/reading/dongjing-meng-hua-lu/02/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Hedao — Waterways — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 03, Hedao: four rivers crossing Northern Song Kaifeng, with classical text, working translation, visual witnesses and archaeological checks at Zhouqiao and the Bian River.",
+    "url": "/reading/dongjing-meng-hua-lu/03/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Danei — Imperial Palace — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 04, Danei: the Northern Song imperial palace as gate, court, government office, supply corridor and market engine.",
+    "url": "/reading/dongjing-meng-hua-lu/04/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Neizhusi — Inner Palace Departments — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 05, Neizhusi: the inner palace departments that handled writing, reception, security, treasure, food, medicine, transport and daily imperial service.",
+    "url": "/reading/dongjing-meng-hua-lu/05/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Waizhusi — Outer Departments — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 06, Waizhusi: the workshops, stores, animals, fuel yards, granaries and labor network that supplied Northern Song Kaifeng.",
+    "url": "/reading/dongjing-meng-hua-lu/06/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Imperial Avenue — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 07, Yujie: the Northern Song imperial avenue from Xuande Tower, its barriers, controlled central way, drainage channels and Xuanhe-period planting.",
+    "url": "/reading/dongjing-meng-hua-lu/07/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Before Xuande Tower — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 08, Xuande Lou qian shengfu gongyu: a street-level reading of government offices, markets, inns, food shops and urban life around Northern Song Kaifeng",
+    "url": "/reading/dongjing-meng-hua-lu/08/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Outside Zhuque Gate — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 09, Zhuque Men wai jiexiang: a southward reading of education, medicine, ritual, residence, leisure, military supply and traffic rules along Northern Song Kaifeng",
+    "url": "/reading/dongjing-meng-hua-lu/09/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Zhouqiao Night Market — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 10, Zhouqiao Night Market: seasonal food, live cooking, packaging, prices, late-night hours and archaeological evidence from Northern Song Kaifeng.",
+    "url": "/reading/dongjing-meng-hua-lu/10/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
+    "title": "Dongjiaolou Streets — Dongjing Meng Hua Lu",
+    "excerpt": "Dongjing Meng Hua Lu / Entry 11, Dongjiaolou Streets: a market district changing by the hour, high-value trade at Jieshen, and the dense entertainment-service world of the wazi.",
+    "url": "/reading/dongjing-meng-hua-lu/11/"
+  },
+  {
+    "type": "reading",
+    "label": "Reading",
     "title": "Panlou East Streets — Dongjing Meng Hua Lu",
     "excerpt": "Dongjing Meng Hua Lu Entry 12, Panlou East Streets: the Ghost Market before dawn, branching streets, tea, medicine, wine, ovens and horse trading.",
     "url": "/reading/dongjing-meng-hua-lu/12/"

@@ -13,7 +13,7 @@ const head = (n, en, theme, desc, zh, h1en) => `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="${theme}">
-  <meta name="robots" content="noindex,follow">
+  <meta name="robots" content="index,follow">
   <meta name="galok:search" content="include">
   <meta name="description" content="${desc}">
   <link rel="canonical" href="https://www.galok.me/reading/dongjing-meng-hua-lu/${n}/">
