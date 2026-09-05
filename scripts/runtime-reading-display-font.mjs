@@ -101,6 +101,30 @@ try {
   expectFamily(yantieChapter, "Yantie 01", "primaryText", "Galok Source Han Serif TC");
   expectFamily(yantieChapter, "Yantie 01", "navTitle", "Galok Bagnard");
 
+  // Contract-consistency probes: parser corpus layers must match computed CSS.
+  // Yantie primary-text wrapper — chapter label modern, blockquote ancient.
+  const saltLabel = await inspect("/reading/salt-and-iron/01/", {
+    primaryTextLabel: '.reading-primary-text header span',
+    primaryTextBlockquote: '.reading-primary-text blockquote[lang="zh-Hant"]'
+  });
+  expectFamily(saltLabel, "Yantie 01", "primaryTextLabel", "Galok QIJIC Reading");
+  expectFamily(saltLabel, "Yantie 01", "primaryTextBlockquote", "Galok Source Han Serif TC");
+
+  // Dongjing entry 08 — original-text paper ancient, device labels modern.
+  const entry08 = await inspect("/reading/dongjing-meng-hua-lu/08/", {
+    paperColumn: '.dj-columns span',
+    deviceLabel: '.dj08-node b'
+  });
+  expectFamily(entry08, "Dongjing 08", "paperColumn", "Galok Source Han Serif TC");
+  expectFamily(entry08, "Dongjing 08", "deviceLabel", "Galok QIJIC Reading");
+
+  // Reading Room — modern editorial Chinese across the room.
+  const roomModern = await inspect("/reading/dongjing-meng-hua-lu/", {
+    deck: '.dj-room-deck p',
+    drawerTitle: '.dj-drawer-entry-title strong'
+  });
+  expectFamily(roomModern, "Dongjing room", "deck", "Galok QIJIC Reading");
+
   if (failures.length) {
     console.error("Reading typography regression detected:\n" + failures.map((item) => `- ${item}`).join("\n"));
     process.exitCode = 1;

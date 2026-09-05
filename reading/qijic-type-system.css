@@ -205,6 +205,15 @@
   font-family: var(--reading-serif-mixed) !important;
 }
 
+/* Yantie Lun primary-text headers mix English labels with Chinese chapter
+   labels (本議第一 …); Latin stays mono, Chinese falls through to QIJIC. */
+.reading-note-page .reading-primary-text header,
+.reading-note-page .reading-primary-text header span,
+.reading-note-page .reading-primary-text footer,
+.reading-note-page .reading-primary-text footer a {
+  font-family: var(--reading-mono-mixed) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dongjing-page *, .reading-note-page *, .reading-room-page *, .reading-page * { font-synthesis: none; }
 }

@@ -5,13 +5,17 @@ Single source of truth for the ancient/modern layer split, imported by both
 build-reading-font-subsets.py and check-reading-font-coverage.py so the two
 can never drift.
 
-Layer rules:
-- ancient: text inside blockquote, q, or an element carrying one of the
-  ANCIENT_CLASSES (.reading-primary-text, .reading-source-columns,
-  .dj-columns);
-- modern: all other text;
-- SKIP_TAGS content (script/style/template/noscript/title) never enters any
-  corpus.
+Layer rules (mirroring qijic-type-system.css exactly):
+- ancient: text inside blockquote or q anywhere; whole subtrees of
+  .dj-columns and .reading-source-columns (verified pure original-text
+  paper decorations); and lang="zh-*" marked nodes inside
+  .reading-primary-text — rendered by Source Han Serif TC, with HanaMin
+  as the rare-glyph fallback;
+- modern: everything else, including .reading-primary-text itself and its
+  untagged editorial children (chapter headers, translations, notes) —
+  rendered by Galok QIJIC Reading;
+- SKIP_TAGS content (script/style/template/noscript/title) never enters
+  any corpus.
 
 The parser keeps a frame stack: every non-void start tag records what state
 it entered, and the matching end tag restores that state from the frame —
@@ -33,7 +37,12 @@ EXTRA_PUNCTUATION = set("‘’“”―‐‒–′″‰")
 SKIP_TAGS = {"script", "style", "template", "noscript", "title"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
 ANCIENT_TAGS = {"blockquote", "q"}
-ANCIENT_CLASSES = {"reading-primary-text", "reading-source-columns", "dj-columns"}
+# Whole-subtree ancient containers: verified pure original-text content.
+ANCIENT_CLASSES = {"reading-source-columns", "dj-columns"}
+# Mixed wrapper: the container and its untagged editorial children (headers,
+# translations, notes) are modern; only blockquote/q and lang="zh-*" marked
+# nodes inside it are ancient — matching the canonical CSS rules.
+PRIMARY_TEXT_CLASS = "reading-primary-text"
 
 
 def is_cjk(ch: str) -> bool:
@@ -61,38 +70,58 @@ class ReadingLayerParser(HTMLParser):
     modern editorial layer (everything else) by DOM ancestry.
 
     State lives in a frame stack. Each non-void start tag pushes a frame
-    recording whether that element entered skip mode or incremented the
-    ancient depth; the matching end tag (found by tag name, tolerating
-    implicitly closed elements above it) pops frames and restores state.
-    Closing tags are never re-guessed from attributes.
+    recording whether that element entered skip mode, incremented the
+    ancient depth, or entered the primary-text wrapper; the matching end
+    tag (found by tag name, tolerating implicitly closed elements above
+    it) pops frames and restores state. Closing tags are never re-guessed
+    from attributes.
+
+    Ancient semantics mirror the canonical CSS: blockquote/q anywhere;
+    whole subtrees of the pure original-text containers; and lang="zh-*"
+    marked nodes inside .reading-primary-text (descendant combinator —
+    the wrapper itself and its untagged editorial children stay modern).
     """
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.skip_depth = 0
         self.ancient_depth = 0
+        self.primary_depth = 0
         self.stack: list[dict] = []
         self.ancient: set[str] = set()
         self.modern: set[str] = set()
         self.ancient_punct: set[str] = set()
         self.modern_punct: set[str] = set()
 
-    def _is_ancient(self, tag: str, attrs) -> bool:
-        if tag in ANCIENT_TAGS:
-            return True
-        classes = dict(attrs).get("class", "").split()
-        return bool(ANCIENT_CLASSES.intersection(classes))
+    def _classes(self, attrs) -> set[str]:
+        return set(dict(attrs).get("class", "").split())
 
     def handle_starttag(self, tag: str, attrs) -> None:
         if tag in VOID_TAGS:
             return
+        classes = self._classes(attrs)
         entering_skip = tag in SKIP_TAGS and self.skip_depth == 0
-        entering_ancient = (not entering_skip) and self.skip_depth == 0 and self._is_ancient(tag, attrs)
+        entering_primary = (not entering_skip) and self.skip_depth == 0 and PRIMARY_TEXT_CLASS in classes
+        # Ancient is decided against the ancestor primary context (CSS uses a
+        # descendant combinator), so a wrapper carrying both class and lang is
+        # still modern itself.
+        entering_ancient = (not entering_skip) and self.skip_depth == 0 and (
+            tag in ANCIENT_TAGS
+            or bool(ANCIENT_CLASSES.intersection(classes))
+            or (self.primary_depth > 0 and dict(attrs).get("lang", "").lower().startswith("zh"))
+        )
         if entering_skip:
             self.skip_depth += 1
+        if entering_primary:
+            self.primary_depth += 1
         if entering_ancient:
             self.ancient_depth += 1
-        self.stack.append({"tag": tag, "entered_skip": entering_skip, "entered_ancient": entering_ancient})
+        self.stack.append({
+            "tag": tag,
+            "entered_skip": entering_skip,
+            "entered_ancient": entering_ancient,
+            "entered_primary": entering_primary,
+        })
 
     def handle_startendtag(self, tag: str, attrs) -> None:
         # Self-closing non-void syntax contributes no text and no state change.
@@ -113,6 +142,8 @@ class ReadingLayerParser(HTMLParser):
                 self.skip_depth -= 1
             if frame["entered_ancient"]:
                 self.ancient_depth -= 1
+            if frame["entered_primary"]:
+                self.primary_depth -= 1
         del self.stack[idx:]
 
     def handle_data(self, data: str) -> None:
@@ -133,8 +164,10 @@ class ReadingLayerParser(HTMLParser):
                 self.skip_depth -= 1
             if frame["entered_ancient"]:
                 self.ancient_depth -= 1
+            if frame["entered_primary"]:
+                self.primary_depth -= 1
         self.stack.clear()
-        assert self.skip_depth >= 0 and self.ancient_depth >= 0
+        assert self.skip_depth >= 0 and self.ancient_depth >= 0 and self.primary_depth >= 0
 
 
 def pages() -> list[Path]:

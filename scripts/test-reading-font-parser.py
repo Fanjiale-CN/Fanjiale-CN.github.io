@@ -107,9 +107,51 @@ check(
 # CASE 9 — implicit closes (unclosed <p>) do not leak the ancient state.
 check(
     "CASE 9 unclosed paragraph inside ancient container",
-    '<div class="reading-primary-text"><p>古文甲<p>古文乙</div><p>現代丙</p>',
+    '<div class="dj-columns"><p>古文甲<p>古文乙</div><p>現代丙</p>',
     set("古文甲古文乙"),
     set("現代丙"),
+)
+
+# CASE 10 — real Yantie Lun structure: .reading-primary-text is a MIXED wrapper.
+# The container and its editorial children (chapter label header, translation)
+# are modern; only the blockquote is ancient. Mirrors qijic-type-system.css.
+check(
+    "CASE 10 primary-text wrapper splits (real salt structure)",
+    '<div class="reading-primary-text reading-text-unit">'
+    '<header><span>PRIMARY TEXT / 本議第一</span><span>01A / THE QUESTION</span></header>'
+    '<blockquote lang="zh-Hant">古文甲</blockquote>'
+    '<div class="reading-translation"><span>現代乙</span></div>'
+    '</div>',
+    set("古文甲"),
+    set("本議第一現代乙"),
+)
+
+# CASE 11 — real dj-columns structure: pure original-text paper, whole subtree ancient.
+check(
+    "CASE 11 dj-columns production structure",
+    '<div class="dj-paper" aria-hidden="true"><div class="dj-columns">'
+    '<span>東京夢華錄</span><span>城壕曰護龍河</span><span>城門皆甕城三層</span>'
+    '</div></div><p class="dj-entry-deck">現代甲</p>',
+    set("東京夢華錄城壕曰護龍河城門皆甕城三層"),
+    set("現代甲"),
+)
+
+# CASE 12 — real reading-source-columns structure on the landing page.
+check(
+    "CASE 12 source-columns production structure",
+    '<div class="reading-source-columns"><span>鹽鐵論</span><span>御史進曰昔太公封於營丘</span></div><p>現代乙</p>',
+    set("鹽鐵論御史進曰昔太公封於營丘"),
+    set("現代乙"),
+)
+
+# CASE 13 — lang="zh-*" nodes inside .reading-primary-text are ancient
+# (CSS descendant rule), but the wrapper itself stays modern even when
+# it carries a lang attribute (descendant combinator, not self).
+check(
+    "CASE 13 lang-marked node inside primary-text wrapper",
+    '<div class="reading-primary-text" lang="zh-Hant">標籤甲<span lang="zh-Hant">古文乙</span></div><p>現代丙</p>',
+    set("古文乙"),
+    set("標籤甲現代丙"),
 )
 
 print("PASS all parser regression cases")
