@@ -1,0 +1,247 @@
+/* Dongjing Meng Hua Lu — Volume V / Entries 40–43 + Volume VI opener 44
+   Five pages, one family: the street recognition table (40), the playbill
+   register (41), the marriage thresholds (42), the first-year calendar (43),
+   the guanpu permission plaque (44). Rules scoped to these entry namespaces;
+   shared editorial primitives mirror the 31–39 batch. */
+
+@font-face{font-family:"Galok VolumeIV Serif Fallback";src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260904-volume4") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+
+.dj40-page,.dj41-page,.dj42-page,.dj43-page,.dj44-page{--reading-modern-cjk:"Galok QIJIC Reading","Galok Source Han Serif TC","Galok HanaMin Reading","Source Han Serif TC","Noto Serif TC","Songti TC",STSong,serif;--reading-ancient-cjk:"Galok Source Han Serif TC","Galok HanaMin Reading","Source Han Serif TC","Noto Serif TC","Songti TC",STSong,serif}
+.dj40-page :where(:lang(zh-Hans),:lang(zh-Hant)),.dj41-page :where(:lang(zh-Hans),:lang(zh-Hant)),.dj42-page :where(:lang(zh-Hans),:lang(zh-Hant)),.dj43-page :where(:lang(zh-Hans),:lang(zh-Hant)),.dj44-page :where(:lang(zh-Hans),:lang(zh-Hant)){font-family:var(--reading-modern-cjk)!important;font-weight:400!important;font-synthesis:none!important}
+.dj40-page blockquote,.dj40-page blockquote :where(:lang(zh-Hans),:lang(zh-Hant)),.dj40-page q,.dj40-page q :where(:lang(zh-Hans),:lang(zh-Hant)),.dj41-page blockquote,.dj41-page blockquote :where(:lang(zh-Hans),:lang(zh-Hant)),.dj41-page q,.dj41-page q :where(:lang(zh-Hans),:lang(zh-Hant)),.dj42-page blockquote,.dj42-page blockquote :where(:lang(zh-Hans),:lang(zh-Hant)),.dj42-page q,.dj42-page q :where(:lang(zh-Hans),:lang(zh-Hant)),.dj43-page blockquote,.dj43-page blockquote :where(:lang(zh-Hans),:lang(zh-Hant)),.dj43-page q,.dj43-page q :where(:lang(zh-Hans),:lang(zh-Hant)),.dj44-page blockquote,.dj44-page blockquote :where(:lang(zh-Hans),:lang(zh-Hant)),.dj44-page q,.dj44-page q :where(:lang(zh-Hans),:lang(zh-Hant)){font-family:var(--reading-ancient-cjk)!important;font-weight:400!important;font-synthesis:none!important}
+
+html:not(.djx-js) [data-djx-reveal]{opacity:1!important;transform:none!important}
+
+.dj40-page,.dj41-page,.dj42-page,.dj43-page,.dj44-page{--djv6-ink:#1d1a14;--djv6-paper:#efe9da;--djv6-red:#9c4f44;--djv6-rule:#c8bdaa;--djv6-night:#1a1712;--djv6-gold:#a68a55}
+.dj41-page{--djv6-ink:#20130f;--djv6-paper:#f1e7d4;--djv6-red:#a03a30;--djv6-rule:#cfb99b;--djv6-night:#26150e;--djv6-gold:#b0873f}
+.dj42-page{--djv6-ink:#241412;--djv6-paper:#f4e9dc;--djv6-red:#a13c33;--djv6-rule:#d1bda4;--djv6-night:#2b1410;--djv6-gold:#b3873e}
+.dj43-page{--djv6-ink:#1c1a12;--djv6-paper:#f3ecd9;--djv6-red:#9d5044;--djv6-rule:#cfc3a0;--djv6-night:#221f12;--djv6-gold:#a89058}
+.dj44-page{--djv6-ink:#1f140e;--djv6-paper:#f2e8d2;--djv6-red:#a13c33;--djv6-rule:#d0b98e;--djv6-night:#1c1208;--djv6-gold:#c29a4a}
+
+.dj40-page .dj-entry-hero,.dj41-page .dj-entry-hero,.dj42-page .dj-entry-hero,.dj43-page .dj-entry-hero,.dj44-page .dj-entry-hero{border-bottom:1px solid var(--djv6-rule)}
+.dj40-page .dj-entry-title h2,.dj41-page .dj-entry-title h2,.dj42-page .dj-entry-title h2,.dj43-page .dj-entry-title h2,.dj44-page .dj-entry-title h2{max-width:11ch;font-size:clamp(2.8rem,7vw,7.4rem);line-height:.86;letter-spacing:-.055em}
+.dj40-page .dj-entry-deck,.dj41-page .dj-entry-deck,.dj42-page .dj-entry-deck,.dj43-page .dj-entry-deck,.dj44-page .dj-entry-deck{max-width:70ch}
+
+.dj40-page .dj40-kicker,.dj41-page .dj41-kicker,.dj42-page .dj42-kicker,.dj43-page .dj43-kicker,.dj44-page .dj44-kicker{color:var(--djv6-red);font:700 .52rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+
+.dj40-text-unit,.dj41-text-unit,.dj42-text-unit,.dj43-text-unit,.dj44-text-unit{border-top:1px solid var(--djv6-ink);padding-top:16px}
+.dj40-text-unit>header,.dj41-text-unit>header,.dj42-text-unit>header,.dj43-text-unit>header,.dj44-text-unit>header{display:flex;justify-content:space-between;gap:20px;color:var(--djv6-red);font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj40-text-unit blockquote,.dj41-text-unit blockquote,.dj42-text-unit blockquote,.dj43-text-unit blockquote,.dj44-text-unit blockquote{margin:30px 0 0;padding:0;border:0;font-family:var(--reading-ancient-cjk);font-size:clamp(1.45rem,2.7vw,2.5rem);font-weight:400;line-height:1.65}
+.dj40-text-unit .dj-translation,.dj40-text-unit .dj-analysis,.dj41-text-unit .dj-translation,.dj41-text-unit .dj-analysis,.dj42-text-unit .dj-translation,.dj42-text-unit .dj-analysis,.dj43-text-unit .dj-translation,.dj43-text-unit .dj-analysis,.dj44-text-unit .dj-translation,.dj44-text-unit .dj-analysis{margin-top:22px}
+
+.dj40-collation,.dj41-collation,.dj42-collation,.dj43-collation,.dj44-collation{margin-top:58px;padding:30px;border:1px solid var(--djv6-ink);background:var(--djv6-paper)}
+.dj40-collation h3,.dj41-collation h3,.dj42-collation h3,.dj43-collation h3,.dj44-collation h3{max-width:16ch;margin:12px 0 26px;font-family:var(--reading-display-latin);font-size:clamp(2.4rem,4.6vw,4.8rem);font-weight:400;line-height:.92;letter-spacing:-.04em}
+.dj40-collation-grid,.dj41-collation-grid,.dj42-collation-grid,.dj43-collation-grid,.dj44-collation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--djv6-ink);border:1px solid var(--djv6-ink)}
+.dj40-collation-grid article,.dj41-collation-grid article,.dj42-collation-grid article,.dj43-collation-grid article,.dj44-collation-grid article{min-height:210px;padding:20px;background:var(--djv6-paper)}
+.dj40-collation-grid b,.dj41-collation-grid b,.dj42-collation-grid b,.dj43-collation-grid b,.dj44-collation-grid b{display:block;font-family:var(--reading-ancient-cjk);font-size:1.45rem;font-weight:400}
+.dj40-collation-grid span,.dj41-collation-grid span,.dj42-collation-grid span,.dj43-collation-grid span,.dj44-collation-grid span{display:block;margin-top:8px;color:var(--djv6-red);font:700 .48rem/1.25 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em}
+.dj40-collation-grid p,.dj41-collation-grid p,.dj42-collation-grid p,.dj43-collation-grid p,.dj44-collation-grid p{margin:38px 0 0;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;font-size:.85rem;line-height:1.58}
+
+.dj40-glossary,.dj41-glossary,.dj42-glossary,.dj43-glossary,.dj44-glossary{display:grid;grid-template-columns:repeat(2,1fr);margin-top:56px;border-top:1px solid var(--djv6-ink);border-left:1px solid var(--djv6-rule)}
+.dj40-glossary article,.dj41-glossary article,.dj42-glossary article,.dj43-glossary article,.dj44-glossary article{min-height:132px;padding:18px 20px;border-right:1px solid var(--djv6-rule);border-bottom:1px solid var(--djv6-rule)}
+.dj40-glossary b,.dj41-glossary b,.dj42-glossary b,.dj43-glossary b,.dj44-glossary b{font-family:var(--reading-modern-cjk);font-size:1.3rem;font-weight:400}
+.dj40-glossary small,.dj41-glossary small,.dj42-glossary small,.dj43-glossary small,.dj44-glossary small{display:block;margin-top:6px;color:var(--djv6-red);font:700 .48rem/1.25 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em}
+.dj40-glossary p,.dj41-glossary p,.dj42-glossary p,.dj43-glossary p,.dj44-glossary p{margin:14px 0 0;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;font-size:.84rem;line-height:1.55}
+
+.dj40-exit,.dj41-exit,.dj42-exit,.dj43-exit,.dj44-exit{margin:clamp(74px,9vw,126px) calc(50% - 50vw) 0;padding:clamp(78px,10vw,138px) max(24px,calc((100vw - 1180px)/2));background:linear-gradient(140deg,var(--djv6-night),#12100d);color:#efe5d7}
+.dj40-exit small,.dj41-exit small,.dj42-exit small,.dj43-exit small,.dj44-exit small{color:#d1907c;font:700 .52rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+.dj40-exit strong,.dj41-exit strong,.dj42-exit strong,.dj43-exit strong,.dj44-exit strong{display:block;max-width:13ch;margin:22px 0;font-family:var(--reading-display-latin);font-size:clamp(3rem,7vw,7.4rem);font-weight:400;line-height:.87;letter-spacing:-.05em}
+.dj40-exit p,.dj41-exit p,.dj42-exit p,.dj43-exit p,.dj44-exit p{max-width:66ch;color:#c3b7aa;font-family:Georgia,"Times New Roman",serif;line-height:1.7}
+.dj40-exit q,.dj41-exit q,.dj42-exit q,.dj43-exit q,.dj44-exit q{display:block;margin-top:30px;font-family:var(--reading-ancient-cjk);font-size:clamp(1.4rem,2.6vw,2.5rem);font-weight:400;color:#f2eadc}
+.dj40-page .dj-v3-entry-nav,.dj41-page .dj-v3-entry-nav,.dj42-page .dj-v3-entry-nav,.dj43-page .dj-v3-entry-nav,.dj44-page .dj-v3-entry-nav{margin-top:0}
+
+/* ============ ENTRY 40 — 民俗 / known by sight ============ */
+.dj40-source{overflow:hidden;background:var(--djv6-night);color:#e8e1d0}
+.dj40-board{position:absolute;inset:0;display:grid;grid-template-rows:repeat(2,1fr) auto;padding:8% 8% 12%}
+.dj40-board article{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;border-bottom:1px solid rgba(232,225,208,.22)}
+.dj40-board b{font-family:var(--reading-modern-cjk);font-size:clamp(1.3rem,2.4vw,2.2rem);font-weight:400}
+.dj40-board i{font-style:normal;color:#9d968a;font:700 .46rem/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj40-board .look{color:#d8c491;font:700 .52rem/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em}
+.dj40-board .verdict{border-bottom:0}
+.dj40-board .verdict b{font-size:clamp(1.6rem,3.2vw,2.8rem);color:#e5d3a1}
+.dj40-dress{padding:clamp(70px,9vw,118px) 0;border-bottom:1px solid var(--djv6-rule)}
+.dj40-dress header{max-width:820px}
+.dj40-dress h2{margin:13px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.8rem,5.6vw,5.8rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj40-rows{display:grid;margin-top:46px;border-top:1px solid var(--djv6-ink);border-left:1px solid var(--djv6-rule)}
+.dj40-rows article{display:grid;grid-template-columns:64px minmax(0,1fr) minmax(0,1.15fr);gap:16px;align-items:baseline;padding:18px 16px;border-right:1px solid var(--djv6-rule);border-bottom:1px solid var(--djv6-rule);opacity:.62;transform:translateY(6px);transition:opacity 220ms ease,transform 220ms ease}
+.dj40-rows article.is-active{opacity:1;transform:none}
+.dj40-rows .num{color:var(--djv6-red);font:700 .5rem/1 ui-monospace,SFMono-Regular,Consolas,monospace}
+.dj40-rows b{font-family:var(--reading-modern-cjk);font-size:clamp(1.3rem,2.2vw,2rem);font-weight:400}
+.dj40-rows p{margin:0;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;font-size:.84rem;line-height:1.55}
+.dj40-rows .dress{color:var(--djv6-red);font:700 .62rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.05em}
+.dj40-neighbor{margin:0 calc(50% - 50vw);padding:clamp(70px,9vw,116px) max(24px,calc((100vw - 1180px)/2));background:var(--djv6-night);color:#e8e1d0}
+.dj40-neighbor header{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.9fr);gap:36px;align-items:end}
+.dj40-neighbor .dj40-kicker{color:#d1907c}
+.dj40-neighbor h2{max-width:13ch;margin:12px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.6rem,5.4vw,5.6rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj40-neighbor header p{margin:0;color:#b3ab9c;font-family:Georgia,"Times New Roman",serif;line-height:1.66}
+.dj40-chain{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;border-top:1px solid #4d483d;border-left:1px solid #4d483d}
+.dj40-chain article{min-height:180px;padding:22px 20px;border-right:1px solid #4d483d;border-bottom:1px solid #4d483d}
+.dj40-chain small{color:#d1907c;font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+.dj40-chain h3{margin:18px 0 8px;font-family:var(--reading-modern-cjk);font-size:clamp(1.4rem,2.6vw,2.3rem);font-weight:400}
+.dj40-chain p{margin:0;color:#b0a89a;font-family:Georgia,"Times New Roman",serif;font-size:.86rem;line-height:1.6}
+.dj40-trust{display:grid;grid-template-columns:repeat(3,1fr);padding:clamp(70px,9vw,118px) 0;border-bottom:1px solid var(--djv6-rule)}
+.dj40-trust article{min-height:230px;padding:22px 20px;border-right:1px solid var(--djv6-rule)}
+.dj40-trust small{color:var(--djv6-red);font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj40-trust h3{margin:26px 0 8px;font-family:var(--reading-modern-cjk);font-size:clamp(1.5rem,2.7vw,2.5rem);font-weight:400;line-height:1.05}
+.dj40-trust p{margin:0;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;font-size:.85rem;line-height:1.56}
+.dj40-trust .silver{display:block;margin-top:18px;padding:7px 9px;border:1px solid var(--djv6-gold);color:var(--djv6-gold);font:700 .6rem/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.05em}
+.dj40-trust article.is-silver{background:var(--djv6-night);color:#e5d3a1}
+.dj40-trust article.is-silver p{color:#b0a89a}
+
+/* ============ ENTRY 41 — 京瓦伎藝 / the register ============ */
+.dj41-source{overflow:hidden;background:var(--djv6-night);color:#ece2cc}
+.dj41-register{position:absolute;inset:0;display:grid;grid-template-rows:repeat(3,1fr) auto;padding:8% 8% 12%}
+.dj41-register article{display:grid;grid-template-columns:minmax(0,.8fr) 1fr;gap:14px;align-items:center;border-bottom:1px solid rgba(236,226,204,.22)}
+.dj41-register small{color:#d1907c;font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+.dj41-register h3{margin:8px 0 0;font-family:var(--reading-modern-cjk);font-size:clamp(1.2rem,2.2vw,2rem);font-weight:400}
+.dj41-register i{font-style:normal;color:#a59d8d;font:700 .46rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.07em}
+.dj41-register .rest{border-bottom:0;align-items:baseline}
+.dj41-register .rest h3{font-family:var(--reading-display-latin);letter-spacing:-.03em;color:#e5d3a1}
+.dj41-roster{padding:clamp(70px,9vw,118px) 0;border-bottom:1px solid var(--djv6-rule)}
+.dj41-roster header{max-width:820px}
+.dj41-roster h2{margin:13px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.8rem,5.6vw,5.8rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj41-bill{display:grid;grid-template-columns:1fr 1fr;margin-top:46px;border-top:1px solid var(--djv6-ink);border-left:1px solid var(--djv6-rule)}
+.dj41-bill article{min-height:150px;padding:18px 20px;border-right:1px solid var(--djv6-rule);border-bottom:1px solid var(--djv6-rule);opacity:.62;transform:translateY(6px);transition:opacity 220ms ease,transform 220ms ease}
+.dj41-bill article.is-active{opacity:1;transform:none}
+.dj41-bill small{color:var(--djv6-red);font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj41-bill h3{margin:12px 0 6px;font-family:var(--reading-modern-cjk);font-size:clamp(1.3rem,2.3vw,2.1rem);font-weight:400}
+.dj41-bill i{display:block;font-style:normal;color:#6d6558;font:700 .46rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em}
+.dj41-crux{margin:0 calc(50% - 50vw);padding:clamp(70px,9vw,116px) max(24px,calc((100vw - 1180px)/2));background:var(--djv6-night);color:#ece2cc}
+.dj41-crux header{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.9fr);gap:36px;align-items:end}
+.dj41-crux .dj41-kicker{color:#d1907c}
+.dj41-crux h2{max-width:13ch;margin:12px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.6rem,5.4vw,5.6rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj41-crux header p{margin:0;color:#b5ad9d;font-family:Georgia,"Times New Roman",serif;line-height:1.66}
+.dj41-crux-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;border-top:1px solid #4c534d;border-left:1px solid #4c534d}
+.dj41-crux-grid article{min-height:230px;padding:22px 20px;border-right:1px solid #4c534d;border-bottom:1px solid #4c534d}
+.dj41-crux-grid small{color:#d1907c;font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj41-crux-grid b{display:block;margin-top:20px;font-family:var(--reading-modern-cjk);font-size:clamp(1.35rem,2.5vw,2.2rem);font-weight:400}
+.dj41-crux-grid p{margin:14px 0 0;color:#b0a89a;font-family:Georgia,"Times New Roman",serif;font-size:.85rem;line-height:1.58}
+.dj41-schedule{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;border-top:1px solid #4c534d;border-left:1px solid #4c534d}
+.dj41-schedule article{min-height:190px;padding:22px 20px;border-right:1px solid #4c534d;border-bottom:1px solid #4c534d}
+.dj41-schedule .time{display:block;font-family:var(--reading-modern-cjk);font-size:clamp(1.5rem,3vw,2.6rem);font-weight:400;color:#e5d3a1}
+.dj41-schedule small{display:block;margin-top:10px;color:#d1907c;font:700 .5rem/1.3 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj41-schedule p{margin:12px 0 0;color:#b0a89a;font-family:Georgia,"Times New Roman",serif;font-size:.85rem;line-height:1.56}
+
+/* ============ ENTRY 42 — 娶婦 / threshold by threshold ============ */
+.dj42-source{overflow:hidden;background:var(--djv6-night);color:#eee3d0}
+.dj42-phases{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;padding:10% 8% 14%}
+.dj42-phases article{position:relative;padding:0 8%;border-left:1px solid rgba(238,227,208,.24)}
+.dj42-phases article:first-child{border-left:0}
+.dj42-phases small{display:block;color:#d1907c;font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+.dj42-phases b{display:block;margin-top:14px;font-family:var(--reading-modern-cjk);font-size:clamp(1.4rem,2.8vw,2.5rem);font-weight:400;line-height:1.1}
+.dj42-phases i{display:block;margin-top:10px;font-style:normal;color:#a59d8d;font:700 .46rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.07em}
+.dj42-ladder{padding:clamp(70px,9vw,118px) 0;border-bottom:1px solid var(--djv6-rule)}
+.dj42-ladder header{max-width:820px}
+.dj42-ladder h2{margin:13px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.8rem,5.6vw,5.8rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj42-steps{display:grid;grid-template-columns:1fr 1fr;margin-top:46px;border-top:1px solid var(--djv6-ink);border-left:1px solid var(--djv6-rule)}
+.dj42-steps article{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(0,1.1fr);gap:14px;align-items:baseline;padding:16px 16px;border-right:1px solid var(--djv6-rule);border-bottom:1px solid var(--djv6-rule);opacity:.62;transform:translateY(6px);transition:opacity 220ms ease,transform 220ms ease}
+.dj42-steps article.is-active{opacity:1;transform:none}
+.dj42-steps .num{color:var(--djv6-red);font:700 .5rem/1 ui-monospace,SFMono-Regular,Consolas,monospace}
+.dj42-steps b{font-family:var(--reading-modern-cjk);font-size:clamp(1.15rem,2vw,1.8rem);font-weight:400}
+.dj42-steps p{margin:0;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;font-size:.82rem;line-height:1.5}
+.dj42-thresholds{margin:0 calc(50% - 50vw);padding:clamp(70px,9vw,116px) max(24px,calc((100vw - 1180px)/2));background:var(--djv6-night);color:#eee3d0}
+.dj42-thresholds header{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.9fr);gap:36px;align-items:end}
+.dj42-thresholds .dj42-kicker{color:#d1907c}
+.dj42-thresholds h2{max-width:13ch;margin:12px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.6rem,5.4vw,5.6rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj42-thresholds header p{margin:0;color:#b5ad9d;font-family:Georgia,"Times New Roman",serif;line-height:1.66}
+.dj42-cross{display:grid;grid-template-columns:repeat(3,1fr);margin-top:44px;border-top:1px solid #4c534d;border-left:1px solid #4c534d}
+.dj42-cross article{min-height:210px;padding:22px 20px;border-right:1px solid #4c534d;border-bottom:1px solid #4c534d}
+.dj42-cross small{color:#d1907c;font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj42-cross b{display:block;margin-top:20px;font-family:var(--reading-modern-cjk);font-size:clamp(1.4rem,2.6vw,2.3rem);font-weight:400;line-height:1.05}
+.dj42-cross p{margin:12px 0 0;color:#b0a89a;font-family:Georgia,"Times New Roman",serif;font-size:.85rem;line-height:1.56}
+.dj42-after{display:grid;grid-template-columns:repeat(4,1fr);padding:clamp(70px,9vw,118px) 0;border-bottom:1px solid var(--djv6-rule)}
+.dj42-after article{min-height:180px;padding:0 20px;border-right:1px solid var(--djv6-rule)}
+.dj42-after .when{color:var(--djv6-red);font:700 .56rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj42-after b{display:block;margin-top:16px;font-family:var(--reading-modern-cjk);font-size:clamp(1.4rem,2.6vw,2.3rem);font-weight:400}
+.dj42-after p{margin:10px 0 0;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;font-size:.84rem;line-height:1.55}
+
+/* ============ ENTRY 43 — 育子 / first-year calendar ============ */
+.dj43-source{overflow:hidden;background:var(--djv6-night);color:#eae4d0}
+.dj43-year{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;padding:8% 8% 11%;gap:1px;background:rgba(234,228,208,.24);border:1px solid rgba(234,228,208,.24)}
+.dj43-year article{background:var(--djv6-night);padding:16px 18px}
+.dj43-year small{color:#d6c08a;font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em}
+.dj43-year b{display:block;margin-top:8px;font-family:var(--reading-modern-cjk);font-size:clamp(1.2rem,2.3vw,2rem);font-weight:400}
+.dj43-year i{display:block;margin-top:6px;font-style:normal;color:#a49c8b;font:700 .44rem/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.07em}
+.dj43-basin{padding:clamp(70px,9vw,118px) 0;border-bottom:1px solid var(--djv6-rule)}
+.dj43-basin header{max-width:820px}
+.dj43-basin h2{margin:13px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.8rem,5.6vw,5.8rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj43-basin-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:46px;border-top:1px solid var(--djv6-ink);border-left:1px solid var(--djv6-rule)}
+.dj43-basin-grid article{min-height:200px;padding:20px;border-right:1px solid var(--djv6-rule);border-bottom:1px solid var(--djv6-rule);opacity:.62;transform:translateY(6px);transition:opacity 220ms ease,transform 220ms ease}
+.dj43-basin-grid article.is-active{opacity:1;transform:none}
+.dj43-basin-grid small{color:var(--djv6-red);font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj43-basin-grid b{display:block;margin-top:24px;font-family:var(--reading-modern-cjk);font-size:clamp(1.5rem,2.8vw,2.5rem);font-weight:400;line-height:1.05}
+.dj43-basin-grid p{margin:0;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;font-size:.85rem;line-height:1.56}
+.dj43-trial{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);gap:48px;padding:clamp(70px,9vw,116px) 0}
+.dj43-trial .objects{display:flex;flex-wrap:wrap;gap:10px;align-content:start}
+.dj43-trial .objects span{padding:10px 14px;border:1px solid var(--djv6-rule);font-family:var(--reading-modern-cjk);font-size:1.05rem}
+.dj43-trial h2{margin:0 0 16px;font-family:var(--reading-display-latin);font-size:clamp(2.4rem,4.8vw,4.8rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj43-trial p{max-width:58ch;margin:0 0 14px;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;line-height:1.68}
+
+/* ============ ENTRY 44 — 正月 / three days of guanpu ============ */
+.dj44-source{overflow:hidden;background:var(--djv6-night);color:#ecdfc4}
+.dj44-plaque{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr;padding:9% 9% 12%}
+.dj44-plaque .edict{justify-self:center;text-align:center;border:1px solid rgba(236,223,196,.5);padding:20px 34px}
+.dj44-plaque .edict small{display:block;color:#d6b878;font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em}
+.dj44-plaque .edict b{display:block;margin-top:10px;font-family:var(--reading-modern-cjk);font-size:clamp(1.5rem,3.2vw,2.8rem);font-weight:400;letter-spacing:.14em}
+.dj44-gates{margin-top:8%;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(236,223,196,.3);border:1px solid rgba(236,223,196,.3)}
+.dj44-gates span{background:var(--djv6-night);padding:12px 10px;text-align:center;font-family:var(--reading-modern-cjk);font-size:clamp(.95rem,1.8vw,1.4rem);font-weight:400}
+.dj44-market{padding:clamp(70px,9vw,118px) 0;border-bottom:1px solid var(--djv6-rule)}
+.dj44-market header{max-width:820px}
+.dj44-market h2{margin:13px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.8rem,5.6vw,5.8rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj44-gate-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:46px;border-top:1px solid var(--djv6-ink);border-left:1px solid var(--djv6-rule)}
+.dj44-gate-grid article{min-height:190px;padding:20px;border-right:1px solid var(--djv6-rule);border-bottom:1px solid var(--djv6-rule);opacity:.62;transform:translateY(6px);transition:opacity 220ms ease,transform 220ms ease}
+.dj44-gate-grid article.is-active{opacity:1;transform:none}
+.dj44-gate-grid small{color:var(--djv6-red);font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj44-gate-grid h3{margin:22px 0 6px;font-family:var(--reading-modern-cjk);font-size:clamp(1.4rem,2.6vw,2.3rem);font-weight:400;line-height:1.05}
+.dj44-gate-grid p{margin:0;color:var(--cl-soft);font-family:Georgia,"Times New Roman",serif;font-size:.85rem;line-height:1.56}
+.dj44-goods{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.dj44-goods span{padding:10px 14px;border:1px solid var(--djv6-rule);font-family:var(--reading-modern-cjk);font-size:1.05rem}
+.dj44-evening{margin:0 calc(50% - 50vw);padding:clamp(70px,9vw,116px) max(24px,calc((100vw - 1180px)/2));background:var(--djv6-night);color:#ecdfc4}
+.dj44-evening header{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.9fr);gap:36px;align-items:end}
+.dj44-evening .dj44-kicker{color:#d6b878}
+.dj44-evening h2{max-width:13ch;margin:12px 0 0;font-family:var(--reading-display-latin);font-size:clamp(2.6rem,5.4vw,5.6rem);font-weight:400;line-height:.9;letter-spacing:-.05em}
+.dj44-evening header p{margin:0;color:#b8ab90;font-family:Georgia,"Times New Roman",serif;line-height:1.66}
+.dj44-evening-grid{display:grid;grid-template-columns:1fr 1fr;margin-top:44px;border-top:1px solid #55462c;border-left:1px solid #55462c}
+.dj44-evening-grid article{min-height:190px;padding:22px 20px;border-right:1px solid #55462c;border-bottom:1px solid #55462c}
+.dj44-evening-grid small{color:#d6b878;font:700 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
+.dj44-evening-grid b{display:block;margin-top:18px;font-family:var(--reading-modern-cjk);font-size:clamp(1.35rem,2.5vw,2.2rem);font-weight:400;line-height:1.05}
+.dj44-evening-grid p{margin:12px 0 0;color:#b8ab90;font-family:Georgia,"Times New Roman",serif;font-size:.85rem;line-height:1.56}
+
+/* ---- responsive ---- */
+@media(max-width:980px){
+  .dj40-collation-grid,.dj41-collation-grid,.dj42-collation-grid,.dj43-collation-grid,.dj44-collation-grid{grid-template-columns:1fr 1fr}
+  .dj40-rows article{grid-template-columns:44px minmax(0,1fr) auto}
+  .dj40-rows p{grid-column:2/-1}
+  .dj40-chain,.dj40-trust,.dj43-basin-grid{grid-template-columns:1fr}
+  .dj40-neighbor header,.dj41-crux header,.dj42-thresholds header,.dj44-evening header{grid-template-columns:1fr}
+  .dj41-bill{grid-template-columns:1fr}
+  .dj41-crux-grid,.dj41-schedule{grid-template-columns:1fr}
+  .dj42-steps{grid-template-columns:1fr}
+  .dj42-cross,.dj42-after{grid-template-columns:1fr 1fr}
+  .dj42-after article{min-height:0;padding:16px 16px}
+  .dj43-year{grid-template-columns:1fr 1fr}
+  .dj43-trial{grid-template-columns:1fr}
+  .dj44-gates{grid-template-columns:1fr 1fr}
+  .dj44-gate-grid{grid-template-columns:1fr 1fr}
+  .dj44-evening-grid{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .dj40-text-unit>header,.dj41-text-unit>header,.dj42-text-unit>header,.dj43-text-unit>header,.dj44-text-unit>header{flex-direction:column;gap:5px}
+  .dj40-glossary,.dj41-glossary,.dj42-glossary,.dj43-glossary,.dj44-glossary{grid-template-columns:1fr}
+  .dj40-collation-grid,.dj41-collation-grid,.dj42-collation-grid,.dj43-collation-grid,.dj44-collation-grid{grid-template-columns:1fr}
+  .dj40-board article{grid-template-columns:1fr}
+  .dj40-board i{display:none}
+  .dj40-rows article{grid-template-columns:44px minmax(0,1fr)}
+  .dj40-rows .dress{grid-column:2}
+  .dj40-chain,.dj40-trust{grid-template-columns:1fr}
+  .dj42-steps article{grid-template-columns:36px minmax(0,1fr);align-items:start}
+  .dj42-steps p{grid-column:1/-1}
+  .dj42-cross,.dj42-after{grid-template-columns:1fr}
+  .dj43-year{grid-template-columns:1fr}
+  .dj44-gates{grid-template-columns:1fr 1fr}
+  .dj44-gate-grid{grid-template-columns:1fr}
+  .dj44-goods span{padding:8px 10px;font-size:.95rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .dj40-rows article,.dj41-bill article,.dj42-steps article,.dj43-basin-grid article,.dj44-gate-grid article{transition:none!important;opacity:1;transform:none}
+}
