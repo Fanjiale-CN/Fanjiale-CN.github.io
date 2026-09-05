@@ -15,7 +15,7 @@ function scan(dir) {
     // Strip script/style tags so we only check user-visible text
     const visible = html.replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<style[\s\S]*?<\/style>/gi, "");
     const rel = full.slice(root.length + 1).replaceAll("\\", "/");
-    for (const word of ["undefined", "NaN"]) {
+    for (const word of ["undefined", "null", "NaN"]) {
       const re = new RegExp(`>(?:[^<]*)?\\b${word}\\b`, "gi");
       const match = visible.match(re);
       if (match) errors.push(`${rel}: user-visible "${word}" found (${match.length} occurrence${match.length > 1 ? "s" : ""})`);
