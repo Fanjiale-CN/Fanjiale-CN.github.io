@@ -1056,9 +1056,9 @@ Collation: sedan vocabulary uses the Siku form 檐 (花檐子、起檐子、繳�
 
 ## 43 育子
 
-> 凡孕婦入月，於初一日父母家以銀盆或錂或綵畫盆，盛粟稈一束，上以錦繡或生色帕覆蓋之，上插花朵及通草，帖羅五男二女花樣，用盤合裝，送饅頭，謂之「分痛」。並作眠羊、臥鹿羊、生果實，取其「眠臥」之義。並牙兒衣物䙀籍等，謂之「催生」。就蓐分娩訖，人爭送粟米炭醋之類。三日落臍炙囟。七日謂之「一臘」。至滿月則生色及繃繡線，貴富家金銀犀玉為之，並果子，大展洗兒會。親賓盛集，煎香湯於盆中，下果子彩錢蔥蒜等，用數丈綵繞之，名曰「圍盆」。以釵子攪水，謂之「攪盆」。觀者各撒錢於水中，謂之「添盆」。盆中棗子直立者，婦人爭取食之，以為生男之徵。浴兒畢，落胎髮，遍謝坐客，抱牙兒入他人房，謂之「移窠」。生子百日，置會，謂之「百晬」。至來歲生日，謂之「周晬」。羅列盤盞於地，盛果木、飲食、官誥、筆研、筭秤等經卷針線應用之物，觀其所先拈者，以為徵兆，謂之「試晬」。此小兒之盛禮也。
+> 凡孕婦入月，於初一日父母家以銀盆或錂或綵畫盆，盛粟稈一束，上以錦繡或生色帕覆蓋之，上插花朵及通草，帖羅五男二女花樣，用盤合裝，送饅頭，謂之「分痛」。並作眠羊、臥鹿羊、生果實，取其「眠臥」之義。並牙兒衣物䙀籍等，謂之「催生」。就蓐分娩訖，人爭送粟米炭醋之類。三日落臍炙囟。七日謂之「一臘」。至滿月則生色及繃繡錢，貴富家金銀犀玉為之，並果子，大展洗兒會。親賓盛集，煎香湯於盆中，下果子彩錢蔥蒜等，用數丈綵繞之，名曰「圍盆」。以釵子攪水，謂之「攪盆」。觀者各撒錢於水中，謂之「添盆」。盆中棗子直立者，婦人爭取食之，以為生男之徵。浴兒畢，落胎髮，遍謝坐客，抱牙兒入他人房，謂之「移窠」。生子百日，置會，謂之「百晬」。至來歲生日，謂之「周晬」。羅列盤盞於地，盛果木、飲食、官誥、筆研、筭秤等經卷針線應用之物，觀其所先拈者，以為徵兆，謂之「試晬」。此小兒之盛禮也。
 
-Collation: `錂` restored from the Siku witness (Gutenberg omits it; the rare 𨱋 form noted per the research lock, corrupted 麗 rejected). `炙囟` follows the character policy (Siku transcription prints 𩕄). `百晬 / 周晬 / 試晬` restored from Siku (Gutenberg `百? / 週? / 試?`); `筭秤` kept over 笄秤 (COLLATION). `䙀籍` follows the Siku witness (Gutenberg drops 䙀).
+Collation: `錂` restored from the Siku witness (Gutenberg omits it; the rare 𨱋 form noted per the research lock, corrupted 麗 rejected). `炙囟` follows the character policy (Siku transcription prints 𩕄). `百晬 / 周晬 / 試晬` restored from Siku (Gutenberg `百? / 週? / 試?`); `筭秤` kept over 笄秤 (COLLATION). `䙀籍` follows the Siku witness (Gutenberg drops 䙀); the exact item is uncertain (LEXICAL / UNCERTAIN). **繃繡錢**: substantive variant — Siku reads 繃繡錢 (money), Gutenberg reads 繃繡線 (thread); the page adopts the Siku reading per the source hierarchy and records the split.
 
 ## 44 正月
 
