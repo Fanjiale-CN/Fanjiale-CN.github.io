@@ -11,12 +11,10 @@ if (!urls.length) fail("sitemap has no URLs");
 if (new Set(urls).size !== urls.length) fail("sitemap contains duplicate canonical URLs");
 if (urls.some((url) => /\/(?:archive|views|_research-source|qa)\//.test(url))) fail("sitemap contains an excluded route");
 if (!/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(sitemap)) fail("sitemap has no machine-generated lastmod values");
-for (const route of ["/reading/dongjing-meng-hua-lu/12/", "/reading/dongjing-meng-hua-lu/13/", "/reading/dongjing-meng-hua-lu/14/"]) {
-  if (urls.some((url) => new URL(url).pathname === route)) fail(`${route} is noindex and must not appear in sitemap`);
-}
 
 const robots = read("robots.txt");
 if (!robots.includes("Sitemap: https://www.galok.me/sitemap.xml")) fail("robots.txt does not advertise the canonical sitemap");
+if (!robots.includes("Sitemap: https://www.galok.me/sitemap-dongjing.xml")) fail("robots.txt does not advertise the focused Dongjing sitemap");
 const feed = read("feed.xml");
 if (!feed.includes('<rss version="2.0">')) fail("feed.xml is not RSS 2.0");
 if (![...feed.matchAll(/<item>/g)].length) fail("feed.xml has no entries");

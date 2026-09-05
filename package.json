@@ -5,9 +5,11 @@
   "scripts": {
     "galok:prepare": "node scripts/publish-first-noop.mjs",
     "galok:preflight": "node scripts/publish-first-noop.mjs",
-    "build:discovery": "node scripts/run-discovery-build.mjs && node scripts/build-pagefind-index.mjs",
+    "build:discovery": "node scripts/run-discovery-build.mjs && node scripts/prune-dongjing-feed.mjs && node scripts/build-dongjing-sitemap.mjs && node scripts/build-pagefind-index.mjs",
     "ci:indexnow": "node scripts/notify-indexnow.mjs",
     "sync:observability": "node scripts/sync-observability.mjs",
+    "seo:dongjing:sync": "node scripts/sync-dongjing-indexing.mjs",
+    "seo:dongjing:check": "node scripts/validate-dongjing-search.mjs",
     "maintenance:reading-fonts": "python scripts/build-reading-font-subsets.py"
   },
   "devDependencies": {

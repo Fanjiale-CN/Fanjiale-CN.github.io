@@ -8,6 +8,7 @@ const checks = [
   ["Site shell", "sync-site-shell.mjs", ["--check"]],
   ["Publishing structure", "validate-publishing.mjs", []],
   ["Discovery assets", "validate-discovery.mjs", []],
+  ["Dongjing search release", "validate-dongjing-search.mjs", []],
   ["Radar pipeline", "validate-radar.mjs", []],
   ["Beijing historical archive", "validate-beijing-archive.mjs", []],
   ["Xi'an historical archive", "validate-xian-history.mjs", []],
