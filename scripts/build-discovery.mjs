@@ -154,7 +154,7 @@ function discoverPages() {
   for (const path of walk(root).sort(compareText)) {
     const relativePath = relative(root, path).split(sep).join("/");
     if (relativePath === "404.html" || relativePath.includes("_archive")) continue;
-    const html = readFileSync(path, "utf8");
+    const html = readFileSync(path, "utf8").replace(/\r\n/g, "\n");
     const canonical = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1];
     if (!canonical || !canonical.startsWith(`${origin}/`)) continue;
     const robots = metaContent(html, "robots").toLowerCase();
