@@ -1,0 +1,65 @@
+name: Dongjing Search Release
+
+on:
+  push:
+    branches: [seo/dongjing-public-indexing]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dongjing-search-release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Publicize Dongjing dossier
+        run: npm run seo:dongjing:sync
+
+      - name: Regenerate discovery assets
+        run: npm run build:discovery
+
+      - name: Validate release gates
+        run: node scripts/release-check.mjs
+
+      - name: Verify generated entries 45–51
+        run: node scripts/check-generated-consistency.cjs
+
+      - name: Commit search release
+        id: commit
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "feat(seo): publish Dongjing Reading to search [skip ci]"
+          git push origin HEAD:${{ github.ref_name }}
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Verify discovery reproducibility
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          npm run build:discovery
+          node scripts/verify-generated-discovery.mjs
+          npm run seo:dongjing:check
