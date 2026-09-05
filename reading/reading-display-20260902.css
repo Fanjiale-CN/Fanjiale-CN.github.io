@@ -4,7 +4,7 @@
 
 :root{
   --reading-display-latin:"Galok Bagnard","Galok Gambetta","EB Garamond",Georgia,"Times New Roman",serif;
-  --reading-display-cjk:"Galok Qiji","Galok Qiji V3 1517","Galok Qiji Reading Notes","Galok Reading Serif TW","Galok Reading Serif V3 1517","Songti TC","STSong","Noto Serif TC",serif;
+  --reading-display-cjk:var(--reading-ancient-cjk);
 }
 
 /* Previous / Next — never fall back to Helvetica/Heiti. */
@@ -37,7 +37,7 @@
 .dj15-page :is(.dj15-strip,.dj15-evidence) :lang(zh-Hant),
 .dj16-page :is(.dj16-route,.dj16-fourfold) :lang(zh-Hant),
 .dj17-page :is(.dj17-landing,.dj17-people,.dj17-next) :lang(zh-Hant){
-  font-family:var(--reading-display-cjk)!important;
+  font-family:var(--reading-modern-cjk)!important;
   font-weight:400!important;
   font-synthesis:none;
 }
@@ -70,7 +70,7 @@
 
 /* Yantie Lun: Chinese chapter title remains the CJK display face. */
 .reading-note-page .reading-article-title .reading-note-zh{
-  font-family:var(--reading-display-cjk)!important;
+  font-family:var(--reading-modern-cjk)!important;
   font-weight:400!important;
   font-synthesis:none;
 }

@@ -1,6 +1,6 @@
 (() => {
   const fontPatch = document.createElement('style');
-  fontPatch.textContent = `@font-face{font-family:"Galok Entry22-25 Rare";src:url("/assets/fonts/entry22-25-serif-patch.woff2?v=20260903") format("woff2");font-style:normal;font-weight:400;font-display:swap}.dongjing-page.djx-page :where(:lang(zh-Hans),:lang(zh-Hant)){font-family:"Galok Source Han Serif TC","Galok Entry22-25 Rare","Galok HanaMin Reading","Source Han Serif TC","Noto Serif TC","Songti TC",STSong,serif!important;font-weight:400!important;font-synthesis:none!important}`;
+  fontPatch.textContent = `@font-face{font-family:"Galok Entry22-25 Rare";src:url("/assets/fonts/entry22-25-serif-patch.woff2?v=20260903") format("woff2");font-style:normal;font-weight:400;font-display:swap}.dongjing-page.djx-page :is(blockquote,q,.reading-primary-text,.reading-source-columns,.dj-columns),.dongjing-page.djx-page :is(blockquote,q,.reading-primary-text,.reading-source-columns,.dj-columns) :where(:lang(zh-Hans),:lang(zh-Hant)){font-family:"Galok Source Han Serif TC","Galok Entry22-25 Rare","Galok HanaMin Reading","Source Han Serif TC","Noto Serif TC","Songti TC",STSong,serif!important;font-weight:400!important;font-synthesis:none!important}`;
   document.head.append(fontPatch);
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const reveal = [...document.querySelectorAll('[data-djx-reveal]')];

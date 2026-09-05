@@ -3,8 +3,8 @@
 @font-face{font-family:"Galok Entry20 Serif Patch";src:url("/assets/fonts/entry20-serif-patch.woff2?v=20260903-entry20-fix1") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 
 /* Dongjing Meng Hua Lu — Volume III Entry 20 / Shangqing Palace */
-.dj20-page{--reading-cjk:"Galok Source Han Serif TC","Galok Entry20 Serif Patch","Galok HanaMin Reading","Source Han Serif TC","Noto Serif TC","Songti TC",STSong,serif;--dj20-paper:#e9e4d9;--dj20-ink:#171815;--dj20-muted:#6b695f;--dj20-rule:#b7b0a2;--dj20-jade:#26483e;--dj20-jade-2:#345f51;--dj20-gold:#9c793d;--dj20-rose:#9a5149;--dj20-night:#151a17}
-body.dj20-page .dj-entry-title .dj-title-zh{font-family:"QIJIC",var(--reading-book-title-cjk),var(--reading-cjk)!important;font-weight:400!important;font-synthesis:none!important}
+.dj20-page{--reading-ancient-cjk:"Galok Source Han Serif TC","Galok Entry20 Serif Patch","Galok HanaMin Reading","Source Han Serif TC","Noto Serif TC","Songti TC",STSong,serif;--dj20-paper:#e9e4d9;--dj20-ink:#171815;--dj20-muted:#6b695f;--dj20-rule:#b7b0a2;--dj20-jade:#26483e;--dj20-jade-2:#345f51;--dj20-gold:#9c793d;--dj20-rose:#9a5149;--dj20-night:#151a17}
+body.dj20-page .dj-entry-title .dj-title-zh{font-family:var(--reading-book-title-cjk),var(--reading-modern-cjk)!important;font-weight:400!important;font-synthesis:none!important}
 .dj20-page .dj-entry-title h1{font-size:clamp(4rem,8vw,9rem);line-height:.84;letter-spacing:.06em}
 .dj20-page .dj-entry-title h2,.dj20-network h2,.dj20-cluster h3,.dj20-method strong,.dj20-limit strong,.dj20-variants h3,.dj20-exit strong{font-family:var(--reading-display-latin,"Galok Bagnard","Galok Gambetta",Georgia,serif);font-weight:400;font-synthesis:none}
 .dj20-paper .dj-columns{height:min(54vh,550px)}
@@ -30,9 +30,9 @@ body.dj20-page .dj-entry-title .dj-title-zh{font-family:"QIJIC",var(--reading-bo
 .dj20-node-grid.is-dense{grid-template-columns:repeat(3,minmax(0,1fr))}
 .dj20-node{min-height:154px;padding:22px;border-right:1px solid #3d4540;border-bottom:1px solid #3d4540}
 .dj20-node small{display:block;color:#caa464;font:760 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
-.dj20-node strong{display:block;margin:27px 0 11px;font-family:var(--reading-cjk);font-size:clamp(1.6rem,2.5vw,2.9rem);font-weight:400;line-height:1;letter-spacing:.045em}
+.dj20-node strong{display:block;margin:27px 0 11px;font-family:var(--reading-modern-cjk);font-size:clamp(1.6rem,2.5vw,2.9rem);font-weight:400;line-height:1;letter-spacing:.045em}
 .dj20-node p{margin:0;color:#b8b7ae;font-family:Georgia,"Times New Roman",serif;font-size:.86rem;line-height:1.45}
-.dj20-node p:lang(zh-Hant){font-family:var(--reading-cjk);font-size:.9rem}
+.dj20-node p:lang(zh-Hant){font-family:var(--reading-modern-cjk);font-size:.9rem}
 .dj20-node em{display:block;margin-top:12px;color:#9fb7ac;font-family:Georgia,"Times New Roman",serif;font-size:.78rem;line-height:1.45}
 .dj20-node.is-feature{background:rgba(156,121,61,.09)}
 .dj20-cluster.is-women{border-top:5px solid var(--dj20-rose)}
@@ -54,7 +54,7 @@ body.dj20-page .dj-entry-title .dj-title-zh{font-family:"QIJIC",var(--reading-bo
 .dj20-variant-row>div{padding:24px 20px}
 .dj20-variant-row>div+div{border-left:1px solid var(--dj20-rule)}
 .dj20-variant-row small{display:block;color:var(--dj20-rose);font:760 .5rem/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em}
-.dj20-variant-row strong{display:block;margin-top:16px;font-family:var(--reading-cjk);font-size:clamp(1.6rem,3.2vw,3.5rem);font-weight:400;line-height:1}
+.dj20-variant-row strong{display:block;margin-top:16px;font-family:var(--reading-modern-cjk);font-size:clamp(1.6rem,3.2vw,3.5rem);font-weight:400;line-height:1}
 .dj20-variant-row i{display:flex;align-items:center;justify-content:center;color:var(--dj20-rose);font-style:normal}
 .dj20-variants>p{max-width:72ch;margin:20px 0 32px!important;color:var(--dj20-muted);font-family:Georgia,"Times New Roman",serif!important;line-height:1.58!important}
 .dj20-variants footer{display:flex;gap:8px;flex-wrap:wrap;padding-top:6px}
