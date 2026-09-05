@@ -1,5 +1,6 @@
 const fs = require('fs');
-const BASE = 'D:/GitHub/Fanjiale-CN.github.io/reading/dongjing-meng-hua-lu/';
+const path = require('node:path');
+const BASE = path.join(__dirname, 'dongjing-meng-hua-lu') + path.sep;
 const nav = '<nav class="site-nav" aria-label="Primary navigation"><div class="nav-inner"><a class="brand" href="/"><img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span></a><div class="nav-links"><a href="/cities/">Cities</a><a href="/essays/">Essays</a><a href="/radar/">Radar</a><a href="/research/">Research</a><a href="/data/">Data</a><a href="/reading/" aria-current="page">Reading</a><a href="/work/">Work</a><a href="/index/">Index</a><a href="/about/">About</a></div></div></nav>';
 const HEAD = `  <link rel="stylesheet" href="/styles.css?v=20260902-qijic-system">
   <link rel="stylesheet" href="/reading/dongjing.css?v=20260901v1">

@@ -1,5 +1,6 @@
 const fs = require('fs');
-const BASE = 'D:/GitHub/Fanjiale-CN.github.io/reading/dongjing-meng-hua-lu/';
+const path = require('node:path');
+const BASE = path.join(__dirname, 'dongjing-meng-hua-lu') + path.sep;
 const CSS_V = '?v=20260905-v8x1';
 const JS_V = '?v=20260905-v8x1';
 const DATE = '2026-09-06';
