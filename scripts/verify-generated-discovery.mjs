@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 
 const root = process.cwd();
-const strictFiles = ["sitemap.xml", "feed.xml", "index/search-catalog.json", "pagefind/build.json"];
+const strictFiles = ["sitemap.xml", "sitemap-dongjing.xml", "feed.xml", "index/search-catalog.json", "pagefind/build.json"];
 
 function fail(message) {
   console.error(`DISCOVERY REPRODUCIBILITY: ${message}`);
@@ -26,5 +26,5 @@ if (changed.length) {
 }
 
 if (!process.exitCode) {
-  console.log("Discovery regeneration is byte-stable for sitemap, feed, search catalog and Pagefind manifest.");
+  console.log("Discovery regeneration is byte-stable for main/focused sitemaps, feed, search catalog and Pagefind manifest.");
 }
