@@ -17,7 +17,8 @@ const checks = [
   ["Hangzhou mobile layout", "validate-hangzhou-mobile.mjs", []],
   ["Hangzhou tablet layout", "validate-hangzhou-tablet.mjs", []],
   ["Hangzhou historical archive", "validate-hangzhou-history.mjs", []],
-  ["Chongqing vertical city", "validate-chongqing.mjs", []]
+  ["Chongqing vertical city", "validate-chongqing.mjs", []],
+  ["Visible text scan", "check-visible-text.mjs", []]
 ];
 
 for (const [label, script, args] of checks) {

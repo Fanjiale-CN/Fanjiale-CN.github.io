@@ -17,7 +17,16 @@ jobs:
   validate:
     name: Validate site release gates
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 10
     steps:
-      - name: Publish-first release check
-        run: echo "GALOK READY — repository-side release gates are disabled; publish first, refine after launch."
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Release check (15 validators)
+        run: node scripts/release-check.mjs
+
+      - name: Generated consistency check (entries 45–51)
+        run: node scripts/check-generated-consistency.cjs
