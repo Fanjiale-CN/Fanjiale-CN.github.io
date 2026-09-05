@@ -42,9 +42,7 @@ const routeLabel = (route) => route === roomRoute
   ? "dongjing-room"
   : `dongjing-${route.split("/").filter(Boolean).at(-1)}`;
 
-const expectedChineseFamily = (route) => route === roomRoute
-  ? "Galok QIJIC Book Title"
-  : "Galok Source Han Serif TC";
+const expectedChineseFamily = (route) => "Galok QIJIC Reading";
 
 try {
   for (const [viewportName, width, height] of viewports) {
@@ -159,6 +157,6 @@ if (failures.length) {
   console.error("Reading visual acceptance failed:\n" + failures.map((failure) => `- ${failure}`).join("\n"));
   process.exitCode = 1;
 } else {
-  console.log(`PASS: Reading visual acceptance covered ${routes.length} routes across ${viewports.length} viewports under the Source Han/QIJIC role split.`);
+  console.log(`PASS: Reading visual acceptance covered ${routes.length} routes across ${viewports.length} viewports under the V2 ancient/modern split.`);
   console.log(`Evidence: ${evidenceDirectory}`);
 }

@@ -1,24 +1,37 @@
-/* Galok Reading typography — Source Han canonical system, 2026-09-03
+/* Galok Reading typography — V2 two-layer contract, 2026-09-05
    Compatibility note: this stylesheet keeps the historical qijic-type-system.css URL
    so existing Reading pages do not need a mass link rewrite.
 
-   Rule:
-   - ordinary Chinese, Simplified or Traditional -> Source Han Serif TC;
-   - QIJIC -> explicit large book-title displays only;
-   - HanaMin -> last-resort fallback for glyphs absent from Source Han;
+   Contract:
+   - ancient Chinese (primary sources: blockquote, q, .reading-primary-text,
+     .reading-source-columns, .dj-columns) -> Source Han Serif TC,
+     HanaMin as the rare-glyph fallback;
+   - modern editorial Chinese (titles, labels, captions, menus, UI, notes)
+     -> Galok QIJIC Reading, Source Han + HanaMin as declared fallbacks;
    - Latin display -> existing Bagnard / Gambetta system. */
 
 @font-face {
   font-family: "Galok Source Han Serif TC";
-  src: url("/assets/fonts/source-han-serif-tc-reading.woff2?v=20260903-entry19") format("woff2");
+  src: url("/assets/fonts/source-han-serif-tc-reading.woff2?v=20260905-readingv2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 
+/* Modern editorial Chinese (V2). */
+@font-face {
+  font-family: "Galok QIJIC Reading";
+  src: url("/assets/fonts/qiji-reading-modern.woff2?v=20260905-readingv2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* Compatibility alias: the pre-V2 book-title face resolves to the same
+   modern QIJIC subset so older entry CSS keeps working without a rewrite. */
 @font-face {
   font-family: "Galok QIJIC Book Title";
-  src: url("/assets/fonts/qiji-reading-title.woff2?v=20260902-canonical-1") format("woff2");
+  src: url("/assets/fonts/qiji-reading-modern.woff2?v=20260905-readingv2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -34,54 +47,76 @@
 
 :root {
   --reading-display-latin: "Galok Bagnard", "Galok Gambetta", "EB Garamond", Georgia, "Times New Roman", serif;
-  --reading-cjk: "Galok Source Han Serif TC", "Galok HanaMin Reading", "Source Han Serif TC", "Noto Serif TC", "Songti TC", STSong, serif;
-  /* Legacy variable aliases stay alive so old entry CSS resolves to the new canonical face. */
-  --reading-display-cjk: "Galok Source Han Serif TC", "Galok HanaMin Reading", "Source Han Serif TC", "Noto Serif TC", "Songti TC", STSong, serif;
-  --reading-primary-cjk: "Galok Source Han Serif TC", "Galok HanaMin Reading", "Source Han Serif TC", "Noto Serif TC", "Songti TC", STSong, serif;
-  --reading-book-title-cjk: "Galok QIJIC Book Title", "Galok Source Han Serif TC", "Galok HanaMin Reading", serif;
-  --reading-display-mixed: "Galok Bagnard", "Galok Source Han Serif TC", "Galok HanaMin Reading", "Galok Gambetta", Georgia, "Times New Roman", serif;
+  --reading-latin: var(--reading-display-latin);
+  /* Ancient layer: primary-source Chinese. */
+  --reading-ancient-cjk: "Galok Source Han Serif TC", "Galok HanaMin Reading", "Source Han Serif TC", "Noto Serif TC", "Songti TC", STSong, serif;
+  /* Modern layer: editorial Chinese, QIJIC first with declared fallbacks. */
+  --reading-modern-cjk: "Galok QIJIC Reading", "Galok Source Han Serif TC", "Galok HanaMin Reading", "Source Han Serif TC", "Noto Serif TC", "Songti TC", STSong, serif;
+  /* Legacy variable aliases stay alive so old entry CSS resolves to the ancient face. */
+  --reading-cjk: var(--reading-ancient-cjk);
+  --reading-display-cjk: var(--reading-ancient-cjk);
+  --reading-primary-cjk: var(--reading-ancient-cjk);
+  --reading-book-title-cjk: "Galok QIJIC Reading", "Galok QIJIC Book Title", "Galok Source Han Serif TC", "Galok HanaMin Reading", serif;
+  --reading-display-mixed: "Galok Bagnard", "Galok QIJIC Reading", "Galok Source Han Serif TC", "Galok HanaMin Reading", "Galok Gambetta", Georgia, "Times New Roman", serif;
+  --reading-mono-mixed: ui-monospace, SFMono-Regular, Consolas, "Galok QIJIC Reading", "Galok Source Han Serif TC", "Galok HanaMin Reading", monospace;
+  --reading-serif-mixed: Georgia, "Galok QIJIC Reading", "Galok Source Han Serif TC", "Galok HanaMin Reading", "Times New Roman", serif;
 }
 
-/* Ordinary Chinese throughout Reading. */
+/* Modern editorial Chinese throughout Reading. */
 .dongjing-page :where(:lang(zh-Hans), :lang(zh-Hant)),
 .reading-room-page :where(:lang(zh-Hans), :lang(zh-Hant)),
 .reading-page :where(:lang(zh-Hans), :lang(zh-Hant)),
 .reading-note-page :where(:lang(zh-Hans), :lang(zh-Hant)),
-.dongjing-page blockquote:where(:lang(zh-Hans), :lang(zh-Hant)),
-.reading-note-page blockquote:where(:lang(zh-Hans), :lang(zh-Hant)),
 .reading-note-page .reading-primary-text,
 .reading-note-page .reading-primary-text :where(:lang(zh-Hans), :lang(zh-Hant)),
 .dongjing-page .dj-entry-source .dj-columns,
 .reading-page .reading-source-columns,
 .reading-room-page .reading-source-columns {
-  font-family: var(--reading-cjk) !important;
+  font-family: var(--reading-modern-cjk) !important;
   font-weight: 400 !important;
   font-synthesis: none !important;
 }
 
-/* Explicit large book titles are the sole QIJIC role. */
+/* Ancient layer: primary-source text keeps Source Han and must never inherit QIJIC. */
+.dongjing-page blockquote,
+.dongjing-page blockquote :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page q,
+.dongjing-page q :where(:lang(zh-Hans), :lang(zh-Hant)),
+.dongjing-page .dj-columns,
+.dongjing-page .dj-columns *,
+.reading-note-page blockquote,
+.reading-note-page blockquote :where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-note-page .reading-primary-text :where(:lang(zh-Hans), :lang(zh-Hant)),
+.reading-page .reading-source-columns *,
+.reading-room-page .reading-source-columns * {
+  font-family: var(--reading-ancient-cjk) !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+}
+
+/* Chinese display titles: room book title and entry/chapter titles carry the
+   QIJIC editorial voice under the V2 contract. */
 .dongjing-page .dj-room-title .dj-title-zh,
+.dongjing-page .dj-entry-title .dj-title-zh,
 .reading-room-page .reading-room-title h1,
+.reading-room-page .reading-room-map h3,
+.reading-room-page .reading-drawer-entry-title .reading-drawer-entry-zh,
 .reading-page .reading-book-title-zh,
-.reading-book-title-zh {
-  font-family: var(--reading-book-title-cjk) !important;
+.reading-page .reading-room-map h3,
+.reading-page .reading-drawer-entry-title .reading-drawer-entry-zh,
+.reading-book-title-zh,
+.reading-note-page .reading-article-title .reading-note-zh {
+  font-family: var(--reading-modern-cjk) !important;
   font-weight: 400 !important;
   font-synthesis: none !important;
   letter-spacing: .055em;
 }
 
-/* Entry/chapter titles remain Source Han. */
-.dongjing-page .dj-entry-title .dj-title-zh,
-.reading-room-page .reading-room-map h3,
-.reading-page .reading-room-map h3,
-.reading-room-page .reading-drawer-entry-title .reading-drawer-entry-zh,
-.reading-page .reading-drawer-entry-title .reading-drawer-entry-zh,
-.reading-note-page .reading-article-title .reading-note-zh {
-  font-family: var(--reading-cjk) !important;
-  font-weight: 400 !important;
-  font-synthesis: none !important;
-  letter-spacing: .055em;
-}
+.dongjing-page .dj-room-title .dj-title-zh { line-height: .9; }
+.dongjing-page .dj-entry-title .dj-title-zh { line-height: .9; }
+.reading-room-page .reading-room-title h1,
+.reading-page .reading-room-title h1 { line-height: .88; }
+.dongjing-page .dj-v3-section-head h2 { line-height: .93; letter-spacing: -.042em; }
 
 /* Latin editorial display. */
 .dongjing-page .dj-room-title h2,
@@ -95,13 +130,7 @@
   font-synthesis: none !important;
 }
 
-.dongjing-page .dj-room-title .dj-title-zh { line-height: .9; }
-.dongjing-page .dj-entry-title .dj-title-zh { line-height: .9; }
-.reading-room-page .reading-room-title h1,
-.reading-page .reading-room-title h1 { line-height: .88; }
-.dongjing-page .dj-v3-section-head h2 { line-height: .93; letter-spacing: -.042em; }
-
-/* Previous/Next and mixed-script editorial controls keep Latin first; Chinese falls through to Source Han. */
+/* Previous/Next and mixed-script editorial controls keep Latin first; Chinese falls through to QIJIC. */
 .dongjing-page .dj-entry-nav small,
 .dongjing-page .dj-entry-nav strong,
 .dongjing-page .dj-v3-entry-nav small,
@@ -114,7 +143,8 @@
 }
 
 /* Legacy entries contain untagged Chinese diagram nodes. These explicit rules also
-   override the older reading-display-20260902.css compatibility layer. */
+   override the older reading-display-20260902.css compatibility layer; under V2 they
+   are part of the modern editorial layer. */
 .dj07-page .dj07-lane b,
 .dj08-page .dj08-node b,
 .dj08-page .dj08-menu-strip span,
@@ -137,15 +167,9 @@
 .dongjing-page .dj18-layer-grid :where(:lang(zh-Hans), :lang(zh-Hant)),
 .dongjing-page .dj18-variant-table :where(:lang(zh-Hans), :lang(zh-Hant)),
 .dongjing-page .dj18-exit :where(:lang(zh-Hans), :lang(zh-Hant)) {
-  font-family: var(--reading-cjk) !important;
+  font-family: var(--reading-modern-cjk) !important;
   font-weight: 400 !important;
   font-synthesis: none !important;
-}
-
-/* Mixed Latin/CJK labels keep their original editorial texture while Source Han owns Chinese glyphs. */
-:root {
-  --reading-mono-mixed: ui-monospace, SFMono-Regular, Consolas, "Galok Source Han Serif TC", "Galok HanaMin Reading", monospace;
-  --reading-serif-mixed: Georgia, "Galok Source Han Serif TC", "Galok HanaMin Reading", "Times New Roman", serif;
 }
 
 .dongjing-page .dj-kicker,
@@ -179,6 +203,15 @@
 .dongjing-page .dj-prose > p:first-child,
 .dongjing-page .dj-translation {
   font-family: var(--reading-serif-mixed) !important;
+}
+
+/* Yantie Lun primary-text headers mix English labels with Chinese chapter
+   labels (本議第一 …); Latin stays mono, Chinese falls through to QIJIC. */
+.reading-note-page .reading-primary-text header,
+.reading-note-page .reading-primary-text header span,
+.reading-note-page .reading-primary-text footer,
+.reading-note-page .reading-primary-text footer a {
+  font-family: var(--reading-mono-mixed) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

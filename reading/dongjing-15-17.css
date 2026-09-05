@@ -1,5 +1,5 @@
 /* Dongjing Meng Hua Lu — Volume III Entries 15–17 */
-@font-face{font-family:"Galok Qiji V3 1517";src:url("/assets/fonts/qiji-reading-title.woff2?v=20260901-v3-1517") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"Galok Qiji V3 1517";src:url("/assets/fonts/qiji-reading-modern.woff2?v=20260905-readingv2") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"Galok Reading Serif V3 1517";src:url("/assets/fonts/genryu-reading-tw.woff2?v=20260901-v3-1517") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"Galok Rare Serif V3 1517";src:url("/assets/fonts/hanamin-reading-rare.woff2?v=20260901-v3-1517") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 .dj15-page,.dj16-page,.dj17-page{--v3-paper:#f2ede0;--v3-ink:#171713;--v3-muted:#716b60;--v3-rule:#c9c0b0;--v3-red:#a22d28;--v3-jade:#254f47;--v3-soft:#e5ddcf;--v3-night:#151715}
