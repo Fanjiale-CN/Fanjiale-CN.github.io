@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: galok-site-validation-${{ github.workflow }}-${{ github.ref }}
@@ -20,8 +20,6 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -32,34 +30,3 @@ jobs:
 
       - name: Generated consistency check (entries 45–51)
         run: node scripts/check-generated-consistency.cjs
-
-      - name: Apply site-wide GALOK navigation alignment
-        if: github.event_name == 'push' && github.actor != 'github-actions[bot]'
-        run: |
-          if grep -q "GLOBAL NAV EDGE ALIGNMENT / 2026-09-06" styles.css; then
-            echo "Global nav rule already present"
-            exit 0
-          fi
-          cat >> styles.css <<'CSS'
-
-          /* GLOBAL NAV EDGE ALIGNMENT / 2026-09-06
-             Keep the GALOK lockup on a consistent viewport-edge grid across the site.
-             The immersive spatial homepage nav is intentionally excluded. */
-          html body .site-nav:not(.spatial-nav) > .nav-inner {
-            width: calc(100% - 48px) !important;
-            max-width: none !important;
-            margin-inline: 24px !important;
-          }
-
-          @media (max-width: 720px) {
-            html body .site-nav:not(.spatial-nav) > .nav-inner {
-              width: calc(100% - 28px) !important;
-              margin-inline: 14px !important;
-            }
-          }
-          CSS
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add styles.css
-          git commit -m "fix(nav): align GALOK brand across site"
-          git push origin HEAD:main
