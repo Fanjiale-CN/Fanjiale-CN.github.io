@@ -5,6 +5,10 @@
   const drawers = [...archive.querySelectorAll('details[data-volume-drawer]')];
   if (!drawers.length) return;
 
+  function closeAll() {
+    drawers.forEach((drawer) => { drawer.open = false; });
+  }
+
   function openOnly(target, { updateHash = true } = {}) {
     drawers.forEach((drawer) => { drawer.open = drawer === target; });
     if (updateHash && target?.id) history.replaceState(null, '', `#${target.id}`);
@@ -12,7 +16,13 @@
 
   drawers.forEach((drawer) => {
     drawer.addEventListener('toggle', () => {
-      if (drawer.open) openOnly(drawer);
+      if (drawer.open) {
+        openOnly(drawer);
+        return;
+      }
+      if (location.hash === `#${drawer.id}`) {
+        history.replaceState(null, '', `${location.pathname}${location.search}`);
+      }
     });
   });
 
@@ -23,8 +33,7 @@
       openOnly(target, { updateHash: false });
       return;
     }
-    const current = drawers.find((drawer) => drawer.open) || drawers.find((drawer) => drawer.classList.contains('is-current')) || drawers[0];
-    if (current) openOnly(current, { updateHash: false });
+    closeAll();
   }
 
   window.addEventListener('hashchange', restoreFromHash);
