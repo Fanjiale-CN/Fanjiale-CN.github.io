@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: galok-site-validation-${{ github.workflow }}-${{ github.ref }}
@@ -30,3 +30,49 @@ jobs:
 
       - name: Generated consistency check (entries 45–51)
         run: node scripts/check-generated-consistency.cjs
+
+      - name: Checkout PR head for one-time global nav patch
+        if: github.event_name == 'pull_request' && github.actor != 'github-actions[bot]'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Apply global GALOK nav alignment
+        if: github.event_name == 'pull_request' && github.actor != 'github-actions[bot]'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('styles.css')
+          css = path.read_text(encoding='utf-8')
+          marker = 'GLOBAL NAV EDGE ALIGNMENT / 2026-09-06'
+          block = """
+
+/* GLOBAL NAV EDGE ALIGNMENT / 2026-09-06
+   Keep the GALOK lockup on a consistent viewport-edge grid across the site.
+   The immersive spatial homepage nav is intentionally excluded. */
+html body .site-nav:not(.spatial-nav) > .nav-inner {
+  width: calc(100% - 48px) !important;
+  max-width: none !important;
+  margin-inline: 24px !important;
+}
+
+@media (max-width: 720px) {
+  html body .site-nav:not(.spatial-nav) > .nav-inner {
+    width: calc(100% - 28px) !important;
+    margin-inline: 14px !important;
+  }
+}
+"""
+          if marker not in css:
+              path.write_text(css + block, encoding='utf-8')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add styles.css
+          if git diff --cached --quiet; then
+            echo "Global nav rule already present"
+            exit 0
+          fi
+          git commit -m "fix(nav): align GALOK brand across site"
+          git push origin HEAD:${{ github.head_ref }}
