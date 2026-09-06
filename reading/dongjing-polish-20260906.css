@@ -1,0 +1,133 @@
+/* Dongjing Meng Hua Lu — visual polish, 2026-09-06 */
+
+.dongjing-page {
+  --dj-accent: #55786f;
+  --dj-accent-deep: #355950;
+  --dj-accent-soft: #dce7e2;
+  --dj-red: var(--dj-accent);
+  --dj-jade: #315b53;
+}
+
+.dongjing-page ::selection {
+  background: var(--dj-accent-deep);
+  color: #fff;
+}
+
+/* Let the brand sit on the page edge instead of inside the narrow editorial column. */
+.dongjing-page .site-nav .nav-inner {
+  width: calc(100% - 48px);
+  max-width: none;
+  margin-inline: 24px;
+}
+
+/* Keep the five-character title together as one book title. */
+.dongjing-page .dj-room-title {
+  min-width: 0;
+}
+
+.dongjing-page .dj-room-title h1 {
+  white-space: nowrap;
+  font-size: clamp(4rem, 7.35vw, 8.4rem);
+  line-height: .88;
+  letter-spacing: .012em;
+}
+
+/* Desktop microtype: retain the archival tone without falling below comfortable reading size. */
+.dongjing-page .dj-meta,
+.dongjing-page .dj-kicker,
+.dongjing-page .dj-label {
+  font-size: .68rem;
+  line-height: 1.35;
+}
+
+.dongjing-page .dj-room-title p {
+  font-size: .72rem;
+}
+
+.dongjing-page .dj-section-head > p,
+.dongjing-page .dj-term-note > small {
+  font-size: .66rem;
+}
+
+.dongjing-page .dj-volume-drawer > summary {
+  min-height: 104px;
+}
+
+.dongjing-page .dj-drawer-number {
+  font-size: .78rem;
+}
+
+.dongjing-page .dj-drawer-title small {
+  margin-top: 7px;
+  font-size: .68rem;
+  line-height: 1.45;
+  letter-spacing: .075em;
+}
+
+.dongjing-page .dj-drawer-range,
+.dongjing-page .dj-drawer-progress {
+  font-size: .67rem;
+  line-height: 1.4;
+}
+
+.dongjing-page .dj-drawer-entry > span:first-child {
+  font-size: .7rem;
+}
+
+.dongjing-page .dj-drawer-entry-state,
+.dongjing-page .dj-drawer-entry-time {
+  font-size: .64rem;
+  line-height: 1.4;
+}
+
+.dongjing-page .dj-drawer-empty small {
+  font-size: .66rem;
+}
+
+/* Move the open-state rule into the gutter so it never collides with Roman numerals. */
+.dongjing-page .dj-volume-drawer[open] > summary::before {
+  left: -18px;
+  top: 18px;
+  height: 68px;
+  width: 3px;
+  background: var(--dj-accent);
+}
+
+.dongjing-page .dj-drawer-status {
+  color: var(--dj-accent-deep);
+}
+
+.dongjing-page .dj-volume-drawer.is-complete .dj-drawer-progress,
+.dongjing-page .dj-volume-drawer.is-current .dj-drawer-progress,
+.dongjing-page .dj-volume-drawer.is-current .dj-drawer-status,
+.dongjing-page .dj-drawer-number,
+.dongjing-page .dj-drawer-entry > span:first-child,
+.dongjing-page .dj-drawer-entry-state,
+.dongjing-page .dj-drawer-empty small {
+  color: var(--dj-accent);
+}
+
+@media (max-width: 720px) {
+  .dongjing-page .site-nav .nav-inner {
+    width: calc(100% - 28px);
+    margin-inline: 14px;
+  }
+
+  .dongjing-page .dj-room-title h1 {
+    font-size: clamp(3rem, 15vw, 4.2rem);
+    letter-spacing: 0;
+  }
+
+  .dongjing-page .dj-volume-drawer[open] > summary::before {
+    left: -10px;
+  }
+
+  .dongjing-page .dj-drawer-title small {
+    font-size: .62rem;
+  }
+
+  .dongjing-page .dj-drawer-range,
+  .dongjing-page .dj-drawer-progress {
+    font-size: .62rem;
+  }
+}

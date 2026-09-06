@@ -9,6 +9,7 @@
   };
 
   loadStylesheet('/reading/redesign-20260831.css?v=20260831c', 'reading-redesign-20260831');
+  loadStylesheet('/reading/dongjing-polish-20260906.css?v=20260906a', 'dongjing-polish-20260906');
 
   // Shared reveal support: pages that mark content with data-djx-reveal get the
   // visible state on intersection (or immediately under reduced motion / without
