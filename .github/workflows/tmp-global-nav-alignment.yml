@@ -1,32 +1,25 @@
 name: Temporary global nav alignment
 
-on:
-  push:
-    branches:
-      - fix/global-nav-alignment
+on: [push]
 
 permissions:
   contents: write
 
 jobs:
-  patch-global-nav:
-    if: github.actor != 'github-actions[bot]'
+  patch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: fix/global-nav-alignment
           fetch-depth: 0
-      - name: Apply site-wide navigation alignment
-        shell: python
+      - name: Append global navigation rule
         run: |
+          python3 - <<'PY'
           from pathlib import Path
-
-          path = Path('styles.css')
-          css = path.read_text(encoding='utf-8')
-          marker = '/* GLOBAL NAV EDGE ALIGNMENT / 2026-09-06 */'
-          if marker not in css:
-              css += r'''
+          path = Path("styles.css")
+          css = path.read_text(encoding="utf-8")
+          marker = "GLOBAL NAV EDGE ALIGNMENT / 2026-09-06"
+          block = """
 
 /* GLOBAL NAV EDGE ALIGNMENT / 2026-09-06
    Keep the GALOK lockup on a consistent viewport-edge grid across the site.
@@ -43,16 +36,20 @@ html body .site-nav:not(.spatial-nav) > .nav-inner {
     margin-inline: 14px !important;
   }
 }
-'''
-              path.write_text(css, encoding='utf-8')
-      - name: Commit global rule
+"""
+          if marker not in css:
+              path.write_text(css + block, encoding="utf-8")
+          PY
+      - name: Commit change
         run: |
+          if [ "${GITHUB_ACTOR}" = "github-actions[bot]" ]; then
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add styles.css
           if git diff --cached --quiet; then
-            echo "No changes needed"
             exit 0
           fi
           git commit -m "fix(nav): align GALOK brand across site"
-          git push origin HEAD:fix/global-nav-alignment
+          git push origin HEAD:${GITHUB_REF_NAME}
