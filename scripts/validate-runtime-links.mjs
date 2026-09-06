@@ -1,5 +1,5 @@
 import { mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
-import { extname, join, relative, resolve } from "node:path";
+import { extname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(fileURLToPath(new URL("../", import.meta.url)));
@@ -30,7 +30,7 @@ function localTarget(url) {
   const filename = pathname.replace(/^\/+/, "");
   if (!filename) return join(root, "index.html");
   const direct = resolve(root, filename);
-  if (!direct.startsWith(`${root}/`)) return { invalid: true };
+  if (!direct.startsWith(`${root}${sep}`)) return { invalid: true };
   if (extname(filename)) return direct;
   return join(direct, "index.html");
 }
