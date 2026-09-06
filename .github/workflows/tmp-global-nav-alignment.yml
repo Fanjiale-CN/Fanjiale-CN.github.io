@@ -1,0 +1,58 @@
+name: Temporary global nav alignment
+
+on:
+  push:
+    branches:
+      - fix/global-nav-alignment
+
+permissions:
+  contents: write
+
+jobs:
+  patch-global-nav:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/global-nav-alignment
+          fetch-depth: 0
+      - name: Apply site-wide navigation alignment
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('styles.css')
+          css = path.read_text(encoding='utf-8')
+          marker = '/* GLOBAL NAV EDGE ALIGNMENT / 2026-09-06 */'
+          if marker not in css:
+              css += r'''
+
+/* GLOBAL NAV EDGE ALIGNMENT / 2026-09-06
+   Keep the GALOK lockup on a consistent viewport-edge grid across the site.
+   The immersive spatial homepage nav is intentionally excluded. */
+html body .site-nav:not(.spatial-nav) > .nav-inner {
+  width: calc(100% - 48px) !important;
+  max-width: none !important;
+  margin-inline: 24px !important;
+}
+
+@media (max-width: 720px) {
+  html body .site-nav:not(.spatial-nav) > .nav-inner {
+    width: calc(100% - 28px) !important;
+    margin-inline: 14px !important;
+  }
+}
+'''
+              path.write_text(css, encoding='utf-8')
+      - name: Commit global rule
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add styles.css
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git commit -m "fix(nav): align GALOK brand across site"
+          git push origin HEAD:fix/global-nav-alignment
