@@ -11,6 +11,24 @@
   loadStylesheet('/reading/redesign-20260831.css?v=20260831c', 'reading-redesign-20260831');
   loadStylesheet('/reading/dongjing-polish-20260906.css?v=20260906a', 'dongjing-polish-20260906');
 
+  const isDongjingEntry =
+    document.body?.classList.contains('dongjing-page') &&
+    /^\/reading\/dongjing-meng-hua-lu\/\d{2}\/?$/.test(window.location.pathname);
+
+  if (isDongjingEntry) {
+    const hasHookStyles = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some((link) =>
+      (link.getAttribute('href') || '').startsWith('/reading/hook-sidebar.css'),
+    );
+    if (!hasHookStyles) loadStylesheet('/reading/hook-sidebar.css?v=20260907b', 'dongjing-hook-sidebar');
+
+    if (!document.querySelector('[data-hook-sidebar]')) {
+      const hookRuntime = document.createElement('script');
+      hookRuntime.src = '/reading/hook-sidebar.js?v=20260907b';
+      hookRuntime.async = false;
+      document.head.append(hookRuntime);
+    }
+  }
+
   // Shared reveal support: pages that mark content with data-djx-reveal get the
   // visible state on intersection (or immediately under reduced motion / without
   // IntersectionObserver). Idempotent beside entry-specific reveal handlers.
