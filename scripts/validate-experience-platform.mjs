@@ -23,7 +23,7 @@ for (const id of expectedCities) {
   }
 }
 
-const experienceLoader = read("assets/observability.js");
+const experienceLoader = read("assets/observability-core.js");
 requireMatch(experienceLoader, /data-city-atlas/, "The global experience loader must render the City Atlas region.");
 requireMatch(experienceLoader, /city-atlas\.css/, "The global experience loader must include City Atlas styles.");
 requireMatch(experienceLoader, /city-atlas\.js/, "The global experience loader must include the City Atlas loader.");
