@@ -9,3 +9,9 @@
 
 /assets/observability.js
   Cache-Control: public, max-age=0, must-revalidate
+
+/assets/galok-symbol.svg
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/galok-symbol-white.svg
+  Cache-Control: public, max-age=0, must-revalidate
