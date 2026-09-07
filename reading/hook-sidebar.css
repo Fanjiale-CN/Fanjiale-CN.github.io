@@ -15,9 +15,14 @@
     position:sticky;
     top:104px;
     align-self:start;
+    grid-column:1;
+    grid-row:1 / span 3;
     min-width:0;
     color:var(--dj-ink);
   }
+
+  .dj-hook-pilot .dj-visual-witness{grid-column:2/-1}
+  .dj-hook-pilot .dj-entry-body>div[aria-hidden="true"]{display:none}
 
   .dj-hook-sidebar__head{
     padding:0 8px 18px 0;
