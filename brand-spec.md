@@ -4,7 +4,10 @@
 
 - Primary logo: `/assets/galok-symbol.svg` (black / `#111111`, transparent background)
 - Inverse logo: `/assets/galok-symbol-white.svg` (white / `#FFFFFF`, transparent background)
+- Legacy-compatible mark path: `/assets/galok-mark.svg` resolves to the same current monochrome geometry; the former multicolor mountain mark is retired.
 - Logo usage: black mark on light surfaces; white mark on dark or image-heavy surfaces. Geometry must remain identical across both variants.
+- Favicon: `/assets/favicon.svg`, a square optical composition of the same mark with light/dark browser-chrome adaptation.
+- Default social card: `/assets/social/galok-default-og.png` at 1200×630. `/assets/social/galok-default-og.svg` is the editable source, not the crawler-facing `og:image` asset.
 - Wordmark: `GALOK / Field notes`
 - Voice: observant, direct, editorial, specific
 - Primary routes: `/cities/`, `/essays/`, `/research/`, `/data/`, `/work/`, `/index/`, `/about/`. `/be-a-viewer/`, `/works/`, `/notes/`, `/views/` and `/archive/` are compatibility redirects; city chapters keep their established `/be-a-viewer/{city}/` routes.
@@ -30,7 +33,15 @@
 - Navigation may switch between the two variants as its background state changes; the transition must not change size or geometry.
 - Do not recolor the mark with section accents, red, gradients or arbitrary brand colors.
 - Do not add outlines, drop shadows, glow, texture, rotation or distortion.
-- Favicon follows the user interface color scheme: black on light browser chrome, white on dark browser chrome.
+- Browser favicons use the dedicated optical favicon asset rather than shrinking the full navigation logo ad hoc.
+
+## Social identity
+
+- The default brand card uses the dark-field system, the monochrome mark, `GALOK / FIELD NOTES`, the line `THE CITY KEEPS THE EVIDENCE.`, and `galok.me`.
+- Use the 1200×630 PNG for generic brand surfaces, the homepage, directory/index pages and pages without a strong content-specific cover.
+- Essays, research, city stories and reading chapters should retain content-specific imagery when that image materially identifies the page. Brand consistency should be added through future card templates rather than replacing every content image with the generic card.
+- Do not use SVG directly as `og:image` or `twitter:image`; crawler and social-platform support is inconsistent. Keep SVG as the editable source and publish a raster PNG/WebP derivative.
+- Social-card text must remain inside generous safe areas so X, Instagram, messaging apps and search previews can crop without removing the identity or title.
 
 ## Motion
 
