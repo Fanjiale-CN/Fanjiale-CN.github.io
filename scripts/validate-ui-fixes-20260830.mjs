@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const css = readFileSync(join(root, "assets/ui-fixes-20260830.css"), "utf8");
-const observability = readFileSync(join(root, "assets/observability.js"), "utf8");
+const observability = readFileSync(join(root, "assets/observability-core.js"), "utf8");
 const errors = [];
 
 for (const marker of [
