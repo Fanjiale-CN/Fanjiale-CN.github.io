@@ -1,0 +1,159 @@
+/* Galok Hook Sidebar — desktop pilot for Dongjing Meng Hua Lu / Entry 01 */
+.dj-hook-sidebar{display:none}
+
+@media (min-width:1180px){
+  .dj-hook-pilot .dj-entry-body{
+    grid-template-columns:264px minmax(0,800px) minmax(250px,1fr);
+    gap:42px;
+  }
+
+  .dj-hook-pilot .dj-entry-side--legacy{display:none}
+
+  .dj-hook-pilot .dj-hook-sidebar{
+    --hook-color:var(--dj-jade);
+    display:block;
+    position:sticky;
+    top:104px;
+    align-self:start;
+    grid-column:1;
+    grid-row:1 / span 3;
+    min-width:0;
+    color:var(--dj-ink);
+  }
+
+  .dj-hook-pilot .dj-visual-witness{grid-column:2/-1}
+  .dj-hook-pilot .dj-entry-body>div[aria-hidden="true"]{display:none}
+
+  .dj-hook-sidebar__head{
+    padding:0 8px 18px 0;
+    border-bottom:1px solid var(--dj-rule);
+  }
+
+  .dj-hook-sidebar__head p{
+    margin:0;
+    color:var(--hook-color);
+    font:780 .78rem/1.25 ui-monospace,SFMono-Regular,Consolas,monospace;
+    letter-spacing:.095em;
+  }
+
+  .dj-hook-sidebar__head span{
+    display:block;
+    margin-top:8px;
+    color:var(--dj-muted);
+    font:740 .62rem/1.25 ui-monospace,SFMono-Regular,Consolas,monospace;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+
+  .dj-hook-sidebar__list{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    margin-top:18px;
+    padding:3px 0 4px;
+  }
+
+  .dj-hook-sidebar__item{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:31px minmax(0,1fr);
+    gap:8px;
+    align-items:center;
+    min-height:52px;
+    padding:9px 6px 9px 32px;
+    color:var(--dj-muted);
+    text-decoration:none;
+    transition:color .18s ease;
+  }
+
+  .dj-hook-sidebar__item:hover,
+  .dj-hook-sidebar__item:focus-visible{color:var(--dj-ink)}
+
+  .dj-hook-sidebar__item:focus-visible{
+    outline:1px solid var(--dj-rule);
+    outline-offset:3px;
+  }
+
+  .dj-hook-sidebar__item[data-active="true"]{color:var(--dj-ink)}
+
+  .dj-hook-sidebar__index{
+    color:color-mix(in srgb,var(--dj-muted) 82%,transparent);
+    font:760 .68rem/1 ui-monospace,SFMono-Regular,Consolas,monospace;
+    letter-spacing:.07em;
+    transition:color .18s ease;
+  }
+
+  .dj-hook-sidebar__item[data-active="true"] .dj-hook-sidebar__index{color:var(--hook-color)}
+
+  .dj-hook-sidebar__label{
+    font-size:1.06rem;
+    font-weight:590;
+    line-height:1.18;
+    letter-spacing:-.018em;
+  }
+
+  .dj-hook-sidebar__rail{
+    position:absolute;
+    inset:0 auto auto 0;
+    z-index:1;
+    width:25px;
+    height:100%;
+    color:var(--hook-color);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .16s ease;
+  }
+
+  .dj-hook-sidebar__rail.is-visible{opacity:1}
+  .dj-hook-sidebar__rail--hover{color:var(--dj-ink);opacity:0}
+  .dj-hook-sidebar__rail--hover.is-visible{opacity:.28}
+
+  .dj-hook-sidebar__stem{
+    position:absolute;
+    left:3px;
+    top:0;
+    width:1.5px;
+    height:0;
+    background:currentColor;
+    transition:top .42s cubic-bezier(.16,1,.3,1),height .42s cubic-bezier(.16,1,.3,1);
+  }
+
+  .dj-hook-sidebar__corner{
+    position:absolute;
+    left:3px;
+    top:0;
+    width:21px;
+    height:12px;
+    border-left:1.5px solid currentColor;
+    border-bottom:1.5px solid currentColor;
+    border-bottom-left-radius:11px;
+    transition:top .42s cubic-bezier(.16,1,.3,1);
+  }
+
+  .dj-hook-sidebar__back{
+    display:inline-block;
+    margin-top:24px;
+    padding-top:16px;
+    border-top:1px solid var(--dj-rule);
+    color:var(--dj-muted);
+    text-decoration:none;
+    font:760 .7rem/1.35 ui-monospace,SFMono-Regular,Consolas,monospace;
+    letter-spacing:.075em;
+    transition:color .18s ease;
+  }
+
+  .dj-hook-sidebar__back:hover,
+  .dj-hook-sidebar__back:focus-visible{color:var(--hook-color)}
+
+  .dj-hook-pilot [data-hook-section]{scroll-margin-top:128px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .dj-hook-sidebar__item,
+  .dj-hook-sidebar__index,
+  .dj-hook-sidebar__rail,
+  .dj-hook-sidebar__stem,
+  .dj-hook-sidebar__corner,
+  .dj-hook-sidebar__back{transition:none!important}
+}
