@@ -10,8 +10,23 @@
 /assets/observability.js
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/observability-core.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/galok-symbol.svg
   Cache-Control: public, max-age=0, must-revalidate
 
 /assets/galok-symbol-white.svg
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/galok-mark.svg
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/favicon.svg
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/social/galok-default-og.png
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/social/galok-default-og.svg
   Cache-Control: public, max-age=0, must-revalidate
