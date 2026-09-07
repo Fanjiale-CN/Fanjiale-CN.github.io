@@ -1,0 +1,1 @@
+PNG raster export is generated from galok-default-og.svg for crawler-safe Open Graph and X cards. Source canvas: 1200×630.
