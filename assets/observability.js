@@ -2,6 +2,43 @@
   "use strict";
 
   const route = window.location.pathname.replace(/index\.html$/, "");
+  const brandMarkBlack = "/assets/galok-symbol.svg?v=20260907-brand";
+  const brandMarkWhite = "/assets/galok-symbol-white.svg?v=20260907-brand";
+  const darkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+  const navNeedsInverseMark = (nav) => {
+    if (!nav) return false;
+    const cityChrome = [...nav.classList].some((name) => name.endsWith("-site-nav"));
+    if (!cityChrome) return false;
+    if (document.body.classList.contains("nav-open")) return false;
+    return !nav.classList.contains("is-scrolled");
+  };
+
+  const syncBrandMarks = () => {
+    document.querySelectorAll(".brand-mark").forEach((mark) => {
+      const nav = mark.closest(".site-nav");
+      const next = navNeedsInverseMark(nav) ? brandMarkWhite : brandMarkBlack;
+      if (mark.getAttribute("src") !== next) mark.setAttribute("src", next);
+    });
+  };
+
+  const syncBrandFavicon = () => {
+    document.querySelectorAll('link[rel="icon"][href*="galok-symbol"]').forEach((icon) => {
+      const next = darkScheme.matches ? brandMarkWhite : brandMarkBlack;
+      if (icon.getAttribute("href") !== next) icon.setAttribute("href", next);
+    });
+  };
+
+  syncBrandMarks();
+  syncBrandFavicon();
+  document.querySelectorAll(".site-nav").forEach((nav) => {
+    new MutationObserver(syncBrandMarks).observe(nav, { attributes: true, attributeFilter: ["class"] });
+  });
+  new MutationObserver(syncBrandMarks).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  darkScheme.addEventListener?.("change", syncBrandFavicon);
+  window.addEventListener("DOMContentLoaded", syncBrandMarks, { once: true });
+  window.addEventListener("load", syncBrandMarks, { once: true });
+
   const eventNames = new Set([
     "essay_open", "research_open", "city_open", "postcard_open",
     "archive_search", "archive_result_open", "research_toc_use",

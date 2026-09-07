@@ -2,7 +2,7 @@
 
 ## Mode
 
-Redesign · Overhaul. Preserve `/about/`, the global navigation, the Galok symbol and lockup, the existing city and film assets, `#about-main`, `#field-film`, analytics, contact details, and reduced-motion support.
+Redesign · Overhaul. Preserve `/about/`, the global navigation, the Galok mark geometry and lockup, the existing city and film assets, `#about-main`, `#field-film`, analytics, contact details, and reduced-motion support.
 
 ## Design read
 
@@ -13,7 +13,7 @@ Redesign · Overhaul. Preserve `/about/`, the global navigation, the Galok symbo
 - Motion intensity: 4 / 10 — image reveal, rail feedback, and method-state transitions only
 - Information density: 3 / 10 — gallery-like with one dominant idea per viewport
 - Asset dependence: 9 / 10 — real Galok photography and the existing film carry the page
-- Brand fidelity: 7 / 10 — preserve Galok red, warm paper, seal mark, editorial voice, and site navigation
+- Brand fidelity: 7 / 10 — preserve warm paper, monochrome Galok mark, editorial voice, and site navigation
 
 ## System
 
@@ -26,7 +26,9 @@ Redesign · Overhaul. Preserve `/about/`, the global navigation, the Galok symbo
 
 ## Primary assets
 
-- Logo: `/assets/galok-symbol.svg`
+- Primary logo: `/assets/galok-symbol.svg` — black `#111111` on transparent background
+- Inverse logo: `/assets/galok-symbol-white.svg` — white `#FFFFFF` on transparent background
+- Usage: black on light surfaces; white on dark photography, video and chrome; never recolor the mark with section accents
 - Hero: `/assets/be-a-viewer/shanghai/people-and-city.webp`
 - Hero inset: `/assets/be-a-viewer/beijing/street-conversation.webp`
 - City rail: real Beijing, Shanghai, Xi'an, and Xiamen photography under `/assets/be-a-viewer/`
