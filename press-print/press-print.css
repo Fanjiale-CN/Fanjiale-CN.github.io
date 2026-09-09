@@ -1,0 +1,307 @@
+:root {
+  --pp-paper: #f1eee7;
+  --pp-warm: #f8f6f1;
+  --pp-ink: #1c1a17;
+  --pp-black: #111111;
+  --pp-stone: #716b62;
+  --pp-rule: #cbc4b8;
+  --pp-red: #c3312a;
+}
+
+body.press-print-page {
+  margin: 0;
+  background: var(--pp-paper);
+  color: var(--pp-ink);
+}
+
+.press-print-page *,
+.press-print-page *::before,
+.press-print-page *::after {
+  box-sizing: border-box;
+}
+
+.pp-shell {
+  width: min(1440px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.pp-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr);
+  min-height: 72vh;
+  border-bottom: 1px solid var(--pp-rule);
+}
+
+.pp-hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(48px, 7vw, 112px) clamp(24px, 5vw, 80px) clamp(40px, 6vw, 88px) 0;
+}
+
+.pp-eyebrow,
+.pp-meta,
+.pp-legal-kicker {
+  font: 600 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.pp-eyebrow { color: var(--pp-stone); }
+
+.pp-hero h1 {
+  margin: 28px 0 24px;
+  max-width: 9ch;
+  font: 400 clamp(64px, 10vw, 148px)/.82 "Times New Roman", Georgia, serif;
+  letter-spacing: -.055em;
+}
+
+.pp-hero-lede {
+  max-width: 660px;
+  margin: 0;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.22;
+}
+
+.pp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 38px;
+}
+
+.pp-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid var(--pp-ink);
+  color: var(--pp-ink);
+  text-decoration: none;
+  font-size: 14px;
+  transition: background .2s ease, color .2s ease;
+}
+
+.pp-button:hover,
+.pp-button:focus-visible {
+  background: var(--pp-ink);
+  color: var(--pp-warm);
+}
+
+.pp-button.is-dark {
+  background: var(--pp-ink);
+  color: var(--pp-warm);
+}
+
+.pp-button.is-dark:hover,
+.pp-button.is-dark:focus-visible {
+  background: transparent;
+  color: var(--pp-ink);
+}
+
+.pp-hero-mark {
+  display: grid;
+  place-items: center;
+  min-height: 560px;
+  background: var(--pp-black);
+  overflow: hidden;
+}
+
+.pp-hero-mark img {
+  display: block;
+  width: min(72%, 520px);
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+.pp-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--pp-stone);
+}
+
+.pp-status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pp-red);
+}
+
+.pp-section {
+  display: grid;
+  grid-template-columns: minmax(160px, .28fr) minmax(0, .72fr);
+  gap: clamp(28px, 6vw, 90px);
+  padding: clamp(64px, 9vw, 132px) 0;
+  border-bottom: 1px solid var(--pp-rule);
+}
+
+.pp-section-label {
+  margin: 0;
+  color: var(--pp-stone);
+  font: 600 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.pp-section h2,
+.pp-legal h1 {
+  margin: 0;
+  font: 400 clamp(42px, 6vw, 88px)/.94 "Times New Roman", Georgia, serif;
+  letter-spacing: -.04em;
+}
+
+.pp-section-copy {
+  max-width: 880px;
+}
+
+.pp-section-copy > p {
+  margin: 24px 0 0;
+  max-width: 760px;
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+.pp-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  margin-top: 44px;
+  background: var(--pp-rule);
+  border: 1px solid var(--pp-rule);
+}
+
+.pp-step {
+  min-height: 170px;
+  padding: 20px;
+  background: var(--pp-paper);
+}
+
+.pp-step span {
+  display: block;
+  margin-bottom: 54px;
+  font: 600 11px/1 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: var(--pp-stone);
+}
+
+.pp-step strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.pp-card {
+  padding: 24px;
+  border: 1px solid var(--pp-rule);
+  background: var(--pp-warm);
+}
+
+.pp-card h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.pp-card p {
+  margin: 0;
+  color: var(--pp-stone);
+  line-height: 1.5;
+}
+
+.pp-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--pp-rule);
+  margin-top: 36px;
+}
+
+.pp-links a {
+  min-height: 110px;
+  padding: 22px;
+  border-right: 1px solid var(--pp-rule);
+  color: var(--pp-ink);
+  text-decoration: none;
+}
+
+.pp-links a:last-child { border-right: 0; }
+.pp-links strong { display: block; margin-bottom: 12px; }
+.pp-links span { color: var(--pp-stone); font-size: 13px; }
+
+.pp-legal {
+  width: min(980px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: clamp(64px, 9vw, 128px) 0 110px;
+}
+
+.pp-legal-header {
+  padding-bottom: 44px;
+  border-bottom: 1px solid var(--pp-rule);
+  margin-bottom: 44px;
+}
+
+.pp-legal-kicker { color: var(--pp-stone); margin-bottom: 18px; }
+.pp-legal-meta { margin-top: 20px; color: var(--pp-stone); font-size: 14px; }
+
+.pp-legal section {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--pp-rule);
+}
+
+.pp-legal h2 {
+  margin: 0 0 14px;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.pp-legal p,
+.pp-legal li {
+  font-size: 17px;
+  line-height: 1.68;
+}
+
+.pp-legal a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+.pp-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--pp-rule);
+}
+
+.pp-subnav a {
+  color: var(--pp-ink);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.pp-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 0 44px;
+  color: var(--pp-stone);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .pp-hero { grid-template-columns: 1fr; }
+  .pp-hero-copy { padding-right: 0; min-height: 58vh; }
+  .pp-hero-mark { min-height: 54vh; }
+  .pp-section { grid-template-columns: 1fr; }
+  .pp-steps { grid-template-columns: 1fr; }
+  .pp-step { min-height: 110px; }
+  .pp-step span { margin-bottom: 28px; }
+  .pp-grid, .pp-links { grid-template-columns: 1fr; }
+  .pp-links a { border-right: 0; border-bottom: 1px solid var(--pp-rule); }
+  .pp-links a:last-child { border-bottom: 0; }
+  .pp-footer { flex-direction: column; }
+}
