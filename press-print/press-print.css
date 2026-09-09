@@ -262,12 +262,47 @@ body.press-print-page {
 }
 
 .pp-legal p,
-.pp-legal li {
+.pp-legal li,
+.pp-legal th,
+.pp-legal td {
   font-size: 17px;
   line-height: 1.68;
 }
 
 .pp-legal a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.pp-legal code { font-size: .9em; }
+
+.pp-table-wrap {
+  width: 100%;
+  margin: 22px 0;
+  overflow-x: auto;
+  border: 1px solid var(--pp-rule);
+  background: var(--pp-warm);
+}
+
+.pp-legal table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.pp-legal th,
+.pp-legal td {
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: top;
+  border-right: 1px solid var(--pp-rule);
+  border-bottom: 1px solid var(--pp-rule);
+}
+
+.pp-legal th {
+  font-weight: 600;
+  background: var(--pp-paper);
+}
+
+.pp-legal tr:last-child td { border-bottom: 0; }
+.pp-legal th:last-child,
+.pp-legal td:last-child { border-right: 0; }
 
 .pp-subnav {
   display: flex;
