@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f1eee7">
-  <meta name="description" content="Press-Print is a source-aware visual reconstruction system for transforming user-supplied photographs into contemporary print-driven compositions.">
-  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#efe7d8">
+  <meta name="description" content="Press-Print is an open visual reconstruction Skill by Galok, available in ChatGPT and built for transforming photographs into print-driven editorial compositions.">
   <link rel="canonical" href="https://www.galok.me/press-print/">
-  <title>Press-Print — Galok</title>
+  <title>Press-Print - Galok</title>
   <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=repair-20260827">
-  <link rel="stylesheet" href="/press-print/press-print.css?v=20260909b">
-  <meta property="og:title" content="Press-Print — Galok">
-  <meta property="og:description" content="Source-aware editorial photo reconstruction for user-supplied photographs.">
+  <link rel="stylesheet" href="/press-print/press-print.css?v=20260910a">
+  <meta property="og:title" content="Press-Print - Galok">
+  <meta property="og:description" content="Editorial photo reconstruction for ChatGPT. Preserve semantic identity, not visual completeness.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.galok.me/press-print/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/A9F371AC-D68C-4BC5-AD10-261487723695.png">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body class="press-print-page">
   <a class="skip-link" href="#press-print-main">Skip to main content</a>
 
-  <nav class="site-nav" aria-label="Primary navigation">
+  <nav class="site-nav pp-site-nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="/" aria-label="Galok home"><img class="brand-mark" src="/assets/galok-symbol.svg" alt="" aria-hidden="true"><span class="brand-lockup"><b>GALOK</b><small>Field notes</small></span></a>
       <div class="nav-links"><a href="/cities/">Cities</a><a href="/essays/">Essays</a><a href="/radar/">Radar</a><a href="/research/">Research</a><a href="/data/">Data</a><a href="/reading/">Reading</a><a href="/work/">Work</a><a href="/index/">Index</a><a href="/about/">About</a></div>
@@ -27,70 +28,164 @@
   </nav>
 
   <main id="press-print-main" tabindex="-1">
-    <div class="pp-shell">
-      <header class="pp-hero">
+    <header class="pp-hero pp-shell" aria-labelledby="pp-title">
+      <div class="pp-hero-topline">
+        <span>GALOK / VISUAL SYSTEM</span>
+        <span>SKILL / 1.0.2</span>
+        <span>LIVE / CHATGPT</span>
+      </div>
+
+      <div class="pp-hero-grid">
         <div class="pp-hero-copy">
-          <div>
-            <p class="pp-eyebrow">Galok / Open-source visual system</p>
-            <h1>Press-Print</h1>
-            <p class="pp-hero-lede">A source-aware visual reconstruction system for transforming user-supplied photographs into contemporary print-driven compositions.</p>
-            <div class="pp-actions">
-              <a class="pp-button is-dark" href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer">View on GitHub ↗</a>
-              <a class="pp-button" href="https://github.com/Fanjiale-CN/press-print/releases/tag/v1.0.0" target="_blank" rel="noreferrer">v1.0.0 release ↗</a>
-            </div>
-            <p class="pp-status">OpenAI Skills-only Plugin prepared for submission. Public directory listing pending review.</p>
+          <p class="pp-eyebrow">Editorial photo reconstruction</p>
+          <h1 id="pp-title"><span>PRESS</span><span>PRINT</span></h1>
+          <p class="pp-manifesto">Preserve semantic identity,<br>not visual completeness.</p>
+          <p class="pp-hero-lede">Press-Print takes a photograph apart and rebuilds its visual hierarchy through cropping, layered planes, halftone, duotone, collage, and graphic reduction.</p>
+          <div class="pp-actions">
+            <a class="pp-torn-cta" href="https://chatgpt.com/" target="_blank" rel="noreferrer">
+              <img src="/press-print/assets/openai-blossom-black.svg" alt="" aria-hidden="true">
+              <span><small>TRY PRESS-PRINT</small><strong>IN CHATGPT ↗</strong></span>
+            </a>
+            <a class="pp-text-link" href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer">View source on GitHub ↗</a>
           </div>
-          <p class="pp-meta">Image-only v1.0 / MIT core / Fan Jiale · Galok</p>
         </div>
-        <div class="pp-hero-mark" aria-label="Galok publisher mark"><img src="/assets/galok-symbol.svg" alt="Galok mark"></div>
+
+        <div class="pp-hero-board" aria-hidden="true">
+          <div class="pp-board-black"></div>
+          <div class="pp-board-red"></div>
+          <div class="pp-board-blue"></div>
+          <div class="pp-board-halftone"></div>
+          <div class="pp-board-paper"></div>
+          <img class="pp-board-mark" src="/press-print/assets/press-print-mark-dark.svg" alt="">
+          <span class="pp-board-note">DISASSEMBLE / RECOMPOSE / REDUCE</span>
+        </div>
+      </div>
+
+      <div class="pp-hero-bottomline">
+        <span>OPEN SOURCE / GALOK</span>
+        <span>@PRESS-PRINT</span>
+      </div>
+    </header>
+
+    <section class="pp-demo pp-shell" aria-labelledby="pp-demo-title">
+      <header class="pp-section-head">
+        <p>01 / INTERACTIVE DEMO</p>
+        <h2 id="pp-demo-title">Watch the reconstruction happen.</h2>
+        <span>This is a curated front-end demonstration using selected Press-Print examples. No live model or API call is made.</span>
       </header>
 
-      <section class="pp-section" aria-labelledby="pp-method-title">
-        <p class="pp-section-label">01 / Method</p>
-        <div class="pp-section-copy">
-          <h2 id="pp-method-title">Reconstruction, not a filter.</h2>
-          <p>Press-Print treats photography as source material. It preserves the structures that make a scene recognizable, then rebuilds the relationship between those structures into a new editorial composition.</p>
-          <div class="pp-steps" aria-label="Press-Print workflow">
-            <div class="pp-step"><span>01</span><strong>Disassemble</strong></div>
-            <div class="pp-step"><span>02</span><strong>Recompose</strong></div>
-            <div class="pp-step"><span>03</span><strong>Reassign</strong></div>
-            <div class="pp-step"><span>04</span><strong>Reduce</strong></div>
-            <div class="pp-step"><span>05</span><strong>Hierarchize</strong></div>
+      <div class="pp-demo-workbench" data-pp-demo>
+        <div class="pp-demo-source">
+          <div class="pp-demo-label"><span>SELECTED EXAMPLE</span><b data-pp-case-label>PLATE 01</b></div>
+          <figure class="pp-source-preview">
+            <img data-pp-source-preview src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Selected Press-Print demo example">
+            <span class="pp-source-screen" aria-hidden="true"></span>
+          </figure>
+          <div class="pp-demo-selector" aria-label="Choose a curated demo example">
+            <button type="button" class="is-active" data-pp-case="0" aria-pressed="true">01</button>
+            <button type="button" data-pp-case="1" aria-pressed="false">02</button>
+            <button type="button" data-pp-case="2" aria-pressed="false">03</button>
+            <button type="button" data-pp-case="3" aria-pressed="false">04</button>
           </div>
         </div>
-      </section>
 
-      <section class="pp-section" aria-labelledby="pp-principle-title">
-        <p class="pp-section-label">02 / Principle</p>
-        <div class="pp-section-copy">
-          <h2 id="pp-principle-title">Preserve semantic identity, not visual completeness.</h2>
-          <div class="pp-grid">
-            <article class="pp-card"><h3>Source-aware</h3><p>Structural anchors come from the supplied photograph rather than generic poster decoration.</p></article>
-            <article class="pp-card"><h3>Selective states</h3><p>Photographic, printed, graphic, and collaged regions can coexist instead of forcing one uniform effect.</p></article>
-            <article class="pp-card"><h3>Image-only v1.0</h3><p>Press-Print does not invent captions, place names, dates, slogans, labels, or decorative typography.</p></article>
-            <article class="pp-card"><h3>Open source</h3><p>The core Skill, prompt system, documentation, and evaluation rubric are developed publicly on GitHub.</p></article>
+        <div class="pp-demo-console">
+          <div class="pp-composer">
+            <div class="pp-composer-handle"><span>@Press-Print</span><small>CURATED DEMO</small></div>
+            <p>Transform this photograph with Press-Print. Do not add new text or typography.</p>
+            <button type="button" class="pp-run" data-pp-run><span>RUN RECONSTRUCTION</span><b>↗</b></button>
+          </div>
+
+          <div class="pp-thinking" aria-live="polite" aria-atomic="true">
+            <div class="pp-thinking-top"><span>PROCESS</span><b data-pp-elapsed>00.0s</b></div>
+            <div class="pp-thinking-stage"><i aria-hidden="true"></i><span data-pp-stage>Ready to reconstruct.</span></div>
+            <div class="pp-progress-track" aria-hidden="true"><span data-pp-progress></span></div>
+            <ol class="pp-thinking-list">
+              <li data-pp-step="0"><span>01</span>Read source structure</li>
+              <li data-pp-step="1"><span>02</span>Identify visual anchors</li>
+              <li data-pp-step="2"><span>03</span>Disassemble composition</li>
+              <li data-pp-step="3"><span>04</span>Recompose hierarchy</li>
+              <li data-pp-step="4"><span>05</span>Apply print treatment</li>
+            </ol>
           </div>
         </div>
-      </section>
 
-      <section class="pp-section" aria-labelledby="pp-distribution-title">
-        <p class="pp-section-label">03 / Distribution</p>
-        <div class="pp-section-copy">
-          <h2 id="pp-distribution-title">One core, multiple hosts.</h2>
-          <p>The root Agent Skill remains the universal baseline. Platform-specific packaging adds only the metadata and file structure required by each host without silently changing the Press-Print v1.0 reconstruction behavior.</p>
-          <div class="pp-links">
-            <a href="/press-print/privacy/"><strong>Privacy</strong><span>How Press-Print handles data</span></a>
-            <a href="/press-print/terms/"><strong>Terms</strong><span>Use, licensing, and limitations</span></a>
-            <a href="/press-print/support/"><strong>Support</strong><span>Issues, bugs, and private contact</span></a>
+        <div class="pp-demo-output">
+          <div class="pp-demo-label"><span>OUTPUT</span><b data-pp-output-state>WAITING</b></div>
+          <div class="pp-grid-reveal" data-pp-reveal>
+            <canvas data-pp-canvas aria-hidden="true"></canvas>
+            <img data-pp-result src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Press-Print reconstructed output">
+            <div class="pp-grid-caption" data-pp-grid-caption>READY / RUN DEMO</div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <footer class="pp-footer"><span>Press-Print by Galok · Published by Fan Jiale, individual developer</span><span>Open-source core · Image-only v1.0</span></footer>
-    </div>
+    <section class="pp-showcase pp-shell" aria-labelledby="pp-showcase-title">
+      <header class="pp-section-head pp-section-head--split">
+        <div><p>02 / SELECTED WORK</p><h2 id="pp-showcase-title">Visual reconstructions.</h2></div>
+        <span>Ten canonical v1.0 showcase plates. The grid stays intentionally uneven: the images set the rhythm.</span>
+      </header>
+      <div class="pp-showcase-grid">
+        <figure class="pp-case pp-case--wide"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Press-Print showcase plate 01" loading="lazy" decoding="async"><figcaption><span>CASE 01</span><b>VISUAL RECONSTRUCTION</b></figcaption></figure>
+        <figure class="pp-case"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/2045E30A-8BAE-4625-B726-1EBC31166618.png" alt="Press-Print showcase plate 02" loading="lazy" decoding="async"><figcaption><span>CASE 02</span><b>PRINT / COLLAGE</b></figcaption></figure>
+        <figure class="pp-case"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png" alt="Press-Print showcase plate 03" loading="lazy" decoding="async"><figcaption><span>CASE 03</span><b>IMAGE / STRUCTURE</b></figcaption></figure>
+        <figure class="pp-case pp-case--tall"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/48FEE737-3D46-446B-AAEF-6F1ADB22E70F.png" alt="Press-Print showcase plate 04" loading="lazy" decoding="async"><figcaption><span>CASE 04</span><b>HALFTONE / PLANE</b></figcaption></figure>
+        <figure class="pp-case"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/52C803C9-C030-4574-8FEF-CE30FDF6A5C4.png" alt="Press-Print showcase plate 05" loading="lazy" decoding="async"><figcaption><span>CASE 05</span><b>EDITORIAL / REDUCTION</b></figcaption></figure>
+        <blockquote class="pp-showcase-quote"><span>PRESS-PRINT / PRINCIPLE</span><p>RECONSTRUCT.<br>DON'T FILTER.</p></blockquote>
+        <figure class="pp-case"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/7AA8CDA5-FC9F-4698-A622-329A248F90FB.png" alt="Press-Print showcase plate 06" loading="lazy" decoding="async"><figcaption><span>CASE 06</span><b>COLLAGE / RHYTHM</b></figcaption></figure>
+        <figure class="pp-case pp-case--wide"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/8E3C63CD-7AD2-4E0A-A4AD-AB9C82A9044A.png" alt="Press-Print showcase plate 07" loading="lazy" decoding="async"><figcaption><span>CASE 07</span><b>IMAGE / MATERIAL</b></figcaption></figure>
+        <figure class="pp-case"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/A9F371AC-D68C-4BC5-AD10-261487723695.png" alt="Press-Print showcase plate 08" loading="lazy" decoding="async"><figcaption><span>CASE 08</span><b>FIGURE / FIELD</b></figcaption></figure>
+        <figure class="pp-case"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/AE838326-B4A9-443E-AF99-B1FE4AB22525.png" alt="Press-Print showcase plate 09" loading="lazy" decoding="async"><figcaption><span>CASE 09</span><b>GRAPHIC / DETAIL</b></figcaption></figure>
+        <figure class="pp-case pp-case--wide"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/C24DF515-DCB7-4D3A-A871-BDC8F58B38C1.png" alt="Press-Print showcase plate 10" loading="lazy" decoding="async"><figcaption><span>CASE 10</span><b>OBJECT / PRINT</b></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="pp-method pp-shell" aria-labelledby="pp-method-title">
+      <header class="pp-section-head pp-section-head--split">
+        <div><p>03 / METHOD</p><h2 id="pp-method-title">Five moves, one reconstruction.</h2></div>
+        <span>The Skill is built around a sequence of visual decisions rather than a single global style filter.</span>
+      </header>
+      <ol class="pp-method-list">
+        <li><span>01</span><strong>Disassemble</strong><p>Break the source into meaningful visual components.</p></li>
+        <li><span>02</span><strong>Recompose</strong><p>Rebuild the hierarchy and spatial relationships.</p></li>
+        <li><span>03</span><strong>Reassign</strong><p>Move regions between photographic, printed, graphic, and collaged states.</p></li>
+        <li><span>04</span><strong>Reduce</strong><p>Quiet or remove information that does not carry identity.</p></li>
+        <li><span>05</span><strong>Hierarchize</strong><p>Set dominant, secondary, and quiet zones.</p></li>
+      </ol>
+    </section>
+
+    <section class="pp-use pp-shell" aria-labelledby="pp-use-title">
+      <div class="pp-use-copy">
+        <p>04 / USE PRESS-PRINT</p>
+        <h2 id="pp-use-title">Open ChatGPT.<br>Attach a photograph.<br>Invoke @Press-Print.</h2>
+        <p>The current public Skill uses the host platform for image editing. Press-Print does not operate a separate image-generation backend.</p>
+      </div>
+      <a class="pp-torn-cta pp-torn-cta--large" href="https://chatgpt.com/" target="_blank" rel="noreferrer">
+        <img src="/press-print/assets/openai-blossom-black.svg" alt="" aria-hidden="true">
+        <span><small>TRY PRESS-PRINT</small><strong>IN CHATGPT ↗</strong></span>
+      </a>
+    </section>
+
+    <section class="pp-open pp-shell" aria-labelledby="pp-open-title">
+      <div><p>05 / OPEN SOURCE</p><h2 id="pp-open-title">The system is public.</h2></div>
+      <div class="pp-open-copy">
+        <p>The core Skill, prompt system, documentation, evaluation rubric, and showcase plates are developed in public.</p>
+        <a href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer"><span>Fanjiale-CN / press-print</span><b>VIEW REPOSITORY ↗</b></a>
+        <div class="pp-open-meta"><span>MIT CORE</span><span>VERSION 1.0.2</span><span>GALOK / 2026</span></div>
+      </div>
+    </section>
+
+    <footer class="pp-colophon pp-shell">
+      <div class="pp-colophon-brand"><img src="/press-print/assets/press-print-mark-dark.svg" alt=""><strong>PRESS-PRINT</strong><span>A GALOK PROJECT</span></div>
+      <div><span>DOCUMENTS</span><a href="/press-print/support/">Support</a><a href="/press-print/privacy/">Privacy</a><a href="/press-print/terms/">Terms</a></div>
+      <div><span>PROJECT</span><a href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer">GitHub</a><a href="/">Galok</a></div>
+      <p>Designed and developed by Fan Jiale.<br>Independent developer / Galok.</p>
+    </footer>
   </main>
 
   <script src="/content.js?v=batch4-content-20260824"></script>
   <script src="/script.js?v=reading-nav-20260830c"></script>
+  <script defer src="/press-print/press-print.js?v=20260910a"></script>
 </body>
 </html>
