@@ -5,7 +5,9 @@
 
   const base = 'https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/';
   const local = '/press-print/assets/demo/';
-  const sourceAtlas = local + 'source-atlas.webp';
+  const sourceAtlasPayload = local + 'source-atlas-v2.b64';
+  let sourceAtlasUrl = '';
+  let sourceAtlasPromise = null;
   const cases = [
     { label: '01 / TRAIN INTERIOR', type: 'TRAIN INTERIOR', result: base + '0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png' },
     { label: '02 / MUSEUM', type: 'SHAANXI HISTORY MUSEUM', result: base + '2045E30A-8BAE-4625-B726-1EBC31166618.png' },
@@ -58,6 +60,30 @@
   let lastPhase = -1;
 
   const clamp = (n, a = 0, b = 1) => Math.max(a, Math.min(b, n));
+
+  function ensureSourceAtlas() {
+    if (sourceAtlasUrl) return Promise.resolve(sourceAtlasUrl);
+    if (sourceAtlasPromise) return sourceAtlasPromise;
+
+    sourceAtlasPromise = fetch(sourceAtlasPayload, { cache: 'force-cache' })
+      .then(response => {
+        if (!response.ok) throw new Error(`Source atlas HTTP ${response.status}`);
+        return response.text();
+      })
+      .then(base64 => {
+        const clean = base64.replace(/\s+/g, '');
+        if (!clean.startsWith('UklGR')) throw new Error('Invalid source atlas payload');
+        sourceAtlasUrl = `data:image/webp;base64,${clean}`;
+        return sourceAtlasUrl;
+      })
+      .catch(error => {
+        sourceAtlasPromise = null;
+        console.error('[Press-Print] Failed to load source atlas', error);
+        throw error;
+      });
+
+    return sourceAtlasPromise;
+  }
   const smooth = t => t * t * (3 - 2 * t);
   const hash = (x, y, z) => {
     const n = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453;
@@ -270,11 +296,21 @@
     const item = cases[selected];
     label.textContent = item.label;
     if (attachmentLabel) attachmentLabel.textContent = `ORIGINAL / ${String(selected + 1).padStart(2, '0')}`;
-    sourcePreview.src = sourceAtlas;
+    const caseIndex = selected;
+    sourcePreview.removeAttribute('src');
+    sourcePreview.alt = `Original source photograph for ${item.type}`;
     sourcePreview.style.width = `${cases.length * 100}%`;
     sourcePreview.style.height = '100%';
     sourcePreview.style.maxWidth = 'none';
     sourcePreview.style.transform = `translateX(-${selected * (100 / cases.length)}%)`;
+    ensureSourceAtlas()
+      .then(url => {
+        if (selected !== caseIndex) return;
+        sourcePreview.src = url;
+      })
+      .catch(() => {
+        if (selected === caseIndex) sourcePreview.alt = 'Source photograph unavailable.';
+      });
     result.src = item.result;
 
     caseButtons.forEach((button, i) => {
