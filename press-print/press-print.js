@@ -4,12 +4,19 @@
   root.dataset.ready = 'true';
 
   const base = 'https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/';
+  const local = '/press-print/assets/demo/';
+  const sourceAtlas = local + 'source-atlas.webp';
   const cases = [
-    { file: '0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png', label: 'PLATE 01', type: 'VISUAL / RECONSTRUCTION' },
-    { file: '2045E30A-8BAE-4625-B726-1EBC31166618.png', label: 'PLATE 02', type: 'PRINT / COLLAGE' },
-    { file: '43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png', label: 'PLATE 03', type: 'IMAGE / STRUCTURE' },
-    { file: '48FEE737-3D46-446B-AAEF-6F1ADB22E70F.png', label: 'PLATE 04', type: 'HALFTONE / PLANE' }
-  ].map(item => ({ ...item, src: base + item.file }));
+    { label: '01 / TRAIN INTERIOR', type: 'TRAIN INTERIOR', result: base + '0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png' },
+    { label: '02 / MUSEUM', type: 'SHAANXI HISTORY MUSEUM', result: base + '2045E30A-8BAE-4625-B726-1EBC31166618.png' },
+    { label: '03 / SHIBUYA', type: 'SHIBUYA', result: base + '43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png' },
+    { label: '04 / METRO SIGN', type: 'METRO SIGN', result: base + '48FEE737-3D46-446B-AAEF-6F1ADB22E70F.png' },
+    { label: '05 / DANCE', type: 'DANCE PERFORMANCE', result: base + 'A9F371AC-D68C-4BC5-AD10-261487723695.png' },
+    { label: '06 / AERIAL PERFORMANCE', type: 'AERIAL PERFORMANCE', result: base + '8E3C63CD-7AD2-4E0A-A4AD-AB9C82A9044A.png' },
+    { label: '07 / NOODLE SHELF', type: 'NOODLE SHELF', result: base + 'C24DF515-DCB7-4D3A-A871-BDC8F58B38C1.png' },
+    { label: '08 / TEMPLE + AIRCRAFT', type: 'TEMPLE + AIRCRAFT', result: local + '08-temple-plane-result.webp' },
+    { label: '09 / XIAMEN COAST', type: 'XIAMEN COAST', result: local + '09-xiamen-result.webp' }
+  ];
 
   const run = root.querySelector('[data-pp-run]');
   const caseButtons = [...root.querySelectorAll('[data-pp-case]')];
@@ -251,7 +258,7 @@
     stage.textContent = 'Ready to reconstruct.';
     elapsed.textContent = '00.0s';
     progressBar.style.width = '0%';
-    caption.textContent = 'READY / SEND PROMPT';
+    caption.textContent = 'READY / ORIGINAL → PRESS-PRINT';
     steps.forEach(step => step.classList.remove('is-current', 'is-done'));
     lastPhase = -1;
     draw(0);
@@ -262,9 +269,13 @@
     selected = clamp(Number(index) || 0, 0, cases.length - 1);
     const item = cases[selected];
     label.textContent = item.label;
-    if (attachmentLabel) attachmentLabel.textContent = `CURATED PLATE / ${String(selected + 1).padStart(2, '0')}`;
-    sourcePreview.src = item.src;
-    result.src = item.src;
+    if (attachmentLabel) attachmentLabel.textContent = `ORIGINAL / ${String(selected + 1).padStart(2, '0')}`;
+    sourcePreview.src = sourceAtlas;
+    sourcePreview.style.width = `${cases.length * 100}%`;
+    sourcePreview.style.height = '100%';
+    sourcePreview.style.maxWidth = 'none';
+    sourcePreview.style.transform = `translateX(-${selected * (100 / cases.length)}%)`;
+    result.src = item.result;
 
     caseButtons.forEach((button, i) => {
       const active = i === selected;
@@ -277,14 +288,16 @@
     image.crossOrigin = 'anonymous';
     image.decoding = 'async';
     image.onload = () => {
+      reveal.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`;
       measureCells();
+      sizeCanvas();
       draw(0);
     };
     image.onerror = () => {
       colorsReady = false;
       draw(0);
     };
-    image.src = item.src;
+    image.src = item.result;
 
     resetConversation();
   }
@@ -334,7 +347,7 @@
     root.classList.remove('is-running');
     root.classList.add('is-finished');
     outputState.textContent = 'COMPLETE';
-    caption.textContent = 'RECONSTRUCTION COMPLETE';
+    caption.textContent = 'PRESS-PRINT RECONSTRUCTION COMPLETE';
     stage.textContent = 'Reconstruction complete.';
     scrollConversation();
   }
