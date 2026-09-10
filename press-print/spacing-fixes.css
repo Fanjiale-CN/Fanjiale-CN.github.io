@@ -1,0 +1,157 @@
+/* Press-Print v2 spacing pass
+   Keeps the aggressive display system while restoring readable vertical rhythm,
+   especially in Safari/iPad where Impact-style line boxes can visually collide. */
+
+/* Hero: keep the stacked impact, stop PRESS / PRINT from welding together. */
+.pp-hero h1 {
+  line-height: .76;
+  row-gap: clamp(6px, .9vw, 14px);
+  letter-spacing: -.055em;
+}
+
+.pp-hero h1 span {
+  display: block;
+}
+
+.pp-hero h1 span:last-child {
+  margin-top: .02em;
+}
+
+/* Large section headlines: preserve density, add real breathing room. */
+.pp-section-head h2,
+.pp-method-head h2,
+.pp-use h2,
+.pp-open h2 {
+  line-height: .94;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+.pp-section-head h2 br,
+.pp-method-head h2 br,
+.pp-use h2 br,
+.pp-open h2 br {
+  line-height: 1.08;
+}
+
+/* Method title and rows were the tightest collision point on iPad Safari. */
+.pp-method-head {
+  row-gap: clamp(18px, 2vw, 28px);
+}
+
+.pp-method-head h2 {
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
+.pp-method-head > span {
+  padding-bottom: 4px;
+}
+
+.pp-method-list li {
+  padding-top: clamp(34px, 4vw, 58px);
+  padding-bottom: clamp(34px, 4vw, 58px);
+  column-gap: clamp(20px, 3vw, 48px);
+}
+
+.pp-method-list strong {
+  line-height: .98;
+  letter-spacing: -.035em;
+  padding-block: .06em .1em;
+}
+
+.pp-method-list p {
+  line-height: 1.45;
+}
+
+/* Use section: three command words should read as three beats, not one block. */
+.pp-use h2 {
+  line-height: .92;
+  letter-spacing: -.04em;
+  margin-bottom: clamp(28px, 3vw, 44px);
+}
+
+.pp-use-copy > p:last-child {
+  margin-top: 0;
+  line-height: 1.5;
+}
+
+.pp-use-grid {
+  row-gap: clamp(44px, 6vw, 84px);
+}
+
+/* Open-source closer: keep monumentality without line-on-line clipping. */
+.pp-open h2 {
+  line-height: .93;
+  letter-spacing: -.04em;
+}
+
+.pp-open-grid {
+  row-gap: clamp(36px, 5vw, 72px);
+}
+
+.pp-open-copy > p {
+  line-height: 1.48;
+}
+
+/* Showcase and demo headings use the same condensed face, so give them a little air too. */
+.pp-section-head--demo h2,
+.pp-section-head--showcase h2 {
+  line-height: .94;
+}
+
+/* Prevent tightly set mono labels from kissing surrounding display text. */
+.pp-method-head > p,
+.pp-use-copy > p:first-child,
+.pp-open-grid > div:first-child > p,
+.pp-section-head p {
+  margin-bottom: clamp(20px, 2vw, 30px);
+}
+
+@media (max-width: 1100px) {
+  .pp-hero h1 {
+    line-height: .8;
+    row-gap: 10px;
+  }
+
+  .pp-section-head h2,
+  .pp-method-head h2,
+  .pp-use h2,
+  .pp-open h2 {
+    line-height: .98;
+    letter-spacing: -.035em;
+  }
+
+  .pp-method-list strong {
+    line-height: 1;
+  }
+}
+
+@media (max-width: 760px) {
+  .pp-hero h1 {
+    line-height: .84;
+    row-gap: 8px;
+    letter-spacing: -.045em;
+  }
+
+  .pp-hero h1 span:last-child {
+    margin-left: 0;
+  }
+
+  .pp-section-head h2,
+  .pp-method-head h2,
+  .pp-use h2,
+  .pp-open h2 {
+    line-height: 1;
+    letter-spacing: -.03em;
+  }
+
+  .pp-method-list li {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .pp-method-list strong {
+    padding-block: .08em .14em;
+  }
+}
