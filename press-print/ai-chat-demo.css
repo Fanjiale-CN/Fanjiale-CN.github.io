@@ -171,13 +171,12 @@
 
 .pp-chat-attachment img {
   display: block;
-  width: 900%;
-  max-width: none;
+  width: 100%;
+  max-width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: contain;
   filter: grayscale(.72) contrast(.95) brightness(.94);
-  transform-origin: left center;
-  transition: filter .25s, transform .32s cubic-bezier(.2,.8,.2,1);
+  transition: filter .25s;
 }
 
 .pp-chat-message--user:hover .pp-chat-attachment img { filter: grayscale(.3) contrast(1); }

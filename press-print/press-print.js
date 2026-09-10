@@ -5,19 +5,16 @@
 
   const base = 'https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/';
   const local = '/press-print/assets/demo/';
-  const sourceAtlasPayload = local + 'source-atlas-v2.b64';
-  let sourceAtlasUrl = '';
-  let sourceAtlasPromise = null;
   const cases = [
-    { label: '01 / TRAIN INTERIOR', type: 'TRAIN INTERIOR', result: base + '0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png' },
-    { label: '02 / MUSEUM', type: 'SHAANXI HISTORY MUSEUM', result: base + '2045E30A-8BAE-4625-B726-1EBC31166618.png' },
-    { label: '03 / SHIBUYA', type: 'SHIBUYA', result: base + '43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png' },
-    { label: '04 / METRO SIGN', type: 'METRO SIGN', result: base + '48FEE737-3D46-446B-AAEF-6F1ADB22E70F.png' },
-    { label: '05 / DANCE', type: 'DANCE PERFORMANCE', result: base + 'A9F371AC-D68C-4BC5-AD10-261487723695.png' },
-    { label: '06 / AERIAL PERFORMANCE', type: 'AERIAL PERFORMANCE', result: base + '8E3C63CD-7AD2-4E0A-A4AD-AB9C82A9044A.png' },
-    { label: '07 / NOODLE SHELF', type: 'NOODLE SHELF', result: base + 'C24DF515-DCB7-4D3A-A871-BDC8F58B38C1.png' },
-    { label: '08 / TEMPLE + AIRCRAFT', type: 'TEMPLE + AIRCRAFT', result: local + '08-temple-plane-result.webp' },
-    { label: '09 / XIAMEN COAST', type: 'XIAMEN COAST', result: local + '09-xiamen-result.webp' }
+    { label: '01 / TRAIN INTERIOR', type: 'TRAIN INTERIOR', source: local + '01-train-source.avif', result: base + '0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png' },
+    { label: '02 / MUSEUM', type: 'SHAANXI HISTORY MUSEUM', source: local + '02-museum-source.avif', result: base + '2045E30A-8BAE-4625-B726-1EBC31166618.png' },
+    { label: '03 / SHIBUYA', type: 'SHIBUYA', source: local + '03-shibuya-source.avif', result: base + '43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png' },
+    { label: '04 / METRO SIGN', type: 'METRO SIGN', source: local + '04-metro-source.avif', result: base + '48FEE737-3D46-446B-AAEF-6F1ADB22E70F.png' },
+    { label: '05 / DANCE', type: 'DANCE PERFORMANCE', source: local + '05-dance-source.jpg', result: base + 'A9F371AC-D68C-4BC5-AD10-261487723695.png' },
+    { label: '06 / AERIAL PERFORMANCE', type: 'AERIAL PERFORMANCE', source: local + '06-aerial-source.jpg', result: base + '8E3C63CD-7AD2-4E0A-A4AD-AB9C82A9044A.png' },
+    { label: '07 / NOODLE SHELF', type: 'NOODLE SHELF', source: local + '07-noodle-source.jpg', result: base + 'C24DF515-DCB7-4D3A-A871-BDC8F58B38C1.png' },
+    { label: '08 / TEMPLE + AIRCRAFT', type: 'TEMPLE + AIRCRAFT', source: local + '08-temple-plane-source.jpg', result: local + '08-temple-plane-result.png' },
+    { label: '09 / XIAMEN COAST', type: 'XIAMEN COAST', source: local + '09-xiamen-source.jpg', result: local + '09-xiamen-result.png' }
   ];
 
   const run = root.querySelector('[data-pp-run]');
@@ -58,32 +55,10 @@
   let colorsReady = false;
   let runStarted = 0;
   let lastPhase = -1;
+  let loadId = 0;
 
   const clamp = (n, a = 0, b = 1) => Math.max(a, Math.min(b, n));
 
-  function ensureSourceAtlas() {
-    if (sourceAtlasUrl) return Promise.resolve(sourceAtlasUrl);
-    if (sourceAtlasPromise) return sourceAtlasPromise;
-
-    sourceAtlasPromise = fetch(sourceAtlasPayload, { cache: 'force-cache' })
-      .then(response => {
-        if (!response.ok) throw new Error(`Source atlas HTTP ${response.status}`);
-        return response.text();
-      })
-      .then(base64 => {
-        const clean = base64.replace(/\s+/g, '');
-        if (!clean.startsWith('UklGR')) throw new Error('Invalid source atlas payload');
-        sourceAtlasUrl = `data:image/webp;base64,${clean}`;
-        return sourceAtlasUrl;
-      })
-      .catch(error => {
-        sourceAtlasPromise = null;
-        console.error('[Press-Print] Failed to load source atlas', error);
-        throw error;
-      });
-
-    return sourceAtlasPromise;
-  }
   const smooth = t => t * t * (3 - 2 * t);
   const hash = (x, y, z) => {
     const n = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453;
@@ -294,23 +269,40 @@
   function loadCase(index) {
     selected = clamp(Number(index) || 0, 0, cases.length - 1);
     const item = cases[selected];
+    const requestId = ++loadId;
     label.textContent = item.label;
     if (attachmentLabel) attachmentLabel.textContent = `ORIGINAL / ${String(selected + 1).padStart(2, '0')}`;
-    const caseIndex = selected;
+
+    root.classList.remove('has-source-error', 'has-result-error');
+    sourcePreview.hidden = true;
     sourcePreview.removeAttribute('src');
     sourcePreview.alt = `Original source photograph for ${item.type}`;
-    sourcePreview.style.width = `${cases.length * 100}%`;
-    sourcePreview.style.height = '100%';
-    sourcePreview.style.maxWidth = 'none';
-    sourcePreview.style.transform = `translateX(-${selected * (100 / cases.length)}%)`;
-    ensureSourceAtlas()
-      .then(url => {
-        if (selected !== caseIndex) return;
-        sourcePreview.src = url;
-      })
-      .catch(() => {
-        if (selected === caseIndex) sourcePreview.alt = 'Source photograph unavailable.';
-      });
+    sourcePreview.onload = () => {
+      if (loadId !== requestId) return;
+      sourcePreview.hidden = false;
+    };
+    sourcePreview.onerror = () => {
+      if (loadId !== requestId) return;
+      sourcePreview.removeAttribute('src');
+      sourcePreview.hidden = true;
+      sourcePreview.alt = `Source photograph unavailable for ${item.type}.`;
+      root.classList.add('has-source-error');
+    };
+    sourcePreview.src = item.source;
+
+    result.hidden = true;
+    result.removeAttribute('src');
+    result.onload = () => {
+      if (loadId !== requestId) return;
+      result.hidden = false;
+    };
+    result.onerror = () => {
+      if (loadId !== requestId) return;
+      result.removeAttribute('src');
+      result.hidden = true;
+      root.classList.add('has-result-error');
+      caption.textContent = 'RESULT IMAGE UNAVAILABLE';
+    };
     result.src = item.result;
 
     caseButtons.forEach((button, i) => {
@@ -319,23 +311,31 @@
       button.setAttribute('aria-pressed', String(active));
     });
 
+    image = null;
     colorsReady = false;
-    image = new Image();
-    image.crossOrigin = 'anonymous';
-    image.decoding = 'async';
-    image.onload = () => {
-      reveal.style.aspectRatio = `${image.naturalWidth} / ${image.naturalHeight}`;
+    reveal.style.removeProperty('aspect-ratio');
+    resetConversation();
+
+    const nextImage = new Image();
+    if (/^https?:/.test(item.result)) nextImage.crossOrigin = 'anonymous';
+    nextImage.decoding = 'async';
+    nextImage.onload = () => {
+      if (loadId !== requestId) return;
+      image = nextImage;
+      reveal.style.aspectRatio = `${nextImage.naturalWidth} / ${nextImage.naturalHeight}`;
       measureCells();
       sizeCanvas();
       draw(0);
     };
-    image.onerror = () => {
+    nextImage.onerror = () => {
+      if (loadId !== requestId) return;
+      image = null;
       colorsReady = false;
+      root.classList.add('has-result-error');
+      caption.textContent = 'RESULT IMAGE UNAVAILABLE';
       draw(0);
     };
-    image.src = item.result;
-
-    resetConversation();
+    nextImage.src = item.result;
   }
 
   function phaseAt(progress) {
