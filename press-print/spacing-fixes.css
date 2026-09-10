@@ -4,9 +4,9 @@
 
 /* Hero: keep the stacked impact, stop PRESS / PRINT from welding together. */
 .pp-hero h1 {
-  line-height: .76;
-  row-gap: clamp(6px, .9vw, 14px);
-  letter-spacing: -.055em;
+  line-height: 1.06;
+  row-gap: clamp(18px, .9vw, 24px);
+  letter-spacing: .015em;
 }
 
 .pp-hero h1 span {
@@ -14,7 +14,12 @@
 }
 
 .pp-hero h1 span:last-child {
-  margin-top: .02em;
+  margin-top: 0;
+}
+
+.pp-manifesto {
+  line-height: 1.2;
+  letter-spacing: .01em;
 }
 
 /* Large section headlines: preserve density, add real breathing room. */
@@ -22,16 +27,21 @@
 .pp-method-head h2,
 .pp-use h2,
 .pp-open h2 {
-  line-height: .94;
-  letter-spacing: -.045em;
+  line-height: 1.14;
+  letter-spacing: .015em;
   text-wrap: balance;
+}
+
+.pp-showcase-quote p {
+  line-height: 1.14;
+  letter-spacing: .015em;
 }
 
 .pp-section-head h2 br,
 .pp-method-head h2 br,
 .pp-use h2 br,
 .pp-open h2 br {
-  line-height: 1.08;
+  line-height: inherit;
 }
 
 /* Method title and rows were the tightest collision point on iPad Safari. */
@@ -55,8 +65,8 @@
 }
 
 .pp-method-list strong {
-  line-height: .98;
-  letter-spacing: -.035em;
+  line-height: 1.08;
+  letter-spacing: .01em;
   padding-block: .06em .1em;
 }
 
@@ -66,8 +76,8 @@
 
 /* Use section: three command words should read as three beats, not one block. */
 .pp-use h2 {
-  line-height: .92;
-  letter-spacing: -.04em;
+  line-height: 1.14;
+  letter-spacing: .015em;
   margin-bottom: clamp(28px, 3vw, 44px);
 }
 
@@ -82,8 +92,8 @@
 
 /* Open-source closer: keep monumentality without line-on-line clipping. */
 .pp-open h2 {
-  line-height: .93;
-  letter-spacing: -.04em;
+  line-height: 1.14;
+  letter-spacing: .015em;
 }
 
 .pp-open-grid {
@@ -97,7 +107,7 @@
 /* Showcase and demo headings use the same condensed face, so give them a little air too. */
 .pp-section-head--demo h2,
 .pp-section-head--showcase h2 {
-  line-height: .94;
+  line-height: 1.14;
 }
 
 /* Prevent tightly set mono labels from kissing surrounding display text. */
@@ -110,28 +120,28 @@
 
 @media (max-width: 1100px) {
   .pp-hero h1 {
-    line-height: .8;
-    row-gap: 10px;
+    line-height: 1.08;
+    row-gap: 18px;
   }
 
   .pp-section-head h2,
   .pp-method-head h2,
   .pp-use h2,
   .pp-open h2 {
-    line-height: .98;
-    letter-spacing: -.035em;
+    line-height: 1.16;
+    letter-spacing: .012em;
   }
 
   .pp-method-list strong {
-    line-height: 1;
+    line-height: 1.1;
   }
 }
 
 @media (max-width: 760px) {
   .pp-hero h1 {
-    line-height: .84;
-    row-gap: 8px;
-    letter-spacing: -.045em;
+    line-height: 1.1;
+    row-gap: 16px;
+    letter-spacing: .01em;
   }
 
   .pp-hero h1 span:last-child {
@@ -142,8 +152,8 @@
   .pp-method-head h2,
   .pp-use h2,
   .pp-open h2 {
-    line-height: 1;
-    letter-spacing: -.03em;
+    line-height: 1.18;
+    letter-spacing: .01em;
   }
 
   .pp-method-list li {
