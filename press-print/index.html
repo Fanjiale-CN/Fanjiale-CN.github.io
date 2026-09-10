@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/styles.css?v=repair-20260827">
   <link rel="stylesheet" href="/press-print/press-print.css?v=20260910b">
   <link rel="stylesheet" href="/press-print/spacing-fixes.css?v=20260910c">
+  <link rel="stylesheet" href="/press-print/ai-chat-demo.css?v=20260910d">
   <meta property="og:title" content="Press-Print - Galok">
   <meta property="og:description" content="Editorial photo reconstruction for ChatGPT. Preserve semantic identity, not visual completeness.">
   <meta property="og:type" content="website">
@@ -70,72 +71,119 @@
       </div>
     </header>
 
-    <section class="pp-demo" aria-labelledby="pp-demo-title">
+    <section class="pp-demo pp-chat-demo" aria-labelledby="pp-demo-title">
       <div class="pp-shell">
-        <header class="pp-section-head pp-section-head--demo">
+        <header class="pp-section-head pp-section-head--demo pp-chat-demo-head">
           <p>01 / INTERACTIVE DEMO</p>
-          <h2 id="pp-demo-title">A generation frame<br>that reconstructs itself.</h2>
-          <span>Curated front-end demo. No live model call, no fake upload. Pick a real Press-Print showcase plate and run the reconstruction sequence.</span>
+          <h2 id="pp-demo-title">Talk to the<br>reconstruction.</h2>
+          <span>A curated AI-chat replay of the Press-Print workflow. Pick a showcase plate, send the prompt, and watch the generation frame unfold inside the conversation. No live model call.</span>
         </header>
 
-        <div class="pp-demo-workbench" data-pp-demo>
-          <div class="pp-demo-rail">
-            <div class="pp-demo-label"><span>CURATED PLATES</span><b data-pp-case-label>PLATE 01</b></div>
-            <div class="pp-demo-selector" aria-label="Choose a curated demo example">
-              <button type="button" class="is-active" data-pp-case="0" aria-pressed="true"><span>01</span><b>PLATE</b></button>
-              <button type="button" data-pp-case="1" aria-pressed="false"><span>02</span><b>PLATE</b></button>
-              <button type="button" data-pp-case="2" aria-pressed="false"><span>03</span><b>PLATE</b></button>
-              <button type="button" data-pp-case="3" aria-pressed="false"><span>04</span><b>PLATE</b></button>
-            </div>
+        <div class="pp-chat-app" data-pp-demo>
+          <div class="pp-chat-topbar">
+            <div class="pp-chat-topbar-brand"><i aria-hidden="true"></i><strong>PRESS-PRINT</strong><span>AI CHAT DEMO</span></div>
+            <div class="pp-chat-topbar-meta"><span data-pp-case-label>PLATE 01</span><b>CURATED REPLAY</b></div>
           </div>
 
-          <div class="pp-thread">
-            <div class="pp-thread-user">
-              <figure class="pp-source-preview">
-                <img data-pp-source-preview src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Selected Press-Print demo plate">
-                <span class="pp-source-screen" aria-hidden="true"></span>
-              </figure>
-              <div class="pp-composer">
-                <div class="pp-composer-handle"><span>@PRESS-PRINT</span><small>CURATED DEMO</small></div>
-                <p>Transform this photograph with Press-Print. Do not add new text or typography.</p>
-                <button type="button" class="pp-run" data-pp-run><span>RUN RECONSTRUCTION</span><b>↗</b></button>
-              </div>
-            </div>
-
-            <div class="pp-agent-frame" aria-live="polite" aria-atomic="false">
-              <div class="pp-agent-head">
-                <span>PRESS-PRINT / PROCESS</span>
-                <b data-pp-elapsed>00.0s</b>
-              </div>
-
-              <div class="pp-agent-body">
-                <div class="pp-thinking">
-                  <div class="pp-thinking-stage"><i aria-hidden="true"></i><span data-pp-stage>Ready to reconstruct.</span></div>
-                  <div class="pp-progress-track" aria-hidden="true"><span data-pp-progress></span></div>
-                  <ol class="pp-thinking-list">
-                    <li data-pp-step="0"><span>01</span>READ SOURCE STRUCTURE</li>
-                    <li data-pp-step="1"><span>02</span>IDENTIFY VISUAL ANCHORS</li>
-                    <li data-pp-step="2"><span>03</span>DISASSEMBLE COMPOSITION</li>
-                    <li data-pp-step="3"><span>04</span>RECOMPOSE HIERARCHY</li>
-                    <li data-pp-step="4"><span>05</span>APPLY PRINT TREATMENT</li>
-                  </ol>
-                </div>
-
-                <div class="pp-demo-output">
-                  <div class="pp-demo-label"><span>OUTPUT FRAME</span><b data-pp-output-state>WAITING</b></div>
-                  <div class="pp-grid-reveal" data-pp-reveal>
-                    <canvas data-pp-canvas aria-hidden="true"></canvas>
-                    <img data-pp-result src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Press-Print reconstructed output">
-                    <div class="pp-grid-caption" data-pp-grid-caption>READY / RUN DEMO</div>
+          <div class="pp-chat-layout">
+            <div class="pp-chat-main">
+              <div class="pp-chat-thread" data-pp-chat-thread>
+                <article class="pp-chat-message pp-chat-message--assistant pp-chat-intro">
+                  <div class="pp-chat-avatar" aria-hidden="true">PP</div>
+                  <div class="pp-chat-message-body">
+                    <div class="pp-chat-name">Press-Print <span>ready</span></div>
+                    <p>Choose a plate from the library, then run the prompt. I’ll replay the reconstruction sequence inside this thread.</p>
+                    <div class="pp-chat-meta-row"><span>CURATED DEMO</span><span>NO LIVE API</span></div>
                   </div>
+                </article>
+
+                <article class="pp-chat-message pp-chat-message--user">
+                  <div class="pp-chat-user-stack">
+                    <figure class="pp-chat-attachment">
+                      <img data-pp-source-preview src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Selected Press-Print demo plate">
+                      <figcaption><span>ATTACHMENT</span><b>CURATED PLATE / 01</b></figcaption>
+                    </figure>
+                    <div class="pp-chat-user-bubble">
+                      <span class="pp-chat-mention">@Press-Print</span>
+                      <p>Transform this photograph with Press-Print. Do not add new text or typography.</p>
+                    </div>
+                    <div class="pp-chat-user-meta"><span>DEMO INPUT</span><button type="button" data-pp-copy aria-label="Copy demo prompt">COPY</button></div>
+                  </div>
+                </article>
+
+                <article class="pp-chat-message pp-chat-message--assistant pp-chat-process-message" data-pp-process-message>
+                  <div class="pp-chat-avatar" aria-hidden="true">PP</div>
+                  <div class="pp-chat-message-body">
+                    <div class="pp-chat-name">Press-Print <span data-pp-output-state>WAITING</span></div>
+                    <div class="pp-chat-thinking" aria-live="polite" aria-atomic="true">
+                      <div class="pp-chat-stage"><i aria-hidden="true"></i><span data-pp-stage>Ready to reconstruct.</span><b data-pp-elapsed>00.0s</b></div>
+                      <div class="pp-progress-track" aria-hidden="true"><span data-pp-progress></span></div>
+                      <ol class="pp-chat-steps">
+                        <li data-pp-step="0"><span>01</span><b>READ SOURCE STRUCTURE</b></li>
+                        <li data-pp-step="1"><span>02</span><b>IDENTIFY VISUAL ANCHORS</b></li>
+                        <li data-pp-step="2"><span>03</span><b>DISASSEMBLE COMPOSITION</b></li>
+                        <li data-pp-step="3"><span>04</span><b>RECOMPOSE HIERARCHY</b></li>
+                        <li data-pp-step="4"><span>05</span><b>APPLY PRINT TREATMENT</b></li>
+                      </ol>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="pp-chat-message pp-chat-message--assistant pp-chat-result-message" data-pp-result-message>
+                  <div class="pp-chat-avatar" aria-hidden="true">PP</div>
+                  <div class="pp-chat-message-body pp-chat-result-body">
+                    <div class="pp-chat-name">Press-Print <span>generation frame</span></div>
+                    <div class="pp-grid-reveal pp-chat-generation" data-pp-reveal>
+                      <canvas data-pp-canvas aria-hidden="true"></canvas>
+                      <img data-pp-result src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Press-Print reconstructed output">
+                      <div class="pp-grid-caption" data-pp-grid-caption>READY / SEND PROMPT</div>
+                    </div>
+                    <div class="pp-chat-result-meta"><span>RECONSTRUCTION / OUTPUT</span><a href="https://chatgpt.com/plugins/plugins_6aa1761e3a7481919c13f9c3d762ea9a?q=press" target="_blank" rel="noreferrer">TRY IN CHATGPT ↗</a></div>
+                  </div>
+                </article>
+
+                <article class="pp-chat-message pp-chat-message--assistant pp-chat-complete-message" data-pp-complete-message>
+                  <div class="pp-chat-avatar" aria-hidden="true">PP</div>
+                  <div class="pp-chat-message-body">
+                    <div class="pp-chat-name">Press-Print <span>complete</span></div>
+                    <p>Reconstruction complete. Semantic anchors preserved; visual hierarchy rebuilt.</p>
+                    <div class="pp-chat-meta-row"><span>DISASSEMBLE → RECOMPOSE → REDUCE</span></div>
+                  </div>
+                </article>
+              </div>
+
+              <div class="pp-chat-composer">
+                <div class="pp-chat-composer-input">
+                  <span>@Press-Print</span>
+                  <p>Transform this photograph with Press-Print.</p>
                 </div>
+                <button type="button" class="pp-chat-send" data-pp-run><span>RUN RECONSTRUCTION</span><b>↗</b></button>
               </div>
             </div>
+
+            <aside class="pp-chat-library" aria-label="Curated Press-Print plates">
+              <div class="pp-chat-library-head"><span>CURATED PLATES</span><b>04 / SELECT</b></div>
+              <div class="pp-chat-library-grid">
+                <button type="button" class="pp-chat-plate is-active" data-pp-case="0" aria-pressed="true">
+                  <img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Curated plate 01"><span><b>01</b><small>VISUAL / RECONSTRUCTION</small></span>
+                </button>
+                <button type="button" class="pp-chat-plate" data-pp-case="1" aria-pressed="false">
+                  <img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/2045E30A-8BAE-4625-B726-1EBC31166618.png" alt="Curated plate 02"><span><b>02</b><small>PRINT / COLLAGE</small></span>
+                </button>
+                <button type="button" class="pp-chat-plate" data-pp-case="2" aria-pressed="false">
+                  <img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png" alt="Curated plate 03"><span><b>03</b><small>IMAGE / STRUCTURE</small></span>
+                </button>
+                <button type="button" class="pp-chat-plate" data-pp-case="3" aria-pressed="false">
+                  <img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/48FEE737-3D46-446B-AAEF-6F1ADB22E70F.png" alt="Curated plate 04"><span><b>04</b><small>HALFTONE / PLANE</small></span>
+                </button>
+              </div>
+              <p class="pp-chat-library-note">Finished showcase plates are replayed as a front-end demonstration. This panel does not generate new images.</p>
+            </aside>
           </div>
 
-          <div class="pp-demo-foot">
+          <div class="pp-chat-statusbar">
             <span>INPUT → THINK → STRUCTURE → RECONSTRUCTION → OUTPUT</span>
-            <span>NO LIVE API / CURATED EXAMPLE</span>
+            <span>CHAT REPLAY / NO LIVE MODEL</span>
           </div>
         </div>
       </div>
@@ -219,7 +267,7 @@
     </footer>
   </main>
 
-  <script src="/press-print/press-print.js?v=20260910b"></script>
+  <script src="/press-print/press-print.js?v=20260910d"></script>
   <script src="/script.js?v=reading-nav-20260830c"></script>
 </body>
 </html>
