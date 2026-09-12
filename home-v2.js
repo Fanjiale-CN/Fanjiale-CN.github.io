@@ -134,10 +134,11 @@
     cancelAnimationFrame(scrollFrame);
     isNavigating = false;
     navigationTarget = null;
-    root.classList.remove('gv2-nav-springing');
   };
 
-  const springScrollTo = (name) => {
+  const easeOutQuint = (t) => 1 - Math.pow(1 - t, 5);
+
+  const fastScrollTo = (name) => {
     const targetY = sectionTop(name);
     if (targetY == null) return;
 
@@ -146,43 +147,32 @@
     navigationTarget = name;
     markCurrent(name, { center: true });
 
-    if (reducedMotion.matches) {
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const absoluteDistance = Math.abs(distance);
+
+    if (absoluteDistance < 2 || reducedMotion.matches) {
       window.scrollTo(0, targetY);
       navigationTarget = null;
       return;
     }
 
+    // Speed first: short hops finish in about 200ms, long jumps never exceed 320ms.
+    const duration = clamp(170 + Math.sqrt(absoluteDistance) * 2.35, 200, 320);
+    const startedAt = performance.now();
     isNavigating = true;
-    root.classList.add('gv2-nav-springing');
-
-    let position = window.scrollY;
-    let velocity = 0;
-    let previousTime = performance.now();
-    const stiffness = 92;
-    const damping = 19;
-    const maxDuration = 1450;
-    const startedAt = previousTime;
 
     const step = (now) => {
       if (!isNavigating || navigationTarget !== name) return;
 
-      const dt = Math.min(0.032, Math.max(0.001, (now - previousTime) / 1000));
-      previousTime = now;
+      const progress = clamp((now - startedAt) / duration, 0, 1);
+      const eased = easeOutQuint(progress);
+      window.scrollTo(0, startY + distance * eased);
 
-      const displacement = targetY - position;
-      const acceleration = stiffness * displacement - damping * velocity;
-      velocity += acceleration * dt;
-      position += velocity * dt;
-
-      window.scrollTo(0, position);
-
-      const settled = Math.abs(targetY - position) < 0.7 && Math.abs(velocity) < 7;
-      const timedOut = now - startedAt > maxDuration;
-      if (settled || timedOut) {
+      if (progress >= 1) {
         window.scrollTo(0, targetY);
         isNavigating = false;
         navigationTarget = null;
-        root.classList.remove('gv2-nav-springing');
         markCurrent(name, { center: true });
         return;
       }
@@ -207,7 +197,7 @@
           return;
         }
 
-        springScrollTo(name);
+        fastScrollTo(name);
         return;
       }
 
@@ -301,7 +291,7 @@
 
   document.querySelector('.gv2-scroll-cue')?.addEventListener('click', (event) => {
     event.preventDefault();
-    springScrollTo('research');
+    fastScrollTo('research');
   });
 
   requestAnimationFrame(() => {
