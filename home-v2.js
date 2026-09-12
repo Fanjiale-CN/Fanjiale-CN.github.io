@@ -7,6 +7,14 @@
   const year = document.querySelector('[data-current-year]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  if (!document.getElementById('galok-ios27-tab-motion')) {
+    const motionStyles = document.createElement('link');
+    motionStyles.id = 'galok-ios27-tab-motion';
+    motionStyles.rel = 'stylesheet';
+    motionStyles.href = '/home-v2-ios27-tab-motion.css?v=20260913a';
+    document.head.append(motionStyles);
+  }
+
   if (year) year.textContent = String(new Date().getFullYear());
 
   let logoTimer = 0;
@@ -88,9 +96,12 @@
   let lastTrigger = null;
   let currentName = 'research';
   let lensFrame = 0;
+  let lensCompressTimer = 0;
+  let lensFinishTimer = 0;
   let scrollFrame = 0;
   let isNavigating = false;
   let navigationTarget = null;
+  let navigationLockUntil = 0;
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const buttonFor = (name) => triggers.find((button) => button.dataset.capsuleTrigger === name) || null;
@@ -102,14 +113,43 @@
     bar.scrollTo({ left, behavior });
   };
 
-  const syncLens = (button, { center = false, behavior = 'smooth' } = {}) => {
+  const syncLens = (button, { center = false, behavior = 'smooth', animate = true } = {}) => {
     if (!button || !lens) return;
+
+    const targetName = button.dataset.capsuleTrigger || '';
+    const previousTarget = lens.dataset.target || '';
+    const changed = Boolean(previousTarget) && previousTarget !== targetName;
+
     cancelAnimationFrame(lensFrame);
+    window.clearTimeout(lensCompressTimer);
+    window.clearTimeout(lensFinishTimer);
+
+    if (!animate || !previousTarget || reducedMotion.matches) {
+      capsule.classList.add('is-lens-instant');
+      capsule.classList.remove('is-switching');
+      bar.style.setProperty('--gv2-lens-scale', '1');
+    } else if (changed) {
+      capsule.classList.remove('is-lens-instant');
+      capsule.classList.add('is-switching');
+      bar.style.setProperty('--gv2-lens-scale', '1.055');
+    }
+
     lensFrame = requestAnimationFrame(() => {
       bar.style.setProperty('--gv2-lens-x', `${button.offsetLeft}px`);
       bar.style.setProperty('--gv2-lens-w', `${button.offsetWidth}px`);
-      bar.style.setProperty('--gv2-lens-scale', '1');
+      lens.dataset.target = targetName;
       if (center) centerButton(button, behavior);
+
+      requestAnimationFrame(() => capsule.classList.remove('is-lens-instant'));
+
+      if (animate && changed && !reducedMotion.matches) {
+        lensCompressTimer = window.setTimeout(() => {
+          bar.style.setProperty('--gv2-lens-scale', '1');
+        }, 115);
+        lensFinishTimer = window.setTimeout(() => {
+          capsule.classList.remove('is-switching');
+        }, 285);
+      }
     });
   };
 
@@ -132,18 +172,19 @@
     if (trigger) syncLens(trigger, { center: true });
   };
 
-  const closePanel = ({ restoreFocus = false } = {}) => {
+  const closePanel = ({ restoreFocus = false, preserveLens = false } = {}) => {
     const previous = lastTrigger;
     setPanel(null, null);
-    syncLens(buttonFor(currentName) || previous || buttonFor('research'));
+    if (!preserveLens) syncLens(buttonFor(currentName) || previous || buttonFor('research'));
     if (restoreFocus && previous) previous.focus();
   };
 
   const markCurrent = (name, { center = true } = {}) => {
     if (!name) return;
+    const changed = currentName !== name;
     currentName = name;
     triggers.forEach((button) => button.classList.toggle('is-current', button.dataset.capsuleTrigger === name));
-    if (!activePanel) syncLens(buttonFor(name), { center });
+    if (!activePanel) syncLens(buttonFor(name), { center, animate: changed });
   };
 
   const sectionTop = (name) => {
@@ -157,6 +198,7 @@
     cancelAnimationFrame(scrollFrame);
     isNavigating = false;
     navigationTarget = null;
+    navigationLockUntil = 0;
   };
 
   const easeOutQuint = (t) => 1 - Math.pow(1 - t, 5);
@@ -166,8 +208,10 @@
     if (targetY == null) return;
 
     cancelNavigation();
-    closePanel();
     navigationTarget = name;
+    isNavigating = true;
+    navigationLockUntil = performance.now() + 450;
+    closePanel({ preserveLens: true });
     markCurrent(name, { center: true });
 
     const startY = window.scrollY;
@@ -176,13 +220,14 @@
 
     if (absoluteDistance < 2 || reducedMotion.matches) {
       window.scrollTo(0, targetY);
+      isNavigating = false;
       navigationTarget = null;
+      navigationLockUntil = performance.now() + 100;
       return;
     }
 
     const duration = clamp(170 + Math.sqrt(absoluteDistance) * 2.35, 200, 320);
     const startedAt = performance.now();
-    isNavigating = true;
 
     const step = (now) => {
       if (!isNavigating || navigationTarget !== name) return;
@@ -195,6 +240,7 @@
         window.scrollTo(0, targetY);
         isNavigating = false;
         navigationTarget = null;
+        navigationLockUntil = performance.now() + 120;
         markCurrent(name, { center: true });
         return;
       }
@@ -231,7 +277,7 @@
   bar.addEventListener('scroll', updateScrollEdges, { passive: true });
   window.addEventListener('resize', () => {
     updateScrollEdges();
-    syncLens(buttonFor(activePanel || currentName || 'research'));
+    syncLens(buttonFor(activePanel || currentName || 'research'), { animate: false });
   }, { passive: true });
 
   window.addEventListener('wheel', cancelNavigation, { passive: true });
@@ -292,8 +338,8 @@
   if ('IntersectionObserver' in window) {
     const visible = new Map();
     const observer = new IntersectionObserver((entries) => {
-      if (isNavigating) return;
       entries.forEach((entry) => visible.set(entry.target, entry.intersectionRatio));
+      if (isNavigating || performance.now() < navigationLockUntil) return;
 
       let bestName = null;
       let bestRatio = 0;
