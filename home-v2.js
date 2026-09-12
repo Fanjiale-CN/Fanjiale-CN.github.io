@@ -9,7 +9,7 @@
 
   if (year) year.textContent = String(new Date().getFullYear());
 
-  // Brand motion stays independent from navigation motion.
+  // GALOK motion identity 01. Kept independent from navigation state.
   let logoTimer = 0;
   const playBrandMotion = () => {
     if (!brand || reducedMotion.matches) return;
@@ -42,6 +42,7 @@
     menu: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.4"/><rect x="14" y="4" width="6" height="6" rx="1.4"/><rect x="4" y="14" width="6" height="6" rx="1.4"/><rect x="14" y="14" width="6" height="6" rx="1.4"/></svg>'
   };
 
+  // These are the homepage sections ScrollProgress tracks continuously.
   const localNames = ['research', 'press-print', 'cities'];
   const navItems = [
     ['research', 'Research', icons.research],
@@ -84,7 +85,7 @@
   const panels = Array.from(panelWrap.querySelectorAll('[data-capsule-panel]'));
   const lens = bar.querySelector('.gv2-capsule-lens');
   const themeCycle = panelWrap.querySelector('[data-theme-cycle]');
-  const sectionMap = new Map(localNames.map((name) => [name, document.querySelector(`[data-home-section="${name}"]`)]));
+  const sections = localNames.map((name) => ({ name, element: document.querySelector(`[data-home-section="${name}"]`) }));
 
   const mini = document.createElement('button');
   mini.type = 'button';
@@ -98,12 +99,17 @@
   let currentName = 'research';
   let isCollapsed = false;
   let isNavigating = false;
-  let scrollFrame = 0;
+  let scrollAnimationFrame = 0;
+  let progressFrame = 0;
+  let targetProgress = 0;
+  let visualProgress = 0;
+  let previousProgressTime = performance.now();
   let lastY = window.scrollY;
   let downTravel = 0;
   let expandCooldownUntil = 0;
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+  const lerp = (a, b, t) => a + (b - a) * t;
   const buttonFor = (name) => triggers.find((button) => button.dataset.capsuleTrigger === name) || null;
 
   const updateMini = (name) => {
@@ -112,32 +118,110 @@
     mini.querySelector('.gv2-capsule-mini__label').textContent = meta.label;
   };
 
-  const centerButton = (button) => {
-    if (!button) return;
-    const max = Math.max(0, bar.scrollWidth - bar.clientWidth);
-    const left = clamp(button.offsetLeft + button.offsetWidth / 2 - bar.clientWidth / 2, 0, max);
-    bar.scrollTo({ left, behavior: 'auto' });
+  const sectionTop = (name) => {
+    const item = sections.find((section) => section.name === name);
+    if (!item?.element) return null;
+    return Math.max(0, item.element.getBoundingClientRect().top + window.scrollY - 6);
   };
 
-  const syncLens = (button, animate = true) => {
-    if (!button || !lens || isCollapsed) return;
-    if (!animate || reducedMotion.matches) capsule.classList.add('is-lens-instant');
-    bar.style.setProperty('--gv2-lens-x', `${button.offsetLeft}px`);
-    bar.style.setProperty('--gv2-lens-w', `${button.offsetWidth}px`);
-    centerButton(button);
-    if (!animate || reducedMotion.matches) requestAnimationFrame(() => capsule.classList.remove('is-lens-instant'));
+  const sectionTops = () => sections.map(({ element }) => (
+    element ? Math.max(0, element.getBoundingClientRect().top + window.scrollY - 6) : 0
+  ));
+
+  // Equivalent to the supplied ScrollProgress sections model: the page scroll position
+  // is the one source of truth, expressed as a continuous section index (0..N-1).
+  const progressFromScroll = () => {
+    const tops = sectionTops();
+    const marker = window.scrollY + Math.min(220, window.innerHeight * 0.28);
+
+    if (!tops.length || marker <= tops[0]) return 0;
+
+    for (let index = 0; index < tops.length - 1; index += 1) {
+      const start = tops[index];
+      const end = tops[index + 1];
+      if (marker <= end) {
+        const span = Math.max(1, end - start);
+        return index + clamp((marker - start) / span, 0, 1);
+      }
+    }
+
+    return tops.length - 1;
   };
 
-  const markCurrent = (name, { animate = true } = {}) => {
-    if (!name || !navMeta.has(name)) return;
-    const changed = currentName !== name;
+  const markCurrentFromProgress = (progress) => {
+    const index = clamp(Math.round(progress), 0, localNames.length - 1);
+    const name = localNames[index];
+    if (name === currentName) return;
+
     currentName = name;
     triggers.forEach((button) => button.classList.toggle('is-current', button.dataset.capsuleTrigger === name));
     updateMini(name);
-    if (changed || !lens.dataset.ready) {
-      syncLens(buttonFor(name), animate && Boolean(lens.dataset.ready));
-      lens.dataset.ready = 'true';
+  };
+
+  const renderLens = (progress) => {
+    if (!lens || isCollapsed) return;
+
+    const bounded = clamp(progress, 0, localNames.length - 1);
+    const low = Math.floor(bounded);
+    const high = Math.min(localNames.length - 1, Math.ceil(bounded));
+    const t = bounded - low;
+    const lowButton = buttonFor(localNames[low]);
+    const highButton = buttonFor(localNames[high]);
+    if (!lowButton || !highButton) return;
+
+    const x = lerp(lowButton.offsetLeft, highButton.offsetLeft, t);
+    const width = lerp(lowButton.offsetWidth, highButton.offsetWidth, t);
+    bar.style.setProperty('--gv2-lens-x', `${x}px`);
+    bar.style.setProperty('--gv2-lens-w', `${width}px`);
+  };
+
+  const progressTick = (now) => {
+    const dt = Math.min(0.05, Math.max(0.001, (now - previousProgressTime) / 1000));
+    previousProgressTime = now;
+
+    if (reducedMotion.matches) {
+      visualProgress = targetProgress;
+    } else {
+      // Critically damped, monotonic smoothing. It cannot overshoot or reverse by itself.
+      const follow = 1 - Math.exp(-22 * dt);
+      visualProgress += (targetProgress - visualProgress) * follow;
     }
+
+    renderLens(visualProgress);
+    markCurrentFromProgress(targetProgress);
+
+    if (Math.abs(targetProgress - visualProgress) > 0.0005) {
+      progressFrame = requestAnimationFrame(progressTick);
+    } else {
+      visualProgress = targetProgress;
+      renderLens(visualProgress);
+      progressFrame = 0;
+    }
+  };
+
+  const updateScrollProgress = ({ immediate = false } = {}) => {
+    targetProgress = progressFromScroll();
+    markCurrentFromProgress(targetProgress);
+
+    if (immediate || reducedMotion.matches) {
+      cancelAnimationFrame(progressFrame);
+      progressFrame = 0;
+      visualProgress = targetProgress;
+      renderLens(visualProgress);
+      return;
+    }
+
+    if (!progressFrame) {
+      previousProgressTime = performance.now();
+      progressFrame = requestAnimationFrame(progressTick);
+    }
+  };
+
+  const centerButton = (button, behavior = 'smooth') => {
+    if (!button) return;
+    const max = Math.max(0, bar.scrollWidth - bar.clientWidth);
+    const left = clamp(button.offsetLeft + button.offsetWidth / 2 - bar.clientWidth / 2, 0, max);
+    bar.scrollTo({ left, behavior });
   };
 
   const setPanel = (name, trigger) => {
@@ -147,7 +231,7 @@
     triggers.forEach((button) => button.setAttribute('aria-expanded', button.dataset.capsuleTrigger === name ? 'true' : 'false'));
     capsule.classList.toggle('is-open', Boolean(name));
     panelWrap.setAttribute('aria-hidden', name ? 'false' : 'true');
-    if (trigger && !isCollapsed) syncLens(trigger, true);
+    if (trigger) centerButton(trigger, reducedMotion.matches ? 'auto' : 'smooth');
   };
 
   const closePanel = ({ restoreFocus = false } = {}) => {
@@ -177,42 +261,28 @@
     expandCooldownUntil = performance.now() + 700;
     capsule.classList.remove('is-collapsed');
     mini.setAttribute('aria-expanded', 'true');
-    requestAnimationFrame(() => syncLens(buttonFor(currentName), false));
+    requestAnimationFrame(() => {
+      centerButton(buttonFor(currentName), 'auto');
+      updateScrollProgress({ immediate: true });
+    });
   };
 
   mini.addEventListener('click', expandCapsule);
 
-  const sectionTop = (name) => {
-    const element = sectionMap.get(name);
-    if (!element) return null;
-    return Math.max(0, element.getBoundingClientRect().top + window.scrollY - 6);
-  };
-
-  const updateCurrentFromScroll = () => {
-    const marker = window.scrollY + Math.min(220, window.innerHeight * 0.28);
-    let next = 'research';
-    localNames.forEach((name) => {
-      const top = sectionTop(name);
-      if (top != null && marker >= top) next = name;
-    });
-    markCurrent(next, { animate: !isCollapsed });
-  };
-
   const cancelNavigation = () => {
     if (!isNavigating) return;
-    cancelAnimationFrame(scrollFrame);
+    cancelAnimationFrame(scrollAnimationFrame);
     isNavigating = false;
   };
 
   const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-  const fastScrollTo = (name) => {
+  const scrollToSection = (name) => {
     const targetY = sectionTop(name);
     if (targetY == null) return;
 
     cancelNavigation();
     closePanel();
-    markCurrent(name, { animate: true });
 
     const startY = window.scrollY;
     const distance = targetY - startY;
@@ -221,10 +291,11 @@
     if (absoluteDistance < 2 || reducedMotion.matches) {
       window.scrollTo(0, targetY);
       lastY = targetY;
+      updateScrollProgress({ immediate: true });
       return;
     }
 
-    const duration = clamp(160 + Math.sqrt(absoluteDistance) * 1.6, 180, 280);
+    const duration = clamp(150 + Math.sqrt(absoluteDistance) * 1.45, 170, 260);
     const startedAt = performance.now();
     isNavigating = true;
 
@@ -232,16 +303,19 @@
       if (!isNavigating) return;
       const progress = clamp((now - startedAt) / duration, 0, 1);
       window.scrollTo(0, startY + distance * easeOutCubic(progress));
+
       if (progress >= 1) {
         window.scrollTo(0, targetY);
         isNavigating = false;
         lastY = targetY;
+        updateScrollProgress({ immediate: false });
         return;
       }
-      scrollFrame = requestAnimationFrame(step);
+
+      scrollAnimationFrame = requestAnimationFrame(step);
     };
 
-    scrollFrame = requestAnimationFrame(step);
+    scrollAnimationFrame = requestAnimationFrame(step);
   };
 
   triggers.forEach((button) => {
@@ -250,12 +324,13 @@
 
       if (localNames.includes(name)) {
         const targetY = sectionTop(name);
-        const alreadyHere = currentName === name && targetY != null && Math.abs(window.scrollY - targetY) < 72;
+        const alreadyHere = targetY != null && Math.abs(window.scrollY - targetY) < 72;
+
         if (alreadyHere) {
           if (activePanel === name) closePanel();
           else setPanel(name, button);
         } else {
-          fastScrollTo(name);
+          scrollToSection(name);
         }
         return;
       }
@@ -265,39 +340,41 @@
     });
   });
 
-  let scrollTicking = false;
+  const updateScrollEdges = () => {
+    const max = Math.max(0, bar.scrollWidth - bar.clientWidth);
+    capsule.classList.toggle('is-scroll-start', bar.scrollLeft <= 5);
+    capsule.classList.toggle('is-scroll-end', bar.scrollLeft >= max - 5);
+  };
+
+  bar.addEventListener('scroll', updateScrollEdges, { passive: true });
+
+  // Collapse is based on actual user downward travel. Upward travel never expands it.
   window.addEventListener('scroll', () => {
-    if (scrollTicking) return;
-    scrollTicking = true;
-    requestAnimationFrame(() => {
-      const y = window.scrollY;
-      const delta = y - lastY;
+    const y = window.scrollY;
+    const delta = y - lastY;
 
-      if (!isNavigating) {
-        updateCurrentFromScroll();
-        if (!isCollapsed && performance.now() > expandCooldownUntil) {
-          if (delta > 0) downTravel += delta;
-          else if (delta < 0) downTravel = 0;
-          if (y > 72 && downTravel > 24) collapseCapsule();
-        }
-      }
+    if (!isNavigating && performance.now() > expandCooldownUntil) {
+      if (delta > 0.5) downTravel += delta;
+      else if (delta < -1) downTravel = 0;
+      if (!isCollapsed && downTravel >= 28) collapseCapsule();
+    }
 
-      lastY = y;
-      scrollTicking = false;
-    });
+    lastY = y;
+    updateScrollProgress();
   }, { passive: true });
 
-  window.addEventListener('wheel', () => {
-    if (isNavigating) cancelNavigation();
-  }, { passive: true });
-
+  // A manual gesture immediately takes control back from a programmatic section jump.
+  window.addEventListener('wheel', cancelNavigation, { passive: true });
   window.addEventListener('touchstart', (event) => {
-    if (isNavigating && !capsule.contains(event.target)) cancelNavigation();
+    if (!capsule.contains(event.target)) cancelNavigation();
   }, { passive: true });
 
   window.addEventListener('resize', () => {
-    if (!isCollapsed) syncLens(buttonFor(currentName), false);
+    updateScrollEdges();
+    updateScrollProgress({ immediate: true });
   }, { passive: true });
+
+  window.addEventListener('load', () => updateScrollProgress({ immediate: true }), { once: true });
 
   document.addEventListener('pointerdown', (event) => {
     if (activePanel && !capsule.contains(event.target)) closePanel();
@@ -305,8 +382,19 @@
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && activePanel) closePanel({ restoreFocus: true });
+    if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && capsule.contains(document.activeElement)) {
+      const index = Math.max(0, triggers.indexOf(document.activeElement));
+      const delta = event.key === 'ArrowRight' ? 1 : -1;
+      const next = triggers[(index + delta + triggers.length) % triggers.length];
+      if (next) {
+        event.preventDefault();
+        next.focus();
+        centerButton(next);
+      }
+    }
   });
 
+  // Theme ---------------------------------------------------------------
   const themeModes = ['auto', 'light', 'dark'];
   const storedTheme = localStorage.getItem('galok-theme');
   let themeMode = themeModes.includes(storedTheme) ? storedTheme : 'auto';
@@ -322,6 +410,7 @@
     if (themeCycle) {
       const label = themeMode.charAt(0).toUpperCase() + themeMode.slice(1);
       themeCycle.textContent = `Theme · ${label}`;
+      themeCycle.setAttribute('aria-label', `Theme setting: ${label}. Activate to change theme.`);
     }
     updateThemeMeta();
   };
@@ -336,14 +425,22 @@
   systemDark.addEventListener?.('change', () => {
     if (themeMode === 'auto') updateThemeMeta();
   });
+  applyTheme();
 
   document.querySelector('.gv2-scroll-cue')?.addEventListener('click', (event) => {
     event.preventDefault();
-    fastScrollTo('research');
+    scrollToSection('research');
   });
 
-  applyTheme();
-  updateCurrentFromScroll();
-  updateMini(currentName);
-  requestAnimationFrame(() => syncLens(buttonFor(currentName), false));
+  requestAnimationFrame(() => {
+    // Initial state is derived from scroll position, never from a guessed active tab.
+    targetProgress = progressFromScroll();
+    visualProgress = targetProgress;
+    currentName = localNames[clamp(Math.round(targetProgress), 0, localNames.length - 1)];
+    triggers.forEach((button) => button.classList.toggle('is-current', button.dataset.capsuleTrigger === currentName));
+    updateMini(currentName);
+    renderLens(visualProgress);
+    updateScrollEdges();
+    capsule.dataset.scrollProgressReady = 'true';
+  });
 })();
