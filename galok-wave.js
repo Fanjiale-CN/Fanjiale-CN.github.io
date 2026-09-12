@@ -1,12 +1,9 @@
-/* Galok Reading Wave — shared chapter navigation (2026-08-17).
-   A desktop-only vertical reading rail with a fixed center playhead.
-   Source chapter links remain in the page markup; this component owns the
-   scroll state, inspector, scrubbing and keyboard interaction. */
+/* Galok Reading Progress — shared bottom capsule navigation (2026-09-12).
+   Source chapter links remain in the page markup. This component turns them
+   into a compact, bottom-centered reading-progress capsule with an expandable
+   section list. */
 (function () {
   "use strict";
-
-  var TICK_COUNT = 73;
-  var CENTER_INDEX = Math.floor(TICK_COUNT / 2);
 
   function query(selector, root) {
     return (root || document).querySelector(selector);
@@ -25,18 +22,60 @@
     var match = text.match(/^(\d{1,2})\s*(?:\/\s*)?(.*)$/);
     return {
       number: match ? match[1].padStart(2, "0") : String(index + 1).padStart(2, "0"),
-      title: match && match[2] ? match[2] : text || "Chapter " + (index + 1)
+      title: match && match[2] ? match[2].trim() : text || "Section " + (index + 1)
     };
   }
 
+  function removeLegacyProgress() {
+    queryAll(".article-read-progress").forEach(function (node) {
+      node.remove();
+    });
+  }
+
+  function ensureAutoArticleNav(root) {
+    var existing = query(".gwn, [data-gwn]", root);
+    if (existing) return existing;
+
+    var article = query(".article-content", root);
+    if (!article) return null;
+
+    var headings = queryAll("h2", article).filter(function (heading) {
+      return heading.parentElement === article && (heading.textContent || "").trim().length > 0;
+    });
+    if (!headings.length) return null;
+
+    var nav = document.createElement("nav");
+    nav.className = "gwn gwn--essay gwn--auto";
+    nav.setAttribute("aria-label", "Article sections");
+    nav.setAttribute("data-gwn-start", ".article-content");
+
+    headings.forEach(function (heading, index) {
+      if (!heading.id) heading.id = "article-section-" + String(index + 1).padStart(2, "0");
+      var link = document.createElement("a");
+      link.href = "#" + heading.id;
+      link.innerHTML = "<span>" + String(index + 1).padStart(2, "0") + "</span> " + (heading.textContent || "").trim();
+      nav.appendChild(link);
+    });
+
+    document.body.appendChild(nav);
+    return nav;
+  }
+
   function initWaveNav(root) {
-    var nav = query(".gwn, [data-gwn]", root);
-    if (!nav || nav.hasAttribute("data-gwn-init")) return;
+    removeLegacyProgress();
+    var nav = query(".gwn, [data-gwn]", root) || ensureAutoArticleNav(root);
+    if (!nav) return;
+    if (nav.hasAttribute("data-gwn-init")) {
+      if (query(".gwn-surface", nav)) return;
+      nav.removeAttribute("data-gwn-init");
+      queryAll(".gwn-track, .gwn-label", nav).forEach(function (node) { node.remove(); });
+    }
     nav.setAttribute("data-gwn-init", "1");
 
     var chapterLinks = queryAll("a[href^='#']", nav).filter(function (link) {
       return !link.classList.contains("data-nav-skip");
     });
+
     var chapters = chapterLinks.map(function (link, index) {
       var target = query(link.getAttribute("href"));
       var label = chapterLabel(link, index);
@@ -53,42 +92,70 @@
     if (!chapters.length) return;
 
     var reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var track = document.createElement("div");
-    track.className = "gwn-track";
-    track.setAttribute("role", "scrollbar");
-    track.setAttribute("tabindex", "0");
-    track.setAttribute("aria-label", "Reading progress");
-    track.setAttribute("aria-orientation", "vertical");
-    track.setAttribute("aria-valuemin", "0");
-    track.setAttribute("aria-valuemax", "100");
-    track.setAttribute("aria-valuenow", "0");
-
-    var ticks = [];
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < TICK_COUNT; i += 1) {
-      var tick = document.createElement("i");
-      tick.className = "gwn-tick";
-      tick.setAttribute("aria-hidden", "true");
-      fragment.appendChild(tick);
-      ticks.push(tick);
-    }
-    track.appendChild(fragment);
-
-    var label = document.createElement("div");
-    label.className = "gwn-label";
-    label.setAttribute("aria-hidden", "true");
-
-    nav.appendChild(track);
-    nav.appendChild(label);
-
+    var open = false;
+    var activeIndex = 0;
     var storyStart = 0;
     var storyEnd = 1;
-    var chapterRatios = [];
-    var currentProgress = 0;
-    var hoverIndex = -1;
-    var dragging = false;
+    var chapterPositions = [];
+    var progress = 0;
     var frame = 0;
-    var inspectTimer = 0;
+
+    var surface = document.createElement("div");
+    surface.className = "gwn-surface";
+
+    var collapsed = document.createElement("button");
+    collapsed.type = "button";
+    collapsed.className = "gwn-collapsed";
+    collapsed.setAttribute("aria-label", "Show sections");
+    collapsed.setAttribute("aria-expanded", "false");
+
+    var ring = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    ring.setAttribute("viewBox", "0 0 24 24");
+    ring.setAttribute("class", "gwn-ring");
+    ring.setAttribute("aria-hidden", "true");
+
+    var ringTrack = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    ringTrack.setAttribute("cx", "12");
+    ringTrack.setAttribute("cy", "12");
+    ringTrack.setAttribute("r", "10");
+    ringTrack.setAttribute("pathLength", "1");
+    ringTrack.setAttribute("class", "gwn-ring-track");
+
+    var ringValue = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    ringValue.setAttribute("cx", "12");
+    ringValue.setAttribute("cy", "12");
+    ringValue.setAttribute("r", "10");
+    ringValue.setAttribute("pathLength", "1");
+    ringValue.setAttribute("class", "gwn-ring-value");
+
+    ring.appendChild(ringTrack);
+    ring.appendChild(ringValue);
+
+    var currentLabel = document.createElement("span");
+    currentLabel.className = "gwn-current-label";
+
+    collapsed.appendChild(ring);
+    collapsed.appendChild(currentLabel);
+
+    var list = document.createElement("ul");
+    list.className = "gwn-list";
+    list.setAttribute("aria-label", nav.getAttribute("aria-label") || "Sections");
+
+    chapters.forEach(function (chapter, index) {
+      var item = document.createElement("li");
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "gwn-item";
+      button.dataset.gwnIndex = String(index);
+      button.innerHTML = '<span class="gwn-item-bg" aria-hidden="true"></span><span class="gwn-dot" aria-hidden="true"></span><span class="gwn-item-label"></span>';
+      button.querySelector(".gwn-item-label").textContent = chapter.title;
+      item.appendChild(button);
+      list.appendChild(item);
+    });
+
+    surface.appendChild(collapsed);
+    surface.appendChild(list);
+    nav.appendChild(surface);
 
     function documentTop(element) {
       return window.scrollY + element.getBoundingClientRect().top;
@@ -97,73 +164,84 @@
     function measure() {
       var startSelector = nav.getAttribute("data-gwn-start");
       var startTarget = startSelector ? query(startSelector) : null;
-      storyStart = documentTop(startTarget instanceof HTMLElement ? startTarget : chapters[0].target);
-      storyEnd = Math.max(storyStart + 1, document.documentElement.scrollHeight - window.innerHeight);
-      chapterRatios = chapters.map(function (chapter) {
-        return clamp((documentTop(chapter.target) - storyStart) / (storyEnd - storyStart));
+      var article = query(".article-content");
+      var startElement = startTarget instanceof HTMLElement ? startTarget : (article || chapters[0].target);
+      storyStart = documentTop(startElement);
+
+      var documentEnd = Math.max(storyStart + 1, document.documentElement.scrollHeight - window.innerHeight);
+      var lastTarget = chapters[chapters.length - 1].target;
+      var lastBottom = documentTop(lastTarget) + lastTarget.offsetHeight - window.innerHeight * 0.4;
+      storyEnd = Math.max(storyStart + 1, documentEnd, lastBottom);
+      chapterPositions = chapters.map(function (chapter) {
+        return documentTop(chapter.target);
       });
+
+      var collapsedWidth = Math.ceil(collapsed.scrollWidth);
+      var labels = chapters.map(function (chapter) { return chapter.title.length; });
+      var longest = Math.max.apply(Math, labels);
+      var maxWidth = Math.max(232, Math.min(420, longest * 7.2 + 76));
+      var viewportWidth = Math.max(240, window.innerWidth - 32);
+      var openWidth = Math.min(viewportWidth, Math.max(maxWidth, collapsedWidth));
+      var rowHeight = 36;
+      var maxHeight = Math.max(120, Math.min(window.innerHeight * 0.7, 520));
+      var openHeight = Math.min(maxHeight, chapters.length * rowHeight + 12);
+
+      nav.style.setProperty("--gwn-collapsed-width", collapsedWidth + "px");
+      nav.style.setProperty("--gwn-open-width", Math.ceil(openWidth) + "px");
+      nav.style.setProperty("--gwn-open-height", Math.ceil(openHeight) + "px");
     }
 
-    function chapterAt(ratio) {
+    function chapterAt(scrollPosition) {
+      var anchor = scrollPosition + Math.min(140, window.innerHeight * 0.2);
       var index = 0;
-      chapterRatios.forEach(function (chapterRatio, chapterIndex) {
-        if (chapterRatio <= ratio + 0.012) index = chapterIndex;
+      chapterPositions.forEach(function (top, chapterIndex) {
+        if (top <= anchor) index = chapterIndex;
       });
       return index;
     }
 
     function setActiveChapter(index) {
+      if (index < 0 || index >= chapters.length) index = 0;
+      var changed = activeIndex !== index;
+      activeIndex = index;
+      currentLabel.textContent = chapters[index].title;
+
       chapters.forEach(function (chapter, chapterIndex) {
         var active = chapterIndex === index;
         chapter.link.classList.toggle("is-active", active);
         if (active) chapter.link.setAttribute("aria-current", "location");
         else chapter.link.removeAttribute("aria-current");
       });
-    }
 
-    function updateLabel(ratio, pointerY) {
-      var chapter = chapters[chapterAt(ratio)];
-      var percent = Math.round(ratio * 100);
-      label.innerHTML = "<b><em>" + chapter.number + "</em>" + chapter.title + "</b><span>" + percent + "% through this page</span>";
-      nav.style.setProperty("--gwn-label-y", clamp(pointerY, 28, nav.clientHeight - 28) + "px");
-    }
-
-    function renderWave(focusIndex) {
-      var center = focusIndex >= 0 ? focusIndex : CENTER_INDEX;
-      var phase = currentProgress * (TICK_COUNT - 1);
-
-      ticks.forEach(function (tick, index) {
-        var distance = Math.abs(index - center);
-        var energy = clamp(1 - distance / 5);
-        var ambient = 0.22 + (Math.sin((index + phase) * 1.17) + 1) * 0.035;
-        var scale = ambient + energy * (1 - ambient);
-        var chapterIndex = chapterRatios.findIndex(function (ratio) {
-          var markerIndex = CENTER_INDEX + (ratio - currentProgress) * (TICK_COUNT - 1);
-          return Math.abs(index - markerIndex) < 0.5;
-        });
-
-        tick.style.setProperty("--gwn-scale", scale.toFixed(3));
-        tick.style.setProperty("--gwn-opacity", (0.28 + energy * 0.72).toFixed(3));
-        tick.classList.toggle("is-past", index < CENTER_INDEX);
-        tick.classList.toggle("is-current", index === CENTER_INDEX);
-        tick.classList.toggle("is-chapter", chapterIndex >= 0);
+      queryAll(".gwn-item", list).forEach(function (button, chapterIndex) {
+        var active = chapterIndex === index;
+        button.classList.toggle("is-active", active);
+        if (active) button.setAttribute("aria-current", "location");
+        else button.removeAttribute("aria-current");
       });
+
+      if (changed) requestAnimationFrame(measure);
+    }
+
+    function setOpen(next) {
+      open = Boolean(next);
+      nav.classList.toggle("is-open", open);
+      collapsed.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open) {
+        requestAnimationFrame(measure);
+        var activeButton = query('.gwn-item[data-gwn-index="' + activeIndex + '"]', list);
+        if (activeButton) activeButton.focus({ preventScroll: true });
+      }
     }
 
     function render() {
       frame = 0;
       var y = window.scrollY;
-      currentProgress = clamp((y - storyStart) / (storyEnd - storyStart));
-      var readingProgress = clamp((y + window.innerHeight * 0.42 - storyStart) / (storyEnd - storyStart));
-      var activeIndex = chapterAt(readingProgress);
-      var activeChapter = chapters[activeIndex];
-      var visible = y > storyStart - window.innerHeight * 0.42;
-
-      nav.classList.toggle("is-visible", visible);
-      setActiveChapter(activeIndex);
-      track.setAttribute("aria-valuenow", String(Math.round(currentProgress * 100)));
-      track.setAttribute("aria-valuetext", activeChapter.number + " " + activeChapter.title + ", " + Math.round(currentProgress * 100) + " percent");
-      renderWave(hoverIndex);
+      progress = clamp((y - storyStart + window.innerHeight * 0.12) / Math.max(1, storyEnd - storyStart));
+      ringValue.style.strokeDashoffset = String(1 - progress);
+      ring.setAttribute("aria-label", Math.round(progress * 100) + "% read");
+      setActiveChapter(chapterAt(y));
+      nav.classList.add("is-visible");
     }
 
     function requestRender() {
@@ -171,95 +249,36 @@
       frame = requestAnimationFrame(render);
     }
 
-    function ratioFromPointer(event) {
-      var rect = track.getBoundingClientRect();
-      return clamp((event.clientY - rect.top) / Math.max(1, rect.height));
+    function scrollToChapter(index) {
+      var chapter = chapters[index];
+      if (!chapter) return;
+      var siteNav = query(".site-nav");
+      var navHeight = siteNav ? siteNav.getBoundingClientRect().height : 0;
+      var top = documentTop(chapter.target) - Math.max(20, navHeight + 18);
+      setOpen(false);
+      window.scrollTo({ top: Math.max(0, top), behavior: reducedMotion ? "auto" : "smooth" });
     }
 
-    function inspect(event) {
-      window.clearTimeout(inspectTimer);
-      var ratio = ratioFromPointer(event);
-      hoverIndex = ratio * (TICK_COUNT - 1);
-      nav.classList.add("is-inspecting");
-      updateLabel(ratio, event.clientY - nav.getBoundingClientRect().top);
-      renderWave(hoverIndex);
-      return ratio;
-    }
-
-    function scrollToRatio(ratio, smooth) {
-      var target = storyStart + ratio * (storyEnd - storyStart);
-      window.scrollTo({ top: target, behavior: smooth && !reducedMotion ? "smooth" : "auto" });
-    }
-
-    track.addEventListener("pointermove", function (event) {
-      var ratio = inspect(event);
-      if (dragging) scrollToRatio(ratio, false);
+    collapsed.addEventListener("click", function () {
+      setOpen(!open);
     });
 
-    track.addEventListener("pointerleave", function () {
-      if (dragging) return;
-      hoverIndex = -1;
-      nav.classList.remove("is-inspecting");
-      renderWave(-1);
+    list.addEventListener("click", function (event) {
+      var button = event.target.closest(".gwn-item");
+      if (!button) return;
+      scrollToChapter(Number(button.dataset.gwnIndex));
     });
 
-    track.addEventListener("pointerdown", function (event) {
-      if (event.button !== 0) return;
-      dragging = true;
-      nav.classList.add("is-scrubbing");
-      track.setPointerCapture(event.pointerId);
-      scrollToRatio(inspect(event), false);
-      event.preventDefault();
+    document.addEventListener("pointerdown", function (event) {
+      if (!open || nav.contains(event.target)) return;
+      setOpen(false);
     });
 
-    function stopScrubbing(event) {
-      if (!dragging) return;
-      dragging = false;
-      nav.classList.remove("is-scrubbing");
-      if (event.pointerId !== undefined && track.hasPointerCapture(event.pointerId)) {
-        track.releasePointerCapture(event.pointerId);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && open) {
+        setOpen(false);
+        collapsed.focus({ preventScroll: true });
       }
-      if (event.pointerType === "touch" || event.pointerType === "pen") {
-        inspectTimer = window.setTimeout(function () {
-          hoverIndex = -1;
-          nav.classList.remove("is-inspecting");
-          renderWave(-1);
-        }, 1100);
-      }
-    }
-
-    track.addEventListener("pointerup", stopScrubbing);
-    track.addEventListener("pointercancel", stopScrubbing);
-
-    track.addEventListener("click", function (event) {
-      if (dragging) return;
-      scrollToRatio(ratioFromPointer(event), true);
-    });
-
-    track.addEventListener("focus", function () {
-      nav.classList.add("is-inspecting");
-      updateLabel(currentProgress, nav.clientHeight / 2);
-    });
-
-    track.addEventListener("blur", function () {
-      nav.classList.remove("is-inspecting");
-    });
-
-    track.addEventListener("keydown", function (event) {
-      var step = 0;
-      if (event.key === "ArrowDown") step = 0.02;
-      else if (event.key === "ArrowUp") step = -0.02;
-      else if (event.key === "PageDown") step = 0.1;
-      else if (event.key === "PageUp") step = -0.1;
-      else if (event.key === "Home") currentProgress = 0;
-      else if (event.key === "End") currentProgress = 1;
-      else return;
-
-      event.preventDefault();
-      currentProgress = clamp(currentProgress + step);
-      scrollToRatio(currentProgress, true);
-      updateLabel(currentProgress, nav.clientHeight / 2);
-      renderWave(-1);
     });
 
     window.addEventListener("scroll", requestRender, { passive: true });
@@ -272,14 +291,26 @@
       requestRender();
     }, { once: true });
 
+    var legacyObserver = new MutationObserver(function () {
+      removeLegacyProgress();
+    });
+    legacyObserver.observe(document.body, { childList: true });
+
     measure();
+    setActiveChapter(0);
     render();
   }
 
-  window.GalokWave = { init: initWaveNav };
+  window.GalokWave = {
+    version: "20260912-pill",
+    init: initWaveNav,
+    ensureArticleNav: ensureAutoArticleNav
+  };
 
   function tryInit() {
-    if (query(".gwn, [data-gwn]")) {
+    removeLegacyProgress();
+    var nav = query(".gwn, [data-gwn]") || ensureAutoArticleNav(document);
+    if (nav) {
       initWaveNav(document);
       return true;
     }
@@ -287,7 +318,7 @@
   }
 
   if (!tryInit()) {
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", tryInit);
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", tryInit, { once: true });
     else window.addEventListener("load", tryInit, { once: true });
   }
 })();
