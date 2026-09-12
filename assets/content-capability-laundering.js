@@ -10,11 +10,18 @@
     url: "/essays/capability-laundering/",
     maturity: "growing",
     cover: {
-      src: "/assets/views/articles/capability-laundering-cover.webp",
+      src: "/assets/views/articles/capability-laundering-cover.avif",
       alt: "A Press Print collage featuring the Anthropic wordmark with silhouetted figures"
     },
     excerpt: "Anthropic says Chinese AI labs secretly routed, extracted and trained on Claude. The deeper question is what domestic capability means when provenance disappears inside the pipeline."
   };
   const essays = window.GALOK_CONTENT?.essays;
-  if (Array.isArray(essays) && !essays.some((item) => item.url === entry.url)) essays.push(entry);
+  if (!Array.isArray(essays)) return;
+  const existing = essays.find((item) => item.url === entry.url);
+  if (existing) {
+    Object.assign(existing, entry);
+    existing.cover = { ...entry.cover };
+    return;
+  }
+  essays.push(entry);
 })();
