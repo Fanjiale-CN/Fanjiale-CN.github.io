@@ -1,17 +1,18 @@
-/* GALOK capsule selection motion
-   One-way Liquid Glass selection movement inspired by Apple's modern tab bars.
-   The selection lens moves directly to its destination with no reverse bounce. */
+/* GALOK capsule motion — deliberately simple.
+   One direct selection move. No overshoot, no elastic return, no multi-stage lens state.
+   Downward user scrolling collapses the full rail into a persistent current-location pill. */
+
+.gv2-capsule-shell {
+  transform-origin: center bottom;
+  transition: width 240ms cubic-bezier(.2,.8,.2,1);
+}
 
 .gv2-capsule-lens {
-  transform: translate3d(var(--gv2-lens-x, 7px), 0, 0) scaleX(var(--gv2-lens-scale, 1));
-  transform-origin: 50% 50%;
+  transform: translate3d(var(--gv2-lens-x, 7px), 0, 0) !important;
   transition:
-    transform 260ms cubic-bezier(.22, 1, .36, 1),
-    width 240ms cubic-bezier(.22, 1, .36, 1),
-    border-color 160ms ease,
-    background 160ms ease,
-    box-shadow 180ms ease,
-    opacity 140ms ease !important;
+    transform 180ms cubic-bezier(.2,.8,.2,1),
+    width 180ms cubic-bezier(.2,.8,.2,1),
+    opacity 120ms ease !important;
   will-change: transform, width;
 }
 
@@ -19,49 +20,170 @@
   transition: none !important;
 }
 
-.gv2-capsule-shell.is-switching .gv2-capsule-lens {
-  box-shadow:
-    0 11px 28px rgba(28, 32, 35, .105),
-    inset 0 1px 0 rgba(255,255,255,.9);
+.gv2-capsule-bar {
+  transform-origin: center bottom;
+  transition:
+    opacity 150ms ease,
+    transform 220ms cubic-bezier(.2,.8,.2,1),
+    filter 180ms ease;
 }
 
 .gv2-capsule-bar button {
-  transition:
-    color 150ms ease,
-    transform 180ms cubic-bezier(.22, 1, .36, 1),
-    opacity 140ms ease !important;
+  transition: color 140ms ease, opacity 140ms ease, transform 120ms ease !important;
 }
 
 .gv2-nav-icon {
-  transition:
-    transform 230ms cubic-bezier(.22, 1, .36, 1),
-    opacity 140ms ease !important;
+  transition: opacity 140ms ease !important;
+  transform: none !important;
 }
 
 .gv2-capsule-bar button:hover .gv2-nav-icon,
-.gv2-capsule-bar button:focus-visible .gv2-nav-icon {
-  transform: translateY(-1px) scale(1.035);
-}
-
+.gv2-capsule-bar button:focus-visible .gv2-nav-icon,
 .gv2-capsule-bar button[aria-expanded="true"] .gv2-nav-icon,
 .gv2-capsule-bar button.is-current .gv2-nav-icon {
-  transform: translateY(-2px) scale(1.06);
+  transform: none !important;
+}
+
+.gv2-capsule-bar button:active {
+  transform: scale(.96) !important;
+}
+
+/* Compact state --------------------------------------------------------- */
+.gv2-capsule-mini {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 58px;
+  padding: 7px 18px;
+  border: 1px solid var(--gv2-frost-line);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.05)),
+    var(--gv2-frost);
+  box-shadow: var(--gv2-frost-shadow);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+  color: var(--gv2-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: "MiSans", "MiSans VF", "Helvetica Neue", Arial, sans-serif;
+  font-size: .76rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(.82) translateY(4px);
+  transform-origin: center bottom;
+  transition:
+    opacity 150ms ease,
+    transform 240ms cubic-bezier(.2,.8,.2,1),
+    background 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv2-capsule-mini__icon {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+}
+
+.gv2-capsule-mini__icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.gv2-capsule-mini__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gv2-capsule-mini:active {
+  transform: scale(.96) translateY(0);
+}
+
+.gv2-capsule-shell.is-collapsed {
+  width: 158px !important;
+}
+
+.gv2-capsule-shell.is-collapsed .gv2-capsule-bar {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(.82) translateY(4px);
+  filter: blur(2px);
+}
+
+.gv2-capsule-shell.is-collapsed .gv2-capsule-panel {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(14px) scale(.96) !important;
+}
+
+.gv2-capsule-shell.is-collapsed .gv2-capsule-mini {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+}
+
+.gv2-capsule-shell.is-collapsed::before,
+.gv2-capsule-shell.is-collapsed::after {
+  opacity: 0 !important;
+}
+
+:root[data-theme="dark"] .gv2-capsule-mini {
+  border-color: rgba(255,255,255,.13);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
+    rgba(25,28,30,.74);
+  box-shadow: 0 12px 30px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.10);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .gv2-capsule-shell.is-switching .gv2-capsule-lens {
-    box-shadow: 0 11px 30px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.12);
+  :root:not([data-theme="light"]) .gv2-capsule-mini {
+    border-color: rgba(255,255,255,.13);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
+      rgba(25,28,30,.74);
+    box-shadow: 0 12px 30px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.10);
   }
 }
 
-:root[data-theme="dark"] .gv2-capsule-shell.is-switching .gv2-capsule-lens {
-  box-shadow: 0 11px 30px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.12);
+@media (max-width: 760px) {
+  .gv2-capsule-shell.is-collapsed {
+    width: 146px !important;
+  }
+
+  .gv2-capsule-mini {
+    min-height: 54px;
+    padding-inline: 15px;
+    font-size: .71rem;
+  }
+
+  .gv2-capsule-mini__icon,
+  .gv2-capsule-mini__icon svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .gv2-capsule-shell,
   .gv2-capsule-lens,
+  .gv2-capsule-bar,
   .gv2-capsule-bar button,
-  .gv2-nav-icon {
+  .gv2-nav-icon,
+  .gv2-capsule-mini {
     transition: none !important;
   }
 }
