@@ -1,38 +1,11 @@
 (() => {
   const root = document.documentElement;
-  const head = document.head;
-
-  const ensureStylesheet = (id, href, crossOrigin = false) => {
-    if (document.getElementById(id)) return;
-    const link = document.createElement('link');
-    link.id = id;
-    link.rel = 'stylesheet';
-    link.href = href;
-    if (crossOrigin) link.crossOrigin = 'anonymous';
-    head.append(link);
-  };
-
-  /* MiSans is the main-site typeface. The font is supplied through the
-     subsetted web package and remains subject to Xiaomi's MiSans license. */
-  ensureStylesheet('galok-misans-light', 'https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Light.min.css', true);
-  ensureStylesheet('galok-misans-medium', 'https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Medium.min.css', true);
-  ensureStylesheet('galok-misans-bold', 'https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Bold.min.css', true);
-  ensureStylesheet('galok-home-nav-22', '/home-v2-nav.css?v=20260913c');
-  ensureStylesheet('galok-home-gesture-22', '/home-v2-mobile-gesture.css?v=20260913a');
-
-  if (!document.querySelector('meta[name="font-credit"]')) {
-    const credit = document.createElement('meta');
-    credit.name = 'font-credit';
-    credit.content = 'MiSans Â© Beijing Xiaomi Mobile Software Co., Ltd.; used under the MiSans font license.';
-    head.append(credit);
-  }
-
   const capsule = document.querySelector('[data-gv2-capsule]');
   const panelWrap = document.querySelector('[data-capsule-panel-wrap]');
   const bar = capsule?.querySelector('.gv2-capsule-bar');
   const year = document.querySelector('[data-current-year]');
-  if (year) year.textContent = String(new Date().getFullYear());
 
+  if (year) year.textContent = String(new Date().getFullYear());
   if (!capsule || !panelWrap || !bar) return;
 
   const icons = {
@@ -45,6 +18,7 @@
     menu: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.4"/><rect x="14" y="4" width="6" height="6" rx="1.4"/><rect x="4" y="14" width="6" height="6" rx="1.4"/><rect x="14" y="14" width="6" height="6" rx="1.4"/></svg>'
   };
 
+  const localNames = ['research', 'press-print', 'cities'];
   const navItems = [
     ['research', 'Research', icons.research],
     ['press-print', 'Press Print', icons.press],
@@ -55,9 +29,10 @@
     ['menu', 'Menu', icons.menu],
   ];
 
-  bar.innerHTML = '<span class="gv2-capsule-lens" aria-hidden="true"></span>' + navItems.map(([name, label, icon]) => (
-    `<button type="button" data-capsule-trigger="${name}" aria-expanded="false" aria-label="Open ${label} menu"><span class="gv2-nav-icon" aria-hidden="true">${icon}</span><span class="gv2-nav-label">${label}</span></button>`
-  )).join('');
+  bar.innerHTML = '<span class="gv2-capsule-lens" aria-hidden="true"></span>' + navItems.map(([name, label, icon]) => {
+    const actionLabel = localNames.includes(name) ? `Go to ${label}` : `Open ${label} menu`;
+    return `<button type="button" data-capsule-trigger="${name}" aria-expanded="false" aria-label="${actionLabel}"><span class="gv2-nav-icon" aria-hidden="true">${icon}</span><span class="gv2-nav-label">${label}</span></button>`;
+  }).join('');
 
   const setPanelMarkup = (name, html) => {
     let panel = panelWrap.querySelector(`[data-capsule-panel="${name}"]`);
@@ -83,34 +58,29 @@
   const panels = Array.from(panelWrap.querySelectorAll('[data-capsule-panel]'));
   const lens = bar.querySelector('.gv2-capsule-lens');
   const themeCycle = panelWrap.querySelector('[data-theme-cycle]');
-  const localNames = ['research', 'press-print', 'cities'];
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sectionMap = new Map(localNames.map((name) => [name, document.querySelector(`[data-home-section="${name}"]`)]));
-  const mobileGestureMQ = window.matchMedia('(max-width: 760px)');
-  const reducedMotionMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   let activePanel = null;
   let lastTrigger = null;
   let currentName = 'research';
   let lensFrame = 0;
-  let physicsFrame = 0;
-  let suppressClickUntil = 0;
-  let gesture = null;
+  let scrollFrame = 0;
+  let isNavigating = false;
+  let navigationTarget = null;
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-  const lerp = (from, to, t) => from + (to - from) * t;
   const buttonFor = (name) => triggers.find((button) => button.dataset.capsuleTrigger === name) || null;
-  const indexFor = (name) => navItems.findIndex(([itemName]) => itemName === name);
-  const mobileGestureEnabled = () => mobileGestureMQ.matches && !reducedMotionMQ.matches;
 
   const centerButton = (button, behavior = 'smooth') => {
     if (!button) return;
     const max = Math.max(0, bar.scrollWidth - bar.clientWidth);
-    const target = clamp(button.offsetLeft + button.offsetWidth / 2 - bar.clientWidth / 2, 0, max);
-    bar.scrollTo({ left: target, behavior });
+    const left = clamp(button.offsetLeft + button.offsetWidth / 2 - bar.clientWidth / 2, 0, max);
+    bar.scrollTo({ left, behavior });
   };
 
   const syncLens = (button, { center = false, behavior = 'smooth' } = {}) => {
-    if (!button || !lens || gesture?.active) return;
+    if (!button || !lens) return;
     cancelAnimationFrame(lensFrame);
     lensFrame = requestAnimationFrame(() => {
       bar.style.setProperty('--gv2-lens-x', `${button.offsetLeft}px`);
@@ -143,35 +113,199 @@
     const previous = lastTrigger;
     setPanel(null, null);
     syncLens(buttonFor(currentName) || previous || buttonFor('research'));
-    if (restoreFocus && previous previous.focus();
+    if (restoreFocus && previous) previous.focus();
   };
 
-  const sectionPositions = () => localNames.map((name) => {
+  const markCurrent = (name, { center = true } = {}) => {
+    if (!name) return;
+    currentName = name;
+    triggers.forEach((button) => button.classList.toggle('is-current', button.dataset.capsuleTrigger === name));
+    if (!activePanel) syncLens(buttonFor(name), { center });
+  };
+
+  const sectionTop = (name) => {
     const element = sectionMap.get(name);
-    if (!element) return 0;
-    return Math.max(0, element.getBoundingClientRect().top + window.scrollY - 8);
+    if (!element) return null;
+    return Math.max(0, element.getBoundingClientRect().top + window.scrollY - 6);
+  };
+
+  const cancelNavigation = () => {
+    if (!isNavigating) return;
+    cancelAnimationFrame(scrollFrame);
+    isNavigating = false;
+    navigationTarget = null;
+    root.classList.remove('gv2-nav-springing');
+  };
+
+  const springScrollTo = (name) => {
+    const targetY = sectionTop(name);
+    if (targetY == null) return;
+
+    cancelNavigation();
+    closePanel();
+    navigationTarget = name;
+    markCurrent(name, { center: true });
+
+    if (reducedMotion.matches) {
+      window.scrollTo(0, targetY);
+      navigationTarget = null;
+      return;
+    }
+
+    isNavigating = true;
+    root.classList.add('gv2-nav-springing');
+
+    let position = window.scrollY;
+    let velocity = 0;
+    let previousTime = performance.now();
+    const stiffness = 92;
+    const damping = 19;
+    const maxDuration = 1450;
+    const startedAt = previousTime;
+
+    const step = (now) => {
+      if (!isNavigating || navigationTarget !== name) return;
+
+      const dt = Math.min(0.032, Math.max(0.001, (now - previousTime) / 1000));
+      previousTime = now;
+
+      const displacement = targetY - position;
+      const acceleration = stiffness * displacement - damping * velocity;
+      velocity += acceleration * dt;
+      position += velocity * dt;
+
+      window.scrollTo(0, position);
+
+      const settled = Math.abs(targetY - position) < 0.7 && Math.abs(velocity) < 7;
+      const timedOut = now - startedAt > maxDuration;
+      if (settled || timedOut) {
+        window.scrollTo(0, targetY);
+        isNavigating = false;
+        navigationTarget = null;
+        root.classList.remove('gv2-nav-springing');
+        markCurrent(name, { center: true });
+        return;
+      }
+
+      scrollFrame = requestAnimationFrame(step);
+    };
+
+    scrollFrame = requestAnimationFrame(step);
+  };
+
+  triggers.forEach((button) => {
+    button.addEventListener('click', () => {
+      const name = button.dataset.capsuleTrigger;
+
+      if (localNames.includes(name)) {
+        const targetY = sectionTop(name);
+        const alreadyHere = currentName === name && targetY != null && Math.abs(window.scrollY - targetY) < 72;
+
+        if (alreadyHere) {
+          if (activePanel === name) closePanel();
+          else setPanel(name, button);
+          return;
+        }
+
+        springScrollTo(name);
+        return;
+      }
+
+      if (activePanel === name) closePanel();
+      else setPanel(name, button);
+    });
   });
 
-  const pageYForVirtual = (virtualIndex, positions) => {
-    if (virtualIndex < 0) {
-      return lerp(0, positions[0], clamp(virtualIndex + 1, 0, 1));
+  bar.addEventListener('scroll', updateScrollEdges, { passive: true });
+  window.addEventListener('resize', () => {
+    updateScrollEdges();
+    syncLens(buttonFor(activePanel || currentName || 'research'));
+  }, { passive: true });
+
+  window.addEventListener('wheel', cancelNavigation, { passive: true });
+  window.addEventListener('touchstart', (event) => {
+    if (!capsule.contains(event.target)) cancelNavigation();
+  }, { passive: true });
+
+  document.addEventListener('pointerdown', (event) => {
+    if (activePanel && !capsule.contains(event.target)) closePanel();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && activePanel) closePanel({ restoreFocus: true });
+    if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && capsule.contains(document.activeElement)) {
+      const index = Math.max(0, triggers.indexOf(document.activeElement));
+      const delta = event.key === 'ArrowRight' ? 1 : -1;
+      const next = triggers[(index + delta + triggers.length) % triggers.length];
+      if (next) {
+        event.preventDefault();
+        next.focus();
+        syncLens(next, { center: true });
+      }
     }
-    const local = clamp(virtualIndex, 0, localNames.length - 1);
-    const lo = Math.floor(local);
-    const hi = Math.min(localNames.length - 1, Math.ceil(local));
-    if (lo === hi) return positions[lo];
-    return lerp(positions[lo], positions[hi], local - lo);
+  });
+
+  const themeModes = ['auto', 'light', 'dark'];
+  const storedTheme = localStorage.getItem('galok-theme');
+  let themeMode = themeModes.includes(storedTheme) ? storedTheme : 'auto';
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+  const resolvedTheme = () => themeMode === 'auto' ? (systemDark.matches ? 'dark' : 'light') : themeMode;
+  const updateThemeMeta = () => themeMeta?.setAttribute('content', resolvedTheme() === 'dark' ? '#111416' : '#f3f2ee');
+
+  const applyTheme = () => {
+    if (themeMode === 'auto') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', themeMode);
+    if (themeCycle) {
+      const label = themeMode.charAt(0).toUpperCase() + themeMode.slice(1);
+      themeCycle.textContent = `Theme Â· ${label}`;
+      themeCycle.setAttribute('aria-label', `Theme setting: ${label}. Activate to change theme.`);
+    }
+    updateThemeMeta();
   };
 
-  const virtualForPageY = (pageY, positions) => {
-    if (!positions.length) return 0;
-    if (pageY <= positions[0]) {
-      return -1 + clamp(pageY / Math.max(1, positions[0]), 0, 1);
-    }
-    for (let index = 0; index < positions.length - 1; index += 1) {
-      const start = positions[index];
-      const end = positions[index + 1];
-      if (pageY <= end) {
-        const span = Math.max(1, end - start);
-        return index + clamp((pageY - start¤€¼ÍÁ…¸°€À°€Ä¤ì(€€€€€ô(€€€ô(€€€É•ÑÕÉ¸Á½Í¥Ñ¥½¹Ì¹±•¹Ñ €´€Äì(€ôì((€½¹ÍÐÍ•Ñ•ÍÑÕÉ•	ÕÑÑ½¹Y¥ÍÕ…±Ì€ô€¡Ù¥ÉÑÕ…±%¹‘•à¤€ôøì(€€€ÑÉ¥•ÉÌ¹™½É…  ¡‰ÕÑÑ½¸°¥¹‘•à¤€ôøì(€€€€€½¹ÍÐÁÉ½á¥µ¥Ñä€ô±…µÀ Ä€´5…Ñ ¹…‰Ì¡¥¹‘•à€´Ù¥ÉÑÕ…±%¹‘•à¤°€À°€Ä¤ì(€€€€€¥˜€ ……ÁÍÕ±”¹±…ÍÍ1¥ÍÐ¹½¹Ñ…¥¹Ì ¥Ìµ•ÍÑÕÉ”œ¤€˜˜€……ÁÍÕ±”¹±…ÍÍ1¥ÍÐ¹½¹Ñ…¥¹Ì ¥ÌµÍÁÉ¥¹¥¹œœ¤¤ì(€€€€€€€‰ÕÑÑ½¸¹ÍÑå±”¹É•µ½Ù•AÉ½Á•ÉÑä ½Á…¥Ñäœ¤ì(€€€€€€€‰ÕÑÑ½¸¹ÍÑå±”¹É•µ½Ù•AÉ½Á•ÉÑä ÑÉ…¹Í™½É´œ¤ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€ô(€€€€€‰ÕÑÑ½¸¹ÍÑå±”¹½Á…¥Ñä€ôMÑÉ¥¹œ ¸ØÐ€¬ÁÉ½á¥µ¥Ñä€¨€¸ÌØ¤ì(€€€€€‰ÕÑÑ½¸¹ÍÑå±”¹ÑÉ…¹Í™½É´€ôÑÉ…¹Í±…Ñ•d ‘ì´Ä¸Ô€¨ÁÉ½á¥µ¥ÑåõÁà¤Í…±” ‘ìÄ€¬€¸ÀÌÔ€¨ÁÉ½á¥µ¥Ñåô¥€ì(€€€ô¤ì(€ôì((€½¹ÍÐÍ•Ñ1•¹ÍÑY¥ÉÑÕ…°€ô€¡Ù¥ÉÑÕ…±%¹‘•à°Ù•±½¥Ñå%¹‘•à€ô€À¤€ôøì(€€€¥˜€ …±•¹Ì¤É•ÑÕÉ¸ì(€€€½¹ÍÐ‰½Õ¹‘•€ô±…µÀ¡Ù¥ÉÑÕ…±%¹‘•à°€À°ÑÉ¥•ÉÌ¹±•¹Ñ €´€Ä¤ì(€€€½¹ÍÐ±¼€ô5…Ñ ¹™±½½È¡‰½Õ¹‘•¤ì(€€€½¹ÍÐ¡¤€ô5…Ñ ¹µ¥¸¡ÑÉ¥•ÉÌ¹±•¹Ñ €´€Ä°5…Ñ ¹•¥°¡‰½Õ¹‘•¤¤ì(€€€½¹ÍÐÐ€ô‰½Õ¹‘•€´±¼ì(€€€½¹ÍÐ„€ôÑÉ¥•ÉÍm±½tì(€€€½¹ÍÐˆ€ôÑÉ¥•ÉÍm¡¥tì(€€€¥˜€ …„ñð€…ˆ¤É•ÑÕÉ¸ì((€€€½¹ÍÐà€ô±•ÉÀ¡„¹½™™Í•Ñ1•™Ð°ˆ¹½™™Í•Ñ1•™Ð°Ð¤ì(€€€½¹ÍÐÜ€ô±•ÉÀ¡„¹½™™Í•Ñ]¥‘Ñ °ˆ¹½™™Í•Ñ]¥‘Ñ °Ð¤ì(€€€½¹ÍÐÍÑÉ•Ñ €ô€Ä€¬5…Ñ ¹µ¥¸ ¸ÀàÔ°5…Ñ ¹…‰Ì¡Ù•±½¥Ñå%¹‘•à¤€¨€¸ÀÄà¤ì(€€€‰…È¹ÍÑå±”¹Í•ÑAÉ½Á•ÉÑä œ´µØÈµ±•¹Ìµàœ°€‘íáõÁá€¤ì(€€€‰…È¹ÍÑå±”¹Í•ÑAÉ½Á•ÉÑä œ´µØÈµ±•¹ÌµÜœ°€‘íÝõÁá€¤ì(€€€‰…È¹ÍÑå±”¹Í•ÑAÉ½Á•ÉÑä œ´µØÈµ±•¹ÌµÍ…±”œ°MÑÉ¥¹œ¡ÍÑÉ•Ñ ¤¤ì((€€€½¹ÍÐ•¹Ñ•È€ôà€¬Ü€¼€Èì(€€€½¹ÍÐµ…à€ô5…Ñ ¹µ…à À°‰…È¹ÍÉ½±±]¥‘Ñ €´‰…È¹±¥•¹Ñ]¥‘Ñ ¤ì(€€€‰…È¹ÍÉ½±±1•™Ð€ô±…µÀ¡•¹Ñ•È€´‰…È¹±¥•¹Ñ]¥‘Ñ €¼€È°€À°µ…à¤ì(€€€Í•Ñ•ÍÑÕÉ•	ÕÑÑ½¹Y¥ÍÕ…±Ì¡‰½Õ¹‘•¤ì(€ôì((€½¹ÍÐÉ•¹‘•ÉY¥ÉÑÕ…°€ô€¡Ù¥ÉÑÕ…±%¹‘•à°Ù•±½¥Ñå%¹‘•à°Á½Í¥Ñ¥½¹Ì°ìµ½Ù•A…”€ôÑÉÕ”ô€ôíô¤€ôøì(€€€Í•Ñ1•¹ÍÑY¥ÉÑÕ…°¡Ù¥ÉÑÕ…±%¹‘•à°Ù•±½¥Ñå%¹‘•à¤ì(€€€¥˜€¡µ½Ù•A…”€˜˜Á½Í¥Ñ¥½¹Ìü¹±•¹Ñ ¤ì(€€€€€Ý¥¹‘½Ü¹ÍÉ½±±Q¼ À°Á…•e½ÉY¥ÉÑÕ…°¡Ù¥ÉÑÕ…±%¹‘•à°Á½Í¥Ñ¥½¹Ì¤¤ì(€€€ô(€ôì((€½¹ÍÐ±•…ÉA¡åÍ¥Í±…ÍÍ•Ì€ô€ ¤€ôøì(€€€…ÁÍÕ±”¹±…ÍÍ1¥ÍÐ¹É•µ½Ù” ¥Ìµ•ÍÑÕÉ”œ°€¥ÌµÍÁÉ¥¹¥¹œœ¤ì(€€€É½½Ð¹±…ÍÍ1¥ÍÐ¹É•µ½Ù” ØÈµ¹…Øµ‘É…¥¹œœ°€ØÈµ¹…ØµÍÁÉ¥¹¥¹œœ¤ì(€€€‰…È¹ÍÑå±”¹Í•ÑAÉ½Á•ÉÑä œ´µØÈµ±•¹ÌµÍ…±”œ°€œÄœ¤ì(€€€ÑÉ¥•ÉÌ¹™½É…  ¡‰ÕÑÑ½¸¤€ôøì(€€€€€‰ÕÑÑ½¸¹ÍÑå±”¹É•µ½Ù•AÉ½Á•ÉÑä ½Á…¥Ñäœ¤ì(€€€€€‰ÕÑÑ½¸¹ÍÑå±”¹É•µ½Ù•AÉ½Á•ÉÑä ÑÉ…¹Í™½É´œ¤ì(€€€ô¤ì(€ôì((€½¹ÍÐµ…É­ÕÉÉ•¹Ð€ô€¡¹…µ”°ì•¹Ñ•È€ôÑÉÕ”ô€ôíô¤€ôøì(€€€¥˜€¡¹…µ”¤ÕÉÉ•¹Ñ9…µ”€ô¹…µ”ì(€€€ÑÉ¥•ÉÌ¹™½É…  ¡‰ÕÑÑ½¸¤€ôø‰ÕÑÑ½¸¹±…ÍÍ1¥ÍÐ¹Ñ½±” ¥ÌµÕÉÉ•¹Ðœ°‰ÕÑÑ½¸¹‘…Ñ…Í•Ð¹…ÁÍÕ±•QÉ¥•È€ôôô¹…µ”¤¤ì(€€€¥˜€ ……Ñ¥Ù•A…¹•°€˜˜¹…µ”€˜˜€…•ÍÑÕÉ”ü¹…Ñ¥Ù”¤Íå¹1•¹Ì¡‰ÕÑÑ½¹½È¡¹…µ”¤°ì•¹Ñ•Èô¤ì(€ôì((€½¹ÍÐ™¥¹¥Í¡Ñ%¹‘•à€ô€¡Ñ…É•Ñ%¹‘•à¤€ôøì(€€€½¹ÍÐÑ…É•Ñ9…µ”€ô¹…Ù%Ñ•µÍmÑ…É•Ñ%¹‘•átü¹lÁtì(€€€½¹ÍÐÑ…É•Ñ	ÕÑÑ½¸€ôÑÉ¥•ÉÍmÑ…É•Ñ%¹‘•átì(€€€±•…ÉA¡åÍ¥Í±…ÍÍ•Ì ¤ì(€€€•ÍÑÕÉ”€ô¹Õ±°ì((€€€¥˜€ …Ñ…É•Ñ9…µ”ñð€…Ñ…É•Ñ	ÕÑÑ½¸¤É•ÑÕÉ¸ì(€€€¥˜€¡±½…±9…µ•Ì¹¥¹±Õ‘•Ì¡Ñ…É•Ñ9…µ”¤¤ì(€€€€€µ…É­ÕÉÉ•¹Ð¡Ñ…É•Ñ9…µ”°ì•¹Ñ•Èè™…±Í”ô¤ì(€€€€€Íå¹1•¹Ì¡Ñ…É•Ñ	ÕÑÑ½¸°ì•¹Ñ•ÈèÑÉÕ”°‰•¡…Ù¥½Èè€Íµ½½Ñ œô¤ì(€€€€€Ý¥¹‘½Ü¹ÍÉ½±±Q¼ À°Á…•e½ÉY¥ÉÑÕ…°¡Ñ…É•Ñ%¹‘•à°Í•Ñ¥½¹A½Í¥Ñ¥½¹Ì ¤¤¤ì(€€€ô•±Í”ì(€€€€€Í•ÑA…¹•°¡Ñ…É•Ñ9…µ”°Ñ…É•Ñ	ÕÑÑ½¸¤ì(€€€ô(€ôì((€½¹ÍÐÍÁÉ¥¹Q½%¹‘•à€ô€¡™É½µ%¹‘•à°Ñ…É•Ñ%¹‘•à°¥¹¥Ñ¥…±Y•±½¥Ñä€ô€À°Á½Í¥Ñ¥½¹Ì€ôÍ•Ñ¥½¹A½Í¥Ñ¥½¹Ì ¤¤€ôøì(€€€…¹•±¹¥µ…Ñ¥½¹É…µ”¡Á¡åÍ¥ÍÉ…µ”¤ì(€€€…ÁÍÕ±”¹±…ÍÍ1¥ÍÐ¹É•µ½Ù” ¥Ìµ•ÍÑÕÉ”œ¤ì(€€€…ÁÍÕ±”¹±…ÍÍ1¥ÍÐ¹…‘ ¥ÌµÍÁÉ¥¹¥¹œœ¤ì(€€€É½½Ð¹±…ÍÍ1¥ÍÐ¹É•µ½Ù” ØÈµ¹…Øµ‘É…¥¹œœ¤ì(€€€É½½Ð¹±…ÍÍ1¥ÍÐ¹…‘ ØÈµ¹…ØµÍÁÉ¥¹¥¹œœ¤ì((€€€±•ÐÁ½Í¥Ñ¥½¸€ô™É½µ%¹‘•àì(€€€±•ÐÙ•±½¥Ñä€ô±…µÀ¡¥¹¥Ñ¥…±Y•±½¥Ñä°€´Ü°€Ü¤ì(€€€±•ÐÁÉ•Ù¥½ÕÌ€ôÁ•É™½Éµ…¹”¹¹½Ü ¤ì(€€€½¹ÍÐÍÑ¥™™¹•ÍÌ€ô€äÈì(€€€½¹ÍÐ‘…µÁ¥¹œ€ô€ÄÜ¸Ôì((€€€½¹ÍÐÍÑ•À€ô€¡¹½Ü¤€ôøì(€€€€€½¹ÍÐ‘Ð€ô5…Ñ ¹µ¥¸ ¸ÀÌÈ°5…Ñ ¹µ…à ¸ÀÀÄ°€¡¹½Ü€´ÁÉ•Ù¥½ÕÌ¤€¼€ÄÀÀÀ¤¤ì(€€€€€ÁÉ•Ù¥½ÕÌ€ô¹½Üì(€€€€€½¹ÍÐ…•±•É…Ñ¥½¸€ô€µÍÑ¥™™¹•ÍÌ€¨€¡Á½Í¥Ñ¥½¸€´Ñ…É•Ñ%¹‘•à¤€´‘…µÁ¥¹œ€¨Ù•±½¥Ñäì(€€€€€Ù•±½¥Ñä€¬ô…•±•É…Ñ¥½¸€¨‘Ðì(€€€€€Á½Í¥Ñ¥½¸€¬ôÙ•±½¥Ñä€¨‘Ðì(€€€€€É•¹‘•ÉY¥ÉÑÕ…°¡Á½Í¥Ñ¥½¸°Ù•±½¥Ñä°Á½Í¥Ñ¥½¹Ì°ìµ½Ù•A…”èÑ…É•Ñ%¹‘•à€ðô€ÈñðÁ½Í¥Ñ¥½¸€ðô€È¸Ààô¤ì((€€€€€¥˜€¡5…Ñ ¹…‰Ì¡Á½Í¥Ñ¥½¸€´Ñ…É•Ñ%¹‘•à¤€ð€¸ÀÀÈÔ€˜˜5…Ñ ¹…‰Ì¡Ù•±½¥Ñä¤€ð€¸ÀÈÔ¤ì(€€€€€€€É•¹‘•ÉY¥ÉÑÕ…°¡Ñ…É•Ñ%¹‘•à°€À°Á½Í¥Ñ¥½¹Ì°ìµ½Ù•A…”èÑ…É•Ñ%¹‘•à€ðô€Èô¤ì(€€€€€€€™¥¹¥Í¡Ñ%¹‘•à¡Ñ…É•Ñ%¹‘•à¤ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€ô(€€€€€Á¡åÍ¥ÍÉ…µ”€ôÉ•ÅÕ•ÍÑ¹¥µ…Ñ¥½¹É…µ”¡ÍÑ•À¤ì(€€€ôì(€€€Á¡åÍ¥ÍÉ…µ”€ôÉ•ÅÕ•ÍÑ¹¥µ…Ñ¥½¹É…µ”¡ÍÑ•À¤ì(€ôì((€½¹ÍÐÍ•±•Ñ1½…±	åQ…À€ô€¡¹…µ”¤€ôøì(€€€½¹ÍÐÑ…É•Ñ%¹‘•à€ô¥¹‘•á½È¡¹…µ”¤ì(€€€½¹ÍÐÕÉÉ•¹Ñ%¹‘•à€ô5…Ñ ¹µ…à À°¥¹‘•á½È¡ÕÉÉ•¹Ñ9…µ”¤¤ì(€€€¥˜€¡Ñ…É•Ñ%¹‘•à€ð€À¤É•ÑÕÉ¸ì(€€€±½Í•A…¹•° ¤ì(€€€½¹ÍÐÁ½Í¥Ñ¥½¹Ì€ôÍ•Ñ¥½¹A½Í¥Ñ¥½¹Ì ¤ì(€€€½¹ÍÐ™É½µ%¹‘•à€ôÙ¥ÉÑÕ…±½ÉA…•d¡Ý¥¹‘½Ü¹ÍÉ½±±d°Á½Í¥Ñ¥½¹Ì¤ì(€€€É•¹‘•ÉY¥ÉÑÕ…°¡™É½µ%¹‘•à°€À°Á½Í¥Ñ¥½¹Ì¤ì(€€€ÍÁÉ¥¹Q½%¹‘•à¡™É½µ%¹‘•à°Ñ…É•Ñ%¹‘•à°€À°Á½Í¥Ñ¥½¹Ì¤ì(€ôì((€ÑÉ¥•ÉÌ¹™½É…  ¡‰ÕÑÑ½¸¤€ôøì(€€€‰ÕÑÑ½¸¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ±¥¬œ°€¡•Ù•¹Ð¤€ôøì(€€€€€¥˜€¡Á•É™½Éµ…¹”¹¹½Ü ¤€ðÍÕÁÁÉ•ÍÍ±¥­U¹Ñ¥°¤ì(€€€€€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€ô(€€€€€½¹ÍÐ¹…µ”€ô‰ÕÑÑ½¸¹‘…Ñ…Í•Ð¹…ÁÍÕ±•QÉ¥•Èì(€€€€€¥˜€¡µ½‰¥±••ÍÑÕÉ•¹…‰±• ¤€˜˜±½…±9…µ•Ì¹¥¹±Õ‘•Ì¡¹…µ”¤€˜˜¹…µ”€„ôôÕÉÉ•¹Ñ9…µ”¤ì(€€€€€€€Í•±•Ñ1½…±	åQ…À¡¹…µ”¤ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€ô(€€€€€¥˜€¡…Ñ¥Ù•A…¹•°€ôôô¹…µ”¤±½Í•A…¹•° ¤ì(€€€€€•±Í”Í•ÑA…¹•°¡¹…µ”°‰ÕÑÑ½¸¤ì(€€€ô¤ì(€ô¤ì((€½¹ÍÐ‰•¥¹•ÍÑÕÉ”€ô€¡•Ù•¹Ð¤€ôøì(€€€¥˜€ …µ½‰¥±••ÍÑÕÉ•¹…‰±• ¤ñð•Ù•¹Ð¹Á½¥¹Ñ•ÉQåÁ”€ôôô€µ½ÕÍ”œñð•Ù•¹Ð¹‰ÕÑÑ½¸€„ôô€À¤É•ÑÕÉ¸ì(€€€…¹•±¹¥µ…Ñ¥½¹É…µ”¡Á¡åÍ¥ÍÉ…µ”¤ì(€€€½¹ÍÐÁ½Í¥Ñ¥½¹Ì€ôÍ•Ñ¥½¹A½Í¥Ñ¥½¹Ì ¤ì(€€€½¹ÍÐ¹…µ•‘%¹‘•à€ô5…Ñ ¹µ…à À°¥¹‘•á½È¡…Ñ¥Ù•A…¹•°ñðÕÉÉ•¹Ñ9…µ”¤¤ì(€€€½¹ÍÐÍ•±•Ñ•‘%¹‘•à€ô…Ñ¥Ù•A…¹•°€ü¹…µ•‘%¹‘•à€èÙ¥ÉÑÕ…±½ÉA…•d¡Ý¥¹‘½Ü¹ÍÉ½±±d°Á½Í¥Ñ¥½¹Ì¤ì(€€€•ÍÑÕÉ”€ôì(€€€€€Á½¥¹Ñ•É%è•Ù•¹Ð¹Á½¥¹Ñ•É%°(€€€€€ÍÑ…ÉÑ`è•Ù•¹Ð¹±¥•¹Ñ`°(€€€€€ÍÑ…ÉÑdè•Ù•¹Ð¹±¥•¹Ñd°(€€€€€ÍÑ…ÉÑ%¹‘•àèÍ•±•Ñ•‘%¹‘•à°(€€€€€Ù…±Õ”èÍ•±•Ñ•‘%¹‘•à°(€€€€€Ù•±½¥Ñäè€À°(€€€€€±…ÍÑ`è•Ù•¹Ð¹±¥•¹Ñ`°(€€€€€±…ÍÑQ¥µ”èÁ•É™½Éµ…¹”¹¹½Ü ¤°(€€€€€…Ñ¥Ù”è™…±Í”°(€€€€€…¹•±±•è™…±Í”°(€€€€€Á½Í¥Ñ¥½¹Ì°(€€€€€µ¥¹%¹‘•àèÍ•±•Ñ•‘%¹‘•à€ð€À€ü€´Ä€è€À°(€€€ôì(€ôì((€½¹ÍÐµ½Ù••ÍÑÕÉ”€ô€¡•Ù•¹Ð¤€ôøì(€€€¥˜€ …•ÍÑÕÉ”ñð•ÍÑÕÉ”¹Á½¥¹Ñ•É%€„ôô•Ù•¹Ð¹Á½¥¹Ñ•É%ñð•ÍÑÕÉ”¹…¹•±±•¤É•ÑÕÉ¸ì(€€€½¹ÍÐ‘à€ô•Ù•¹Ð¹±¥•¹Ñ`€´•ÍÑÕÉ”¹ÍÑ…ÉÑ`ì(€€€½¹ÍÐ‘ä€ô•Ù•¹Ð¹±¥•¹Ñd€´•ÍÑÕÉ”¹ÍÑ…ÉÑdì((€€€¥˜€ …•ÍÑÕÉ”¹…Ñ¥Ù”¤ì(€€€€€¥˜€¡5…Ñ ¹¡åÁ½Ð¡‘à°‘ä¤€ð€Ü¤É•ÑÕÉ¸ì(€€€€€¥˜€¡5…Ñ ¹…‰Ì¡‘ä¤€ø5…Ñ ¹…‰Ì¡‘à¤€¨€Ä¸ÀÔ¤ì(€€€€€€€•ÍÑÕÉ”¹…¹•±±•€ôÑÉÕ”ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€ô(€€€€€•ÍÑÕÉ”¹…Ñ¥Ù”€ôÑÉÕ”ì(€€€€€±½Í•A…¹•° ¤ì(€€€€€…ÁÍÕ±”¹±…ÍÍ1¥ÍÐ¹…‘ ¥Ìµ•ÍÑÕÉ”œ¤ì(€€€€€É½½Ð¹±…ÍÍ1¥ÍÐ¹…‘ ØÈµ¹…Øµ‘É…¥¹œœ¤ì(€€€€€ÑÉäì‰…È¹Í•ÑA½¥¹Ñ•É…ÁÑÕÉ”¡•Ù•¹Ð¹Á½¥¹Ñ•É%¤ìô…Ñ €¡|¤íô(€€€ô((€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì(€€€½¹ÍÐÁ¥Ñ €ô5…Ñ ¹µ…à ÜÈ°€¡ÑÉ¥•ÉÍlÅtü¹½™™Í•Ñ1•™ÐñðÑÉ¥•ÉÍlÁt¹½™™Í•Ñ]¥‘Ñ ¤€´ÑÉ¥•ÉÍlÁt¹½™™Í•Ñ1•™Ð¤ì(€€€½¹ÍÐÉ…Ü€ô•ÍÑÕÉ”¹ÍÑ…ÉÑ%¹‘•à€¬‘à€¼Á¥Ñ ì(€€€±•ÐÙ…±Õ”€ôÉ…Üì(€€€¥˜€¡É…Ü€ð•ÍÑÕÉ”¹µ¥¹%¹‘•à¤Ù…±Õ”€ô•ÍÑÕÉ”¹µ¥¹%¹‘•à€¬€¡É…Ü€´•ÍÑÕÉ”¹µ¥¹%¹‘•à¤€¨€¸ÈÈì(€€€¥˜€¡É…Ü€øÑÉ¥•ÉÌ¹±•¹Ñ €´€Ä¤Ù…±Õ”€ô€¡ÑÉ¥•ÉÌ¹±•¹Ñ €´€Ä¤€¬€¡É…Ü€´€¡ÑÉ¥•ÉÌ¹±•¹Ñ €´€Ä¤¤€¨€¸ÈÈì((€€€½¹ÍÐ¹½Ü€ôÁ•É™½Éµ…¹”¹¹½Ü ¤ì(€€€½¹ÍÐ‘Ð€ô5…Ñ ¹µ…à à°¹½Ü€´•ÍÑÕÉ”¹±…ÍÑQ¥µ”¤ì(€€€½¹ÍÐ¥¹ÍÑ…¹Ñ…¹•½ÕÌ€ô€ ¡•Ù•¹Ð¹±¥•¹Ñ`€´•ÍÑÕÉ”¹±…ÍÑ`¤€¼Á¥Ñ ¤€¨€ ÄÀÀÀ€¼‘Ð¤ì(€€€•ÍÑÕÉ”¹Ù•±½¥Ñä€ô•ÍÑÕÉ”¹Ù•±½¥Ñä€¨€¸ÜÈ€¬¥¹ÍÑ…¹Ñ…¹•½ÕÌ€¨€¸Èàì(€€€•ÍÑÕÉ”¹±…ÍÑ`€ô•Ù•¹Ð¹±¥•¹Ñ`ì(€€€•ÍÑÕÉ”¹±…ÍÑQ¥µ”€ô¹½Üì(€€€•ÍÑÕÉ”¹Ù…±Õ”€ôÙ…±Õ”ì(€€€É•¹‘•ÉY¥ÉÑÕ…°¡Ù…±Õ”°•ÍÑÕÉ”¹Ù•±½¥Ñä°•ÍÑÕÉ”¹Á½Í¥Ñ¥½¹Ì¤ì(€ôì((€½¹ÍÐ•¹‘•ÍÑÕÉ”€ô€¡•Ù•¹Ð¤€ôøì(€€€¥˜€ …•ÍÑÕÉ”ñð•ÍÑÕÉ”¹Á½¥¹Ñ•É%€„ôô•Ù•¹Ð¹Á½¥¹Ñ•É%¤É•ÑÕÉ¸ì(€€€½¹ÍÐ•¹‘•€ô•ÍÑÕÉ”ì(€€€•ÍÑÕÉ”€ô¹Õ±°ì((€€€¥˜€ …•¹‘•¹…Ñ¥Ù”¤É•ÑÕÉ¸ì(€€€ÍÕÁÁÉ•ÍÍ±¥­U¹Ñ¥°€ôÁ•É™½Éµ…¹”¹¹½Ü ¤€¬€ÔÈÀì(€€€ÑÉäì‰…È¹É•±•…Í•A½¥¹Ñ•É…ÁÑÕÉ”¡•Ù•¹Ð¹Á½¥¹Ñ•É%¤ìô…Ñ €¡|¤íô((€€€½¹ÍÐÁÉ½©•Ñ•€ô•¹‘•¹Ù…±Õ”€¬±…µÀ¡•¹‘•¹Ù•±½¥Ñä€¨€¸ÄÈ°€´¸Üà°€¸Üà¤ì(€€€½¹ÍÐÑ…É•Ñ%¹‘•à€ô±…µÀ¡5…Ñ ¹É½Õ¹¡ÁÉ½©•Ñ•¤°€À°ÑÉ¥•ÉÌ¹±•¹Ñ €´€Ä¤ì(€€€•ÍÑÕÉ”€ôì…Ñ¥Ù”èÑÉÕ”ôì(€€€ÍÁÉ¥¹Q½%¹‘•à¡•¹‘•¹Ù…±Õ”°Ñ…É•Ñ%¹‘•à°•¹‘•¹Ù•±½¥Ñä°•¹‘•¹Á½Í¥Ñ¥½¹Ì¤ì(€ôì((€‰…È¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È Á½¥¹Ñ•É‘½Ý¸œ°‰•¥¹•ÍÑÕÉ”¤ì(€‰…È¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È Á½¥¹Ñ•Éµ½Ù”œ°µ½Ù••ÍÑÕÉ”°ìÁ…ÍÍ¥Ù”è™…±Í”ô¤ì(€‰…È¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È Á½¥¹Ñ•ÉÕÀœ°•¹‘•ÍÑÕÉ”¤ì(€‰…È¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È Á½¥¹Ñ•É…¹•°œ°•¹‘•ÍÑÕÉ”¤ì((€‰…È¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ÍÉ½±°œ°ÕÁ‘…Ñ•MÉ½±±‘•Ì°ìÁ…ÍÍ¥Ù”èÑÉÕ”ô¤ì(€Ý¥¹‘½Ü¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È É•Í¥é”œ°€ ¤€ôøì(€€€ÕÁ‘…Ñ•MÉ½±±‘•Ì ¤ì(€€€¥˜€ …•ÍÑÕÉ”ü¹…Ñ¥Ù”¤Íå¹1•¹Ì¡‰ÕÑÑ½¹½È¡…Ñ¥Ù•A…¹•°ñðÕÉÉ•¹Ñ9…µ”ñð€É•Í•…É œ¤¤ì(€ô°ìÁ…ÍÍ¥Ù”èÑÉÕ”ô¤ì((€‘½Õµ•¹Ð¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È Á½¥¹Ñ•É‘½Ý¸œ°€¡•Ù•¹Ð¤€ôøì(€€€¥˜€ ……Ñ¥Ù•A…¹•°¤É•ÑÕÉ¸ì(€€€¥˜€ ……ÁÍÕ±”¹½¹Ñ…¥¹Ì¡•Ù•¹Ð¹Ñ…É•Ð¤¤±½Í•A…¹•° ¤ì(€ô¤ì((€‘½Õµ•¹Ð¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ­•å‘½Ý¸œ°€¡•Ù•¹Ð¤€ôøì(€€€¥˜€¡•Ù•¹Ð¹­•ä€ôôô€Í…Á”œ€˜˜…Ñ¥Ù•A…¹•°¤±½Í•A…¹•°¡ìÉ•ÍÑ½É•½ÕÌèÑÉÕ”ô¤ì(€€€¥˜€ ¡•Ù•¹Ð¹­•ä€ôôô€ÉÉ½Ý1•™Ðœñð•Ù•¹Ð¹­•ä€ôôô€ÉÉ½ÝI¥¡Ðœ¤€˜˜…ÁÍÕ±”¹½¹Ñ…¥¹Ì¡‘½Õµ•¹Ð¹…Ñ¥Ù•±•µ•¹Ð¤¤ì(€€€€€½¹ÍÐ¥¹‘•à€ô5…Ñ ¹µ…à À°ÑÉ¥•ÉÌ¹¥¹‘•á=˜¡‘½Õµ•¹Ð¹…Ñ¥Ù•±•µ•¹Ð¤¤ì(€€€€€½¹ÍÐ‘•±Ñ„€ô•Ù•¹Ð¹­•ä€ôôô€ÉÉ½ÝI¥¡Ðœ€ü€Ä€è€´Äì(€€€€€½¹ÍÐ¹•áÐ€ôÑÉ¥•ÉÍl¡¥¹‘•à€¬‘•±Ñ„€¬ÑÉ¥•ÉÌ¹±•¹Ñ ¤€”ÑÉ¥•ÉÌ¹±•¹Ñ¡tì(€€€€€¥˜€¡¹•áÐ¤ì(€€€€€€€•Ù•¹Ð¹ÁÉ•Ù•¹Ñ•™…Õ±Ð ¤ì(€€€€€€€¹•áÐ¹™½ÕÌ ¤ì(€€€€€€€Íå¹1•¹Ì¡¹•áÐ°ì•¹Ñ•ÈèÑÉÕ”ô¤ì(€€€€€ô(€€€ô(€ô¤ì((€½¹ÍÐÑ¡•µ•5½‘•Ì€ôl…ÕÑ¼œ°€±¥¡Ðœ°€‘…É¬tì(€½¹ÍÐÍÑ½É•‘Q¡•µ”€ô±½…±MÑ½É…”¹•Ñ%Ñ•´ …±½¬µÑ¡•µ”œ¤ì(€±•ÐÑ¡•µ•5½‘”€ôÑ¡•µ•5½‘•Ì¹¥¹±Õ‘•Ì¡ÍÑ½É•‘Q¡•µ”¤€üÍÑ½É•‘Q¡•µ”€è€…ÕÑ¼œì(€½¹ÍÐÍåÍÑ•µ…É¬€ôÝ¥¹‘½Ü¹µ…Ñ¡5•‘¥„ œ¡ÁÉ•™•ÉÌµ½±½ÈµÍ¡•µ”è‘…É¬¤œ¤ì(€½¹ÍÐÑ¡•µ•5•Ñ„€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È µ•Ñ…m¹…µ”ô‰Ñ¡•µ”µ½±½È‰tœ¤ì((€½¹ÍÐÉ•Í½±Ù•‘Q¡•µ”€ô€ ¤€ôøÑ¡•µ•5½‘”€ôôô€…ÕÑ¼œ€ü€¡ÍåÍÑ•µ…É¬¹µ…Ñ¡•Ì€ü€‘…É¬œ€è€±¥¡Ðœ¤€èÑ¡•µ•5½‘”ì(€½¹ÍÐÕÁ‘…Ñ•Q¡•µ•5•Ñ„€ô€ ¤€ôøÑ¡•µ•5•Ñ„ü¹Í•ÑÑÑÉ¥‰ÕÑ” ½¹Ñ•¹Ðœ°É•Í½±Ù•‘Q¡•µ” ¤€ôôô€‘…É¬œ€ü€œŒÄÄÄÐÄØœ€è€œ˜Í˜É•”œ¤ì((€½¹ÍÐ…ÁÁ±åQ¡•µ”€ô€ ¤€ôøì(€€€¥˜€¡Ñ¡•µ•5½‘”€ôôô€…ÕÑ¼œ¤É½½Ð¹É•µ½Ù•ÑÑÉ¥‰ÕÑ” ‘…Ñ„µÑ¡•µ”œ¤ì(€€€•±Í”É½½Ð¹Í•ÑÑÑÉ¥‰ÕÑ” ‘…Ñ„µÑ¡•µ”œ°Ñ¡•µ•5½‘”¤ì(€€€¥˜€¡Ñ¡•µ•å±”¤ì(€€€€€½¹ÍÐ±…‰•°€ôÑ¡•µ•5½‘”¹¡…ÉÐ À¤¹Ñ½UÁÁ•É…Í” ¤€¬Ñ¡•µ•5½‘”¹Í±¥” Ä¤ì(€€€€€Ñ¡•µ•å±”¹Ñ•áÑ½¹Ñ•¹Ð€ôQ¡•µ”ƒ
-Ü€‘í±…‰•±õ€ì(€€€€€Ñ¡•µ•å±”¹Í•ÑÑÑÉ¥‰ÕÑ” …É¥„µ±…‰•°œ°Q¡•µ”Í•ÑÑ¥¹œè€‘í±…‰•±ô¸Ñ¥Ù…Ñ”Ñ¼¡…¹”Ñ¡•µ”¹€¤ì(€€€ô(€€€ÕÁ‘…Ñ•Q¡•µ•5•Ñ„ ¤ì(€ôì((€Ñ¡•µ•å±”ü¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•È ±¥¬œ°€ ¤€ôøì(€€€½¹ÍÐ¥¹‘•à€ôÑ¡•µ•5½‘•Ì¹¥¹‘•á=˜¡Ñ¡•µ•5½‘”¤ì(€€€Ñ¡•µ•5½‘”€ôÑ¡•µ•5½‘•Íl¡¥¹‘•à€¬€Ä¤€”Ñ¡•µ•5½‘•Ì¹±•¹Ñ¡tì(€€€±½…±MÑ½É…”¹Í•Ñ%Ñ•´ …±½¬µÑ¡•µ”œ°Ñ¡•µ•5½‘”¤ì(€€€…ÁÁ±åQ¡•µ” ¤ì(€ô¤ì((€ÍåÍÑ•µ…É¬¹…‘‘Ù•¹Ñ1¥ÍÑ•¹•Èü¸ ¡…¹”œ°€ ¤€ôøì(€€€¥˜€¡Ñ¡•µ•5½‘”€ôôô€…ÕÑ¼œ¤ÕÁ‘…Ñ•Q¡•µ•5•Ñ„ ¤ì(€ô¤ì(€…ÁÁ±åQ¡•µ” ¤ì((€¥˜€ %¹Ñ•ÉÍ•Ñ¥½¹=‰Í•ÉÙ•Èœ¥¸Ý¥¹‘½Ü¤ì(€€€½¹ÍÐÙ¥Í¥‰±”€ô¹•Ü5…À ¤ì(€€€½¹ÍÐ½‰Í•ÉÙ•È€ô¹•Ü%¹Ñ•ÉÍ•Ñ¥½¹=‰Í•ÉÙ•È ¡•¹ÑÉ¥•Ì¤€ôøì(€€€€€¥˜€¡•ÍÑÕÉ”ü¹…Ñ¥Ù”ñð…ÁÍÕ±”¹±…ÍÍ1¥ÍÐ¹½¹Ñ…¥¹Ì ¥ÌµÍÁÉ¥¹¥¹œœ¤¤É•ÑÕÉ¸ì(€€€€€•¹ÑÉ¥•Ì¹™½É…  ¡•¹ÑÉä¤€ôøÙ¥Í¥‰±”¹Í•Ð¡•¹ÑÉä¹Ñ…É•Ð°•¹ÑÉä¹¥¹Ñ•ÉÍ•Ñ¥½¹I…Ñ¥¼¤¤ì(€€€€€±•Ð‰•ÍÑ9…µ”€ô¹Õ±°ì(€€€€€±•Ð‰•ÍÑI…Ñ¥¼€ô€Àì(€€€€€Í•Ñ¥½¹5…À¹™½É…  ¡•±•µ•¹Ð°¹…µ”¤€ôøì(€€€€€€€½¹ÍÐÉ…Ñ¥¼€ô•±•µ•¹Ð€ü€¡Ù¥Í¥‰±”¹•Ð¡•±•µ•¹Ð¤ñð€À¤€è€Àì(€€€€€€€¥˜€¡É…Ñ¥¼€ø‰•ÍÑI…Ñ¥¼¤ì(€€€€€€€€€‰•ÍÑI…Ñ¥¼€ôÉ…Ñ¥¼ì(€€€€€€€€€‰•ÍÑ9…µ”€ô¹…µ”ì(€€€€€€€ô(€€€€€ô¤ì(€€€€€¥˜€¡‰•ÍÑ9…µ”€˜˜‰•ÍÑI…Ñ¥¼€ø€À¸ÄÈ¤µ…É­ÕÉÉ•¹Ð¡‰•ÍÑ9…µ”¤ì(€€€ô°ìÑ¡É•Í¡½±èlÀ°€¸ÄÈ°€¸ÈÔ°€¸Ô°€¸ÜÕtô¤ì(€€€Í•Ñ¥½¹5…À¹™½É…  ¡•±•µ•¹Ð¤€ôø•±•µ•¹Ð€˜˜½‰Í•ÉÙ•È¹½‰Í•ÉÙ”¡•±•µ•¹Ð¤¤ì(€ô((€É•ÅÕ•ÍÑ¹¥µ…Ñ¥½¹É…µ”  ¤€ôøì(€€€Íå¹1•¹Ì¡‰ÕÑÑ½¹¼(°€É•Í•…É œ¤¤ì(€€€ÕÁ‘…Ñ•MÉ½±±‘•Ì ¤ì(€ô¤ì)ô¤ ¤ì
+  themeCycle?.addEventListener('click', () => {
+    const index = themeModes.indexOf(themeMode);
+    themeMode = themeModes[(index + 1) % themeModes.length];
+    localStorage.setItem('galok-theme', themeMode);
+    applyTheme();
+  });
+
+  systemDark.addEventListener?.('change', () => {
+    if (themeMode === 'auto') updateThemeMeta();
+  });
+  applyTheme();
+
+  if ('IntersectionObserver' in window) {
+    const visible = new Map();
+    const observer = new IntersectionObserver((entries) => {
+      if (isNavigating) return;
+      entries.forEach((entry) => visible.set(entry.target, entry.intersectionRatio));
+
+      let bestName = null;
+      let bestRatio = 0;
+      sectionMap.forEach((element, name) => {
+        const ratio = element ? (visible.get(element) || 0) : 0;
+        if (ratio > bestRatio) {
+          bestRatio = ratio;
+          bestName = name;
+        }
+      });
+
+      if (bestName && bestRatio > 0.12) markCurrent(bestName, { center: true });
+    }, { threshold: [0, .12, .25, .5, .75] });
+
+    sectionMap.forEach((element) => element && observer.observe(element));
+  }
+
+  document.querySelector('.gv2-scroll-cue')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    springScrollTo('research');
+  });
+
+  requestAnimationFrame(() => {
+    markCurrent('research', { center: false });
+    updateScrollEdges();
+  });
+})();
