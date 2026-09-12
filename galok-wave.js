@@ -32,6 +32,32 @@
     });
   }
 
+  function upgradeCapabilityMedia() {
+    if (window.location.pathname.replace(/index\.html$/, "") !== "/essays/capability-laundering/") return;
+    var replacements = {
+      "/assets/views/articles/capability-laundering-cover.webp": [
+        "/assets/views/articles/capability-laundering-cover.avif", "1672", "941"
+      ],
+      "/assets/views/articles/capability-laundering-subway.webp": [
+        "/assets/views/articles/capability-laundering-subway.avif", "1536", "1024"
+      ],
+      "/assets/views/articles/capability-laundering-alibaba-guangzhou.webp": [
+        "/assets/views/articles/capability-laundering-alibaba-guangzhou.avif", "1448", "1086"
+      ]
+    };
+
+    queryAll(".article-content img").forEach(function (image) {
+      var src = image.getAttribute("src");
+      var next = replacements[src];
+      if (!next) return;
+      image.setAttribute("src", next[0]);
+      image.setAttribute("width", next[1]);
+      image.setAttribute("height", next[2]);
+      image.removeAttribute("srcset");
+      image.removeAttribute("sizes");
+    });
+  }
+
   function ensureAutoArticleNav(root) {
     var existing = query(".gwn, [data-gwn]", root);
     if (existing) return existing;
@@ -63,6 +89,7 @@
 
   function initWaveNav(root) {
     removeLegacyProgress();
+    upgradeCapabilityMedia();
     var nav = query(".gwn, [data-gwn]", root) || ensureAutoArticleNav(root);
     if (!nav) return;
     if (nav.hasAttribute("data-gwn-init")) {
@@ -302,13 +329,14 @@
   }
 
   window.GalokWave = {
-    version: "20260912-pill",
+    version: "20260912-pill-hd1",
     init: initWaveNav,
     ensureArticleNav: ensureAutoArticleNav
   };
 
   function tryInit() {
     removeLegacyProgress();
+    upgradeCapabilityMedia();
     var nav = query(".gwn, [data-gwn]") || ensureAutoArticleNav(document);
     if (nav) {
       initWaveNav(document);
