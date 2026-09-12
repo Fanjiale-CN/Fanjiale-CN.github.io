@@ -1,0 +1,321 @@
+/* Galok article dual-island navigation
+   Two persistent controls: article contents + main site navigation.
+   Motion stays single-stage and non-overshooting, inspired by iOS Dynamic Island behavior. */
+
+:root {
+  --galok-island-ink: rgba(7,8,9,.96);
+  --galok-island-line: rgba(255,255,255,.09);
+  --galok-island-text: #f7f7f4;
+  --galok-island-muted: rgba(247,247,244,.58);
+  --galok-island-accent: #ff8a18;
+  --galok-island-ease: cubic-bezier(.32,.72,0,1);
+}
+
+.galok-article-islands {
+  position: fixed;
+  z-index: 9998;
+  top: max(12px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: min(680px, calc(100vw - 28px));
+  pointer-events: none;
+  font-family: "MiSans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.galok-article-island {
+  pointer-events: auto;
+  color: var(--galok-island-text);
+  background: var(--galok-island-ink);
+  border: 1px solid var(--galok-island-line);
+  box-shadow: 0 14px 34px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
+  overflow: hidden;
+  transition:
+    width 360ms var(--galok-island-ease),
+    height 360ms var(--galok-island-ease),
+    border-radius 360ms var(--galok-island-ease),
+    transform 280ms var(--galok-island-ease),
+    box-shadow 220ms ease;
+}
+
+.galok-article-island--toc {
+  width: min(520px, calc(100% - 58px));
+  height: 56px;
+  border-radius: 28px;
+}
+
+.galok-article-island--site {
+  width: 48px;
+  height: 48px;
+  margin-top: 4px;
+  border-radius: 24px;
+}
+
+.galok-article-island--toc.is-open {
+  height: min(420px, calc(100vh - 108px));
+  border-radius: 30px;
+}
+
+.galok-article-island--site.is-open {
+  width: min(420px, calc(100vw - 38px));
+  height: 288px;
+  border-radius: 28px;
+}
+
+.galok-island-trigger {
+  width: 100%;
+  height: 56px;
+  border: 0;
+  padding: 0 17px;
+  background: transparent;
+  color: inherit;
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr) auto;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.galok-article-island--site .galok-island-trigger {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.galok-island-index {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  color: var(--galok-island-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.galok-island-current {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.galok-island-current small {
+  color: var(--galok-island-muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.galok-island-current strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.015em;
+}
+
+.galok-island-progress {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--galok-island-accent) calc(var(--galok-read-progress,0) * 1turn), rgba(255,255,255,.11) 0);
+  transition: background 120ms linear;
+}
+
+.galok-island-progress::after {
+  content: "";
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #090a0b;
+}
+
+.galok-island-site-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: invert(1);
+}
+
+.galok-island-panel {
+  opacity: 0;
+  transform: translateY(-5px) scale(.985);
+  pointer-events: none;
+  transition: opacity 150ms ease, transform 300ms var(--galok-island-ease);
+}
+
+.galok-article-island.is-open .galok-island-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  transition-delay: 55ms;
+}
+
+.galok-island-panel--toc {
+  height: calc(100% - 58px);
+  padding: 6px 8px 10px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.galok-island-panel--toc::-webkit-scrollbar { display: none; }
+
+.galok-island-toc-link {
+  width: 100%;
+  border: 0;
+  border-radius: 15px;
+  padding: 11px 12px;
+  background: transparent;
+  color: var(--galok-island-muted);
+  display: grid;
+  grid-template-columns: 28px minmax(0,1fr);
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, transform 120ms ease;
+}
+
+.galok-island-toc-link:hover,
+.galok-island-toc-link:focus-visible,
+.galok-island-toc-link.is-current {
+  background: rgba(255,255,255,.085);
+  color: var(--galok-island-text);
+}
+
+.galok-island-toc-link:active { transform: scale(.985); }
+
+.galok-island-toc-link span:first-child {
+  color: rgba(255,255,255,.36);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.galok-island-toc-link span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 560;
+}
+
+.galok-island-panel--site {
+  position: absolute;
+  top: 54px;
+  right: 0;
+  width: min(420px, calc(100vw - 38px));
+  padding: 12px;
+}
+
+.galok-island-site-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4px 12px;
+}
+
+.galok-island-site-head img { width: 28px; height: 28px; filter: invert(1); }
+.galok-island-site-head div { display:grid; gap:1px; }
+.galok-island-site-head strong { font-size: 13px; }
+.galok-island-site-head small { color:var(--galok-island-muted); font-size:9px; letter-spacing:.11em; text-transform:uppercase; }
+
+.galok-island-site-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 7px;
+}
+
+.galok-island-site-grid a {
+  min-height: 58px;
+  padding: 10px;
+  border-radius: 16px;
+  display: grid;
+  align-content: space-between;
+  color: var(--galok-island-text);
+  background: rgba(255,255,255,.065);
+  text-decoration: none;
+  transition: background 140ms ease, transform 120ms ease;
+}
+
+.galok-island-site-grid a:hover,
+.galok-island-site-grid a:focus-visible { background: rgba(255,255,255,.12); }
+.galok-island-site-grid a:active { transform: scale(.98); }
+.galok-island-site-grid a small { color: var(--galok-island-muted); font-size: 9px; }
+.galok-island-site-grid a strong { font-size: 11px; font-weight: 600; }
+
+body.galok-article-islands-ready > .site-nav { visibility: hidden; pointer-events: none; }
+body.galok-article-islands-ready .batch-chapter-nav,
+body.galok-article-islands-ready .research-wave-toc,
+body.galok-article-islands-ready .research-mobile-toc { display: none !important; }
+
+html { scroll-padding-top: 86px; }
+
+@media (max-width: 700px) {
+  .galok-article-islands {
+    top: max(8px, env(safe-area-inset-top));
+    width: calc(100vw - 18px);
+    gap: 7px;
+  }
+
+  .galok-article-island--toc {
+    width: calc(100% - 51px);
+    height: 50px;
+    border-radius: 25px;
+  }
+
+  .galok-article-island--site {
+    width: 44px;
+    height: 44px;
+    margin-top: 3px;
+    border-radius: 22px;
+  }
+
+  .galok-island-trigger { height: 50px; padding-inline: 12px; gap: 9px; }
+  .galok-article-island--site .galok-island-trigger { width:44px; height:44px; }
+  .galok-island-site-logo { width:22px; height:22px; }
+  .galok-island-current strong { font-size: 12px; }
+  .galok-island-progress { width:31px; height:31px; }
+  .galok-island-progress::after { width:25px; height:25px; }
+
+  .galok-article-island--toc.is-open {
+    height: min(390px, calc(100vh - 82px));
+    border-radius: 26px;
+  }
+
+  .galok-article-island--site.is-open {
+    width: calc(100vw - 18px);
+    height: 276px;
+    border-radius: 26px;
+    transform: translateX(calc(-100vw + 76px));
+  }
+
+  .galok-island-panel--site {
+    width: calc(100vw - 18px);
+    top: 48px;
+  }
+
+  .galok-island-site-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galok-article-island,
+  .galok-island-panel,
+  .galok-island-toc-link,
+  .galok-island-site-grid a { transition: none !important; }
+}
