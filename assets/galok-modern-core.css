@@ -21,6 +21,9 @@ body.galok-modern-site img{height:auto}
 body.galok-modern-site h1,body.galok-modern-site h2,body.galok-modern-site h3,body.galok-modern-site h4,body.galok-modern-site h5,body.galok-modern-site p,body.galok-modern-site li,body.galok-modern-site button,body.galok-modern-site input,body.galok-modern-site select,body.galok-modern-site textarea{font-family:"MiSans","Helvetica Neue",Arial,sans-serif}
 body.galok-modern-site ::selection{background:color-mix(in srgb,var(--galok-accent) 28%,white);color:var(--galok-ink)}
 
+/* Retire the legacy fixed red reading-progress hairline everywhere in the modern site. */
+body.galok-modern-site .article-read-progress{display:none!important}
+
 /* 视 / 框 / 察 are classification marks. All three are seal-script. */
 body.galok-modern-site .glyph-draw,body.galok-modern-site [data-glyph],body.galok-modern-site .notes-row-seal,body.galok-modern-site .archive-index-seal,body.galok-modern-site .design-lens-mark,body.galok-modern-site .article-anchor,body.galok-modern-site .glyph-inline,body.galok-modern-site .themes-glyph,body.galok-modern-site .lens-glyph{
  font-family:"Galok Glyph Display","STKaiti",serif!important;font-weight:400!important;font-style:normal!important
