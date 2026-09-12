@@ -1,10 +1,19 @@
 /cities/
   Cache-Control: public, max-age=0, must-revalidate
 
+/research/love-by-the-hour/
+  Cache-Control: public, max-age=0, must-revalidate
+
 /research/love-by-the-hour/visuals/
   Cache-Control: public, max-age=0, must-revalidate
 
+/essays/capability-laundering/
+  Cache-Control: public, max-age=0, must-revalidate
+
 /data/city-atlas.json
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/editorial-modern-20260913.css
   Cache-Control: public, max-age=0, must-revalidate
 
 /assets/observability.js
