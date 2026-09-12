@@ -1,11 +1,35 @@
 (() => {
   const root = document.documentElement;
+  const brand = document.querySelector('.gv2-brand');
   const capsule = document.querySelector('[data-gv2-capsule]');
   const panelWrap = document.querySelector('[data-capsule-panel-wrap]');
   const bar = capsule?.querySelector('.gv2-capsule-bar');
   const year = document.querySelector('[data-current-year]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   if (year) year.textContent = String(new Date().getFullYear());
+
+  let logoTimer = 0;
+  const playBrandMotion = () => {
+    if (!brand || reducedMotion.matches) return;
+    window.clearTimeout(logoTimer);
+    brand.classList.remove('is-logo-playing');
+    void brand.offsetWidth;
+    brand.classList.add('is-logo-playing');
+    logoTimer = window.setTimeout(() => brand.classList.remove('is-logo-playing'), 620);
+  };
+
+  brand?.addEventListener('click', (event) => {
+    playBrandMotion();
+
+    const plainClick = !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+    const onHome = location.pathname === '/' || location.pathname === '/index.html';
+    if (plainClick && onHome) {
+      event.preventDefault();
+      if (window.scrollY > 4) window.scrollTo(0, 0);
+    }
+  });
+
   if (!capsule || !panelWrap || !bar) return;
 
   const icons = {
@@ -58,7 +82,6 @@
   const panels = Array.from(panelWrap.querySelectorAll('[data-capsule-panel]'));
   const lens = bar.querySelector('.gv2-capsule-lens');
   const themeCycle = panelWrap.querySelector('[data-theme-cycle]');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sectionMap = new Map(localNames.map((name) => [name, document.querySelector(`[data-home-section="${name}"]`)]));
 
   let activePanel = null;
@@ -157,7 +180,6 @@
       return;
     }
 
-    // Speed first: short hops finish in about 200ms, long jumps never exceed 320ms.
     const duration = clamp(170 + Math.sqrt(absoluteDistance) * 2.35, 200, 320);
     const startedAt = performance.now();
     isNavigating = true;
