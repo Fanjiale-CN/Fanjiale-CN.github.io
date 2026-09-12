@@ -1,0 +1,310 @@
+/* GALOK Home v2.1 — fluid capsule navigation + MiSans typography
+   2026-09-13
+   MiSans © Beijing Xiaomi Mobile Software Co., Ltd.; used under the MiSans font license.
+*/
+
+/* Main-site typography: MiSans becomes the default sans system.
+   Press Print keeps its own branded type treatment. */
+body.gv2-body,
+.gv2-brand,
+.gv2-hero-topbar > p,
+.gv2-hero-word,
+.gv2-hero-note span,
+.gv2-hero-note p,
+.gv2-current,
+.gv2-current span,
+.gv2-current strong,
+.gv2-current small,
+.gv2-scroll-cue,
+.gv2-section-head,
+.gv2-section-head h2,
+.gv2-section-head span,
+.gv2-section-head > a,
+.gv2-story,
+.gv2-story small,
+.gv2-story h3,
+.gv2-story p,
+.gv2-story span,
+.gv2-city,
+.gv2-city small,
+.gv2-city h3,
+.gv2-city p,
+.gv2-capsule-shell,
+.gv2-capsule-shell button,
+.gv2-capsule-shell a,
+.gv2-capsule-shell span,
+.gv2-capsule-shell small,
+.gv2-footer,
+.gv2-footer a,
+.gv2-footer span,
+.gv2-footer p {
+  font-family: "MiSans", "MiSans VF", "Helvetica Neue", Arial, sans-serif;
+}
+
+.gv2-hero-word { font-weight: 300; }
+.gv2-section-head h2 { font-weight: 400; }
+.gv2-hero-note p,
+.gv2-current strong,
+.gv2-story h3,
+.gv2-city h3 { font-weight: 500; }
+.gv2-brand,
+.gv2-capsule-shell button { font-weight: 600; }
+
+/* Wider shell on desktop; intentionally constrained on tablets so the rail
+   remains swipeable rather than collapsing labels. */
+.gv2-capsule-shell {
+  width: min(920px, calc(100% - 30px));
+  --gv2-nav-pad: 7px;
+  --gv2-nav-item: 112px;
+}
+
+.gv2-capsule-bar {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 3px;
+  min-height: 72px;
+  padding: var(--gv2-nav-pad);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: calc(var(--gv2-nav-pad) + 4px);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+.gv2-capsule-bar::-webkit-scrollbar { display: none; }
+
+.gv2-capsule-lens {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  top: var(--gv2-nav-pad);
+  bottom: var(--gv2-nav-pad);
+  width: var(--gv2-lens-w, var(--gv2-nav-item));
+  border: 1px solid rgba(255,255,255,.62);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,.10)),
+    rgba(255,255,255,.12);
+  box-shadow:
+    0 9px 24px rgba(28,32,35,.08),
+    inset 0 1px 0 rgba(255,255,255,.82);
+  pointer-events: none;
+  transform: translate3d(var(--gv2-lens-x, 7px), 0, 0);
+  transition:
+    transform 430ms cubic-bezier(.18,.89,.32,1.18),
+    width 430ms cubic-bezier(.18,.89,.32,1.18),
+    opacity 180ms ease;
+  will-change: transform, width;
+}
+
+:root[data-theme="dark"] .gv2-capsule-lens {
+  border-color: rgba(255,255,255,.13);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
+    rgba(255,255,255,.035);
+  box-shadow: 0 9px 28px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .gv2-capsule-lens {
+    border-color: rgba(255,255,255,.13);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
+      rgba(255,255,255,.035);
+    box-shadow: 0 9px 28px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.10);
+  }
+}
+
+.gv2-capsule-bar button {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 var(--gv2-nav-item);
+  min-width: var(--gv2-nav-item);
+  min-height: 58px;
+  padding: 7px 9px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent !important;
+  color: var(--gv2-muted);
+  cursor: pointer;
+  display: grid;
+  grid-template-rows: 24px auto;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  scroll-snap-align: center;
+  transition:
+    color 180ms ease,
+    transform 300ms cubic-bezier(.2,.85,.2,1.15),
+    opacity 180ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv2-capsule-bar button:hover,
+.gv2-capsule-bar button:focus-visible,
+.gv2-capsule-bar button[aria-expanded="true"],
+.gv2-capsule-bar button.is-current {
+  color: var(--gv2-ink);
+  background: transparent !important;
+}
+
+.gv2-capsule-bar button:active { transform: scale(.94); }
+
+.gv2-nav-icon {
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  transform-origin: 50% 65%;
+  transition:
+    transform 390ms cubic-bezier(.18,.89,.32,1.35),
+    opacity 180ms ease;
+}
+.gv2-nav-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.gv2-nav-label {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .71rem;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+
+.gv2-capsule-bar button:hover .gv2-nav-icon,
+.gv2-capsule-bar button:focus-visible .gv2-nav-icon { transform: translateY(-2px) scale(1.055); }
+.gv2-capsule-bar button[aria-expanded="true"] .gv2-nav-icon,
+.gv2-capsule-bar button.is-current .gv2-nav-icon { transform: translateY(-3px) scale(1.085); }
+
+.gv2-capsule-bar button.is-current::after {
+  bottom: 5px;
+  width: 4px;
+  height: 4px;
+}
+
+/* Secondary panel grows from the same object instead of reading like a dropdown. */
+.gv2-capsule-panel {
+  border-radius: 34px;
+  transform: translateY(18px) scale(.965);
+  filter: saturate(.96);
+  transition:
+    opacity 180ms ease,
+    transform 430ms cubic-bezier(.16,1,.3,1),
+    filter 260ms ease;
+}
+.gv2-capsule-shell.is-open .gv2-capsule-panel {
+  transform: translateY(0) scale(1);
+  filter: saturate(1);
+}
+
+.gv2-submenu.is-active > * {
+  animation: gv2SubmenuIn 420ms cubic-bezier(.16,1,.3,1) both;
+}
+.gv2-submenu.is-active > *:nth-child(2) { animation-delay: 22ms; }
+.gv2-submenu.is-active > *:nth-child(3) { animation-delay: 44ms; }
+.gv2-submenu.is-active > *:nth-child(4) { animation-delay: 66ms; }
+.gv2-submenu.is-active > *:nth-child(5) { animation-delay: 88ms; }
+.gv2-submenu.is-active > *:nth-child(6) { animation-delay: 110ms; }
+
+@keyframes gv2SubmenuIn {
+  from { opacity: 0; transform: translateY(9px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.gv2-submenu > div span { font-weight: 600; }
+.gv2-submenu > div small { font-weight: 400; }
+.gv2-submenu > a,
+.gv2-submenu > button { font-weight: 500; }
+
+/* A tiny edge affordance makes the horizontal nature clear without arrows. */
+.gv2-capsule-shell::before,
+.gv2-capsule-shell::after {
+  content: "";
+  position: absolute;
+  z-index: 7;
+  bottom: 14px;
+  width: 14px;
+  height: 44px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: .46;
+  transition: opacity 180ms ease;
+}
+.gv2-capsule-shell::before {
+  left: 5px;
+  background: linear-gradient(90deg, var(--gv2-frost-strong), transparent);
+}
+.gv2-capsule-shell::after {
+  right: 5px;
+  background: linear-gradient(270deg, var(--gv2-frost-strong), transparent);
+}
+.gv2-capsule-shell.is-scroll-start::before,
+.gv2-capsule-shell.is-scroll-end::after { opacity: 0; }
+
+@media (max-width: 1100px) {
+  .gv2-capsule-shell {
+    width: min(720px, calc(100% - 24px));
+    --gv2-nav-item: 108px;
+  }
+}
+
+@media (max-width: 760px) {
+  body.gv2-body { padding-bottom: 100px; }
+  .gv2-capsule-shell {
+    width: calc(100% - 14px);
+    --gv2-nav-pad: 6px;
+    --gv2-nav-item: 88px;
+    bottom: max(8px, calc(env(safe-area-inset-bottom, 0px) + 6px));
+  }
+  .gv2-capsule-bar {
+    min-height: 68px;
+    border-radius: 30px;
+  }
+  .gv2-capsule-bar button {
+    min-height: 56px;
+    padding-inline: 5px;
+  }
+  .gv2-nav-label { font-size: .65rem; }
+  .gv2-nav-icon,
+  .gv2-nav-icon svg { width: 21px; height: 21px; }
+  .gv2-capsule-panel {
+    left: 0;
+    right: 0;
+    padding: 8px;
+    border-radius: 29px;
+  }
+  .gv2-submenu { grid-template-columns: 1fr 1fr; }
+  .gv2-submenu > div { min-height: 74px; }
+}
+
+@media (max-width: 430px) {
+  .gv2-capsule-shell { --gv2-nav-item: 82px; }
+  .gv2-nav-label { font-size: .62rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gv2-capsule-lens,
+  .gv2-capsule-bar,
+  .gv2-capsule-bar button,
+  .gv2-nav-icon,
+  .gv2-capsule-panel,
+  .gv2-submenu.is-active > * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
