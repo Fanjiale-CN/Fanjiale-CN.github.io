@@ -296,6 +296,96 @@ body.gv2-body,
   .gv2-nav-label { font-size: .62rem; }
 }
 
+/* GALOK motion identity experiment 01 — disassemble / re-lock.
+   The mark is rebuilt from its two original vector masses so the movement
+   belongs to this logo rather than using a generic bounce. */
+.gv2-brand {
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv2-brand img {
+  opacity: 0;
+}
+
+.gv2-brand::before,
+.gv2-brand::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  background: currentColor;
+  pointer-events: none;
+  will-change: transform;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+.gv2-brand::before {
+  -webkit-mask-image: url('/assets/galok-symbol-upper.svg');
+  mask-image: url('/assets/galok-symbol-upper.svg');
+}
+
+.gv2-brand::after {
+  -webkit-mask-image: url('/assets/galok-symbol-lower.svg');
+  mask-image: url('/assets/galok-symbol-lower.svg');
+}
+
+.gv2-brand > span {
+  display: inline-block;
+  transform-origin: left center;
+  will-change: transform, letter-spacing;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gv2-brand:hover::before { transform: translate3d(-.7px, -.55px, 0) rotate(-.45deg); }
+  .gv2-brand:hover::after { transform: translate3d(.65px, .5px, 0) rotate(.4deg); }
+  .gv2-brand:hover > span { letter-spacing: .195em; }
+}
+
+.gv2-brand.is-logo-playing::before {
+  animation: gv2GalokUpper 560ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.gv2-brand.is-logo-playing::after {
+  animation: gv2GalokLower 560ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.gv2-brand.is-logo-playing > span {
+  animation: gv2GalokWord 560ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@keyframes gv2GalokUpper {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+  28%  { transform: translate3d(-4.1px, -3px, 0) rotate(-3.4deg) scale(.965); }
+  58%  { transform: translate3d(.75px, .55px, 0) rotate(.7deg) scale(1.012); }
+  78%  { transform: translate3d(-.3px, -.2px, 0) rotate(-.22deg) scale(.996); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+}
+
+@keyframes gv2GalokLower {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+  28%  { transform: translate3d(4.4px, 3px, 0) rotate(3.1deg) scale(.968); }
+  58%  { transform: translate3d(-.8px, -.5px, 0) rotate(-.65deg) scale(1.014); }
+  78%  { transform: translate3d(.28px, .2px, 0) rotate(.2deg) scale(.997); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+}
+
+@keyframes gv2GalokWord {
+  0%   { transform: translateX(0) scaleX(1); letter-spacing: .18em; }
+  28%  { transform: translateX(2.3px) scaleX(1.012); letter-spacing: .255em; }
+  58%  { transform: translateX(-.55px) scaleX(.997); letter-spacing: .17em; }
+  78%  { transform: translateX(.2px) scaleX(1.001); letter-spacing: .184em; }
+  100% { transform: translateX(0) scaleX(1); letter-spacing: .18em; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gv2-capsule-lens,
   .gv2-capsule-bar,
@@ -306,5 +396,13 @@ body.gv2-body,
     scroll-behavior: auto !important;
     transition: none !important;
     animation: none !important;
+  }
+
+  .gv2-brand::before,
+  .gv2-brand::after,
+  .gv2-brand > span {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
   }
 }
