@@ -139,6 +139,14 @@
     document.head.append(script);
   };
 
+  // One reading-progress system for every long-form surface. Older pages may
+  // already load galok-wave with an older cache key; loading the current key
+  // after them upgrades the same chapter markup into the bottom capsule.
+  if (document.querySelector(".gwn, [data-gwn], .article-content, .research-wave-toc, [data-reading-progress]")) {
+    appendStylesheet("/galok-wave.css?v=20260912-pill");
+    appendScript("/galok-wave.js?v=20260912-pill");
+  }
+
   if (route.startsWith("/essays/") || route === "/be-a-viewer/beijing/") {
     appendStylesheet("/assets/ui-fixes-20260830.css?v=1");
   }
