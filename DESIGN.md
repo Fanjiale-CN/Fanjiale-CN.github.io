@@ -6,52 +6,137 @@
 - Personal names must not appear in navigation, metadata, article bylines, structured data, contact copy, or public-facing source comments.
 - Contact remains `galokview@outlook.com` and `@galokview`.
 
-## Design philosophy: growth
+## Design philosophy: observation, not nostalgia
 
-Galok is a living field that grows like a plant, not a finished product. People grow on food; readers grow on three distances of observation — **View (視), Frame (框), Observe (察)** — which are the three ways this archive is consumed. Design exists only to serve information, and restraint is the discipline that keeps the field quiet enough to grow in.
+Galok is a digital-native editorial system. It should feel young, current, precise and built for a browser rather than inherited from a newspaper, archive room or old book.
 
-- **Growth first.** Content is living crops with natural states (Planted, Growing, Evergreen), not finished inventory. The site itself is planted, not built; incompleteness is permitted.
-- **Design serves information.** The three-color system, zine covers and glyph seals exist only to make information easier to read, digest and absorb. No decoration for its own sake.
-- **Restraint by principle.** Motion limits (opacity and transform only, ≤240ms) exist because the reader must be able to settle before they can grow. Multiple channels of interaction (search, thematic clusters, index, archive) serve one purpose: different readers find their own nourishment.
+The conceptual core remains three distances of observation: **View (視), Frame (框), Observe (察)**. These describe how a piece looks at the world, not which section of the site it belongs to.
 
-## Glyph seal system
+- **View / 視** — step back. Read systems, trends, cycles, institutions and large-scale pressure.
+- **Frame / 框** — choose a boundary. Define variables, comparisons, evidence structures and arguments.
+- **Observe / 察** — move close. Read street-level evidence, interfaces, behavior, objects, images and small scenes.
+- **Design serves information.** Hierarchy, color and motion must improve comprehension before they improve spectacle.
+- **Digital first.** Do not imitate paper texture, archival yellowing, newspaper furniture or book ornament unless a specific project materially requires it.
 
-- The seal glyphs are set in **Galok Glyph Display** (`/assets/fonts/yishanbeizhuanti.ttf`, an inscribed-zhuan typeface). A glyph seal is an edition stamp, not a decoration.
-- Three seals map the three distances: **視 (View) · 框 (Frame) · 察 (Observe)**. Each essay, essay card and thematic cluster carries its seal.
-- Seals appear as small corner stamps on essay covers and cards (Notes wall, homepage feature cards, archive clusters) and as the anchor glyph at the head of each article. Always paired with the English label; the seal is bilingual by design (glyph + label + pinyin data attribute).
-- Seals inherit the palette discipline: ink on paper, never signal red, never larger than the label they accompany. They stay still — no motion on seals except entry opacity, because a seal is something that has already been stamped.
+## Lens identity
+
+The lenses are a brand system, not a retro seal system.
+
+- Use the glyphs **視 · 框 · 察** as modern classification symbols set in the primary sans system.
+- Do not default to faux seals, stamped ink, calligraphic framing or heritage styling.
+- Always pair the glyph with an English label where comprehension matters: `VIEW / 視`, `FRAME / 框`, `OBSERVE / 察`.
+- The lens is independent of content type. A Research paper can be Frame; a city story can be View; an Essay can be Observe.
+- The page itself should express the lens through information scale and composition, not only through a label.
 
 ## Information architecture
 
 - **Cities** — visual city records and literary city chapters.
-- **Essays** — finished arguments, working notes, visual notes and data-led research.
+- **Essays** — finished arguments, working notes and visual essays.
+- **Research** — independent research and working papers.
+- **Data** — structured evidence and analytical surfaces.
+- **Reading** — source-led reading projects and editions.
 - **Work** — selected editorial systems and case studies.
 - **Index** — the searchable site archive.
 - **About** — Galok's method, archive and contact.
 
-`Data` is a research series inside Essays until the series is large enough to justify a separate primary section. Postcards and Visual Notes remain formats inside the archive rather than competing top-level destinations.
+The lens system sits across this information architecture rather than replacing it.
 
 ## Visual system
 
-- Near-black ink, warm paper and one signal red remain the shared palette.
-- Deep blue is reserved for selected editorial fields and city-specific material.
-- Large sans-serif headlines carry hierarchy. Serif italics are reserved for quotations and reflective emphasis. Monospace labels identify dates, sections and evidence.
-- Square corners, hairline rules and real source material preserve the editorial character.
-- Zine posters appear as edition covers and feature art, not as a universal card treatment.
+### Core palette
+
+Every editorial page uses a monochrome base plus one signal color.
+
+- **Background:** cold white / near-white, not warm paper.
+- **Ink:** near-black.
+- **Secondary text:** neutral gray.
+- **Rules / borders:** cool light gray.
+- **Signal:** one theme color only per page.
+
+Default digital neutrals:
+
+- Background `#F6F7F8`
+- Surface `#FFFFFF`
+- Ink `#0B0D0F`
+- Muted `#69717A`
+- Rule `#DFE3E7`
+
+Current lens signals:
+
+- **View / 視:** electric coral-red `#FF4057`
+- **Frame / 框:** cobalt `#2F63FF`
+- **Observe / 察:** acid lime `#B7E600`
+- **Research 003 experimental signal:** cyan `#00B8D4`
+
+The target ratio is approximately **90% monochrome / 10% signal**. Signal color is for hierarchy, active evidence, key numbers, rules, selected chart marks and classification. Do not wash whole pages in theme color by default.
+
+### Typography
+
+- **MiSans** is the primary interface and editorial sans.
+- Large sans-serif headlines carry the identity.
+- Body copy may remain sans when the page benefits from a contemporary digital tone.
+- Monospace is reserved for code, machine-readable evidence or data where the distinction is meaningful, not as generic editorial decoration.
+- Serif is optional and should never be used merely to make a page feel literary or prestigious.
+
+### Geometry
+
+- Prefer square or lightly rounded geometry.
+- Hairline rules, strong grids and deliberate whitespace carry structure.
+- Avoid universal rounded cards.
+- Avoid fake paper, torn-paper decoration and ornamental archival framing outside intentionally art-directed projects such as Press Print.
+
+## Lens composition
+
+The three lenses should look different because they operate at different scales.
+
+### View / 視
+
+- Larger visual scale and wider compositions.
+- Strong headline dominance.
+- Trends, maps, system diagrams and wide evidence fields are appropriate.
+- The page should feel panoramic rather than dense.
+
+### Frame / 框
+
+- Strongest grid discipline.
+- Comparisons, variables, figures, tables and explicit evidence architecture.
+- The page should feel analytical and constructed.
+
+### Observe / 察
+
+- Photography and source material can break wider than the text column.
+- Captions, timestamps, objects, interfaces and close evidence are important.
+- The page should feel immediate and specific without becoming scrapbook-like.
+
+## Long-form navigation policy
+
+As of the current design experiment, **Essay and Research detail pages are navigation-free surfaces**.
+
+- No persistent site navigation.
+- No Dynamic-Island-style article navigation.
+- No floating TOC capsule.
+- Reading and other specialized formats may keep their own controls where navigation is integral to the format.
+- Reintroduce article navigation only after it is designed from the editorial system outward rather than imported as an unrelated UI object.
+
+This is an intentional reset so long-form design can establish a coherent visual language before additional interaction chrome returns.
 
 ## Motion
 
 - Motion reveals structure or gives feedback.
-- Entrances use short opacity and position changes; no prolonged staged reveal.
-- Hover motion stays within 2–6px and does not resize layouts.
+- Page reading must never wait for decorative motion.
+- Prefer opacity and transform for short transitions.
+- Avoid bounce, overshoot and elastic motion unless the object being represented materially calls for it.
 - Every motion system respects `prefers-reduced-motion`.
+- Navigation efficiency takes priority over animation duration.
 
 ## Editorial rules
 
 - One stable identity statement appears on the homepage.
 - One current feature leads the homepage. There is no automatic multi-story hero carousel.
-- City pages may retain distinct palettes and hero treatments, while navigation, captions, chapter controls and exit paths remain consistent.
+- Real source material is preferred over decorative mock evidence.
+- Research figures distinguish evidence, interpretation and limitation.
 - Project pages explain intent, role, decisions, material and result. They do not rely on images alone.
+- Press Print may keep a distinct experimental visual language while sharing Galok's information hierarchy and typography discipline where appropriate.
 
 ## External design reference library
 
@@ -70,13 +155,13 @@ Before a substantial UI change:
 1. Read this file.
 2. Inspect the existing page and its shared components/tokens.
 3. If external references would materially help, inspect only the relevant `DESIGN.md` files under `design-references/awesome-design-md/design-md/`.
-4. Extract transferable principles such as spacing rhythm, hierarchy, typography roles, image treatment, responsive behavior, motion limits, and anti-patterns.
-5. Translate those principles into Galok tokens and components. Keep third-party branding, proprietary font assumptions, logos, signature brand colors, and distinctive branded compositions out of Galok.
-6. If a new reusable rule emerges, document it in Galok's own design documentation so future agents do not need to reconstruct the decision from external references.
+4. Extract transferable principles such as spacing rhythm, hierarchy, typography roles, image treatment, responsive behavior, motion limits and anti-patterns.
+5. Translate those principles into Galok tokens and components. Keep third-party branding, proprietary font assumptions, logos, signature brand colors and distinctive branded compositions out of Galok.
+6. If a new reusable rule emerges, document it here or in bounded Galok design documentation.
 
 ### Recommended reference map
 
-- **Long-form editorial / Reading:** `wired`, selectively `theverge`.
+- **Digital editorial / long-form:** `wired`, selectively `theverge`.
 - **Whitespace and image hierarchy:** `apple`.
 - **Precision UI, hairlines and restrained states:** `linear.app`, `vercel`.
 - **Data and research surfaces:** `ibm`.
@@ -87,13 +172,9 @@ The reference library is an ingredient shelf. Galok's visual language remains au
 
 ## Reference logic
 
-- [Maggie Appleton's digital-garden ethos](https://maggieappleton.com/garden-history) supports a personal, non-template taxonomy and the planted/growing/evergreen maturity language: Galok groups work by the way Galok thinks, rather than copying a portfolio menu.
-- [Craig Mod's independent archive practice](https://craigmod.com/essays/memberships_year_five/) supports the site as a durable public record of walks, essays and editions; subscription or membership mechanics are intentionally deferred.
-- [Robin Sloan's archive model](https://www.robinsloan.com/lab/) supports a direct authorial voice, readable pages and a site that can be explored as a body of work.
-- [The Pudding's visual-essay practice](https://pudding.cool/process/how-to-make-dope-shit-part-3/) supports interaction only when it clarifies evidence or advances the argument.
+- Works in Progress supports strict editorial grids and typography for complex ideas without requiring legacy newspaper styling.
+- Contemporary technology publications support large type, bold scale changes and digital-native pacing.
+- The Pudding supports interaction only when it clarifies evidence or advances an argument.
+- Precision product interfaces support restrained state changes, clear hierarchy and low visual noise.
 
-These references provide structural lessons, not a visual skin. Galok's differentiator is the link between household economics and city memory under one public editorial identity.
-
-## Current edition asset
-
-`/assets/editorial/data/household-line-zine.webp` is the current research-edition cover. It uses a household receipt and street map as a single metaphor: aggregate numbers become meaningful when they enter daily life. It may appear in the homepage research feature and related sharing metadata, not as a repeated generic background.
+These references provide structural lessons, not a visual skin. Galok's differentiator is the combination of independent research, city observation, visual publishing and a coherent observation-lens system.
