@@ -186,6 +186,11 @@
   const isReadingDetail = parts[0] === "reading" && parts.length >= 3;
   const supportSurface = isEssayDetail ? "essay-end" : isResearchDetail ? "research-end" : isReadingDetail ? "reading-end" : null;
 
+  if (isEssayDetail || isResearchDetail || isReadingDetail) {
+    appendStylesheet("/assets/article-islands.css?v=20260913a");
+    appendScript("/assets/article-islands.js?v=20260913a");
+  }
+
   if (supportSurface && !document.querySelector("[data-galok-support-panel]")) {
     const main = document.querySelector("main");
     if (main) {
