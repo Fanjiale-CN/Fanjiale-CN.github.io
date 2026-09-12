@@ -139,10 +139,28 @@
     document.head.append(script);
   };
 
-  // One reading-progress system for every long-form surface. Older pages may
-  // already load galok-wave with an older cache key; loading the current key
-  // after them upgrades the same chapter markup into the bottom capsule.
-  if (document.querySelector(".gwn, [data-gwn], .article-content, .research-wave-toc, [data-reading-progress]")) {
+  // Essays and research now use pure editorial layouts: no site nav, TOC capsule,
+  // Dynamic-Island treatment or scroll-driven navigation chrome.
+  const pureLongform = kind === "essay" || kind === "research";
+  if (pureLongform) {
+    document.body.classList.add("galok-pure-longform");
+    appendStylesheet("/assets/editorial-modern-20260913.css?v=20260913a");
+  }
+
+  const modernLongformRoutes = {
+    "/research/love-by-the-hour/": ["galok-theme-research003"],
+    "/essays/latte-price-illusion/": ["galok-editorial-essay", "galok-lens-view"],
+    "/essays/china-in-more-than-one-number/": ["galok-editorial-essay", "galok-lens-frame"],
+    "/essays/capability-laundering/": ["galok-editorial-essay", "galok-lens-observe"]
+  };
+  if (modernLongformRoutes[route]) {
+    document.body.classList.add(...modernLongformRoutes[route]);
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeMeta) themeMeta.setAttribute("content", "#f6f7f8");
+  }
+
+  // Reading keeps its own chapter-progress system. Essays and research do not.
+  if (kind === "reading" && document.querySelector(".gwn, [data-gwn], [data-reading-progress]")) {
     appendStylesheet("/galok-wave.css?v=20260912-pill");
     appendScript("/galok-wave.js?v=20260912-pill");
   }
@@ -186,11 +204,6 @@
   const isReadingDetail = parts[0] === "reading" && parts.length >= 3;
   const supportSurface = isEssayDetail ? "essay-end" : isResearchDetail ? "research-end" : isReadingDetail ? "reading-end" : null;
 
-  if (isEssayDetail || isResearchDetail || isReadingDetail) {
-    appendStylesheet("/assets/article-islands.css?v=20260913a");
-    appendScript("/assets/article-islands.js?v=20260913a");
-  }
-
   if (supportSurface && !document.querySelector("[data-galok-support-panel]")) {
     const main = document.querySelector("main");
     if (main) {
@@ -221,7 +234,7 @@
   if (route === "/cities/" && !document.querySelector("[data-city-atlas]")) {
     const selector = document.querySelector("[data-city-selector]");
     if (selector) {
-      selector.insertAdjacentHTML("afterend", `<section class="city-atlas" id="city-atlas" aria-labelledby="city-atlas-title" data-city-atlas><header class="city-atlas-head"><p class="city-atlas-eyebrow">02 / CITY ATLAS</p><div><h2 class="city-atlas-title" id="city-atlas-title">READ THE CITY<br>IN POINTS.</h2><p class="city-atlas-deck">Seven open city stories, placed as an editorial index. Each red point leads back to a chapter, image or moving frame in Galok.</p></div></header><div class="city-atlas-shell"><aside class="city-atlas-sidebar" aria-label="City Atlas controls"><nav class="city-atlas-nav" data-city-atlas-nav aria-label="Choose an Atlas city"></nav><div class="city-atlas-card" aria-live="polite"><small data-city-atlas-meta>01 / NORTH CHINA</small><strong data-city-atlas-title>BEIJING</strong><p data-city-atlas-text>Loading city record.</p><a href="/be-a-viewer/beijing/" data-city-atlas-link>Open city story ↗</a></div></aside><div class="city-atlas-map" data-city-atlas-map role="region" aria-label="Interactive Galok City Atlas"><span class="city-atlas-status" data-city-atlas-status>ATLAS STANDBY</span></div></div></section>`);
+      selector.insertAdjacentHTML("afterend", `<section class="city-atlas" id="city-atlas" aria-labelledby="city-atlas-title" data-city-atlas><header class="city-atlas-head"><p class="city-atlas-eyebrow">02 / CITY ATLAS</p><div><h2 id="city-atlas-title">READ THE CITY<br>IN POINTS.</h2><p class="city-atlas-deck">Seven open city stories, placed as an editorial index. Each red point leads back to a chapter, image or moving frame in Galok.</p></div></header><div class="city-atlas-shell"><aside class="city-atlas-sidebar" aria-label="City Atlas controls"><nav class="city-atlas-nav" data-city-atlas-nav aria-label="Choose an Atlas city"></nav><div class="city-atlas-card" aria-live="polite"><small data-city-atlas-meta>01 / NORTH CHINA</small><strong data-city-atlas-title>BEIJING</strong><p data-city-atlas-text>Loading city record.</p><a href="/be-a-viewer/beijing/" data-city-atlas-link>Open city story ↗</a></div></aside><div class="city-atlas-map" data-city-atlas-map role="region" aria-label="Interactive Galok City Atlas"><span class="city-atlas-status" data-city-atlas-status>ATLAS STANDBY</span></div></div></section>`);
       appendStylesheet("/be-a-viewer/city-atlas.css?v=20260830-livefix");
       appendScript("/be-a-viewer/city-atlas.js?v=20260830-livefix");
     }
