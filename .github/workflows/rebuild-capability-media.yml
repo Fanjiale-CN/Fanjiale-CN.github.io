@@ -1,0 +1,60 @@
+name: Rebuild Capability Laundering media
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tmp-media/rebuild-capability.flag"
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild high-resolution AVIF assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat tmp-media/cover-*.b64 | tr -d '\n\r ' | base64 -d > assets/views/articles/capability-laundering-cover.avif
+          cat tmp-media/subway-*.b64 | tr -d '\n\r ' | base64 -d > assets/views/articles/capability-laundering-subway.avif
+          cat tmp-media/alibaba-*.b64 | tr -d '\n\r ' | base64 -d > assets/views/articles/capability-laundering-alibaba-guangzhou.avif
+
+          echo "afe36278c2a5f2c19ad54577a6798fe9f1292941c9298203a3106fc09341be0b  assets/views/articles/capability-laundering-cover.avif" | sha256sum -c -
+          echo "0db632d73786bc09e7e02f2d933cf2d94b28e167733a929d4a035475df6b2b23  assets/views/articles/capability-laundering-subway.avif" | sha256sum -c -
+          echo "132e49ca8fd8079d3a296808839195f68567d0e98acf10491ba7ed59f681a8a7  assets/views/articles/capability-laundering-alibaba-guangzhou.avif" | sha256sum -c -
+
+          python - <<'PY'
+          from pathlib import Path
+          page = Path('essays/capability-laundering/index.html')
+          text = page.read_text()
+          text = text.replace('capability-laundering-cover.webp', 'capability-laundering-cover.avif')
+          text = text.replace('capability-laundering-subway.webp', 'capability-laundering-subway.avif')
+          text = text.replace('capability-laundering-alibaba-guangzhou.webp', 'capability-laundering-alibaba-guangzhou.avif')
+          page.write_text(text)
+
+          content = Path('content.js')
+          c = content.read_text()
+          c = c.replace('/assets/views/articles/capability-laundering-cover.webp', '/assets/views/articles/capability-laundering-cover.avif')
+          content.write_text(c)
+          PY
+
+          rm -f assets/views/articles/capability-laundering-cover.webp
+          rm -f assets/views/articles/capability-laundering-subway.webp
+          rm -f assets/views/articles/capability-laundering-alibaba-guangzhou.webp
+          rm -rf tmp-media
+
+      - name: Commit rebuilt media
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Galok Media Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "fix(media): ship full-resolution Capability Laundering artwork"
+          git push origin HEAD:main
