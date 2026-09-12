@@ -304,8 +304,8 @@ window.GALOK_CONTENT = {
         alt: "A narrow courtyard lane framed by concrete and yellow flowers"
       },
       excerpt: "China's platform internet no longer only creates desire. It trains consumers, cities and brands to prove that desire can survive inspection."
-    }
-    ,{
+    },
+    {
       series: "frame",
       anchor: "\u6846",
       issue: 13,
@@ -320,7 +320,22 @@ window.GALOK_CONTENT = {
         alt: "The Household Line — Galok data edition cover"
       },
       excerpt: "GDP grew, prices barely moved and property investment fell. This essay asks what each measure sees — and what it misses."
+    },
+    {
+      series: "scene",
+      anchor: "\u5bdf",
+      issue: 14,
+      deck: "The model name on screen is no longer proof of who did the thinking.",
+      title: "Capability Laundering",
+      date: "2026",
+      readingTime: "11 min",
+      url: "/essays/capability-laundering/",
+      maturity: "growing",
+      cover: {
+        src: "/assets/views/articles/capability-laundering-cover.webp",
+        alt: "A Press Print collage featuring the Anthropic wordmark with silhouetted figures"
+      },
+      excerpt: "Anthropic says Chinese AI labs secretly routed, extracted and trained on Claude. The deeper question is what domestic capability means when provenance disappears inside the pipeline."
     }
-
   ]
 };
