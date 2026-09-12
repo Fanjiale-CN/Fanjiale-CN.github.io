@@ -9,7 +9,7 @@
 
   if (year) year.textContent = String(new Date().getFullYear());
 
-  // GALOK motion identity 01. Kept independent from navigation state.
+  // GALOK motion identity 01. Brand motion stays independent from navigation.
   let logoTimer = 0;
   const playBrandMotion = () => {
     if (!brand || reducedMotion.matches) return;
@@ -42,7 +42,6 @@
     menu: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.4"/><rect x="14" y="4" width="6" height="6" rx="1.4"/><rect x="4" y="14" width="6" height="6" rx="1.4"/><rect x="14" y="14" width="6" height="6" rx="1.4"/></svg>'
   };
 
-  // These are the homepage sections ScrollProgress tracks continuously.
   const localNames = ['research', 'press-print', 'cities'];
   const navItems = [
     ['research', 'Research', icons.research],
@@ -53,7 +52,6 @@
     ['radar', 'Radar', icons.radar],
     ['menu', 'Menu', icons.menu]
   ];
-
   const navMeta = new Map(navItems.map(([name, label, icon]) => [name, { label, icon }]));
 
   bar.innerHTML = '<span class="gv2-capsule-lens" aria-hidden="true"></span>' + navItems.map(([name, label, icon]) => {
@@ -99,17 +97,13 @@
   let currentName = 'research';
   let isCollapsed = false;
   let isNavigating = false;
+  let navigationTarget = null;
   let scrollAnimationFrame = 0;
-  let progressFrame = 0;
-  let targetProgress = 0;
-  let visualProgress = 0;
-  let previousProgressTime = performance.now();
   let lastY = window.scrollY;
   let downTravel = 0;
   let expandCooldownUntil = 0;
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-  const lerp = (a, b, t) => a + (b - a) * t;
   const buttonFor = (name) => triggers.find((button) => button.dataset.capsuleTrigger === name) || null;
 
   const updateMini = (name) => {
@@ -124,97 +118,49 @@
     return Math.max(0, item.element.getBoundingClientRect().top + window.scrollY - 6);
   };
 
-  const sectionTops = () => sections.map(({ element }) => (
-    element ? Math.max(0, element.getBoundingClientRect().top + window.scrollY - 6) : 0
-  ));
-
-  // Equivalent to the supplied ScrollProgress sections model: the page scroll position
-  // is the one source of truth, expressed as a continuous section index (0..N-1).
-  const progressFromScroll = () => {
-    const tops = sectionTops();
-    const marker = window.scrollY + Math.min(220, window.innerHeight * 0.28);
-
-    if (!tops.length || marker <= tops[0]) return 0;
-
-    for (let index = 0; index < tops.length - 1; index += 1) {
-      const start = tops[index];
-      const end = tops[index + 1];
-      if (marker <= end) {
-        const span = Math.max(1, end - start);
-        return index + clamp((marker - start) / span, 0, 1);
-      }
+  // A fixed viewport anchor decides the active section. The selection never drifts
+  // continuously between tabs, so a tall section stays selected until the next
+  // section genuinely crosses the reading line.
+  const currentFromScroll = () => {
+    const marker = window.scrollY + window.innerHeight * 0.38;
+    let next = localNames[0];
+    for (const { name } of sections) {
+      const top = sectionTop(name);
+      if (top != null && marker >= top) next = name;
     }
-
-    return tops.length - 1;
+    return next;
   };
 
-  const markCurrentFromProgress = (progress) => {
-    const index = clamp(Math.round(progress), 0, localNames.length - 1);
-    const name = localNames[index];
-    if (name === currentName) return;
+  const syncLens = (name, { animate = true } = {}) => {
+    if (!lens || isCollapsed) return;
+    const button = buttonFor(name);
+    if (!button) return;
 
+    if (!animate || reducedMotion.matches) capsule.classList.add('is-lens-instant');
+    bar.style.setProperty('--gv2-lens-x', `${button.offsetLeft}px`);
+    bar.style.setProperty('--gv2-lens-w', `${button.offsetWidth}px`);
+    if (!animate || reducedMotion.matches) {
+      requestAnimationFrame(() => capsule.classList.remove('is-lens-instant'));
+    }
+  };
+
+  const setCurrent = (name, { animate = true } = {}) => {
+    if (!localNames.includes(name)) return;
+    const changed = currentName !== name;
     currentName = name;
     triggers.forEach((button) => button.classList.toggle('is-current', button.dataset.capsuleTrigger === name));
     updateMini(name);
-  };
-
-  const renderLens = (progress) => {
-    if (!lens || isCollapsed) return;
-
-    const bounded = clamp(progress, 0, localNames.length - 1);
-    const low = Math.floor(bounded);
-    const high = Math.min(localNames.length - 1, Math.ceil(bounded));
-    const t = bounded - low;
-    const lowButton = buttonFor(localNames[low]);
-    const highButton = buttonFor(localNames[high]);
-    if (!lowButton || !highButton) return;
-
-    const x = lerp(lowButton.offsetLeft, highButton.offsetLeft, t);
-    const width = lerp(lowButton.offsetWidth, highButton.offsetWidth, t);
-    bar.style.setProperty('--gv2-lens-x', `${x}px`);
-    bar.style.setProperty('--gv2-lens-w', `${width}px`);
-  };
-
-  const progressTick = (now) => {
-    const dt = Math.min(0.05, Math.max(0.001, (now - previousProgressTime) / 1000));
-    previousProgressTime = now;
-
-    if (reducedMotion.matches) {
-      visualProgress = targetProgress;
-    } else {
-      // Critically damped, monotonic smoothing. It cannot overshoot or reverse by itself.
-      const follow = 1 - Math.exp(-22 * dt);
-      visualProgress += (targetProgress - visualProgress) * follow;
-    }
-
-    renderLens(visualProgress);
-    markCurrentFromProgress(targetProgress);
-
-    if (Math.abs(targetProgress - visualProgress) > 0.0005) {
-      progressFrame = requestAnimationFrame(progressTick);
-    } else {
-      visualProgress = targetProgress;
-      renderLens(visualProgress);
-      progressFrame = 0;
+    if (changed || !lens.dataset.ready) {
+      syncLens(name, { animate: animate && Boolean(lens.dataset.ready) });
+      lens.dataset.ready = 'true';
     }
   };
 
-  const updateScrollProgress = ({ immediate = false } = {}) => {
-    targetProgress = progressFromScroll();
-    markCurrentFromProgress(targetProgress);
-
-    if (immediate || reducedMotion.matches) {
-      cancelAnimationFrame(progressFrame);
-      progressFrame = 0;
-      visualProgress = targetProgress;
-      renderLens(visualProgress);
-      return;
-    }
-
-    if (!progressFrame) {
-      previousProgressTime = performance.now();
-      progressFrame = requestAnimationFrame(progressTick);
-    }
+  const syncCurrentFromScroll = ({ animate = true } = {}) => {
+    // While a click-driven jump is running, the requested destination owns the
+    // selection. This prevents Research → Press Print → Research → Press Print.
+    if (navigationTarget) return;
+    setCurrent(currentFromScroll(), { animate });
   };
 
   const centerButton = (button, behavior = 'smooth') => {
@@ -258,12 +204,12 @@
     if (!isCollapsed) return;
     isCollapsed = false;
     downTravel = 0;
-    expandCooldownUntil = performance.now() + 700;
+    expandCooldownUntil = performance.now() + 720;
     capsule.classList.remove('is-collapsed');
     mini.setAttribute('aria-expanded', 'true');
     requestAnimationFrame(() => {
       centerButton(buttonFor(currentName), 'auto');
-      updateScrollProgress({ immediate: true });
+      syncLens(currentName, { animate: false });
     });
   };
 
@@ -273,6 +219,8 @@
     if (!isNavigating) return;
     cancelAnimationFrame(scrollAnimationFrame);
     isNavigating = false;
+    navigationTarget = null;
+    syncCurrentFromScroll({ animate: true });
   };
 
   const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
@@ -283,6 +231,8 @@
 
     cancelNavigation();
     closePanel();
+    navigationTarget = name;
+    setCurrent(name, { animate: true });
 
     const startY = window.scrollY;
     const distance = targetY - startY;
@@ -291,7 +241,8 @@
     if (absoluteDistance < 2 || reducedMotion.matches) {
       window.scrollTo(0, targetY);
       lastY = targetY;
-      updateScrollProgress({ immediate: true });
+      navigationTarget = null;
+      syncCurrentFromScroll({ animate: false });
       return;
     }
 
@@ -307,8 +258,9 @@
       if (progress >= 1) {
         window.scrollTo(0, targetY);
         isNavigating = false;
+        navigationTarget = null;
         lastY = targetY;
-        updateScrollProgress({ immediate: false });
+        syncCurrentFromScroll({ animate: false });
         return;
       }
 
@@ -348,7 +300,7 @@
 
   bar.addEventListener('scroll', updateScrollEdges, { passive: true });
 
-  // Collapse is based on actual user downward travel. Upward travel never expands it.
+  // Downward travel collapses the rail. Scrolling back up never expands it.
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     const delta = y - lastY;
@@ -360,10 +312,10 @@
     }
 
     lastY = y;
-    updateScrollProgress();
+    syncCurrentFromScroll({ animate: !isCollapsed });
   }, { passive: true });
 
-  // A manual gesture immediately takes control back from a programmatic section jump.
+  // A manual gesture immediately returns control to the user's actual scroll position.
   window.addEventListener('wheel', cancelNavigation, { passive: true });
   window.addEventListener('touchstart', (event) => {
     if (!capsule.contains(event.target)) cancelNavigation();
@@ -371,10 +323,14 @@
 
   window.addEventListener('resize', () => {
     updateScrollEdges();
-    updateScrollProgress({ immediate: true });
+    syncCurrentFromScroll({ animate: false });
+    syncLens(currentName, { animate: false });
   }, { passive: true });
 
-  window.addEventListener('load', () => updateScrollProgress({ immediate: true }), { once: true });
+  window.addEventListener('load', () => {
+    syncCurrentFromScroll({ animate: false });
+    syncLens(currentName, { animate: false });
+  }, { once: true });
 
   document.addEventListener('pointerdown', (event) => {
     if (activePanel && !capsule.contains(event.target)) closePanel();
@@ -433,14 +389,11 @@
   });
 
   requestAnimationFrame(() => {
-    // Initial state is derived from scroll position, never from a guessed active tab.
-    targetProgress = progressFromScroll();
-    visualProgress = targetProgress;
-    currentName = localNames[clamp(Math.round(targetProgress), 0, localNames.length - 1)];
+    currentName = currentFromScroll();
     triggers.forEach((button) => button.classList.toggle('is-current', button.dataset.capsuleTrigger === currentName));
     updateMini(currentName);
-    renderLens(visualProgress);
+    syncLens(currentName, { animate: false });
     updateScrollEdges();
-    capsule.dataset.scrollProgressReady = 'true';
+    capsule.dataset.fixedSelectionReady = 'true';
   });
 })();
