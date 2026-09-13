@@ -1,0 +1,122 @@
+/* GALOK homepage capsule morph — single glass plane, no overshoot.
+   The shell itself changes width; compact and expanded contents cross-fade inside it. */
+
+:root {
+  --gv2-morph: linear(
+    0,
+    .145 8.3%,
+    .386 16.7%,
+    .596 25%,
+    .748 33.3%,
+    .848 41.7%,
+    .911 50%,
+    .950 58.3%,
+    .972 66.7%,
+    .986 75%,
+    .993 83.3%,
+    .998 91.7%,
+    1
+  );
+}
+
+/* The global editorial system squares ordinary controls. The homepage nav is
+   intentionally exempt because its geometry is part of the interaction model. */
+body.galok-modern-site.gv2-body .gv2-capsule-shell {
+  border: 1px solid var(--gv2-frost-line) !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.05)),
+    var(--gv2-frost) !important;
+  box-shadow: var(--gv2-frost-shadow) !important;
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+  transform-origin: center bottom;
+  transition:
+    width 360ms var(--gv2-morph),
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease !important;
+  will-change: width;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-shell button,
+body.galok-modern-site.gv2-body .gv2-capsule-mini,
+body.galok-modern-site.gv2-body .gv2-capsule-bar button {
+  border-radius: 999px !important;
+}
+
+/* One physical surface: rail and mini state are transparent content layers. */
+body.galok-modern-site.gv2-body .gv2-capsule-bar {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: translateY(0);
+  transition:
+    opacity 120ms ease,
+    transform 280ms var(--gv2-morph) !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-mini {
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 0;
+  transform: translateY(2px);
+  transition:
+    opacity 150ms ease,
+    transform 300ms var(--gv2-morph) !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
+  width: 158px !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-bar {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(1px);
+  transition-delay: 0ms, 0ms !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-mini {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition-delay: 105ms, 0ms !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-bar {
+  opacity: 1;
+  transition-delay: 90ms, 0ms !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-mini {
+  opacity: 0;
+  pointer-events: none;
+  transition-delay: 0ms, 0ms !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-mini:active,
+body.galok-modern-site.gv2-body .gv2-capsule-bar button:active {
+  transform: scale(.975) !important;
+}
+
+/* Keep the compact form unmistakably pill-shaped on iPhone and iPad. */
+@media (max-width: 760px) {
+  body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
+    width: 150px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.galok-modern-site.gv2-body .gv2-capsule-shell,
+  body.galok-modern-site.gv2-body .gv2-capsule-bar,
+  body.galok-modern-site.gv2-body .gv2-capsule-mini {
+    transition: none !important;
+  }
+}
