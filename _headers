@@ -88,6 +88,9 @@
 /assets/cities-flat-chat.css
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/cities-flat-chat-repair.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/cities-flat-chat.js
   Cache-Control: public, max-age=0, must-revalidate
 
@@ -104,6 +107,9 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /home-cities-ribbon.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/home-cities-ribbon-repair.css
   Cache-Control: public, max-age=0, must-revalidate
 
 /home-cities-ribbon.js
