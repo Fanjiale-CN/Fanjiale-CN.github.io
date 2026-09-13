@@ -1,0 +1,16 @@
+/* Galok AI progressive lift reveal · 2026-09-14 */
+body.viewer-page-body .cities-ai-reveal-chunk {
+  display: inline-block !important;
+  max-width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  vertical-align: baseline;
+  will-change: opacity, transform, filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.viewer-page-body .cities-ai-reveal-chunk {
+    display: inline !important;
+    will-change: auto;
+  }
+}
