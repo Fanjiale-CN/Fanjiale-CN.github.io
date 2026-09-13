@@ -151,3 +151,51 @@
   setActive(activeIndex);
   if (mobile.matches) requestAnimationFrame(() => scrollCardIntoTrack(activeIndex, 'auto'));
 })();
+
+/* www.galok.me main-site directory alignment.
+   Keep the three live homepage sections, then expose the remaining Galok sections now.
+   When those homepage modules are added later, the labels can stay exactly where they are. */
+(() => {
+  const path = location.pathname.replace(/index\.html$/, '');
+  if (path !== '/') return;
+
+  const remainingSections = [
+    ['Essays', '/essays/'],
+    ['Reading', '/reading/'],
+    ['Radar', '/radar/']
+  ];
+
+  const alignDirectory = () => {
+    const track = document.querySelector('.galok-dual-islands--home-single [data-gdi-home]');
+    if (!track) return false;
+    if (track.dataset.galokHomeDirectoryAligned === 'true') return true;
+
+    const existing = new Set(
+      [...track.querySelectorAll('a')]
+        .map((link) => link.textContent.replace(/\s+/g, ' ').trim())
+        .filter(Boolean)
+    );
+
+    remainingSections.forEach(([label, href]) => {
+      if (existing.has(label)) return;
+      const link = document.createElement('a');
+      link.className = 'galok-dual-islands__local-link galok-dual-islands__route-link';
+      link.href = href;
+      link.textContent = label;
+      link.title = label;
+      track.append(link);
+    });
+
+    track.dataset.galokHomeDirectoryAligned = 'true';
+    return true;
+  };
+
+  if (alignDirectory()) return;
+
+  const observer = new MutationObserver(() => {
+    if (!alignDirectory()) return;
+    observer.disconnect();
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+  window.addEventListener('load', alignDirectory, { once: true });
+})();
