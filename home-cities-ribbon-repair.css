@@ -1,0 +1,92 @@
+/* Homepage Cities ribbon repair · 2026-09-14 */
+
+/* Keep a full-resolution photographic plane underneath every portrait card.
+   The Press Print portrait stays as the graphic layer, but can no longer leave
+   blank cards or turn the entire collapsed rail into a low-resolution bitmap. */
+.gv2-city-ribbon__card figure {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  background: transparent !important;
+}
+
+.gv2-city-ribbon__card figure,
+.gv2-city-ribbon__card figure img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+}
+
+.gv2-city-ribbon__card figure img {
+  display: block !important;
+  object-fit: cover !important;
+  object-position: var(--city-wide-position) !important;
+}
+
+/* Portrait art becomes a sharp visual treatment over the original image plane,
+   rather than the only pixels visible in the collapsed card. */
+.gv2-city-ribbon__card::before {
+  z-index: 2 !important;
+  opacity: .72 !important;
+  background-color: transparent !important;
+  mix-blend-mode: normal;
+}
+
+.gv2-city-ribbon__card[data-index="01"]::before {
+  opacity: .28 !important;
+}
+
+.gv2-city-ribbon__card.is-active::before {
+  opacity: 0 !important;
+}
+
+.gv2-city-ribbon__shade {
+  z-index: 3 !important;
+  background: linear-gradient(180deg, rgba(5,8,10,0) 48%, rgba(5,8,10,.38) 100%) !important;
+}
+
+.gv2-city-ribbon__card.is-active .gv2-city-ribbon__shade {
+  background:
+    linear-gradient(180deg, rgba(5,8,10,0) 52%, rgba(5,8,10,.44) 100%),
+    linear-gradient(90deg, rgba(5,8,10,.08), transparent 58%) !important;
+}
+
+.gv2-city-ribbon__meta {
+  z-index: 4 !important;
+}
+
+/* Make sure no inherited figure/image sizing exposes the card background as a
+   black tray beneath the expanded photograph. */
+.gv2-city-ribbon__card.is-active,
+.gv2-city-ribbon__card.is-active figure,
+.gv2-city-ribbon__card.is-active figure img {
+  background: transparent !important;
+}
+
+.gv2-city-ribbon__card.is-active figure img {
+  transform: scale(1.001) !important;
+  filter: saturate(1) contrast(1.01) brightness(.99) !important;
+}
+
+@media (max-width: 700px) {
+  .gv2-city-ribbon__card figure,
+  .gv2-city-ribbon__card.is-active figure {
+    opacity: 1 !important;
+  }
+
+  .gv2-city-ribbon__card::before,
+  .gv2-city-ribbon__card.is-active::before {
+    opacity: .72 !important;
+  }
+
+  .gv2-city-ribbon__card[data-index="01"]::before,
+  .gv2-city-ribbon__card[data-index="01"].is-active::before {
+    opacity: .28 !important;
+  }
+
+  .gv2-city-ribbon__shade,
+  .gv2-city-ribbon__card.is-active .gv2-city-ribbon__shade {
+    background: linear-gradient(180deg, rgba(5,8,10,0) 45%, rgba(5,8,10,.42) 100%) !important;
+  }
+}
