@@ -1,6 +1,28 @@
-/* Cities sticker repair · 2026-09-13b */
+/* Cities sticker repair · 2026-09-13e */
+.cities-sticker[hidden] {
+  display: none !important;
+}
+
+.cities-sticker {
+  opacity: 0;
+  transition: opacity .32s ease, filter .3s ease;
+}
+
+.cities-sticker.is-ready {
+  opacity: 1;
+}
+
 .cities-sticker img {
+  display: block;
+  width: 100%;
+  height: auto;
   object-fit: contain;
+}
+
+.cities-answer__question.is-active {
+  background: #111722;
+  border-color: #111722;
+  color: #fff;
 }
 
 @media (min-width: 721px) and (max-width: 1180px) {
@@ -9,26 +31,58 @@
   }
 
   .cities-sticker[data-slot="a"] {
-    left: -1%;
-    top: 18%;
-    --w: clamp(126px, 16vw, 186px);
+    left: -2%;
+    top: 17%;
+    --w: clamp(122px, 15vw, 174px);
   }
 
   .cities-sticker[data-slot="b"] {
-    right: -1%;
-    top: 14%;
-    --w: clamp(120px, 15vw, 178px);
+    right: -2%;
+    top: 13%;
+    --w: clamp(116px, 14vw, 166px);
   }
 
   .cities-sticker[data-slot="c"] {
-    left: 0;
-    bottom: 6%;
-    --w: clamp(118px, 14vw, 168px);
+    left: -1%;
+    bottom: 5%;
+    --w: clamp(112px, 13.5vw, 160px);
   }
 
   .cities-sticker[data-slot="d"] {
-    right: 0;
-    bottom: 6%;
-    --w: clamp(126px, 16vw, 188px);
+    right: -1%;
+    bottom: 5%;
+    --w: clamp(120px, 15vw, 176px);
+  }
+}
+
+@media (max-width: 720px) {
+  .cities-sticker {
+    max-width: 31vw;
+    pointer-events: none;
+  }
+
+  .cities-sticker[data-slot="a"] {
+    left: -8%;
+    top: 9%;
+    --w: 112px;
+  }
+
+  .cities-sticker[data-slot="b"] {
+    right: -8%;
+    top: 10%;
+    --w: 108px;
+  }
+
+  .cities-sticker[data-slot="c"] {
+    right: 2%;
+    left: auto;
+    bottom: 2%;
+    --w: 104px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cities-sticker {
+    transition: none;
   }
 }
