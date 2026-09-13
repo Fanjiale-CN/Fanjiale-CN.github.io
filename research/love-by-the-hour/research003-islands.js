@@ -48,7 +48,6 @@
         <img class="s003-dual-islands__logo" src="/assets/galok-symbol.svg" alt="" aria-hidden="true">
       </button>
       <nav class="s003-dual-islands__content" aria-label="Galok site">
-        <span class="s003-dual-islands__site-brand" aria-hidden="true"><img src="/assets/galok-symbol.svg" alt=""></span>
         <div class="s003-dual-islands__site-links">
           <a class="s003-dual-islands__site-link" href="/cities/">Cities</a>
           <a class="s003-dual-islands__site-link" href="/research/" aria-current="page">Research</a>
