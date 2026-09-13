@@ -74,10 +74,24 @@ if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
     document.head.append(previewRadiusLink);
   }
 
+  if (!document.querySelector('link[href^="/assets/cities-modernize.css"]')) {
+    const modernLink = document.createElement("link");
+    modernLink.rel = "stylesheet";
+    modernLink.href = "/assets/cities-modernize.css?v=20260914c";
+    document.head.append(modernLink);
+  }
+
   if (!document.querySelector('script[src^="/assets/cities-conversation.js"]')) {
     const script = document.createElement("script");
     script.src = "/assets/cities-conversation.js?v=20260913f";
     script.defer = true;
     document.head.append(script);
+  }
+
+  if (!document.querySelector('script[src^="/assets/cities-modernize.js"]')) {
+    const modernScript = document.createElement("script");
+    modernScript.src = "/assets/cities-modernize.js?v=20260914c";
+    modernScript.defer = true;
+    document.head.append(modernScript);
   }
 }
