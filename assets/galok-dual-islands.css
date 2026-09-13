@@ -1,0 +1,282 @@
+/* Galok dual-island navigation
+   Shared across all non-Cities surfaces.
+   A = page/article contents. B = Galok site navigation.
+   One island expands while the other remains a circular compact control. */
+
+body.galok-dual-islands-active {
+  --gdi-compact: 58px;
+  --gdi-gap: 10px;
+  --gdi-height: 58px;
+  --gdi-ease: cubic-bezier(.32,.72,0,1);
+  --gdi-bg: rgba(248,249,250,.84);
+  --gdi-line: rgba(15,18,22,.08);
+  --gdi-ink: #111417;
+  --gdi-muted: rgba(17,20,23,.58);
+  --gdi-shadow: 0 14px 34px rgba(17,20,24,.11), inset 0 1px 0 rgba(255,255,255,.78);
+  padding-bottom: calc(94px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* The dual islands replace legacy global/local navigation only after JS mounts successfully. */
+body.galok-dual-islands-active .site-nav,
+body.galok-dual-islands-active [data-gv2-capsule],
+body.galok-dual-islands-active .gwn,
+body.galok-dual-islands-active [data-gwn],
+body.galok-dual-islands-active .research-mobile-toc,
+body.galok-dual-islands-active .research-paper-toc,
+body.galok-dual-islands-active .research-wave-toc,
+body.galok-dual-islands-active .batch-chapter-nav,
+body.galok-dual-islands-active .data-article-nav,
+body.galok-dual-islands-active .article-read-progress,
+body.galok-dual-islands-active .research-progress {
+  display: none !important;
+}
+
+.galok-dual-islands,
+.galok-dual-islands * { box-sizing: border-box; }
+
+.galok-dual-islands {
+  position: fixed;
+  z-index: 2147482000;
+  left: 50%;
+  bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 12px));
+  width: min(720px, calc(100vw - 28px));
+  height: var(--gdi-height);
+  display: flex;
+  align-items: stretch;
+  gap: var(--gdi-gap);
+  transform: translate3d(-50%,0,0);
+  pointer-events: none;
+  isolation: isolate;
+  font-family: "MiSans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.galok-dual-islands__island {
+  position: relative;
+  min-width: var(--gdi-compact);
+  height: var(--gdi-height);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--gdi-line) !important;
+  border-radius: 999px !important;
+  background: var(--gdi-bg) !important;
+  color: var(--gdi-ink) !important;
+  box-shadow: var(--gdi-shadow) !important;
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  pointer-events: auto;
+  will-change: width;
+  transition:
+    width 360ms var(--gdi-ease),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.galok-dual-islands[data-mode="local"] .galok-dual-islands__island--local,
+.galok-dual-islands[data-mode="site"] .galok-dual-islands__island--site {
+  width: calc(100% - var(--gdi-compact) - var(--gdi-gap));
+}
+
+.galok-dual-islands[data-mode="local"] .galok-dual-islands__island--site,
+.galok-dual-islands[data-mode="site"] .galok-dual-islands__island--local {
+  width: var(--gdi-compact);
+  border-radius: 50% !important;
+}
+
+.galok-dual-islands__toggle {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 var(--gdi-compact);
+  width: var(--gdi-compact) !important;
+  height: var(--gdi-height) !important;
+  min-width: var(--gdi-compact) !important;
+  min-height: var(--gdi-height) !important;
+  display: grid !important;
+  place-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 160ms ease, opacity 140ms ease !important;
+}
+
+.galok-dual-islands__toggle:active { transform: scale(.94); }
+.galok-dual-islands__toggle:focus-visible { outline: 2px solid #00b8d4; outline-offset: -4px; }
+
+.galok-dual-islands__menu-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.galok-dual-islands__logo {
+  width: 24px !important;
+  height: 24px !important;
+  max-width: none !important;
+  display: block !important;
+  object-fit: contain;
+}
+
+.galok-dual-islands__content {
+  position: absolute;
+  inset: 0 var(--gdi-compact) 0 var(--gdi-compact);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition: opacity 135ms ease, transform 260ms var(--gdi-ease);
+}
+
+.galok-dual-islands[data-mode="local"] .galok-dual-islands__island--local .galok-dual-islands__content,
+.galok-dual-islands[data-mode="site"] .galok-dual-islands__island--site .galok-dual-islands__content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition-delay: 100ms,65ms;
+}
+
+.galok-dual-islands__track,
+.galok-dual-islands__site-links {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+}
+.galok-dual-islands__track::-webkit-scrollbar,
+.galok-dual-islands__site-links::-webkit-scrollbar { display:none; }
+
+.galok-dual-islands__track {
+  gap: clamp(18px,2.8vw,30px);
+  padding-inline: 12px 18px;
+  mask-image: linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 18px),transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 18px),transparent 100%);
+}
+
+.galok-dual-islands__site-links {
+  gap: clamp(18px,2.6vw,27px);
+  padding-right: 18px;
+  mask-image: linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg,#000 0,#000 calc(100% - 18px),transparent 100%);
+}
+
+.galok-dual-islands__local-link,
+.galok-dual-islands__site-link,
+.galok-dual-islands__more {
+  flex: 0 0 auto;
+  display: inline-flex !important;
+  align-items: center;
+  min-height: 40px;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--gdi-ink) !important;
+  box-shadow: none !important;
+  font: 560 14px/1 "MiSans", "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: -.015em !important;
+  text-decoration: none !important;
+  white-space: nowrap;
+  scroll-snap-align: center;
+  opacity: .64;
+  cursor: pointer;
+  transition: opacity 140ms ease, transform 140ms ease !important;
+}
+
+.galok-dual-islands__site-link { opacity:.88; }
+.galok-dual-islands__local-link:hover,
+.galok-dual-islands__local-link:focus-visible,
+.galok-dual-islands__site-link:hover,
+.galok-dual-islands__site-link:focus-visible,
+.galok-dual-islands__more:hover,
+.galok-dual-islands__more:focus-visible,
+.galok-dual-islands__local-link.is-current,
+.galok-dual-islands__site-link[aria-current="page"] { opacity:1; }
+
+.galok-dual-islands__local-link:active,
+.galok-dual-islands__site-link:active,
+.galok-dual-islands__more:active { transform:scale(.96); }
+
+.galok-dual-islands__local-link.is-current,
+.galok-dual-islands__site-link[aria-current="page"] { font-weight:680 !important; }
+
+.galok-dual-islands__local-link.is-current::after {
+  content:"";
+  width:4px;
+  height:4px;
+  margin-left:7px;
+  border-radius:50%;
+  background:var(--galok-signal,#00b8d4);
+}
+
+.galok-dual-islands__more {
+  font-size:19px !important;
+  letter-spacing:.08em !important;
+}
+
+/* When an old page still has top chrome, the mounted islands own primary navigation. */
+body.galok-dual-islands-active main { scroll-margin-bottom:110px; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.galok-dual-islands-active {
+    --gdi-bg: rgba(31,34,37,.84);
+    --gdi-line: rgba(255,255,255,.14);
+    --gdi-ink: #f4f6f7;
+    --gdi-muted: rgba(244,246,247,.58);
+    --gdi-shadow: 0 18px 40px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.10);
+  }
+  :root:not([data-theme="light"]) .galok-dual-islands__logo { filter: invert(1) brightness(1.08); }
+}
+
+:root[data-theme="dark"] body.galok-dual-islands-active {
+  --gdi-bg: rgba(31,34,37,.84);
+  --gdi-line: rgba(255,255,255,.14);
+  --gdi-ink: #f4f6f7;
+  --gdi-muted: rgba(244,246,247,.58);
+  --gdi-shadow: 0 18px 40px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.10);
+}
+:root[data-theme="dark"] .galok-dual-islands__logo { filter:invert(1) brightness(1.08); }
+
+@media (max-width:700px) {
+  body.galok-dual-islands-active {
+    --gdi-compact:54px;
+    --gdi-height:54px;
+    --gdi-gap:8px;
+    padding-bottom:calc(88px + env(safe-area-inset-bottom,0px)) !important;
+  }
+  .galok-dual-islands {
+    width:calc(100vw - 20px);
+    bottom:max(10px,calc(env(safe-area-inset-bottom,0px) + 8px));
+  }
+  .galok-dual-islands__track { gap:18px; padding-inline:8px 14px; }
+  .galok-dual-islands__local-link,
+  .galok-dual-islands__site-link { font-size:13px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galok-dual-islands__island,
+  .galok-dual-islands__content,
+  .galok-dual-islands__toggle,
+  .galok-dual-islands__local-link,
+  .galok-dual-islands__site-link,
+  .galok-dual-islands__more { transition:none !important; scroll-behavior:auto !important; }
+}
