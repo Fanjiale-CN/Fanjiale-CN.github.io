@@ -1,8 +1,8 @@
 /* GALOK Home — Cities / City Ribbon
-   Expandable editorial filmstrip. Desktop exchanges width; mobile becomes a snap rail. */
+   Collapsed cards use Press Print portrait panels; the active city opens into a full-bleed photographic scene. */
 
 .gv2-cities {
-  --city-ribbon-radius: 8px;
+  --city-ribbon-radius: 10px;
   --city-ribbon-ease: cubic-bezier(.22, 1, .36, 1);
 }
 
@@ -16,13 +16,16 @@
   align-items: stretch;
   gap: clamp(7px, .72vw, 11px);
   width: 100%;
-  height: clamp(360px, 36vw, 540px);
+  height: clamp(340px, 31vw, 470px);
   min-width: 0;
   overflow: hidden;
 }
 
 .gv2-city-ribbon__card {
-  --city-grow: .72;
+  --city-grow: .70;
+  --city-portrait: none;
+  --city-portrait-position: center;
+  --city-wide-position: center;
   position: relative;
   isolation: isolate;
   flex: var(--city-grow) 1 0;
@@ -31,23 +34,80 @@
   overflow: hidden;
   border: 0;
   border-radius: var(--city-ribbon-radius);
-  background: var(--gv2-canvas-2);
+  background: #172027;
   color: #fff;
   text-decoration: none;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
   cursor: pointer;
   transition:
-    flex-grow 560ms var(--city-ribbon-ease),
-    box-shadow 240ms ease,
+    flex-grow 580ms var(--city-ribbon-ease),
+    box-shadow 260ms ease,
     transform 240ms ease;
   -webkit-tap-highlight-color: transparent;
 }
 
+.gv2-city-ribbon__card[data-index="01"] {
+  --city-portrait: url("/assets/cities/home-ribbon/beijing-portrait.webp");
+  --city-portrait-position: 50% 48%;
+  --city-wide-position: 50% 52%;
+}
+
+.gv2-city-ribbon__card[data-index="02"] {
+  --city-portrait: url("/assets/cities/home-ribbon/shanghai-portrait.webp");
+  --city-portrait-position: 50% 46%;
+  --city-wide-position: 50% 50%;
+}
+
+.gv2-city-ribbon__card[data-index="03"] {
+  --city-portrait: url("/assets/cities/home-ribbon/xian-portrait.webp");
+  --city-portrait-position: 50% 48%;
+  --city-wide-position: 50% 52%;
+}
+
+.gv2-city-ribbon__card[data-index="05"] {
+  --city-portrait: url("/assets/cities/home-ribbon/xiamen-portrait.webp");
+  --city-portrait-position: 50% 48%;
+  --city-wide-position: 50% 50%;
+}
+
+.gv2-city-ribbon__card[data-index="06"] {
+  --city-portrait: url("/assets/cities/home-ribbon/hangzhou-portrait.webp");
+  --city-portrait-position: 50% 48%;
+  --city-wide-position: 50% 52%;
+}
+
+/* Press Print portrait state. It remains a real image plane, not a grey backing panel. */
+.gv2-city-ribbon__card::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image: var(--city-portrait);
+  background-size: cover;
+  background-position: var(--city-portrait-position);
+  background-repeat: no-repeat;
+  opacity: 1;
+  transform: scale(1.012);
+  filter: saturate(.96) contrast(1.015);
+  transition:
+    opacity 260ms ease 80ms,
+    transform 720ms var(--city-ribbon-ease),
+    filter 320ms ease;
+  will-change: opacity, transform;
+}
+
 .gv2-city-ribbon__card.is-active {
-  --city-grow: 3.25;
+  --city-grow: 3.55;
   box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.22),
+    inset 0 0 0 1px rgba(255,255,255,.18),
     0 18px 48px rgba(25, 30, 33, .12);
+}
+
+.gv2-city-ribbon__card.is-active::before {
+  opacity: 0;
+  transform: scale(1.065);
+  filter: saturate(1.02) contrast(1.02);
+  transition-delay: 0ms, 0ms, 0ms;
 }
 
 .gv2-city-ribbon__card:focus-visible {
@@ -55,8 +115,9 @@
   outline-offset: 3px;
 }
 
+/* The wide photo always fills the entire active card. No separate dark text tray. */
 .gv2-city-ribbon__card figure,
-.gv2-city-ribbon__card img,
+.gv2-city-ribbon__card figure img,
 .gv2-city-ribbon__shade {
   position: absolute;
   inset: 0;
@@ -65,52 +126,73 @@
 }
 
 .gv2-city-ribbon__card figure {
-  z-index: -2;
+  z-index: 1;
   margin: 0;
-  background: #b8bdbe;
+  overflow: hidden;
+  background: transparent;
+  opacity: 0;
+  transform: scale(1.035);
+  transition:
+    opacity 330ms ease,
+    transform 760ms var(--city-ribbon-ease);
+  will-change: opacity, transform;
 }
 
-.gv2-city-ribbon__card img {
+.gv2-city-ribbon__card figure img {
   display: block;
   max-width: none;
   object-fit: cover;
-  filter: saturate(.88) contrast(1.015) brightness(.92);
-  transform: scale(1.015);
+  object-position: var(--city-wide-position);
+  filter: saturate(.92) contrast(1.015) brightness(.95);
+  transform: scale(1.025);
   transition:
     transform 900ms var(--city-ribbon-ease),
-    filter 360ms ease;
+    filter 380ms ease;
 }
 
-.gv2-city-ribbon__card.is-active img,
-.gv2-city-ribbon__card:hover img,
-.gv2-city-ribbon__card:focus-visible img {
-  filter: saturate(.98) contrast(1.02) brightness(.95);
-  transform: scale(1.035);
+.gv2-city-ribbon__card.is-active figure {
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 105ms, 0ms;
+}
+
+.gv2-city-ribbon__card.is-active figure img,
+.gv2-city-ribbon__card:hover figure img,
+.gv2-city-ribbon__card:focus-visible figure img {
+  filter: saturate(1) contrast(1.02) brightness(.97);
+  transform: scale(1.01);
 }
 
 .gv2-city-ribbon__shade {
-  z-index: -1;
+  z-index: 2;
   background:
-    linear-gradient(180deg, rgba(4,8,11,.02) 24%, rgba(4,8,11,.13) 51%, rgba(4,8,11,.84) 100%),
-    linear-gradient(90deg, rgba(4,8,11,.08), transparent 46%);
+    linear-gradient(180deg, rgba(5,8,10,.02) 20%, rgba(5,8,10,.04) 46%, rgba(5,8,10,.66) 100%);
   pointer-events: none;
+  transition: background 360ms ease;
+}
+
+.gv2-city-ribbon__card.is-active .gv2-city-ribbon__shade {
+  background:
+    linear-gradient(180deg, rgba(5,8,10,.015) 18%, rgba(5,8,10,.06) 46%, rgba(5,8,10,.74) 100%),
+    linear-gradient(90deg, rgba(5,8,10,.12), transparent 52%);
 }
 
 .gv2-city-ribbon__meta {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   right: clamp(14px, 1.5vw, 24px);
-  bottom: clamp(14px, 1.6vw, 25px);
+  bottom: clamp(15px, 1.7vw, 27px);
   left: clamp(14px, 1.5vw, 24px);
   min-width: 0;
-  transform: translateY(0);
+  text-shadow: 0 1px 18px rgba(0,0,0,.2);
 }
 
 .gv2-city-ribbon__meta small {
   display: block;
+  max-width: 100%;
   margin: 0 0 8px;
   overflow: hidden;
-  color: rgba(255,255,255,.76);
+  color: rgba(255,255,255,.78);
   font: 700 clamp(.56rem, .56vw, .66rem)/1.25 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   letter-spacing: .09em;
   text-overflow: ellipsis;
@@ -118,7 +200,7 @@
   white-space: nowrap;
   opacity: 0;
   transform: translateY(7px);
-  transition: opacity 180ms ease, transform 330ms var(--city-ribbon-ease);
+  transition: opacity 190ms ease, transform 350ms var(--city-ribbon-ease);
 }
 
 .gv2-city-ribbon__meta h3 {
@@ -126,13 +208,13 @@
   overflow: hidden;
   color: #fff;
   font-family: "MiSans", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(1.05rem, 1.25vw, 1.5rem);
-  font-weight: 560;
+  font-size: clamp(1.05rem, 1.24vw, 1.5rem);
+  font-weight: 600;
   letter-spacing: -.045em;
   line-height: .98;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition: font-size 460ms var(--city-ribbon-ease), letter-spacing 460ms var(--city-ribbon-ease);
+  transition: font-size 500ms var(--city-ribbon-ease), letter-spacing 500ms var(--city-ribbon-ease);
 }
 
 .gv2-city-ribbon__meta p {
@@ -140,7 +222,7 @@
   max-height: 0;
   margin: 0;
   overflow: hidden;
-  color: rgba(255,255,255,.82);
+  color: rgba(255,255,255,.84);
   font-family: "MiSans", "Helvetica Neue", Arial, sans-serif;
   font-size: clamp(.78rem, .92vw, 1rem);
   line-height: 1.35;
@@ -149,18 +231,18 @@
   transition:
     max-height 460ms var(--city-ribbon-ease),
     margin 460ms var(--city-ribbon-ease),
-    opacity 180ms ease,
+    opacity 190ms ease,
     transform 360ms var(--city-ribbon-ease);
 }
 
 .gv2-city-ribbon__card.is-active .gv2-city-ribbon__meta small {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 120ms;
+  transition-delay: 150ms;
 }
 
 .gv2-city-ribbon__card.is-active .gv2-city-ribbon__meta h3 {
-  font-size: clamp(2.45rem, 4.7vw, 5.5rem);
+  font-size: clamp(2.45rem, 4.7vw, 5.35rem);
   letter-spacing: -.065em;
 }
 
@@ -169,50 +251,26 @@
   margin-top: 10px;
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0ms, 0ms, 150ms, 110ms;
+  transition-delay: 0ms, 0ms, 170ms, 130ms;
 }
 
+/* The active card now carries its own editorial copy. Keep the lower rail lightweight. */
 .gv2-city-ribbon__detail {
-  display: grid;
-  grid-template-columns: 68px minmax(0, 1fr) auto auto;
-  align-items: end;
-  gap: clamp(20px, 3vw, 46px);
-  min-height: 132px;
-  padding: clamp(20px, 2.4vw, 34px) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 68px;
+  padding-top: 14px;
 }
 
-.gv2-city-ribbon__number {
-  align-self: start;
-  padding-top: 4px;
-  color: var(--gv2-muted);
-  font: 700 .66rem/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  letter-spacing: .08em;
-}
-
+.gv2-city-ribbon__number,
 .gv2-city-ribbon__copy {
-  max-width: 690px;
-}
-
-.gv2-city-ribbon__copy h3 {
-  margin: 0;
-  color: var(--gv2-ink);
-  font-family: "MiSans", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(1.6rem, 2.5vw, 3rem);
-  font-weight: 520;
-  letter-spacing: -.05em;
-  line-height: .95;
-}
-
-.gv2-city-ribbon__copy p {
-  margin: 9px 0 0;
-  color: var(--gv2-muted);
-  font-size: clamp(.9rem, 1.1vw, 1.05rem);
-  line-height: 1.45;
+  display: none;
 }
 
 .gv2-city-ribbon__open {
-  align-self: end;
-  min-height: 42px;
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
   padding: 0 0 2px;
@@ -231,6 +289,7 @@
 }
 
 .gv2-city-ribbon__controls {
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -261,6 +320,12 @@
   transform: scale(.94);
 }
 
+.gv2-city-ribbon__controls button:disabled {
+  opacity: .32;
+  cursor: default;
+}
+
+.gv2-city-ribbon__mobile-meta,
 .gv2-city-ribbon__dots,
 .gv2-city-ribbon__swipe-hint {
   display: none;
@@ -268,28 +333,14 @@
 
 @media (max-width: 1040px) {
   .gv2-city-ribbon {
-    height: clamp(330px, 43vw, 430px);
+    height: clamp(330px, 39vw, 410px);
   }
 
-  .gv2-city-ribbon__card { --city-grow: .68; }
-  .gv2-city-ribbon__card.is-active { --city-grow: 2.55; }
+  .gv2-city-ribbon__card { --city-grow: .66; }
+  .gv2-city-ribbon__card.is-active { --city-grow: 2.8; }
 
   .gv2-city-ribbon__card.is-active .gv2-city-ribbon__meta h3 {
-    font-size: clamp(2.15rem, 5.3vw, 4.3rem);
-  }
-
-  .gv2-city-ribbon__detail {
-    grid-template-columns: 48px minmax(0, 1fr) auto;
-  }
-
-  .gv2-city-ribbon__controls {
-    grid-column: 3;
-    grid-row: 1;
-    align-self: start;
-  }
-
-  .gv2-city-ribbon__open {
-    grid-column: 3;
+    font-size: clamp(2.15rem, 5.2vw, 4.2rem);
   }
 }
 
@@ -303,7 +354,7 @@
   }
 
   .gv2-city-ribbon {
-    height: clamp(390px, 61svh, 520px);
+    height: clamp(400px, 62svh, 520px);
     gap: 10px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -327,11 +378,16 @@
     box-shadow: inset 0 0 0 1px rgba(255,255,255,.16);
   }
 
-  .gv2-city-ribbon__card img,
-  .gv2-city-ribbon__card.is-active img,
-  .gv2-city-ribbon__card:hover img,
-  .gv2-city-ribbon__card:focus-visible img {
-    transform: scale(1.02);
+  /* On phones the rail itself is portrait, so keep the Press Print panel as the primary surface. */
+  .gv2-city-ribbon__card::before,
+  .gv2-city-ribbon__card.is-active::before {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+
+  .gv2-city-ribbon__card figure,
+  .gv2-city-ribbon__card.is-active figure {
+    opacity: 0;
   }
 
   .gv2-city-ribbon__meta {
@@ -348,7 +404,7 @@
 
   .gv2-city-ribbon__meta h3,
   .gv2-city-ribbon__card.is-active .gv2-city-ribbon__meta h3 {
-    font-size: clamp(2.35rem, 12vw, 3.6rem);
+    font-size: clamp(2.25rem, 11vw, 3.45rem);
     letter-spacing: -.065em;
   }
 
@@ -361,26 +417,20 @@
   }
 
   .gv2-city-ribbon__detail {
-    grid-template-columns: 1fr auto;
-    min-height: 0;
-    gap: 14px;
-    padding-top: 18px;
+    min-height: 54px;
+    padding-top: 10px;
   }
 
-  .gv2-city-ribbon__number,
-  .gv2-city-ribbon__copy,
   .gv2-city-ribbon__controls {
     display: none;
   }
 
   .gv2-city-ribbon__open {
-    grid-column: 1;
-    justify-self: start;
     min-height: 36px;
   }
 
   .gv2-city-ribbon__mobile-meta {
-    grid-column: 2;
+    margin-left: auto;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -420,7 +470,7 @@
 
 @media (max-width: 430px) {
   .gv2-city-ribbon {
-    height: min(58svh, 470px);
+    height: min(59svh, 480px);
   }
 
   .gv2-city-ribbon__card,
@@ -435,7 +485,9 @@
 @media (prefers-reduced-motion: reduce) {
   .gv2-city-ribbon,
   .gv2-city-ribbon__card,
-  .gv2-city-ribbon__card img,
+  .gv2-city-ribbon__card::before,
+  .gv2-city-ribbon__card figure,
+  .gv2-city-ribbon__card figure img,
   .gv2-city-ribbon__meta small,
   .gv2-city-ribbon__meta h3,
   .gv2-city-ribbon__meta p,
