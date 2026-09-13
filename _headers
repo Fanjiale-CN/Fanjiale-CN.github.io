@@ -61,6 +61,12 @@
 /home-v2-capsule-20260913.css
   Cache-Control: public, max-age=0, must-revalidate
 
+/home-cities-ribbon.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/home-cities-ribbon.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/home/hero-airport-user.jpeg
   Cache-Control: public, max-age=0, must-revalidate
 
