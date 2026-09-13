@@ -94,6 +94,12 @@
 /assets/cities-flat-chat.js
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/cities-ai-live.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/cities-ai-live.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /home-v2.css
   Cache-Control: public, max-age=0, must-revalidate
 
