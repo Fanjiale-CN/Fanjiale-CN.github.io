@@ -42,20 +42,27 @@ if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
   if (!document.querySelector('link[href^="/assets/cities-conversation.css"]')) {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/assets/cities-conversation.css?v=20260913e";
+    link.href = "/assets/cities-conversation.css?v=20260913f";
     document.head.append(link);
   }
 
   if (!document.querySelector('link[href^="/assets/cities-sticker-repair.css"]')) {
     const repairLink = document.createElement("link");
     repairLink.rel = "stylesheet";
-    repairLink.href = "/assets/cities-sticker-repair.css?v=20260913e";
+    repairLink.href = "/assets/cities-sticker-repair.css?v=20260913f";
     document.head.append(repairLink);
+  }
+
+  if (!document.querySelector('link[href^="/assets/cities-conversation-stream.css"]')) {
+    const streamLink = document.createElement("link");
+    streamLink.rel = "stylesheet";
+    streamLink.href = "/assets/cities-conversation-stream.css?v=20260913f";
+    document.head.append(streamLink);
   }
 
   if (!document.querySelector('script[src^="/assets/cities-conversation.js"]')) {
     const script = document.createElement("script");
-    script.src = "/assets/cities-conversation.js?v=20260913e";
+    script.src = "/assets/cities-conversation.js?v=20260913f";
     script.defer = true;
     document.head.append(script);
   }
