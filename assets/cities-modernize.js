@@ -6,6 +6,11 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
   const mobile = window.matchMedia("(max-width: 720px)");
+  const storedTheme = localStorage.getItem("galok-theme");
+
+  if (!document.documentElement.dataset.theme && ["light", "dark"].includes(storedTheme)) {
+    document.documentElement.dataset.theme = storedTheme;
+  }
 
   const resolveDark = () => {
     const theme = document.documentElement.dataset.theme;
