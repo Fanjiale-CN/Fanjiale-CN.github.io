@@ -1,0 +1,11 @@
+{
+  "name": "galok-ai",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-14",
+  "routes": [
+    {
+      "pattern": "www.galok.me/api/ask*",
+      "zone_name": "galok.me"
+    }
+  ]
+}
