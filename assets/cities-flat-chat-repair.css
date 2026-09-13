@@ -1,0 +1,79 @@
+/* Cities flat chat repair · 2026-09-14 */
+
+/* Keep the selector visually clean even when focused on iPad/Safari/Chrome. */
+body.viewer-page-body .cities-conversation__select,
+body.viewer-page-body .cities-conversation__select:focus,
+body.viewer-page-body .cities-conversation__select:focus-visible,
+body.viewer-page-body .cities-conversation__select-wrap,
+body.viewer-page-body .cities-conversation__select-wrap:focus-within {
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+/* Restore the city sticker field. Keep it quiet enough for the flatter UI. */
+body.viewer-page-body .cities-stickers {
+  display: block !important;
+  opacity: .82;
+}
+
+body.viewer-page-body .cities-sticker {
+  filter: drop-shadow(0 12px 18px rgba(0,0,0,.10));
+}
+
+/* Stop image/title collisions at tablet widths. */
+body.viewer-page-body .cities-answer {
+  grid-template-columns: minmax(210px, 230px) minmax(0, 1fr) !important;
+  column-gap: 34px !important;
+  align-items: start;
+}
+
+body.viewer-page-body .cities-answer__media {
+  width: 100% !important;
+  max-width: 230px;
+  aspect-ratio: 4 / 3;
+  position: relative;
+  z-index: 1;
+}
+
+body.viewer-page-body .cities-answer__body {
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+}
+
+body.viewer-page-body .cities-answer h2,
+body.viewer-page-body .cities-answer__body > p,
+body.viewer-page-body .cities-answer__questions {
+  max-width: 100%;
+  min-width: 0;
+}
+
+body.viewer-page-body .cities-answer h2 {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  body.viewer-page-body .cities-answer {
+    grid-template-columns: minmax(190px, 215px) minmax(0, 1fr) !important;
+    column-gap: 28px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body.viewer-page-body .cities-answer {
+    grid-template-columns: 1fr !important;
+    row-gap: 18px !important;
+  }
+
+  body.viewer-page-body .cities-answer__media {
+    max-width: none;
+    width: 100% !important;
+    aspect-ratio: 16 / 10;
+  }
+
+  body.viewer-page-body .cities-stickers {
+    opacity: .68;
+  }
+}
