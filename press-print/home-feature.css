@@ -1,6 +1,6 @@
 .home-pp-feature {
-  --hpp-paper: #efe7d8;
-  --hpp-ink: #151515;
+  --hpp-paper: #f4f6f7;
+  --hpp-ink: #111417;
   --hpp-red: #c9382d;
   --hpp-blue: #244e74;
   width: min(1440px, calc(100% - 40px));
@@ -85,7 +85,7 @@
   gap: 11px;
   min-height: 62px;
   padding: 11px 22px 11px 16px;
-  color: var(--hpp-ink);
+  color: var(--hpp-ink) !important;
   text-decoration: none;
   filter: drop-shadow(0 7px 5px rgba(0,0,0,.23));
   transition: transform .18s ease;
@@ -96,16 +96,20 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, transparent 0 8%, rgba(201,56,45,.88) 8% 12%, transparent 12% 88%, rgba(36,78,116,.9) 88% 100%), var(--hpp-paper);
+  background: linear-gradient(90deg, transparent 0 8%, rgba(201,56,45,.94) 8% 12%, transparent 12% 88%, rgba(36,78,116,.96) 88% 100%), var(--hpp-paper);
   clip-path: polygon(1% 12%, 10% 4%, 20% 9%, 33% 3%, 45% 8%, 59% 2%, 72% 7%, 86% 2%, 99% 8%, 97% 28%, 100% 48%, 97% 68%, 100% 92%, 87% 98%, 75% 94%, 61% 100%, 48% 95%, 34% 99%, 20% 94%, 4% 98%, 2% 74%, 5% 54%, 1% 36%);
 }
 
 .home-pp-feature__badge img { width: 31px; height: 31px; object-fit: contain; }
 .home-pp-feature__badge span { display: grid; gap: 2px; }
 .home-pp-feature__badge small,
-.home-pp-feature__badge strong { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-.home-pp-feature__badge small { font-size: 9px; letter-spacing: .1em; }
-.home-pp-feature__badge strong { font-size: 14px; letter-spacing: .04em; }
+.home-pp-feature__badge strong {
+  color: var(--hpp-ink) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-shadow: none !important;
+}
+.home-pp-feature__badge small { font-size: 9px; letter-spacing: .1em; opacity: .72; }
+.home-pp-feature__badge strong { font-size: 14px; letter-spacing: .04em; opacity: 1; }
 .home-pp-feature__badge:hover,
 .home-pp-feature__badge:focus-visible { transform: translateY(-2px) rotate(-.4deg); }
 
