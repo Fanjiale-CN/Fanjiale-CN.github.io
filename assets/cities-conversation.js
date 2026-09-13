@@ -91,11 +91,10 @@
   };
 
   const STICKERS = [
-    ["/assets/cities/stickers/shanghai-lujiazui.webp", "Shanghai skyline"],
-    ["/assets/cities/stickers/xian-dayanta.webp", "Xi’an pagoda"],
-    ["/assets/cities/stickers/beijing-gugong.webp", "Beijing palace"],
-    ["/assets/cities/stickers/pagoda.webp", "Pagoda"],
-    ["/assets/cities/stickers/xiamen-harbor.webp", "Xiamen harbour"]
+    ["/assets/cities/stickers/shanghai-lujiazui-v2.webp", "Shanghai skyline"],
+    ["/assets/cities/stickers/xian-dayanta-v2.webp", "Xi’an Big Wild Goose Pagoda"],
+    ["/assets/cities/stickers/beijing-gugong-v2.webp", "Beijing palace"],
+    ["/assets/cities/stickers/xiamen-harbor-v2.webp", "Xiamen harbour"]
   ];
 
   const shuffle = (input) => {
@@ -140,12 +139,14 @@
   const chosen = shuffle(STICKERS).slice(0, count);
   const slots = ["a", "b", "c", "d"];
 
-  chosen.forEach(([src, alt], index) => {
+  chosen.forEach(([src], index) => {
     const sticker = document.createElement("div");
     sticker.className = "cities-sticker";
     sticker.dataset.slot = slots[index];
     sticker.style.setProperty("--float", `${7 + index * .65}s`);
-    sticker.innerHTML = `<img src="${src}" alt="${alt}" loading="${index < 2 ? "eager" : "lazy"}" decoding="async" draggable="false">`;
+    sticker.innerHTML = `<img src="${src}" alt="" loading="eager" decoding="async" draggable="false">`;
+    const image = sticker.querySelector("img");
+    image.addEventListener("error", () => sticker.remove(), { once: true });
 
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
       sticker.addEventListener("pointermove", (event) => {
