@@ -1,5 +1,6 @@
 (() => {
   "use strict";
+
   if (window.location.pathname.replace(/index\.html$/, "") !== "/cities/") return;
   if (document.querySelector("[data-cities-conversation]")) return;
 
@@ -91,10 +92,10 @@
   };
 
   const STICKERS = [
-    ["/assets/cities/stickers/shanghai-lujiazui-v2.webp", "Shanghai skyline"],
-    ["/assets/cities/stickers/xian-dayanta-v2.webp", "Xi’an Big Wild Goose Pagoda"],
-    ["/assets/cities/stickers/beijing-gugong-v2.webp", "Beijing palace"],
-    ["/assets/cities/stickers/xiamen-harbor-v2.webp", "Xiamen harbour"]
+    { image: "/assets/cities/stickers/shanghai-lujiazui-v2.webp", payload: "/assets/cities/stickers/shanghai-lujiazui-v2.base64.txt" },
+    { image: "/assets/cities/stickers/xian-dayanta-v2.webp", payload: "/assets/cities/stickers/xian-dayanta-v2.base64.txt" },
+    { image: "/assets/cities/stickers/beijing-gugong-v2.webp", payload: "/assets/cities/stickers/beijing-gugong-v2.base64.txt" },
+    { image: "/assets/cities/stickers/xiamen-harbor-v2.webp", payload: "/assets/cities/stickers/xiamen-harbor-v2.base64.txt" }
   ];
 
   const shuffle = (input) => {
@@ -118,15 +119,14 @@
         <label class="cities-conversation__label" id="cities-conversation-label" for="cities-conversation-select">Cities: Ask me about</label>
         <span class="cities-conversation__select-wrap">
           <select class="cities-conversation__select" id="cities-conversation-select">
-            ${Object.entries(CITIES).map(([slug, city]) => `<option value="${slug}"${slug === "shanghai" ? " selected" : ""}>${city.name}</option>`).join("")}
+            ${Object.entries(CITIES).map(([slug, city]) => `<option value="${slug}"${slug === "beijing" ? " selected" : ""}>${city.name}</option>`).join("")}
           </select>
         </span>
         <button class="cities-conversation__ask" type="button" data-cities-ask aria-label="Ask Galok about this city">OK</button>
       </div>
       <p class="cities-conversation__hint">Choose a city Galok already knows. The answers are part of the archive.</p>
       <div data-cities-answer aria-live="polite"></div>
-    </div>
-  `;
+    </div>`;
 
   const main = document.querySelector("main");
   if (!main) return;
@@ -139,14 +139,48 @@
   const chosen = shuffle(STICKERS).slice(0, count);
   const slots = ["a", "b", "c", "d"];
 
-  chosen.forEach(([src], index) => {
+  const loadPayloadFallback = async (image, item, sticker) => {
+    try {
+      const response = await fetch(`${item.payload}?v=20260913e`, { cache: "force-cache" });
+      if (!response.ok) throw new Error(`Sticker payload ${response.status}`);
+      const payload = (await response.text()).replace(/\s+/g, "");
+      if (!payload.startsWith("UklGR")) throw new Error("Invalid sticker payload");
+      image.src = `data:image/webp;base64,${payload}`;
+    } catch {
+      sticker.remove();
+    }
+  };
+
+  chosen.forEach((item, index) => {
     const sticker = document.createElement("div");
     sticker.className = "cities-sticker";
     sticker.dataset.slot = slots[index];
     sticker.style.setProperty("--float", `${7 + index * .65}s`);
-    sticker.innerHTML = `<img src="${src}" alt="" loading="eager" decoding="async" draggable="false">`;
-    const image = sticker.querySelector("img");
-    image.addEventListener("error", () => sticker.remove(), { once: true });
+    sticker.hidden = true;
+
+    const image = document.createElement("img");
+    image.alt = "";
+    image.loading = "eager";
+    image.decoding = "async";
+    image.draggable = false;
+    let fallbackTried = false;
+
+    image.addEventListener("load", () => {
+      sticker.hidden = false;
+      requestAnimationFrame(() => sticker.classList.add("is-ready"));
+    });
+    image.addEventListener("error", () => {
+      if (fallbackTried) {
+        sticker.remove();
+        return;
+      }
+      fallbackTried = true;
+      loadPayloadFallback(image, item, sticker);
+    });
+
+    sticker.append(image);
+    stickerLayer.append(sticker);
+    image.src = `${item.image}?v=20260913e`;
 
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
       sticker.addEventListener("pointermove", (event) => {
@@ -162,7 +196,6 @@
         sticker.style.transform = "";
       });
     }
-    stickerLayer.append(sticker);
   });
 
   const select = section.querySelector("#cities-conversation-select");
@@ -186,10 +219,8 @@
           </div>
         </div>
       </article>
-      <div data-cities-followups></div>
-    `;
+      <div data-cities-followups></div>`;
     answerSlot.dataset.city = slug;
-    answerSlot.querySelector(".cities-answer")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
 
   section.querySelector("[data-cities-ask]").addEventListener("click", () => render(select.value));
@@ -203,6 +234,7 @@
     const city = CITIES[answerSlot.dataset.city];
     const response = city?.questions?.[button.dataset.question];
     if (!response) return;
+    answerSlot.querySelectorAll("[data-question]").forEach((item) => item.classList.toggle("is-active", item === button));
     const slot = answerSlot.querySelector("[data-cities-followups]");
     slot.innerHTML = `<div class="cities-followup"><strong>${response[0]}</strong><p>${response[1]}</p></div>`;
   });
