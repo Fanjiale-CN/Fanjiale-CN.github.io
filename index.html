@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="/styles.css?v=repair-20260827">
   <link rel="stylesheet" href="/press-print/home-feature.css?v=20260910a">
   <link rel="stylesheet" href="/home-v2.css?v=20260913a">
+  <link rel="stylesheet" href="/home-cities-ribbon.css?v=20260913a">
   <link rel="stylesheet" href="/home-v2-nav.css?v=20260913b">
   <link rel="stylesheet" href="/home-v2-ios27-tab-motion.css?v=20260913b">
 
@@ -146,23 +147,62 @@
         <div><span>03</span><h2 id="gv2-cities-title">Cities</h2></div>
         <a href="/cities/">View all cities ↗</a>
       </header>
-      <div class="gv2-city-grid">
-        <a class="gv2-city gv2-city--lead" href="/be-a-viewer/beijing/">
-          <figure><img src="https://media.galok.me/cities/carousel/beijing-poster--b1032df64372.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Beijing city frame"></figure>
-          <div><small>01 / CAPITAL / RITUAL</small><h3>Beijing</h3><p>Ceremony in motion.</p></div>
-        </a>
-        <a class="gv2-city" href="/be-a-viewer/shanghai/">
-          <figure><img src="https://media.galok.me/cities/carousel/shanghai-poster--593eecdd87b2.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Shanghai river horizon"></figure>
-          <div><small>02 / EAST COAST / MOMENTUM</small><h3>Shanghai</h3><p>The river as horizon.</p></div>
-        </a>
-        <a class="gv2-city" href="/be-a-viewer/xian/">
-          <figure><img src="https://media.galok.me/cities/xian/city-wall-sunset--9a9bea178acf.jpeg" width="1536" height="864" loading="lazy" decoding="async" alt="Xi’an city wall at sunset"></figure>
-          <div><small>03 / NORTHWEST / MEMORY</small><h3>Xi’an</h3><p>Memory at street level.</p></div>
-        </a>
-        <a class="gv2-city" href="/be-a-viewer/xiamen/">
-          <figure><img src="https://media.galok.me/cities/carousel/xiamen-poster--719bd14e8b32.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Xiamen coast and city"></figure>
-          <div><small>05 / SOUTHEAST / COAST</small><h3>Xiamen</h3><p>The coast as daily life.</p></div>
-        </a>
+
+      <div class="gv2-city-ribbon-wrap" data-city-ribbon>
+        <div class="gv2-city-ribbon" data-city-ribbon-track aria-label="Explore Galok cities">
+          <a class="gv2-city-ribbon__card" href="/be-a-viewer/beijing/" data-city-ribbon-card data-index="01" data-name="Beijing" data-copy="Old geometry, ceremony and everyday movement share the same frame.">
+            <figure><img src="https://media.galok.me/cities/carousel/beijing-poster--b1032df64372.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Temple of Heaven in Beijing"></figure>
+            <span class="gv2-city-ribbon__shade" aria-hidden="true"></span>
+            <div class="gv2-city-ribbon__meta"><small>01 / CAPITAL / RITUAL</small><h3>Beijing</h3><p>Ceremony in motion.</p></div>
+          </a>
+
+          <a class="gv2-city-ribbon__card" href="/be-a-viewer/shanghai/" data-city-ribbon-card data-index="02" data-name="Shanghai" data-copy="A river city where finance, light and movement gather at the horizon.">
+            <figure><img src="https://media.galok.me/cities/carousel/shanghai-poster--593eecdd87b2.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Shanghai skyline across the Huangpu River"></figure>
+            <span class="gv2-city-ribbon__shade" aria-hidden="true"></span>
+            <div class="gv2-city-ribbon__meta"><small>02 / EAST COAST / MOMENTUM</small><h3>Shanghai</h3><p>The river as horizon.</p></div>
+          </a>
+
+          <a class="gv2-city-ribbon__card is-active" href="/be-a-viewer/xian/" data-city-ribbon-card data-index="03" data-name="Xi’an" data-copy="An ancient city, a living memory. Where history walks with the everyday." data-active="true">
+            <figure><img src="https://media.galok.me/cities/xian/city-wall-sunset--9a9bea178acf.jpeg" width="1536" height="864" loading="lazy" decoding="async" alt="Xi’an city wall at sunset"></figure>
+            <span class="gv2-city-ribbon__shade" aria-hidden="true"></span>
+            <div class="gv2-city-ribbon__meta"><small>03 / NORTHWEST / MEMORY</small><h3>Xi’an</h3><p>Memory at street level.</p></div>
+          </a>
+
+          <a class="gv2-city-ribbon__card" href="/be-a-viewer/xiamen/" data-city-ribbon-card data-index="05" data-name="Xiamen" data-copy="Coastline, dense neighborhoods and daily life keep the city close to the water.">
+            <figure><img src="https://media.galok.me/cities/carousel/xiamen-poster--719bd14e8b32.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="Xiamen coastline and city"></figure>
+            <span class="gv2-city-ribbon__shade" aria-hidden="true"></span>
+            <div class="gv2-city-ribbon__meta"><small>05 / SOUTHEAST / COAST</small><h3>Xiamen</h3><p>The coast as daily life.</p></div>
+          </a>
+
+          <a class="gv2-city-ribbon__card" href="/be-a-viewer/hangzhou/" data-city-ribbon-card data-index="06" data-name="Hangzhou" data-copy="Water, gardens and urban life meet along a slower edge of the city.">
+            <figure><img src="/assets/be-a-viewer/video/hangzhou-poster.webp" width="1920" height="1080" loading="lazy" decoding="async" alt="West Lake in Hangzhou"></figure>
+            <span class="gv2-city-ribbon__shade" aria-hidden="true"></span>
+            <div class="gv2-city-ribbon__meta"><small>06 / EAST CHINA / WATERLINE</small><h3>Hangzhou</h3><p>Water before the street.</p></div>
+          </a>
+        </div>
+
+        <div class="gv2-city-ribbon__detail" aria-live="polite">
+          <span class="gv2-city-ribbon__number" data-city-detail-index>03</span>
+          <div class="gv2-city-ribbon__copy">
+            <h3 data-city-detail-name>Xi’an</h3>
+            <p data-city-detail-copy>An ancient city, a living memory. Where history walks with the everyday.</p>
+          </div>
+          <a class="gv2-city-ribbon__open" href="/be-a-viewer/xian/" data-city-detail-link>Open Xi’an ↗</a>
+          <div class="gv2-city-ribbon__controls" aria-label="Change active city">
+            <button type="button" data-city-prev aria-label="Previous city">←</button>
+            <button type="button" data-city-next aria-label="Next city">→</button>
+          </div>
+          <div class="gv2-city-ribbon__mobile-meta">
+            <div class="gv2-city-ribbon__dots" aria-hidden="true">
+              <span class="gv2-city-ribbon__dot" data-city-ribbon-dot></span>
+              <span class="gv2-city-ribbon__dot" data-city-ribbon-dot></span>
+              <span class="gv2-city-ribbon__dot is-active" data-city-ribbon-dot></span>
+              <span class="gv2-city-ribbon__dot" data-city-ribbon-dot></span>
+              <span class="gv2-city-ribbon__dot" data-city-ribbon-dot></span>
+            </div>
+            <span class="gv2-city-ribbon__swipe-hint" aria-hidden="true">↔ <span>Swipe cities</span></span>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -179,7 +219,7 @@
       </section>
       <section class="gv2-submenu" data-capsule-panel="cities" aria-label="Cities menu">
         <div><span>Cities</span><small>Visual records built from streets, weather and movement.</small></div>
-        <a href="/cities/">All cities</a><a href="/be-a-viewer/beijing/">Beijing</a><a href="/be-a-viewer/shanghai/">Shanghai</a><a href="/be-a-viewer/xian/">Xi’an</a><a href="/be-a-viewer/xiamen/">Xiamen</a>
+        <a href="/cities/">All cities</a><a href="/be-a-viewer/beijing/">Beijing</a><a href="/be-a-viewer/shanghai/">Shanghai</a><a href="/be-a-viewer/xian/">Xi’an</a><a href="/be-a-viewer/xiamen/">Xiamen</a><a href="/be-a-viewer/hangzhou/">Hangzhou</a>
       </section>
       <section class="gv2-submenu" data-capsule-panel="menu" aria-label="Site menu">
         <div><span>Galok</span><small>More ways into the archive.</small></div>
@@ -201,5 +241,6 @@
   </footer>
 
   <script src="/home-v2.js?v=20260913e"></script>
+  <script src="/home-cities-ribbon.js?v=20260913a"></script>
 </body>
 </html>
