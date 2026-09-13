@@ -66,6 +66,7 @@ if (currentRoute === "/cities/") {
   appendStyle("/assets/galok-dual-islands.css?v=20260914b");
   appendStyle("/assets/cities-islands-unified.css?v=20260914b");
   appendStyle("/assets/cities-flat-chat.css?v=20260914a");
+  appendStyle("/assets/cities-flat-chat-repair.css?v=20260914a");
 
   appendDeferredScript("/assets/cities-conversation.js?v=20260913f");
   appendDeferredScript("/assets/cities-modernize.js?v=20260914c");
