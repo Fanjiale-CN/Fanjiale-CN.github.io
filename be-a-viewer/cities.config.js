@@ -81,6 +81,20 @@ if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
     document.head.append(modernLink);
   }
 
+  if (!document.querySelector('link[href^="/assets/galok-dual-islands.css"]')) {
+    const islandsLink = document.createElement("link");
+    islandsLink.rel = "stylesheet";
+    islandsLink.href = "/assets/galok-dual-islands.css?v=20260914b";
+    document.head.append(islandsLink);
+  }
+
+  if (!document.querySelector('link[href^="/assets/cities-islands-unified.css"]')) {
+    const citiesIslandsLink = document.createElement("link");
+    citiesIslandsLink.rel = "stylesheet";
+    citiesIslandsLink.href = "/assets/cities-islands-unified.css?v=20260914b";
+    document.head.append(citiesIslandsLink);
+  }
+
   if (!document.querySelector('script[src^="/assets/cities-conversation.js"]')) {
     const script = document.createElement("script");
     script.src = "/assets/cities-conversation.js?v=20260913f";
@@ -93,5 +107,12 @@ if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
     modernScript.src = "/assets/cities-modernize.js?v=20260914c";
     modernScript.defer = true;
     document.head.append(modernScript);
+  }
+
+  if (!document.querySelector('script[src^="/assets/cities-islands-unified.js"]')) {
+    const islandsScript = document.createElement("script");
+    islandsScript.src = "/assets/cities-islands-unified.js?v=20260914b";
+    islandsScript.defer = true;
+    document.head.append(islandsScript);
   }
 }
