@@ -52,6 +52,12 @@
 /assets/cities-islands-unified.js
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/city-detail-islands.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/city-detail-islands.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/observability.js
   Cache-Control: public, max-age=0, must-revalidate
 
@@ -62,6 +68,9 @@
   Cache-Control: public, max-age=0, must-revalidate
 
 /be-a-viewer/cities-dual-islands.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/be-a-viewer/chongqing/chongqing.js
   Cache-Control: public, max-age=0, must-revalidate
 
 /assets/cities-conversation-theme.css
