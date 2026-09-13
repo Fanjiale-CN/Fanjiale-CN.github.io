@@ -28,7 +28,28 @@
 /assets/galok-modern-surfaces.css
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/galok-modern-dark-fix.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/observability.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/home-v2.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/home-v2-nav.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/home-v2-ios27-tab-motion.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/home-v2-capsule-20260913.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/home/hero-airport-user.jpeg
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/home/hero-doraemon-user.jpeg
   Cache-Control: public, max-age=0, must-revalidate
 
 /press-print/spacing-fixes.css
