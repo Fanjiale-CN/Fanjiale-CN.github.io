@@ -3,6 +3,7 @@
 
   const path = location.pathname.replace(/index\.html$/, "");
   const isCities = path === "/cities/" || path.startsWith("/be-a-viewer/");
+  const isHome = path === "/" || path === "/index.html";
   if (isCities) return;
 
   // One rule everywhere: once the site island is expanded, its Galok logo is Home.
@@ -85,7 +86,7 @@
   };
 
   const collectLocalItems = () => {
-    if (path === "/" || path === "/index.html") {
+    if (isHome) {
       const items = homeSections();
       if (items.length) return items;
     }
@@ -120,6 +121,87 @@
     ["Reading", "/reading/"],
     ["Radar", "/radar/"]
   ];
+
+  // Home uses one island only: Galok logo + the homepage section directory.
+  if (isHome) {
+    const root = document.createElement("nav");
+    root.className = "galok-dual-islands galok-dual-islands--home-single";
+    root.setAttribute("aria-label", "Galok home navigation");
+    root.innerHTML = `
+      <div class="galok-dual-islands__island galok-dual-islands__island--home">
+        <a class="galok-dual-islands__home-logo" href="/" aria-label="Galok home" title="Galok home">
+          <img class="galok-dual-islands__logo" src="/assets/galok-symbol.svg" alt="" aria-hidden="true">
+        </a>
+        <div class="galok-dual-islands__content galok-dual-islands__content--home">
+          <div class="galok-dual-islands__track" data-gdi-home></div>
+        </div>
+      </div>`;
+
+    document.body.append(root);
+    document.body.classList.add("galok-dual-islands-active", "galok-single-island-home");
+
+    const track = root.querySelector("[data-gdi-home]");
+    const items = homeSections();
+    const links = [];
+    let activeId = "";
+    let raf = 0;
+
+    items.forEach((item) => {
+      const link = document.createElement("a");
+      link.className = "galok-dual-islands__local-link";
+      link.href = `#${item.target}`;
+      link.dataset.target = item.target;
+      link.textContent = item.label;
+      link.title = item.fullLabel;
+      link.addEventListener("click", (event) => {
+        const target = document.getElementById(item.target);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth", block: "start" });
+        history.replaceState(null, "", `#${item.target}`);
+      });
+      track.append(link);
+      links.push(link);
+    });
+
+    if (items.length > 4) {
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "galok-dual-islands__more";
+      more.textContent = "•••";
+      more.setAttribute("aria-label", "Show later sections");
+      more.addEventListener("click", () => track.scrollBy({ left: Math.max(180, track.clientWidth * .72), behavior: reducedMotion.matches ? "auto" : "smooth" }));
+      track.append(more);
+    }
+
+    const updateHomeCurrent = (instant = false) => {
+      raf = 0;
+      const resolved = items
+        .map((item) => ({ ...item, element: document.getElementById(item.target) }))
+        .filter((item) => item.element);
+      if (!resolved.length) return;
+      const marker = Math.min(220, innerHeight * .28);
+      let current = resolved[0];
+      for (const item of resolved) {
+        if (item.element.getBoundingClientRect().top <= marker) current = item;
+        else break;
+      }
+      if (!current || current.target === activeId) return;
+      activeId = current.target;
+      links.forEach((link) => link.classList.toggle("is-current", link.dataset.target === activeId));
+      const activeLink = links.find((link) => link.dataset.target === activeId);
+      activeLink?.scrollIntoView({ behavior: instant || reducedMotion.matches ? "auto" : "smooth", block: "nearest", inline: "center" });
+    };
+
+    const scheduleHomeCurrent = () => {
+      if (!raf) raf = requestAnimationFrame(() => updateHomeCurrent(false));
+    };
+
+    addEventListener("scroll", scheduleHomeCurrent, { passive: true });
+    addEventListener("resize", scheduleHomeCurrent, { passive: true });
+    updateHomeCurrent(true);
+    return;
+  }
 
   const root = document.createElement("nav");
   root.className = "galok-dual-islands";
