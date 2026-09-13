@@ -1,42 +1,17 @@
-/* GALOK homepage capsule morph — single glass plane, no overshoot.
-   The shell itself changes width; compact and expanded contents cross-fade inside it. */
+/* GALOK homepage compatibility layer.
+   The interaction/morph timing lives in home-v2-ios27-tab-motion.css, which is
+   linked directly by index.html. This late-loaded file only protects the homepage
+   from global editorial overrides and binds the exact user-provided hero images. */
 
-:root {
-  --gv2-morph: linear(
-    0,
-    .145 8.3%,
-    .386 16.7%,
-    .596 25%,
-    .748 33.3%,
-    .848 41.7%,
-    .911 50%,
-    .950 58.3%,
-    .972 66.7%,
-    .986 75%,
-    .993 83.3%,
-    .998 91.7%,
-    1
-  );
-}
-
-/* The global editorial system squares ordinary controls. The homepage nav is
-   intentionally exempt because its geometry is part of the interaction model. */
 body.galok-modern-site.gv2-body .gv2-capsule-shell {
   border: 1px solid var(--gv2-frost-line) !important;
   border-radius: 999px !important;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.05)),
+    linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.045)),
     var(--gv2-frost) !important;
   box-shadow: var(--gv2-frost-shadow) !important;
   backdrop-filter: blur(22px) saturate(145%);
   -webkit-backdrop-filter: blur(22px) saturate(145%);
-  transform-origin: center bottom;
-  transition:
-    width 360ms var(--gv2-morph),
-    border-color 180ms ease,
-    background 180ms ease,
-    box-shadow 180ms ease !important;
-  will-change: width;
 }
 
 body.galok-modern-site.gv2-body .gv2-capsule-shell button,
@@ -45,93 +20,76 @@ body.galok-modern-site.gv2-body .gv2-capsule-bar button {
   border-radius: 999px !important;
 }
 
-/* One physical surface: rail and mini state are transparent content layers. */
-body.galok-modern-site.gv2-body .gv2-capsule-bar {
-  border: 0 !important;
+body.galok-modern-site.gv2-body .gv2-capsule-bar,
+body.galok-modern-site.gv2-body .gv2-capsule-mini {
   background: transparent !important;
   box-shadow: none !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-capsule-bar {
+  border: 0 !important;
+  border-radius: 999px !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  transform: translateY(0);
-  transition:
-    opacity 120ms ease,
-    transform 280ms var(--gv2-morph) !important;
 }
 
 body.galok-modern-site.gv2-body .gv2-capsule-mini {
   border: 0 !important;
   border-radius: 999px !important;
-  background: transparent !important;
-  box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  opacity: 0;
-  transform: translateY(2px);
-  transition:
-    opacity 150ms ease,
-    transform 300ms var(--gv2-morph) !important;
 }
 
 body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
-  width: 158px !important;
+  width: 170px !important;
+  border-radius: 999px !important;
 }
 
-body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-bar {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(1px);
-  transition-delay: 0ms, 0ms !important;
+/* Exact files supplied in chat. The 4:5 cards crop with cover; pixels are never
+   stretched or squeezed to the card shape. */
+body.galok-modern-site.gv2-body .gv2-media-card--press,
+body.gv2-body .gv2-media-card--press {
+  background: #c8c9c6 url('/assets/home/hero-airport-user.jpeg?v=20260913a') center center / cover no-repeat !important;
 }
 
-body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-mini {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-  transition-delay: 105ms, 0ms !important;
-}
-
-body.galok-modern-site.gv2-body .gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-bar {
-  opacity: 1;
-  transition-delay: 90ms, 0ms !important;
-}
-
-body.galok-modern-site.gv2-body .gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-mini {
-  opacity: 0;
-  pointer-events: none;
-  transition-delay: 0ms, 0ms !important;
-}
-
-body.galok-modern-site.gv2-body .gv2-capsule-mini:active,
-body.galok-modern-site.gv2-body .gv2-capsule-bar button:active {
-  transform: scale(.975) !important;
-}
-
-/* Homepage hero replacement cards. The source images are center-cropped once
-   to the card's native 4:5 frame. The browser never stretches or squeezes them. */
-body.galok-modern-site.gv2-body .gv2-media-card--press {
-  background: #c8c9c6 url('/assets/home/hero-airport.avif?v=20260913') center center / cover no-repeat !important;
-}
-
-body.galok-modern-site.gv2-body .gv2-media-card--city {
-  background: #c8c9c6 url('/assets/home/hero-doraemon.avif?v=20260913') center center / cover no-repeat !important;
+body.galok-modern-site.gv2-body .gv2-media-card--city,
+body.gv2-body .gv2-media-card--city {
+  background: #c8c9c6 url('/assets/home/hero-doraemon-user.jpeg?v=20260913a') center center / cover no-repeat !important;
 }
 
 body.galok-modern-site.gv2-body .gv2-media-card--press > img,
-body.galok-modern-site.gv2-body .gv2-media-card--city > img {
+body.galok-modern-site.gv2-body .gv2-media-card--city > img,
+body.gv2-body .gv2-media-card--press > img,
+body.gv2-body .gv2-media-card--city > img {
   opacity: 0 !important;
 }
 
-/* Keep the compact form unmistakably pill-shaped on iPhone and iPad. */
-@media (max-width: 760px) {
-  body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
-    width: 150px !important;
+/* Do not let the global monochrome system flatten homepage dark mode. */
+body.galok-modern-site.gv2-body {
+  background: var(--gv2-canvas) !important;
+  color: var(--gv2-ink) !important;
+}
+
+:root[data-theme="dark"] body.galok-modern-site.gv2-body .gv2-capsule-shell {
+  border-color: var(--gv2-frost-line) !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.018)),
+    var(--gv2-frost) !important;
+  box-shadow: var(--gv2-frost-shadow) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body .gv2-capsule-shell {
+    border-color: var(--gv2-frost-line) !important;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.018)),
+      var(--gv2-frost) !important;
+    box-shadow: var(--gv2-frost-shadow) !important;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  body.galok-modern-site.gv2-body .gv2-capsule-shell,
-  body.galok-modern-site.gv2-body .gv2-capsule-bar,
-  body.galok-modern-site.gv2-body .gv2-capsule-mini {
-    transition: none !important;
+@media (max-width: 760px) {
+  body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
+    width: 162px !important;
   }
 }
