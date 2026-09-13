@@ -88,14 +88,19 @@ jobs:
               2>"$error_file" || true)"
 
             echo "Galok AI health attempt $attempt: HTTP ${code:-000}"
-            if [[ "$code" == "200" ]] && grep -q '"streaming":true' "$body_file" && grep -q '"thinking":false' "$body_file"; then
-              echo "Galok AI Worker v0.2 is live."
+            if [[ "$code" == "200" ]] \
+              && grep -q '"version":"cities-0.3"' "$body_file" \
+              && grep -q '"streaming":true' "$body_file" \
+              && grep -q '"thinking":false' "$body_file" \
+              && grep -q '"knowledge_mode":"context-plus-general"' "$body_file" \
+              && grep -q '"web_search":false' "$body_file"; then
+              echo "Galok AI Cities 0.3 is live with context-plus-general knowledge mode."
               exit 0
             fi
             sleep 5
           done
 
-          echo "Galok AI production route did not expose the expected v0.2 health response."
+          echo "Galok AI production route did not expose the expected Cities 0.3 health response."
           echo "--- response body ---"
           cat "$body_file" || true
           echo
