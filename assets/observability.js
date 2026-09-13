@@ -239,5 +239,9 @@
     }
   }
 
-  if (!isCitiesDesign) appendStylesheet("/assets/galok-modern-system.css?v=20260913a");
+  if (!isCitiesDesign) {
+    appendStylesheet("/assets/galok-modern-system.css?v=20260913a");
+    appendStylesheet("/assets/galok-dual-islands.css?v=20260913a");
+    appendScript("/assets/galok-dual-islands.js?v=20260913a");
+  }
 })();
