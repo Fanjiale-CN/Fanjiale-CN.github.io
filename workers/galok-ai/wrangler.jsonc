@@ -1,7 +1,7 @@
 {
   "name": "galok-ai",
   "main": "worker.js",
-  "compatibility_date": "2026-09-14",
+  "compatibility_date": "2026-09-13",
   "routes": [
     {
       "pattern": "www.galok.me/api/ask*",
