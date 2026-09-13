@@ -24,6 +24,33 @@
   letter-spacing: .01em;
 }
 
+/* Give the right-side hero board a real three-color hierarchy.
+   Red becomes the accent, cobalt takes the large lower plane, lime stays the signal. */
+.pp-hero-board .pp-board-blue {
+  background: var(--pp-red);
+}
+
+.pp-hero-board .pp-board-red {
+  background: var(--pp-blue);
+}
+
+.pp-hero-board .pp-board-lime {
+  background: var(--pp-lime);
+}
+
+.pp-hero-board::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  width: 34%;
+  height: 13%;
+  left: 7%;
+  bottom: 14%;
+  background: var(--pp-white);
+  transform: rotate(-7deg);
+  box-shadow: 0 0 0 5px #080808;
+}
+
 /* Large section headlines: preserve density, add real breathing room. */
 .pp-section-head h2,
 .pp-method-head h2,
@@ -118,6 +145,43 @@
 .pp-open-grid > div:first-child > p,
 .pp-section-head p {
   margin-bottom: clamp(20px, 2vw, 30px);
+}
+
+/* Press-Print gets the same dual-island architecture, but its local island carries
+   the Press-Print mark instead of the generic menu glyph. */
+body.press-print-page.galok-dual-islands-active {
+  --gdi-bg: rgba(10, 10, 10, .88) !important;
+  --gdi-line: rgba(255, 255, 255, .16) !important;
+  --gdi-ink: #f7f7f2 !important;
+  --gdi-muted: rgba(247, 247, 242, .58) !important;
+  --gdi-shadow: 0 18px 42px rgba(0, 0, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .10) !important;
+  --galok-signal: var(--pp-lime);
+}
+
+body.press-print-page .galok-dual-islands [data-gdi-toggle="local"] .galok-dual-islands__menu-icon {
+  display: none !important;
+}
+
+body.press-print-page .galok-dual-islands [data-gdi-toggle="local"]::before {
+  content: "";
+  width: 29px;
+  height: 29px;
+  display: block;
+  background: url("/press-print/assets/press-print-mark-light.svg") center / contain no-repeat;
+}
+
+body.press-print-page .galok-dual-islands__logo {
+  filter: invert(1) brightness(1.08) !important;
+}
+
+body.press-print-page .galok-dual-islands__local-link {
+  font-family: var(--pp-mono) !important;
+  letter-spacing: .035em !important;
+  text-transform: uppercase;
+}
+
+body.press-print-page .galok-dual-islands__local-link.is-current::after {
+  background: var(--pp-lime) !important;
 }
 
 @media (max-width: 1100px) {
