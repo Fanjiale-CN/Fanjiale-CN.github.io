@@ -67,6 +67,13 @@ if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
     document.head.append(themeLink);
   }
 
+  if (!document.querySelector('link[href^="/assets/cities-conversation-preview-radius.css"]')) {
+    const previewRadiusLink = document.createElement("link");
+    previewRadiusLink.rel = "stylesheet";
+    previewRadiusLink.href = "/assets/cities-conversation-preview-radius.css?v=20260914b";
+    document.head.append(previewRadiusLink);
+  }
+
   if (!document.querySelector('script[src^="/assets/cities-conversation.js"]')) {
     const script = document.createElement("script");
     script.src = "/assets/cities-conversation.js?v=20260913f";
