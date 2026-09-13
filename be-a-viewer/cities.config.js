@@ -60,6 +60,13 @@ if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
     document.head.append(streamLink);
   }
 
+  if (!document.querySelector('link[href^="/assets/cities-conversation-theme.css"]')) {
+    const themeLink = document.createElement("link");
+    themeLink.rel = "stylesheet";
+    themeLink.href = "/assets/cities-conversation-theme.css?v=20260914a";
+    document.head.append(themeLink);
+  }
+
   if (!document.querySelector('script[src^="/assets/cities-conversation.js"]')) {
     const script = document.createElement("script");
     script.src = "/assets/cities-conversation.js?v=20260913f";
