@@ -1,0 +1,333 @@
+/* Cities dual-island navigation
+   A = page sections, B = Galok site navigation.
+   One island expands while the other contracts into a circular control. */
+
+body.viewer-page-body {
+  --cdi-compact: 58px;
+  --cdi-gap: 10px;
+  --cdi-height: 58px;
+  --cdi-ease: cubic-bezier(.32,.72,0,1);
+  --cdi-bg: rgba(248,249,250,.84);
+  --cdi-line: rgba(15,18,22,.09);
+  --cdi-ink: #111417;
+  --cdi-muted: rgba(17,20,23,.58);
+  --cdi-shadow: 0 14px 34px rgba(17,20,24,.11), inset 0 1px 0 rgba(255,255,255,.76);
+}
+
+body.viewer-page-body.cities-dual-islands-enhanced .viewer-site-nav {
+  display: none !important;
+}
+
+body.viewer-page-body.cities-dual-islands-enhanced .field-footer {
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+}
+
+.cities-dual-islands,
+.cities-dual-islands * {
+  box-sizing: border-box;
+}
+
+.cities-dual-islands {
+  position: fixed;
+  z-index: 1200;
+  left: 50%;
+  bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 10px));
+  width: min(760px, calc(100vw - 28px));
+  height: var(--cdi-height);
+  display: flex;
+  align-items: stretch;
+  gap: var(--cdi-gap);
+  transform: translateX(-50%);
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.cities-dual-islands__island {
+  position: relative;
+  min-width: var(--cdi-compact);
+  height: var(--cdi-height);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--cdi-line) !important;
+  border-radius: 999px !important;
+  background: var(--cdi-bg) !important;
+  color: var(--cdi-ink) !important;
+  box-shadow: var(--cdi-shadow) !important;
+  backdrop-filter: blur(24px) saturate(155%);
+  -webkit-backdrop-filter: blur(24px) saturate(155%);
+  pointer-events: auto;
+  will-change: width;
+  transition:
+    width 380ms var(--cdi-ease),
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    color 220ms ease;
+}
+
+.cities-dual-islands[data-mode="page"] .cities-dual-islands__island--page,
+.cities-dual-islands[data-mode="site"] .cities-dual-islands__island--site {
+  width: calc(100% - var(--cdi-compact) - var(--cdi-gap));
+}
+
+.cities-dual-islands[data-mode="page"] .cities-dual-islands__island--site,
+.cities-dual-islands[data-mode="site"] .cities-dual-islands__island--page {
+  width: var(--cdi-compact);
+  border-radius: 50% !important;
+}
+
+.cities-dual-islands__toggle {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 var(--cdi-compact);
+  width: var(--cdi-compact) !important;
+  height: var(--cdi-height) !important;
+  min-width: var(--cdi-compact) !important;
+  min-height: var(--cdi-height) !important;
+  display: grid !important;
+  place-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: transform 160ms ease, opacity 140ms ease !important;
+}
+
+.cities-dual-islands__toggle:active {
+  transform: scale(.94);
+}
+
+.cities-dual-islands__toggle:focus-visible {
+  outline: 2px solid #00b8d4;
+  outline-offset: -4px;
+}
+
+.cities-dual-islands__menu-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.cities-dual-islands__logo {
+  width: 25px !important;
+  height: 25px !important;
+  max-width: none !important;
+  display: block !important;
+  object-fit: contain;
+  filter: none;
+  transition: filter 220ms ease;
+}
+
+.cities-dual-islands__content {
+  position: absolute;
+  inset: 0 var(--cdi-compact) 0 var(--cdi-compact);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition:
+    opacity 135ms ease,
+    transform 270ms var(--cdi-ease);
+}
+
+.cities-dual-islands[data-mode="page"] .cities-dual-islands__island--page .cities-dual-islands__content,
+.cities-dual-islands[data-mode="site"] .cities-dual-islands__island--site .cities-dual-islands__content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition-delay: 105ms, 70ms;
+}
+
+.cities-dual-islands__track,
+.cities-dual-islands__site-links {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+}
+
+.cities-dual-islands__track {
+  gap: clamp(18px, 2.8vw, 30px);
+  padding-inline: 10px 18px;
+  mask-image: linear-gradient(90deg, transparent 0, #000 13px, #000 calc(100% - 18px), transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 13px, #000 calc(100% - 18px), transparent 100%);
+}
+
+.cities-dual-islands__site-links {
+  gap: clamp(18px, 2.6vw, 28px);
+  padding-right: 14px;
+  mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 18px), transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 18px), transparent 100%);
+}
+
+.cities-dual-islands__track::-webkit-scrollbar,
+.cities-dual-islands__site-links::-webkit-scrollbar {
+  display: none;
+}
+
+.cities-dual-islands__section-link,
+.cities-dual-islands__site-link,
+.cities-dual-islands__more {
+  flex: 0 0 auto;
+  min-height: 40px;
+  display: inline-flex !important;
+  align-items: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--cdi-ink) !important;
+  box-shadow: none !important;
+  font-family: "MiSans", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  font-weight: 560 !important;
+  letter-spacing: -.015em !important;
+  text-decoration: none !important;
+  white-space: nowrap;
+  scroll-snap-align: center;
+  opacity: .62;
+  cursor: pointer;
+  transition: opacity 140ms ease, transform 140ms ease, color 220ms ease !important;
+}
+
+.cities-dual-islands__section-link:hover,
+.cities-dual-islands__section-link:focus-visible,
+.cities-dual-islands__site-link:hover,
+.cities-dual-islands__site-link:focus-visible,
+.cities-dual-islands__more:hover,
+.cities-dual-islands__more:focus-visible,
+.cities-dual-islands__section-link.is-current {
+  opacity: 1;
+}
+
+.cities-dual-islands__section-link:active,
+.cities-dual-islands__site-link:active,
+.cities-dual-islands__more:active {
+  transform: scale(.96);
+}
+
+.cities-dual-islands__section-link.is-current,
+.cities-dual-islands__site-link[aria-current="page"] {
+  opacity: 1;
+  font-weight: 680 !important;
+}
+
+.cities-dual-islands__section-link.is-current::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  margin-left: 7px;
+  border-radius: 50%;
+  background: #00b8d4;
+}
+
+.cities-dual-islands__site-link {
+  opacity: .88;
+}
+
+.cities-dual-islands__more {
+  font-size: 19px !important;
+  letter-spacing: .08em !important;
+}
+
+/* The Cities page alternates between dark moving-image fields and pale editorial paper.
+   The island follows the section beneath it instead of forcing a single global theme. */
+.cities-dual-islands[data-surface="dark"] {
+  --cdi-bg: rgba(25,28,31,.82);
+  --cdi-line: rgba(255,255,255,.15);
+  --cdi-ink: #f4f6f7;
+  --cdi-muted: rgba(244,246,247,.60);
+  --cdi-shadow: 0 18px 42px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.cities-dual-islands[data-surface="dark"] .cities-dual-islands__logo {
+  filter: invert(1) brightness(1.08);
+}
+
+/* Make room for the bottom island where the hero already has controls near the edge. */
+body.viewer-page-body.cities-dual-islands-enhanced .viewer-hero-progress {
+  bottom: 92px;
+}
+
+body.viewer-page-body.cities-dual-islands-enhanced .viewer-hero-controls {
+  bottom: 108px;
+}
+
+body.viewer-page-body.cities-dual-islands-enhanced .viewer-hero-cue {
+  bottom: 112px;
+}
+
+body.viewer-page-body.cities-dual-islands-enhanced .viewer-hero-index {
+  bottom: 166px;
+}
+
+@media (max-width: 760px) {
+  body.viewer-page-body {
+    --cdi-compact: 54px;
+    --cdi-height: 54px;
+    --cdi-gap: 8px;
+  }
+
+  .cities-dual-islands {
+    width: calc(100vw - 20px);
+    bottom: max(10px, calc(env(safe-area-inset-bottom, 0px) + 8px));
+  }
+
+  .cities-dual-islands__track {
+    gap: 18px;
+    padding-inline: 8px 14px;
+  }
+
+  .cities-dual-islands__site-links {
+    gap: 21px;
+  }
+
+  .cities-dual-islands__section-link,
+  .cities-dual-islands__site-link {
+    font-size: 13px !important;
+  }
+
+  body.viewer-page-body.cities-dual-islands-enhanced .viewer-hero-controls {
+    bottom: calc(150px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.viewer-page-body.cities-dual-islands-enhanced .viewer-hero-progress {
+    bottom: calc(130px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.viewer-page-body.cities-dual-islands-enhanced .viewer-hero-index {
+    bottom: calc(236px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cities-dual-islands__island,
+  .cities-dual-islands__content,
+  .cities-dual-islands__toggle,
+  .cities-dual-islands__section-link,
+  .cities-dual-islands__site-link,
+  .cities-dual-islands__more {
+    transition: none !important;
+  }
+}
