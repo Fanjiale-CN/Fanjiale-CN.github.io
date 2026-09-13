@@ -24,31 +24,102 @@
   letter-spacing: .01em;
 }
 
-/* Give the right-side hero board a real three-color hierarchy.
-   Red becomes the accent, cobalt takes the large lower plane, lime stays the signal. */
+/* Hero board: one red focal plane only.
+   Structure now comes from black negative space, a cobalt counterweight,
+   a white paper strip and lime signal. No repeated red cards. */
+.pp-hero-board {
+  isolation: isolate;
+  background: #0b0c0e;
+}
+
 .pp-hero-board .pp-board-blue {
+  z-index: 2;
+  width: 58%;
+  height: 67%;
+  right: 4%;
+  left: auto;
+  top: 13%;
+  bottom: auto;
   background: var(--pp-red);
+  transform: rotate(-5deg);
+  clip-path: polygon(7% 0, 100% 3%, 92% 100%, 0 94%);
 }
 
 .pp-hero-board .pp-board-red {
+  z-index: 1;
+  width: 27%;
+  height: 18%;
+  left: 11%;
+  right: auto;
+  top: auto;
+  bottom: 9%;
   background: var(--pp-blue);
+  transform: rotate(6deg);
+  clip-path: polygon(0 8%, 100% 0, 92% 100%, 5% 92%);
 }
 
 .pp-hero-board .pp-board-lime {
+  z-index: 4;
+  width: 20%;
+  height: 3.2%;
+  left: 20%;
+  top: 47%;
   background: var(--pp-lime);
+  transform: rotate(-6deg);
 }
 
 .pp-hero-board::before {
   content: "";
   position: absolute;
   z-index: 2;
-  width: 34%;
-  height: 13%;
-  left: 7%;
-  bottom: 14%;
+  width: 13%;
+  height: 46%;
+  left: 6%;
+  top: 19%;
+  bottom: auto;
   background: var(--pp-white);
-  transform: rotate(-7deg);
-  box-shadow: 0 0 0 5px #080808;
+  transform: rotate(5deg);
+  box-shadow: none;
+  clip-path: polygon(10% 0, 100% 5%, 88% 100%, 0 94%);
+}
+
+.pp-hero-board .pp-board-halftone {
+  z-index: 1;
+  width: 48%;
+  height: 28%;
+  right: -2%;
+  bottom: 2%;
+  opacity: .36;
+  transform: rotate(-3deg);
+}
+
+.pp-hero-board .pp-board-strip {
+  left: 7%;
+  right: -3%;
+  top: auto;
+  bottom: 11%;
+  z-index: 5;
+  transform: rotate(-5.5deg);
+}
+
+.pp-hero-board .pp-board-mark {
+  z-index: 6;
+  width: min(24%, 210px);
+  right: 15%;
+  top: 20%;
+}
+
+.pp-hero-board .pp-board-type--one {
+  top: 5%;
+  left: -4%;
+  z-index: 4;
+}
+
+.pp-hero-board .pp-board-type--two {
+  right: -9%;
+  bottom: 20%;
+  z-index: 3;
+  opacity: .22;
 }
 
 /* Large section headlines: preserve density, add real breathing room. */
@@ -212,6 +283,39 @@ body.press-print-page .galok-dual-islands__local-link.is-current::after {
 
   .pp-hero h1 span:last-child {
     margin-left: 0;
+  }
+
+  .pp-hero-board .pp-board-blue {
+    width: 68%;
+    height: 64%;
+    right: -4%;
+    top: 14%;
+  }
+
+  .pp-hero-board .pp-board-red {
+    width: 34%;
+    height: 16%;
+    left: 6%;
+    bottom: 7%;
+  }
+
+  .pp-hero-board::before {
+    width: 10%;
+    height: 38%;
+    left: 4%;
+    top: 23%;
+  }
+
+  .pp-hero-board .pp-board-strip {
+    left: 3%;
+    right: -10%;
+    bottom: 10%;
+  }
+
+  .pp-hero-board .pp-board-mark {
+    width: 24%;
+    right: 14%;
+    top: 21%;
   }
 
   .pp-section-head h2,
