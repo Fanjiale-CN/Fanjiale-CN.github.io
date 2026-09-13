@@ -67,11 +67,13 @@ if (currentRoute === "/cities/") {
   appendStyle("/assets/cities-islands-unified.css?v=20260914b");
   appendStyle("/assets/cities-flat-chat.css?v=20260914a");
   appendStyle("/assets/cities-flat-chat-repair.css?v=20260914a");
+  appendStyle("/assets/cities-ai-live.css?v=20260914a");
 
   appendDeferredScript("/assets/cities-conversation.js?v=20260913f");
   appendDeferredScript("/assets/cities-modernize.js?v=20260914c");
   appendDeferredScript("/assets/cities-islands-unified.js?v=20260914b");
   appendDeferredScript("/assets/cities-flat-chat.js?v=20260914a");
+  appendDeferredScript("/assets/cities-ai-live.js?v=20260914a");
 }
 
 if (/^\/be-a-viewer\/[^/]+\/?$/.test(currentRoute)) {
