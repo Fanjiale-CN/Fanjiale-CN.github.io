@@ -67,7 +67,16 @@
 /assets/home/hero-doraemon-user.jpeg
   Cache-Control: public, max-age=0, must-revalidate
 
+/press-print/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/press-print/home-feature.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /press-print/spacing-fixes.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/press-print/ai-chat-demo.css
   Cache-Control: public, max-age=0, must-revalidate
 
 /assets/galok-symbol.svg
