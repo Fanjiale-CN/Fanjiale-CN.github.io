@@ -1,0 +1,38 @@
+name: Materialize home hero assets
+
+on:
+  push:
+    paths:
+      - 'assets/home/*.avif.b64'
+      - '.github/workflows/materialize-home-hero-assets.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Decode hero assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/home
+          base64 --decode assets/home/hero-airport.avif.b64 > assets/home/hero-airport.avif
+          base64 --decode assets/home/hero-doraemon.avif.b64 > assets/home/hero-doraemon.avif
+          test -s assets/home/hero-airport.avif
+          test -s assets/home/hero-doraemon.avif
+      - name: Commit generated images
+        shell: bash
+        run: |
+          if git diff --quiet -- assets/home/hero-airport.avif assets/home/hero-doraemon.avif; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/home/hero-airport.avif assets/home/hero-doraemon.avif
+          git commit -m 'chore(home): materialize hero thumbnails'
+          git push origin HEAD:main
