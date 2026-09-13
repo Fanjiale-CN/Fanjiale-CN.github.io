@@ -1,0 +1,48 @@
+/* GALOK modern-system dark-mode restoration.
+   The editorial rollout originally defined light tokens only, which overrode
+   the homepage and other dark-capable surfaces. */
+
+:root[data-theme="dark"] body.galok-modern-site {
+  --galok-bg: #0f1214;
+  --galok-surface: #15191c;
+  --galok-soft: #1b2024;
+  --galok-ink: #f3f5f6;
+  --galok-muted: #9da6ad;
+  --galok-line: #293138;
+  --galok-line-strong: #46515a;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.galok-modern-site {
+    --galok-bg: #0f1214;
+    --galok-surface: #15191c;
+    --galok-soft: #1b2024;
+    --galok-ink: #f3f5f6;
+    --galok-muted: #9da6ad;
+    --galok-line: #293138;
+    --galok-line-strong: #46515a;
+    color-scheme: dark;
+  }
+}
+
+/* Homepage owns a purpose-built theme token set. Keep it authoritative after
+   the global editorial skin is injected. */
+body.galok-modern-site.gv2-body {
+  background: var(--gv2-canvas) !important;
+  color: var(--gv2-ink) !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-hero,
+body.galok-modern-site.gv2-body .gv2-section,
+body.galok-modern-site.gv2-body .gv2-footer {
+  color: var(--gv2-ink);
+}
+
+:root[data-theme="dark"] body.galok-modern-site.gv2-body,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body {
+    background: var(--gv2-canvas) !important;
+    color: var(--gv2-ink) !important;
+  }
+}
