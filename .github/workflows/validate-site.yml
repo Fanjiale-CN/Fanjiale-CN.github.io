@@ -9,10 +9,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: galok-site-validation-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   validate:
     name: Validate site release gates
@@ -30,3 +26,26 @@ jobs:
 
       - name: Generated consistency check (entries 45–51)
         run: node scripts/check-generated-consistency.cjs
+
+  notify-indexnow:
+    name: Notify IndexNow
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for the published sitemap
+        run: |
+          for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            if curl --fail --silent --show-error https://www.galok.me/sitemap.xml > /tmp/galok-sitemap.xml; then
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "Published sitemap did not become reachable in time."
+          exit 1
+
+      - name: Notify IndexNow
+        run: node scripts/notify-indexnow.mjs

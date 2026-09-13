@@ -47,35 +47,13 @@ const appendDeferredScript = (src) => {
   document.head.append(script);
 };
 
-if (currentRoute === "/cities/") {
-  document.documentElement.classList.add("cities-conversation-loading");
-
-  if (!document.querySelector("[data-cities-conversation-boot-style]")) {
-    const bootStyle = document.createElement("style");
-    bootStyle.dataset.citiesConversationBootStyle = "";
-    bootStyle.textContent = ".viewer-hero,.city-selector{visibility:hidden!important}";
-    document.head.append(bootStyle);
-  }
-
-  appendStyle("/assets/cities-conversation.css?v=20260913f");
-  appendStyle("/assets/cities-sticker-repair.css?v=20260913f");
-  appendStyle("/assets/cities-conversation-stream.css?v=20260913f");
-  appendStyle("/assets/cities-conversation-theme.css?v=20260914a");
-  appendStyle("/assets/cities-conversation-preview-radius.css?v=20260914b");
-  appendStyle("/assets/cities-modernize.css?v=20260914c");
-  appendStyle("/assets/galok-dual-islands.css?v=20260914b");
-  appendStyle("/assets/cities-islands-unified.css?v=20260914b");
-  appendStyle("/assets/cities-flat-chat.css?v=20260914a");
-  appendStyle("/assets/cities-flat-chat-repair.css?v=20260914a");
-  appendStyle("/assets/cities-ai-live.css?v=20260914c");
-  appendStyle("/assets/cities-ai-motion.css?v=20260914a");
-
-  appendDeferredScript("/assets/cities-conversation.js?v=20260913f");
-  appendDeferredScript("/assets/cities-modernize.js?v=20260914c");
-  appendDeferredScript("/assets/cities-islands-unified.js?v=20260914b");
-  appendDeferredScript("/assets/cities-flat-chat.js?v=20260914a");
-  appendDeferredScript("/assets/cities-ai-live.js?v=20260914c");
-}
+/*
+ * /cities/ is intentionally absent here.
+ * Its CSS is now loaded from the render-blocking cities-dual-islands.css entry
+ * and its runtime is loaded in a deterministic sequence by cities-dual-islands.js.
+ * Keeping the hub bootstrap out of this module prevents the late cascade swap
+ * that previously caused typography and layout to jump after first paint.
+ */
 
 if (/^\/be-a-viewer\/[^/]+\/?$/.test(currentRoute)) {
   appendStyle("/assets/galok-dual-islands.css?v=20260914b");

@@ -1,9 +1,81 @@
 (() => {
   "use strict";
+
   if (window.location.pathname.replace(/index\.html$/, "") !== "/cities/") return;
-  if (document.querySelector('script[src^="/assets/cities-islands-unified.js"]')) return;
-  const script = document.createElement("script");
-  script.src = "/assets/cities-islands-unified.js?v=20260914b";
-  script.async = false;
-  document.head.append(script);
+
+  const normalizeResponseQuestion = (response) => {
+    if (!(response instanceof Element) || !response.matches("[data-cities-ai-response]")) return;
+    if (!response.hasAttribute("data-question")) return;
+
+    const question = response.getAttribute("data-question");
+    if (question && !response.hasAttribute("data-ai-question")) {
+      response.setAttribute("data-ai-question", question);
+    }
+    response.removeAttribute("data-question");
+  };
+
+  const sanitizeResponseQuestions = (root = document) => {
+    root.querySelectorAll?.("[data-cities-ai-response][data-question]").forEach(normalizeResponseQuestion);
+  };
+
+  /*
+   * The AI response container used to reuse data-question, the same attribute
+   * as the suggested-question buttons. That made Copy / Share / Close bubble
+   * into the question router and submit the whole answer as a new prompt.
+   * Keep response metadata in its own namespace before any action handler runs.
+   */
+  sanitizeResponseQuestions();
+  const responseObserver = new MutationObserver(() => sanitizeResponseQuestions());
+  responseObserver.observe(document.documentElement, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ["data-question"]
+  });
+
+  document.addEventListener("click", (event) => {
+    const response = event.target instanceof Element
+      ? event.target.closest("[data-cities-ai-response]")
+      : null;
+    normalizeResponseQuestion(response);
+  }, true);
+
+  const scripts = [
+    "/assets/cities-conversation.js?v=20260914e",
+    "/assets/cities-modernize.js?v=20260914e",
+    "/assets/cities-islands-unified.js?v=20260914e",
+    "/assets/cities-flat-chat.js?v=20260914e",
+    "/assets/cities-ai-live.js?v=20260914e"
+  ];
+
+  const scriptPath = (value) => {
+    try {
+      return new URL(value, window.location.href).pathname;
+    } catch {
+      return value;
+    }
+  };
+
+  const hasScript = (src) => {
+    const wanted = scriptPath(src);
+    return Array.from(document.scripts).some((script) => scriptPath(script.src) === wanted);
+  };
+
+  const loadScript = (src) => new Promise((resolve, reject) => {
+    if (hasScript(src)) {
+      resolve();
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = false;
+    script.addEventListener("load", resolve, { once: true });
+    script.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
+    document.head.append(script);
+  });
+
+  scripts
+    .reduce((chain, src) => chain.then(() => loadScript(src)), Promise.resolve())
+    .catch((error) => console.error("[Galok Cities] runtime bootstrap failed", error));
 })();

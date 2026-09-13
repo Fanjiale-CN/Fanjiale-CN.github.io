@@ -1,16 +1,21 @@
-/* Galok AI progressive lift reveal · 2026-09-14 */
+/* Galok AI streamed-answer motion repair · 2026-09-14
+   Chunks must remain true inline text so the browser can wrap sentences normally. */
 body.viewer-page-body .cities-ai-reveal-chunk {
-  display: inline-block !important;
-  max-width: 100%;
+  display: inline !important;
+  max-width: none;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   vertical-align: baseline;
-  will-change: opacity, transform, filter;
+  transform: none !important;
+  will-change: opacity, filter;
 }
 
 @media (prefers-reduced-motion: reduce) {
   body.viewer-page-body .cities-ai-reveal-chunk {
-    display: inline !important;
+    opacity: 1;
+    filter: none;
+    transform: none !important;
+    transition: none;
     will-change: auto;
   }
 }
