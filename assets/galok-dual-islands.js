@@ -140,6 +140,31 @@
     document.body.append(root);
     document.body.classList.add("galok-dual-islands-active", "galok-single-island-home");
 
+    root.style.width = "min(720px, calc(100vw - 28px))";
+    root.style.gap = "0";
+    const homeIsland = root.querySelector(".galok-dual-islands__island--home");
+    const homeLogo = root.querySelector(".galok-dual-islands__home-logo");
+    const homeContent = root.querySelector(".galok-dual-islands__content--home");
+    homeIsland.style.width = "100%";
+    Object.assign(homeLogo.style, {
+      position: "relative",
+      zIndex: "3",
+      flex: "0 0 var(--gdi-compact)",
+      width: "var(--gdi-compact)",
+      height: "var(--gdi-height)",
+      display: "grid",
+      placeItems: "center",
+      color: "inherit",
+      textDecoration: "none",
+      WebkitTapHighlightColor: "transparent"
+    });
+    Object.assign(homeContent.style, {
+      inset: "0 12px 0 var(--gdi-compact)",
+      opacity: "1",
+      pointerEvents: "auto",
+      transform: "none"
+    });
+
     const track = root.querySelector("[data-gdi-home]");
     const items = homeSections();
     const links = [];
