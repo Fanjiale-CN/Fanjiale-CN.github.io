@@ -31,6 +31,9 @@
 /assets/galok-modern-dark-fix.css
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/galok-home-surface.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/observability.js
   Cache-Control: public, max-age=0, must-revalidate
 
