@@ -46,6 +46,12 @@
 /assets/galok-dual-islands.js
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/cities-islands-unified.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/cities-islands-unified.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/observability.js
   Cache-Control: public, max-age=0, must-revalidate
 
