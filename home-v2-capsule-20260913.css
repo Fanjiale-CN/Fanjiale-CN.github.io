@@ -106,6 +106,21 @@ body.galok-modern-site.gv2-body .gv2-capsule-bar button:active {
   transform: scale(.975) !important;
 }
 
+/* Homepage hero replacement cards. The source images are center-cropped once
+   to the card's native 4:5 frame. The browser never stretches or squeezes them. */
+body.galok-modern-site.gv2-body .gv2-media-card--press {
+  background: #c8c9c6 url('/assets/home/hero-airport.avif?v=20260913') center center / cover no-repeat !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-media-card--city {
+  background: #c8c9c6 url('/assets/home/hero-doraemon.avif?v=20260913') center center / cover no-repeat !important;
+}
+
+body.galok-modern-site.gv2-body .gv2-media-card--press > img,
+body.galok-modern-site.gv2-body .gv2-media-card--city > img {
+  opacity: 0 !important;
+}
+
 /* Keep the compact form unmistakably pill-shaped on iPhone and iPad. */
 @media (max-width: 760px) {
   body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
