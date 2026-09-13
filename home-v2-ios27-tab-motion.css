@@ -1,73 +1,115 @@
-/* GALOK fixed-selection capsule motion
-   The lens now occupies one discrete tab at a time. Section changes move it once,
-   while expand/collapse uses a restrained iOS-like shared-object transition. */
+/* GALOK homepage capsule motion
+   One physical glass plane, two content states. The shell morphs directly between
+   full navigation and the compact current-location control. No overshoot or bounce. */
 
-.gv2-capsule-shell {
-  transform-origin: center bottom;
-  transition: width 300ms cubic-bezier(.32,.72,0,1);
+:root {
+  --gv2-capsule-ease: cubic-bezier(.32, .72, 0, 1);
 }
 
-.gv2-capsule-lens {
+/* This file is linked directly by index.html, so these rules deliberately carry
+   enough specificity to survive the later global editorial stylesheet. */
+body.gv2-body .gv2-capsule-shell,
+body.galok-modern-site.gv2-body .gv2-capsule-shell {
+  min-height: 72px;
+  border: 1px solid var(--gv2-frost-line) !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.045)),
+    var(--gv2-frost) !important;
+  box-shadow: var(--gv2-frost-shadow) !important;
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+  transform-origin: center bottom;
+  transition:
+    width 360ms var(--gv2-capsule-ease),
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease !important;
+  will-change: width;
+}
+
+/* The rail and compact control are contents of that same plane. */
+body.gv2-body .gv2-capsule-bar,
+body.galok-modern-site.gv2-body .gv2-capsule-bar {
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1;
+  transform: translateY(0);
+  transform-origin: center bottom;
+  transition:
+    opacity 115ms ease-out,
+    transform 240ms var(--gv2-capsule-ease) !important;
+}
+
+body.gv2-body .gv2-capsule-shell button,
+body.galok-modern-site.gv2-body .gv2-capsule-shell button,
+body.gv2-body .gv2-capsule-mini,
+body.galok-modern-site.gv2-body .gv2-capsule-mini {
+  border-radius: 999px !important;
+}
+
+body.gv2-body .gv2-capsule-lens,
+body.galok-modern-site.gv2-body .gv2-capsule-lens {
   transform: translate3d(var(--gv2-lens-x, 7px), 0, 0) !important;
   transition:
-    transform 250ms cubic-bezier(.32,.72,0,1),
-    width 250ms cubic-bezier(.32,.72,0,1),
-    opacity 130ms ease !important;
+    transform 245ms var(--gv2-capsule-ease),
+    width 245ms var(--gv2-capsule-ease),
+    opacity 120ms ease-out !important;
   will-change: transform, width;
 }
 
-.gv2-capsule-shell.is-lens-instant .gv2-capsule-lens {
+body.gv2-body .gv2-capsule-shell.is-lens-instant .gv2-capsule-lens,
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-lens-instant .gv2-capsule-lens {
   transition: none !important;
 }
 
-.gv2-capsule-bar {
-  transform-origin: center bottom;
-  transition:
-    opacity 160ms ease,
-    transform 300ms cubic-bezier(.32,.72,0,1);
-}
-
-.gv2-capsule-bar button {
+body.gv2-body .gv2-capsule-bar button,
+body.galok-modern-site.gv2-body .gv2-capsule-bar button {
   transition:
     color 140ms ease,
     opacity 140ms ease,
     transform 100ms ease !important;
 }
 
-.gv2-nav-icon {
+body.gv2-body .gv2-nav-icon,
+body.galok-modern-site.gv2-body .gv2-nav-icon {
+  transform: none !important;
   transition: opacity 140ms ease !important;
+}
+
+body.gv2-body .gv2-capsule-bar button:hover .gv2-nav-icon,
+body.gv2-body .gv2-capsule-bar button:focus-visible .gv2-nav-icon,
+body.gv2-body .gv2-capsule-bar button[aria-expanded="true"] .gv2-nav-icon,
+body.gv2-body .gv2-capsule-bar button.is-current .gv2-nav-icon,
+body.galok-modern-site.gv2-body .gv2-capsule-bar button:hover .gv2-nav-icon,
+body.galok-modern-site.gv2-body .gv2-capsule-bar button:focus-visible .gv2-nav-icon,
+body.galok-modern-site.gv2-body .gv2-capsule-bar button[aria-expanded="true"] .gv2-nav-icon,
+body.galok-modern-site.gv2-body .gv2-capsule-bar button.is-current .gv2-nav-icon {
   transform: none !important;
 }
 
-.gv2-capsule-bar button:hover .gv2-nav-icon,
-.gv2-capsule-bar button:focus-visible .gv2-nav-icon,
-.gv2-capsule-bar button[aria-expanded="true"] .gv2-nav-icon,
-.gv2-capsule-bar button.is-current .gv2-nav-icon {
-  transform: none !important;
-}
-
-.gv2-capsule-bar button:active {
-  transform: scale(.97) !important;
+body.gv2-body .gv2-capsule-bar button:active,
+body.galok-modern-site.gv2-body .gv2-capsule-bar button:active {
+  transform: scale(.975) !important;
 }
 
 /* Compact state --------------------------------------------------------- */
-.gv2-capsule-mini {
+body.gv2-body .gv2-capsule-mini,
+body.galok-modern-site.gv2-body .gv2-capsule-mini {
   position: absolute;
-  z-index: 5;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  min-height: 58px;
-  padding: 7px 18px;
-  border: 1px solid var(--gv2-frost-line);
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.05)),
-    var(--gv2-frost);
-  box-shadow: var(--gv2-frost-shadow);
-  backdrop-filter: blur(22px) saturate(145%);
-  -webkit-backdrop-filter: blur(22px) saturate(145%);
-  color: var(--gv2-ink);
+  z-index: 8;
+  inset: 0;
+  min-height: 70px;
+  padding: 7px 20px;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--gv2-ink) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,12 +121,11 @@
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(6px) scale(.92);
-  transform-origin: center bottom;
+  transform: translateY(2px);
+  transform-origin: center;
   transition:
-    opacity 150ms ease,
-    transform 300ms cubic-bezier(.32,.72,0,1),
-    background 150ms ease;
+    opacity 130ms ease-out,
+    transform 250ms var(--gv2-capsule-ease) !important;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -93,6 +134,7 @@
   height: 22px;
   display: grid;
   place-items: center;
+  flex: 0 0 auto;
 }
 
 .gv2-capsule-mini__icon svg {
@@ -106,73 +148,118 @@
 }
 
 .gv2-capsule-mini__label {
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.gv2-capsule-mini:active {
-  transform: translateY(0) scale(.97);
+body.gv2-body .gv2-capsule-mini:active,
+body.galok-modern-site.gv2-body .gv2-capsule-mini:active {
+  transform: scale(.975) !important;
 }
 
-.gv2-capsule-shell.is-collapsed {
-  width: 158px !important;
+body.gv2-body .gv2-capsule-shell.is-collapsed,
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
+  width: 170px !important;
 }
 
-.gv2-capsule-shell.is-collapsed .gv2-capsule-bar {
+body.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-bar,
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-bar {
   opacity: 0;
   pointer-events: none;
-  transform: translateY(6px) scale(.95);
+  transform: translateY(2px);
+  transition-delay: 0ms, 0ms !important;
 }
 
-.gv2-capsule-shell.is-collapsed .gv2-capsule-panel {
+body.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-panel,
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-panel {
   opacity: 0 !important;
   pointer-events: none !important;
-  transform: translateY(10px) scale(.98) !important;
+  transform: translateY(8px) scale(.985) !important;
 }
 
-.gv2-capsule-shell.is-collapsed .gv2-capsule-mini {
+body.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-mini,
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed .gv2-capsule-mini {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0) scale(1);
-  transition-delay: 60ms, 0ms, 0ms;
+  transform: translateY(0);
+  transition-delay: 85ms, 0ms !important;
 }
 
-.gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-bar {
-  transition-delay: 45ms, 0ms;
+body.gv2-body .gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-bar,
+body.galok-modern-site.gv2-body .gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-bar {
+  opacity: 1;
+  transition-delay: 90ms, 0ms !important;
 }
 
-.gv2-capsule-shell.is-collapsed::before,
-.gv2-capsule-shell.is-collapsed::after {
+body.gv2-body .gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-mini,
+body.galok-modern-site.gv2-body .gv2-capsule-shell:not(.is-collapsed) .gv2-capsule-mini {
+  opacity: 0;
+  pointer-events: none;
+  transition-delay: 0ms, 0ms !important;
+}
+
+body.gv2-body .gv2-capsule-shell.is-collapsed::before,
+body.gv2-body .gv2-capsule-shell.is-collapsed::after,
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed::before,
+body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed::after {
   opacity: 0 !important;
 }
 
-:root[data-theme="dark"] .gv2-capsule-mini {
-  border-color: rgba(255,255,255,.13);
+/* Homepage remains dark-capable even when the global editorial layer is injected. */
+body.galok-modern-site.gv2-body {
+  background: var(--gv2-canvas) !important;
+  color: var(--gv2-ink) !important;
+}
+
+:root[data-theme="dark"] body.galok-modern-site.gv2-body,
+:root[data-theme="dark"] body.gv2-body {
+  background: var(--gv2-canvas) !important;
+  color: var(--gv2-ink) !important;
+}
+
+:root[data-theme="dark"] body.gv2-body .gv2-capsule-shell,
+:root[data-theme="dark"] body.galok-modern-site.gv2-body .gv2-capsule-shell {
+  border-color: var(--gv2-frost-line) !important;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
-    rgba(25,28,30,.74);
-  box-shadow: 0 12px 30px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.10);
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.018)),
+    var(--gv2-frost) !important;
+  box-shadow: var(--gv2-frost-shadow) !important;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .gv2-capsule-mini {
-    border-color: rgba(255,255,255,.13);
+  :root:not([data-theme="light"]) body.gv2-body,
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body {
+    background: var(--gv2-canvas) !important;
+    color: var(--gv2-ink) !important;
+  }
+
+  :root:not([data-theme="light"]) body.gv2-body .gv2-capsule-shell,
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body .gv2-capsule-shell {
+    border-color: var(--gv2-frost-line) !important;
     background:
-      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
-      rgba(25,28,30,.74);
-    box-shadow: 0 12px 30px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.10);
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.018)),
+      var(--gv2-frost) !important;
+    box-shadow: var(--gv2-frost-shadow) !important;
   }
 }
 
 @media (max-width: 760px) {
-  .gv2-capsule-shell.is-collapsed {
-    width: 146px !important;
+  body.gv2-body .gv2-capsule-shell,
+  body.galok-modern-site.gv2-body .gv2-capsule-shell {
+    min-height: 68px;
   }
 
-  .gv2-capsule-mini {
-    min-height: 54px;
-    padding-inline: 15px;
+  body.gv2-body .gv2-capsule-shell.is-collapsed,
+  body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
+    width: 162px !important;
+  }
+
+  body.gv2-body .gv2-capsule-mini,
+  body.galok-modern-site.gv2-body .gv2-capsule-mini {
+    min-height: 66px;
+    padding-inline: 16px;
     font-size: .71rem;
   }
 
@@ -184,12 +271,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .gv2-capsule-shell,
-  .gv2-capsule-lens,
-  .gv2-capsule-bar,
-  .gv2-capsule-bar button,
-  .gv2-nav-icon,
-  .gv2-capsule-mini {
+  body.gv2-body .gv2-capsule-shell,
+  body.gv2-body .gv2-capsule-lens,
+  body.gv2-body .gv2-capsule-bar,
+  body.gv2-body .gv2-capsule-bar button,
+  body.gv2-body .gv2-nav-icon,
+  body.gv2-body .gv2-capsule-mini {
     transition: none !important;
   }
 }
