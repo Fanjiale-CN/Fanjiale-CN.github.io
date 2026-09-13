@@ -1,0 +1,95 @@
+/* GALOK homepage surface reset — 2026-09-13
+   One page plane, neutral grayscale, no warm paper layer.
+   The hero and editorial sections are transparent over the body so theme changes
+   affect the entire page as one surface instead of leaving a pale sheet behind. */
+
+body.galok-modern-site.gv2-body {
+  --gv2-canvas: #f5f6f7;
+  --gv2-canvas-2: #edf0f2;
+  --gv2-ink: #0b0e10;
+  --gv2-muted: #667079;
+  --gv2-line: rgba(11, 14, 16, .14);
+  --gv2-line-strong: rgba(11, 14, 16, .28);
+  --gv2-frost: rgba(244, 247, 249, .72);
+  --gv2-frost-strong: rgba(249, 250, 251, .88);
+  --gv2-frost-line: rgba(255, 255, 255, .82);
+  --gv2-frost-shadow: 0 18px 42px rgba(17, 21, 24, .12), inset 0 1px 0 rgba(255,255,255,.88);
+  --gv2-accent: #00aeca;
+  --gv2-mark-filter: none;
+
+  background: var(--gv2-canvas) !important;
+  color: var(--gv2-ink) !important;
+}
+
+html:has(> body.galok-modern-site.gv2-body) {
+  background: #f5f6f7 !important;
+}
+
+/* One physical page plane. Remove the old warm radial/paper treatment from
+   the hero and any inherited section fill. Deliberate content surfaces such as
+   Press Print remain independent. */
+body.galok-modern-site.gv2-body #main-content,
+body.galok-modern-site.gv2-body .gv2-hero,
+body.galok-modern-site.gv2-body .gv2-section,
+body.galok-modern-site.gv2-body .gv2-footer {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+:root[data-theme="dark"] body.galok-modern-site.gv2-body {
+  --gv2-canvas: #0b0e10;
+  --gv2-canvas-2: #12171a;
+  --gv2-ink: #f4f6f7;
+  --gv2-muted: #9ca5ac;
+  --gv2-line: rgba(244, 246, 247, .12);
+  --gv2-line-strong: rgba(244, 246, 247, .24);
+  --gv2-frost: rgba(20, 24, 27, .78);
+  --gv2-frost-strong: rgba(28, 33, 37, .90);
+  --gv2-frost-line: rgba(255,255,255,.14);
+  --gv2-frost-shadow: 0 18px 48px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.10);
+  --gv2-accent: #37c7dd;
+  --gv2-mark-filter: invert(1);
+}
+
+:root[data-theme="dark"]:has(> body.galok-modern-site.gv2-body) {
+  background: #0b0e10 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body {
+    --gv2-canvas: #0b0e10;
+    --gv2-canvas-2: #12171a;
+    --gv2-ink: #f4f6f7;
+    --gv2-muted: #9ca5ac;
+    --gv2-line: rgba(244, 246, 247, .12);
+    --gv2-line-strong: rgba(244, 246, 247, .24);
+    --gv2-frost: rgba(20, 24, 27, .78);
+    --gv2-frost-strong: rgba(28, 33, 37, .90);
+    --gv2-frost-line: rgba(255,255,255,.14);
+    --gv2-frost-shadow: 0 18px 48px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.10);
+    --gv2-accent: #37c7dd;
+    --gv2-mark-filter: invert(1);
+  }
+
+  :root:not([data-theme="light"]):has(> body.galok-modern-site.gv2-body) {
+    background: #0b0e10 !important;
+  }
+}
+
+/* Prevent any late global skin from repainting the hero with a light sheet
+   after the dark tokens have already changed the typography. */
+:root[data-theme="dark"] body.galok-modern-site.gv2-body #main-content,
+:root[data-theme="dark"] body.galok-modern-site.gv2-body .gv2-hero,
+:root[data-theme="dark"] body.galok-modern-site.gv2-body .gv2-section,
+:root[data-theme="dark"] body.galok-modern-site.gv2-body .gv2-footer {
+  background: transparent !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body #main-content,
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body .gv2-hero,
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body .gv2-section,
+  :root:not([data-theme="light"]) body.galok-modern-site.gv2-body .gv2-footer {
+    background: transparent !important;
+  }
+}
