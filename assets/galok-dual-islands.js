@@ -5,6 +5,19 @@
   const isCities = path === "/cities/" || path.startsWith("/be-a-viewer/");
   if (isCities) return;
 
+  // One rule everywhere: once the site island is expanded, its Galok logo is Home.
+  // This delegated handler also covers the approved Research 003 island instance.
+  document.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    const toggle = target?.closest('[data-gdi-toggle="site"], [data-island-toggle="site"]');
+    if (!toggle) return;
+    const islandRoot = toggle.closest(".galok-dual-islands, .s003-dual-islands");
+    if (!islandRoot || islandRoot.dataset.mode !== "site") return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    location.href = "/";
+  }, { capture: true });
+
   // Research 003 keeps its already-approved instance while the shared system rolls out elsewhere.
   if (document.querySelector(".s003-dual-islands")) return;
   if (document.querySelector(".galok-dual-islands")) return;
@@ -118,7 +131,7 @@
       <div class="galok-dual-islands__content"><div class="galok-dual-islands__track" data-gdi-local></div></div>
     </div>
     <div class="galok-dual-islands__island galok-dual-islands__island--site" data-gdi-island="site">
-      <button class="galok-dual-islands__toggle" type="button" data-gdi-toggle="site" aria-label="Galok site navigation" aria-pressed="false">
+      <button class="galok-dual-islands__toggle" type="button" data-gdi-toggle="site" aria-label="Open Galok site navigation" aria-pressed="false">
         <img class="galok-dual-islands__logo" src="/assets/galok-symbol.svg" alt="" aria-hidden="true">
       </button>
       <div class="galok-dual-islands__content">
@@ -180,6 +193,8 @@
     root.dataset.mode = mode;
     localToggle.setAttribute("aria-pressed", String(mode === "local"));
     siteToggle.setAttribute("aria-pressed", String(mode === "site"));
+    siteToggle.setAttribute("aria-label", mode === "site" ? "Galok home" : "Open Galok site navigation");
+    siteToggle.title = mode === "site" ? "Galok home" : "Open Galok site navigation";
     localIsland.setAttribute("aria-expanded", String(mode === "local"));
     siteIsland.setAttribute("aria-expanded", String(mode === "site"));
     if (focus) (mode === "local" ? localToggle : siteToggle).focus({ preventScroll: true });
