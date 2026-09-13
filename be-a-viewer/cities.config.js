@@ -29,7 +29,25 @@ export function getGalokCity(value) {
   return GALOK_CITIES[normalizeCitySlug(value)] || GALOK_CITIES.beijing;
 }
 
-if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
+const currentRoute = window.location.pathname.replace(/index\.html$/, "");
+
+const appendStyle = (href) => {
+  if (document.querySelector(`link[href^="${href.split("?")[0]}"]`)) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = href;
+  document.head.append(link);
+};
+
+const appendDeferredScript = (src) => {
+  if (document.querySelector(`script[src^="${src.split("?")[0]}"]`)) return;
+  const script = document.createElement("script");
+  script.src = src;
+  script.defer = true;
+  document.head.append(script);
+};
+
+if (currentRoute === "/cities/") {
   document.documentElement.classList.add("cities-conversation-loading");
 
   if (!document.querySelector("[data-cities-conversation-boot-style]")) {
@@ -39,80 +57,22 @@ if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
     document.head.append(bootStyle);
   }
 
-  if (!document.querySelector('link[href^="/assets/cities-conversation.css"]')) {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "/assets/cities-conversation.css?v=20260913f";
-    document.head.append(link);
-  }
+  appendStyle("/assets/cities-conversation.css?v=20260913f");
+  appendStyle("/assets/cities-sticker-repair.css?v=20260913f");
+  appendStyle("/assets/cities-conversation-stream.css?v=20260913f");
+  appendStyle("/assets/cities-conversation-theme.css?v=20260914a");
+  appendStyle("/assets/cities-conversation-preview-radius.css?v=20260914b");
+  appendStyle("/assets/cities-modernize.css?v=20260914c");
+  appendStyle("/assets/galok-dual-islands.css?v=20260914b");
+  appendStyle("/assets/cities-islands-unified.css?v=20260914b");
 
-  if (!document.querySelector('link[href^="/assets/cities-sticker-repair.css"]')) {
-    const repairLink = document.createElement("link");
-    repairLink.rel = "stylesheet";
-    repairLink.href = "/assets/cities-sticker-repair.css?v=20260913f";
-    document.head.append(repairLink);
-  }
+  appendDeferredScript("/assets/cities-conversation.js?v=20260913f");
+  appendDeferredScript("/assets/cities-modernize.js?v=20260914c");
+  appendDeferredScript("/assets/cities-islands-unified.js?v=20260914b");
+}
 
-  if (!document.querySelector('link[href^="/assets/cities-conversation-stream.css"]')) {
-    const streamLink = document.createElement("link");
-    streamLink.rel = "stylesheet";
-    streamLink.href = "/assets/cities-conversation-stream.css?v=20260913f";
-    document.head.append(streamLink);
-  }
-
-  if (!document.querySelector('link[href^="/assets/cities-conversation-theme.css"]')) {
-    const themeLink = document.createElement("link");
-    themeLink.rel = "stylesheet";
-    themeLink.href = "/assets/cities-conversation-theme.css?v=20260914a";
-    document.head.append(themeLink);
-  }
-
-  if (!document.querySelector('link[href^="/assets/cities-conversation-preview-radius.css"]')) {
-    const previewRadiusLink = document.createElement("link");
-    previewRadiusLink.rel = "stylesheet";
-    previewRadiusLink.href = "/assets/cities-conversation-preview-radius.css?v=20260914b";
-    document.head.append(previewRadiusLink);
-  }
-
-  if (!document.querySelector('link[href^="/assets/cities-modernize.css"]')) {
-    const modernLink = document.createElement("link");
-    modernLink.rel = "stylesheet";
-    modernLink.href = "/assets/cities-modernize.css?v=20260914c";
-    document.head.append(modernLink);
-  }
-
-  if (!document.querySelector('link[href^="/assets/galok-dual-islands.css"]')) {
-    const islandsLink = document.createElement("link");
-    islandsLink.rel = "stylesheet";
-    islandsLink.href = "/assets/galok-dual-islands.css?v=20260914b";
-    document.head.append(islandsLink);
-  }
-
-  if (!document.querySelector('link[href^="/assets/cities-islands-unified.css"]')) {
-    const citiesIslandsLink = document.createElement("link");
-    citiesIslandsLink.rel = "stylesheet";
-    citiesIslandsLink.href = "/assets/cities-islands-unified.css?v=20260914b";
-    document.head.append(citiesIslandsLink);
-  }
-
-  if (!document.querySelector('script[src^="/assets/cities-conversation.js"]')) {
-    const script = document.createElement("script");
-    script.src = "/assets/cities-conversation.js?v=20260913f";
-    script.defer = true;
-    document.head.append(script);
-  }
-
-  if (!document.querySelector('script[src^="/assets/cities-modernize.js"]')) {
-    const modernScript = document.createElement("script");
-    modernScript.src = "/assets/cities-modernize.js?v=20260914c";
-    modernScript.defer = true;
-    document.head.append(modernScript);
-  }
-
-  if (!document.querySelector('script[src^="/assets/cities-islands-unified.js"]')) {
-    const islandsScript = document.createElement("script");
-    islandsScript.src = "/assets/cities-islands-unified.js?v=20260914b";
-    islandsScript.defer = true;
-    document.head.append(islandsScript);
-  }
+if (/^\/be-a-viewer\/[^/]+\/?$/.test(currentRoute)) {
+  appendStyle("/assets/galok-dual-islands.css?v=20260914b");
+  appendStyle("/assets/city-detail-islands.css?v=20260914b");
+  appendDeferredScript("/assets/city-detail-islands.js?v=20260914b");
 }
