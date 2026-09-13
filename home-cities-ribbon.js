@@ -1,4 +1,12 @@
 (() => {
+  const repairHref = '/home-cities-ribbon-repair.css?v=20260914a';
+  if (!document.querySelector('link[href^="/home-cities-ribbon-repair.css"]')) {
+    const repairLink = document.createElement('link');
+    repairLink.rel = 'stylesheet';
+    repairLink.href = repairHref;
+    document.head.append(repairLink);
+  }
+
   const root = document.querySelector('[data-city-ribbon]');
   if (!root) return;
 
