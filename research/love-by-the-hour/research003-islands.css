@@ -1,6 +1,14 @@
 /* Compatibility shim: Research 003 now uses the shared Galok island system. */
 @import url("/assets/galok-dual-islands.css?v=20260914b");
 
+/* Hide retired chrome immediately, before the shared island mounts. */
+body.search003-paper-page .site-nav,
+body.search003-paper-page .research-mobile-toc,
+body.search003-paper-page .research-paper-toc,
+body.search003-paper-page .research-progress {
+  display: none !important;
+}
+
 /* Keep Research 003's approved article geometry while the shared island owns navigation. */
 body.search003-paper-page .research-paper-layout {
   grid-template-columns: minmax(0, 1fr) !important;
