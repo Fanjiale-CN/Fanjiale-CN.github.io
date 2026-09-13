@@ -31,6 +31,15 @@
     }
   };
 
+  const scrollCardIntoTrack = (index, behavior = 'smooth') => {
+    const card = cards[index];
+    if (!card) return;
+    track.scrollTo({
+      left: Math.max(0, card.offsetLeft),
+      behavior: reducedMotion.matches ? 'auto' : behavior
+    });
+  };
+
   const setActive = (index, options = {}) => {
     if (!Number.isInteger(index) || index < 0 || index >= cards.length) return;
     activeIndex = index;
@@ -52,13 +61,7 @@
     if (prev) prev.disabled = index === 0;
     if (next) next.disabled = index === cards.length - 1;
 
-    if (options.scroll && mobile.matches) {
-      cards[index].scrollIntoView({
-        behavior: reducedMotion.matches ? 'auto' : 'smooth',
-        block: 'nearest',
-        inline: 'start'
-      });
-    }
+    if (options.scroll && mobile.matches) scrollCardIntoTrack(index);
   };
 
   cards.forEach((card, index) => {
@@ -131,11 +134,12 @@
 
   const onMobileChange = () => {
     setActive(activeIndex);
-    if (mobile.matches) requestAnimationFrame(syncMobileFromScroll);
+    if (mobile.matches) requestAnimationFrame(() => scrollCardIntoTrack(activeIndex, 'auto'));
   };
 
   if (typeof mobile.addEventListener === 'function') mobile.addEventListener('change', onMobileChange);
   else mobile.addListener(onMobileChange);
 
   setActive(activeIndex);
+  if (mobile.matches) requestAnimationFrame(() => scrollCardIntoTrack(activeIndex, 'auto'));
 })();
