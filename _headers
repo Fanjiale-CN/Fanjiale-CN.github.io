@@ -7,6 +7,12 @@
 /research/love-by-the-hour/visuals/
   Cache-Control: public, max-age=0, must-revalidate
 
+/research/love-by-the-hour/research003-islands.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/research/love-by-the-hour/research003-islands.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /essays/capability-laundering/
   Cache-Control: public, max-age=0, must-revalidate
 
