@@ -1,0 +1,58 @@
+/* Cities adapter for the shared Galok dual-island system · 2026-09-14 */
+body.viewer-page-body.cities-islands-unified {
+  --gdi-bg: var(--cities-modern-pill, rgba(255,255,255,.68));
+  --gdi-line: var(--cities-modern-line, rgba(17,23,34,.10));
+  --gdi-ink: var(--cities-modern-ink, #111722);
+  --gdi-muted: var(--cities-modern-muted, rgba(17,23,34,.58));
+  --gdi-shadow: var(--cities-modern-shadow, 0 24px 72px rgba(45,64,98,.10));
+}
+
+body.viewer-page-body.cities-islands-unified .galok-dual-islands--cities {
+  width: min(760px, calc(100vw - 28px));
+}
+
+body.viewer-page-body.cities-islands-unified .galok-dual-islands__island {
+  background: var(--cities-modern-pill, var(--gdi-bg)) !important;
+  border-color: var(--cities-modern-line, var(--gdi-line)) !important;
+  color: var(--cities-modern-ink, var(--gdi-ink)) !important;
+}
+
+body.viewer-page-body.cities-islands-unified .galok-dual-islands__local-link,
+body.viewer-page-body.cities-islands-unified .galok-dual-islands__site-link,
+body.viewer-page-body.cities-islands-unified .galok-dual-islands__more {
+  color: var(--cities-modern-ink, var(--gdi-ink)) !important;
+}
+
+body.viewer-page-body.cities-islands-unified .field-footer {
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+}
+
+:root[data-theme="dark"] body.viewer-page-body.cities-islands-unified .galok-dual-islands__island {
+  background: #0a0a0a !important;
+  border-color: rgba(255,255,255,.12) !important;
+  color: #f5f5f5 !important;
+  box-shadow: 0 22px 60px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+:root[data-theme="dark"] body.viewer-page-body.cities-islands-unified .galok-dual-islands__logo {
+  filter: invert(1) brightness(1.08) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.viewer-page-body.cities-islands-unified .galok-dual-islands__island {
+    background: #0a0a0a !important;
+    border-color: rgba(255,255,255,.12) !important;
+    color: #f5f5f5 !important;
+    box-shadow: 0 22px 60px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.08) !important;
+  }
+
+  :root:not([data-theme="light"]) body.viewer-page-body.cities-islands-unified .galok-dual-islands__logo {
+    filter: invert(1) brightness(1.08) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  body.viewer-page-body.cities-islands-unified .galok-dual-islands--cities {
+    width: calc(100vw - 20px);
+  }
+}
