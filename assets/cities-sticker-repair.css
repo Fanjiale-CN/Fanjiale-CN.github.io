@@ -1,0 +1,34 @@
+/* Cities sticker repair · 2026-09-13b */
+.cities-sticker img {
+  object-fit: contain;
+}
+
+@media (min-width: 721px) and (max-width: 1180px) {
+  .cities-sticker {
+    max-width: 19vw;
+  }
+
+  .cities-sticker[data-slot="a"] {
+    left: -1%;
+    top: 18%;
+    --w: clamp(126px, 16vw, 186px);
+  }
+
+  .cities-sticker[data-slot="b"] {
+    right: -1%;
+    top: 14%;
+    --w: clamp(120px, 15vw, 178px);
+  }
+
+  .cities-sticker[data-slot="c"] {
+    left: 0;
+    bottom: 6%;
+    --w: clamp(118px, 14vw, 168px);
+  }
+
+  .cities-sticker[data-slot="d"] {
+    right: 0;
+    bottom: 6%;
+    --w: clamp(126px, 16vw, 188px);
+  }
+}
