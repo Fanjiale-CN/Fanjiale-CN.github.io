@@ -28,3 +28,28 @@ export function normalizeCitySlug(value = "") {
 export function getGalokCity(value) {
   return GALOK_CITIES[normalizeCitySlug(value)] || GALOK_CITIES.beijing;
 }
+
+if (window.location.pathname.replace(/index\.html$/, "") === "/cities/") {
+  document.documentElement.classList.add("cities-conversation-loading");
+
+  if (!document.querySelector("[data-cities-conversation-boot-style]")) {
+    const bootStyle = document.createElement("style");
+    bootStyle.dataset.citiesConversationBootStyle = "";
+    bootStyle.textContent = ".viewer-hero,.city-selector{visibility:hidden!important}";
+    document.head.append(bootStyle);
+  }
+
+  if (!document.querySelector('link[href^="/assets/cities-conversation.css"]')) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/assets/cities-conversation.css?v=20260913a";
+    document.head.append(link);
+  }
+
+  if (!document.querySelector('script[src^="/assets/cities-conversation.js"]')) {
+    const script = document.createElement("script");
+    script.src = "/assets/cities-conversation.js?v=20260913a";
+    script.defer = true;
+    document.head.append(script);
+  }
+}
