@@ -26,6 +26,13 @@
     return clean.length > 25 ? `${clean.slice(0, 24).trim()}…` : clean;
   };
 
+  const stripOrdinal = (value) => String(value || "")
+    .replace(/^\s*\d{1,2}\s*(?:[./:·—-]\s*)?/, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const numbered = (index, value) => `${String(index + 1).padStart(2, "0")} ${compact(stripOrdinal(value) || "Section")}`;
+
   const slugify = (value, index) => {
     const base = String(value || "section")
       .toLowerCase()
@@ -50,13 +57,13 @@
     ];
 
     for (const [pattern, label] of candidates) {
-      if (pattern.test(id)) return `${String(index + 1).padStart(2, "0")} ${label}`;
+      if (pattern.test(id)) return numbered(index, label);
     }
 
     const heading = element.querySelector?.("h1, h2, h3")?.textContent;
     const aria = element.getAttribute?.("aria-label");
     const raw = heading || aria || id.replace(/[-_]+/g, " ") || `Section ${index + 1}`;
-    return `${String(index + 1).padStart(2, "0")} ${compact(raw)}`;
+    return numbered(index, raw);
   };
 
   const unique = (items) => {
@@ -76,21 +83,21 @@
       const target = href.slice(1);
       const element = document.getElementById(target);
       if (!element) return null;
+      const title = String(link.textContent || "").replace(/\s+/g, " ").trim();
       return {
         target,
         element,
-        label: `${String(index + 1).padStart(2, "0")} ${compact(link.textContent)}`,
-        title: String(link.textContent || "").trim()
+        label: numbered(index, title),
+        title
       };
     }).filter(Boolean));
   };
 
   const collectFallback = () => {
     const main = document.querySelector("main") || document.body;
-    const candidates = [
-      ...main.querySelectorAll(":scope > section[id], :scope > article[id]"),
-      ...main.querySelectorAll("galok-city-weather, .city-archive-section[id], .city-archive-preview[id]")
-    ];
+    const candidates = [...main.querySelectorAll(
+      ":scope > section[id], :scope > article[id], :scope > galok-city-weather, .city-archive-section[id], .city-archive-preview[id]"
+    )];
 
     const normalized = unique(candidates.map((element, index) => {
       if (!element.id) element.id = slugify(element.getAttribute("aria-label") || element.tagName, index);
