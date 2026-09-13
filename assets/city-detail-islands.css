@@ -1,0 +1,91 @@
+/* Shared Galok islands adapter for /be-a-viewer/<city>/ · 2026-09-14 */
+body.city-detail-islands-unified {
+  --gdi-city-width: 760px;
+}
+
+body.city-detail-islands-unified .galok-dual-islands--city-detail {
+  width: min(var(--gdi-city-width), calc(100vw - 28px));
+}
+
+body.city-detail-islands-unified .site-nav {
+  display: none !important;
+}
+
+body.city-detail-islands-unified .field-footer,
+body.city-detail-islands-unified .footer {
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+body.city-detail-islands-unified main {
+  scroll-margin-bottom: 110px;
+}
+
+/* City pages can contain their own legacy wave/capsule navigation. The shared island owns navigation now. */
+body.city-detail-islands-unified .gwn,
+body.city-detail-islands-unified [data-gwn],
+body.city-detail-islands-unified [data-gv2-capsule],
+body.city-detail-islands-unified .research-mobile-toc,
+body.city-detail-islands-unified .research-paper-toc {
+  display: none !important;
+}
+
+/* Keep the shared island legible on image-heavy city pages without imposing a new page theme. */
+body.city-detail-islands-unified .galok-dual-islands__island {
+  background: rgba(248, 249, 250, .84) !important;
+  border-color: rgba(15, 18, 22, .10) !important;
+  color: #111417 !important;
+  box-shadow: 0 16px 40px rgba(17, 20, 24, .14), inset 0 1px 0 rgba(255, 255, 255, .78) !important;
+}
+
+body.city-detail-islands-unified .galok-dual-islands__local-link,
+body.city-detail-islands-unified .galok-dual-islands__site-link,
+body.city-detail-islands-unified .galok-dual-islands__more {
+  color: #111417 !important;
+}
+
+:root[data-theme="dark"] body.city-detail-islands-unified .galok-dual-islands__island {
+  background: rgba(13, 13, 13, .90) !important;
+  border-color: rgba(255, 255, 255, .13) !important;
+  color: #f5f5f5 !important;
+  box-shadow: 0 20px 54px rgba(0, 0, 0, .48), inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+}
+
+:root[data-theme="dark"] body.city-detail-islands-unified .galok-dual-islands__local-link,
+:root[data-theme="dark"] body.city-detail-islands-unified .galok-dual-islands__site-link,
+:root[data-theme="dark"] body.city-detail-islands-unified .galok-dual-islands__more {
+  color: #f5f5f5 !important;
+}
+
+:root[data-theme="dark"] body.city-detail-islands-unified .galok-dual-islands__logo {
+  filter: invert(1) brightness(1.08) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.city-detail-islands-unified .galok-dual-islands__island {
+    background: rgba(13, 13, 13, .90) !important;
+    border-color: rgba(255, 255, 255, .13) !important;
+    color: #f5f5f5 !important;
+    box-shadow: 0 20px 54px rgba(0, 0, 0, .48), inset 0 1px 0 rgba(255, 255, 255, .08) !important;
+  }
+
+  :root:not([data-theme="light"]) body.city-detail-islands-unified .galok-dual-islands__local-link,
+  :root:not([data-theme="light"]) body.city-detail-islands-unified .galok-dual-islands__site-link,
+  :root:not([data-theme="light"]) body.city-detail-islands-unified .galok-dual-islands__more {
+    color: #f5f5f5 !important;
+  }
+
+  :root:not([data-theme="light"]) body.city-detail-islands-unified .galok-dual-islands__logo {
+    filter: invert(1) brightness(1.08) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  body.city-detail-islands-unified .galok-dual-islands--city-detail {
+    width: calc(100vw - 20px);
+  }
+
+  body.city-detail-islands-unified .field-footer,
+  body.city-detail-islands-unified .footer {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
