@@ -39,7 +39,11 @@ body.galok-modern-site.gv2-body .gv2-footer {
   color: var(--gv2-ink);
 }
 
-:root[data-theme="dark"] body.galok-modern-site.gv2-body,
+:root[data-theme="dark"] body.galok-modern-site.gv2-body {
+  background: var(--gv2-canvas) !important;
+  color: var(--gv2-ink) !important;
+}
+
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) body.galok-modern-site.gv2-body {
     background: var(--gv2-canvas) !important;
