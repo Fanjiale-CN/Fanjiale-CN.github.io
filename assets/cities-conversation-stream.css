@@ -1,0 +1,158 @@
+/* Galok Cities streamed reply motion · 2026-09-13 */
+.cities-conversation__ask.is-thinking,
+.cities-conversation__ask:disabled {
+  cursor: wait;
+  opacity: .72;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.cities-thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  margin: 30px auto 0;
+  padding: 12px 16px;
+  border: 1px solid rgba(17, 23, 34, .08);
+  border-radius: 999px;
+  color: rgba(17, 23, 34, .62);
+  background: rgba(255,255,255,.46);
+  -webkit-backdrop-filter: blur(18px) saturate(124%);
+  backdrop-filter: blur(18px) saturate(124%);
+  font: 520 12px/1 var(--font-sans, "MiSans", system-ui, sans-serif);
+  animation: cities-thinking-in .36s cubic-bezier(.22,1,.36,1) both;
+}
+
+.cities-thinking__orb {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(92, 139, 255, .78);
+  box-shadow: 0 0 18px rgba(92, 139, 255, .48);
+  animation: cities-thinking-orb 1.25s ease-in-out infinite;
+}
+
+.cities-thinking__dots {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: -3px;
+}
+
+.cities-thinking__dots i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .28;
+  animation: cities-thinking-dot 1.08s ease-in-out infinite;
+}
+
+.cities-thinking__dots i:nth-child(2) { animation-delay: .12s; }
+.cities-thinking__dots i:nth-child(3) { animation-delay: .24s; }
+
+.cities-answer.is-composing {
+  animation: cities-answer-in .52s cubic-bezier(.22,1,.36,1) both;
+}
+
+.cities-answer__media.is-pending {
+  opacity: 0;
+  filter: blur(16px);
+  transform: scale(.982);
+  transition:
+    opacity .62s cubic-bezier(.22,1,.36,1),
+    filter .72s cubic-bezier(.22,1,.36,1),
+    transform .72s cubic-bezier(.22,1,.36,1);
+}
+
+.cities-answer__media.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+.cities-type-target {
+  min-height: 1em;
+}
+
+.cities-type-target.is-typing::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 5px;
+  border-radius: 50%;
+  vertical-align: .12em;
+  background: rgba(83, 132, 255, .72);
+  box-shadow: 0 0 12px rgba(83, 132, 255, .32);
+  animation: cities-type-cursor .82s ease-in-out infinite;
+}
+
+.cities-answer__questions.is-pending > * {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.cities-answer__questions.is-ready > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity .38s cubic-bezier(.22,1,.36,1),
+    transform .38s cubic-bezier(.22,1,.36,1);
+}
+
+.cities-answer__questions.is-ready > *:nth-child(1) { transition-delay: 0ms; }
+.cities-answer__questions.is-ready > *:nth-child(2) { transition-delay: 70ms; }
+.cities-answer__questions.is-ready > *:nth-child(3) { transition-delay: 140ms; }
+.cities-answer__questions.is-ready > *:nth-child(4) { transition-delay: 210ms; }
+
+.cities-followup.is-composing strong,
+.cities-followup.is-composing p {
+  min-height: 1em;
+}
+
+.cities-followup-thinking {
+  width: min(720px, 92%);
+  margin: 12px auto 0;
+  padding: 16px 20px;
+  border: 1px solid rgba(17, 23, 34, .07);
+  border-radius: 22px;
+  color: rgba(17, 23, 34, .54);
+  background: rgba(255,255,255,.40);
+  -webkit-backdrop-filter: blur(18px) saturate(122%);
+  backdrop-filter: blur(18px) saturate(122%);
+  font: 500 12px/1.4 var(--font-sans, "MiSans", system-ui, sans-serif);
+  animation: cities-followup-in .34s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes cities-thinking-in {
+  from { opacity: 0; transform: translateY(8px); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes cities-thinking-orb {
+  0%, 100% { transform: scale(.82); opacity: .48; }
+  50% { transform: scale(1.16); opacity: 1; }
+}
+
+@keyframes cities-thinking-dot {
+  0%, 100% { opacity: .22; transform: translateY(0); }
+  50% { opacity: .82; transform: translateY(-2px); }
+}
+
+@keyframes cities-type-cursor {
+  0%, 100% { opacity: .28; transform: scale(.82); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cities-thinking,
+  .cities-thinking__orb,
+  .cities-thinking__dots i,
+  .cities-type-target.is-typing::after,
+  .cities-answer__media,
+  .cities-answer__questions > * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
