@@ -49,6 +49,12 @@
 /assets/observability.js
   Cache-Control: public, max-age=0, must-revalidate
 
+/be-a-viewer/cities.config.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/cities-conversation-theme.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /home-v2.css
   Cache-Control: public, max-age=0, must-revalidate
 
