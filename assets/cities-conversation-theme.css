@@ -1,0 +1,222 @@
+/* Galok Cities conversation theme bridge · 2026-09-14
+   Keeps the simulated AI Q&A aligned with the site light/dark system. */
+
+body.viewer-page-body {
+  --city-theme-scheme: light;
+  --city-theme-page: #f7f9fc;
+  --city-theme-ink: #111722;
+  --city-theme-muted: rgba(17, 23, 34, .58);
+  --city-theme-subtle: rgba(17, 23, 34, .46);
+  --city-theme-line: rgba(17, 23, 34, .09);
+  --city-theme-nav: rgba(249, 251, 255, .72);
+  --city-theme-nav-line: rgba(18, 22, 29, .07);
+  --city-theme-prompt: rgba(255, 255, 255, .62);
+  --city-theme-select: rgba(238, 243, 250, .82);
+  --city-theme-card: rgba(255, 255, 255, .58);
+  --city-theme-card-soft: rgba(255, 255, 255, .48);
+  --city-theme-chip: rgba(255, 255, 255, .64);
+  --city-theme-chip-hover: rgba(255, 255, 255, .96);
+  --city-theme-media: #e8edf4;
+  --city-theme-button: #111722;
+  --city-theme-button-ink: #fff;
+  --city-theme-shadow: rgba(55, 78, 118, .11);
+  --city-theme-shadow-soft: rgba(58, 83, 128, .10);
+  --city-theme-sticker-shadow: rgba(40, 54, 80, .13);
+  --city-theme-blue: 77, 151, 255;
+  --city-theme-violet: 133, 112, 255;
+  --city-theme-bg-top: #fbfcff;
+  --city-theme-bg-bottom: #f5f8fc;
+  --city-theme-glow-a: rgba(111, 198, 255, .08);
+  --city-theme-glow-b: rgba(155, 132, 255, .07);
+  --city-theme-brand-mark: url("/assets/galok-symbol.svg?v=20260907-brand");
+  color-scheme: var(--city-theme-scheme);
+}
+
+:root[data-theme="dark"] body.viewer-page-body {
+  --city-theme-scheme: dark;
+  --city-theme-page: #0c1014;
+  --city-theme-ink: #f2f5f7;
+  --city-theme-muted: rgba(232, 238, 243, .64);
+  --city-theme-subtle: rgba(232, 238, 243, .47);
+  --city-theme-line: rgba(255, 255, 255, .10);
+  --city-theme-nav: rgba(14, 18, 23, .72);
+  --city-theme-nav-line: rgba(255, 255, 255, .08);
+  --city-theme-prompt: rgba(28, 34, 41, .68);
+  --city-theme-select: rgba(38, 46, 56, .82);
+  --city-theme-card: rgba(24, 30, 37, .72);
+  --city-theme-card-soft: rgba(24, 30, 37, .58);
+  --city-theme-chip: rgba(255, 255, 255, .065);
+  --city-theme-chip-hover: rgba(255, 255, 255, .115);
+  --city-theme-media: #171d24;
+  --city-theme-button: #f2f5f7;
+  --city-theme-button-ink: #10151a;
+  --city-theme-shadow: rgba(0, 0, 0, .34);
+  --city-theme-shadow-soft: rgba(0, 0, 0, .22);
+  --city-theme-sticker-shadow: rgba(0, 0, 0, .28);
+  --city-theme-blue: 92, 153, 255;
+  --city-theme-violet: 147, 126, 255;
+  --city-theme-bg-top: #11171d;
+  --city-theme-bg-bottom: #0c1014;
+  --city-theme-glow-a: rgba(69, 145, 255, .12);
+  --city-theme-glow-b: rgba(139, 105, 255, .10);
+  --city-theme-brand-mark: url("/assets/galok-symbol-white.svg?v=20260907-brand");
+}
+
+body.viewer-page-body {
+  background: var(--city-theme-page) !important;
+  transition: background-color .32s ease, color .32s ease;
+}
+
+.viewer-site-nav {
+  color: var(--city-theme-ink) !important;
+  background: var(--city-theme-nav) !important;
+  border-bottom-color: var(--city-theme-nav-line) !important;
+  transition: background-color .32s ease, border-color .32s ease, color .32s ease;
+}
+
+.viewer-site-nav a,
+.viewer-site-nav .nav-links a,
+.viewer-site-nav .brand-lockup b,
+.viewer-site-nav .brand-lockup small {
+  color: var(--city-theme-ink) !important;
+}
+
+.viewer-site-nav .brand::before {
+  background-image: var(--city-theme-brand-mark) !important;
+}
+
+.cities-conversation {
+  --city-ink: var(--city-theme-ink);
+  --city-muted: var(--city-theme-muted);
+  --city-line: var(--city-theme-line);
+  --city-blue: var(--city-theme-blue);
+  --city-violet: var(--city-theme-violet);
+  background:
+    radial-gradient(circle at 17% 22%, rgba(var(--city-theme-blue), .14), transparent 31%),
+    radial-gradient(circle at 82% 68%, rgba(var(--city-theme-violet), .11), transparent 34%),
+    linear-gradient(180deg, var(--city-theme-bg-top) 0%, var(--city-theme-bg-bottom) 100%);
+  color: var(--city-theme-ink);
+  transition: background-color .32s ease, color .32s ease;
+}
+
+.cities-conversation::before { background: var(--city-theme-glow-a); }
+.cities-conversation::after { background: var(--city-theme-glow-b); }
+
+.cities-conversation__eyebrow { color: var(--city-theme-subtle); }
+
+.cities-conversation__prompt {
+  border-color: var(--city-theme-line);
+  background: var(--city-theme-prompt);
+  box-shadow:
+    0 22px 70px var(--city-theme-shadow-soft),
+    inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.cities-conversation__select {
+  color: var(--city-theme-ink);
+  background: var(--city-theme-select);
+  color-scheme: var(--city-theme-scheme);
+}
+
+.cities-conversation__select option {
+  color: var(--city-theme-ink);
+  background: var(--city-theme-page);
+}
+
+.cities-conversation__select-wrap::after { color: var(--city-theme-muted); }
+
+.cities-conversation__ask {
+  background: var(--city-theme-button);
+  color: var(--city-theme-button-ink);
+}
+
+.cities-conversation__ask:hover {
+  box-shadow: 0 10px 26px var(--city-theme-shadow);
+}
+
+.cities-answer {
+  border-color: var(--city-theme-line);
+  background: var(--city-theme-card);
+  box-shadow: 0 28px 90px var(--city-theme-shadow);
+}
+
+.cities-answer__media { background: var(--city-theme-media); }
+.cities-answer__meta { color: var(--city-theme-subtle); }
+.cities-answer h2 { color: var(--city-theme-ink); }
+.cities-answer__body > p { color: var(--city-theme-muted); }
+
+.cities-answer__question,
+.cities-answer__enter {
+  border-color: var(--city-theme-line);
+  background: var(--city-theme-chip);
+  color: var(--city-theme-ink);
+}
+
+.cities-answer__question:hover,
+.cities-answer__enter:hover {
+  background: var(--city-theme-chip-hover);
+}
+
+.cities-followup,
+.cities-followup-thinking {
+  border-color: var(--city-theme-line);
+  background: var(--city-theme-card-soft);
+}
+
+.cities-followup strong { color: var(--city-theme-ink); }
+.cities-followup p,
+.cities-followup-thinking { color: var(--city-theme-muted); }
+
+.cities-thinking {
+  border-color: var(--city-theme-line);
+  color: var(--city-theme-muted);
+  background: var(--city-theme-card-soft);
+}
+
+.cities-sticker {
+  filter: drop-shadow(0 18px 24px var(--city-theme-sticker-shadow));
+}
+
+.cities-sticker:hover {
+  filter: drop-shadow(0 24px 34px var(--city-theme-sticker-shadow));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.viewer-page-body {
+    --city-theme-scheme: dark;
+    --city-theme-page: #0c1014;
+    --city-theme-ink: #f2f5f7;
+    --city-theme-muted: rgba(232, 238, 243, .64);
+    --city-theme-subtle: rgba(232, 238, 243, .47);
+    --city-theme-line: rgba(255, 255, 255, .10);
+    --city-theme-nav: rgba(14, 18, 23, .72);
+    --city-theme-nav-line: rgba(255, 255, 255, .08);
+    --city-theme-prompt: rgba(28, 34, 41, .68);
+    --city-theme-select: rgba(38, 46, 56, .82);
+    --city-theme-card: rgba(24, 30, 37, .72);
+    --city-theme-card-soft: rgba(24, 30, 37, .58);
+    --city-theme-chip: rgba(255, 255, 255, .065);
+    --city-theme-chip-hover: rgba(255, 255, 255, .115);
+    --city-theme-media: #171d24;
+    --city-theme-button: #f2f5f7;
+    --city-theme-button-ink: #10151a;
+    --city-theme-shadow: rgba(0, 0, 0, .34);
+    --city-theme-shadow-soft: rgba(0, 0, 0, .22);
+    --city-theme-sticker-shadow: rgba(0, 0, 0, .28);
+    --city-theme-blue: 92, 153, 255;
+    --city-theme-violet: 147, 126, 255;
+    --city-theme-bg-top: #11171d;
+    --city-theme-bg-bottom: #0c1014;
+    --city-theme-glow-a: rgba(69, 145, 255, .12);
+    --city-theme-glow-b: rgba(139, 105, 255, .10);
+    --city-theme-brand-mark: url("/assets/galok-symbol-white.svg?v=20260907-brand");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.viewer-page-body,
+  .viewer-site-nav,
+  .cities-conversation {
+    transition: none !important;
+  }
+}
