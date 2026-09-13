@@ -85,6 +85,12 @@
 /assets/cities-modernize.js
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/cities-flat-chat.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/cities-flat-chat.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /home-v2.css
   Cache-Control: public, max-age=0, must-revalidate
 
