@@ -131,6 +131,12 @@
     appendStylesheet("/assets/editorial-modern-20260913.css?v=20260913a");
   }
 
+  const contextualAI = kind === "essay" || kind === "research" || kind === "reading";
+  if (contextualAI) {
+    appendStylesheet("/assets/galok-context-ai.css?v=20260914a");
+    appendScript("/assets/galok-context-ai.js?v=20260914a");
+  }
+
   const normalizeLensData = () => {
     const content = window.GALOK_CONTENT;
     if (!content) return;
