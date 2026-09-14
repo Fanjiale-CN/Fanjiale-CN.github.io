@@ -10,6 +10,7 @@
   const MAX_SELECTION = 1600;
   const route = window.location.pathname.replace(/index\.html$/, "");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
   const detectSurface = () => {
     if (/^\/essays\/[^/]+\/?$/.test(route)) return "essay";
@@ -46,24 +47,19 @@
   let requestSerial = 0;
 
   const labels = {
-    essay: { eyebrow: "ESSAY", empty: "Ask about this essay", chip: "Essay" },
-    research: { eyebrow: "RESEARCH", empty: "Ask about this research", chip: "Research" },
-    reading: { eyebrow: "READING", empty: "Ask while you read", chip: "Reading" }
+    essay: { eyebrow: "ESSAY", empty: "Ask about this essay" },
+    research: { eyebrow: "RESEARCH", empty: "Ask about this research" },
+    reading: { eyebrow: "READING", empty: "Ask while you read" }
   }[surface];
 
   const shell = document.createElement("section");
   shell.className = "galok-context-ai";
   shell.dataset.surface = surface;
   shell.innerHTML = `
-    <button class="galok-context-ai__launcher" type="button" aria-expanded="false" aria-controls="galok-context-ai-panel">
-      <span class="galok-context-ai__launcher-mark" aria-hidden="true">G</span>
-      <span class="galok-context-ai__launcher-copy"><b>ASK GALOK</b><small data-gca-launcher-state>${labels.chip} · this page</small></span>
-      <span class="galok-context-ai__launcher-arrow" aria-hidden="true">↗</span>
-    </button>
-    <div class="galok-context-ai__panel" id="galok-context-ai-panel" role="dialog" aria-label="Galok AI" aria-modal="false" hidden>
+    <div class="galok-context-ai__panel" id="galok-context-ai-panel" role="dialog" aria-label="Galok AI" aria-modal="false" aria-hidden="true">
       <header class="galok-context-ai__head">
         <div class="galok-context-ai__identity">
-          <span class="galok-context-ai__mark" aria-hidden="true">G</span>
+          <span class="galok-context-ai__mark" aria-hidden="true">AI</span>
           <div><b>GALOK AI</b><small>${labels.eyebrow} / CONTEXT LAYER</small></div>
         </div>
         <button class="galok-context-ai__close" type="button" aria-label="Close Galok AI">×</button>
@@ -74,7 +70,7 @@
       </div>
       <div class="galok-context-ai__stage" data-gca-stage>
         <div class="galok-context-ai__welcome" data-gca-welcome>
-          <p>${labels.empty}. Galok AI can use the page you are reading, the section on screen, or text you select.</p>
+          <p>${labels.empty}. Ask from anywhere on the page. Galok AI can use the section on screen or text you select.</p>
           <div class="galok-context-ai__prompts" data-gca-prompts></div>
         </div>
         <div class="galok-context-ai__exchange" data-gca-exchange hidden>
@@ -95,9 +91,8 @@
     </div>`;
 
   document.body.append(shell);
+  document.body.classList.add("galok-context-ai-enabled");
 
-  const launcher = shell.querySelector(".galok-context-ai__launcher");
-  const launcherState = shell.querySelector("[data-gca-launcher-state]");
   const panel = shell.querySelector(".galok-context-ai__panel");
   const close = shell.querySelector(".galok-context-ai__close");
   const contextBox = shell.querySelector("[data-gca-context]");
@@ -108,6 +103,7 @@
   const questionView = shell.querySelector("[data-gca-question]");
   const answerView = shell.querySelector("[data-gca-answer]");
   const answerActions = shell.querySelector("[data-gca-answer-actions]");
+  const stage = shell.querySelector("[data-gca-stage]");
   const form = shell.querySelector("[data-gca-form]");
   const input = shell.querySelector("[data-gca-input]");
   const send = shell.querySelector(".galok-context-ai__send");
@@ -131,18 +127,25 @@
     }));
   };
 
-  const openPanel = () => {
-    panel.hidden = false;
-    shell.classList.add("is-open");
-    launcher.setAttribute("aria-expanded", "true");
-    document.body.classList.add("galok-context-ai-open");
-    window.requestAnimationFrame(() => input.focus({ preventScroll: true }));
+  const emitState = (open) => {
+    window.dispatchEvent(new CustomEvent("galok:context-ai-state", { detail: { open, surface } }));
   };
 
-  const closePanel = () => {
-    panel.hidden = true;
+  const isOpen = () => shell.classList.contains("is-open");
+
+  const openPanel = () => {
+    if (isOpen()) return;
+    shell.classList.add("is-open");
+    panel.setAttribute("aria-hidden", "false");
+    document.body.classList.add("galok-context-ai-open");
+    emitState(true);
+    if (!coarsePointer) window.requestAnimationFrame(() => input.focus({ preventScroll: true }));
+  };
+
+  const closePanel = (restoreFocus = false) => {
+    if (!isOpen()) return;
     shell.classList.remove("is-open", "is-loading");
-    launcher.setAttribute("aria-expanded", "false");
+    panel.setAttribute("aria-hidden", "true");
     document.body.classList.remove("galok-context-ai-open");
     requestSerial += 1;
     activeController?.abort();
@@ -150,29 +153,36 @@
     input.disabled = false;
     send.disabled = false;
     input.placeholder = "Ask about this page…";
-    launcher.focus({ preventScroll: true });
+    emitState(false);
+    if (restoreFocus) document.querySelector("[data-gti-ai]")?.focus({ preventScroll: true });
+  };
+
+  const togglePanel = () => isOpen() ? closePanel() : openPanel();
+
+  window.galokContextAI = {
+    open: openPanel,
+    close: closePanel,
+    toggle: togglePanel,
+    isOpen
   };
 
   const isInsideRoot = (node) => node && (node === root || root.contains(node));
 
   const syncSelection = () => {
     const selection = window.getSelection();
-    if (!selection || selection.isCollapsed || !isInsideRoot(selection.anchorNode) || !isInsideRoot(selection.focusNode)) {
-      return;
-    }
+    if (!selection || selection.isCollapsed || !isInsideRoot(selection.anchorNode) || !isInsideRoot(selection.focusNode)) return;
     const next = text(selection.toString(), MAX_SELECTION);
     if (next.length < 12) return;
     selectedPassage = next;
     contextBox.classList.add("has-selection");
     contextBox.querySelector("small").textContent = "SELECTED PASSAGE";
     contextTitle.textContent = next.length > 96 ? `${next.slice(0, 96).trim()}…` : next;
-    launcherState.textContent = "Selected passage";
     renderPrompts();
   };
 
   const currentSection = () => {
     if (!headings.length) return null;
-    const threshold = Math.max(140, window.innerHeight * 0.38);
+    const threshold = Math.max(140, window.innerHeight * .38);
     let candidate = headings[0];
     for (const heading of headings) {
       if (heading.getBoundingClientRect().top <= threshold) candidate = heading;
@@ -190,7 +200,6 @@
     contextBox.classList.remove("has-selection");
     contextBox.querySelector("small").textContent = "CURRENT SECTION";
     contextTitle.textContent = currentHeading || pageTitle;
-    launcherState.textContent = `${labels.chip} · ${currentHeading || "this page"}`;
   };
 
   const collectSectionText = () => {
@@ -248,6 +257,7 @@
     send.disabled = false;
     answerActions.hidden = false;
     input.placeholder = "Ask about this page…";
+    requestAnimationFrame(() => { stage.scrollTop = stage.scrollHeight; });
   };
 
   const showError = (message) => {
@@ -273,6 +283,7 @@
     answerActions.hidden = true;
     shell.classList.add("is-loading");
     input.value = "";
+    input.style.height = "auto";
     input.disabled = true;
     send.disabled = true;
     input.placeholder = "Galok AI is reading…";
@@ -321,12 +332,11 @@
     }
   }
 
-  launcher.addEventListener("click", () => panel.hidden ? openPanel() : closePanel());
-  close.addEventListener("click", closePanel);
+  close.addEventListener("click", () => closePanel(true));
   form.addEventListener("submit", (event) => { event.preventDefault(); ask(); });
   input.addEventListener("input", () => {
     input.style.height = "auto";
-    input.style.height = `${Math.min(128, input.scrollHeight)}px`;
+    input.style.height = `${Math.min(116, input.scrollHeight)}px`;
   });
   input.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
@@ -334,22 +344,39 @@
       form.requestSubmit();
     }
   });
+
   shell.querySelector("[data-gca-copy]").addEventListener("click", async () => {
     const value = answerView.textContent.trim();
     if (!value) return;
     try { await navigator.clipboard.writeText(value); } catch { /* no-op */ }
   });
+
   shell.querySelector("[data-gca-reset]").addEventListener("click", () => {
     exchange.hidden = true;
     welcome.hidden = false;
     answerView.textContent = "";
     questionView.textContent = "";
     answerActions.hidden = true;
-    input.focus({ preventScroll: true });
+    if (!coarsePointer) input.focus({ preventScroll: true });
   });
+
+  window.addEventListener("galok:context-ai-toggle", togglePanel);
+  window.addEventListener("galok:context-ai-close", () => closePanel());
+
+  document.addEventListener("pointerdown", (event) => {
+    if (!isOpen()) return;
+    const target = event.target instanceof Element ? event.target : null;
+    if (!target || shell.contains(target) || target.closest("[data-gti-ai]")) return;
+    closePanel(false);
+  }, { capture:true });
+
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !panel.hidden) closePanel();
+    if (event.key === "Escape" && isOpen()) {
+      event.preventDefault();
+      closePanel(true);
+    }
   });
+
   document.addEventListener("selectionchange", () => {
     clearTimeout(syncSelection._timer);
     syncSelection._timer = setTimeout(syncSelection, 90);
@@ -358,11 +385,21 @@
   let scrollFrame = 0;
   window.addEventListener("scroll", () => {
     if (selectedPassage || scrollFrame) return;
-    scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; syncSection(); });
-  }, { passive: true });
+    scrollFrame = requestAnimationFrame(() => {
+      scrollFrame = 0;
+      syncSection();
+    });
+  }, { passive:true });
 
   renderPrompts();
   syncSection();
-  if (!reduceMotion) requestAnimationFrame(() => shell.classList.add("is-ready"));
-  else shell.classList.add("is-ready");
+  window.__GALOK_CONTEXT_AI_READY__ = true;
+  window.dispatchEvent(new CustomEvent("galok:context-ai-ready", { detail:{ surface } }));
+
+  if (window.__GALOK_CONTEXT_AI_PENDING_OPEN__) {
+    window.__GALOK_CONTEXT_AI_PENDING_OPEN__ = false;
+    openPanel();
+  }
+
+  if (reduceMotion) shell.classList.add("is-ready");
 })();
