@@ -1,8 +1,12 @@
 (() => {
   "use strict";
 
-  if (window.__GALOK_CONTEXT_AI__) return;
+  const RUNTIME_VERSION = "triple-v2-20260914b";
+  if (window.__GALOK_CONTEXT_AI_VERSION__ === RUNTIME_VERSION) return;
+  document.querySelectorAll(".galok-context-ai").forEach((node) => node.remove());
+  document.body?.classList.remove("galok-context-ai-open");
   window.__GALOK_CONTEXT_AI__ = true;
+  window.__GALOK_CONTEXT_AI_VERSION__ = RUNTIME_VERSION;
 
   const API = "/api/ask";
   const MAX_QUESTION = 600;
@@ -52,7 +56,7 @@
     const root = findRoot();
     if (!root) {
       mountAttempts += 1;
-      if (mountAttempts < 24) setTimeout(mount, 150);
+      if (mountAttempts < 60) setTimeout(mount, 150);
       return;
     }
     mounted = true;
