@@ -22,6 +22,23 @@
   const surface = detectSurface();
   if (!surface) return;
 
+  const ensureStylesheet = (href) => {
+    if (document.querySelector(`link[href^="${href.split("?")[0]}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.append(link);
+  };
+  const ensureScript = (src) => {
+    if (document.querySelector(`script[src^="${src.split("?")[0]}"]`)) return;
+    const script = document.createElement("script");
+    script.src = src;
+    script.defer = true;
+    document.head.append(script);
+  };
+  ensureStylesheet("/assets/galok-triple-islands.css?v=20260914a");
+  ensureScript("/assets/galok-triple-islands.js?v=20260914a");
+
   const ROOT_SELECTORS = {
     essay: [".article-content", ".batch-article-content", "main article", "article"],
     research: ["[data-research-manuscript]", ".research-manuscript", "main article", "article"],
