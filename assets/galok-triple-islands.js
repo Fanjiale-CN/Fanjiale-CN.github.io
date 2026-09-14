@@ -11,6 +11,14 @@
     (path.startsWith("/reading/") && path !== "/reading/");
   if (!supported || document.querySelector(".galok-triple-islands")) return;
 
+  const retireLegacyIslands = () => {
+    document.querySelectorAll(".galok-dual-islands, .s003-dual-islands").forEach((node) => node.remove());
+    document.body.classList.remove("galok-dual-islands-active");
+  };
+  retireLegacyIslands();
+  const legacyObserver = new MutationObserver(retireLegacyIslands);
+  legacyObserver.observe(document.body, { childList:true, subtree:false, attributes:true, attributeFilter:["class"] });
+
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
   const menuIcon = `
     <svg class="galok-triple-islands__menu-icon" viewBox="0 0 24 24" aria-hidden="true">
