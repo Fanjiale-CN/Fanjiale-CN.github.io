@@ -7,5 +7,19 @@
       "pattern": "www.galok.me/api/ask*",
       "zone_name": "galok.me"
     }
-  ]
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "AI_BUDGET",
+        "class_name": "AiBudgetGate"
+      }
+    ]
+  },
+  "exports": {
+    "AiBudgetGate": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    }
+  }
 }
