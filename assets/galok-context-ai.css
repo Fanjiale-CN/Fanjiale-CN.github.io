@@ -1,0 +1,180 @@
+.galok-context-ai {
+  --gca-bg: #f7f7f4;
+  --gca-panel: #fff;
+  --gca-ink: #111;
+  --gca-muted: #6d6d68;
+  --gca-line: rgba(17,17,17,.14);
+  --gca-soft: #ecece8;
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  top: 58%;
+  z-index: 2140;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  color: var(--gca-ink);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .2s ease, transform .24s cubic-bezier(.22,1,.36,1);
+}
+.galok-context-ai.is-ready { opacity: 1; transform: none; }
+.galok-context-ai *, .galok-context-ai *::before, .galok-context-ai *::after { box-sizing: border-box; }
+.galok-context-ai button, .galok-context-ai textarea { font: inherit; }
+.galok-context-ai .sr-only {
+  position:absolute !important; width:1px !important; height:1px !important; padding:0 !important; margin:-1px !important; overflow:hidden !important; clip:rect(0,0,0,0) !important; white-space:nowrap !important; border:0 !important;
+}
+.galok-context-ai__launcher {
+  width: 166px;
+  min-height: 52px;
+  display: grid;
+  grid-template-columns: 30px 1fr 16px;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px;
+  background: #111;
+  color: #fff;
+  box-shadow: 0 12px 36px rgba(0,0,0,.16);
+  cursor: pointer;
+  text-align: left;
+}
+.galok-context-ai__launcher-mark, .galok-context-ai__mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: #fff;
+  color: #111;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -.04em;
+}
+.galok-context-ai__launcher-copy { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.galok-context-ai__launcher-copy b { font-size: 10px; letter-spacing: .11em; font-weight: 760; }
+.galok-context-ai__launcher-copy small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 9px; color: rgba(255,255,255,.58); }
+.galok-context-ai__launcher-arrow { font-size: 12px; opacity: .62; }
+.galok-context-ai.is-open .galok-context-ai__launcher { opacity: 0; pointer-events: none; transform: translateX(6px); }
+.galok-context-ai__panel {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: min(402px, calc(100vw - 32px));
+  height: min(650px, 76vh);
+  min-height: 460px;
+  display: grid;
+  grid-template-rows: auto auto minmax(0,1fr) auto auto;
+  overflow: hidden;
+  border: 1px solid var(--gca-line);
+  border-radius: 24px;
+  background: var(--gca-panel);
+  box-shadow: 0 24px 70px rgba(0,0,0,.2);
+  transform: translateY(-50%);
+}
+.galok-context-ai__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--gca-line);
+}
+.galok-context-ai__identity { display: flex; align-items: center; gap: 10px; }
+.galok-context-ai__identity .galok-context-ai__mark { background:#111; color:#fff; }
+.galok-context-ai__identity div { display:flex; flex-direction:column; gap:2px; }
+.galok-context-ai__identity b { font-size: 11px; letter-spacing: .12em; }
+.galok-context-ai__identity small { color: var(--gca-muted); font-size: 8px; letter-spacing: .12em; }
+.galok-context-ai__close {
+  width: 34px; height: 34px; border: 0; border-radius: 11px; background: transparent; color: var(--gca-ink); font-size: 22px; line-height:1; cursor:pointer;
+}
+.galok-context-ai__close:hover { background: var(--gca-soft); }
+.galok-context-ai__context {
+  display: grid;
+  grid-template-columns: 8px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 12px 15px;
+  background: var(--gca-bg);
+  border-bottom: 1px solid var(--gca-line);
+}
+.galok-context-ai__context-dot { width: 7px; height: 7px; margin-top: 4px; border-radius: 50%; background: #111; }
+.galok-context-ai__context.has-selection .galok-context-ai__context-dot { box-shadow: 0 0 0 3px rgba(17,17,17,.12); }
+.galok-context-ai__context div { min-width:0; display:flex; flex-direction:column; gap:3px; }
+.galok-context-ai__context small { color: var(--gca-muted); font-size: 8px; letter-spacing: .13em; }
+.galok-context-ai__context b { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size: 11px; font-weight: 620; }
+.galok-context-ai__stage { overflow-y:auto; overscroll-behavior:contain; padding: 20px 18px; }
+.galok-context-ai__welcome { display:flex; flex-direction:column; gap:18px; }
+.galok-context-ai__welcome > p { margin:0; max-width: 31em; font-size: 15px; line-height:1.6; letter-spacing:-.012em; }
+.galok-context-ai__prompts { display:flex; flex-wrap:wrap; gap:8px; }
+.galok-context-ai__prompts button, .galok-context-ai__answer-actions button {
+  border: 1px solid var(--gca-line); border-radius: 999px; background: #fff; color: var(--gca-ink); padding: 8px 11px; font-size: 10px; cursor:pointer;
+}
+.galok-context-ai__prompts button:hover, .galok-context-ai__answer-actions button:hover { background: var(--gca-soft); }
+.galok-context-ai__exchange { display:flex; flex-direction:column; gap:16px; }
+.galok-context-ai__question { align-self:flex-end; max-width:88%; margin:0; padding:10px 12px; border-radius:15px 15px 5px 15px; background:#111; color:#fff; font-size:12px; line-height:1.5; }
+.galok-context-ai__answer { white-space:pre-wrap; overflow-wrap:anywhere; font-size:14px; line-height:1.7; letter-spacing:-.006em; }
+.galok-context-ai.is-loading .galok-context-ai__answer:empty::before { content:"Reading the page…"; color:var(--gca-muted); animation:gca-pulse 1.15s ease-in-out infinite; }
+.galok-context-ai__answer.is-error { color:#8b2222; }
+.galok-context-ai__answer-actions { display:flex; gap:7px; padding-top:4px; }
+.galok-context-ai__composer {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:9px;
+  align-items:end;
+  margin: 0 12px 10px;
+  padding:8px 8px 8px 12px;
+  border:1px solid var(--gca-line);
+  border-radius:17px;
+  background:var(--gca-bg);
+}
+.galok-context-ai__composer textarea {
+  width:100%; min-height:32px; max-height:128px; resize:none; border:0; outline:0; background:transparent; color:var(--gca-ink); font-size:13px; line-height:1.45; padding:7px 0 5px;
+}
+.galok-context-ai__composer textarea::placeholder { color:#8b8b85; }
+.galok-context-ai__send { min-width:58px; height:38px; display:flex; align-items:center; justify-content:center; gap:6px; border:0; border-radius:12px; background:#111; color:#fff; cursor:pointer; font-size:10px; }
+.galok-context-ai__send:disabled { opacity:.42; cursor:default; }
+.galok-context-ai__foot { padding:0 15px 12px; color:var(--gca-muted); font-size:8px; line-height:1.45; }
+@keyframes gca-pulse { 0%,100%{opacity:.42} 50%{opacity:1} }
+
+@media (prefers-color-scheme: dark) {
+  .galok-context-ai { --gca-bg:#111; --gca-panel:#000; --gca-ink:#f4f4f1; --gca-muted:#8d8d88; --gca-line:rgba(255,255,255,.15); --gca-soft:#171717; }
+  .galok-context-ai__launcher { background:#f2f2ef; color:#111; border-color:rgba(0,0,0,.12); }
+  .galok-context-ai__launcher-mark { background:#111; color:#fff; }
+  .galok-context-ai__launcher-copy small { color:rgba(0,0,0,.52); }
+  .galok-context-ai__identity .galok-context-ai__mark { background:#f2f2ef; color:#111; }
+  .galok-context-ai__context-dot, .galok-context-ai__send { background:#f2f2ef; color:#111; }
+  .galok-context-ai__prompts button, .galok-context-ai__answer-actions button { background:#050505; color:var(--gca-ink); }
+  .galok-context-ai__question { background:#f2f2ef; color:#111; }
+}
+
+@media (max-width: 760px) {
+  .galok-context-ai {
+    top:auto;
+    right:max(12px, env(safe-area-inset-right));
+    bottom:calc(82px + env(safe-area-inset-bottom));
+  }
+  .galok-context-ai__launcher { width:144px; min-height:48px; border-radius:16px; }
+  .galok-context-ai__panel {
+    position:fixed;
+    left:8px;
+    right:8px;
+    top:auto;
+    bottom:calc(8px + env(safe-area-inset-bottom));
+    width:auto;
+    height:min(70svh, 620px);
+    min-height:420px;
+    border-radius:22px;
+    transform:none;
+  }
+  .galok-context-ai.is-open { right:8px; bottom:8px; }
+  .galok-context-ai__stage { padding:18px 15px; }
+}
+
+@media (max-width: 420px) {
+  .galok-context-ai__launcher-copy small { display:none; }
+  .galok-context-ai__launcher { width:116px; grid-template-columns:28px 1fr 12px; }
+  .galok-context-ai__launcher-mark { width:28px; height:28px; }
+  .galok-context-ai__panel { left:6px; right:6px; height:min(74svh, 620px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galok-context-ai, .galok-context-ai * { transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+}
