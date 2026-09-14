@@ -27,13 +27,18 @@ const SCOPE_PREFIX = {
 const DEEPSEEK_ENDPOINT = "https://api.deepseek.com/chat/completions";
 const MODEL = "deepseek-v4-flash";
 const PROVIDER = "deepseek";
-const SERVICE_VERSION = "context-surfaces-0.5";
+const SERVICE_VERSION = "context-surfaces-0.6";
 const KNOWLEDGE_MODE = "context-plus-general";
 const MAX_QUESTION = 600;
 const MAX_CONTEXT = 10000;
 const MAX_SELECTION = 1600;
 const MAX_META = 260;
-const MAX_OUTPUT_TOKENS = 700;
+const MAX_CITY_OUTPUT_TOKENS = 480;
+const MAX_PAGE_OUTPUT_TOKENS = 700;
+const MAX_HISTORY_MESSAGES = 18;
+const MAX_HISTORY_ITEM = 1200;
+const MAX_HISTORY_CHARS = 9000;
+const MAX_CITY_TURNS = 10;
 
 // Cost protection. The global daily gate is the hard public-spend fuse.
 const GLOBAL_DAILY_LIMIT = 300;
@@ -110,6 +115,12 @@ Knowledge policy:
 - You do not have live web search in this experience. Never claim to have searched the web, checked live sources or verified current information.
 - When facts are uncertain or disputed, express the uncertainty instead of guessing.
 
+Conversation policy:
+- In Cities, recent user and assistant messages may be supplied so you can answer follow-up questions coherently.
+- Use that history only as conversational context. Do not claim it is stored permanently by Galok.
+- Resolve pronouns and short follow-ups from the recent conversation when reasonable.
+- If recent conversation conflicts with the current user message, follow the current user message.
+
 Product scope and cost discipline:
 - Galok AI is for concise questions, explanations, planning and discussion, not bulk generation.
 - You may answer coding questions, but if asked to generate a large application, very long codebase, dozens of files, bulk articles or similarly large output, provide a compact plan or representative excerpt instead of a huge completion.
@@ -121,11 +132,11 @@ Style:
 - For page-related questions, explain the material rather than merely summarizing it.
 - For city-related questions, prefer spatial, visual, historical and everyday-life explanations when relevant.
 - Do not add unnecessary caveats to timeless questions.
-- For simple questions, a short direct answer is enough. For broader questions, usually use 2 to 5 compact paragraphs.
+- For simple questions, a short direct answer is enough. For broader questions, usually use 2 to 4 compact paragraphs.
 `.trim();
 
-const cityMessage = ({ city, question }) => `
-Surface: Cities
+const citySystemContext = ({ city }) => `
+Current surface: Cities
 Selected city: ${city}
 
 Galok-supplied city context (editorial context, not an exhaustive knowledge boundary):
@@ -133,9 +144,6 @@ ${CITY_CONTEXT[city]}
 
 Request date for temporal framing only: ${new Date().toISOString().slice(0, 10)}
 No live web-search results are available in this request.
-
-Visitor question:
-${question}
 `.trim();
 
 const pageMessage = ({ scope, path, title, section, context, selection, question, language }) => `
@@ -156,25 +164,46 @@ Visitor question:
 ${question}
 `.trim();
 
-const buildPayload = (requestData) => ({
-  model: MODEL,
-  messages: [
-    {
-      role: "system",
-      content: systemPrompt
-    },
-    {
-      role: "user",
-      content: requestData.kind === "city" ? cityMessage(requestData) : pageMessage(requestData)
-    }
-  ],
-  thinking: {
-    type: "disabled"
-  },
-  stream: true,
-  max_tokens: MAX_OUTPUT_TOKENS,
-  temperature: 0.5
-});
+const sanitizeHistory = (value) => {
+  if (!Array.isArray(value)) return [];
+  const safe = [];
+  let total = 0;
+
+  for (const item of value.slice(-MAX_HISTORY_MESSAGES)) {
+    const role = item?.role === "assistant" ? "assistant" : item?.role === "user" ? "user" : "";
+    if (!role) continue;
+    const content = clip(item?.content, MAX_HISTORY_ITEM);
+    if (!content) continue;
+    if (total + content.length > MAX_HISTORY_CHARS) break;
+    total += content.length;
+    safe.push({ role, content });
+  }
+
+  return safe;
+};
+
+const buildPayload = (requestData) => {
+  const city = requestData.kind === "city";
+  const messages = city
+    ? [
+        { role: "system", content: `${systemPrompt}\n\n${citySystemContext(requestData)}` },
+        ...(requestData.history || []),
+        { role: "user", content: requestData.question }
+      ]
+    : [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: pageMessage(requestData) }
+      ];
+
+  return {
+    model: MODEL,
+    messages,
+    thinking: { type: "disabled" },
+    stream: true,
+    max_tokens: city ? MAX_CITY_OUTPUT_TOKENS : MAX_PAGE_OUTPUT_TOKENS,
+    temperature: 0.5
+  };
+};
 
 const readCookie = (request, name) => {
   const cookie = request.headers.get("Cookie") || "";
@@ -246,8 +275,6 @@ export class AiBudgetGate extends DurableObject {
       }, 429);
     }
 
-    // SQLite-backed synchronous KV operations run without an intervening await,
-    // so this accepted-request accounting stays atomic inside the Durable Object.
     kv.put("global", globalCount + 1);
     kv.put(visitorKey, visitorCount + 1);
     kv.put(minuteKey, minuteCount + 1);
@@ -386,6 +413,7 @@ const streamAnswer = (env, requestData, remaining, setCookie) => new Response(ne
       knowledge_mode: KNOWLEDGE_MODE,
       web_search: false,
       thinking: false,
+      conversation_history: requestData.kind === "city" ? (requestData.history?.length || 0) : 0,
       budget_remaining: remaining || undefined
     }));
 
@@ -463,7 +491,17 @@ const parseRequestData = (body) => {
   const city = clip(body?.city, 80).toLowerCase();
   if (city) {
     if (!CITY_CONTEXT[city]) return { error: json({ error: "Unknown city." }, 400) };
-    return { data: { kind: "city", city, question } };
+    const rawHistory = Array.isArray(body?.history) ? body.history : [];
+    if (rawHistory.length > MAX_HISTORY_MESSAGES) {
+      return {
+        error: json({
+          error: "This Cities conversation has reached its 10-turn limit. Refresh the page to start a new conversation.",
+          code: "SESSION_TURN_LIMIT",
+          retryable: false
+        }, 409)
+      };
+    }
+    return { data: { kind: "city", city, question, history: sanitizeHistory(rawHistory) } };
   }
 
   const scope = clip(body?.scope, 24).toLowerCase();
@@ -504,11 +542,15 @@ export default {
         knowledge_mode: KNOWLEDGE_MODE,
         web_search: false,
         abuse_protection: true,
+        cities_continuous_conversation: true,
         limits: {
           per_minute: VISITOR_MINUTE_LIMIT,
           per_visitor_day: VISITOR_DAILY_LIMIT,
           public_day: GLOBAL_DAILY_LIMIT,
-          max_output_tokens: MAX_OUTPUT_TOKENS
+          cities_turns: MAX_CITY_TURNS,
+          cities_max_output_tokens: MAX_CITY_OUTPUT_TOKENS,
+          page_max_output_tokens: MAX_PAGE_OUTPUT_TOKENS,
+          history_messages: MAX_HISTORY_MESSAGES
         }
       });
     }
