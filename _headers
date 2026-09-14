@@ -40,6 +40,18 @@
 /assets/galok-home-surface.css
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/galok-context-ai.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/galok-context-ai.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/galok-triple-islands-v2.css
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/galok-triple-islands-v2.js
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/galok-dual-islands.css
   Cache-Control: public, max-age=0, must-revalidate
 
