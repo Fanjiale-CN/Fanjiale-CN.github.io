@@ -52,6 +52,9 @@
 /assets/galok-triple-islands-v2.css
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/galok-triple-islands-motion.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/galok-triple-islands-v2.js
   Cache-Control: public, max-age=0, must-revalidate
 
