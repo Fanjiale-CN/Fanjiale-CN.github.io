@@ -20,8 +20,8 @@
 
   const readingPath = window.location.pathname.replace(/index\.html$/, '');
   if (readingPath.startsWith('/reading/') && readingPath !== '/reading/') {
-    loadStylesheet('/assets/galok-context-ai.css?v=20260914a', 'galok-context-ai-style');
-    loadScript('/assets/galok-context-ai.js?v=20260914a', 'galok-context-ai-runtime');
+    loadStylesheet('/assets/galok-context-ai.css?v=20260914b', 'galok-context-ai-style');
+    loadScript('/assets/galok-context-ai.js?v=20260914b', 'galok-context-ai-runtime');
   }
 
   loadStylesheet('/reading/redesign-20260831.css?v=20260831c', 'reading-redesign-20260831');
