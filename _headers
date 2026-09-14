@@ -43,6 +43,9 @@
 /assets/galok-context-ai.css
   Cache-Control: public, max-age=0, must-revalidate
 
+/assets/galok-context-ai-polish.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /assets/galok-context-ai.js
   Cache-Control: public, max-age=0, must-revalidate
 
