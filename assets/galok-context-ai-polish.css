@@ -1,3 +1,5 @@
+@import url("/assets/galok-triple-islands-motion.css?v=20260914d");
+
 /* Context AI interaction polish for the three-island dock. */
 .galok-context-ai__composer {
   transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
