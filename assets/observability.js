@@ -133,8 +133,8 @@
 
   const contextualAI = kind === "essay" || kind === "research" || kind === "reading";
   if (contextualAI) {
-    appendStylesheet("/assets/galok-context-ai.css?v=20260914b");
-    appendScript("/assets/galok-context-ai.js?v=20260914b");
+    appendStylesheet("/assets/galok-context-ai.css?v=20260914a");
+    appendScript("/assets/galok-context-ai.js?v=20260914a");
   }
 
   const normalizeLensData = () => {
@@ -247,12 +247,7 @@
 
   if (!isCitiesDesign) {
     appendStylesheet("/assets/galok-modern-system.css?v=20260913a");
-    if (contextualAI) {
-      appendStylesheet("/assets/galok-triple-islands.css?v=20260914a");
-      appendScript("/assets/galok-triple-islands.js?v=20260914a");
-    } else {
-      appendStylesheet("/assets/galok-dual-islands.css?v=20260913a");
-      appendScript("/assets/galok-dual-islands.js?v=20260913a");
-    }
+    appendStylesheet("/assets/galok-dual-islands.css?v=20260913a");
+    appendScript("/assets/galok-dual-islands.js?v=20260913a");
   }
 })();
