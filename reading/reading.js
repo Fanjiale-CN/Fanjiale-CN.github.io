@@ -8,6 +8,22 @@
     document.head.append(link);
   };
 
+  const loadScript = (src, id) => {
+    if (id && document.getElementById(id)) return;
+    if ([...document.scripts].some((script) => (script.getAttribute('src') || '').startsWith(src))) return;
+    const script = document.createElement('script');
+    script.src = src;
+    script.defer = true;
+    if (id) script.id = id;
+    document.head.append(script);
+  };
+
+  const readingPath = window.location.pathname.replace(/index\.html$/, '');
+  if (readingPath.startsWith('/reading/') && readingPath !== '/reading/') {
+    loadStylesheet('/assets/galok-context-ai.css?v=20260914a', 'galok-context-ai-style');
+    loadScript('/assets/galok-context-ai.js?v=20260914a', 'galok-context-ai-runtime');
+  }
+
   loadStylesheet('/reading/redesign-20260831.css?v=20260831c', 'reading-redesign-20260831');
   loadStylesheet('/reading/dongjing-polish-20260906.css?v=20260906a', 'dongjing-polish-20260906');
 
