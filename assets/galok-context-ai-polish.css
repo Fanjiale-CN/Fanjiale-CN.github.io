@@ -1,0 +1,64 @@
+/* Context AI interaction polish for the three-island dock. */
+.galok-context-ai__composer {
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.galok-context-ai__composer:focus-within {
+  border-color: rgba(17,19,21,.26) !important;
+  box-shadow: 0 0 0 1px rgba(17,19,21,.025) !important;
+}
+
+.galok-context-ai__composer textarea,
+.galok-context-ai__composer textarea:focus,
+.galok-context-ai__composer textarea:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.galok-context-ai__send {
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border-radius: 50% !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+.galok-context-ai__send > span:first-child { display: none !important; }
+.galok-context-ai__send > span:last-child {
+  display: block;
+  transform: translateY(-1px);
+  font: 500 19px/1 "MiSans", Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+.galok-context-ai__close:focus-visible,
+.galok-context-ai__prompts button:focus-visible,
+.galok-context-ai__answer-actions button:focus-visible,
+.galok-context-ai__send:focus-visible,
+.galok-context-ai__launcher:focus-visible {
+  outline: 2px solid rgba(17,19,21,.28) !important;
+  outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .galok-context-ai__composer:focus-within {
+    border-color: rgba(255,255,255,.28) !important;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.035) !important;
+  }
+  :root:not([data-theme="light"]) .galok-context-ai__close:focus-visible,
+  :root:not([data-theme="light"]) .galok-context-ai__prompts button:focus-visible,
+  :root:not([data-theme="light"]) .galok-context-ai__answer-actions button:focus-visible,
+  :root:not([data-theme="light"]) .galok-context-ai__send:focus-visible,
+  :root:not([data-theme="light"]) .galok-context-ai__launcher:focus-visible {
+    outline-color: rgba(255,255,255,.34) !important;
+  }
+}
+
+:root[data-theme="dark"] .galok-context-ai__composer:focus-within {
+  border-color: rgba(255,255,255,.28) !important;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.035) !important;
+}

@@ -133,10 +133,11 @@
 
   const contextualAI = kind === "essay" || kind === "research" || kind === "reading";
   if (contextualAI) {
-    appendStylesheet("/assets/galok-triple-islands-v2.css?v=20260914b");
-    appendStylesheet("/assets/galok-context-ai.css?v=20260914b");
-    appendScript("/assets/galok-triple-islands-v2.js?v=20260914b");
-    appendScript("/assets/galok-context-ai.js?v=20260914b");
+    appendStylesheet("/assets/galok-triple-islands-v2.css?v=20260914c");
+    appendStylesheet("/assets/galok-context-ai.css?v=20260914c");
+    appendStylesheet("/assets/galok-context-ai-polish.css?v=20260914c");
+    appendScript("/assets/galok-triple-islands-v2.js?v=20260914c");
+    appendScript("/assets/galok-context-ai.js?v=20260914c");
   }
 
   const normalizeLensData = () => {
