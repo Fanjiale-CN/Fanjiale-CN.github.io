@@ -1,5 +1,5 @@
 /* Compatibility shim: Research 003 uses the contextual three-island dock. */
-@import url("/assets/galok-triple-islands-v2.css?v=20260914b");
+@import url("/assets/galok-triple-islands-v2.css?v=20260914c");
 
 /* Hide retired chrome immediately, before the shared island mounts. */
 body.search003-paper-page .site-nav,
