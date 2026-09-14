@@ -1,14 +1,15 @@
 /* Cities hub render-critical bundle entry · 2026-09-14
    Keep this file linked in <head>. The order below is the final cascade order. */
-@import url("/assets/cities-conversation.css?v=20260914e");
-@import url("/assets/cities-sticker-repair.css?v=20260914e");
-@import url("/assets/cities-conversation-stream.css?v=20260914e");
-@import url("/assets/cities-conversation-theme.css?v=20260914e");
-@import url("/assets/cities-conversation-preview-radius.css?v=20260914e");
-@import url("/assets/cities-modernize.css?v=20260914e");
-@import url("/assets/galok-dual-islands.css?v=20260914e");
-@import url("/assets/cities-islands-unified.css?v=20260914e");
-@import url("/assets/cities-flat-chat.css?v=20260914e");
-@import url("/assets/cities-flat-chat-repair.css?v=20260914e");
-@import url("/assets/cities-ai-live.css?v=20260914e");
-@import url("/assets/cities-ai-motion.css?v=20260914e");
+@import url("/assets/cities-conversation.css?v=20260914g");
+@import url("/assets/cities-sticker-repair.css?v=20260914g");
+@import url("/assets/cities-conversation-stream.css?v=20260914g");
+@import url("/assets/cities-conversation-theme.css?v=20260914g");
+@import url("/assets/cities-conversation-preview-radius.css?v=20260914g");
+@import url("/assets/cities-modernize.css?v=20260914g");
+@import url("/assets/galok-dual-islands.css?v=20260914g");
+@import url("/assets/cities-islands-unified.css?v=20260914g");
+@import url("/assets/cities-flat-chat.css?v=20260914g");
+@import url("/assets/cities-flat-chat-repair.css?v=20260914g");
+@import url("/assets/cities-ai-live.css?v=20260914g");
+@import url("/assets/cities-ai-motion.css?v=20260914g");
+@import url("/assets/cities-ai-session.css?v=20260914g");
