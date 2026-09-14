@@ -247,7 +247,12 @@
 
   if (!isCitiesDesign) {
     appendStylesheet("/assets/galok-modern-system.css?v=20260913a");
-    appendStylesheet("/assets/galok-dual-islands.css?v=20260913a");
-    appendScript("/assets/galok-dual-islands.js?v=20260913a");
+    if (contextualAI) {
+      appendStylesheet("/assets/galok-triple-islands.css?v=20260914a");
+      appendScript("/assets/galok-triple-islands.js?v=20260914a");
+    } else {
+      appendStylesheet("/assets/galok-dual-islands.css?v=20260913a");
+      appendScript("/assets/galok-dual-islands.js?v=20260913a");
+    }
   }
 })();
