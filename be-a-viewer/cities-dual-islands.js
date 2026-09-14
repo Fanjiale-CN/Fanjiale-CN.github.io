@@ -18,12 +18,6 @@
     root.querySelectorAll?.("[data-cities-ai-response][data-question]").forEach(normalizeResponseQuestion);
   };
 
-  /*
-   * The AI response container used to reuse data-question, the same attribute
-   * as the suggested-question buttons. That made Copy / Share / Close bubble
-   * into the question router and submit the whole answer as a new prompt.
-   * Keep response metadata in its own namespace before any action handler runs.
-   */
   sanitizeResponseQuestions();
   const responseObserver = new MutationObserver(() => sanitizeResponseQuestions());
   responseObserver.observe(document.documentElement, {
@@ -41,11 +35,11 @@
   }, true);
 
   const scripts = [
-    "/assets/cities-conversation.js?v=20260914e",
-    "/assets/cities-modernize.js?v=20260914e",
-    "/assets/cities-islands-unified.js?v=20260914e",
-    "/assets/cities-flat-chat.js?v=20260914e",
-    "/assets/cities-ai-live.js?v=20260914e"
+    "/assets/cities-conversation.js?v=20260914g",
+    "/assets/cities-modernize.js?v=20260914g",
+    "/assets/cities-islands-unified.js?v=20260914g",
+    "/assets/cities-flat-chat.js?v=20260914g",
+    "/assets/cities-ai-session.js?v=20260914g"
   ];
 
   const scriptPath = (value) => {
