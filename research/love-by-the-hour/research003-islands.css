@@ -1,5 +1,5 @@
-/* Compatibility shim: Research 003 now uses the shared Galok island system. */
-@import url("/assets/galok-dual-islands.css?v=20260914b");
+/* Compatibility shim: Research 003 uses the contextual three-island dock. */
+@import url("/assets/galok-triple-islands-v2.css?v=20260914b");
 
 /* Hide retired chrome immediately, before the shared island mounts. */
 body.search003-paper-page .site-nav,
