@@ -1,0 +1,103 @@
+/* Apple-inspired motion refinement for Galok three-island dock.
+   Purposeful spring-like switching, with reduced-motion fallback. */
+
+body.galok-triple-islands-v2-active {
+  --gti2-spring: cubic-bezier(.18,1.22,.32,1);
+  --gti2-spring-fast: cubic-bezier(.2,1.12,.32,1);
+  --gti2-switch-duration: 620ms;
+}
+
+.galok-triple-islands-v2__island {
+  transition-property: width, flex-basis, border-radius, transform, background-color, box-shadow !important;
+  transition-duration: var(--gti2-switch-duration), var(--gti2-switch-duration), 460ms, 460ms, 220ms, 260ms !important;
+  transition-timing-function: var(--gti2-spring), var(--gti2-spring), var(--gti2-spring-fast), var(--gti2-spring-fast), ease, ease !important;
+}
+
+.galok-triple-islands-v2__content {
+  transform: translateX(12px) scale(.985);
+  transition-property: opacity, transform !important;
+  transition-duration: 210ms, 520ms !important;
+  transition-timing-function: ease, var(--gti2-spring-fast) !important;
+  transition-delay: 0ms, 0ms !important;
+}
+
+.galok-triple-islands-v2[data-mode="local"] .galok-triple-islands-v2__island--local .galok-triple-islands-v2__content,
+.galok-triple-islands-v2[data-mode="site"] .galok-triple-islands-v2__island--site .galok-triple-islands-v2__content {
+  transform: translateX(0) scale(1);
+  transition-delay: 125ms, 70ms !important;
+}
+
+.galok-triple-islands-v2__toggle {
+  transition: transform 300ms var(--gti2-spring-fast), background-color 200ms ease !important;
+}
+
+.galok-triple-islands-v2__toggle:active {
+  transform: scale(.91) !important;
+  transition-duration: 90ms !important;
+}
+
+.galok-triple-islands-v2__home-disc {
+  transition: transform 460ms var(--gti2-spring-fast), background-color 220ms ease !important;
+}
+
+.galok-triple-islands-v2[data-mode="site"] .galok-triple-islands-v2__site-toggle .galok-triple-islands-v2__home-disc,
+.galok-triple-islands-v2[data-mode="local"] .galok-triple-islands-v2__local-toggle .galok-triple-islands-v2__menu-icon {
+  animation: gti2-settle 620ms var(--gti2-spring-fast) both;
+}
+
+/* Force the AI island to remain a true circle even when longform pages contain
+   broad button styles. */
+.galok-triple-islands-v2 button.galok-triple-islands-v2__ai {
+  width: var(--gti2-size) !important;
+  height: var(--gti2-size) !important;
+  min-width: var(--gti2-size) !important;
+  min-height: var(--gti2-size) !important;
+  max-width: var(--gti2-size) !important;
+  max-height: var(--gti2-size) !important;
+  flex: 0 0 var(--gti2-size) !important;
+  aspect-ratio: 1 / 1 !important;
+  display: grid !important;
+  place-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  transform-origin: center !important;
+  transition: transform 360ms var(--gti2-spring-fast), box-shadow 260ms ease, background-color 220ms ease, color 220ms ease !important;
+}
+
+.galok-triple-islands-v2 button.galok-triple-islands-v2__ai:active {
+  transform: scale(.90) !important;
+  transition-duration: 90ms !important;
+}
+
+.galok-triple-islands-v2.is-ai-open button.galok-triple-islands-v2__ai {
+  transform: scale(.965) !important;
+}
+
+@keyframes gti2-settle {
+  0% { transform: scale(.92); }
+  56% { transform: scale(1.055); }
+  76% { transform: scale(.985); }
+  100% { transform: scale(1); }
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  body.galok-triple-islands-v2-active {
+    --gti2-spring: linear(0, .018 1.7%, .075 3.6%, .18 5.8%, .327 8.2%, .497 10.8%, .666 13.7%, .813 16.9%, .925 20.4%, .997 24.2%, 1.035 28.3%, 1.046 32.8%, 1.039 37.8%, 1.024 43.5%, 1.010 50.1%, 1.001 58%, .998 67.7%, 1 79%, 1);
+    --gti2-spring-fast: linear(0, .049 4%, .181 8%, .37 12%, .574 16%, .757 20%, .894 24%, .98 28%, 1.025 33%, 1.038 38%, 1.031 44%, 1.017 51%, 1.006 60%, 1.001 72%, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galok-triple-islands-v2__island,
+  .galok-triple-islands-v2__content,
+  .galok-triple-islands-v2__toggle,
+  .galok-triple-islands-v2__home-disc,
+  .galok-triple-islands-v2 button.galok-triple-islands-v2__ai {
+    animation: none !important;
+    transition-duration: 0ms !important;
+  }
+}
