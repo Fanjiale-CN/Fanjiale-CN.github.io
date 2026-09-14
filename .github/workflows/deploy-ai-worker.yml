@@ -89,21 +89,48 @@ jobs:
 
             echo "Galok AI health attempt $attempt: HTTP ${code:-000}"
             if [[ "$code" == "200" ]] \
-              && grep -q '"version":"cities-0.3"' "$body_file" \
+              && grep -q '"version":"context-surfaces-0.5"' "$body_file" \
+              && grep -q '"provider":"deepseek"' "$body_file" \
+              && grep -q '"model":"deepseek-v4-flash"' "$body_file" \
               && grep -q '"streaming":true' "$body_file" \
               && grep -q '"thinking":false' "$body_file" \
               && grep -q '"knowledge_mode":"context-plus-general"' "$body_file" \
+              && grep -q '"abuse_protection":true' "$body_file" \
               && grep -q '"web_search":false' "$body_file"; then
-              echo "Galok AI Cities 0.3 is live with context-plus-general knowledge mode."
-              exit 0
+              echo "Galok AI 0.5 is live on DeepSeek V4 Flash with the budget guard enabled."
+              break
+            fi
+
+            if [[ "$attempt" == "6" ]]; then
+              echo "Galok AI production route did not expose the expected DeepSeek health response."
+              echo "--- response body ---"
+              cat "$body_file" || true
+              echo
+              echo "--- curl diagnostics ---"
+              cat "$error_file" || true
+              exit 1
             fi
             sleep 5
           done
 
-          echo "Galok AI production route did not expose the expected Cities 0.3 health response."
-          echo "--- response body ---"
-          cat "$body_file" || true
-          echo
-          echo "--- curl diagnostics ---"
-          cat "$error_file" || true
-          exit 1
+          smoke_file="$RUNNER_TEMP/galok-ai-smoke-body"
+          smoke_code="$(curl \
+            --max-time 45 \
+            --silent \
+            --show-error \
+            --no-buffer \
+            --output "$smoke_file" \
+            --write-out '%{http_code}' \
+            -H 'Content-Type: application/json' \
+            -H 'Accept: text/event-stream' \
+            --data '{"city":"beijing","question":"Reply with only: OK"}' \
+            https://www.galok.me/api/ask || true)"
+
+          echo "Galok AI provider smoke test: HTTP ${smoke_code:-000}"
+          if [[ "$smoke_code" != "200" ]] || ! grep -q 'event: done' "$smoke_file"; then
+            echo "DeepSeek production smoke test failed."
+            cat "$smoke_file" || true
+            exit 1
+          fi
+
+          echo "DeepSeek production smoke test passed."
