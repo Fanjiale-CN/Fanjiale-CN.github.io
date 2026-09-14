@@ -1,0 +1,49 @@
+/* Cities AI fixed conversation viewport · 2026-09-14
+   The thin frame is a stable viewport. Conversation length scrolls inside it. */
+
+body.viewer-page-body .cities-ai-session__transcript {
+  box-sizing: border-box;
+  flex: 0 0 520px !important;
+  height: 520px;
+  min-height: 520px;
+  max-height: 520px;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  scrollbar-gutter: stable;
+}
+
+/* Keep the surrounding Ask surface from stretching with transcript content. */
+body.viewer-page-body .cities-ai-session .cities-conversation__inner {
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  body.viewer-page-body .cities-ai-session__transcript {
+    flex-basis: 500px !important;
+    height: 500px;
+    min-height: 500px;
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 720px) {
+  body.viewer-page-body .cities-ai-session__transcript {
+    flex-basis: 460px !important;
+    height: 460px;
+    min-height: 460px;
+    max-height: 460px;
+  }
+}
+
+/* Short screens still keep a bounded frame instead of pushing the page forever. */
+@media (max-height: 700px) {
+  body.viewer-page-body .cities-ai-session__transcript {
+    flex-basis: 380px !important;
+    height: 380px;
+    min-height: 380px;
+    max-height: 380px;
+  }
+}
