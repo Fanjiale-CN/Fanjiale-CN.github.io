@@ -133,8 +133,8 @@
 
   const contextualAI = kind === "essay" || kind === "research" || kind === "reading";
   if (contextualAI) {
-    appendStylesheet("/assets/galok-context-ai.css?v=20260914a");
-    appendScript("/assets/galok-context-ai.js?v=20260914a");
+    appendStylesheet("/assets/galok-context-ai.css?v=20260914b");
+    appendScript("/assets/galok-context-ai.js?v=20260914b");
   }
 
   const normalizeLensData = () => {
