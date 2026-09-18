@@ -18,7 +18,9 @@
 .mm-atlas--case5{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/C24DF515-DCB7-4D3A-A871-BDC8F58B38C1.png")}
 .mm-atlas--case6{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/7AA8CDA5-FC9F-4698-A622-329A248F90FB.png")}
 .mm-atlas--case7{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/2045E30A-8BAE-4625-B726-1EBC31166618.png")}
-.mm-atlas--airplane{background-image:url("/mixmatter/assets/stickers/airplane-original.jpg");background-color:transparent}
+.mm-atlas--airplane{background-image:url("/mixmatter/assets/stickers/airplane.webp");background-color:transparent}
+.mm-atlas--lemon{background-image:url("/mixmatter/assets/stickers/lemon.webp");background-color:transparent}
+.mm-atlas--avocado{background-image:url("/mixmatter/assets/stickers/avocado.webp");background-color:transparent}
 
 /* fallback top rail; shared dual-island nav replaces it when active */
 .mm-index{position:fixed;z-index:90;inset:0 0 auto;height:62px;display:grid;grid-template-columns:180px 250px 1fr auto;background:rgba(245,247,246,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);font:750 10px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase}
@@ -30,7 +32,12 @@ body.galok-dual-islands-active .mm-index{display:none!important}.mm-section-dire
 /* decoration */
 .mm-hero,.mm-system,.mm-cases,.mm-work,.mm-method{position:relative;overflow:hidden}
 .mm-sticker{position:absolute;z-index:1;display:block;width:180px;aspect-ratio:1;mix-blend-mode:multiply;opacity:.92;pointer-events:none;filter:saturate(.96)}
-.mm-sticker--airplane{right:-38px;top:120px;width:240px;transform:rotate(11deg)}
+.mm-sticker--airplane{right:18px;top:118px;width:220px;transform:rotate(8deg);animation:mm-sticker-fly 7.5s ease-in-out infinite}
+.mm-sticker--lemon{left:18px;top:460px;width:148px;transform:rotate(-10deg);animation:mm-sticker-float-a 6s ease-in-out infinite}
+.mm-sticker--avocado{right:30px;bottom:62px;width:132px;transform:rotate(8deg);animation:mm-sticker-float-b 6.6s ease-in-out infinite}
+@keyframes mm-sticker-fly{0%,100%{transform:translate3d(0,0,0) rotate(8deg)}50%{transform:translate3d(-18px,-10px,0) rotate(4deg)}}
+@keyframes mm-sticker-float-a{0%,100%{transform:translate3d(0,0,0) rotate(-10deg)}50%{transform:translate3d(8px,-12px,0) rotate(-5deg)}}
+@keyframes mm-sticker-float-b{0%,100%{transform:translate3d(0,0,0) rotate(8deg)}50%{transform:translate3d(-8px,10px,0) rotate(4deg)}}
 .mm-sticker--ice{right:-58px;top:82px;width:210px;transform:rotate(9deg);opacity:.72}.mm-sticker--orange{left:-60px;bottom:70px;width:165px;transform:rotate(-8deg)}
 .mm-sticker--pear{left:-64px;bottom:-12px;width:180px;transform:rotate(-9deg)}
 .mm-sticker--pineapple{left:-58px;top:190px;width:175px;transform:rotate(-12deg)}.mm-sticker--mango{right:-66px;bottom:110px;width:175px;transform:rotate(10deg)}
