@@ -150,10 +150,15 @@
         onUpdate:()=>place(state.p),
         onComplete:()=>{
           plane.classList.add('is-parked');
-          const pr=plane.getBoundingClientRect();
-          const targetX=sr.width*.78-plane.offsetWidth*.5;
-          const targetY=sr.height*.105-plane.offsetHeight*.5;
-          gsap.to(plane,{x:targetX-(pr.left-sr.left),y:targetY-(pr.top-sr.top),rotation:10,duration:.58,ease:'power3.out'});
+          const current=plane.getBoundingClientRect();
+          const startLeft=current.left-sr.left;
+          const startTop=current.top-sr.top;
+          const targetLeft=sr.width*.78-plane.offsetWidth*.5;
+          const targetTop=sr.height*.105-plane.offsetHeight*.5;
+          plane.style.transform='none';
+          plane.style.left=startLeft+'px';
+          plane.style.top=startTop+'px';
+          gsap.to(plane,{left:targetLeft,top:targetTop,rotation:10,duration:.58,ease:'power3.out'});
         }
       });
 
