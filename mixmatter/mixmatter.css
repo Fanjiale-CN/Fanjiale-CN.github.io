@@ -112,3 +112,26 @@ body.galok-dual-islands-active .mm-hero{padding-top:0}
 .mm-fragment>.mm-atlas{background-size:cover}
 .mm-piece__media{background-size:cover;background-color:#fff}
 .mm-sticker.mm-atlas{background-size:contain;background-color:transparent}
+
+/* user-supplied sticker atlas · pineapple / mango / pear / apple / orange / grapes */
+.mm-fruit{
+  background-image:url("/mixmatter/assets/stickers/fruit-atlas.webp");
+  background-repeat:no-repeat;background-size:300% 200%;
+  background-color:transparent
+}
+.mm-fruit--pineapple{background-position:0 0}
+.mm-fruit--mango{background-position:50% 0}
+.mm-fruit--pear{background-position:100% 0}
+.mm-fruit--apple{background-position:0 100%}
+.mm-fruit--orange{background-position:50% 100%}
+.mm-fruit--grapes{background-position:100% 100%}
+
+.mm-system .mm-sticker--pineapple{left:8px;top:205px;width:175px;transform:rotate(-10deg);animation:mm-fruit-drift-a 6.8s ease-in-out infinite}
+.mm-system .mm-sticker--orange{right:16px;bottom:72px;width:150px;transform:rotate(10deg);animation:mm-fruit-drift-b 5.7s ease-in-out infinite}
+.mm-cases .mm-sticker--mango{right:28px;top:76px;width:155px;transform:rotate(9deg);animation:mm-fruit-drift-b 6.2s ease-in-out infinite}
+.mm-cases .mm-sticker--pear{left:24px;bottom:16px;width:164px;transform:rotate(-8deg);animation:mm-fruit-drift-a 7.1s ease-in-out infinite}
+.mm-work .mm-sticker--apple{left:18px;top:118px;width:150px;transform:rotate(-9deg);animation:mm-fruit-drift-b 6.5s ease-in-out infinite}
+.mm-method .mm-sticker--grapes{right:12px;bottom:58px;width:185px;transform:rotate(7deg);animation:mm-fruit-drift-a 7.4s ease-in-out infinite}
+@keyframes mm-fruit-drift-a{0%,100%{translate:0 0}50%{translate:8px -11px}}
+@keyframes mm-fruit-drift-b{0%,100%{translate:0 0}50%{translate:-7px 9px}}
+@media(prefers-reduced-motion:reduce){.mm-fruit{animation:none!important}}

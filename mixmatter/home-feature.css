@@ -29,3 +29,32 @@
 @media(max-width:960px){.home-mm-feature{width:min(100% - 32px,1440px)}.home-mm-feature__body{grid-template-columns:1fr}.home-mm-feature__copy{padding-right:0}.home-mm-feature__stage{min-height:600px;border-left:0;border-top:1px solid var(--mm-line)}}
 @media(max-width:620px){.home-mm-feature{width:min(100% - 24px,1440px)}.home-mm-feature__rail{grid-template-columns:1fr auto}.home-mm-feature__rail span{display:none}.home-mm-feature__copy h2{font-size:clamp(70px,23vw,104px)}.home-mm-feature__copy h2 b{padding-left:0}.home-mm-feature__stage{min-height:500px}.home-mm-feature__plate--hero{left:4%;top:10%;width:62%;height:60%}.home-mm-feature__plate--top{right:2%;width:42%;height:31%}.home-mm-feature__plate--bottom{right:4%;width:48%;height:37%}.home-mm-feature__sticker--airplane{width:38%}.home-mm-feature__sticker--lemon{width:25%;left:-2%;bottom:1%}.home-mm-feature__sticker--avocado{width:22%;right:-1%;top:42%}}
 @media(prefers-reduced-motion:reduce){.home-mm-feature__plate{transition:none!important}.home-mm-feature__sticker{animation:none!important}}
+/* user-supplied MixMatter sticker set · 2026-09-18 */
+.home-mm-feature__fruit{
+  position:absolute;z-index:9;display:block;aspect-ratio:1;
+  background-image:url("/mixmatter/assets/stickers/fruit-atlas.webp");
+  background-repeat:no-repeat;background-size:300% 200%;
+  pointer-events:none;filter:drop-shadow(0 14px 20px rgba(26,34,31,.09));
+  will-change:transform
+}
+.home-mm-feature__fruit--pineapple{
+  left:-1.5%;top:3%;width:19%;background-position:0 0;
+  transform:rotate(-10deg);animation:mm-fruit-pineapple 6.8s ease-in-out infinite
+}
+.home-mm-feature__fruit--orange{
+  right:-1.5%;top:40%;width:15%;background-position:50% 100%;
+  transform:rotate(9deg);animation:mm-fruit-orange 5.6s ease-in-out infinite
+}
+.home-mm-feature__fruit--grapes{
+  left:2%;bottom:-3%;width:20%;background-position:100% 100%;
+  transform:rotate(-7deg);animation:mm-fruit-grapes 7.2s ease-in-out infinite
+}
+@keyframes mm-fruit-pineapple{0%,100%{transform:translate3d(0,0,0) rotate(-10deg)}50%{transform:translate3d(5px,-10px,0) rotate(-7deg)}}
+@keyframes mm-fruit-orange{0%,100%{transform:translate3d(0,0,0) rotate(9deg)}50%{transform:translate3d(-7px,8px,0) rotate(14deg)}}
+@keyframes mm-fruit-grapes{0%,100%{transform:translate3d(0,0,0) rotate(-7deg)}50%{transform:translate3d(10px,-7px,0) rotate(-3deg)}}
+@media(max-width:620px){
+  .home-mm-feature__fruit--pineapple{width:25%;left:-5%;top:5%}
+  .home-mm-feature__fruit--orange{width:20%;right:-4%;top:43%}
+  .home-mm-feature__fruit--grapes{width:27%;left:-3%;bottom:-4%}
+}
+@media(prefers-reduced-motion:reduce){.home-mm-feature__fruit{animation:none!important}}
