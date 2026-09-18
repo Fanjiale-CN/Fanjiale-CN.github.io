@@ -1,3 +1,9 @@
 /assets/views/articles/capability-laundering-cover.webp /assets/views/articles/capability-laundering-cover.avif 302
 /assets/views/articles/capability-laundering-subway.webp /assets/views/articles/capability-laundering-subway.avif 302
 /assets/views/articles/capability-laundering-alibaba-guangzhou.webp /assets/views/articles/capability-laundering-alibaba-guangzhou.avif 302
+/press-print /mixmatter/ 301
+/press-print/ /mixmatter/ 301
+/press-print/privacy/ /mixmatter/privacy/ 301
+/press-print/terms/ /mixmatter/terms/ 301
+/press-print/support/ /mixmatter/support/ 301
+/press-print/* /mixmatter/:splat 301

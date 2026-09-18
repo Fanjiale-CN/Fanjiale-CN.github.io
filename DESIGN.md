@@ -110,9 +110,9 @@ Motion is interface feedback, never a tollbooth.
 
 ## Section behavior
 
-The shared system is promoted to Home, Essays, Research, Radar, Data, Reading, Work, Index, About, Themes, Design, Visual Notes, Postcards and Matter.
+The shared system is promoted to Home, Essays, Research, Radar, Data, Reading, Work, Index, About, Themes, Design, Visual Notes, Postcards and Mixmatter.
 
-Matter may preserve its black editorial identity, but its surrounding UI follows the same discipline and its graphic accents should collapse toward one dominant signal at a time.
+Mixmatter is a deliberate product exception inside Galok: it uses a cool material system built from electric blue, icy cyan, lavender, concrete gray, and deep navy. Its layouts treat imagery as layered physical matter while keeping Galok's screen-first clarity and restrained motion.
 
 Cities and `/be-a-viewer/*` remain intentionally outside this shared skin.
 

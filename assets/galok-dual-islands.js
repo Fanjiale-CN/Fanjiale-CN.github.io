@@ -77,7 +77,7 @@
   };
 
   const homeSections = () => {
-    const labels = { research: "Research", "press-print": "Matter", cities: "Cities", essays: "Essays", reading: "Reading", radar: "Radar" };
+    const labels = { research: "Research", mixmatter: "Mixmatter", cities: "Cities", essays: "Essays", reading: "Reading", radar: "Radar" };
     return [...document.querySelectorAll("[data-home-section]")].map((section, index) => {
       const name = section.dataset.homeSection || `section-${index + 1}`;
       if (!section.id) section.id = `home-${name}`;

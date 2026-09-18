@@ -165,3 +165,6 @@
 
 /assets/galok-symbol-white.svg
   Cache-Control: public, max-age=0, must-revalidate
+
+/mixmatter/*
+  Cache-Control: public, max-age=0, must-revalidate

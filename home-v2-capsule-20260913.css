@@ -47,8 +47,8 @@ body.galok-modern-site.gv2-body .gv2-capsule-shell.is-collapsed {
 
 /* Exact files supplied in chat. The 4:5 cards crop with cover; pixels are never
    stretched or squeezed to the card shape. */
-body.galok-modern-site.gv2-body .gv2-media-card--press,
-body.gv2-body .gv2-media-card--press {
+body.galok-modern-site.gv2-body .gv2-media-card--mixmatter,
+body.gv2-body .gv2-media-card--mixmatter {
   background: #c8c9c6 url('/assets/home/hero-airport-user.jpeg?v=20260913a') center center / cover no-repeat !important;
 }
 
@@ -57,9 +57,9 @@ body.gv2-body .gv2-media-card--city {
   background: #c8c9c6 url('/assets/home/hero-doraemon-user.jpeg?v=20260913a') center center / cover no-repeat !important;
 }
 
-body.galok-modern-site.gv2-body .gv2-media-card--press > img,
+body.galok-modern-site.gv2-body .gv2-media-card--mixmatter > img,
 body.galok-modern-site.gv2-body .gv2-media-card--city > img,
-body.gv2-body .gv2-media-card--press > img,
+body.gv2-body .gv2-media-card--mixmatter > img,
 body.gv2-body .gv2-media-card--city > img {
   opacity: 0 !important;
 }
