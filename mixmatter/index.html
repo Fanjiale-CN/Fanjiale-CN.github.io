@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#EEF2F0">
+  <meta name="theme-color" content="#f5f7f6">
   <meta name="description" content="MixMatter is Galok's source-aware AI art-direction and visual-reconstruction system for existing imagery.">
   <link rel="canonical" href="https://www.galok.me/mixmatter/">
   <title>MixMatter | Galok</title>
-  <link rel="icon" type="image/svg+xml" href="/mixmatter/assets/mixmatter-icon-light.svg">
+  <link rel="icon" type="image/svg+xml" href="/assets/galok-symbol.svg">
   <link rel="stylesheet" href="/styles.css?v=repair-20260827">
-  <link rel="stylesheet" href="/mixmatter/mixmatter.css?v=20260918c">
+  <link rel="stylesheet" href="/mixmatter/mixmatter.css?v=20260918d">
   <link rel="stylesheet" href="/assets/galok-dual-islands.css?v=20260918a">
   <meta property="og:title" content="MixMatter | Galok">
   <meta property="og:description" content="Photography in. Art direction out.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.galok.me/mixmatter/">
-  <meta property="og:image" content="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/A9F371AC-D68C-4BC5-AD10-261487723695.png">
   <meta name="twitter:card" content="summary_large_image">
 </head>
 <body class="mixmatter-page">
@@ -26,10 +25,10 @@
     <img src="/assets/galok-symbol.svg" alt="" aria-hidden="true">
     <span>GALOK</span>
   </a>
-  <div class="mm-index__title" aria-label="Current project"><b>MIXMATTER</b><span>2.1 / VISUAL SYSTEM</span></div>
+  <div class="mm-index__title"><b>MIXMATTER</b><span>2.2 / CLEAN SYSTEM</span></div>
   <div class="mm-index__links">
     <a href="#system">System</a>
-    <a href="#lab">Lab</a>
+    <a href="#cases">Cases</a>
     <a href="#work">Work</a>
     <a href="#method">Method</a>
     <a href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer">Source ↗</a>
@@ -39,201 +38,176 @@
 
 <nav class="batch-chapter-nav gwn gwn--essay mm-section-directory" hidden aria-label="MixMatter sections">
   <a href="#system">System</a>
-  <a href="#lab">Lab</a>
+  <a href="#cases">Cases</a>
   <a href="#work">Work</a>
   <a href="#method">Method</a>
   <a href="#open">Open system</a>
 </nav>
 
 <main id="mixmatter-main" tabindex="-1">
-  <header class="mm-hero" aria-labelledby="mm-hero-title">
-    <div class="mm-hero__grain" aria-hidden="true"></div>
-    <div class="mm-hero__grid mm-shell">
-      <div class="mm-hero__intro">
+  <header class="mm-hero">
+    <i class="mm-sticker mm-atlas mm-atlas--airplane mm-sticker--airplane" aria-hidden="true"></i>
+    <i class="mm-sticker mm-atlas mm-atlas--lemon mm-sticker--lemon" aria-hidden="true"></i>
+
+    <div class="mm-shell mm-hero__grid">
+      <div class="mm-hero__intro mm-reveal">
         <p class="mm-eyebrow"><span>01</span> AI ART DIRECTION / SOURCE-AWARE RECONSTRUCTION</p>
-        <h1 id="mm-hero-title" class="mm-hero__word" aria-label="MixMatter">
-          <span class="mm-hero__word-row"><i>MIX</i><small>source</small></span>
-          <span class="mm-hero__word-row mm-hero__word-row--matter"><i>MATTER</i><small>output</small></span>
+        <h1 class="mm-hero__word" aria-label="MixMatter">
+          <span class="mm-hero__word-row"><i>MIX</i></span>
+          <span class="mm-hero__word-row mm-hero__word-row--matter"><i>MATTER</i></span>
         </h1>
+        <p class="mm-hero__kicker">SOURCE-AWARE RECONSTRUCTION</p>
         <div class="mm-hero__copy">
           <p class="mm-hero__statement">Photography in.<br>Art direction out.</p>
-          <p class="mm-hero__lede">MixMatter reads what makes an image itself, protects that identity, then spends the rest as material: crop, field, halftone, paper, rhythm, silence.</p>
-          <div class="mm-actions">
-            <a class="mm-action mm-action--solid" href="https://chatgpt.com/" target="_blank" rel="noreferrer"><span>Send an image</span><b>↗</b></a>
-            <a class="mm-action" href="#lab"><span>See the system</span><b>↓</b></a>
+          <div>
+            <p class="mm-hero__lede">MixMatter keeps what makes the source unmistakably itself, then rebuilds the rest with crop, field, paper, halftone, rhythm and silence.</p>
+            <div class="mm-actions">
+              <a class="mm-action mm-action--solid" href="#work"><span>See recent cases</span><b>↓</b></a>
+              <a class="mm-action" href="https://chatgpt.com/" target="_blank" rel="noreferrer"><span>Open ChatGPT</span><b>↗</b></a>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="mm-hero__canvas" data-mm-hero-canvas aria-label="A layered MixMatter composition built from reconstruction work">
-        <figure class="mm-fragment mm-fragment--a" data-mm-depth="0.55">
-          <img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/2045E30A-8BAE-4625-B726-1EBC31166618.png" alt="MixMatter architectural reconstruction" fetchpriority="high">
-        </figure>
-        <figure class="mm-fragment mm-fragment--b" data-mm-depth="0.34">
-          <img src="/mixmatter/assets/demo/09-xiamen-result.png" alt="MixMatter reconstruction of a coastal source">
-        </figure>
-        <figure class="mm-fragment mm-fragment--c" data-mm-depth="0.18">
-          <img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png" alt="MixMatter city reconstruction">
-        </figure>
-        <div class="mm-fragment mm-fragment--dots" aria-hidden="true"></div>
+      <div class="mm-hero__canvas" data-mm-hero-canvas aria-label="Recent MixMatter compositions">
+        <figure class="mm-fragment mm-fragment--a" data-mm-depth=".22"><div class="mm-atlas mm-atlas--case6" role="img" aria-label="Geometric lattice architecture reconstructed with MixMatter"></div></figure>
+        <figure class="mm-fragment mm-fragment--b" data-mm-depth=".16"><div class="mm-atlas mm-atlas--case1" role="img" aria-label="Sunlit forest canopy reconstructed with MixMatter"></div></figure>
+        <figure class="mm-fragment mm-fragment--c" data-mm-depth=".10"><div class="mm-atlas mm-atlas--case5" role="img" aria-label="White cubic architecture reconstructed with MixMatter"></div></figure>
         <div class="mm-fragment mm-fragment--field" aria-hidden="true"></div>
+        <div class="mm-fragment mm-fragment--dots" aria-hidden="true"></div>
         <div class="mm-hero__caption mm-hero__caption--one">SOURCE<br>IDENTITY</div>
         <div class="mm-hero__caption mm-hero__caption--two">STRUCTURE<br>BEFORE STYLE</div>
-        <div class="mm-hero__caption mm-hero__caption--three">MATERIAL<br>WITH A JOB</div>
       </div>
-    </div>
-    <div class="mm-hero__ticker" aria-hidden="true">
-      <div>READ / PROTECT / DIRECT / RECONSTRUCT / MATERIALIZE / CRITIQUE / REVISE / READ / PROTECT / DIRECT / RECONSTRUCT / MATERIALIZE / CRITIQUE / REVISE /</div>
     </div>
   </header>
 
-  <section class="mm-system" id="system" aria-labelledby="mm-system-title">
+  <section class="mm-system" id="system">
+    <i class="mm-sticker mm-atlas mm-atlas--ice mm-sticker--ice" aria-hidden="true"></i>
+    <i class="mm-sticker mm-atlas mm-atlas--orange mm-sticker--orange" aria-hidden="true"></i>
     <div class="mm-shell">
       <header class="mm-heading mm-reveal">
         <p><span>02</span> THE SYSTEM</p>
-        <h2 id="mm-system-title">The image is not a rectangle.<br><em>It is a set of roles.</em></h2>
-        <aside>MixMatter does not decorate a finished photograph. It decides what deserves to stay photographic, what can become field or rhythm, and where the frame needs silence.</aside>
+        <h2>Protect the source.<br><em>Then direct the surface.</em></h2>
+        <aside>MixMatter is not a filter stack. It decides what remains photographic, what becomes graphic, and where the page needs silence.</aside>
       </header>
 
       <div class="mm-system__ledger">
         <article class="mm-system__row mm-reveal">
           <div class="mm-system__index">01 / IDENTITY</div>
-          <h3>Protect what makes the source itself.</h3>
-          <p>Subject, geometry, decisive relation, gesture, sign, color anchor. The specific evidence survives before anything gets stylized.</p>
-          <div class="mm-system__specimen mm-system__specimen--photo"><img src="/mixmatter/assets/demo/08-temple-plane-result.png" alt="MixMatter identity specimen"></div>
+          <h3>Keep the evidence that makes the image itself.</h3>
+          <p>Subject, geometry, decisive relation, color anchor and recognisable detail survive before stylization starts.</p>
+          <div class="mm-system__specimen"><div class="mm-atlas mm-atlas--case4" role="img" aria-label="Yellow facade MixMatter reconstruction"></div></div>
         </article>
-        <article class="mm-system__row mm-system__row--dark mm-reveal">
+        <article class="mm-system__row mm-reveal">
           <div class="mm-system__index">02 / HIERARCHY</div>
-          <h3>Give every region a job.</h3>
-          <p>Dominant, supporting, rhythm, field, pause. Repetition stops competing with itself. Empty space becomes active structure.</p>
+          <h3>Assign roles before adding atmosphere.</h3>
+          <p>Dominant, supporting, field and pause. Once the hierarchy is clear, the result feels designed instead of over-processed.</p>
           <div class="mm-system__specimen mm-system__specimen--graphic" aria-hidden="true"><span></span><i></i><b></b></div>
         </article>
         <article class="mm-system__row mm-reveal">
           <div class="mm-system__index">03 / MATERIAL</div>
-          <h3>Use texture only when structure asks for it.</h3>
-          <p>Halftone, paper, duotone and rupture are consequences, not stickers. Materiality appears where it clarifies separation, compression or emphasis.</p>
+          <h3>Texture is a tool, not a sticker pack.</h3>
+          <p>Halftone, paper edges, flat fields and collage seams appear only when they improve separation, compression or emphasis.</p>
           <div class="mm-system__specimen mm-system__specimen--dots" aria-hidden="true"></div>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="mm-lab" id="lab" aria-labelledby="mm-lab-title" data-mm-lab>
+  <section class="mm-cases" id="cases">
+    <i class="mm-sticker mm-atlas mm-atlas--avocado mm-sticker--avocado" aria-hidden="true"></i>
+    <i class="mm-sticker mm-atlas mm-atlas--pear mm-sticker--pear" aria-hidden="true"></i>
     <div class="mm-shell">
-      <header class="mm-heading mm-heading--lab mm-reveal">
-        <p><span>03</span> MATERIAL LAB</p>
-        <h2 id="mm-lab-title">One source.<br><em>Different visual states.</em></h2>
-        <aside>Select a case and replay the reconstruction logic. This is a front-end demonstration using curated source/result pairs, not a live generation call.</aside>
+      <header class="mm-heading mm-reveal">
+        <p><span>03</span> CASE INDEX</p>
+        <h2>No fake processing console.<br><em>Just the work.</em></h2>
+        <aside>The old simulated “Run reconstruction” interface is gone. These are direct jumps into recent cases.</aside>
       </header>
-
-      <div class="mm-lab__index" role="list" aria-label="Curated reconstruction examples">
-        <button class="is-active" type="button" data-mm-case="0"><b>01</b><span>Train interior</span></button>
-        <button type="button" data-mm-case="1"><b>02</b><span>Museum</span></button>
-        <button type="button" data-mm-case="2"><b>03</b><span>Shibuya</span></button>
-        <button type="button" data-mm-case="3"><b>04</b><span>Metro sign</span></button>
-        <button type="button" data-mm-case="4"><b>05</b><span>Dance</span></button>
-        <button type="button" data-mm-case="5"><b>06</b><span>Aerial</span></button>
-        <button type="button" data-mm-case="6"><b>07</b><span>Objects</span></button>
-        <button type="button" data-mm-case="7"><b>08</b><span>Temple / aircraft</span></button>
-        <button type="button" data-mm-case="8"><b>09</b><span>Xiamen coast</span></button>
-      </div>
-
-      <div class="mm-lab__workbench mm-reveal">
-        <div class="mm-lab__statusbar"><span data-mm-case-label>01 / TRAIN INTERIOR</span><b data-mm-state>READY</b></div>
-        <div class="mm-lab__frames">
-          <figure class="mm-lab__frame mm-lab__frame--source">
-            <img data-mm-source src="/mixmatter/assets/demo/01-train-source.avif" alt="Selected source image">
-            <figcaption><span>INPUT</span><b>SOURCE / ORIGINAL</b></figcaption>
-          </figure>
-          <div class="mm-lab__bridge" aria-hidden="true"><span>→</span><small>REBUILD</small></div>
-          <figure class="mm-lab__frame mm-lab__frame--result">
-            <img data-mm-result src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png" alt="Selected MixMatter reconstruction">
-            <div class="mm-lab__shutter" data-mm-veil><span>RUN RECONSTRUCTION</span></div>
-            <figcaption><span>OUTPUT</span><b>MIXMATTER / RESULT</b></figcaption>
-          </figure>
-        </div>
-        <div class="mm-lab__controls">
-          <ol>
-            <li data-mm-step="0"><i></i>Read</li>
-            <li data-mm-step="1"><i></i>Protect</li>
-            <li data-mm-step="2"><i></i>Rebuild</li>
-            <li data-mm-step="3"><i></i>Materialize</li>
-          </ol>
-          <button type="button" data-mm-run><span>Run reconstruction</span><b>↗</b></button>
-        </div>
+      <div class="mm-case-pills mm-reveal">
+        <a href="#case-01">Forest canopy</a>
+        <a href="#case-02">Aerial forest</a>
+        <a href="#case-03">Industrial blue</a>
+        <a href="#case-04">Yellow wall</a>
+        <a href="#case-05">White cubes</a>
+        <a href="#case-06">Lattice building</a>
+        <a href="#case-07">Temple roofs</a>
       </div>
     </div>
   </section>
 
-  <section class="mm-work" id="work" aria-labelledby="mm-work-title">
+  <section class="mm-work" id="work">
+    <i class="mm-sticker mm-atlas mm-atlas--pineapple mm-sticker--pineapple" aria-hidden="true"></i>
+    <i class="mm-sticker mm-atlas mm-atlas--mango mm-sticker--mango" aria-hidden="true"></i>
     <div class="mm-shell">
       <header class="mm-heading mm-reveal">
-        <p><span>04</span> SELECTED MATERIAL</p>
-        <h2 id="mm-work-title">Same grammar.<br><em>No house template.</em></h2>
-        <aside>Each source asks for a different hierarchy. The family resemblance comes from judgment, not from pasting the same effect over every image.</aside>
+        <p><span>04</span> NEW MATERIAL</p>
+        <h2>Fresh cases.<br><em>Cleaner visual rhythm.</em></h2>
+        <aside>Seven new examples, each preserving a different source hierarchy. Same logic, no house template.</aside>
       </header>
 
       <div class="mm-work__grid">
-        <figure class="mm-piece mm-piece--hero mm-reveal"><img src="/mixmatter/assets/demo/09-xiamen-result.png" alt="MixMatter coastal reconstruction" loading="lazy"><figcaption><b>01</b><span>LANDSCAPE / FIELD</span></figcaption></figure>
-        <figure class="mm-piece mm-piece--portrait mm-reveal"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/2045E30A-8BAE-4625-B726-1EBC31166618.png" alt="MixMatter architectural reconstruction" loading="lazy"><figcaption><b>02</b><span>ARCHITECTURE / STRUCTURAL CROP</span></figcaption></figure>
-        <aside class="mm-work__statement mm-reveal"><span>MIX + MATTER</span><strong>RECONSTRUCT<br>DO NOT<br>DECORATE.</strong><i aria-hidden="true"></i></aside>
-        <figure class="mm-piece mm-piece--small mm-reveal"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/48FEE737-3D46-446B-AAEF-6F1ADB22E70F.png" alt="MixMatter sign reconstruction" loading="lazy"><figcaption><b>03</b><span>SIGN / IDENTITY</span></figcaption></figure>
-        <figure class="mm-piece mm-piece--wide mm-reveal"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/8E3C63CD-7AD2-4E0A-A4AD-AB9C82A9044A.png" alt="MixMatter figure reconstruction" loading="lazy"><figcaption><b>04</b><span>REPETITION / RHYTHM</span></figcaption></figure>
-        <figure class="mm-piece mm-piece--small mm-reveal"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png" alt="MixMatter city reconstruction" loading="lazy"><figcaption><b>05</b><span>CITY / REDUCTION</span></figcaption></figure>
-        <figure class="mm-piece mm-piece--wide mm-reveal"><img src="https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/C24DF515-DCB7-4D3A-A871-BDC8F58B38C1.png" alt="MixMatter object reconstruction" loading="lazy"><figcaption><b>06</b><span>OBJECT / PRINT STATE</span></figcaption></figure>
-        <figure class="mm-piece mm-piece--portrait mm-reveal"><img src="/mixmatter/assets/demo/08-temple-plane-result.png" alt="MixMatter temple and aircraft reconstruction" loading="lazy"><figcaption><b>07</b><span>RELATION / CONTEXT</span></figcaption></figure>
+        <aside class="mm-work__statement mm-reveal">
+          <span>MIX + MATTER</span>
+          <strong>RECONSTRUCT.<br>DON’T<br>DECORATE.</strong>
+          <p>Source-aware direction for existing images.</p>
+        </aside>
+
+        <figure class="mm-piece mm-reveal" id="case-01"><div class="mm-piece__media mm-atlas mm-atlas--case1" role="img" aria-label="Sunlit forest canopy reconstructed with MixMatter"></div><figcaption><b>01</b><span>FOREST / LIGHT AS HIERARCHY</span></figcaption></figure>
+        <figure class="mm-piece mm-reveal" id="case-02"><div class="mm-piece__media mm-atlas mm-atlas--case2" role="img" aria-label="Aerial forest reconstructed with MixMatter"></div><figcaption><b>02</b><span>AERIAL / FIELD + REPETITION</span></figcaption></figure>
+        <figure class="mm-piece mm-reveal" id="case-03"><div class="mm-piece__media mm-atlas mm-atlas--case3" role="img" aria-label="Industrial architecture reconstructed with MixMatter"></div><figcaption><b>03</b><span>GEOMETRY / NEGATIVE SPACE</span></figcaption></figure>
+        <figure class="mm-piece mm-reveal" id="case-04"><div class="mm-piece__media mm-atlas mm-atlas--case4" role="img" aria-label="Yellow wall reconstructed with MixMatter"></div><figcaption><b>04</b><span>FIELD / WINDOW AS ANCHOR</span></figcaption></figure>
+        <figure class="mm-piece mm-reveal" id="case-05"><div class="mm-piece__media mm-atlas mm-atlas--case5" role="img" aria-label="White cubic architecture reconstructed with MixMatter"></div><figcaption><b>05</b><span>FORM / PLANAR COMPRESSION</span></figcaption></figure>
+        <figure class="mm-piece mm-reveal" id="case-06"><div class="mm-piece__media mm-atlas mm-atlas--case6" role="img" aria-label="Geometric lattice building reconstructed with MixMatter"></div><figcaption><b>06</b><span>ARCHITECTURE / STRUCTURAL CROP</span></figcaption></figure>
+        <figure class="mm-piece mm-reveal" id="case-07"><div class="mm-piece__media mm-atlas mm-atlas--case7" role="img" aria-label="Traditional temple roofscape reconstructed with MixMatter"></div><figcaption><b>07</b><span>ROOFLINE / RHYTHM</span></figcaption></figure>
       </div>
     </div>
   </section>
 
-  <section class="mm-method" id="method" aria-labelledby="mm-method-title">
+  <section class="mm-method" id="method">
+    <i class="mm-sticker mm-atlas mm-atlas--apple mm-sticker--apple" aria-hidden="true"></i>
+    <i class="mm-sticker mm-atlas mm-atlas--grapes mm-sticker--grapes" aria-hidden="true"></i>
     <div class="mm-shell">
-      <header class="mm-heading mm-heading--method mm-reveal">
+      <header class="mm-heading mm-reveal">
         <p><span>05</span> METHOD</p>
-        <h2 id="mm-method-title">Judgment first.<br><em>Surface second.</em></h2>
-        <aside>The interface stays simple. Send an image and say what you want. The system carries the complexity behind that sentence.</aside>
+        <h2>Judgment first.<br><em>Surface second.</em></h2>
+        <aside>The interface should stay simple. Send an image, describe the outcome, and let the system carry the complexity behind that sentence.</aside>
       </header>
-
       <ol class="mm-method__list">
-        <li class="mm-reveal"><span>01</span><strong>Read the source</strong><p>Separate semantic importance from whatever happens to be visually loud.</p><i>READ</i></li>
-        <li class="mm-reveal"><span>02</span><strong>Protect identity</strong><p>Lock the relationships and details that make this source unmistakably itself.</p><i>PROTECT</i></li>
+        <li class="mm-reveal"><span>01</span><strong>Read the source</strong><p>Separate what matters from whatever merely shouts the loudest.</p><i>READ</i></li>
+        <li class="mm-reveal"><span>02</span><strong>Protect identity</strong><p>Lock the relationships and details that make the image recognisably itself.</p><i>PROTECT</i></li>
         <li class="mm-reveal"><span>03</span><strong>Rebuild hierarchy</strong><p>Assign dominant, supporting, field and quiet roles before styling the surface.</p><i>DIRECT</i></li>
         <li class="mm-reveal"><span>04</span><strong>Resolve material</strong><p>Move regions between photographic, graphic, printed and collaged states only when useful.</p><i>MATERIALIZE</i></li>
-        <li class="mm-reveal"><span>05</span><strong>Critique and revise</strong><p>Fix the structural cause instead of hiding a weak composition under more texture.</p><i>REVISE</i></li>
+        <li class="mm-reveal"><span>05</span><strong>Critique and revise</strong><p>Fix the structural cause before adding more surface.</p><i>REVISE</i></li>
       </ol>
     </div>
   </section>
 
-  <section class="mm-open" id="open" aria-labelledby="mm-open-title">
+  <section class="mm-open" id="open">
     <div class="mm-shell mm-open__grid">
       <div class="mm-open__title mm-reveal">
-        <p>06 / OPEN SYSTEM</p>
-        <h2 id="mm-open-title">Built in public.<br>Used in context.</h2>
+        <p><span>06</span> OPEN SYSTEM</p>
+        <h2>Use MixMatter<br>inside ChatGPT.</h2>
       </div>
       <div class="mm-open__body mm-reveal">
-        <p>The source project, visual grammar, evaluation material and portable Skill package remain public. MixMatter is a Galok project by Fan Jiale.</p>
-        <a href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer"><span>GitHub source</span><b>Fanjiale-CN / press-print ↗</b></a>
-        <a href="/mixmatter/support/"><span>Support</span><b>Compatibility and issues ↗</b></a>
-        <a href="/mixmatter/privacy/"><span>Privacy</span><b>Data practices ↗</b></a>
-        <a href="/mixmatter/terms/"><span>Terms</span><b>Terms of use ↗</b></a>
+        <p>Send an existing image, preserve its identity, and push it into a new visual state. That is the product.</p>
+        <a href="https://chatgpt.com/" target="_blank" rel="noreferrer"><span>OPEN</span><b>CHATGPT ↗</b></a>
+        <a href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer"><span>SOURCE</span><b>FANJIALE-CN / PRESS-PRINT ↗</b></a>
+        <a href="/mixmatter/support/"><span>SUPPORT</span><b>COMPATIBILITY + ISSUES ↗</b></a>
       </div>
     </div>
   </section>
-
-  <footer class="mm-footer">
-    <div class="mm-shell mm-footer__grid">
-      <div class="mm-footer__brand">
-        <picture><source media="(prefers-color-scheme: dark)" srcset="/mixmatter/assets/mixmatter-icon-dark.svg"><img src="/mixmatter/assets/mixmatter-icon-light.svg" alt=""></picture>
-        <div><strong>MixMatter</strong><span>AI art direction and visual reconstruction</span></div>
-      </div>
-      <p>GALOK / FAN JIALE / 2026</p>
-      <a href="/">galok.me ↗</a>
-    </div>
-  </footer>
 </main>
 
+<footer class="mm-footer">
+  <div class="mm-shell mm-footer__grid">
+    <div class="mm-footer__brand"><img src="/assets/galok-symbol.svg" alt=""><div><strong>MixMatter</strong><span>GALOK VISUAL SYSTEM</span></div></div>
+    <p>Photography in. Art direction out.</p>
+    <a href="/">galok.me ↗</a>
+  </div>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-<script src="/mixmatter/mixmatter.js?v=20260918c"></script>
+<script src="/mixmatter/mixmatter.js?v=20260918d"></script>
 <script src="/assets/galok-dual-islands.js?v=20260918a"></script>
 </body>
 </html>
