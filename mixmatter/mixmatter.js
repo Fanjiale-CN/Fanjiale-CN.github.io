@@ -34,34 +34,15 @@
     const stage=document.querySelector('[data-mm-sticker-stage]');
     const scene=document.querySelector('[data-mm-orbit-scene]');
     const plane=document.querySelector('[data-mm-plane]');
-    const planeArt=plane?.querySelector('.mm-orbit-plane__art');
     const title=document.querySelector('[data-mm-title]');
     const path=document.querySelector('[data-mm-orbit-path]');
     if(!stage||!scene||!plane||!title||!path) return;
 
-    const types=['pineapple','mango','pear','apple','orange','grapes','lemon','avocado','ice'];
     let z=52;
-
-    const updateStage=()=>{
-      stage.style.height=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)+'px';
-    };
+    const updateStage=()=>{ stage.style.height=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)+'px'; };
     updateStage();
     addEventListener('resize',updateStage,{passive:true});
     if('ResizeObserver' in window) new ResizeObserver(updateStage).observe(document.body);
-
-    const makeSticker=(type)=>{
-      const el=document.createElement('i');
-      el.className='mm-drop-sticker mm-fruit mm-fruit--'+type;
-      el.dataset.stickerType=type;
-      el.style.zIndex=String(z++);
-      const tag=document.createElement('span');
-      tag.className='mm-drop-sticker__grab';
-      tag.textContent='DRAG';
-      el.appendChild(tag);
-      stage.appendChild(el);
-      enableDrag(el);
-      return el;
-    };
 
     function enableDrag(el){
       let active=false,dx=0,dy=0;
@@ -94,6 +75,38 @@
       el.addEventListener('pointercancel',up);
     }
 
+    const addGrabTag=el=>{
+      const tag=document.createElement('span');
+      tag.className='mm-drop-sticker__grab';
+      tag.textContent='DRAG';
+      el.appendChild(tag);
+    };
+
+    const makeSticker=type=>{
+      const el=document.createElement('i');
+      el.className='mm-drop-sticker mm-fruit mm-fruit--'+type;
+      el.dataset.stickerType=type;
+      el.style.zIndex=String(z++);
+      addGrabTag(el);
+      stage.appendChild(el);
+      enableDrag(el);
+      return el;
+    };
+
+    const makePlaneSticker=(left,top,width)=>{
+      const el=document.createElement('i');
+      el.className='mm-drop-sticker mm-drop-sticker--plane';
+      el.dataset.stickerType='plane';
+      el.style.zIndex=String(z++);
+      el.style.left=left+'px';
+      el.style.top=top+'px';
+      if(width) el.style.width=Math.round(width)+'px';
+      addGrabTag(el);
+      stage.appendChild(el);
+      enableDrag(el);
+      return el;
+    };
+
     const land=(type,targetX,targetY,fromX,fromY,rotation=0,scale=1)=>{
       const el=makeSticker(type);
       el.style.left=targetX+'px';
@@ -103,8 +116,8 @@
         return el;
       }
       gsap.fromTo(el,
-        {x:fromX-targetX,y:fromY-targetY,rotation:rotation-22,scale:scale*.7,opacity:0},
-        {x:0,y:0,rotation,scale,opacity:1,duration:1.05,ease:'back.out(1.18)',clearProps:'x,y'}
+        {x:fromX-targetX,y:fromY-targetY,rotation:rotation-24,scale:scale*.64,autoAlpha:0},
+        {x:0,y:0,rotation,scale,autoAlpha:1,duration:1.2,ease:'back.out(1.22)',clearProps:'x,y'}
       );
       return el;
     };
@@ -124,10 +137,24 @@
       return land(type,t.x-70,t.y-70,p.x,p.y,rotation,scale);
     };
 
+    const parkPlane=()=>{
+      const r=plane.getBoundingClientRect();
+      const sticker=makePlaneSticker(r.left+scrollX,r.top+scrollY,r.width);
+      if(gsapReady){
+        gsap.set(plane,{autoAlpha:0});
+        gsap.fromTo(sticker,{rotation:-6,scale:1.08},{rotation:7,scale:1,duration:.5,ease:'back.out(1.5)'});
+      }else{
+        plane.style.opacity='0';
+        sticker.style.transform='rotate(7deg)';
+      }
+    };
+
     const playFlight=()=>{
       const sr=scene.getBoundingClientRect();
       const total=path.getTotalLength();
-      const pointAt=(p)=>{
+      const state={p:0};
+
+      const pointAt=p=>{
         const a=path.getPointAtLength(total*clamp(p,0,1));
         const b=path.getPointAtLength(total*clamp(p+.003,0,1));
         const x=a.x/1000*sr.width;
@@ -135,57 +162,54 @@
         const nx=b.x/1000*sr.width;
         const ny=b.y/620*sr.height;
         const rot=Math.atan2(ny-y,nx-x)*180/Math.PI+90;
-        const scale=1.82-(1.22*p);
+        const scale=2.15-(1.57*p);
         plane.style.transform='translate3d('+(x-plane.offsetWidth*.5)+'px,'+(y-plane.offsetHeight*.5)+'px,0) rotate('+rot+'deg) scale('+scale+')';
       };
+
+      pointAt(0);
 
       if(reduced||!gsapReady){
         title.style.opacity='1';
         title.style.clipPath='none';
         pointAt(1);
-        plane.classList.add('is-parked');
         scene.classList.add('is-complete');
         [
-          ['pineapple',.28,.38,-8,1],
-          ['orange',.15,.72,-10,.92],
-          ['ice',.78,.68,8,.9],
-          ['grapes',.85,.42,7,.9]
+          ['pineapple',.28,.39,-8,1],
+          ['orange',.14,.70,-10,.92],
+          ['ice',.78,.69,8,.9],
+          ['grapes',.85,.43,7,.9],
+          ['lemon',.66,.58,-6,.9]
         ].forEach(v=>dropFromPlane(...v));
+        parkPlane();
         return;
       }
 
-      const state={p:0};
-      pointAt(0);
-
-      gsap.to(path,{strokeDashoffset:0,duration:5.1,ease:'none',delay:.22});
-      gsap.to(state,{
+      const tl=gsap.timeline({defaults:{ease:'power2.out'}});
+      tl.fromTo(path,{opacity:0},{opacity:.24,duration:.55,ease:'power1.out'},.18);
+      tl.to(title,{
+        opacity:1,
+        clipPath:'inset(0 0% 0 0)',
+        duration:1.3,
+        ease:'power3.out'
+      },1.02);
+      tl.to(state,{
         p:1,
-        duration:5.15,
+        duration:6.6,
         ease:'power1.inOut',
-        delay:.22,
         onUpdate:()=>pointAt(state.p),
         onComplete:()=>{
           plane.classList.add('is-parked');
           scene.classList.add('is-complete');
-          if(planeArt){
-            gsap.fromTo(planeArt,{scale:1.08},{scale:1,duration:.42,ease:'back.out(1.5)'});
-          }
+          gsap.to(path,{opacity:.08,duration:.8,ease:'power2.out'});
+          parkPlane();
         }
-      });
+      },.2);
 
-      gsap.to(title,{
-        opacity:1,
-        clipPath:'inset(0 0% 0 0)',
-        duration:1.05,
-        ease:'power3.out',
-        delay:1.05
-      });
-
-      gsap.delayedCall(1.38,()=>dropFromPlane('pineapple',.29,.39,-8,1.02));
-      gsap.delayedCall(2.08,()=>dropFromPlane('orange',.14,.69,-10,.93));
-      gsap.delayedCall(2.82,()=>dropFromPlane('ice',.78,.69,8,.9));
-      gsap.delayedCall(3.56,()=>dropFromPlane('grapes',.85,.43,7,.9));
-      gsap.delayedCall(4.25,()=>dropFromPlane('lemon',.66,.58,-6,.9));
+      tl.call(()=>dropFromPlane('pineapple',.29,.39,-8,1.03),[],1.65);
+      tl.call(()=>dropFromPlane('orange',.14,.69,-10,.93),[],2.65);
+      tl.call(()=>dropFromPlane('ice',.78,.69,8,.90),[],3.55);
+      tl.call(()=>dropFromPlane('grapes',.85,.43,7,.90),[],4.55);
+      tl.call(()=>dropFromPlane('lemon',.66,.58,-6,.90),[],5.45);
     };
 
     playFlight();
@@ -193,8 +217,8 @@
     const sectionDrops=[
       ['#system','avocado',.88,.30,8,.88],
       ['#cases','apple',.08,.52,-9,.92],
-      ['#work','pear',.86,.18,7,.9],
-      ['#method','mango',.10,.68,-8,.9],
+      ['#work','pear',.86,.18,7,.90],
+      ['#method','mango',.10,.68,-8,.90],
       ['#open','ice',.82,.34,9,.88]
     ];
 
@@ -211,15 +235,23 @@
           const tx=scrollX+r.left+r.width*xp-70;
           const ty=scrollY+r.top+r.height*yp-70;
           const fromX=scrollX+r.left+r.width*(xp>.5?.82:.18);
-          const fromY=scrollY-120;
+          const fromY=scrollY-110;
           land(type,tx,ty,fromX,fromY,rot,scale);
         });
-      },{threshold:.16,rootMargin:'0px 0px -12% 0px'});
-      sectionDrops.forEach(v=>{
-        const el=document.querySelector(v[0]);
-        if(el) io.observe(el);
-      });
+      },{threshold:.18,rootMargin:'0px 0px -12% 0px'});
+      sectionDrops.forEach(v=>{const el=document.querySelector(v[0]);if(el) io.observe(el)});
     }
+  };
+
+  const systemCards=()=>{
+    const cards=[...document.querySelectorAll('[data-mm-system-card]')];
+    if(!cards.length) return;
+    const activate=card=>cards.forEach(c=>c.classList.toggle('is-active',c===card));
+    cards.forEach(card=>{
+      card.addEventListener('pointerenter',()=>activate(card));
+      card.addEventListener('focusin',()=>activate(card));
+      card.addEventListener('click',()=>activate(card));
+    });
   };
 
   const methodStates=()=>{
@@ -235,5 +267,6 @@
 
   reveal();
   stickerSystem();
+  systemCards();
   methodStates();
 })();

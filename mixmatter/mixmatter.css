@@ -334,3 +334,117 @@ body.galok-dual-islands-active .mm-orbit-hero{padding-top:0}
   .mm-drop-sticker{width:86px}
   .mm-drop-sticker.mm-fruit--ice{width:90px}
 }
+
+/* Orbit v3 · Product Design + GSAP motion pass */
+.mm-orbit-hero{
+  background:
+    linear-gradient(rgba(40,104,255,.035) 1px,transparent 1px) 0 0/84px 84px,
+    linear-gradient(90deg,rgba(40,104,255,.035) 1px,transparent 1px) 0 0/84px 84px,
+    linear-gradient(180deg,#fbfcfb 0%,#f6f8f7 68%,#edf4ff 100%);
+}
+.mm-orbit-scene{min-height:clamp(650px,76vh,900px)}
+.mm-orbit-trace path{stroke-width:1.05;stroke-dasharray:.013 .02;opacity:.22}
+.mm-orbit-scene.is-complete .mm-orbit-trace{opacity:.18}
+.mm-orbit-title{
+  gap:.145em;
+  letter-spacing:-.028em;
+  font-size:clamp(86px,13.25vw,214px);
+  line-height:.74;
+}
+.mm-orbit-title span{display:inline-block}
+.mm-orbit-plane{
+  width:clamp(230px,21vw,340px);
+  aspect-ratio:1;
+  will-change:transform,opacity;
+}
+.mm-orbit-plane__art{
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+}
+.mm-drop-sticker{
+  width:clamp(96px,9.2vw,154px);
+  will-change:transform,left,top;
+}
+.mm-drop-sticker--plane{
+  width:clamp(118px,12vw,188px);
+  aspect-ratio:1;
+  background:url("/mixmatter/assets/stickers/airplane-flight.avif") center/contain no-repeat;
+  pointer-events:auto;
+}
+.mm-drop-sticker--plane .mm-drop-sticker__grab{bottom:-18px}
+.mm-drop-sticker__grab{opacity:0}
+.mm-drop-sticker:hover .mm-drop-sticker__grab,
+.mm-drop-sticker.is-dragging .mm-drop-sticker__grab{opacity:1}
+
+/* System: evidence first, less empty-card syndrome */
+.mm-system__ledger{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.mm-system__row{
+  min-height:432px;
+  padding:24px;
+  gap:14px;
+  grid-template-rows:auto auto minmax(0,1fr) 176px;
+  transition:transform .28s ease,background .28s ease,border-color .28s ease,box-shadow .28s ease;
+}
+.mm-system__row h3{
+  margin:0;
+  font-size:clamp(29px,2.45vw,43px);
+  line-height:.96;
+}
+.mm-system__row p{margin:0;align-self:start}
+.mm-system__specimen{
+  width:100%;
+  height:176px;
+  aspect-ratio:auto;
+  margin-top:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#f4f6f5;
+}
+.mm-system__specimen>.mm-atlas{width:100%;height:100%;background-size:cover}
+.mm-system__row.is-active{
+  transform:translateY(-6px);
+  background:#eef3ff;
+  border-color:#b9cbff;
+  box-shadow:0 18px 40px rgba(40,104,255,.08);
+}
+.mm-system__row.is-active .mm-system__index{color:var(--blue)}
+.mm-system__row:hover{border-color:#c2d0ca}
+
+/* Method: active must read as selected, not accidental hover */
+.mm-method__list li.is-active{
+  background:#cfdcff;
+  box-shadow:inset 4px 0 0 var(--blue),0 10px 30px rgba(40,104,255,.06);
+}
+.mm-method__list li.is-active>span,
+.mm-method__list li.is-active>i{color:#1657f6}
+
+@media(max-width:1120px){
+  .mm-system__ledger{grid-template-columns:1fr;gap:12px}
+  .mm-system__row{
+    min-height:0;
+    display:grid;
+    grid-template-columns:104px minmax(0,1fr) minmax(250px,.72fr);
+    grid-template-rows:auto auto;
+    align-items:start;
+  }
+  .mm-system__row .mm-system__index{grid-column:1;grid-row:1 / span 2}
+  .mm-system__row h3{grid-column:2;grid-row:1}
+  .mm-system__row p{grid-column:2;grid-row:2}
+  .mm-system__row .mm-system__specimen{grid-column:3;grid-row:1 / span 2;height:190px}
+}
+@media(max-width:760px){
+  .mm-orbit-title{
+    gap:.08em;
+    letter-spacing:-.02em;
+    font-size:clamp(62px,18.2vw,100px);
+  }
+  .mm-orbit-plane{width:176px}
+  .mm-system__row{display:flex;min-height:0}
+  .mm-system__row .mm-system__specimen{height:200px;width:100%}
+  .mm-system__row.is-active{transform:none}
+}
