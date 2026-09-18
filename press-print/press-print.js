@@ -259,7 +259,7 @@
     stage.textContent = 'Ready to reconstruct.';
     elapsed.textContent = '00.0s';
     progressBar.style.width = '0%';
-    caption.textContent = 'READY / ORIGINAL → PRESS-PRINT';
+    caption.textContent = 'READY / ORIGINAL → MATTER';
     steps.forEach(step => step.classList.remove('is-current', 'is-done'));
     lastPhase = -1;
     draw(0);
@@ -383,7 +383,7 @@
     root.classList.remove('is-running');
     root.classList.add('is-finished');
     outputState.textContent = 'COMPLETE';
-    caption.textContent = 'PRESS-PRINT RECONSTRUCTION COMPLETE';
+    caption.textContent = 'MATTER RECONSTRUCTION COMPLETE';
     stage.textContent = 'Reconstruction complete.';
     scrollConversation();
   }
@@ -422,7 +422,7 @@
   run.addEventListener('click', start);
 
   copy?.addEventListener('click', async () => {
-    const text = '@Press-Print Transform this photograph with Press-Print. Do not add new text or typography.';
+    const text = '@Matter Transform this photograph with Matter. Do not add new text or typography.';
     const previous = copy.textContent;
     try {
       await navigator.clipboard.writeText(text);

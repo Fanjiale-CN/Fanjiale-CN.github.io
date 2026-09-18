@@ -45,7 +45,7 @@
   const localNames = ['research', 'press-print', 'cities'];
   const navItems = [
     ['research', 'Research', icons.research],
-    ['press-print', 'Press Print', icons.press],
+    ['press-print', 'Matter', icons.press],
     ['cities', 'Cities', icons.cities],
     ['essays', 'Essays', icons.essays],
     ['reading', 'Reading', icons.reading],
@@ -72,7 +72,7 @@
   };
 
   setPanelMarkup('research', '<div><span>Research</span><small>Evidence, arguments and working papers.</small></div><a href="/research/">All research</a><a href="/research/love-by-the-hour/">Research 003</a><a href="/research/fast-metabolism-economy/">Research 002</a><a href="/data/">Data</a>');
-  setPanelMarkup('press-print', '<div><span>Press Print</span><small>Image reconstruction through print logic.</small></div><a href="/press-print/">Overview</a><a href="https://chatgpt.com/" target="_blank" rel="noreferrer">Try in ChatGPT ↗</a><a href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer">Source ↗</a>');
+  setPanelMarkup('press-print', '<div><span>Matter</span><small>Source-aware reconstruction through material and print logic.</small></div><a href="/press-print/">Overview</a><a href="https://chatgpt.com/" target="_blank" rel="noreferrer">Try in ChatGPT ↗</a><a href="https://github.com/Fanjiale-CN/press-print" target="_blank" rel="noreferrer">Source ↗</a>');
   setPanelMarkup('cities', '<div><span>Cities</span><small>Visual records built from streets, weather and movement.</small></div><a href="/cities/">All cities</a><a href="/be-a-viewer/beijing/">Beijing</a><a href="/be-a-viewer/shanghai/">Shanghai</a><a href="/be-a-viewer/xian/">Xi’an</a><a href="/be-a-viewer/xiamen/">Xiamen</a>');
   setPanelMarkup('essays', '<div><span>Essays</span><small>Arguments, notes and ordinary evidence.</small></div><a href="/essays/">All essays</a><a href="/essays/the-curators-curse/">The Curator’s Curse</a><a href="/essays/platforms-redesign-choice/">Platforms & choice</a><a href="/essays/rmb-9-9-coffee/">RMB 9.9 coffee</a>');
   setPanelMarkup('reading', '<div><span>Reading</span><small>Texts, editions and source trails.</small></div><a href="/reading/">Reading room</a><a href="/reading/dongjing-meng-hua-lu/">東京夢華錄</a><a href="/reading/dongjing-meng-hua-lu/21/">Current chapter</a><a href="/index/">Reading index</a>');
@@ -158,7 +158,7 @@
 
   const syncCurrentFromScroll = ({ animate = true } = {}) => {
     // While a click-driven jump is running, the requested destination owns the
-    // selection. This prevents Research → Press Print → Research → Press Print.
+    // selection. This prevents Research → Matter → Research → Matter.
     if (navigationTarget) return;
     setCurrent(currentFromScroll(), { animate });
   };
