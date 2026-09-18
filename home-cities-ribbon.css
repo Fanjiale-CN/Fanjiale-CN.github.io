@@ -47,31 +47,31 @@
 }
 
 .gv2-city-ribbon__card[data-index="01"] {
-  --city-portrait: url("/assets/cities/home-ribbon/beijing-portrait.webp");
+  --city-portrait: url("/assets/be-a-viewer/beijing-roof.jpg");
   --city-portrait-position: 50% 48%;
   --city-wide-position: 50% 52%;
 }
 
 .gv2-city-ribbon__card[data-index="02"] {
-  --city-portrait: url("/assets/cities/home-ribbon/shanghai-portrait.webp");
+  --city-portrait: url("/assets/be-a-viewer/shanghai/bund-west-bank.webp");
   --city-portrait-position: 50% 46%;
   --city-wide-position: 50% 50%;
 }
 
 .gv2-city-ribbon__card[data-index="03"] {
-  --city-portrait: url("/assets/cities/home-ribbon/xian-portrait.webp");
+  --city-portrait: url("/assets/be-a-viewer/xian/city-wall-sunset.jpeg");
   --city-portrait-position: 50% 48%;
   --city-wide-position: 50% 52%;
 }
 
 .gv2-city-ribbon__card[data-index="05"] {
-  --city-portrait: url("/assets/cities/home-ribbon/xiamen-portrait.webp");
+  --city-portrait: url("/assets/be-a-viewer/xiamen/hero-water-hd-poster.jpg");
   --city-portrait-position: 50% 48%;
   --city-wide-position: 50% 50%;
 }
 
 .gv2-city-ribbon__card[data-index="06"] {
-  --city-portrait: url("/assets/cities/home-ribbon/hangzhou-portrait.webp");
+  --city-portrait: url("/assets/be-a-viewer/hangzhou/gallery/13-lake-horizon.webp");
   --city-portrait-position: 50% 48%;
   --city-wide-position: 50% 52%;
 }

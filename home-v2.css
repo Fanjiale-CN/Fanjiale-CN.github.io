@@ -405,9 +405,9 @@ body.gv2-body {
 }
 
 .gv2-mm-band {
-  background: #0e0f10;
-  border-top: 1px solid rgba(255,255,255,.07);
-  border-bottom: 1px solid rgba(255,255,255,.07);
+  background: #f5f7f6;
+  border-top: 1px solid var(--gv2-line);
+  border-bottom: 1px solid var(--gv2-line);
 }
 
 .gv2-mm-band .home-mm-feature {

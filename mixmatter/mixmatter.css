@@ -10,17 +10,15 @@
 .mm-eyebrow,.mm-heading>p,.mm-open__title>p{margin:0;font:750 10px/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase}.mm-eyebrow span,.mm-heading>p span,.mm-open__title>p span{color:var(--blue);margin-right:12px}
 
 /* independent media assets */
-.mm-atlas{background-repeat:no-repeat;background-position:center;background-size:contain;background-color:#fff}
-.mm-atlas--case1{background-image:url("/mixmatter/assets/cases/case-01.webp")}
-.mm-atlas--case2{background-image:url("/mixmatter/assets/cases/case-02.webp")}
-.mm-atlas--case3{background-image:url("/mixmatter/assets/cases/case-03.webp")}
-.mm-atlas--case4{background-image:url("/mixmatter/assets/cases/case-04.webp")}
-.mm-atlas--case5{background-image:url("/mixmatter/assets/cases/case-05.webp")}
-.mm-atlas--case6{background-image:url("/mixmatter/assets/cases/case-06.webp")}
-.mm-atlas--case7{background-image:url("/mixmatter/assets/cases/case-07.webp")}
-.mm-atlas--airplane{background-image:url("/mixmatter/assets/stickers/airplane.webp");background-color:transparent}
-.mm-atlas--lemon{background-image:url("/mixmatter/assets/stickers/lemon.webp");background-color:transparent}
-.mm-atlas--avocado{background-image:url("/mixmatter/assets/stickers/avocado.webp");background-color:transparent}
+.mm-atlas{background-repeat:no-repeat;background-position:center;background-size:cover;background-color:#fff}
+.mm-atlas--case1{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/A9F371AC-D68C-4BC5-AD10-261487723695.png")}
+.mm-atlas--case2{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/43A519AD-FAA7-40EE-9425-D8EA1CCAA11C.png")}
+.mm-atlas--case3{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/52C803C9-C030-4574-8FEF-CE30FDF6A5C4.png")}
+.mm-atlas--case4{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/0D0EB3E7-CDA9-4F6C-B8C5-B6613F6CEBCB.png")}
+.mm-atlas--case5{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/C24DF515-DCB7-4D3A-A871-BDC8F58B38C1.png")}
+.mm-atlas--case6{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/7AA8CDA5-FC9F-4698-A622-329A248F90FB.png")}
+.mm-atlas--case7{background-image:url("https://raw.githubusercontent.com/Fanjiale-CN/press-print/main/examples/showcase/2045E30A-8BAE-4625-B726-1EBC31166618.png")}
+.mm-atlas--airplane{background-image:url("/mixmatter/assets/stickers/airplane-original.jpg");background-color:transparent}
 
 /* fallback top rail; shared dual-island nav replaces it when active */
 .mm-index{position:fixed;z-index:90;inset:0 0 auto;height:62px;display:grid;grid-template-columns:180px 250px 1fr auto;background:rgba(245,247,246,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);font:750 10px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase}
@@ -32,9 +30,9 @@ body.galok-dual-islands-active .mm-index{display:none!important}.mm-section-dire
 /* decoration */
 .mm-hero,.mm-system,.mm-cases,.mm-work,.mm-method{position:relative;overflow:hidden}
 .mm-sticker{position:absolute;z-index:1;display:block;width:180px;aspect-ratio:1;mix-blend-mode:multiply;opacity:.92;pointer-events:none;filter:saturate(.96)}
-.mm-sticker--airplane{right:-38px;top:120px;width:240px;transform:rotate(11deg)}.mm-sticker--lemon{left:-70px;bottom:25px;width:185px;transform:rotate(-13deg)}
+.mm-sticker--airplane{right:-38px;top:120px;width:240px;transform:rotate(11deg)}
 .mm-sticker--ice{right:-58px;top:82px;width:210px;transform:rotate(9deg);opacity:.72}.mm-sticker--orange{left:-60px;bottom:70px;width:165px;transform:rotate(-8deg)}
-.mm-sticker--avocado{right:-55px;top:28px;width:190px;transform:rotate(7deg)}.mm-sticker--pear{left:-64px;bottom:-12px;width:180px;transform:rotate(-9deg)}
+.mm-sticker--pear{left:-64px;bottom:-12px;width:180px;transform:rotate(-9deg)}
 .mm-sticker--pineapple{left:-58px;top:190px;width:175px;transform:rotate(-12deg)}.mm-sticker--mango{right:-66px;bottom:110px;width:175px;transform:rotate(10deg)}
 .mm-sticker--apple{left:-62px;top:130px;width:170px;transform:rotate(-11deg)}.mm-sticker--grapes{right:-75px;bottom:50px;width:210px;transform:rotate(8deg)}
 
@@ -105,5 +103,5 @@ body.galok-dual-islands-active .mm-hero{padding-top:0}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .mm-reveal{opacity:1;transform:none}}
 /* 2026-09-18 independent media repair */
 .mm-fragment>.mm-atlas{background-size:cover}
-.mm-piece__media{background-size:contain;background-color:#fff}
+.mm-piece__media{background-size:cover;background-color:#fff}
 .mm-sticker.mm-atlas{background-size:contain;background-color:transparent}
