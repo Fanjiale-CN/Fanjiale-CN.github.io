@@ -32,25 +32,26 @@
 
   const stickerSystem = () => {
     const stage=document.querySelector('[data-mm-sticker-stage]');
-    const hero=document.querySelector('[data-mm-orbit-hero]');
     const scene=document.querySelector('[data-mm-orbit-scene]');
     const plane=document.querySelector('[data-mm-plane]');
+    const planeArt=plane?.querySelector('.mm-orbit-plane__art');
     const title=document.querySelector('[data-mm-title]');
     const path=document.querySelector('[data-mm-orbit-path]');
-    if(!stage||!hero||!scene) return;
+    if(!stage||!scene||!plane||!title||!path) return;
 
-    const types=['pineapple','mango','pear','apple','orange','grapes','ice'];
+    const types=['pineapple','mango','pear','apple','orange','grapes','lemon','avocado','ice'];
     let z=52;
-    const updateStage=()=>{ stage.style.height=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)+'px'; };
+
+    const updateStage=()=>{
+      stage.style.height=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)+'px';
+    };
     updateStage();
     addEventListener('resize',updateStage,{passive:true});
     if('ResizeObserver' in window) new ResizeObserver(updateStage).observe(document.body);
 
     const makeSticker=(type)=>{
       const el=document.createElement('i');
-      el.className='mm-drop-sticker';
-      if(type==='ice') el.classList.add('mm-drop-sticker--ice');
-      else el.classList.add('mm-fruit','mm-fruit--'+type);
+      el.className='mm-drop-sticker mm-fruit mm-fruit--'+type;
       el.dataset.stickerType=type;
       el.style.zIndex=String(z++);
       const tag=document.createElement('span');
@@ -66,22 +67,25 @@
       let active=false,dx=0,dy=0;
       const move=e=>{
         if(!active) return;
-        const r=stage.getBoundingClientRect();
         const x=clamp(e.pageX-dx,0,stage.clientWidth-el.offsetWidth);
         const y=clamp(e.pageY-dy,0,parseFloat(stage.style.height)-el.offsetHeight);
-        el.style.left=x+'px'; el.style.top=y+'px';
+        el.style.left=x+'px';
+        el.style.top=y+'px';
       };
       const up=e=>{
         if(!active) return;
-        active=false;el.classList.remove('is-dragging');
+        active=false;
+        el.classList.remove('is-dragging');
         try{el.releasePointerCapture(e.pointerId)}catch(_){}
       };
       el.addEventListener('pointerdown',e=>{
         active=true;
         if(gsapReady) gsap.killTweensOf(el);
         const r=el.getBoundingClientRect();
-        dx=e.clientX-r.left;dy=e.clientY-r.top;
-        el.classList.add('is-dragging');el.style.zIndex=String(++z);
+        dx=e.clientX-r.left;
+        dy=e.clientY-r.top;
+        el.classList.add('is-dragging');
+        el.style.zIndex=String(++z);
         try{el.setPointerCapture(e.pointerId)}catch(_){}
         e.preventDefault();
       });
@@ -92,14 +96,15 @@
 
     const land=(type,targetX,targetY,fromX,fromY,rotation=0,scale=1)=>{
       const el=makeSticker(type);
-      el.style.left=targetX+'px';el.style.top=targetY+'px';
+      el.style.left=targetX+'px';
+      el.style.top=targetY+'px';
       if(reduced||!gsapReady){
         el.style.transform='rotate('+rotation+'deg) scale('+scale+')';
         return el;
       }
       gsap.fromTo(el,
-        {x:fromX-targetX,y:fromY-targetY,rotation:rotation-28,scale:scale*.72,opacity:0},
-        {x:0,y:0,rotation,scale,opacity:1,duration:.86,ease:'back.out(1.35)',clearProps:'x,y'}
+        {x:fromX-targetX,y:fromY-targetY,rotation:rotation-22,scale:scale*.7,opacity:0},
+        {x:0,y:0,rotation,scale,opacity:1,duration:1.05,ease:'back.out(1.18)',clearProps:'x,y'}
       );
       return el;
     };
@@ -110,74 +115,87 @@
     };
 
     const planePoint=()=>{
-      if(!plane) return {x:innerWidth*.5,y:scrollY+120};
       const r=plane.getBoundingClientRect();
       return {x:r.left+scrollX+r.width*.5,y:r.top+scrollY+r.height*.5};
     };
 
     const dropFromPlane=(type,xp,yp,rotation,scale)=>{
       const p=planePoint(),t=heroTarget(xp,yp);
-      land(type,t.x-70,t.y-70,p.x,p.y,rotation,scale);
+      return land(type,t.x-70,t.y-70,p.x,p.y,rotation,scale);
     };
 
-    const playOrbit=()=>{
-      if(!plane||!title) return;
+    const playFlight=()=>{
       const sr=scene.getBoundingClientRect();
-      const place=(p)=>{
-        const angle=(-165+360*p)*Math.PI/180;
-        const cx=sr.width*.5,cy=sr.height*.48,rx=sr.width*.43,ry=sr.height*.34;
-        const x=cx+Math.cos(angle)*rx;
-        const y=cy+Math.sin(angle)*ry;
-        const dx=-Math.sin(angle)*rx;
-        const dy=Math.cos(angle)*ry;
-        const rot=Math.atan2(dy,dx)*180/Math.PI;
-        plane.style.transform='translate3d('+(x-plane.offsetWidth*.5)+'px,'+(y-plane.offsetHeight*.5)+'px,0) rotate('+rot+'deg)';
+      const total=path.getTotalLength();
+      const pointAt=(p)=>{
+        const a=path.getPointAtLength(total*clamp(p,0,1));
+        const b=path.getPointAtLength(total*clamp(p+.003,0,1));
+        const x=a.x/1000*sr.width;
+        const y=a.y/620*sr.height;
+        const nx=b.x/1000*sr.width;
+        const ny=b.y/620*sr.height;
+        const rot=Math.atan2(ny-y,nx-x)*180/Math.PI+90;
+        const scale=1.82-(1.22*p);
+        plane.style.transform='translate3d('+(x-plane.offsetWidth*.5)+'px,'+(y-plane.offsetHeight*.5)+'px,0) rotate('+rot+'deg) scale('+scale+')';
       };
 
       if(reduced||!gsapReady){
-        title.style.opacity='1';title.style.clipPath='none';
-        place(.86);
+        title.style.opacity='1';
+        title.style.clipPath='none';
+        pointAt(1);
         plane.classList.add('is-parked');
-        [['pineapple',.34,.37,-8,1.05],['orange',.12,.69,-10,.94],['ice',.79,.68,9,.9],['pear',.67,.56,7,.98]].forEach(v=>dropFromPlane(...v));
+        scene.classList.add('is-complete');
+        [
+          ['pineapple',.28,.38,-8,1],
+          ['orange',.15,.72,-10,.92],
+          ['ice',.78,.68,8,.9],
+          ['grapes',.85,.42,7,.9]
+        ].forEach(v=>dropFromPlane(...v));
         return;
       }
 
       const state={p:0};
-      place(0);
-      gsap.to(path,{strokeDashoffset:0,duration:2.65,ease:'power1.inOut',delay:.16});
-      const orbit=gsap.to(state,{
-        p:1,duration:2.7,ease:'power1.inOut',delay:.18,
-        onUpdate:()=>place(state.p),
+      pointAt(0);
+
+      gsap.to(path,{strokeDashoffset:0,duration:5.1,ease:'none',delay:.22});
+      gsap.to(state,{
+        p:1,
+        duration:5.15,
+        ease:'power1.inOut',
+        delay:.22,
+        onUpdate:()=>pointAt(state.p),
         onComplete:()=>{
           plane.classList.add('is-parked');
-          const current=plane.getBoundingClientRect();
-          const startLeft=current.left-sr.left;
-          const startTop=current.top-sr.top;
-          const targetLeft=sr.width*.78-plane.offsetWidth*.5;
-          const targetTop=sr.height*.105-plane.offsetHeight*.5;
-          plane.style.transform='none';
-          plane.style.left=startLeft+'px';
-          plane.style.top=startTop+'px';
-          gsap.to(plane,{left:targetLeft,top:targetTop,rotation:10,duration:.58,ease:'power3.out'});
+          scene.classList.add('is-complete');
+          if(planeArt){
+            gsap.fromTo(planeArt,{scale:1.08},{scale:1,duration:.42,ease:'back.out(1.5)'});
+          }
         }
       });
 
-      gsap.to(title,{opacity:1,clipPath:'inset(0 0% 0 0)',duration:.82,ease:'power3.out',delay:1.0});
-      gsap.delayedCall(.78,()=>dropFromPlane('pineapple',.34,.38,-8,1.05));
-      gsap.delayedCall(1.14,()=>dropFromPlane('mango',.13,.40,-10,.93));
-      gsap.delayedCall(1.50,()=>dropFromPlane('ice',.79,.69,9,.90));
-      gsap.delayedCall(1.84,()=>dropFromPlane('pear',.68,.58,7,.98));
-      gsap.delayedCall(2.12,()=>dropFromPlane('grapes',.86,.42,8,.92));
+      gsap.to(title,{
+        opacity:1,
+        clipPath:'inset(0 0% 0 0)',
+        duration:1.05,
+        ease:'power3.out',
+        delay:1.05
+      });
+
+      gsap.delayedCall(1.38,()=>dropFromPlane('pineapple',.29,.39,-8,1.02));
+      gsap.delayedCall(2.08,()=>dropFromPlane('orange',.14,.69,-10,.93));
+      gsap.delayedCall(2.82,()=>dropFromPlane('ice',.78,.69,8,.9));
+      gsap.delayedCall(3.56,()=>dropFromPlane('grapes',.85,.43,7,.9));
+      gsap.delayedCall(4.25,()=>dropFromPlane('lemon',.66,.58,-6,.9));
     };
 
-    playOrbit();
+    playFlight();
 
     const sectionDrops=[
-      ['#system','orange',.87,.35,10,.88],
+      ['#system','avocado',.88,.30,8,.88],
       ['#cases','apple',.08,.52,-9,.92],
-      ['#work','grapes',.86,.18,7,.92],
-      ['#method','pineapple',.10,.68,-8,.88],
-      ['#open','ice',.82,.34,10,.88]
+      ['#work','pear',.86,.18,7,.9],
+      ['#method','mango',.10,.68,-8,.9],
+      ['#open','ice',.82,.34,9,.88]
     ];
 
     if('IntersectionObserver' in window){
@@ -197,7 +215,10 @@
           land(type,tx,ty,fromX,fromY,rot,scale);
         });
       },{threshold:.16,rootMargin:'0px 0px -12% 0px'});
-      sectionDrops.forEach(v=>{const el=document.querySelector(v[0]);if(el)io.observe(el)});
+      sectionDrops.forEach(v=>{
+        const el=document.querySelector(v[0]);
+        if(el) io.observe(el);
+      });
     }
   };
 
