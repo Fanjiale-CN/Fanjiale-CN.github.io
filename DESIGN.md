@@ -110,9 +110,9 @@ Motion is interface feedback, never a tollbooth.
 
 ## Section behavior
 
-The shared system is promoted to Home, Essays, Research, Radar, Data, Reading, Work, Index, About, Themes, Design, Visual Notes, Postcards and Press Print.
+The shared system is promoted to Home, Essays, Research, Radar, Data, Reading, Work, Index, About, Themes, Design, Visual Notes, Postcards and Matter.
 
-Press Print may preserve its black editorial identity, but its surrounding UI follows the same discipline and its graphic accents should collapse toward one dominant signal at a time.
+Matter may preserve its black editorial identity, but its surrounding UI follows the same discipline and its graphic accents should collapse toward one dominant signal at a time.
 
 Cities and `/be-a-viewer/*` remain intentionally outside this shared skin.
 

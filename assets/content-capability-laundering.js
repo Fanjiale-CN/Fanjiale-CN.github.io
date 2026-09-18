@@ -11,7 +11,7 @@
     maturity: "growing",
     cover: {
       src: "/assets/views/articles/capability-laundering-cover.avif",
-      alt: "A Press Print collage featuring the Anthropic wordmark with silhouetted figures"
+      alt: "A Matter collage featuring the Anthropic wordmark with silhouetted figures"
     },
     excerpt: "Anthropic says Chinese AI labs secretly routed, extracted and trained on Claude. The deeper question is what domestic capability means when provenance disappears inside the pipeline."
   };
