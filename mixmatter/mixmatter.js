@@ -98,8 +98,8 @@
       {label:'05 / DANCE',source:local+'05-dance-source.jpg',result:base+'A9F371AC-D68C-4BC5-AD10-261487723695.png'},
       {label:'06 / AERIAL PERFORMANCE',source:local+'06-aerial-source.jpg',result:base+'8E3C63CD-7AD2-4E0A-A4AD-AB9C82A9044A.png'},
       {label:'07 / OBJECTS',source:local+'07-noodle-source.jpg',result:base+'C24DF515-DCB7-4D3A-A871-BDC8F58B38C1.png'},
-      {label:'08 / TEMPLE / AIRCRAFT',source:local+'08-temple-plane-source.jpg',result:local+'08-temple-plane-result.webp'},
-      {label:'09 / XIAMEN COAST',source:local+'09-xiamen-source.jpg',result:local+'09-xiamen-result.webp'}
+      {label:'08 / TEMPLE / AIRCRAFT',source:local+'08-temple-plane-source.jpg',result:local+'08-temple-plane-result.png'},
+      {label:'09 / XIAMEN COAST',source:local+'09-xiamen-source.jpg',result:local+'09-xiamen-result.png'}
     ];
     const buttons = [...root.querySelectorAll('[data-mm-case]')];
     const source = root.querySelector('[data-mm-source]');

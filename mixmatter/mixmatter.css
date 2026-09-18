@@ -153,3 +153,26 @@ body.mixmatter-page{margin:0;background:var(--mm-paper);color:var(--mm-ink);font
 }
 
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.mm-hero__ticker div{animation:none}.mm-piece img,.mm-lab__shutter{transition:none}.js .mm-reveal{opacity:1;transform:none}}
+
+
+/* 2026-09-18 QA repair: shared dual-island nav + deterministic gallery packing. */
+body.galok-dual-islands-active .mm-index{display:none!important}
+body.galok-dual-islands-active .mm-hero{padding-top:0}
+.mm-section-directory[hidden]{display:none!important}
+
+@media(min-width:1121px){
+  .mm-work__grid{
+    grid-auto-flow:row;
+    grid-template-columns:repeat(12,minmax(0,1fr));
+    align-items:stretch;
+  }
+  .mm-work__grid > :nth-child(1){grid-column:span 7;height:560px}
+  .mm-work__grid > :nth-child(2){grid-column:span 5;height:560px}
+  .mm-work__grid > :nth-child(3){grid-column:span 4;height:430px}
+  .mm-work__grid > :nth-child(4){grid-column:span 4;height:430px}
+  .mm-work__grid > :nth-child(5){grid-column:span 4;height:430px}
+  .mm-work__grid > :nth-child(6){grid-column:span 4;height:430px}
+  .mm-work__grid > :nth-child(7){grid-column:span 8;height:430px}
+  .mm-work__grid > :nth-child(8){grid-column:span 12;height:620px}
+  .mm-work__grid > .mm-piece img{height:100%;aspect-ratio:auto;object-fit:cover}
+}
